@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "One frozen benchmark run result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "suite_id", "run_id", "track", "system", "task_id", "artifact_sha256",
+    "tool_image_digest", "ppa_platform", "ppa_flow", "ppa_config_sha256",
+    "model_input_tokens", "model_output_tokens", "model_cost_usd",
+    "elapsed_seconds", "time_limit_seconds",
+    "functional_basic", "functional_edges", "functional_total",
+    "full_functional_pass", "delivery_qualified", "ppa_eligible", "ppa_measurements",
+    "ppa_score", "ppa_rank_bucket", "time_score", "display_score", "test_groups"
+  ],
+  "properties": {
+    "suite_id": {"const": "ic-delivery-rtl-v0.1"},
+    "run_id": {"type": "string", "minLength": 1},
+    "track": {"enum": ["product", "same_model_control"]},
+    "system": {"type": "string", "minLength": 1},
+    "task_id": {"enum": ["T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09"]},
+    "artifact_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "tool_image_digest": {"type": "string", "minLength": 1},
+    "ppa_platform": {"const": "asap7"},
+    "ppa_flow": {"const": "yosys_openroad_routed"},
+    "ppa_config_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "model_id": {"type": ["string", "null"]},
+    "model_input_tokens": {"type": "integer", "minimum": 0},
+    "model_output_tokens": {"type": "integer", "minimum": 0},
+    "model_cost_usd": {"type": "number", "minimum": 0},
+    "elapsed_seconds": {"type": "number", "minimum": 0},
+    "time_limit_seconds": {"type": "number", "exclusiveMinimum": 0},
+    "functional_basic": {"type": "number", "minimum": 0, "maximum": 60},
+    "functional_edges": {"type": "number", "minimum": 0, "maximum": 15},
+    "functional_total": {"type": "number", "minimum": 0, "maximum": 75},
+    "full_functional_pass": {"type": "boolean"},
+    "delivery_qualified": {"type": "boolean"},
+    "delivery_notes": {"type": "array", "items": {"type": "string"}},
+    "mutation_killed": {"type": ["integer", "null"], "minimum": 0},
+    "mutation_eligible": {"type": ["integer", "null"], "minimum": 0},
+    "ppa_eligible": {"type": "boolean"},
+    "ppa_measurements": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["area_um2", "delay_ns", "average_power_mw", "energy_per_op_pj", "annotation_fraction"],
+      "properties": {
+        "area_um2": {"type": "number", "exclusiveMinimum": 0},
+        "delay_ns": {"type": "number", "exclusiveMinimum": 0},
+        "average_power_mw": {"type": "number", "minimum": 0},
+        "energy_per_op_pj": {"type": "number", "exclusiveMinimum": 0},
+        "annotation_fraction": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "ppa_score": {"type": "number", "minimum": 0, "maximum": 20},
+    "ppa_rank_bucket": {"type": "integer", "minimum": 0, "maximum": 40},
+    "time_score": {"type": "number", "minimum": 0, "maximum": 5},
+    "display_score": {"type": "number", "minimum": 0, "maximum": 100},
+    "test_groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "passed", "earned_points", "possible_points"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "passed": {"type": "boolean"},
+          "earned_points": {"type": "number", "minimum": 0},
+          "possible_points": {"type": "number", "minimum": 0},
+          "first_failure_summary": {"type": ["string", "null"]}
+        }
+      }
+    }
+  }
+}

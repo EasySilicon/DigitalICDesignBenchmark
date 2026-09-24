@@ -1,0 +1,36 @@
+schema_version: 1
+cvdp:
+  repository: nvidia/cvdp-benchmark-dataset
+  revision: 5b807d945f6a99aa645f7e43a64a2115e281b4bf
+  file: cvdp_v1.1.0_nonagentic_code_generation_no_commercial.jsonl
+  file_sha256: cbcd81295561ebb16e4d857e096f4d9908d042c33aff3b58abf236e868411857
+  items:
+    T01:
+      id: cvdp_copilot_8x3_priority_encoder_0001
+      categories: [cid003, easy]
+      prompt_sha256: 7d08613f35bfd1909f3378dfe699ad299847557f7bbd3a4f8791ab25572f0cec
+    T02:
+      id: cvdp_copilot_serial_in_parallel_out_0004
+      categories: [cid003, easy]
+      prompt_sha256: f1fbe4e1a70f04d1b0917004195fca88d7c07324c3af163700d772e5396091f9
+riscv:
+  arch_test_repository: riscv/riscv-arch-test
+  arch_test_branch: act4
+  arch_test_revision: 4a42cbd3756259bbc1f92a7d816bc2fd2bd551cb
+  sail_repository: riscv/sail-riscv
+  sail_tag: 0.14.1
+  sail_revision: e4b243f4eb5d1ed05bbbc030ad338c2a32c45d72
+  isa_manual_repository: riscv/riscv-isa-manual
+  isa_manual_revision: 3496d46d01d783f1cc9b4a2a8b45004a97cbac94
+ppa:
+  flow_repository: The-OpenROAD-Project/OpenROAD-flow-scripts
+  flow_revision: 1ec57da7bf0f1491190cbea2673c2c01fb3bc3ae
+  platform: asap7
+  platform_path: flow/platforms/asap7
+  vendored_platform_path: vendor/asap7
+  vendored_platform_hashes: vendor/asap7/SHA256SUMS
+  flow: yosys_openroad_routed
+  asap7_library_model_candidate: NLDM
+  asap7_vt_candidate: RVT
+  finalized_parameter_set_status: pending_calibration
+  reference_values_status: pending_calibration

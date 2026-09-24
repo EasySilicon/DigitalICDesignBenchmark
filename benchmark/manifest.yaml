@@ -1,0 +1,98 @@
+schema_version: 1
+suite_id: ic-delivery-rtl-v0.1
+status: design_only
+replicates_per_task: 5
+hardware_limit:
+  vcpu: 16
+  ram_gib: 32
+  disk_gib: 100
+  gpu: false
+score:
+  functional_basic: 60
+  functional_edges: 15
+  ppa: 20
+  completion_time: 5
+  rank_order: [functional_total, ppa_rank_bucket, completion_time_seconds_ascending]
+  suite_rank_order: [full_functional_task_count, functional_total_sum, ppa_rank_bucket_sum, normalized_completion_time_sum_ascending]
+  ppa_rank_resolution_points: 0.5
+ppa_measurement:
+  layout_seeds: [11, 29, 47]
+  minimum_activity_annotation: 0.95
+  platform: asap7
+  flow: yosys_openroad_routed
+  shared_clock_period_ps: pending_calibration
+  parameter_set_status: pending_calibration
+  baseline_values_status: pending_calibration
+tasks:
+  - id: T01
+    level_hypothesis: 1
+    title: priority_encoder_8x3
+    origin: cvdp
+    time_limit_minutes: 30
+    same_model_token_cap: 20000
+    f_points: [20, 40]
+    p_points: [10, 5]
+  - id: T02
+    level_hypothesis: 2
+    title: serial_in_parallel_out_8bit
+    origin: cvdp
+    time_limit_minutes: 75
+    same_model_token_cap: 40000
+    f_points: [20, 40]
+    p_points: [10, 5]
+  - id: T03
+    level_hypothesis: 3
+    title: synchronous_fifo
+    origin: original
+    time_limit_minutes: 120
+    same_model_token_cap: 80000
+    f_points: [25, 15, 10, 10]
+    p_points: [5, 5, 5]
+  - id: T04
+    level_hypothesis: 4
+    title: apb4_timer
+    origin: original
+    time_limit_minutes: 180
+    same_model_token_cap: 120000
+    f_points: [20, 20, 20]
+    p_points: [10, 5]
+  - id: T05
+    level_hypothesis: 5
+    title: round_robin_stream_arbiter
+    origin: original
+    time_limit_minutes: 240
+    same_model_token_cap: 160000
+    f_points: [20, 20, 20]
+    p_points: [10, 5]
+  - id: T06
+    level_hypothesis: 6
+    title: asynchronous_fifo
+    origin: original
+    time_limit_minutes: 360
+    same_model_token_cap: 240000
+    f_points: [25, 15, 10, 10]
+    p_points: [7, 8]
+  - id: T07
+    level_hypothesis: 7
+    title: axi4lite_to_apb4_bridge
+    origin: original
+    time_limit_minutes: 480
+    same_model_token_cap: 320000
+    f_points: [20, 20, 20]
+    p_points: [5, 5, 5]
+  - id: T08
+    level_hypothesis: 8
+    title: direct_mapped_writeback_cache
+    origin: original
+    time_limit_minutes: 720
+    same_model_token_cap: 480000
+    f_points: [15, 15, 15, 15]
+    p_points: [10, 5]
+  - id: T09
+    level_hypothesis: 9
+    title: rv32i_five_stage_cpu
+    origin: original
+    time_limit_minutes: 1440
+    same_model_token_cap: 1200000
+    f_points: [25, 15, 10, 10]
+    p_points: [6, 5, 4]
