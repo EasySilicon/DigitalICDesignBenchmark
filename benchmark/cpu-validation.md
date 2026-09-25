@@ -11,7 +11,7 @@
 
 ## A. 官方 ACT4 架构测试
 
-测试组 ID 为 `CPU-ACT`。锁定配置将 `include_priv_tests=false`，生成并运行该配置所适用的**全部** RV32I 与 Zicsr 测试；M-mode 的有限 CSR/异常/MRET 集合由 B/D 组按题卡独立验收，不能借此宣称完整 Sm 认证。当前已用锁定 ACT4 修订、Sail 0.14.1 与 RV32 GCC 16.1 生成 45 个 ELF，连同 hash 和配置快照列在[ACT4 制品清单](../evaluator/act4_elfs/MANIFEST.json)。正式评分仍须用已验证的参考 CPU 将每个 ELF 跑到 `tohost=1`，并固定其测试名、规范 ID、编译命令和通过日志。所有清单内 ELF 必须报告 PASS，不能以删除失败文件提高通过率。若 ACT4 的某个测试需要本题明确排除的功能，只能在生成前由 UDB/功能范围自然排除，并在报告中列出，不可临时跳过。官方 ACT4 可能更新覆盖点或参考模型，正式榜单必须锁住版本及生成文件。
+测试组 ID 为 `CPU-ACT`。锁定配置将 `include_priv_tests=false`，生成并运行该配置所适用的**全部** RV32I 与 Zicsr 测试；M-mode 的有限 CSR/异常/MRET 集合由 B/D 组按题卡独立验收，不能借此宣称完整 Sm 认证。当前已用锁定 ACT4 修订、Sail 0.14.1 与 RV32 GCC 16.1 生成 45 个 ELF，连同 hash 和配置快照列在[ACT4 制品清单](../evaluator/act4_elfs/MANIFEST.json)。[Sail 参考运行器](../evaluator/check_act4_sail.py)已验证全部 45 个 ELF 均执行到 `tohost=1`，逐项步数与轨迹哈希记录在[参考结果](../evaluator/act4_elfs/SAIL_RESULTS.json)；这只建立测试程序的 ISA 参考基线。正式评分仍须用已验证的参考 CPU 将每个 ELF 跑到 `tohost=1`，并固定其测试名、规范 ID、编译命令和通过日志。所有清单内 ELF 必须报告 PASS，不能以删除失败文件提高通过率。若 ACT4 的某个测试需要本题明确排除的功能，只能在生成前由 UDB/功能范围自然排除，并在报告中列出，不可临时跳过。官方 ACT4 可能更新覆盖点或参考模型，正式榜单必须锁住版本及生成文件。
 
 ACT4 分配在 F 的 10 分里；不足以验收五级结构、时序相关 hazard、总线背压、长程序状态或未知错误。通过本项目中的适用子集只能称为“该配置下通过 ACT4 子集”，不能称作 RISC-V 认证。
 

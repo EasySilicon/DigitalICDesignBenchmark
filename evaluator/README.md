@@ -24,7 +24,16 @@ python3 evaluator/make_cpu_smoke.py /tmp/ic_bcmk_cpu_programs
 python3 evaluator/cpu_elf_check.py /path/to/submission /tmp/ic_bcmk_cpu_programs/basic.elf
 ```
 
-这个入口只检查 ELF 装载、总线基本握手和 `tohost` 完成条件；**没有 Sail 逐条参考轨迹，不产生 CPU 架构功能分**。目前的最小程序已用独立测试 CPU 桩跑通入口。[`act4_elfs/`](act4_elfs/) 包含按本题 256 KiB 布局生成的 45 个公开 RV32I/Zicsr ACT4 ELF，可用 `python3 evaluator/verify_act4_artifacts.py` 核对清单与内存边界。正式 CPU 验收还须让参考 CPU 跑通全部 ELF，实现 54 个定向模板、100 个随机差分程序、错误/精确异常和流水线结构检查。
+这个入口只检查 ELF 装载、总线基本握手和 `tohost` 完成条件；**尚无 DUT 对 Sail 逐条参考轨迹的比较，不产生 CPU 架构功能分**。目前的最小程序已用独立测试 CPU 桩跑通入口。[`act4_elfs/`](act4_elfs/) 包含按本题 256 KiB 布局生成的 45 个公开 RV32I/Zicsr ACT4 ELF，可用 `python3 evaluator/verify_act4_artifacts.py` 核对清单与内存边界。45 个 ELF 已由 `check_act4_sail.py` 在锁定 Sail 配置下逐一运行到 `tohost=1`，逐项哈希、步数和轨迹哈希见[参考结果](act4_elfs/SAIL_RESULTS.json)：
+
+```bash
+python3 evaluator/check_act4_sail.py \
+  --sail /path/to/sail_riscv_sim \
+  --nm /path/to/riscv32-unknown-elf-nm \
+  --output /tmp/act4_sail_results.json
+```
+
+正式 CPU 验收还须让参考 CPU 跑通全部 ELF，实现 54 个定向模板、100 个随机差分程序、错误/精确异常和流水线结构检查。
 
 `score_rules.json` 将九题的 F=60/P=15 分项逐一映射到验收组，`score_run.py` 将评测方生成的组内通过数、严重安全缺陷、PPA 三元组和完成时间转成分层分数。它**不调用**公开冒烟测试来制造正式分数。输入须包含 `task_id`、`groups`、`delivery_qualified`、`elapsed_seconds`、`time_limit_seconds`，可含 `ppa_measurement` 和 `ppa_reference`。每个验收组必须有 `cases_passed`、`cases_total`，安全缺陷另标 `safety_violation`。缺少应有验收组直接报错，不推断为通过；所有组全过得子项满分，无安全缺陷且各组通过比例的等权平均至少一半得半分，其余得零分。真正的隐藏组执行器和 PPA 测量器尚未接入。
 

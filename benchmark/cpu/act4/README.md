@@ -13,4 +13,4 @@ act /absolute/path/to/ic_bcmk/benchmark/cpu/act4/test_config.yaml \
 python3 /absolute/path/to/ic_bcmk/evaluator/verify_act4_artifacts.py
 ```
 
-生成所用工具为锁定 ACT4 `4a42cbd3756259bbc1f92a7d816bc2fd2bd551cb`、Sail 0.14.1、RV32 GCC 16.1.0、uv 0.11.33、Ruby 3.4.10 和 Bundler 4.0.21。环境准备见[依赖清单](../../../env/README.md)。该命令成功生成 45 个 ELF，最大 `PT_LOAD` 结束偏移为 `0x342c0`。仅生成并验证装载边界还不足以给 CPU 功能分；发布前须用完整参考 CPU 跑完这些 ELF，并建立提交差分、定向用例及变异体回归。
+生成所用工具为锁定 ACT4 `4a42cbd3756259bbc1f92a7d816bc2fd2bd551cb`、Sail 0.14.1、RV32 GCC 16.1.0、uv 0.11.33、Ruby 3.4.10 和 Bundler 4.0.21。环境准备见[依赖清单](../../../env/README.md)。该命令成功生成 45 个 ELF，最大 `PT_LOAD` 结束偏移为 `0x342c0`。[Sail 参考运行器](../../../evaluator/check_act4_sail.py)已逐一验证全部 45 个 ELF 的 `tohost=1`；步数、ELF 哈希与 Sail 轨迹哈希记录在[参考结果](../../../evaluator/act4_elfs/SAIL_RESULTS.json)。这些结果仅证明参考模型能执行测试程序；发布前仍须用完整参考 CPU 跑完 ELF，并建立提交差分、定向用例及变异体回归。
