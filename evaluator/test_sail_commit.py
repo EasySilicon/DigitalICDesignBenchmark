@@ -41,6 +41,21 @@ class SailCommitTests(unittest.TestCase):
             [{"pc": 0, "insn": 0, "rd": 0, "mem_wstrb": 0}],
             [{"kind": "trap", "cycle": 1, "pc": 0, "cause": 2}])["passed"])
 
+    def test_sail_trap_event_matches_dut_trap_port(self):
+        lines = [
+            "[0] [M]: 0x8000000C (0xFFFFFFFF) illegal 0xffffffff",
+            "trapping from M to M to handle illegal-instruction",
+            "handling exc#illegal-instruction at priv M | tval=0xFFFFFFFF",
+            "CSR mcause (0x342) <- 0x00000002",
+            "CSR mtval (0x343) <- 0xFFFFFFFF",
+        ]
+        with self.assertRaises(ValueError):
+            parse_trace(lines)
+        expected = parse_trace(lines, include_traps=True)
+        self.assertTrue(compare_commits(expected, [
+            {"kind": "trap", "cycle": 10, "pc": 0x8000000C,
+             "cause": 2, "tval": 0xFFFFFFFF}])["passed"])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -15,6 +15,8 @@ from pathlib import Path
 STEP = re.compile(r"^\[(\d+)\] \[M\]: 0x([0-9a-fA-F]{8}) \(0x([0-9a-fA-F]{8})\)")
 WRITE_REG = re.compile(r"^x(\d+) <- 0x([0-9a-fA-F]+)$")
 WRITE_MEM = re.compile(r"^mem\[W,0x([0-9a-fA-F]+)\] <- 0x([0-9a-fA-F]+)$")
+TRAP_CAUSE = re.compile(r"^CSR mcause \(0x342\) <- 0x([0-9a-fA-F]+)$")
+TRAP_TVAL = re.compile(r"^CSR mtval \(0x343\) <- 0x([0-9a-fA-F]+)$")
 
 
 def store_port(insn: int, address: int, value: int) -> tuple[int, int, int]:
@@ -30,7 +32,7 @@ def store_port(insn: int, address: int, value: int) -> tuple[int, int, int]:
             (value & ((1 << (8 * width)) - 1)) << (8 * lane))
 
 
-def parse_trace(lines: list[str]) -> list[dict]:
+def parse_trace(lines: list[str], include_traps: bool = False) -> list[dict]:
     events: list[dict] = []
     current: dict | None = None
     for line in lines:
@@ -46,6 +48,16 @@ def parse_trace(lines: list[str]) -> list[dict]:
             continue
         if current is None:
             continue
+        if line.startswith("trapping ") or line.startswith("handling exc#"):
+            if not include_traps:
+                raise ValueError(f"trap trace needs separate oracle: step {current['index']}")
+            current["kind"] = "trap"
+        if include_traps and current.get("kind") == "trap":
+            if match := TRAP_CAUSE.fullmatch(line):
+                current["cause"] = int(match.group(1), 16)
+            elif match := TRAP_TVAL.fullmatch(line):
+                current["tval"] = int(match.group(1), 16)
+            continue
         if match := WRITE_REG.fullmatch(line):
             rd, value = (int(match.group(1)), int(match.group(2), 16))
             if not 0 <= rd < 32 or current["rd"] or current["wdata"] is not None:
@@ -59,19 +71,17 @@ def parse_trace(lines: list[str]) -> list[dict]:
             address, value = (int(part, 16) for part in match.groups())
             (current["mem_addr"], current["mem_wstrb"],
              current["mem_wdata"]) = store_port(current["insn"], address, value)
-        elif "exception" in line.lower() or "trap" in line.lower():
-            raise ValueError(f"trap trace needs separate oracle: step {current['index']}")
     if not events:
         raise ValueError("Sail trace contains no instruction steps")
+    for event in events:
+        if event.get("kind") == "trap" and ("cause" not in event or "tval" not in event):
+            raise ValueError(f"incomplete Sail trap record at step {event['index']}")
     return events
 
 
 def compare_commits(expected: list[dict], observed: list[dict]) -> dict:
     last_cycle = -1
     for index, event in enumerate(observed):
-        if event.get("kind") != "commit":
-            return {"passed": False, "matched": index,
-                    "reason": f"unexpected event {event.get('kind')} at index {index}"}
         cycle = event.get("cycle")
         if not isinstance(cycle, int) or cycle <= last_cycle:
             return {"passed": False, "matched": index,
@@ -81,6 +91,18 @@ def compare_commits(expected: list[dict], observed: list[dict]) -> dict:
             return {"passed": False, "matched": index,
                     "reason": "extra DUT commit after Sail reference ended"}
         oracle = expected[index]
+        expected_kind = oracle.get("kind", "commit")
+        if event.get("kind") != expected_kind:
+            return {"passed": False, "matched": index,
+                    "reason": f"event {index}: expected {expected_kind}, got {event.get('kind')}",
+                    "expected": oracle, "observed": event}
+        if expected_kind == "trap":
+            for field in ("pc", "cause", "tval"):
+                if event.get(field) != oracle[field]:
+                    return {"passed": False, "matched": index,
+                            "reason": f"trap {index} {field} mismatch",
+                            "expected": oracle, "observed": event}
+            continue
         fields = ("pc", "insn", "rd", "mem_wstrb")
         if oracle["rd"]:
             fields += ("wdata",)
@@ -112,12 +134,15 @@ def main() -> int:
     parser.add_argument("--output", type=Path)
     parser.add_argument("--dut-trace", type=Path,
                         help="evaluator-captured CPU commit/trap JSONL to compare")
+    parser.add_argument("--include-traps", action="store_true",
+                        help="parse Sail exception events using mcause/mtval writes")
     args = parser.parse_args()
     try:
-        events = parse_trace(args.trace.read_text().splitlines())
+        events = parse_trace(args.trace.read_text().splitlines(), args.include_traps)
         summary = {"steps": len(events), "stores": sum(x["mem_wstrb"] != 0
                                                     for x in events),
-                   "gpr_writes": sum(x["rd"] != 0 for x in events)}
+                   "gpr_writes": sum(x["rd"] != 0 for x in events),
+                   "traps": sum(x.get("kind") == "trap" for x in events)}
         if args.dut_trace:
             observed = [json.loads(line) for line in
                         args.dut_trace.read_text().splitlines() if line.strip()]
