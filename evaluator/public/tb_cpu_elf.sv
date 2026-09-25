@@ -33,6 +33,12 @@ module tb_cpu_elf;
   logic [31:0] held_addr, held_wdata, host_value;
   logic [3:0] held_strb;
   bit held_write;
+  typedef struct packed {
+    logic [31:0] addr;
+    logic [31:0] data;
+    logic [3:0] strb;
+  } store_record_t;
+  store_record_t store_queue[$];
 
   rv32i_five_stage_cpu dut (.*);
 
@@ -48,6 +54,7 @@ module tb_cpu_elf;
 
   task automatic step;
     logic [31:0] next_instruction;
+    store_record_t store_record;
     bit accepted, response_taken;
     bit error_now;
     if (clk !== 0) $fatal(1, "testbench clock phase error");
@@ -89,6 +96,10 @@ module tb_cpu_elf;
       rng ^= rng << 5;
       response_delay = int'(rng % 8);
       if (dmem_req_write && !error_now) begin
+        if (dmem_req_wstrb == 0)
+          $fatal(1, "CPU-ELF store request has zero byte strobes");
+        store_queue.push_back('{addr:dmem_req_addr, data:dmem_req_wdata,
+                                strb:dmem_req_wstrb});
         if (dmem_req_addr == TOHOST) begin
           if (dmem_req_wstrb != 4'hf)
             $fatal(1, "CPU-ELF tohost write must be a full word");
@@ -108,6 +119,19 @@ module tb_cpu_elf;
     if (rst_n) begin
       if (commit_valid) begin
         commit_count++;
+        if (commit_mem_wstrb != 0) begin
+          if (store_queue.size() == 0)
+            $fatal(1, "CPU-ELF store committed without accepted bus write");
+          store_record = store_queue.pop_front();
+          if (commit_mem_addr !== store_record.addr ||
+              commit_mem_wstrb !== store_record.strb)
+            $fatal(1, "CPU-ELF store commit address/strobes differ from bus write");
+          for (int byte_index = 0; byte_index < 4; byte_index++)
+            if (store_record.strb[byte_index] &&
+                commit_mem_wdata[8*byte_index +: 8] !==
+                store_record.data[8*byte_index +: 8])
+              $fatal(1, "CPU-ELF store commit data differ from bus write");
+        end
         if (trace_fd != 0)
           $fdisplay(trace_fd,
             "{\"kind\":\"commit\",\"cycle\":%0d,\"pc\":%0d,\"insn\":%0d,\"rd\":%0d,\"wdata\":%0d,\"mem_addr\":%0d,\"mem_wstrb\":%0d,\"mem_wdata\":%0d}",
@@ -171,6 +195,8 @@ module tb_cpu_elf;
     if (!passed)
       $fatal(1, "CPU-ELF timeout cycles=%0d commits=%0d traps=%0d tohost=%h",
              cycle_count, commit_count, trap_count, host_value);
+    if (store_queue.size() != 0)
+      $fatal(1, "CPU-ELF accepted stores remain uncommitted: %0d", store_queue.size());
     $display("CPU_ELF_PASS cycles=%0d commits=%0d traps=%0d tohost=%h seed=%0d",
              cycle_count, commit_count, trap_count, host_value, seed);
     if (trace_fd != 0) $fclose(trace_fd);
