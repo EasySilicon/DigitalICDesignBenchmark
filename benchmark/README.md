@@ -35,7 +35,7 @@
 
 本地设计一致性检查：`python3 benchmark/validate_spec.py`；加 `--verify-source` 可在线核对锁定的 CVDP 数据文件与两道题的题面哈希。2026-09-25 的在线核对已通过。
 
-每题可用 `python3 benchmark/prepare_trial.py T04 /path/to/empty/T04` 生成仅含公开材料的独立参赛工作区及 `PROMPT.md`。比较不同 Agent 时，每题均从新对话和空工作区开始，锁定相同的任务材料、模型配置、工具环境及计时起止；不要复用上一题的会话或产物。私有验收器和参考 RTL 只保存在评测方环境，不进入参赛工作区。
+每题可用 `python3 benchmark/prepare_trial.py T04 /path/to/empty/T04` 生成仅含公开材料的独立参赛工作区及 `PROMPT.md`。比较不同 Agent 时，每题均从新对话和空工作区开始，锁定相同的任务材料、模型配置、工具环境及计时起止；不要复用上一题的会话或产物。Codex 试跑为每题启动新的 `codex exec --ephemeral` 进程，不使用 `resume`；评测方保存每题的启动、结束时间戳和退出码。私有验收器和参考 RTL 只保存在评测方环境，不进入参赛工作区。
 
 ## 范围与工具
 
