@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 from pathlib import Path
 from urllib.request import urlopen
 
@@ -45,6 +46,27 @@ def validate_local() -> tuple[dict, dict]:
         fail("PPA platform differs between manifest and source lock")
     if manifest["ppa_measurement"]["flow"] != sources["ppa"]["flow"]:
         fail("PPA flow differs between manifest and source lock")
+    baselines = json.loads((ROOT / "ppa-baselines.json").read_text())
+    if set(baselines["tasks"]) != set(expected_ids):
+        fail("PPA baselines must cover all nine tasks")
+    if baselines["score_bucket_width_points"] != scores["ppa_rank_resolution_points"]:
+        fail("PPA baseline bucket width differs from manifest")
+    if manifest["ppa_measurement"]["shared_clock_period_ps"] != 2500 or \
+            manifest["ppa_measurement"]["parameter_set_status"] != "trial_locked" or \
+            manifest["ppa_measurement"]["baseline_values_status"] != "trial_locked":
+        fail("trial PPA parameter lock differs from baseline records")
+    for task_id in expected_ids:
+        record = baselines["tasks"][task_id]
+        params = record["parameter_set"]
+        if record["task_id"] != task_id or record["measurement_status"] != "three_seed" or \
+                params["period_ps"] != 2500 or params["corner"] != "WC" or \
+                params["seeds"] != [11, 29, 47] or \
+                [row["layout_seed"] for row in record["per_seed"]] != [11, 29, 47] or \
+                record["annotation_fraction"] < 0.95 or record["wns_ns"] < 0:
+            fail(f"invalid PPA baseline configuration: {task_id}")
+        if any(not math.isfinite(record[key]) or record[key] <= 0 for key in
+               ("area_um2", "delay_ns", "energy_per_op_pj")):
+            fail(f"invalid PPA baseline values: {task_id}")
 
     for index, row in enumerate(task_rows, start=1):
         task_id = row["id"]

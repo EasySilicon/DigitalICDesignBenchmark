@@ -2,24 +2,24 @@
 
 PPA 仅在任务的 F+P=75/75、交付合格且 RTL 可综合时计分；功能错误的低面积实现不获得 PPA 分。正式评估固定使用 **Yosys 综合映射 → ASAP7 7.5T 标准单元 → OpenROAD 布局、时钟树、详细布线、寄生提取及时序/功耗报告**，不单独运行另一套 STA 工具。[OpenROAD 官方流程](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/docs/user/UserGuide.md)和[OpenRCX 文档](https://openroad.readthedocs.io/en/latest/main/src/rcx/README.html)给出这些阶段的能力。综合后的 Yosys 面积/时序只作为诊断；排名使用**布线后**指标。ASAP7 是预测性公开工艺，不等于量产工艺签核。[ASAP7 项目说明](https://github.com/The-OpenROAD-Project/asap7/blob/main/README.md)
 
-本节是**待参数探索的实施规范**。本机已安装 Yosys 0.69+150 和 OpenROAD 26Q2-1164-g08f67ee5ec，仓库内 ASAP7 已在锁定 ORFS 的 `gcd` 示例中跑通 Yosys 综合至详细布线；这只验证工具互通。仍须在九题参考实现上统一校准约束、RC、活动功耗和多种子重复性，才可冻结数值、生成 PPA 分数。不得把当前候选参数当作已验证的正式配置。
+本节的 2500 ps、WC、三种子配置及[九题参考三元组](ppa-baselines.json)已作为**试评分参数锁定**。本机使用 Yosys 0.69+150、OpenROAD 26Q2-1164-g08f67ee5ec 和仓库内 ASAP7，九题参考实现均完成详细布线、OpenRCX、门级工作负载和 TT 活动功耗。正式榜单仍需锁定工具镜像 digest、复核不同 RTL 写法的公平性并完成发布门禁。
 
-[参数试跑记录](ppa-exploration.md)显示：T01–T08 在校正 T03/T05/T06 顶层参数后均完成 FF 角布线与 RC；T08 在共同 750 ps 下 WNS 为 −37.709 ps。九题的 SS 最坏角、共同 2500 ps 单种子试跑均完成且 WNS 为正；TT 活动功耗链路在九题的门级自检上均得到 100% pin 活动注释。正式功耗负载和多种子仍未冻结。
+[参数试跑记录](ppa-exploration.md)显示：T08 在共同 750 ps 下 WNS 为 −37.709 ps；九题在共同 2500 ps、WC 最坏角的三种子布线均有正裕量，最紧的 T09 为 126.049 ps。对应门级负载均通过自检，TT 功耗报告的 pin 活动注释率为 100%。固定种子只改变兼容流程中的布线种子，放置保持确定性；这项重复性结果不能代表跨机器或跨工具版本的方差。
 
 ## 全题统一的参数与例外
 
 所有题目使用同一个 [ASAP7 平台修订](sources.lock.yaml)、工艺库组合、映射脚本、ABC 策略、时钟目标 `T_common`、I/O 延迟比例、驱动单元、输出负载、布局利用率、放置密度、布线层范围、RC 提取规则和三个固定布线种子。`config.mk`/SDC 由评测器生成，参赛者不得改动。**允许随题目变化的只有端口名、位宽、时钟个数和异步 CDC 例外路径的对象集合；数值参数不按题目调优。** T01 用相同 `T_common` 约束输入到输出路径；T06 两个时钟均用 `T_common`，只切除真正的跨异步时钟域路径，保留两域内部及同步器后级时序。
 
-| 参数族 | 探索起点；正式值待冻结 |
+| 参数族 | 试评分锁定值 |
 | --- | --- |
-| 单元库 | ASAP7 7.5T、RVT、NLDM；先比较 TT 映射、SS 最坏角时序、TT 功耗，最终仅选一套 |
-| 映射与负载 | Yosys 标准综合 + ABC speed/area 候选；ASAP7 平台建议的 `BUFx2_ASAP7_75t_R` 驱动和 3.898 fF 负载作为起点 |
-| 全局时钟目标 | `T_common` 候选 500/750/1000/1500 ps；ASAP7 Liberty 的时间单位为 ps，目标周期须在本平台重新校准 |
-| I/O 与物理约束 | 相同 I/O 延迟比例、时钟不确定度、目标利用率、放置密度、长宽比和布线层；起点为 20% I/O 延迟、35% 利用率、0.60 放置密度，均待试跑 |
+| 单元库 | ASAP7 7.5T、RVT、NLDM；WC/SS 时序，TT 活动功耗 |
+| 映射与负载 | 固定 ORFS ASAP7 配置的 Yosys/ABC、`BUFx2_ASAP7_75t_R` 驱动与 3.898 fF 输出负载 |
+| 全局时钟目标 | 所有任务及所有同步时钟域均为 2500 ps |
+| I/O 与物理约束 | I/O 延迟比例 20%、目标利用率 10%、放置密度 0.60；其余沿用锁定 ORFS/ASAP7 配置 |
 | 存储映射 | T03/T06/T08 的小型存储体和 T09 寄存器文件一律映射为标准单元，不使用 fake SRAM/寄存器文件 macro |
 | 布线重复 | 固定种子 11/29/47；传给当前兼容版本的 ORFS `GRT_SEED` 和 `OR_SEED`，放置保持确定性，同一设计三次布线，指标取中位数 |
 
-上述起点参考了 [ORFS 的 ASAP7 平台配置](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/platforms/asap7/config.mk)及[示例 SDC](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/designs/asap7/ibex/constraint.sdc)，并非从其默认值直接推定所有九题可用。
+上述值来自九题实测，不是直接照搬 [ORFS 的 ASAP7 平台配置](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/platforms/asap7/config.mk)及[示例 SDC](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/designs/asap7/ibex/constraint.sdc)。
 
 ### 参数探索与冻结门禁
 
@@ -65,7 +65,7 @@ S_PPA = clamp(14 × clip(A_ref/A,0.5,2)^0.35
 
 参考实现得到 14/20 分；相较参考实现的优化可升至 20。面积、延迟和能耗的比值分别裁剪到 `[0.5, 2.0]` 再代入，以免单项极端值支配评分。未满足目标周期、无法合法布线或无有效功耗活动的**候选原因**导致 PPA=0；工具原因导致无有效分数，应修正后对全部提交重跑。
 
-排名用[PPA 分档](methodology.md#分层评分与排名)处理测量精度，初始分辨率 `q=0.5` 分；同档才以完成时间排序。正式版须由参考实现的重复布线与功耗测量确定 `q`；若重复性波动超过 0.5 分，应加大测量次数或调整分档宽度，不能让噪声决定胜负。分档边界及原始 PPA 分数同时公开。若候选最终提前完成，但未全功能通过，时间仍被记录却不获时间分。完成时间分采用[统一规则](methodology.md#分层评分与排名)的 `5 × (1 − t/T_max)`，仅用作排序的最后一层。
+排名用[PPA 分档](methodology.md#分层评分与排名)处理测量精度，试评分分辨率锁定为 `q=0.5` 分；同档才以完成时间排序。参考设计九题的单种子 PPA 分数最大波动为 T08 的 0.110 分，低于该档宽；正式版仍须评估跨机器和跨工具重跑的波动。分档边界及原始 PPA 分数同时公开。若候选最终提前完成，但未全功能通过，时间仍被记录却不获时间分。完成时间分采用[统一规则](methodology.md#分层评分与排名)的 `5 × (1 − t/T_max)`，仅用作排序的最后一层。
 
 ## 防止 PPA 游戏化
 

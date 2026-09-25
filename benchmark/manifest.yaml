@@ -20,9 +20,9 @@ ppa_measurement:
   minimum_activity_annotation: 0.95
   platform: asap7
   flow: yosys_openroad_routed
-  shared_clock_period_ps: pending_calibration
-  parameter_set_status: pending_calibration
-  baseline_values_status: pending_calibration
+  shared_clock_period_ps: 2500
+  parameter_set_status: trial_locked
+  baseline_values_status: trial_locked
 tasks:
   - id: T01
     level_hypothesis: 1

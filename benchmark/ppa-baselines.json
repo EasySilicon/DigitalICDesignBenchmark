@@ -1,0 +1,511 @@
+{
+  "schema_version": 1,
+  "status": "pre_release_frozen_reference",
+  "score_bucket_width_points": 0.5,
+  "tasks": {
+    "T01": {
+      "task_id": "T01",
+      "source_sha256": "cf329a212ace815ef7ea7c90381076df2fbe55e0ead0f1ae65da230c134b6c77",
+      "workload_sha256": "ec76b026290a4a66110bc6c661251b2262423d17b077efa0d22f058fe057a0eb",
+      "measurement_status": "three_seed",
+      "parameter_set": {
+        "platform": "ASAP7_7p5t_RVT_NLDM",
+        "period_ps": 2500,
+        "corner": "WC",
+        "utilization": 10,
+        "density": 0.6,
+        "seeds": [
+          11,
+          29,
+          47
+        ]
+      },
+      "routed": true,
+      "wns_ns": 1.35816,
+      "annotation_fraction": 1.0,
+      "area_um2": 2.1141,
+      "delay_ns": 1.1418199999999998,
+      "energy_per_op_pj": 0.0044599999999999996,
+      "per_seed": [
+        {
+          "layout_seed": 11,
+          "area_um2": 2.1141,
+          "delay_ns": 1.1418199999999998,
+          "wns_ns": 1.3581800000000002,
+          "energy_per_op_pj": 0.0044599999999999996,
+          "power_w": 4.46e-06,
+          "ops": 768,
+          "annotation_fraction": 1.0
+        },
+        {
+          "layout_seed": 29,
+          "area_um2": 2.1141,
+          "delay_ns": 1.1418199999999998,
+          "wns_ns": 1.3581800000000002,
+          "energy_per_op_pj": 0.0044599999999999996,
+          "power_w": 4.46e-06,
+          "ops": 768,
+          "annotation_fraction": 1.0
+        },
+        {
+          "layout_seed": 47,
+          "area_um2": 2.1141,
+          "delay_ns": 1.14184,
+          "wns_ns": 1.35816,
+          "energy_per_op_pj": 0.0044599999999999996,
+          "power_w": 4.46e-06,
+          "ops": 768,
+          "annotation_fraction": 1.0
+        }
+      ]
+    },
+    "T02": {
+      "task_id": "T02",
+      "source_sha256": "a20eaa424067d55460fcf2c7142060b8a9d48707d3629e4e9a1cb1fdbf932f4e",
+      "workload_sha256": "bb25512b46c8660ef8a4184812fb841dbd0d9a3c16f96a83a43177230e91efcf",
+      "measurement_status": "three_seed",
+      "parameter_set": {
+        "platform": "ASAP7_7p5t_RVT_NLDM",
+        "period_ps": 2500,
+        "corner": "WC",
+        "utilization": 10,
+        "density": 0.6,
+        "seeds": [
+          11,
+          29,
+          47
+        ]
+      },
+      "routed": true,
+      "wns_ns": 1.81343,
+      "annotation_fraction": 1.0,
+      "area_um2": 4.89888,
+      "delay_ns": 0.6865699999999999,
+      "energy_per_op_pj": 0.027440000000000003,
+      "per_seed": [
+        {
+          "layout_seed": 11,
+          "area_um2": 4.89888,
+          "delay_ns": 0.6865699999999999,
+          "wns_ns": 1.81343,
+          "energy_per_op_pj": 0.027440000000000003,
+          "power_w": 3.43e-06,
+          "ops": 1072,
+          "annotation_fraction": 1.0
+        },
+        {
+          "layout_seed": 29,
+          "area_um2": 4.89888,
+          "delay_ns": 0.6865699999999999,
+          "wns_ns": 1.81343,
+          "energy_per_op_pj": 0.027440000000000003,
+          "power_w": 3.43e-06,
+          "ops": 1072,
+          "annotation_fraction": 1.0
+        },
+        {
+          "layout_seed": 47,
+          "area_um2": 4.89888,
+          "delay_ns": 0.6865699999999999,
+          "wns_ns": 1.81343,
+          "energy_per_op_pj": 0.027440000000000003,
+          "power_w": 3.43e-06,
+          "ops": 1072,
+          "annotation_fraction": 1.0
+        }
+      ]
+    },
+    "T03": {
+      "task_id": "T03",
+      "source_sha256": "e96146b8b70cb70583da5b3d5da1756487d2f7d4e287c38589cb0ca2c52afa1c",
+      "workload_sha256": "df1d52011a0606b30431e232de6f50b4fc8c5d9a2521c6bc0a974ac5a3f0b396",
+      "measurement_status": "three_seed",
+      "parameter_set": {
+        "platform": "ASAP7_7p5t_RVT_NLDM",
+        "period_ps": 2500,
+        "corner": "WC",
+        "utilization": 10,
+        "density": 0.6,
+        "seeds": [
+          11,
+          29,
+          47
+        ]
+      },
+      "routed": true,
+      "wns_ns": 1.10071,
+      "annotation_fraction": 1.0,
+      "area_um2": 407.875,
+      "delay_ns": 1.39733,
+      "energy_per_op_pj": 2.3572723618090454,
+      "per_seed": [
+        {
+          "layout_seed": 11,
+          "area_um2": 407.875,
+          "delay_ns": 1.39929,
+          "wns_ns": 1.10071,
+          "energy_per_op_pj": 2.3572723618090454,
+          "power_w": 0.000295,
+          "ops": 4975,
+          "annotation_fraction": 1.0
+        },
+        {
+          "layout_seed": 29,
+          "area_um2": 407.875,
+          "delay_ns": 1.39733,
+          "wns_ns": 1.10267,
+          "energy_per_op_pj": 2.3572723618090454,
+          "power_w": 0.000295,
+          "ops": 4975,
+          "annotation_fraction": 1.0
+        },
+        {
+          "layout_seed": 47,
+          "area_um2": 407.875,
+          "delay_ns": 1.3948,
+          "wns_ns": 1.1052,
+          "energy_per_op_pj": 2.3572723618090454,
+          "power_w": 0.000295,
+          "ops": 4975,
+          "annotation_fraction": 1.0
+        }
+      ]
+    },
+    "T04": {
+      "task_id": "T04",
+      "source_sha256": "fd8af6bea8496e85cb48960ff1845fe7bf58a14da0711849f6ef287c5188e7ff",
+      "workload_sha256": "a73e0915197203e5b0b4a8173d1f5a3683c013b7c0745bf564d2d926e120427b",
+      "measurement_status": "three_seed",
+      "parameter_set": {
+        "platform": "ASAP7_7p5t_RVT_NLDM",
+        "period_ps": 2500,
+        "corner": "WC",
+        "utilization": 10,
+        "density": 0.6,
+        "seeds": [
+          11,
+          29,
+          47
+        ]
+      },
+      "routed": true,
+      "wns_ns": 0.981682,
+      "annotation_fraction": 1.0,
+      "area_um2": 91.2854,
+      "delay_ns": 1.518318,
+      "energy_per_op_pj": 0.4069426229508196,
+      "per_seed": [
+        {
+          "layout_seed": 11,
+          "area_um2": 91.2854,
+          "delay_ns": 1.518318,
+          "wns_ns": 0.981682,
+          "energy_per_op_pj": 0.4069426229508196,
+          "power_w": 3.99e-05,
+          "ops": 1281,
+          "annotation_fraction": 1.0
+        },
+        {
+          "layout_seed": 29,
+          "area_um2": 91.2854,
+          "delay_ns": 1.518318,
+          "wns_ns": 0.981682,
+          "energy_per_op_pj": 0.4069426229508196,
+          "power_w": 3.99e-05,
+          "ops": 1281,
+          "annotation_fraction": 1.0
+        },
+        {
+          "layout_seed": 47,
+          "area_um2": 91.2854,
+          "delay_ns": 1.518318,
+          "wns_ns": 0.981682,
+          "energy_per_op_pj": 0.4069426229508196,
+          "power_w": 3.99e-05,
+          "ops": 1281,
+          "annotation_fraction": 1.0
+        }
+      ]
+    },
+    "T05": {
+      "task_id": "T05",
+      "source_sha256": "2dae0c87043815b7a5e1622b5f5295913b1cfa3f9e75fef8648cc44e402dea06",
+      "workload_sha256": "d386578163d5b9f7483a4d08b2a71cd9b14425443ca7fd0f3561759d9f1262e8",
+      "measurement_status": "three_seed",
+      "parameter_set": {
+        "platform": "ASAP7_7p5t_RVT_NLDM",
+        "period_ps": 2500,
+        "corner": "WC",
+        "utilization": 10,
+        "density": 0.6,
+        "seeds": [
+          11,
+          29,
+          47
+        ]
+      },
+      "routed": true,
+      "wns_ns": 0.604756,
+      "annotation_fraction": 1.0,
+      "area_um2": 132.518,
+      "delay_ns": 1.894477,
+      "energy_per_op_pj": 0.5371801392395378,
+      "per_seed": [
+        {
+          "layout_seed": 11,
+          "area_um2": 132.518,
+          "delay_ns": 1.8952440000000002,
+          "wns_ns": 0.604756,
+          "energy_per_op_pj": 0.5371801392395378,
+          "power_w": 6.68e-05,
+          "ops": 13071,
+          "annotation_fraction": 1.0
+        },
+        {
+          "layout_seed": 29,
+          "area_um2": 132.518,
+          "delay_ns": 1.894477,
+          "wns_ns": 0.605523,
+          "energy_per_op_pj": 0.5371801392395378,
+          "power_w": 6.68e-05,
+          "ops": 13071,
+          "annotation_fraction": 1.0
+        },
+        {
+          "layout_seed": 47,
+          "area_um2": 132.518,
+          "delay_ns": 1.894477,
+          "wns_ns": 0.605523,
+          "energy_per_op_pj": 0.5371801392395378,
+          "power_w": 6.68e-05,
+          "ops": 13071,
+          "annotation_fraction": 1.0
+        }
+      ]
+    },
+    "T06": {
+      "task_id": "T06",
+      "source_sha256": "587ff96596bada9fba89e3795075979f45ce2700375c0860d11988fa297f43f1",
+      "workload_sha256": "176b0074385084c0247148ad92f98dd26b2bcb0f9e82ad2e5f9e172916571c8e",
+      "measurement_status": "three_seed",
+      "parameter_set": {
+        "platform": "ASAP7_7p5t_RVT_NLDM",
+        "period_ps": 2500,
+        "corner": "WC",
+        "utilization": 10,
+        "density": 0.6,
+        "seeds": [
+          11,
+          29,
+          47
+        ]
+      },
+      "routed": true,
+      "wns_ns": 1.23129,
+      "annotation_fraction": 1.0,
+      "area_um2": 422.091,
+      "delay_ns": 1.26698,
+      "energy_per_op_pj": 3.52374,
+      "per_seed": [
+        {
+          "layout_seed": 11,
+          "area_um2": 422.091,
+          "delay_ns": 1.26871,
+          "wns_ns": 1.23129,
+          "energy_per_op_pj": 3.52374,
+          "power_w": 0.000171,
+          "ops": 3075,
+          "annotation_fraction": 1.0
+        },
+        {
+          "layout_seed": 29,
+          "area_um2": 422.091,
+          "delay_ns": 1.26698,
+          "wns_ns": 1.23302,
+          "energy_per_op_pj": 3.52374,
+          "power_w": 0.000171,
+          "ops": 3075,
+          "annotation_fraction": 1.0
+        },
+        {
+          "layout_seed": 47,
+          "area_um2": 422.091,
+          "delay_ns": 1.2651,
+          "wns_ns": 1.2349,
+          "energy_per_op_pj": 3.52374,
+          "power_w": 0.000171,
+          "ops": 3075,
+          "annotation_fraction": 1.0
+        }
+      ]
+    },
+    "T07": {
+      "task_id": "T07",
+      "source_sha256": "a2e6fac96a878ef05bb861bebe37df13ae5fd441e930a1a853f174dda10d045d",
+      "workload_sha256": "f0b806a656b604d9723123c350406cae4f3627fe577d0a77f94139c7f9c3e640",
+      "measurement_status": "three_seed",
+      "parameter_set": {
+        "platform": "ASAP7_7p5t_RVT_NLDM",
+        "period_ps": 2500,
+        "corner": "WC",
+        "utilization": 10,
+        "density": 0.6,
+        "seeds": [
+          11,
+          29,
+          47
+        ]
+      },
+      "routed": true,
+      "wns_ns": 1.596,
+      "annotation_fraction": 1.0,
+      "area_um2": 174.989,
+      "delay_ns": 0.90398,
+      "energy_per_op_pj": 9.704713725490196,
+      "per_seed": [
+        {
+          "layout_seed": 11,
+          "area_um2": 174.989,
+          "delay_ns": 0.90396,
+          "wns_ns": 1.59604,
+          "energy_per_op_pj": 9.704713725490196,
+          "power_w": 0.000101,
+          "ops": 255,
+          "annotation_fraction": 1.0
+        },
+        {
+          "layout_seed": 29,
+          "area_um2": 174.989,
+          "delay_ns": 0.904,
+          "wns_ns": 1.596,
+          "energy_per_op_pj": 9.704713725490196,
+          "power_w": 0.000101,
+          "ops": 255,
+          "annotation_fraction": 1.0
+        },
+        {
+          "layout_seed": 47,
+          "area_um2": 174.989,
+          "delay_ns": 0.90398,
+          "wns_ns": 1.59602,
+          "energy_per_op_pj": 9.704713725490196,
+          "power_w": 0.000101,
+          "ops": 255,
+          "annotation_fraction": 1.0
+        }
+      ]
+    },
+    "T08": {
+      "task_id": "T08",
+      "source_sha256": "b0532d258cc925f7e92152ad1c589a119a897fcc4f7b23dfa1f212efd4443a75",
+      "workload_sha256": "8625deabcc98e17a951baa0cc806a15ecc80d651f5e35e4a2dcff978c7b25b8c",
+      "measurement_status": "three_seed",
+      "parameter_set": {
+        "platform": "ASAP7_7p5t_RVT_NLDM",
+        "period_ps": 2500,
+        "corner": "WC",
+        "utilization": 10,
+        "density": 0.6,
+        "seeds": [
+          11,
+          29,
+          47
+        ]
+      },
+      "routed": true,
+      "wns_ns": 0.599237,
+      "annotation_fraction": 1.0,
+      "area_um2": 2309.47,
+      "delay_ns": 1.896784,
+      "energy_per_op_pj": 77.91754629629631,
+      "per_seed": [
+        {
+          "layout_seed": 11,
+          "area_um2": 2309.47,
+          "delay_ns": 1.858787,
+          "wns_ns": 0.6412129999999999,
+          "energy_per_op_pj": 77.91754629629631,
+          "power_w": 0.00111,
+          "ops": 648,
+          "annotation_fraction": 1.0
+        },
+        {
+          "layout_seed": 29,
+          "area_um2": 2309.47,
+          "delay_ns": 1.896784,
+          "wns_ns": 0.603216,
+          "energy_per_op_pj": 77.91754629629631,
+          "power_w": 0.00111,
+          "ops": 648,
+          "annotation_fraction": 1.0
+        },
+        {
+          "layout_seed": 47,
+          "area_um2": 2309.47,
+          "delay_ns": 1.900763,
+          "wns_ns": 0.599237,
+          "energy_per_op_pj": 77.91754629629631,
+          "power_w": 0.00111,
+          "ops": 648,
+          "annotation_fraction": 1.0
+        }
+      ]
+    },
+    "T09": {
+      "task_id": "T09",
+      "source_sha256": "170e9e059117047e47a62952b3b170012b3bdb75e37738ecd8e223ea76ead80b",
+      "workload_sha256": "7296b24656f8cf44490a138e36137b293c0c5c50f7f37d5cf6e74e7015cce7db",
+      "measurement_status": "three_seed",
+      "parameter_set": {
+        "platform": "ASAP7_7p5t_RVT_NLDM",
+        "period_ps": 2500,
+        "corner": "WC",
+        "utilization": 10,
+        "density": 0.6,
+        "seeds": [
+          11,
+          29,
+          47
+        ]
+      },
+      "routed": true,
+      "wns_ns": 0.126049,
+      "annotation_fraction": 1.0,
+      "area_um2": 2228.93,
+      "delay_ns": 2.369753,
+      "energy_per_op_pj": 22.453622448979594,
+      "per_seed": [
+        {
+          "layout_seed": 11,
+          "area_um2": 2228.93,
+          "delay_ns": 2.373951,
+          "wns_ns": 0.126049,
+          "energy_per_op_pj": 22.453622448979594,
+          "power_w": 0.000856,
+          "ops": 1568,
+          "annotation_fraction": 1.0
+        },
+        {
+          "layout_seed": 29,
+          "area_um2": 2228.93,
+          "delay_ns": 2.3626799999999997,
+          "wns_ns": 0.13732,
+          "energy_per_op_pj": 22.453622448979594,
+          "power_w": 0.000856,
+          "ops": 1568,
+          "annotation_fraction": 1.0
+        },
+        {
+          "layout_seed": 47,
+          "area_um2": 2228.93,
+          "delay_ns": 2.369753,
+          "wns_ns": 0.130247,
+          "energy_per_op_pj": 22.453622448979594,
+          "power_w": 0.000856,
+          "ops": 1568,
+          "annotation_fraction": 1.0
+        }
+      ]
+    }
+  }
+}
