@@ -36,6 +36,9 @@ def prepare(task: str, destination: Path) -> dict:
     for name in ("README.md", "public_check.py"):
         shutil.copy2(ROOT / "evaluator" / name, destination / "evaluator" / name)
     shutil.copy2(ROOT / "evaluator/public" / f"tb_{task}.sv", public / f"tb_{task}.sv")
+    if task == "T10":
+        shutil.copy2(ROOT / "evaluator/matmul_oracle.py",
+                     destination / "evaluator/matmul_oracle.py")
     if task == "T09":
         shutil.copy2(ROOT / "evaluator/public/tb_cpu_elf.sv", public / "tb_cpu_elf.sv")
         for name in CPU_PUBLIC:
@@ -63,7 +66,7 @@ Finish by summarizing your deliverables, exact test results, and known limitatio
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("task", choices=[f"T{i:02d}" for i in range(1, 10)])
+    parser.add_argument("task", choices=[f"T{i:02d}" for i in range(1, 11)])
     parser.add_argument("destination", type=Path)
     args = parser.parse_args()
     print(prepare(args.task, args.destination))

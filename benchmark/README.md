@@ -1,6 +1,6 @@
-# 数字芯片设计交付 Benchmark v0.1
+# 数字芯片设计交付 Benchmark v0.2
 
-本目录是一套正在校准的数字芯片交付 benchmark，用于比较多 Agent 系统与通用 coding agent 的完整 RTL 交付质量。它包含 9 个任务，覆盖组合逻辑、时序控制、片上总线、CDC、缓存和五级流水线 CPU。每题要求 Agent 自行完成 RTL、可运行验证环境和 PPA 优化迭代。`v0.1` 已写定题面、资源边界、验收分配和评分方法；九题均有独立端口公开冒烟及私有隐藏验收器，参考实现当前功能分为 75/75。统一 ASAP7 最坏角、2500 ps 的三种子布线和长负载功耗试跑已完成，[参考三元组](ppa-baselines.json)作为试评分参数锁定。工具镜像 digest、不同 RTL 写法的公平性检查、交付质量门禁和完整试做报告仍须按[发布门禁](methodology.md#发布门禁)校准，因此尚不能发布正式榜单。
+本目录是一套正在校准的数字芯片交付 benchmark，用于比较多 Agent 系统与通用 coding agent 的完整 RTL 交付质量。它包含 10 个任务，覆盖组合逻辑、时序控制、片上总线、CDC、缓存、五级流水线 CPU 和多精度 NPU 矩阵乘法。每题要求 Agent 自行完成 RTL、可运行验证环境和 PPA 优化迭代。旧版 T01–T09 均有公开冒烟、私有隐藏验收器和 75/75 的参考功能分；统一 ASAP7 最坏角、2500 ps 的三种子布线和长负载功耗试跑也已完成，[九题参考三元组](ppa-baselines.json)作为试评分记录。**新增 T10 已有题卡、数值 oracle 和公开冒烟，但没有隐藏验收器、参考 RTL、变异体或 PPA 基线，不能给正式分数。**工具镜像 digest、不同 RTL 写法的公平性检查、交付质量门禁和完整试做报告仍须按[发布门禁](methodology.md#发布门禁)校准。
 
 | ID | 难度假设 | 任务 | 来源 | 开发时限 |
 | --- | ---: | --- | --- | ---: |
@@ -13,20 +13,22 @@
 | T07 | 7 | AXI4-Lite 到 APB4 桥 | 原创 | 8 小时 |
 | T08 | 8 | 直接映射写回数据缓存 | 原创 | 12 小时 |
 | T09 | 9 | RV32I 五级流水线 CPU | 原创 | 24 小时 |
+| T10 | 10 | 4×4 多精度脉动阵列矩阵乘法 | 原创 | 48 小时 |
 
 难度序号是设计时的覆盖假设，不是 CVDP 官方难度，也不是已测得的等距难度。发布前应依照[校准流程](methodology.md#难度校准)用试运行数据调整或替换题目。两道 CVDP 题应单独报告，避免公开题的训练数据污染影响原创题结论。
 
 ## 规范入口
 
 - [任务卡](tasks.md)：每题的设计需求、接口、合法环境、硬件资源边界、验收点及分值。
-- [九题验收组](acceptance.md)：测试组 ID、参考模型与可检出的典型缺陷。
-- [独立端口公开冒烟](../evaluator/README.md)：T01–T09 可执行测试与提交接口样例。
+- [十题验收组](acceptance.md)：测试组 ID、参考模型与可检出的典型缺陷。
+- [独立端口公开冒烟](../evaluator/README.md)：T01–T10 可执行测试与提交接口样例。
 - [验证与交付契约](verification-contract.md)：参赛 Agent 的自带 UT、固定 DUT 接口、独立验收与 CPU ELF 入口。
 - [评测与评分方法](methodology.md)：运行资源、可比性、通用门禁、分数计算、校准和发布条件。
 - [PPA 测量方法](ppa.md)：统一工艺、约束、工作负载、功耗估计和排序规则。
 - [试评分 PPA 参考值](ppa-baselines.json)：九题三种子布线与门级活动功耗的中位数和重复性记录。
 - [领域与难度覆盖](coverage.md)：逐题设计领域、工程能力、难度来源和未覆盖范围。
 - [CPU 验收计划](cpu-validation.md)：ACT4 接入、流水线专项程序、差分测试和通过条件。
+- [NPU 验收计划](npu-validation.md)：T10 的格式边界、命令规模、数值 oracle、结构与物理发布门禁。
 - [来源锁定](sources.lock.yaml)：CVDP 的修订、数据文件及题面哈希。
 - [机器可读清单](manifest.yaml)：题目 ID、时限、模型 token 上限及分值，供评测器读取。
 - [运行报告 schema](report.schema.json)：统一记录功能、PPA、完成时间和交付诊断。
@@ -52,3 +54,5 @@
 - [RISC-V Architectural Certification Tests](https://github.com/riscv/riscv-arch-test)
 - [RISC-V ISA 手册](https://github.com/riscv/riscv-isa-manual)
 - [Verilator 官方语言支持范围](https://verilator.org/guide/latest/languages.html)
+- [OCP OFP8 1.0](https://www.opencompute.org/documents/ocp-8-bit-floating-point-specification-ofp8-revision-1-0-2023-06-20-pdf)
+- [OCP MX 1.0](https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf)

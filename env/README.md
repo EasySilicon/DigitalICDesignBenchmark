@@ -1,6 +1,6 @@
 # 安装与依赖清单
 
-本页给下载者提供**分阶段**环境准备方法。仓库当前为 `design_only`：规范校验和九题独立端口公开冒烟可运行，ACT4 RV32I/Zicsr 的 45 个生成 ELF 也已提供；隐藏验收器、完整 CPU 差分和正式 PPA 评分器尚待实现与冻结。运行 `check_env.py` 只能检查依赖是否存在，不能代替[发布门禁](../benchmark/methodology.md#发布门禁)。推荐 Linux x86-64、Docker/OCI 与至少 16 vCPU、32 GiB RAM、100 GiB 空间；正式榜单应发布单一镜像 digest，避免依赖用户系统版本。
+本页给下载者提供**分阶段**环境准备方法。仓库当前为 `design_only`：规范校验和十题独立端口公开冒烟可运行（T10 为设计稿级公开样例），ACT4 RV32I/Zicsr 的 45 个生成 ELF 也已提供；T01–T09 的隐藏验收器和 CPU 差分已在评测方环境试跑；T10 的隐藏验收及正式 PPA 评分仍待实现与冻结。运行 `check_env.py` 只能检查依赖是否存在，不能代替[发布门禁](../benchmark/methodology.md#发布门禁)。推荐 Linux x86-64、Docker/OCI 与至少 16 vCPU、32 GiB RAM、100 GiB 空间；正式榜单应发布单一镜像 digest，避免依赖用户系统版本。
 
 ## 依赖分组
 
@@ -31,7 +31,7 @@ python3 -m venv .venv
 .venv/bin/python env/check_env.py --profile all --orfs-root /path/to/OpenROAD-flow-scripts --act4-root /path/to/riscv-arch-test --verify-platform-hashes
 ```
 
-`INCOMPLETE` 和非零退出码会指出缺项。工具存在也不能证明版本兼容或九题都可通过物理流程，须再做下述冒烟和[参数校准](../benchmark/ppa.md#参数探索与冻结门禁)。
+`INCOMPLETE` 和非零退出码会指出缺项。工具存在也不能证明版本兼容或十题都可通过物理流程，须再做下述冒烟和[参数校准](../benchmark/ppa.md#参数探索与冻结门禁)。
 
 如需先取得**锁定源码**以准备镜像，可在仓库根目录执行：
 
@@ -62,10 +62,10 @@ Yosys 可从上述 OSS CAD Suite 的固定发布页选择相应 Linux 架构包�
 
 ## 正式镜像构建路线
 
-1. **ASAP7 物理流程**：从[ORFS 官方 Docker 安装说明](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/docs/user/BuildWithDocker.md)建立镜像，在镜像内检出 `sources.lock.yaml` 指定的 ORFS 修订并初始化其子模块。官方[预编译安装说明](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/docs/user/BuildWithPrebuilt.md)要求 Yosys 至少 0.58；可用 [OSS CAD Suite 发布包](https://github.com/YosysHQ/oss-cad-suite-build/releases/tag/2026-09-24)安装兼容 Yosys，OpenROAD 可用[官方预编译包入口](https://vaultlink.precisioninno.com/)安装。`PLATFORM_DIR` 必须指向本仓库的 `vendor/asap7`。用 ORFS 自带 ASAP7 `gcd` 例子先跑通综合到布线，再跑九题参考实现。使用浮动 `latest` 镜像只能做探索，不得用于榜单。
+1. **ASAP7 物理流程**：从[ORFS 官方 Docker 安装说明](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/docs/user/BuildWithDocker.md)建立镜像，在镜像内检出 `sources.lock.yaml` 指定的 ORFS 修订并初始化其子模块。官方[预编译安装说明](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/docs/user/BuildWithPrebuilt.md)要求 Yosys 至少 0.58；可用 [OSS CAD Suite 发布包](https://github.com/YosysHQ/oss-cad-suite-build/releases/tag/2026-09-24)安装兼容 Yosys，OpenROAD 可用[官方预编译包入口](https://vaultlink.precisioninno.com/)安装。`PLATFORM_DIR` 必须指向本仓库的 `vendor/asap7`。用 ORFS 自带 ASAP7 `gcd` 例子先跑通综合到布线，再跑已有九题参考实现；T10 的参考实现和物理校准尚待补齐。使用浮动 `latest` 镜像只能做探索，不得用于榜单。
 2. **功能仿真**：在同一镜像安装 Verilator、C++ 编译器、Python/cocotb，并锁定版本。运行具体 SystemVerilog、UVM、SVA、覆盖率及门级单元模型的冒烟测试；工具只在已确认的子集内使用。Verilator 的[官方语言支持说明](https://verilator.org/guide/latest/languages.html)可作能力索引，实际版本的运行结果才是准入证据。
 3. **CPU 验收**：按锁定的 [ACT4 README](https://github.com/riscv/riscv-arch-test/blob/act4/README.md)准备 `uv`、Ruby/Bundler、RISC-V GCC/objdump 与 Sail 0.14.1；固定 ACT4、Sail 修订以及本项目的 UDB、`rvmodel_macros.h`、linker script。ACT4 锁定修订的说明指定 Sail 0.14.1。先编译一条最小 ELF，分别交给 Sail 和 CPU 参考实现运行，再生成全套适用测试。不要从系统软件仓库自动拿不同版本替换。
-4. **发布制品**：把所有 apt/pip/uv/Bundler 包版本、ORFS/ACT4/Sail/GCC/Verilator 修订、ASAP7 文件 hash、镜像 digest、`check_env.py --json` 输出和九题冒烟日志一并发布。正式安装应使用该镜像 digest；本页的源构建路线用于复现与移植。
+4. **发布制品**：把所有 apt/pip/uv/Bundler 包版本、ORFS/ACT4/Sail/GCC/Verilator 修订、ASAP7 文件 hash、镜像 digest、`check_env.py --json` 输出和十题冒烟日志一并发布。正式安装应使用该镜像 digest；本页的源构建路线用于复现与移植。
 
 本机已验证的探索环境：OpenROAD `26Q2-1164-g08f67ee5ec`、Yosys `0.69+150`、锁定 ORFS 修订 `1ec57da7bf0f1491190cbea2673c2c01fb3bc3ae` 和仓库内 ASAP7。在 ORFS 的 `flow/` 下，以本仓库绝对路径替换下列示例路径，可做 GCD 冒烟：
 
@@ -77,7 +77,7 @@ make DESIGN_CONFIG=./designs/asap7/gcd/config.mk \
   SYNTH_USE_SYN=0 NUM_CORES=8 route
 ```
 
-本机该流程已成功生成 `5_route.odb`。正式榜单仍需统一约束、九题参考实现和功耗校准。
+本机该流程已成功生成 `5_route.odb`。正式榜单仍需统一约束、十题参考实现和功耗校准（T10 待完成）。
 
 CPU 依赖探索已在 `/tmp` 检出 ACT4 锁定修订 `4a42cbd3756259bbc1f92a7d816bc2fd2bd551cb`，并安装 Sail 0.14.1 的 Linux x86-64 发布包，下载包 SHA-256 为 `de45a89748ca67a8a522b3ac0924c303b5609a16bb50d759bbd08c4d440df0eb`。ACT4 对 GCC 13 报版本错误后，改用 RISC-V GNU Toolchain 上游 `2026.07.15` 的 RV32 裸机 GCC 16.1.0 发布包，SHA-256 为 `ae36abbec394b29643154c1b4a1322e829937d04e82f41b47f9c27d3bd68e543`；其完整 ACT4 I/Zicsr 配置构建已成功。uv 0.11.33 发布包 SHA-256 为 `aa9fca823c03289fb6e3460b3dc864f3ea895cafaf9b99247701a67b17d1b018`，另用 mise 安装 Ruby 3.4.10、Bundler 4.0.21 并安装 ACT4 锁定 Ruby gems。带这些路径的 `check_env.py --profile cpu` 已返回 `ok=true`。45 个生成 ELF 已随[评测器制品](../evaluator/act4_elfs/)提供，且由[Sail 参考运行器](../evaluator/check_act4_sail.py)逐一验证到 `tohost=1`；这些 `/tmp` 工具路径不属于发布制品。
 

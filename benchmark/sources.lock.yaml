@@ -40,3 +40,9 @@ ppa:
   asap7_vt_candidate: RVT
   finalized_parameter_set_status: pending_calibration
   reference_values_status: pending_calibration
+t10_formats:
+  ofp8: https://www.opencompute.org/documents/ocp-8-bit-floating-point-specification-ofp8-revision-1-0-2023-06-20-pdf
+  mx: https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf
+  ofp8_revision: "1.0"
+  mx_revision: "1.0"
+  benchmark_numeric_contract: benchmark/tasks.md#t10--多精度-44-脉动阵列矩阵乘法

@@ -17,8 +17,8 @@ RULES_PATH = Path(__file__).with_name("score_rules.json")
 
 def load_rules() -> dict:
     rules = json.loads(RULES_PATH.read_text())
-    if set(rules["tasks"]) != {f"T{i:02d}" for i in range(1, 10)}:
-        raise ValueError("score rules must cover T01-T09")
+    if set(rules["tasks"]) != {f"T{i:02d}" for i in range(1, 11)}:
+        raise ValueError("score rules must cover T01-T10")
     for task, items in rules["tasks"].items():
         for layer, required in (("F", 60), ("P", 15)):
             if sum(item["points"] for item in items if item["layer"] == layer) != required:
@@ -117,6 +117,8 @@ def ppa_provenance_valid(task: str, measurement: dict, reference: dict) -> bool:
 def score_run(payload: dict, rules: dict | None = None) -> dict:
     rules = rules or load_rules()
     task = payload["task_id"]
+    if task == "T10":
+        raise ValueError("T10 is design-only until hidden acceptance and PPA baseline are qualified")
     basic, edge, items = score_functional(task, payload["groups"], rules)
     functional = basic + edge
     duration = payload["elapsed_seconds"]

@@ -1,6 +1,6 @@
 # 独立端口验收器的公开可执行样例
 
-`public_check.py` 只读取参赛提交的 `rtl/files.f` 和 RTL 源码，使用**评测方自己的** T01–T09 的测试平台编译并检查固定 DUT 端口。它不会调用提交内的 `run.sh`、`verif/` 或 `results.json`。例如：
+`public_check.py` 只读取参赛提交的 `rtl/files.f` 和 RTL 源码，使用**评测方自己的** T01–T10 的测试平台编译并检查固定 DUT 端口。它不会调用提交内的 `run.sh`、`verif/` 或 `results.json`。例如：
 
 ```bash
 python3 evaluator/public_check.py T01 /path/to/submission
@@ -14,7 +14,7 @@ python3 evaluator/public_check.py T08 /path/to/submission
 python3 evaluator/public_check.py T09 /path/to/submission
 ```
 
-编译与仿真在独立临时目录执行，失败以非零退出码和 JSON 摘要报告。T07 公开样例覆盖 AW/W 两种先后顺序、APB SETUP/ACCESS、部分/零字节使能、读写及错误响应、有限等待和 B/R 背压，尚未覆盖同时读写争用和运行中复位。T08 公开样例覆盖命中、干净/脏替换、整行写回、部分写、后端与 CPU 背压，以及空闲时复位。T09 公开样例只检查 64 条无相关 ADDI 的取指至退休延时和退休观察口；它不运行 ELF 或覆盖完整 ISA。这里的用例都是**公开冒烟样例**，不用于正式评分；私有隐藏验收器、参考实现和变异体已在评测方仓库实现，但 PPA 和交付资格仍待冻结。隐藏验收器使用相同连接原则，并保存在不暴露给参赛工作区的评测服务中。
+编译与仿真在独立临时目录执行，失败以非零退出码和 JSON 摘要报告。T07 公开样例覆盖 AW/W 两种先后顺序、APB SETUP/ACCESS、部分/零字节使能、读写及错误响应、有限等待和 B/R 背压，尚未覆盖同时读写争用和运行中复位。T08 公开样例覆盖命中、干净/脏替换、整行写回、部分写、后端与 CPU 背压，以及空闲时复位。T09 公开样例只检查 64 条无相关 ADDI 的取指至退休延时和退休观察口；它不运行 ELF 或覆盖完整 ISA。T10 公开样例覆盖十个模式、1024-bit 数据总线末端、命令响应及背压，数值特殊值和结构审查尚未覆盖。这里的用例都是**公开冒烟样例**，不用于正式评分；T01–T09 的私有隐藏验收器、参考实现和变异体已在评测方仓库实现；T10 尚未完成，PPA 和交付资格仍待冻结。隐藏验收器使用相同连接原则，并保存在不暴露给参赛工作区的评测服务中。
 
 `cpu_elf_check.py` 是另一个评测方入口。它解析符合任务卡内存布局的 RV32 ELF，把 `PT_LOAD` 段装入评测方的 256 KiB 镜像，通过固定 CPU 端口提供一周期取指和有界数据端等待，直到已提交的 `tohost=1` 写入或超时。例如：
 
@@ -35,7 +35,9 @@ python3 evaluator/check_act4_sail.py \
 
 私有统一评分入口还运行总线等待、运行中复位、取指至退休延时，并读取评测方持有的流水线结构审查证据；参考 CPU 的 F/P 为 75/75。正式排名仍等待 PPA 参数和交付资格冻结。
 
-`score_rules.json` 将九题的 F=60/P=15 分项逐一映射到验收组，`score_run.py` 将评测方生成的组内通过数、严重安全缺陷、PPA 三元组和完成时间转成分层分数。它**不调用**公开冒烟测试来制造正式分数。输入须包含 `task_id`、`groups`、`delivery_qualified`、`elapsed_seconds`、`time_limit_seconds`，可含 `ppa_measurement` 和 `ppa_reference`。每个验收组必须有 `cases_passed`、`cases_total`，安全缺陷另标 `safety_violation`。缺少应有验收组直接报错，不推断为通过；所有组全过得子项满分，无安全缺陷且各组通过比例的等权平均至少一半得半分，其余得零分。私有隐藏组执行器已接入；PPA 正式测量和交付门禁仍在准备。
+`score_rules.json` 将十题的 F=60/P=15 分项逐一映射到验收组，`score_run.py` 将评测方生成的组内通过数、严重安全缺陷、PPA 三元组和完成时间转成分层分数。它**不调用**公开冒烟测试来制造正式分数。输入须包含 `task_id`、`groups`、`delivery_qualified`、`elapsed_seconds`、`time_limit_seconds`，可含 `ppa_measurement` 和 `ppa_reference`。每个验收组必须有 `cases_passed`、`cases_total`，安全缺陷另标 `safety_violation`。缺少应有验收组直接报错，不推断为通过；所有组全过得子项满分，无安全缺陷且各组通过比例的等权平均至少一半得半分，其余得零分。T01–T09 私有隐藏组执行器已接入；T10 隐藏组尚未实现，PPA 正式测量和交付门禁仍在准备。
+
+T10 的[`matmul_oracle.py`](matmul_oracle.py)公开了精确格式解码、MX scale 和数值误差界，可供参赛者复核题意；`tb_T10.sv` 是固定端口的 20 例公开冒烟。`score_run.py` 在 T10 隐藏验收和 PPA 参考值校准完成前会拒绝为 T10 输出正式分数。
 
 `delivery_check.py` 是交付入口的可执行检查：确认 `rtl/files.f`、`verif/`、`README.md`、可执行 `run.sh`，同一 `BENCH_SEED` 连续运行两次并校验 `results.json` 的测试行和版本字段。T09 另需评测方提供正反两个 ELF，检查 `--elf` 的文件哈希、`tohost`、超时字段与退出码。它只检查自带验证入口的交付形式，**不将其 PASS 当作 DUT 正确性**；PPA 探索记录与变异检出率仍需独立审计。
 

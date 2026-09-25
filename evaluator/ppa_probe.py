@@ -29,6 +29,7 @@ DESIGNS = {
     "T07": ("axi4lite_to_apb4_bridge", "", ("clk",)),
     "T08": ("direct_mapped_writeback_cache", "", ("clk",)),
     "T09": ("rv32i_five_stage_cpu", "", ("clk",)),
+    "T10": ("npu_systolic_matmul_4x4", "", ("clk",)),
 }
 
 

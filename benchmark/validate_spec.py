@@ -27,7 +27,7 @@ def validate_local() -> tuple[dict, dict]:
     readme = (ROOT / "README.md").read_text()
 
     task_rows = manifest["tasks"]
-    expected_ids = [f"T{index:02d}" for index in range(1, 10)]
+    expected_ids = [f"T{index:02d}" for index in range(1, 11)]
     actual_ids = [row["id"] for row in task_rows]
     if actual_ids != expected_ids:
         fail(f"task IDs/order differ: {actual_ids}")
@@ -47,15 +47,20 @@ def validate_local() -> tuple[dict, dict]:
     if manifest["ppa_measurement"]["flow"] != sources["ppa"]["flow"]:
         fail("PPA flow differs between manifest and source lock")
     baselines = json.loads((ROOT / "ppa-baselines.json").read_text())
-    if set(baselines["tasks"]) != set(expected_ids):
-        fail("PPA baselines must cover all nine tasks")
+    calibrated_ids = expected_ids[:-1]
+    ppa_inventory = manifest["ppa_measurement"]
+    if ppa_inventory["calibrated_baseline_tasks"] != calibrated_ids or \
+            ppa_inventory["pending_baseline_tasks"] != ["T10"]:
+        fail("PPA baseline scope must identify calibrated and pending tasks")
+    if set(baselines["tasks"]) != set(calibrated_ids):
+        fail("PPA baseline inventory must cover exactly the nine calibrated tasks")
     if baselines["score_bucket_width_points"] != scores["ppa_rank_resolution_points"]:
         fail("PPA baseline bucket width differs from manifest")
     if manifest["ppa_measurement"]["shared_clock_period_ps"] != 2500 or \
             manifest["ppa_measurement"]["parameter_set_status"] != "trial_locked" or \
             manifest["ppa_measurement"]["baseline_values_status"] != "trial_locked":
         fail("trial PPA parameter lock differs from baseline records")
-    for task_id in expected_ids:
+    for task_id in calibrated_ids:
         record = baselines["tasks"][task_id]
         params = record["parameter_set"]
         if record["task_id"] != task_id or record["measurement_status"] != "three_seed" or \
@@ -85,7 +90,7 @@ def validate_local() -> tuple[dict, dict]:
 
     if manifest["status"] != "design_only":
         fail("status cannot advance without the publication gates")
-    for required in ("methodology.md", "ppa.md", "acceptance.md", "cpu-validation.md",
+    for required in ("methodology.md", "ppa.md", "acceptance.md", "cpu-validation.md", "npu-validation.md",
                      "coverage.md", "verification-contract.md"):
         if not (ROOT / required).is_file():
             fail(f"missing required document: {required}")

@@ -126,7 +126,7 @@ def check(task: str, submission: Path, seed: int, timeout: int,
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("task", choices=[f"T{i:02d}" for i in range(1, 10)])
+    parser.add_argument("task", choices=[f"T{i:02d}" for i in range(1, 11)])
     parser.add_argument("submission", type=Path)
     parser.add_argument("--seed", type=int, default=20260925)
     parser.add_argument("--timeout", type=int, default=600)

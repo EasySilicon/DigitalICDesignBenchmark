@@ -75,6 +75,12 @@ class ScoreRunTest(unittest.TestCase):
         item = next(x for x in scored["score_items"] if x["id"] == "F_INTEGER_CONTROL")
         self.assertEqual(item["points"], 12.5)
 
+    def test_t10_cannot_receive_formal_score_before_qualification(self):
+        groups = {group: {"cases_passed": 1, "cases_total": 1}
+                  for item in self.rules["tasks"]["T10"] for group in item["groups"]}
+        with self.assertRaisesRegex(ValueError, "design-only"):
+            score_run(dict(self.payload, task_id="T10", groups=groups), self.rules)
+
 
 if __name__ == "__main__":
     unittest.main()

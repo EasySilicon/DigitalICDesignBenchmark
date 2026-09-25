@@ -1,5 +1,5 @@
 schema_version: 1
-suite_id: ic-delivery-rtl-v0.1
+suite_id: ic-delivery-rtl-v0.2
 status: design_only
 replicates_per_task: 5
 hardware_limit:
@@ -23,6 +23,8 @@ ppa_measurement:
   shared_clock_period_ps: 2500
   parameter_set_status: trial_locked
   baseline_values_status: trial_locked
+  calibrated_baseline_tasks: [T01, T02, T03, T04, T05, T06, T07, T08, T09]
+  pending_baseline_tasks: [T10]
 tasks:
   - id: T01
     level_hypothesis: 1
@@ -96,3 +98,11 @@ tasks:
     same_model_token_cap: 1200000
     f_points: [25, 15, 10, 10]
     p_points: [6, 5, 4]
+  - id: T10
+    level_hypothesis: 10
+    title: mixed_precision_systolic_matmul_4x4
+    origin: original
+    time_limit_minutes: 2880
+    same_model_token_cap: 2000000
+    f_points: [10, 10, 10, 10, 10, 10]
+    p_points: [5, 5, 5]

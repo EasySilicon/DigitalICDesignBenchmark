@@ -72,6 +72,17 @@
       {"id":"P_HAZARD","layer":"P","points":6,"groups":["CPU-DIR-HAZ","CPU-PIPE-HAZ"]},
       {"id":"P_MEMORY_WAIT","layer":"P","points":5,"groups":["CPU-PIPE-MEM"]},
       {"id":"P_PIPELINE","layer":"P","points":4,"groups":["CPU-PIPE-FLUSH","CPU-PIPE-LAT","CPU-PIPE-STRUCT","CPU-PIPE-RESET"],"critical_groups":["CPU-PIPE-STRUCT","CPU-PIPE-LAT"]}
+    ],
+    "T10": [
+      {"id":"F_INT","layer":"F","points":10,"groups":["MM-INT"]},
+      {"id":"F_FP16_BF16","layer":"F","points":10,"groups":["MM-F16"]},
+      {"id":"F_FP8","layer":"F","points":10,"groups":["MM-F8"]},
+      {"id":"F_FP4","layer":"F","points":10,"groups":["MM-F4"]},
+      {"id":"F_MXFP8","layer":"F","points":10,"groups":["MM-MX8"]},
+      {"id":"F_MXFP4","layer":"F","points":10,"groups":["MM-MX4"]},
+      {"id":"P_PROTOCOL","layer":"P","points":5,"groups":["MM-PROTO"]},
+      {"id":"P_SYSTOLIC","layer":"P","points":5,"groups":["MM-SYSTOLIC"],"critical_groups":["MM-SYSTOLIC"]},
+      {"id":"P_CORNER","layer":"P","points":5,"groups":["MM-CORNER"]}
     ]
   }
 }
