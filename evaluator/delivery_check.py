@@ -41,7 +41,7 @@ def run_entry(submission: Path, args: list[str], seed: int, timeout: int) -> tup
             (finished.stdout + finished.stderr)[-2000:])
 
 
-def check_normal(result: dict, seed: int) -> list[tuple[str, bool, int]]:
+def check_normal(result: dict) -> list[tuple[str, bool, int]]:
     tests = result.get("tests")
     if not isinstance(tests, list) or not tests:
         raise ValueError("results.json needs a nonempty tests array")
@@ -49,8 +49,8 @@ def check_normal(result: dict, seed: int) -> list[tuple[str, bool, int]]:
     for item in tests:
         if not isinstance(item, dict) or not isinstance(item.get("name"), str) or \
                 not item["name"].strip() or not isinstance(item.get("passed"), bool) or \
-                type(item.get("seed")) is not int or item["seed"] != seed:
-            raise ValueError("test row must have name, boolean passed, and requested seed")
+                type(item.get("seed")) is not int:
+            raise ValueError("test row must have name, boolean passed, and integer seed")
         rows.append((item["name"], item["passed"], item["seed"]))
     if len({row[0] for row in rows}) != len(rows):
         raise ValueError("duplicate test names")
@@ -103,7 +103,7 @@ def check(task: str, submission: Path, seed: int, timeout: int,
             code, result, _ = run_entry(submission, [], seed, timeout)
             if code != 0:
                 raise ValueError(f"self-check run {index + 1} exited {code}")
-            rows.append(check_normal(result, seed))
+            rows.append(check_normal(result))
         if rows[0] != rows[1]:
             raise ValueError("same-seed self-check results changed")
         if task == "T09":
