@@ -24,7 +24,7 @@ python3 evaluator/make_cpu_smoke.py /tmp/ic_bcmk_cpu_programs
 python3 evaluator/cpu_elf_check.py /path/to/submission /tmp/ic_bcmk_cpu_programs/basic.elf
 ```
 
-这个入口只检查 ELF 装载、总线基本握手和 `tohost` 完成条件；**尚无 DUT 对 Sail 逐条参考轨迹的比较，不产生 CPU 架构功能分**。目前的最小程序已用独立测试 CPU 桩跑通入口。[`act4_elfs/`](act4_elfs/) 包含按本题 256 KiB 布局生成的 45 个公开 RV32I/Zicsr ACT4 ELF，可用 `python3 evaluator/verify_act4_artifacts.py` 核对清单与内存边界。45 个 ELF 已由 `check_act4_sail.py` 在锁定 Sail 配置下逐一运行到 `tohost=1`，逐项哈希、步数和轨迹哈希见[参考结果](act4_elfs/SAIL_RESULTS.json)：
+这个入口检查 ELF 装载、总线基本握手和 `tohost` 完成条件；可加 `--trace-output /tmp/dut.jsonl`，由**评测方测试平台**采集 DUT 提交/异常端口。`sail_commit.py` 将 Sail 0.14.1 的 `--trace-instr --trace-gpr --trace-mem` 轨迹转换为相同语义的逐条预期，并可用 `--dut-trace` 比较 PC、指令、寄存器写回与对齐后的 store 地址/字节使能/有效写入字节。Agent 不需产生 trace 文件。私有五级参考 CPU 已通过 ACT4 的 45/45 组；完整定向、随机差分和异常验收仍未闭环，因此这个入口本身不产生正式 CPU 架构功能分。最小程序已用独立测试 CPU 桩跑通入口。[`act4_elfs/`](act4_elfs/) 包含按本题 256 KiB 布局生成的 45 个公开 RV32I/Zicsr ACT4 ELF，可用 `python3 evaluator/verify_act4_artifacts.py` 核对清单与内存边界。45 个 ELF 已由 `check_act4_sail.py` 在锁定 Sail 配置下逐一运行到 `tohost=1`，逐项哈希、步数和轨迹哈希见[参考结果](act4_elfs/SAIL_RESULTS.json)：
 
 ```bash
 python3 evaluator/check_act4_sail.py \

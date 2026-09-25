@@ -21,6 +21,8 @@ module tb_cpu_elf;
   logic [31:0] trap_pc, trap_cause, trap_tval;
   logic [7:0] memory [0:MEM_BYTES-1];
   string image_file;
+  string trace_file;
+  int trace_fd;
   int seed, max_cycles, cycle_count, commit_count, trap_count;
   int unsigned rng;
   bit pending_response, pending_error;
@@ -106,13 +108,24 @@ module tb_cpu_elf;
     if (rst_n) begin
       if (commit_valid) begin
         commit_count++;
+        if (trace_fd != 0)
+          $fdisplay(trace_fd,
+            "{\"kind\":\"commit\",\"cycle\":%0d,\"pc\":%0d,\"insn\":%0d,\"rd\":%0d,\"wdata\":%0d,\"mem_addr\":%0d,\"mem_wstrb\":%0d,\"mem_wdata\":%0d}",
+            cycle_count, commit_pc, commit_insn, commit_rd, commit_wdata,
+            commit_mem_addr, commit_mem_wstrb, commit_mem_wdata);
         if (commit_mem_wstrb != 0 && commit_mem_addr == TOHOST) begin
           host_committed = 1;
           if (commit_mem_wstrb != 4'hf || commit_mem_wdata !== host_value)
             $fatal(1, "CPU-ELF tohost commit differs from bus write");
         end
       end
-      if (trap_valid) trap_count++;
+      if (trap_valid) begin
+        trap_count++;
+        if (trace_fd != 0)
+          $fdisplay(trace_fd,
+            "{\"kind\":\"trap\",\"cycle\":%0d,\"pc\":%0d,\"cause\":%0d,\"tval\":%0d}",
+            cycle_count, trap_pc, trap_cause, trap_tval);
+      end
     end
     clk = 0;
     #2;
@@ -124,6 +137,11 @@ module tb_cpu_elf;
   initial begin
     if (!$value$plusargs("IMAGE=%s", image_file))
       $fatal(1, "CPU-ELF IMAGE plusarg required");
+    trace_fd = 0;
+    if ($value$plusargs("TRACE=%s", trace_file)) begin
+      trace_fd = $fopen(trace_file, "w");
+      if (trace_fd == 0) $fatal(1, "CPU-ELF cannot open trace output");
+    end
     seed = 20260925;
     max_cycles = 100000;
     void'($value$plusargs("SEED=%d", seed));
@@ -155,6 +173,7 @@ module tb_cpu_elf;
              cycle_count, commit_count, trap_count, host_value);
     $display("CPU_ELF_PASS cycles=%0d commits=%0d traps=%0d tohost=%h seed=%0d",
              cycle_count, commit_count, trap_count, host_value, seed);
+    if (trace_fd != 0) $fclose(trace_fd);
     $finish;
   end
 endmodule

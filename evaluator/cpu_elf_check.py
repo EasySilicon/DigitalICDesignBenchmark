@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import shutil
 import subprocess
 import tempfile
 import time
@@ -15,7 +16,8 @@ from elf_image import load_elf, write_hex_image
 from public_check import ROOT, sources_from_filelist
 
 
-def run(submission: Path, elf: Path, seed: int, max_cycles: int) -> dict:
+def run(submission: Path, elf: Path, seed: int, max_cycles: int,
+        trace_output: Path | None = None) -> dict:
     sources = sources_from_filelist(submission)
     image = load_elf(elf)
     elf_sha256 = hashlib.sha256(elf.read_bytes()).hexdigest()
@@ -37,13 +39,21 @@ def run(submission: Path, elf: Path, seed: int, max_cycles: int) -> dict:
                     "elapsed_seconds": round(time.monotonic() - start, 3),
                     "log_tail": (compiled.stdout + compiled.stderr)[-8000:]}
         binary = work / "Vtb_cpu_elf"
+        trace_path = work / "commit.jsonl"
+        run_args = [str(binary), f"+IMAGE={image_path}", f"+SEED={seed}",
+                    f"+MAX_CYCLES={max_cycles}"]
+        if trace_output is not None:
+            run_args.append(f"+TRACE={trace_path}")
         executed = subprocess.run(
-            [str(binary), f"+IMAGE={image_path}", f"+SEED={seed}",
-             f"+MAX_CYCLES={max_cycles}"],
+            run_args,
             text=True, capture_output=True, timeout=180, check=False)
+        if trace_output is not None and trace_path.is_file():
+            trace_output.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(trace_path, trace_output)
         return {"passed": executed.returncode == 0 and
                 "CPU_ELF_PASS" in executed.stdout, "phase": "run",
                 "elf_sha256": elf_sha256, "seed": seed,
+                "trace_output": str(trace_output) if trace_output is not None else None,
                 "elapsed_seconds": round(time.monotonic() - start, 3),
                 "log_tail": (executed.stdout + executed.stderr)[-8000:]}
 
@@ -54,11 +64,14 @@ def main() -> int:
     parser.add_argument("elf", type=Path)
     parser.add_argument("--seed", type=int, default=20260925)
     parser.add_argument("--max-cycles", type=int, default=100_000)
+    parser.add_argument("--trace-output", type=Path,
+                        help="evaluator-captured commit/trap JSONL from fixed DUT ports")
     args = parser.parse_args()
     if args.max_cycles <= 0:
         parser.error("--max-cycles must be positive")
     try:
-        result = run(args.submission, args.elf, args.seed, args.max_cycles)
+        result = run(args.submission, args.elf, args.seed, args.max_cycles,
+                     args.trace_output)
     except (OSError, ValueError, subprocess.TimeoutExpired) as exc:
         result = {"passed": False, "phase": "infrastructure", "error": str(exc)}
     print(json.dumps(result, ensure_ascii=False, indent=2))

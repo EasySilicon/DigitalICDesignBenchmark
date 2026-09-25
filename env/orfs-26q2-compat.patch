@@ -1,0 +1,22 @@
+diff --git a/flow/scripts/final_outputs.tcl b/flow/scripts/final_outputs.tcl
+index 2cb34a00..9c283b5f 100644
+--- a/flow/scripts/final_outputs.tcl
++++ b/flow/scripts/final_outputs.tcl
+@@ -26,8 +26,7 @@ if {
+ } {
+   # RCX section
+   define_process_corner -ext_model_index 0 X
+-  set_extraction_rules_file $::env(RCX_RULES)
+-  extract_parasitics
++  extract_parasitics -ext_model_file $::env(RCX_RULES)
+ 
+   # Write Spef
+   write_spef $::env(RESULTS_DIR)/6_final.spef
+@@ -68,6 +67,6 @@ report_metrics 6 "finish"
+ source_step_tcl POST FINAL_REPORT
+ 
+ # Save a final image if openroad is compiled with the gui
+-if { [ord::openroad_gui_compiled] } {
++if { 0 } {
+   gui::show "source $::env(SCRIPTS_DIR)/save_images.tcl" false
+ }

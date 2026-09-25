@@ -79,6 +79,17 @@ make DESIGN_CONFIG=./designs/asap7/gcd/config.mk \
 
 本机该流程已成功生成 `5_route.odb`。正式榜单仍需统一约束、九题参考实现和功耗校准。
 
-CPU 依赖探索已在 `/tmp` 检出 ACT4 锁定修订 `4a42cbd3756259bbc1f92a7d816bc2fd2bd551cb`，并安装 Sail 0.14.1 的 Linux x86-64 发布包，下载包 SHA-256 为 `de45a89748ca67a8a522b3ac0924c303b5609a16bb50d759bbd08c4d440df0eb`。ACT4 对 GCC 13 报版本错误后，改用 RISC-V GNU Toolchain 上游 `2026.07.15` 的 RV32 裸机 GCC 16.1.0 发布包，SHA-256 为 `ae36abbec394b29643154c1b4a1322e829937d04e82f41b47f9c27d3bd68e543`；其完整 ACT4 I/Zicsr 配置构建已成功。uv 0.11.33 发布包 SHA-256 为 `aa9fca823c03289fb6e3460b3dc864f3ea895cafaf9b99247701a67b17d1b018`，另用 mise 安装 Ruby 3.4.10、Bundler 4.0.21 并安装 ACT4 锁定 Ruby gems。带这些路径的 `check_env.py --profile cpu` 已返回 `ok=true`。45 个生成 ELF 已随[评测器制品](../evaluator/act4_elfs/)提供；这些 `/tmp` 工具路径不属于发布制品。
+CPU 依赖探索已在 `/tmp` 检出 ACT4 锁定修订 `4a42cbd3756259bbc1f92a7d816bc2fd2bd551cb`，并安装 Sail 0.14.1 的 Linux x86-64 发布包，下载包 SHA-256 为 `de45a89748ca67a8a522b3ac0924c303b5609a16bb50d759bbd08c4d440df0eb`。ACT4 对 GCC 13 报版本错误后，改用 RISC-V GNU Toolchain 上游 `2026.07.15` 的 RV32 裸机 GCC 16.1.0 发布包，SHA-256 为 `ae36abbec394b29643154c1b4a1322e829937d04e82f41b47f9c27d3bd68e543`；其完整 ACT4 I/Zicsr 配置构建已成功。uv 0.11.33 发布包 SHA-256 为 `aa9fca823c03289fb6e3460b3dc864f3ea895cafaf9b99247701a67b17d1b018`，另用 mise 安装 Ruby 3.4.10、Bundler 4.0.21 并安装 ACT4 锁定 Ruby gems。带这些路径的 `check_env.py --profile cpu` 已返回 `ok=true`。45 个生成 ELF 已随[评测器制品](../evaluator/act4_elfs/)提供，且由[Sail 参考运行器](../evaluator/check_act4_sail.py)逐一验证到 `tohost=1`；这些 `/tmp` 工具路径不属于发布制品。
+
+### ORFS 与本机 OpenROAD 26Q2 的探索兼容补丁
+
+锁定 ORFS 修订 `1ec57da7bf0f1491190cbea2673c2c01fb3bc3ae` 的最终报告脚本使用 `set_extraction_rules_file`，本机 OpenROAD 26Q2-1164 不接受此命令。探索阶段在**干净的锁定 ORFS 检出**应用[兼容补丁](orfs-26q2-compat.patch)，改由 `extract_parasitics -ext_model_file` 加载本仓库 ASAP7 规则，并禁用无图形显示环境中的最终截图：
+
+```bash
+git -C third_party/OpenROAD-flow-scripts apply \
+  /absolute/path/to/ic_bcmk/env/orfs-26q2-compat.patch
+```
+
+此补丁只解决本机这组工具的试跑兼容性；正式镜像须锁定补丁 hash 与工具版本，重新完成全题布线、RC、功耗和参考设计回归。探索入口为 `evaluator/ppa_probe.py`，它只产出面积与布线后时序诊断，不产生正式 PPA 分数。
 
 当前不提供声称“一键安装完整 benchmark”的脚本，因为参考实现、测试器和 PPA 参数尚未冻结。先发布可核对的依赖与自检入口，完整镜像须随可执行评测器一起发布。
