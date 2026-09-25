@@ -8,7 +8,10 @@ import hashlib
 import json
 import math
 import os
+import secrets
+import shutil
 import subprocess
+import tempfile
 from pathlib import Path
 
 if __package__:
@@ -106,10 +109,13 @@ def check(task: str, submission: Path, seed: int, timeout: int,
         if task == "T09":
             if good_elf is None or bad_elf is None:
                 raise ValueError("T09 requires evaluator-owned positive and negative ELF probes")
-            for elf, expected_success in ((good_elf, True), (bad_elf, False)):
-                code, result, _ = run_entry(submission, ["--elf", str(elf.resolve())],
-                                            seed, timeout)
-                check_elf_result(result, elf, expected_success, code)
+            with tempfile.TemporaryDirectory(prefix="ic_bcmk_delivery_elf_") as directory:
+                for source, expected_success in ((good_elf, True), (bad_elf, False)):
+                    elf = Path(directory) / f"program_{secrets.token_hex(8)}.elf"
+                    shutil.copyfile(source, elf)
+                    code, result, _ = run_entry(submission, ["--elf", str(elf)],
+                                                seed, timeout)
+                    check_elf_result(result, elf, expected_success, code)
     except (OSError, ValueError, json.JSONDecodeError, subprocess.TimeoutExpired) as exc:
         findings.append(str(exc))
     return {"task_id": task, "delivery_qualified": not findings,

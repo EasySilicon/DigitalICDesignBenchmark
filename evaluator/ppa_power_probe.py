@@ -8,6 +8,7 @@ frozen hidden power workload or an official PPA score.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import shutil
@@ -30,6 +31,19 @@ POWER_CLOCKS = {
 PARAMETERS = {"T03": ("WIDTH=32", "DEPTH=16"),
               "T05": ("N=8", "WIDTH=32"),
               "T06": ("WIDTH=32", "DEPTH=16")}
+MONITORED_OPS = {
+    "T01": ("in", "1", "1"),
+    "T02": ("posedge clock", "1", "1"),
+    "T03": ("posedge clk", "rst_n", "out_valid && out_ready"),
+    "T04": ("posedge clk", "rst_n", "PSEL && PENABLE && PREADY"),
+    "T05": ("posedge clk", "rst_n", "out_valid && out_ready"),
+    "T06": ("posedge rd_clk", "rd_rst_n", "rd_valid && rd_ready"),
+    "T07": ("posedge clk", "rst_n", "(BVALID && BREADY) + (RVALID && RREADY)"),
+    "T08": ("posedge clk", "rst_n", "rsp_valid && rsp_ready"),
+}
+LOG_OPS = {
+    "T09": r"CPU_ELF_PASS .*commits=(\d+)",
+}
 
 
 def tcl_brace(value: Path | str) -> str:
@@ -40,10 +54,20 @@ def instrument_testbench(task: str, original: Path, output: Path) -> str:
     source = original.read_text()
     if source.count("endmodule") != 1:
         raise ValueError("power probe expects a single-module testbench")
-    for top, instance in (("synchronous_fifo", "#(.WIDTH(WIDTH), .DEPTH(DEPTH))"),
-                          ("round_robin_stream_arbiter", "#(.N(N), .WIDTH(WIDTH))"),
-                          ("asynchronous_fifo", "#(.WIDTH(WIDTH), .DEPTH(DEPTH))")):
-        source = source.replace(f"{top} {instance} dut", f"{top} dut")
+    match = re.search(r"\bmodule\s+(\w+)", source)
+    if match is None:
+        raise ValueError("power probe cannot identify testbench top module")
+    top = match.group(1)
+    for module_name, instance in (("synchronous_fifo", "#(.WIDTH(WIDTH), .DEPTH(DEPTH))"),
+                                  ("round_robin_stream_arbiter", "#(.N(N), .WIDTH(WIDTH))"),
+                                  ("asynchronous_fifo", "#(.WIDTH(WIDTH), .DEPTH(DEPTH))")):
+        source = source.replace(f"{module_name} {instance} dut", f"{module_name} dut")
+    if task == "T03" and top == "tb_hidden_T03":
+        # Gate primitives start at 0 in two-state Verilator. Let the testbench's
+        # initial rst_n=1 settle before the first asynchronous falling edge.
+        source = source.replace("reset_fifo(0);", "#1; reset_fifo(0);", 1)
+    if task == "T04" and top == "tb_hidden_T04":
+        source = source.replace("    reset_timer();", "    #1; reset_timer();", 1)
     if task in {"T07", "T08"}:
         # The zero-delay cell simulator starts registers at zero. Force a
         # reset falling edge before the APB monitor samples the first setup.
@@ -54,10 +78,30 @@ def instrument_testbench(task: str, original: Path, output: Path) -> str:
     monitor = ("initial begin\n  string vcd_path;\n"
                "  if ($value$plusargs(\"POWER_VCD=%s\", vcd_path)) begin\n"
                f"    {ready}\n"
+               "    power_active = 1;\n"
                "    $dumpfile(vcd_path);\n    $dumpvars(0,dut);\n"
                "  end\nend\n")
-    output.write_text(source.replace("endmodule", monitor + "endmodule"))
-    return "tb_cpu_elf" if task == "T09" else f"tb_{task}"
+    instrumentation = "bit power_active = 0;\n"
+    if task in MONITORED_OPS:
+        event, enabled, accepted = MONITORED_OPS[task]
+        instrumentation += ("longint unsigned power_ops = 0;\n"
+                            f"always @({event}) if (power_active && ({enabled})) "
+                            f"power_ops = power_ops + ({accepted});\n"
+                            "final if (power_active) "
+                            "$display(\"POWER_OPS=%0d\", power_ops);\n")
+    output.write_text(source.replace("endmodule", instrumentation + monitor + "endmodule"))
+    return top
+
+
+def useful_operations(task: str, simulation_log: str) -> int:
+    pattern = r"POWER_OPS=(\d+)" if task in MONITORED_OPS else LOG_OPS[task]
+    matches = re.findall(pattern, simulation_log)
+    if len(matches) != 1:
+        raise ValueError(f"{task}: expected exactly one useful-operation count")
+    count = int(matches[0])
+    if count <= 0:
+        raise ValueError(f"{task}: zero useful operations")
+    return count
 
 
 def vcd_stats(path: Path, top: str, clock_names: tuple[str, ...]) -> tuple[float, dict]:
@@ -112,8 +156,18 @@ def run(args: argparse.Namespace) -> dict:
     for file in ("6_final.v", "6_final.odb", "6_final.spef", "6_final.sdc"):
         if not (result_dir / file).is_file():
             raise FileNotFoundError(result_dir / file)
-    tb_path = (ROOT / "public" / "tb_cpu_elf.sv" if args.task == "T09" else
-               ROOT / "public" / f"tb_{args.task}.sv")
+    tb_path = (args.testbench if args.testbench is not None else
+               ROOT / "public" / ("tb_cpu_elf.sv" if args.task == "T09" else
+                                  f"tb_{args.task}.sv"))
+    workload_digest = hashlib.sha256()
+    for payload in (tb_path.read_bytes(), Path(__file__).read_bytes(),
+                    str(args.seed).encode(), str(args.power_goal).encode()):
+        workload_digest.update(len(payload).to_bytes(8, "big"))
+        workload_digest.update(payload)
+    if args.elf is not None:
+        elf_bytes = args.elf.read_bytes()
+        workload_digest.update(len(elf_bytes).to_bytes(8, "big"))
+        workload_digest.update(elf_bytes)
     top = instrument_testbench(args.task, tb_path, output / "tb_power.sv")
     cell_files = sorted(STDCELL.glob("asap7sc7p5t_*RVT_TT_*.v"))
     cell_files = [path for path in cell_files if "_SEQ_" not in path.name]
@@ -137,12 +191,29 @@ def run(args: argparse.Namespace) -> dict:
         image = output / "image.hex"
         write_hex_image(load_elf(args.elf), image)
         run_command += [f"+IMAGE={image}", "+MAX_CYCLES=200000"]
+    if args.power_goal is not None:
+        if args.task != "T06" or args.testbench is None:
+            raise ValueError("--power-goal requires a T06 evaluator-owned testbench")
+        run_command.append(f"+POWER_GOAL={args.power_goal}")
     simulation = subprocess.run(run_command, text=True, capture_output=True,
                                 timeout=600)
     (output / "simulation.log").write_text(simulation.stdout + simulation.stderr)
-    if simulation.returncode or ("CPU_ELF_PASS" if args.task == "T09" else
-                                 f"PUBLIC_PASS {args.task}") not in simulation.stdout:
+    if simulation.returncode:
         raise RuntimeError("gate-level workload failed self-check; see simulation.log")
+    if args.testbench is not None:
+        groups = re.findall(r"^IC_GROUP (AC-\d+) (\d+) (\d+)$",
+                            simulation.stdout, re.MULTILINE)
+        behavioral_groups = [(name, good, total) for name, good, total in groups
+                             if not (args.task == "T06" and name == "AC-31")]
+        if not behavioral_groups or any(int(good) != int(total) or int(total) <= 0
+                                        for _, good, total in behavioral_groups):
+            raise RuntimeError("hidden gate workload failed group checks; see simulation.log")
+    elif ("CPU_ELF_PASS" if args.task == "T09" else
+          f"PUBLIC_PASS {args.task}") not in simulation.stdout:
+        raise RuntimeError("gate-level workload missed completion marker; see simulation.log")
+    ops = useful_operations(args.task, simulation.stdout)
+    if args.ops is not None and args.ops != ops:
+        raise ValueError(f"declared --ops={args.ops} differs from measured {ops}")
     duration, periods = vcd_stats(vcd, top, POWER_CLOCKS[args.task])
     power_sdc = (result_dir / "6_final.sdc").read_text()
     for name, period in periods.items():
@@ -178,11 +249,12 @@ def run(args: argparse.Namespace) -> dict:
         raise RuntimeError(f"activity annotation {annotation_ratio:.1%} below 95%")
     internal, switching, leakage, total_power = map(float, total.groups())
     return {"task": args.task, "flow_result_dir": str(result_dir),
-            "seed": args.seed, "ops": args.ops, "vcd_window_seconds": duration,
+            "seed": args.seed, "workload_sha256": workload_digest.hexdigest(),
+            "ops": ops, "vcd_window_seconds": duration,
             "vcd_clock_period_ps": periods, "activity_annotation": annotation_ratio,
             "power_w": {"internal": internal, "switching": switching,
                         "leakage": leakage, "total": total_power},
-            "energy_j_per_op": total_power * duration / args.ops,
+            "energy_j_per_op": total_power * duration / ops,
             "measurement": "exploratory workload; no official PPA score"}
 
 
@@ -191,12 +263,19 @@ def main() -> int:
     parser.add_argument("task", choices=POWER_CLOCKS)
     parser.add_argument("--flow-result-dir", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
-    parser.add_argument("--ops", type=int, required=True)
+    parser.add_argument("--ops", type=int,
+                        help="optional cross-check against workload-measured operations")
     parser.add_argument("--seed", type=int, default=20260925)
     parser.add_argument("--elf", type=Path)
+    parser.add_argument("--testbench", type=Path,
+                        help="evaluator-owned single-module checked workload")
+    parser.add_argument("--power-goal", type=int,
+                        help="T06 hidden power workload transactions per clock-ratio phase")
     args = parser.parse_args()
-    if args.ops <= 0:
+    if args.ops is not None and args.ops <= 0:
         parser.error("--ops must be positive")
+    if args.power_goal is not None and not 1024 <= args.power_goal <= 34000:
+        parser.error("--power-goal must be in [1024,34000]")
     try:
         result = run(args)
     except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as exc:

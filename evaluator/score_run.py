@@ -95,6 +95,25 @@ def ppa_score(measurement: dict, reference: dict) -> float:
     return min(20.0, max(0.0, 14.0 * math.prod(factors)))
 
 
+def ppa_provenance_valid(task: str, measurement: dict, reference: dict) -> bool:
+    expected = {"platform": "ASAP7_7p5t_RVT_NLDM", "period_ps": 2500,
+                "corner": "WC", "utilization": 10, "density": 0.6,
+                "seeds": [11, 29, 47]}
+    for record in (measurement, reference):
+        rows = record.get("per_seed")
+        if record.get("task_id") != task or \
+                record.get("measurement_status") != "three_seed" or \
+                record.get("parameter_set") != expected or \
+                not isinstance(rows, list) or len(rows) != 3 or \
+                any(not isinstance(row, dict) or type(row.get("layout_seed")) is not int
+                    for row in rows) or \
+                sorted(row["layout_seed"] for row in rows) != expected["seeds"]:
+            return False
+    workload = measurement.get("workload_sha256")
+    return isinstance(workload, str) and len(workload) == 64 and \
+        workload == reference.get("workload_sha256")
+
+
 def score_run(payload: dict, rules: dict | None = None) -> dict:
     rules = rules or load_rules()
     task = payload["task_id"]
@@ -109,8 +128,9 @@ def score_run(payload: dict, rules: dict | None = None) -> dict:
     if not isinstance(delivery, bool):
         raise ValueError("delivery_qualified must be boolean")
     full = functional == rules["functional_total"]
-    eligible = full and delivery and payload.get("ppa_measurement") is not None and \
-        payload.get("ppa_reference") is not None
+    eligible = full and delivery and isinstance(payload.get("ppa_measurement"), dict) and \
+        isinstance(payload.get("ppa_reference"), dict) and \
+        ppa_provenance_valid(task, payload["ppa_measurement"], payload["ppa_reference"])
     ppa = ppa_score(payload["ppa_measurement"], payload["ppa_reference"]) if eligible else 0.0
     ppa_valid = eligible and ppa > 0
     time = max(0.0, min(5.0, 5.0 * (1.0 - duration / limit))) if ppa_valid else 0.0
