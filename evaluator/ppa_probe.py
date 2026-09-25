@@ -52,14 +52,15 @@ def constraint_text(top: str, clocks: tuple[str, ...], period: int,
 
 
 def write_config(path: Path, top: str, source_files: list[Path], sdc: Path,
-                 parameters: str, utilization: int, density: float) -> None:
+                 parameters: str, utilization: int, density: float,
+                 corner: str) -> None:
     fields = [
         ("PLATFORM", "asap7"), ("DESIGN_NAME", top),
         ("VERILOG_FILES", " ".join(str(p) for p in source_files)),
         ("SDC_FILE", str(sdc)), ("CORE_UTILIZATION", str(utilization)),
         ("CORE_ASPECT_RATIO", "1"), ("CORE_MARGIN", "0.5"),
         ("PLACE_DENSITY", str(density)), ("SYNTH_USE_SYN", "0"),
-        ("SYNTH_HIERARCHICAL", "0"), ("CORNER", "BC"),
+        ("SYNTH_HIERARCHICAL", "0"), ("CORNER", corner),
     ]
     if parameters:
         fields.append(("SYNTH_PARAMETERS", parameters))
@@ -101,6 +102,7 @@ def main() -> int:
     parser.add_argument("--utilization", type=int, default=10)
     parser.add_argument("--density", type=float, default=0.60)
     parser.add_argument("--seed", type=int, default=11)
+    parser.add_argument("--corner", choices=("BC", "TC", "WC"), default="BC")
     parser.add_argument("--num-cores", type=int, default=4)
     args = parser.parse_args()
     if (args.period_ps <= 0 or not 0 <= args.io_delay_ratio < 0.5 or
@@ -124,13 +126,13 @@ def main() -> int:
     write_if_changed(sdc, constraint_text(top, clocks, args.period_ps,
                                           args.io_delay_ratio))
     write_config(config, top, source_files, sdc, parameters,
-                 args.utilization, args.density)
+                 args.utilization, args.density, args.corner)
     digest = hashlib.sha256()
     digest.update(config.read_bytes())
     digest.update(sdc.read_bytes())
     for source in source_files:
         digest.update(source.read_bytes())
-    variant = (f"ic_probe_{args.task.lower()}_p{args.period_ps}_"
+    variant = (f"ic_probe_{args.task.lower()}_{args.corner.lower()}_p{args.period_ps}_"
                f"u{args.utilization}_d{args.density:g}_s{args.seed}_"
                f"{digest.hexdigest()[:10]}")
     report = flow / "reports" / "asap7" / top / variant / "6_finish.rpt"
@@ -150,7 +152,7 @@ def main() -> int:
     result = {"task": args.task, "variant": variant, "exit_code": outcome.returncode,
               "elapsed_seconds": round(time.monotonic() - start, 3),
               "period_ps": args.period_ps, "utilization": args.utilization,
-              "density": args.density, "seed": args.seed, "corner": "BC",
+              "density": args.density, "seed": args.seed, "corner": args.corner,
               "report": str(report), "measurement": "exploratory; no power or PPA score"}
     if outcome.returncode == 0 and report.is_file():
         result.update(report_fields(report, metrics, args.period_ps))
