@@ -43,7 +43,7 @@
 | `0x008` | COUNT | RW，当前 32-bit 倒计数值；可由软件预装 |
 | `0x00C` | STATUS | bit0 `pending`，读出；对 bit0 写 1 清除，写 0 不变 |
 
-部分写按 `PSTRB` 逐字节合并；对 STATUS 只有 `PSTRB[0] && PWDATA[0]` 才清除。`irq = pending && irq_enable`。复位使所有寄存器为 0。每个非复位上升沿，如果沿前 `enable=1` 且 `COUNT>0`，`COUNT` 减 1；如果沿前 `enable=1` 且 `COUNT=0`，置 `pending=1`，`auto_reload=1` 时把 `LOAD` 写入 `COUNT`，否则清 `enable`。同一沿 APB 写入的字段优先于计数事件对**该字段**的更新；其余字段继续按沿前值运行。因此写 COUNT 会覆盖该沿的减 1，写 STATUS 清除会覆盖该沿的置 pending。
+部分写按 `PSTRB` 逐字节合并；`PSTRB=0` 的写入不更新任何寄存器，也不阻止同沿的计数事件；对 STATUS 只有 `PSTRB[0] && PWDATA[0]` 才清除。`irq = pending && irq_enable`。复位使所有寄存器为 0。每个非复位上升沿，如果沿前 `enable=1` 且 `COUNT>0`，`COUNT` 减 1；如果沿前 `enable=1` 且 `COUNT=0`，置 `pending=1`，`auto_reload=1` 时把 `LOAD` 写入 `COUNT`，否则清 `enable`。同一沿 APB 有非零字节使能的写入字段优先于计数事件对**该字段**的更新；其余字段继续按沿前值运行。因此非零 `PSTRB` 写 COUNT 会覆盖该沿的减 1，写 STATUS 清除会覆盖该沿的置 pending。
 
 **资源边界**：四个寄存器及小型解码/计数逻辑；无 FIFO、ROM 或未声明等待状态。APB4 `PSTRB` 是规格的一部分，不以 APB3 替代。
 
