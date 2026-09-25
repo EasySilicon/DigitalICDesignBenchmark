@@ -23,3 +23,14 @@ python3 -m unittest evaluator.test_cdc_2ff_check -v
 ```
 
 回归用 Yosys 生成多种网表：分离寄存器和 packed 移位寄存器的双级链通过；一级链和第一级直接暴露给输出的变异体失败。本工具**尚非完整 CDC 签核**：未覆盖所有存储体边界、Gray 码生成和一次只翻转一位的证明、异步复位释放、MTBF 及物理实现。正式 AC-31 需要在多种等价 RTL 写法和缺陷变异体上校准这些规则，不能直接以本原型的 PASS 给满分。可参考开源 [rtl-buddy-cdc 规则集](https://github.com/rtl-buddy/rtl-buddy-cdc) 扩展，但需固定版本并处理误报与豁免。
+
+## T09 取指至退休延时检查原型
+
+`cpu_latency_check.py` 接收**评测方测试平台**记录的逐周期 JSONL，参赛 Agent 无需提交此文件；每行的 `imem_valid_pre/imem_addr_pre` 是上升沿前的取指请求，`commit_valid_post/commit_pc_post` 是同一上升沿后稳定的提交观察。测试程序为从 `0x8000_0000` 起连续 64 条无相关 ADDI。每个 PC 的提交须比对应取指边沿晚四个完整周期；检查器拒绝提前、迟到、重复取指、乱序和漏提交。
+
+```bash
+python3 evaluator/cpu_latency_check.py /path/to/evaluator-captured-trace.jsonl
+python3 -m unittest evaluator.test_cpu_latency_check -v
+```
+
+合成轨迹回归已覆盖正常、早一拍、晚一拍、漏提交、重复取指和重复退休。CPU ELF 装载器、实际总线仿真和提交差分尚待实现，因此当前只有**延时 oracle 原型**，没有可独立运行 T09 RTL 的验收器。Agent 自带的 `run.sh`/UT 输出不能直接作为这个 trace 的评分输入。

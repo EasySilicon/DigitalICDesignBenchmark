@@ -101,8 +101,8 @@
 
 **CSR 的确切范围**：`mstatus(0x300)` 仅 MIE(bit3)、MPIE(bit7)、MPP(bits12:11) 可见；本题只有 M-mode，MPP 恒为 `2'b11`。复位值 `0x0000_1800`。进入异常时 `MPIE←MIE,MIE←0,MPP←3`；MRET 时 `MIE←MPIE,MPIE←1,MPP←3,PC←mepc`。`mtvec(0x305)` 仅 direct 模式，写入值低两位强制 0，复位值 `0x8000_0000`。`mscratch(0x340)`、`mepc(0x341)`、`mcause(0x342)`、`mtval(0x343)` 可读写，除 `mepc` 低两位强制 0 外复位为 0；只读 `misa(0x301)=0x4000_0100`、`mhartid(0xF14)=0`。其他 CSR 地址和对只读 CSR 的写操作触发非法指令异常；CSRRS/CSRRC 的源为 x0、立即数形式源为 0 时不写 CSR。所有未列的 `mstatus` 位读 0、写忽略。异常/CSR 编码遵循锁定的[RISC-V ISA/特权规范](https://github.com/riscv/riscv-isa-manual)；ACT4 配置必须与本任务范围一致。
 
-**提交观察口**：每条正常退休指令输出一个周期的 `commit_valid,commit_pc[31:0],commit_insn[31:0],commit_rd[4:0],commit_wdata[31:0],commit_mem_addr[31:0],commit_mem_wstrb[3:0],commit_mem_wdata[31:0]`；无寄存器写回时 `commit_rd=0`，无存储写时 `commit_mem_wstrb=0`。异常事件输出独立 `trap_valid,trap_pc[31:0],trap_cause[31:0],trap_tval[31:0]`，不计为正常退休。观察口只用于验收，不得成为执行功能的输入。
+**提交观察口**：每条正常退休指令输出一个周期的 `commit_valid,commit_pc[31:0],commit_insn[31:0],commit_rd[4:0],commit_wdata[31:0],commit_mem_addr[31:0],commit_mem_wstrb[3:0],commit_mem_wdata[31:0]`；无寄存器写回时 `commit_rd=0`，无存储写时 `commit_mem_wstrb=0`。异常事件输出独立 `trap_valid,trap_pc[31:0],trap_cause[31:0],trap_tval[31:0]`，不计为正常退休。这些是 CPU RTL 的轻量退休观察端口，供评测方自行采样；Agent **不需**生成 trace 文件或编写 trace 采集器。观察口只用于验收，不得成为执行功能的输入。
 
-**性能与资源边界**：寄存器文件仅 32×32 bit；程序/数据存储器均在核外。零等待、无相关的连续 64 条 ADDI 程序在流水线填充后，任意连续 20 周期至少正常退休 16 条；此门禁用于识别伪流水线，不作为 PPA 排名。实现须提供必要的旁路、load-use 停顿、分支/跳转冲刷、数据端等待停顿。无分支预测器、缓存、乘除法器或操作系统。
+**取指至退休延时与资源边界**：寄存器文件仅 32×32 bit；程序/数据存储器均在核外。零等待、无相关的连续 64 条 ADDI 程序中，逐条记录取指请求被采样的上升沿 `n`；该指令须在 `n+4` 上升沿之后的稳定观察点输出 `commit_valid` 和对应 `commit_pc`。这表示从 IF 请求到 WB 观察跨越四个完整周期、经过 `n..n+4` 五个边沿；响应按本题一周期指令存储器时序提供。不得靠延迟 `commit_valid` 伪造流水级，后级的寄存器写回和存储器副作用也必须与提交轨迹一致。本门禁不作为 PPA 排名。实现须提供必要的旁路、load-use 停顿、分支/跳转冲刷、数据端等待停顿。无分支预测器、缓存、乘除法器或操作系统。
 
-**验收与分值**：F=60：整数与控制流 25；大小端/字节使能、访存与符号扩展 15；CSR/异常/MRET 10；锁定配置的 ACT4 适用测试 10。P=15：数据相关与 load-use 6；随机数据等待及背压 5；冲刷、精确提交和吞吐门禁 4。详细程序集、差分策略、超时与通过条件见[CPU 验收计划](cpu-validation.md)。ACT4 子集通过不等于 RISC-V 官方认证。
+**验收与分值**：F=60：整数与控制流 25；大小端/字节使能、访存与符号扩展 15；CSR/异常/MRET 10；锁定配置的 ACT4 适用测试 10。P=15：数据相关与 load-use 6；随机数据等待及背压 5；冲刷、精确提交和取指至退休延时门禁 4。详细程序集、差分策略、超时与通过条件见[CPU 验收计划](cpu-validation.md)。ACT4 子集通过不等于 RISC-V 官方认证。
