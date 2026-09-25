@@ -110,6 +110,8 @@ def useful_operations(task: str, simulation_log: str) -> int:
 def check_t10_workload(log: str, vectors: Path, case_count: int) -> None:
     if not 1 <= case_count <= 1024:
         raise ValueError("T10 case count outside hidden testbench capacity")
+    if log.count(f"MM_END cases={case_count}") != 1:
+        raise RuntimeError("T10 workload did not complete exactly once")
     markers = re.findall(r"^MM_CASE (\d+) ([01]) ([01]) ([01]) (\d+)$",
                          log, re.MULTILINE)
     if len(markers) != case_count or [int(row[0]) for row in markers] != list(range(case_count)):
