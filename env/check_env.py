@@ -31,6 +31,16 @@ def command(name: str, version_arg: str = "--version") -> dict:
     return {"name": name, "ok": result.returncode == 0, "detail": detail, "path": path}
 
 
+def minimum_version(result: dict, pattern: str, minimum: tuple[int, ...]) -> dict:
+    if result["ok"]:
+        match = re.search(pattern, result["detail"])
+        actual = tuple(map(int, match.groups())) if match else ()
+        if actual < minimum:
+            result["ok"] = False
+            result["detail"] += f"; need >= {'.'.join(map(str, minimum))}"
+    return result
+
+
 def package(name: str) -> dict:
     try:
         version = importlib.metadata.version(name)
@@ -114,6 +124,8 @@ def main() -> int:
         repo_root = Path(__file__).resolve().parent.parent
         platform = repo_root / "vendor" / "asap7"
         checks["ppa"] = [
+            {"name": "sources.lock.yaml parse", "ok": sources is not None,
+             "detail": "PyYAML + readable lock file required"},
             yosys((0, 58)), command("openroad", "-version"), command("make"),
             directory("vendored ASAP7 platform", platform, "config.mk"),
             directory("ORFS flow scripts", args.orfs_root, "flow/Makefile"),
@@ -124,14 +136,20 @@ def main() -> int:
             checks["ppa"].append(git_revision("ORFS revision", args.orfs_root,
                                               sources["ppa"]["flow_revision"]))
     if "cpu" in wanted:
-        gcc = command("riscv64-unknown-elf-gcc")
-        tool_prefix = "riscv64-unknown-elf"
-        if not gcc["ok"]:
-            gcc = command("riscv32-unknown-elf-gcc")
-            tool_prefix = "riscv32-unknown-elf"
-        checks["cpu"] = [gcc, command(f"{tool_prefix}-objdump"),
-                         command("sail_riscv_sim"), command("uv"),
-                         command("ruby", "--version"), command("bundle", "--version"),
+        gcc = minimum_version(command("riscv32-unknown-elf-gcc"),
+                              r"(\d+)\.(\d+)\.\d+\s*$", (15, 0))
+        checks["cpu"] = [
+                         {"name": "sources.lock.yaml parse", "ok": sources is not None,
+                          "detail": "PyYAML + readable lock file required"},
+                         gcc, command("riscv32-unknown-elf-objdump"),
+                         minimum_version(command("sail_riscv_sim"),
+                                         r"^(\d+)\.(\d+)\.(\d+)", (0, 14, 1)),
+                         minimum_version(command("uv"),
+                                         r"uv\s+(\d+)\.(\d+)\.(\d+)", (0, 11, 33)),
+                         minimum_version(command("ruby", "--version"),
+                                         r"ruby\s+(\d+)\.(\d+)\.(\d+)", (3, 4, 10)),
+                         minimum_version(command("bundle", "--version"),
+                                         r"(\d+)\.(\d+)\.(\d+)", (4, 0, 21)),
                          directory("ACT4 checkout", args.act4_root, "README.md")]
         if sources is not None:
             checks["cpu"].append(git_revision("ACT4 revision", args.act4_root,

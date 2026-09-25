@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "functional_total": 75,
+  "ppa_points": 20,
+  "time_points": 5,
+  "ppa_bucket_width": 0.5,
+  "tasks": {
+    "T01": [
+      {"id":"F_SINGLE","layer":"F","points":20,"groups":["AC-01"]},
+      {"id":"F_MULTI","layer":"F","points":40,"groups":["AC-02"]},
+      {"id":"P_ZERO","layer":"P","points":10,"groups":["AC-03"]},
+      {"id":"P_COMB","layer":"P","points":5,"groups":["AC-04"]}
+    ],
+    "T02": [
+      {"id":"F_FIRST","layer":"F","points":20,"groups":["AC-05"]},
+      {"id":"F_STREAM","layer":"F","points":40,"groups":["AC-06"]},
+      {"id":"P_EDGE","layer":"P","points":10,"groups":["AC-07"]},
+      {"id":"P_HOLD","layer":"P","points":5,"groups":["AC-08"]}
+    ],
+    "T03": [
+      {"id":"F_ORDER","layer":"F","points":25,"groups":["AC-09"]},
+      {"id":"F_CAPACITY","layer":"F","points":15,"groups":["AC-10"],"critical_groups":["AC-10"]},
+      {"id":"F_SIMULTANEOUS","layer":"F","points":10,"groups":["AC-11"]},
+      {"id":"F_PARAMETERS","layer":"F","points":10,"groups":["AC-12"]},
+      {"id":"P_RESET","layer":"P","points":5,"groups":["AC-13"]},
+      {"id":"P_STALL","layer":"P","points":5,"groups":["AC-14"]},
+      {"id":"P_WRAP","layer":"P","points":5,"groups":["AC-15"]}
+    ],
+    "T04": [
+      {"id":"F_REGISTERS","layer":"F","points":20,"groups":["AC-16"]},
+      {"id":"F_COUNT","layer":"F","points":20,"groups":["AC-17"]},
+      {"id":"F_IRQ","layer":"F","points":20,"groups":["AC-18"]},
+      {"id":"P_APB","layer":"P","points":10,"groups":["AC-19"]},
+      {"id":"P_BOUNDARY","layer":"P","points":5,"groups":["AC-20"]}
+    ],
+    "T05": [
+      {"id":"F_SELECT","layer":"F","points":20,"groups":["AC-21"]},
+      {"id":"F_ROTATE","layer":"F","points":20,"groups":["AC-22"]},
+      {"id":"F_DATA","layer":"F","points":20,"groups":["AC-23"]},
+      {"id":"P_STALL","layer":"P","points":10,"groups":["AC-24"]},
+      {"id":"P_FAIR","layer":"P","points":5,"groups":["AC-25"]}
+    ],
+    "T06": [
+      {"id":"F_ORDER","layer":"F","points":25,"groups":["AC-26"],"critical_groups":["AC-26"]},
+      {"id":"F_SAFETY","layer":"F","points":15,"groups":["AC-27"],"critical_groups":["AC-27"]},
+      {"id":"F_CLOCKS","layer":"F","points":10,"groups":["AC-28"]},
+      {"id":"F_PARAMETERS","layer":"F","points":10,"groups":["AC-29"]},
+      {"id":"P_RESET","layer":"P","points":7,"groups":["AC-30"]},
+      {"id":"P_CDC","layer":"P","points":8,"groups":["AC-31"],"critical_groups":["AC-31"]}
+    ],
+    "T07": [
+      {"id":"F_WRITE","layer":"F","points":20,"groups":["AC-32"]},
+      {"id":"F_READ","layer":"F","points":20,"groups":["AC-33"]},
+      {"id":"F_RESP","layer":"F","points":20,"groups":["AC-34"],"critical_groups":["AC-34"]},
+      {"id":"P_CONCURRENT","layer":"P","points":5,"groups":["AC-35"]},
+      {"id":"P_STALL","layer":"P","points":5,"groups":["AC-36"]},
+      {"id":"P_RESET","layer":"P","points":5,"groups":["AC-37"]}
+    ],
+    "T08": [
+      {"id":"F_HIT","layer":"F","points":15,"groups":["AC-38"]},
+      {"id":"F_CLEAN_MISS","layer":"F","points":15,"groups":["AC-39"]},
+      {"id":"F_DIRTY_EVICT","layer":"F","points":15,"groups":["AC-40"],"critical_groups":["AC-40"]},
+      {"id":"F_PARTIAL","layer":"F","points":15,"groups":["AC-41"],"critical_groups":["AC-41"]},
+      {"id":"P_STALL","layer":"P","points":10,"groups":["AC-42"]},
+      {"id":"P_RESET_LATENCY","layer":"P","points":5,"groups":["AC-43"]}
+    ],
+    "T09": [
+      {"id":"F_INTEGER_CONTROL","layer":"F","points":25,"groups":["CPU-DIR-INT","CPU-DIFF-INT"]},
+      {"id":"F_MEMORY","layer":"F","points":15,"groups":["CPU-DIR-MEM","CPU-DIFF-MEM"]},
+      {"id":"F_CSR_TRAP","layer":"F","points":10,"groups":["CPU-DIR-CSR","CPU-DIR-TRAP","CPU-DIFF-TRAP"]},
+      {"id":"F_ACT4","layer":"F","points":10,"groups":["CPU-ACT"]},
+      {"id":"P_HAZARD","layer":"P","points":6,"groups":["CPU-DIR-HAZ","CPU-PIPE-HAZ"]},
+      {"id":"P_MEMORY_WAIT","layer":"P","points":5,"groups":["CPU-PIPE-MEM"]},
+      {"id":"P_PIPELINE","layer":"P","points":4,"groups":["CPU-PIPE-FLUSH","CPU-PIPE-LAT","CPU-PIPE-STRUCT","CPU-PIPE-RESET"],"critical_groups":["CPU-PIPE-STRUCT","CPU-PIPE-LAT"]}
+    ]
+  }
+}

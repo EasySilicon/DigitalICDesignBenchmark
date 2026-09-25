@@ -1,6 +1,6 @@
 # 安装与依赖清单
 
-本页给下载者提供**分阶段**环境准备方法。仓库当前为 `design_only`：规范校验和 T01–T06 的独立端口公开冒烟可运行；其余验收器、CPU 测试生成器和正式 PPA 评分器尚待实现与冻结。运行 `check_env.py` 只能检查依赖是否存在，不能代替[发布门禁](../benchmark/methodology.md#发布门禁)。推荐 Linux x86-64、Docker/OCI 与至少 16 vCPU、32 GiB RAM、100 GiB 空间；正式榜单应发布单一镜像 digest，避免依赖用户系统版本。
+本页给下载者提供**分阶段**环境准备方法。仓库当前为 `design_only`：规范校验和九题独立端口公开冒烟可运行，ACT4 RV32I/Zicsr 的 45 个生成 ELF 也已提供；隐藏验收器、完整 CPU 差分和正式 PPA 评分器尚待实现与冻结。运行 `check_env.py` 只能检查依赖是否存在，不能代替[发布门禁](../benchmark/methodology.md#发布门禁)。推荐 Linux x86-64、Docker/OCI 与至少 16 vCPU、32 GiB RAM、100 GiB 空间；正式榜单应发布单一镜像 digest，避免依赖用户系统版本。
 
 ## 依赖分组
 
@@ -9,7 +9,7 @@
 | 规范检查 | Python ≥3.10、PyYAML、jsonschema | [requirements-spec.txt](requirements-spec.txt) 锁定了本地已验证版本；现在可用 |
 | RTL 功能预检 | Verilator、Yosys、C++ 编译器、Python/cocotb | 编译/仿真及综合合法性；UVM/SVA 语法须在锁定镜像内按实际测试做冒烟验证；评测器尚未实现 |
 | ASAP7 PPA | Yosys ≥0.58、OpenROAD、GNU make、ORFS 流程脚本、[仓库内 ASAP7 平台](../vendor/README.md) | 映射、放置、时钟树、布线、RC 与 OpenROAD 自身的时序/功耗报告；不单独安装另一套 STA 工具；参数和镜像 digest 待校准 |
-| CPU 验收 | RISC-V bare-metal GCC/objdump、Sail RISC-V 0.14.1、ACT4 锁定修订及其 `uv`/Ruby/Bundler 依赖 | 编译 ELF、生成适用 ACT4 与参考轨迹；`check_env.py --profile cpu` 检查这些命令，CPU 环境配置文件仍待实现 |
+| CPU 验收 | RV32 bare-metal GCC ≥15/objdump、Sail RISC-V 0.14.1、ACT4 锁定修订及 uv ≥0.11.33、Ruby ≥3.4.10、Bundler ≥4.0.21 | 编译 ELF、生成适用 ACT4 与参考轨迹；`check_env.py --profile cpu` 检查这些命令，I/Zicsr 配置与生成 ELF 已提供，完整 CPU 验收未完成 |
 | 可选 | KLayout、波形查看器、综合可视化工具 | 调试或 GDS/DRC；目前 PPA 分数不要求 GDS/DRC，不进入参赛工具清单 |
 
 所有参赛系统在同一预装镜像运行。参赛者的模型 API 与费用配置属于[评测资源规则](../benchmark/methodology.md#资源约束)，不应写入公开镜像。ASAP7 已随仓库提供，无需另行下载；ACT4、Sail 和 ORFS 的修订见[来源锁定](../benchmark/sources.lock.yaml)；正式版还需锁定二进制、Python/C++ 包及工具镜像 digest。
@@ -78,5 +78,7 @@ make DESIGN_CONFIG=./designs/asap7/gcd/config.mk \
 ```
 
 本机该流程已成功生成 `5_route.odb`。正式榜单仍需统一约束、九题参考实现和功耗校准。
+
+CPU 依赖探索已在 `/tmp` 检出 ACT4 锁定修订 `4a42cbd3756259bbc1f92a7d816bc2fd2bd551cb`，并安装 Sail 0.14.1 的 Linux x86-64 发布包，下载包 SHA-256 为 `de45a89748ca67a8a522b3ac0924c303b5609a16bb50d759bbd08c4d440df0eb`。ACT4 对 GCC 13 报版本错误后，改用 RISC-V GNU Toolchain 上游 `2026.07.15` 的 RV32 裸机 GCC 16.1.0 发布包，SHA-256 为 `ae36abbec394b29643154c1b4a1322e829937d04e82f41b47f9c27d3bd68e543`；其完整 ACT4 I/Zicsr 配置构建已成功。uv 0.11.33 发布包 SHA-256 为 `aa9fca823c03289fb6e3460b3dc864f3ea895cafaf9b99247701a67b17d1b018`，另用 mise 安装 Ruby 3.4.10、Bundler 4.0.21 并安装 ACT4 锁定 Ruby gems。带这些路径的 `check_env.py --profile cpu` 已返回 `ok=true`。45 个生成 ELF 已随[评测器制品](../evaluator/act4_elfs/)提供；这些 `/tmp` 工具路径不属于发布制品。
 
 当前不提供声称“一键安装完整 benchmark”的脚本，因为参考实现、测试器和 PPA 参数尚未冻结。先发布可核对的依赖与自检入口，完整镜像须随可执行评测器一起发布。

@@ -1,0 +1,8 @@
+name: ic-bcmk-rv32i
+compiler_exe: riscv32-unknown-elf-gcc
+objdump_exe: riscv32-unknown-elf-objdump
+ref_model_exe: sail_riscv_sim
+udb_config: udb.yaml
+linker_script: link.ld
+dut_include_dir: .
+include_priv_tests: false

@@ -22,6 +22,12 @@ riscv:
   sail_revision: e4b243f4eb5d1ed05bbbc030ad338c2a32c45d72
   isa_manual_repository: riscv/riscv-isa-manual
   isa_manual_revision: 3496d46d01d783f1cc9b4a2a8b45004a97cbac94
+  act4_generated_elf_manifest: evaluator/act4_elfs/MANIFEST.json
+  sail_linux_x86_64_release_sha256: de45a89748ca67a8a522b3ac0924c303b5609a16bb50d759bbd08c4d440df0eb
+  gcc_toolchain_release: riscv-collab/riscv-gnu-toolchain/2026.07.15/riscv32-elf-ubuntu-22.04-gcc.tar.xz
+  gcc_toolchain_release_sha256: ae36abbec394b29643154c1b4a1322e829937d04e82f41b47f9c27d3bd68e543
+  uv_release: astral-sh/uv/0.11.33/uv-x86_64-unknown-linux-gnu.tar.gz
+  uv_release_sha256: aa9fca823c03289fb6e3460b3dc864f3ea895cafaf9b99247701a67b17d1b018
 ppa:
   flow_repository: The-OpenROAD-Project/OpenROAD-flow-scripts
   flow_revision: 1ec57da7bf0f1491190cbea2673c2c01fb3bc3ae

@@ -80,9 +80,11 @@ def validate_local() -> tuple[dict, dict]:
         fail("vendored ASAP7 platform is missing")
     if not (ROOT.parent / sources["ppa"]["vendored_platform_hashes"]).is_file():
         fail("vendored ASAP7 hash manifest is missing")
-    for task_id in ("T01", "T02", "T03", "T04", "T05", "T06"):
+    for task_id in expected_ids:
         if not (ROOT.parent / "evaluator" / "public" / f"tb_{task_id}.sv").is_file():
             fail(f"missing executable public testbench: {task_id}")
+    if not (ROOT.parent / sources["riscv"]["act4_generated_elf_manifest"]).is_file():
+        fail("missing generated ACT4 ELF inventory")
     cpu_plan = (ROOT / "cpu-validation.md").read_text()
     if "CPU-PIPE-LAT" not in cpu_plan or "CPU-PIPE-THRU" in cpu_plan:
         fail("CPU structural timing gate must use per-instruction latency")

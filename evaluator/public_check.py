@@ -15,7 +15,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent
-SUPPORTED = {"T01", "T02", "T03", "T04", "T05", "T06"}
+SUPPORTED = {"T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09"}
 
 
 def sources_from_filelist(submission: Path) -> list[Path]:
