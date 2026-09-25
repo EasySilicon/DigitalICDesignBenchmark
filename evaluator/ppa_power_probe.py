@@ -17,6 +17,7 @@ import subprocess
 from pathlib import Path
 
 from elf_image import load_elf, write_hex_image
+from matmul_oracle import check_output
 from public_check import ROOT
 
 STDCELL = ROOT.parent / "vendor/asap7/verilog/stdcell"
@@ -26,7 +27,7 @@ POWER_CLOCKS = {
     "T01": (), "T02": ("clock",), "T03": ("clk",),
     "T04": ("clk",), "T05": ("clk",),
     "T06": ("wr_clk", "rd_clk"), "T07": ("clk",),
-    "T08": ("clk",), "T09": ("clk",),
+    "T08": ("clk",), "T09": ("clk",), "T10": ("clk",),
 }
 PARAMETERS = {"T03": ("WIDTH=32", "DEPTH=16"),
               "T05": ("N=8", "WIDTH=32"),
@@ -40,6 +41,7 @@ MONITORED_OPS = {
     "T06": ("posedge rd_clk", "rd_rst_n", "rd_valid && rd_ready"),
     "T07": ("posedge clk", "rst_n", "(BVALID && BREADY) + (RVALID && RREADY)"),
     "T08": ("posedge clk", "rst_n", "rsp_valid && rsp_ready"),
+    "T10": ("posedge clk", "rst_n", "out_valid && out_ready && out_row == 4'd15"),
 }
 LOG_OPS = {
     "T09": r"CPU_ELF_PASS .*commits=(\d+)",
@@ -73,7 +75,8 @@ def instrument_testbench(task: str, original: Path, output: Path) -> str:
         # reset falling edge before the APB monitor samples the first setup.
         source = source.replace("clk = 0; rst_n = 0;",
                                 "clk = 0; rst_n = 1; #1; rst_n = 0;")
-    ready = ("wait(rst_n); #1;" if task in {"T03", "T04", "T07", "T08", "T09"}
+    ready = ("wait(!rst_n); wait(rst_n); #1;" if task == "T10" else
+             "wait(rst_n); #1;" if task in {"T03", "T04", "T07", "T08", "T09"}
              else "wait(wr_rst_n && rd_rst_n); #1;" if task == "T06" else "")
     monitor = ("initial begin\n  string vcd_path;\n"
                "  if ($value$plusargs(\"POWER_VCD=%s\", vcd_path)) begin\n"
@@ -102,6 +105,44 @@ def useful_operations(task: str, simulation_log: str) -> int:
     if count <= 0:
         raise ValueError(f"{task}: zero useful operations")
     return count
+
+
+def check_t10_workload(log: str, vectors: Path, case_count: int) -> None:
+    if not 1 <= case_count <= 1024:
+        raise ValueError("T10 case count outside hidden testbench capacity")
+    markers = re.findall(r"^MM_CASE (\d+) ([01]) ([01]) ([01]) (\d+)$",
+                         log, re.MULTILINE)
+    if len(markers) != case_count or [int(row[0]) for row in markers] != list(range(case_count)):
+        raise RuntimeError("T10 workload missing or duplicated case marker")
+    if any(row[1:] != ("1", "1", "1", "16") for row in markers):
+        raise RuntimeError("T10 workload protocol or latency check failed")
+    reset = {int(i): passed == "1" for i, passed in
+             re.findall(r"^MM_RESET (\d+) ([01])$", log, re.MULTILINE)}
+    rows: dict[int, dict[int, int]] = {}
+    for index, row, value in re.findall(r"^MM_ROW (\d+) (\d+) ([0-9a-fA-F]+)$",
+                                        log, re.MULTILINE):
+        index, row = int(index), int(row)
+        if row in rows.setdefault(index, {}):
+            raise RuntimeError("T10 workload duplicated output row")
+        rows[index][row] = int(value, 16)
+    files = {name: [int(line, 16) for line in (vectors / f"{name}.mem").read_text().splitlines()]
+             for name in ("a", "b", "as", "bs", "mode", "reset")}
+    if any(len(files[name]) != case_count for name in ("as", "bs", "mode", "reset")) or \
+            any(len(files[name]) != case_count * 16 for name in ("a", "b")):
+        raise ValueError("T10 workload vector file length mismatch")
+    for index in range(case_count):
+        if files["reset"][index] and not reset.get(index, False):
+            raise RuntimeError(f"T10 workload reset probe failed at case {index}")
+        if set(rows.get(index, {})) != set(range(16)):
+            raise RuntimeError(f"T10 workload missing row at case {index}")
+        mode = files["mode"][index]
+        beats = 16 if mode in (1, 2, 3) else 4 if mode in (6, 9) else 8
+        errors = check_output(files["a"][16 * index:16 * index + beats],
+                              files["b"][16 * index:16 * index + beats],
+                              files["as"][index], files["bs"][index], mode,
+                              [rows[index][row] for row in range(16)])
+        if errors:
+            raise RuntimeError(f"T10 workload numerical mismatch at case {index}: {errors[0]}")
 
 
 def vcd_stats(path: Path, top: str, clock_names: tuple[str, ...]) -> tuple[float, dict]:
@@ -168,6 +209,14 @@ def run(args: argparse.Namespace) -> dict:
         elf_bytes = args.elf.read_bytes()
         workload_digest.update(len(elf_bytes).to_bytes(8, "big"))
         workload_digest.update(elf_bytes)
+    if args.task == "T10":
+        if args.vectors is None or args.case_count is None or args.testbench is None:
+            raise ValueError("T10 requires --vectors, --case-count and --testbench")
+        for name in ("a", "b", "as", "bs", "mode", "pause", "stall", "reset"):
+            payload = (args.vectors / f"{name}.mem").read_bytes()
+            workload_digest.update(len(payload).to_bytes(8, "big"))
+            workload_digest.update(payload)
+        workload_digest.update(str(args.case_count).encode())
     top = instrument_testbench(args.task, tb_path, output / "tb_power.sv")
     cell_files = sorted(STDCELL.glob("asap7sc7p5t_*RVT_TT_*.v"))
     cell_files = [path for path in cell_files if "_SEQ_" not in path.name]
@@ -191,6 +240,9 @@ def run(args: argparse.Namespace) -> dict:
         image = output / "image.hex"
         write_hex_image(load_elf(args.elf), image)
         run_command += [f"+IMAGE={image}", "+MAX_CYCLES=200000"]
+    if args.task == "T10":
+        run_command += [f"+VECTORS={args.vectors.resolve()}",
+                        f"+CASE_COUNT={args.case_count}"]
     if args.power_goal is not None:
         if args.task != "T06" or args.testbench is None:
             raise ValueError("--power-goal requires a T06 evaluator-owned testbench")
@@ -200,7 +252,9 @@ def run(args: argparse.Namespace) -> dict:
     (output / "simulation.log").write_text(simulation.stdout + simulation.stderr)
     if simulation.returncode:
         raise RuntimeError("gate-level workload failed self-check; see simulation.log")
-    if args.testbench is not None:
+    if args.task == "T10":
+        check_t10_workload(simulation.stdout, args.vectors, args.case_count)
+    elif args.testbench is not None:
         groups = re.findall(r"^IC_GROUP (AC-\d+) (\d+) (\d+)$",
                             simulation.stdout, re.MULTILINE)
         behavioral_groups = [(name, good, total) for name, good, total in groups
@@ -267,6 +321,10 @@ def main() -> int:
                         help="optional cross-check against workload-measured operations")
     parser.add_argument("--seed", type=int, default=20260925)
     parser.add_argument("--elf", type=Path)
+    parser.add_argument("--vectors", type=Path,
+                        help="T10 frozen power workload vector directory")
+    parser.add_argument("--case-count", type=int,
+                        help="T10 number of matrix blocks in the power workload")
     parser.add_argument("--testbench", type=Path,
                         help="evaluator-owned single-module checked workload")
     parser.add_argument("--power-goal", type=int,
