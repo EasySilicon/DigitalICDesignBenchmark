@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regression for the T06 two-stage structural pilot."""
+"""Regression for the T06 two-stage structural checker."""
 
 from __future__ import annotations
 
@@ -13,21 +13,21 @@ from evaluator.cdc_2ff_check import inspect
 
 
 TOY = """
-module cdc_toy(input logic wr_clk, rd_clk, rst_n,
+module cdc_toy(input logic wr_clk, rd_clk, wr_rst_n, rd_rst_n,
                input logic [3:0] wr_value, rd_value,
                output logic [3:0] wr_observed, rd_observed);
   logic [3:0] wr_source, rd_source;
   logic [3:0] wr_first, wr_second, rd_first, rd_second;
-  always_ff @(posedge wr_clk or negedge rst_n)
-    if (!rst_n) begin
+  always_ff @(posedge wr_clk or negedge wr_rst_n)
+    if (!wr_rst_n) begin
       wr_source <= 0; wr_first <= 0; wr_second <= 0;
     end else begin
       wr_source <= wr_value;
       wr_first <= rd_source;
       wr_second <= {WR_SECOND};
     end
-  always_ff @(posedge rd_clk or negedge rst_n)
-    if (!rst_n) begin
+  always_ff @(posedge rd_clk or negedge rd_rst_n)
+    if (!rd_rst_n) begin
       rd_source <= 0; rd_first <= 0; rd_second <= 0;
     end else begin
       rd_source <= rd_value;
@@ -98,6 +98,18 @@ class TwoStageCheckerTest(unittest.TestCase):
         result = inspect(self.elaborate(True, expose_first_stage=True),
                          "wr_clk", "rd_clk", 4)
         self.assertFalse(result["passed"])
+
+    def test_remote_reset_on_synchronizer_fails(self) -> None:
+        module = self.elaborate(True)
+        wr_reset = module["ports"]["wr_rst_n"]["bits"]
+        rd_reset = module["ports"]["rd_rst_n"]["bits"]
+        for cell in module["cells"].values():
+            if cell["type"] == "$adff" and cell["connections"]["CLK"] == module["ports"]["wr_clk"]["bits"]:
+                if cell["connections"]["ARST"] == wr_reset:
+                    cell["connections"]["ARST"] = rd_reset
+        result = inspect(module, "wr_clk", "rd_clk", 4)
+        self.assertFalse(result["passed"])
+        self.assertTrue(any("synchronizer reset" in item for item in result["findings"]))
 
 
 if __name__ == "__main__":

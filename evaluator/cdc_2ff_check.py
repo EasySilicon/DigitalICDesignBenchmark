@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Inspect a Yosys JSON netlist for direct two-flop T06 pointer synchronizers.
 
-This is a structural pilot. It does not prove Gray coding, memory safety,
+This checks destination-domain active-low asynchronous resets. It does not prove Gray coding, memory safety,
 metastability MTBF, or physical CDC closure.
 """
 
@@ -18,11 +18,17 @@ FLOP_PREFIXES = ("$dff", "$adff", "$sdff", "$dffe", "$sdffe", "$aldff")
 def inspect(module: dict, first_clock: str, second_clock: str, minimum: int) -> dict:
     ports = module["ports"]
     clocks = {}
+    resets = {}
     for name in (first_clock, second_clock):
         bits = ports[name]["bits"]
         if len(bits) != 1:
             raise ValueError(f"clock port {name} is not one bit")
         clocks[bits[0]] = name
+        reset_name = name.removesuffix("_clk") + "_rst_n"
+        reset_bits = ports[reset_name]["bits"]
+        if len(reset_bits) != 1:
+            raise ValueError(f"reset port {reset_name} is not one bit")
+        resets[name] = reset_bits
     cells = module["cells"]
     flops = {}
     q_owner = {}
@@ -129,6 +135,13 @@ def inspect(module: dict, first_clock: str, second_clock: str, minimum: int) -> 
                     "to one same-clock, same-reset second stage"
                 )
             else:
+                if (first["connections"].get("ARST") != resets[dst_domain] or
+                    second["connections"].get("ARST") != resets[dst_domain] or
+                    int(first["parameters"].get("ARST_POLARITY", "1"), 2) != 0 or
+                    int(second["parameters"].get("ARST_POLARITY", "1"), 2) != 0):
+                    findings.append(f"{first_name}/{next_stages[0][0]}: synchronizer reset "
+                                    f"does not use active-low {dst_domain} local reset")
+                    continue
                 chain_counts[(src_domain, dst_domain)] += 1
 
     for direction in ((first_clock, second_clock), (second_clock, first_clock)):
@@ -157,7 +170,7 @@ def inspect(module: dict, first_clock: str, second_clock: str, minimum: int) -> 
                                          (second_clock, first_clock))},
         "memory_boundaries_not_checked": sorted(boundaries),
         "findings": findings,
-        "scope": "direct flop-to-flop 2FF chains only; Gray/memory/RDC/MTBF not proven",
+        "scope": "2FF chains and destination reset only; Gray/memory/RDC/MTBF not proven",
     }
 
 
