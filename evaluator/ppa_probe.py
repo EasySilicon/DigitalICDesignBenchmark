@@ -22,10 +22,10 @@ from public_check import ROOT, sources_from_filelist
 DESIGNS = {
     "T01": ("priority_encoder_8x3", "", ()),
     "T02": ("serial_in_parallel_out_8bit", "", ("clock",)),
-    "T03": ("synchronous_fifo", "WIDTH=32 DEPTH=16", ("clk",)),
+    "T03": ("synchronous_fifo", "WIDTH 32 DEPTH 16", ("clk",)),
     "T04": ("apb4_timer", "", ("clk",)),
-    "T05": ("round_robin_stream_arbiter", "N=8 WIDTH=32", ("clk",)),
-    "T06": ("asynchronous_fifo", "WIDTH=32 DEPTH=16", ("wr_clk", "rd_clk")),
+    "T05": ("round_robin_stream_arbiter", "N 8 WIDTH 32", ("clk",)),
+    "T06": ("asynchronous_fifo", "WIDTH 32 DEPTH 16", ("wr_clk", "rd_clk")),
     "T07": ("axi4lite_to_apb4_bridge", "", ("clk",)),
     "T08": ("direct_mapped_writeback_cache", "", ("clk",)),
     "T09": ("rv32i_five_stage_cpu", "", ("clk",)),
@@ -63,7 +63,7 @@ def write_config(path: Path, top: str, source_files: list[Path], sdc: Path,
         ("SYNTH_HIERARCHICAL", "0"), ("CORNER", corner),
     ]
     if parameters:
-        fields.append(("SYNTH_PARAMETERS", parameters))
+        fields.append(("VERILOG_TOP_PARAMS", parameters))
     write_if_changed(path, "".join(f"export {key} = {value}\n"
                                    for key, value in fields))
 
