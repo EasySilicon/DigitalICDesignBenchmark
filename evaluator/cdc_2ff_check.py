@@ -136,6 +136,19 @@ def inspect(module: dict, first_clock: str, second_clock: str, minimum: int) -> 
             findings.append(f"{direction[0]}->{direction[1]}: "
                             f"{chain_counts[direction]} verified chains, need >= {minimum}")
 
+    # The ready/valid control outputs belong to their corresponding clock
+    # domains. A direct foreign pointer feed can bypass all synchronizer
+    # flops without ever appearing at a destination flop D pin.
+    for output_name, domain in (("wr_ready", first_clock),
+                                ("rd_valid", second_clock)):
+        if output_name not in ports:
+            continue
+        for bit_index, bit in enumerate(ports[output_name]["bits"]):
+            foreign = [src for src in sources(bit, frozenset()) if src[2] != domain]
+            if foreign:
+                findings.append(f"{output_name}[{bit_index}]: direct combinational "
+                                f"foreign-domain source {[(x[0], x[2]) for x in foreign]}")
+
     return {
         "passed": not findings,
         "required_per_direction": minimum,
