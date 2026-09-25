@@ -37,6 +37,8 @@
 
 每题可用 `python3 benchmark/prepare_trial.py T04 /path/to/empty/T04` 生成仅含公开材料的独立参赛工作区及 `PROMPT.md`。比较不同 Agent 时，每题均从新对话和空工作区开始，锁定相同的任务材料、模型配置、工具环境及计时起止；不要复用上一题的会话或产物。Codex 试跑为每题启动新的 `codex exec --ephemeral` 进程，不使用 `resume`；评测方保存每题的启动、结束时间戳和退出码。私有验收器和参考 RTL 只保存在评测方环境，不进入参赛工作区。
 
+本机预发布试跑只验证了新会话和独立目录，使用 full access 时没有操作系统级目录隔离。正式横向比较须按[评测与评分方法](methodology.md)为每题建立独立容器或等效权限边界；否则不得把试跑分数作为严格隔离的正式排名。
+
 ## 范围与工具
 
 功能验收使用预装的 Verilator、Yosys、Python/cocotb、RISC-V 裸机工具链及 Sail/ACT4；PPA 评估使用 Yosys + ASAP7 + OpenROAD，不单独依赖其他 STA 程序。不以商用 EDA 许可为参赛前提。本机已安装 OpenROAD 26Q2-1164-g08f67ee5ec 和 Yosys 0.69+150，并用仓库内 ASAP7 跑通九题参考设计的三种子详细布线与活动功耗链。当前参考三元组只用于试评分，尚无正式榜单。SystemVerilog testbench、适用的 SVA 和 Verilator 覆盖率均可作为参赛交付物。评测器必须先用实际固定版本运行每项语法、覆盖率和 UVM 依赖的冒烟测试；不能仅凭工具名称假定所有语法都可运行。
