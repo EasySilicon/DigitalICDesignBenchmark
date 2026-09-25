@@ -107,31 +107,33 @@
 
 **验收与分值**：F=60：整数与控制流 25；大小端/字节使能、访存与符号扩展 15；CSR/异常/MRET 10；锁定配置的 ACT4 适用测试 10。P=15：数据相关与 load-use 6；随机数据等待及背压 5；冲刷、精确提交和取指至退休延时门禁 4。详细程序集、差分策略、超时与通过条件见[CPU 验收计划](cpu-validation.md)。ACT4 子集通过不等于 RISC-V 官方认证。
 
-## T10 · 多精度 4×4 脉动阵列矩阵乘法
+## T10 · 每拍双 1024-bit 输入的多精度脉动阵列矩阵乘法
 
-**设计需求**：交付可综合模块 `npu_systolic_matmul_4x4`、Agent 自建数值记分牌和测试环境、PPA 探索记录。每条命令计算一个完整矩阵块 `C[4][4] = A[4][K] × B[K][4]`；没有 bias、转置、饱和、累加到旧 C 或稀疏跳过。每条命令的 A 与 B 使用相同 `mode`，下一条命令可无复位地切换模式。禁止用仿真 `real/shortreal`、DPI、黑盒或外部算术协处理器实现被测 RTL。
+**设计需求**：交付可综合模块 `npu_systolic_matmul_16x16`、Agent 自建数值记分牌和测试环境、PPA 探索记录。每条命令计算 `C[16][16] = A[16][64] × B[64][16]`。采用 **16×16 输出驻留（output-stationary）PE 网格**；同一命令的 A、B 使用相同 `mode`，下一条命令可不复位而切换格式。没有 bias、转置、饱和或累加到旧 C。禁止用 `real/shortreal`、DPI、黑盒或外部协处理器实现 RTL。
 
-**固定接口**：输入 `clk,rst_n,cmd_valid,mode[3:0],a_data[1023:0],b_data[1023:0],a_scale[63:0],b_scale[63:0],rsp_ready`；输出 `cmd_ready,rsp_valid,c_data[1023:0]`。`rst_n` 异步低有效。命令在 `cmd_valid && cmd_ready` 上升沿接收，接收后输入可立即改变。最多一条未完成命令；接收后到响应成功握手前 `cmd_ready=0`。`rsp_valid && !rsp_ready` 时 `rsp_valid/c_data` 保持。复位立即清除未完成命令和响应；复位后 `rsp_valid=0`。环境只在 `mode=0..9` 时拉高 `cmd_valid`。输出每个元素占 64 bit：`c_data[(r*4+c)*64 +: 64]` 为 `C[r][c]`；整数模式是二补码 signed INT64 的精确值，浮点模式低 32 bit 是 IEEE binary32，**高 32 bit 必须为 0**。
+**固定接口与逐拍带宽**：输入 `clk,rst_n,cmd_valid,mode[3:0],a_scale[255:0],b_scale[255:0],in_valid,a_data[1023:0],b_data[1023:0],out_ready`；输出 `cmd_ready,in_ready,out_valid,out_row[3:0],out_data[1023:0]`。`rst_n` 异步低有效。命令在 `cmd_valid && cmd_ready` 上升沿接收并锁存格式与 scale；随后按模式接收固定数量的**成对 A/B 数据拍**，每次 `in_valid && in_ready` 同时接收两条完整的 1024-bit 总线。每个有效输入拍的每一位都对应一个元素；不允许用窄串行口或只使用部分位模拟宽输入。命令被接受后的整个输入阶段，`in_ready` 必须逐拍保持 1，故发送方连续拉高 `in_valid` 时，A 和 B **分别连续每拍传输 1024 bit，不得插入内部停顿**。发送方允许暂停 `in_valid`，暂停拍不计入拍序号。输入阶段结束后可计算和输出，最多一条未完成命令；下条命令只在当前输出 16 行全部握手后接受。这是单块输入突发带宽要求，不承诺不同块之间无间隔。非法 `mode=10..15` 不驱动。
 
-| mode | 数据类型 | 元素位宽 `w` | `K=1024/(4w)` | 数值编码 |
-| ---: | --- | ---: | ---: | --- |
-| 0 | INT8 | 8 | 32 | signed two's complement |
-| 1 | INT16 | 16 | 16 | signed two's complement |
-| 2 | FP16 | 16 | 16 | IEEE binary16 |
-| 3 | BF16 | 16 | 16 | bfloat16，IEEE binary32 的高 16 位编码 |
-| 4 | FP8 E4M3 | 8 | 32 | OCP OFP8 E4M3 |
-| 5 | FP8 E5M2 | 8 | 32 | OCP OFP8 E5M2 |
-| 6 | FP4 E2M1 | 4 | 64 | OCP MX 规范的 E2M1 元素，单位 scale |
-| 7 | MXFP8 E4M3 | 8 | 32 | OCP MX，32 元素一组，E8M0 scale |
-| 8 | MXFP8 E5M2 | 8 | 32 | OCP MX，32 元素一组，E8M0 scale |
-| 9 | MXFP4 E2M1 | 4 | 64 | OCP MX，32 元素一组，E8M0 scale |
+| mode | 数据类型 | 元素位宽 `w` | 每行/列每拍元素数 `L=64/w` | 每块输入拍数 `64/L=w` | 数值编码 |
+| ---: | --- | ---: | ---: | ---: | --- |
+| 0 | INT8 | 8 | 8 | 8 | signed two's complement |
+| 1 | INT16 | 16 | 4 | 16 | signed two's complement |
+| 2 | FP16 | 16 | 4 | 16 | IEEE binary16 |
+| 3 | BF16 | 16 | 4 | 16 | bfloat16，高 16-bit binary32 编码 |
+| 4 | FP8 E4M3 | 8 | 8 | 8 | OCP OFP8 E4M3 |
+| 5 | FP8 E5M2 | 8 | 8 | 8 | OCP OFP8 E5M2 |
+| 6 | FP4 E2M1 | 4 | 16 | 4 | OCP MX 的 E2M1 元素，单位 scale |
+| 7 | MXFP8 E4M3 | 8 | 8 | 8 | OCP MX，32 元素一组，E8M0 scale |
+| 8 | MXFP8 E5M2 | 8 | 8 | 8 | OCP MX，32 元素一组，E8M0 scale |
+| 9 | MXFP4 E2M1 | 4 | 16 | 4 | OCP MX，32 元素一组，E8M0 scale |
 
-**打包与缩放**：每个元素的最低有效位先放；A 按行优先，元素 `(r,k)` 位于 `a_data[(r*K+k)*w +: w]`；B 按列优先，元素 `(k,c)` 位于 `b_data[(c*K+k)*w +: w]`。两条 1024-bit 数据总线每一位在所有合法模式中都对应一个元素，不能只处理低位部分。MX 模式中 A 的 block scale 位于 `a_scale[8*(2*r+floor(k/32)) +: 8]`，B 位于 `b_scale[8*(2*c+floor(k/32)) +: 8]`；scale 字节 `s=0..254` 表示 `2^(s−127)`，`s=255` 表示 NaN。MXFP8 每行/列只有一组，第二个 scale 字节忽略；其他模式全部忽略 scale 总线。MX scale=255 时该组全部元素视为 NaN，包括元素编码为零时。MXFP4 与 FP4 的 E2M1 编码相同，但前者按组缩放。没有隐含的 NVFP4 约定。
+**输入打包**：设当前被接受的数据拍号 `t=0..w−1`，A 第 `r` 行、该拍第 `j` 个元素（`k=t·L+j`）位于 `a_data[(r·L+j)·w +: w]`；B 第 `c` 列、该拍第 `j` 个元素位于 `b_data[(c·L+j)·w +: w]`，`r,c=0..15`、`j=0..L−1`。因此每拍每个操作数恰有 `16·L·w=1024` 位。MX 模式中 A 的 scale 为 `a_scale[8·(2r+floor(k/32)) +: 8]`，B 同理以列 `c` 索引；字节 `s=0..254` 表示 `2^(s−127)`，`s=255` 为 NaN，覆盖所在的 32 元素组（包括编码零）。非 MX 模式忽略 scale。没有 NVFP4 语义。
 
-**数值规则**：INT8/INT16 均按有符号乘法、精确求和并返回 signed INT64，不溢出。所有浮点模式先按上述格式**精确解码**每个有限元素，MX 再乘对应 scale，最后求 16/32/64 项点积。接受的有限结果须满足 `|D−S| ≤ γ(2K)·Σ|a_k b_k| + 2^(−149)·(2K+1)`，其中 `D` 是 binary32 输出的精确实数值，`S` 是无限精度实数点积，`γ(n)=n·2^(−24)/(1−n·2^(−24))`；这是允许常见 FP32 逐步乘加及更高精度实现的固定误差界。测试另覆盖远离误差界的正负、抵消、次正规、溢出及全零输入；有限结果测试不会构造按 k 顺序计算时单项乘积或部分和在 binary32 中途溢出、最终却回到有限值的序列。不能以恒零输出混过。若任一输入元素为 NaN、出现 `0×∞` 或正负无穷乘积相消，则输出任意 quiet NaN 编码；若精确值超出 binary32 有限范围或同号无穷项求和，则输出相应符号的 binary32 无穷。有限可表示范围内的输出不得是 NaN/∞；有限点积为零时接受 ±0。E4M3 仅最高 exponent/mantissa 全一是 NaN，**没有无穷**；E5M2/FP16/BF16 使用各自的 IEEE 风格 NaN/∞；E2M1 无 NaN/∞。不测试 NaN payload 或 IEEE 浮点异常标志。
+**输出**：第 `r` 行通过一拍 `out_valid && out_ready` 传出，`out_row=r`，`out_data[c·64 +: 64]=C[r][c]`。必须按 `r=0..15` 顺序输出，零背压时 16 行连续每拍输出，不插空拍。整数结果是精确 signed INT64；浮点结果的低 32 bit 为 IEEE binary32，高 32 bit 必须为 0。`out_valid && !out_ready` 时 `out_valid/out_row/out_data` 保持。输入最后一拍握手后的第 48 个上升沿以内必须出现首行 `out_valid`（无输出背压时）；完整 16 行随后的 16 个可接受输出拍完成。运行中复位清除命令、输入计数、阵列波前和待输出行，不得出现旧响应。
 
-**结构与时延**：采用真正的 4×4 PE 网格，A 元素随周期向右邻 PE 转发，B 向下邻 PE 转发，各 PE 本地有寄存的输入转发与局部累加状态；按行/列做波前错位，使同一 `(r,c)` PE 依次处理所有 `k`。允许前后端缓冲、格式解码、局部流水和共享控制，但不允许以一个全局 MAC 顺序计算 16 个输出，或将所有 `A/B` 直接广播给 16 个独立点积单元冒充邻接脉动网格。无背压且 `rsp_ready=1` 时，命令被接收后至首次 `rsp_valid=1` **不超过 `K+12` 个上升沿**；不同模式各自计时。结构门禁检查 PE 局部累加、邻接传递、波前有效位和综合后的实例/寄存连接，并由两名评测工程师复核；延时测试只检验可观察上界，不能单独证明物理结构。
+**数值规则**：INT8/INT16 按有符号乘法精确求和 64 项，结果不溢出 INT64。浮点元素先按格式精确解码、MX 再乘 scale，再求 64 项点积。有限输出 `D` 与无限精度点积 `S` 须满足 `|D−S| ≤ γ(128)·Σ|a_k b_k| + 129·2^(−149)`，`γ(n)=n·2^(−24)/(1−n·2^(−24))`。有限测试不构造逐 `k` 运算中间溢出但最终有限的序列。任一元素为 NaN、`0×∞` 或正负∞相消时输出任意 quiet NaN；精确有限值超出 binary32 有限范围或同号∞求和时输出相应符号∞。有限范围内不得输出 NaN/∞；精确零接受 ±0。E4M3 仅最高 exponent/mantissa 全一是 NaN、没有∞；E5M2/FP16/BF16 有 NaN/∞；E2M1 无 NaN/∞。不验 NaN payload 或异常标志。
 
-**资源边界与评分**：固定 4×4 PE；每个 PE 对当前命令只保留一条 C 局部累加状态，允许为格式转换使用有限局部流水寄存器；A/B 的完整块输入缓冲各不超过一份 1024-bit；PE 邻接传递所需的寄存器另计，输出缓冲不超过一个 1024-bit 矩阵块。不允许额外完整矩阵乘积表、微码 ROM、片外存储或超出题卡的可见端口。16 vCPU、32 GiB RAM、100 GiB 磁盘；时限 48 小时、同模型 token 上限 200 万。F=60：INT8/INT16 10、FP16/BF16 10、FP8 两种编码 10、FP4 10、MXFP8 两种编码 10、MXFP4 10。P=15：握手/背压/复位 5；逐模式 `K+12` 延时和真实脉动结构 5；特殊值、舍入边界和 scale 边界 5。正式 PPA 仍须沿用全题统一的 Yosys+ASAP7+OpenROAD 参数，得 20 分；完成时间最后计 5 分。**T10 的隐藏测试、参考 RTL、变异体与三种子 PPA 基线尚待实现和校准，因此当前不可给正式分数**，不能沿用 T09 的面积/延时基线。详细测试矩阵见[验收组](acceptance.md)。
+**真实脉动结构与资源**：16×16 PE 各持有一个局部 C 累加状态。A 的每拍 `L` 元素向右邻 PE 寄存转发，B 向下邻 PE 寄存转发；行、列输入分别做波前错位，使 PE `(r,c)` 在每个有效波前拍处理相同 `k` 的 A/B 向量。每 PE 对当前拍的 `L` 对元素做并行乘法及局部归约，并累加到自身 C；按位宽分别为 4、8、16 lane。允许格式解码、局部流水与有限边界缓冲，不允许用全局 MAC 串行计算 256 个 C、集中交叉开关直接广播所有操作数给 PE，或在输入阶段把带宽降到 1024 bit 以下。结构门禁检查 256 个逻辑 PE 累加状态、邻接寄存路径、波前有效位及 lane 并行度；对综合等价的编码允许两名评测工程师按 RTL 哈希复核。输入突发、48 拍首行上界与连续输出为独立端口门禁，不能单独替代结构审查。
 
-格式依据：[OCP OFP8 1.0](https://www.opencompute.org/documents/ocp-8-bit-floating-point-specification-ofp8-revision-1-0-2023-06-20-pdf)、[OCP MX 1.0](https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf)。上文的矩阵接口、输出格式、误差界、吞吐/延时和资源限制是本 benchmark 自行冻结的约定，不能误认为 OCP 标准原文要求。
+**资源与评分**：A/B 每块数据缓冲各不超过一份 `16×64×16=16384` bit，加波前所需寄存；输出缓冲不超过一块 `16×16×64=16384` bit。无额外完整乘积表、片外存储或未声明端口。16 vCPU、32 GiB RAM、100 GiB 磁盘；时限 48 小时，同模型 token 上限 200 万。F=60：INT8/INT16 10、FP16/BF16 10、FP8 两种编码 10、FP4 10、MXFP8 两种编码 10、MXFP4 10。P=15：握手/背压/复位 5；逐拍双 1024-bit、脉动结构与时延 5；特殊值及舍入/scale 边界 5。PPA 20、时间 5 遵循全题统一顺序和参数。**修订后的 T10 隐藏验收、参考 RTL、变异体及三种子 ASAP7 PPA 基线尚未完成，当前不得正式计分**。见[验收计划](npu-validation.md)。
+
+格式依据：[OCP OFP8 1.0](https://www.opencompute.org/documents/ocp-8-bit-floating-point-specification-ofp8-revision-1-0-2023-06-20-pdf)、[OCP MX 1.0](https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf)。输出驻留阵列和波前数据流参考 [Gemmini 架构](https://github.com/ucb-bar/gemmini)；本题的 16×16、向量 PE、接口、误差界与时限为 benchmark 自定约束，不是这些来源的原样参数。

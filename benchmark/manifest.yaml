@@ -100,7 +100,7 @@ tasks:
     p_points: [6, 5, 4]
   - id: T10
     level_hypothesis: 10
-    title: mixed_precision_systolic_matmul_4x4
+    title: mixed_precision_systolic_matmul_16x16_stream
     origin: original
     time_limit_minutes: 2880
     same_model_token_cap: 2000000

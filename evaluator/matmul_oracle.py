@@ -23,6 +23,8 @@ NAN = "nan"
 POS_INF = "+inf"
 NEG_INF = "-inf"
 MAX_F32 = Fraction((2**24 - 1) * 2**104)
+DIM = 16
+K = 64
 
 
 def pow2(exponent: int) -> Fraction:
@@ -66,16 +68,18 @@ def scale_value(scale_bus: int, vector: int, k: int) -> Fraction | str:
     return NAN if code == 255 else pow2(code - 127)
 
 
-def element_at(bus: int, vector: int, k: int, mode: int, scale_bus: int) -> Fraction | str:
+def element_at(beats: list[int], vector: int, k: int, mode: int,
+               scale_bus: int) -> Fraction | str:
     width, _, _, _, mx = MODES[mode]
-    count = 1024 // (4 * width)
-    raw = (bus >> (width * (vector * count + k))) & ((1 << width) - 1)
+    lanes = 64 // width
+    beat, lane = divmod(k, lanes)
+    raw = (beats[beat] >> (width * (vector * lanes + lane))) & ((1 << width) - 1)
     value = decode_element(raw, mode)
     if mx:
         scale = scale_value(scale_bus, vector, k)
         if scale == NAN:
             return NAN
-        if isinstance(value, Fraction) or isinstance(value, int):
+        if isinstance(value, (Fraction, int)):
             return value * scale
     return value
 
@@ -92,18 +96,29 @@ def multiply(a: Fraction | str, b: Fraction | str) -> Fraction | str:
     return a * b
 
 
-def dot_terms(a_data: int, b_data: int, a_scale: int, b_scale: int,
+def validate_command(a_beats: list[int], b_beats: list[int],
+                     a_scale: int, b_scale: int, mode: int) -> None:
+    if mode not in MODES:
+        raise ValueError("invalid mode")
+    width = MODES[mode][0]
+    if len(a_beats) != width or len(b_beats) != width:
+        raise ValueError(f"mode {mode} requires {width} paired 1024-bit beats")
+    if any(not isinstance(x, int) or not 0 <= x < 1 << 1024
+           for x in a_beats + b_beats):
+        raise ValueError("data beat out of 1024-bit range")
+    if any(not isinstance(x, int) or not 0 <= x < 1 << 256
+           for x in (a_scale, b_scale)):
+        raise ValueError("scale bus out of 256-bit range")
+
+
+def dot_terms(a_beats: list[int], b_beats: list[int], a_scale: int, b_scale: int,
               mode: int, row: int, col: int) -> list[Fraction | str]:
-    if mode not in MODES or min(a_data, b_data, a_scale, b_scale) < 0 or \
-            a_data >= 1 << 1024 or b_data >= 1 << 1024 or \
-            a_scale >= 1 << 64 or b_scale >= 1 << 64:
-        raise ValueError("invalid command encoding")
-    if not 0 <= row < 4 or not 0 <= col < 4:
+    validate_command(a_beats, b_beats, a_scale, b_scale, mode)
+    if not 0 <= row < DIM or not 0 <= col < DIM:
         raise ValueError("matrix index out of range")
-    count = 1024 // (4 * MODES[mode][0])
-    return [multiply(element_at(a_data, row, k, mode, a_scale),
-                     element_at(b_data, col, k, mode, b_scale))
-            for k in range(count)]
+    return [multiply(element_at(a_beats, row, k, mode, a_scale),
+                     element_at(b_beats, col, k, mode, b_scale))
+            for k in range(K)]
 
 
 def expected_dot(terms: list[Fraction | str]) -> tuple[str, Fraction, Fraction]:
@@ -116,28 +131,30 @@ def expected_dot(terms: list[Fraction | str]) -> tuple[str, Fraction, Fraction]:
         return NEG_INF, Fraction(0), Fraction(0)
     numeric = [Fraction(t) for t in terms]
     total = sum(numeric, Fraction(0))
+    absolute = sum(map(abs, numeric), Fraction(0))
     if total > MAX_F32:
-        return POS_INF, total, sum(map(abs, numeric), Fraction(0))
+        return POS_INF, total, absolute
     if total < -MAX_F32:
-        return NEG_INF, total, sum(map(abs, numeric), Fraction(0))
-    return "finite", total, sum(map(abs, numeric), Fraction(0))
+        return NEG_INF, total, absolute
+    return "finite", total, absolute
 
 
-def check_output(a_data: int, b_data: int, a_scale: int, b_scale: int,
-                 mode: int, c_data: int) -> list[str]:
-    """Return one error per mismatching C element, empty on pass."""
-    if not 0 <= c_data < 1 << 1024:
-        raise ValueError("output width out of range")
-    width = MODES[mode][0]
-    count = 1024 // (4 * width)
-    gamma = Fraction(2 * count, (1 << 24) - 2 * count)
+def check_output(a_beats: list[int], b_beats: list[int], a_scale: int,
+                 b_scale: int, mode: int, output_rows: list[int]) -> list[str]:
+    """Check 16 packed 1024-bit output rows against the exact dot product."""
+    validate_command(a_beats, b_beats, a_scale, b_scale, mode)
+    if len(output_rows) != DIM or any(not isinstance(x, int) or not 0 <= x < 1 << 1024
+                                      for x in output_rows):
+        raise ValueError("expected sixteen 1024-bit output rows")
+    gamma = Fraction(2 * K, (1 << 24) - 2 * K)
     errors = []
-    for row in range(4):
-        for col in range(4):
-            lane = (c_data >> (64 * (4 * row + col))) & ((1 << 64) - 1)
+    for row in range(DIM):
+        for col in range(DIM):
+            lane = (output_rows[row] >> (64 * col)) & ((1 << 64) - 1)
             label = f"C[{row}][{col}]"
+            terms = dot_terms(a_beats, b_beats, a_scale, b_scale, mode, row, col)
             if mode in (0, 1):
-                expected = sum(dot_terms(a_data, b_data, a_scale, b_scale, mode, row, col))
+                expected = sum(terms)
                 actual = lane - (1 << 64) if lane >> 63 else lane
                 if actual != expected:
                     errors.append(f"{label}: got {actual}, expected {expected}")
@@ -147,8 +164,7 @@ def check_output(a_data: int, b_data: int, a_scale: int, b_scale: int,
                 continue
             raw = lane & 0xFFFFFFFF
             actual = decode_f32(raw)
-            kind, exact, sumabs = expected_dot(
-                dot_terms(a_data, b_data, a_scale, b_scale, mode, row, col))
+            kind, exact, sumabs = expected_dot(terms)
             if kind == NAN:
                 if actual != NAN or not (raw & (1 << 22)):
                     errors.append(f"{label}: expected quiet NaN")
@@ -158,7 +174,7 @@ def check_output(a_data: int, b_data: int, a_scale: int, b_scale: int,
             elif not isinstance(actual, Fraction):
                 errors.append(f"{label}: finite result expected, got {actual}")
             else:
-                allowance = gamma * sumabs + (2 * count + 1) * pow2(-149)
+                allowance = gamma * sumabs + (2 * K + 1) * pow2(-149)
                 if abs(actual - exact) > allowance:
                     errors.append(f"{label}: error {abs(actual-exact)} exceeds {allowance}")
     return errors

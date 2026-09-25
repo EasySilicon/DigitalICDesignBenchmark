@@ -45,4 +45,4 @@ t10_formats:
   mx: https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf
   ofp8_revision: "1.0"
   mx_revision: "1.0"
-  benchmark_numeric_contract: benchmark/tasks.md#t10--多精度-44-脉动阵列矩阵乘法
+  benchmark_numeric_contract: benchmark/tasks.md#t10--每拍双-1024-bit-输入的多精度脉动阵列矩阵乘法

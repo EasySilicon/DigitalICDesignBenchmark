@@ -55,14 +55,15 @@ def run(task: str, submission: Path, seed: int, width: int, depth: int, n_inputs
         elif task == "T05":
             compile_cmd[1:1] = [f"-GWIDTH={width}", f"-GN={n_inputs}"]
         compiled = subprocess.run(compile_cmd, text=True, capture_output=True,
-                                  timeout=180, check=False)
+                                  timeout=600 if task == "T10" else 180, check=False)
         if compiled.returncode:
             return {"task": task, "passed": False, "phase": "compile",
                     "elapsed_seconds": round(time.monotonic() - start, 3),
                     "log_tail": (compiled.stdout + compiled.stderr)[-8000:]}
         binary = binary_dir / f"Vtb_{task}"
         executed = subprocess.run([str(binary), f"+SEED={seed}"], text=True,
-                                  capture_output=True, timeout=60, check=False)
+                                  capture_output=True,
+                                  timeout=180 if task == "T10" else 60, check=False)
         return {"task": task, "passed": executed.returncode == 0 and
                 f"PUBLIC_PASS {task}" in executed.stdout, "phase": "run",
                 "seed": seed,

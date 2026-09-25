@@ -31,7 +31,7 @@ Agent 可以使用预装 Yosys、OpenROAD、ASAP7 和 ORFS 脚本反复测自己
 | T07 | `axi4lite_to_apb4_bridge` | 无 | 题卡的完整 AXI4-Lite 和 APB4 接口 |
 | T08 | `direct_mapped_writeback_cache` | 无 | `clk,rst_n`、CPU 侧与 line 后端接口 |
 | T09 | `rv32i_five_stage_cpu` | 无 | 题卡的存储器和提交观察口 |
-| T10 | `npu_systolic_matmul_4x4` | 无 | 题卡的命令/响应、两条 1024-bit 数据总线及 scale 总线 |
+| T10 | `npu_systolic_matmul_16x16` | 无 | 题卡的命令、逐拍双 1024-bit 输入、16 行输出及 256-bit scale 总线 |
 
 端口名、方向、位宽、参数名及题卡时序语义均固定；不固定内部目录层级、源文件名、验证框架、事务类名、断言写法或流水线内部信号名。评测器从 `rtl/files.f` 只读源文件，用自身固定编译参数 `--top-module` 和参数覆盖进行 elaboration；禁止评测器在功能评分时执行候选的 `run.sh`、读取其 `results.json` 作为正确性 oracle，或调用候选自带驱动器/scoreboard。候选可以在 `rtl/` 内实现必要的子模块；这些子模块进入同一 PPA 流程。
 
@@ -59,6 +59,6 @@ Agent 可以使用预装 Yosys、OpenROAD、ASAP7 和 ORFS 脚本反复测自己
 | T07 | 已定义 AC-32–37 | 已有独立端口公开冒烟 | AXI 五通道、APB 模型、并发轮询及复位私有分组已实现 | 参考 RTL 75/75；15 个独立变异体已检出 | 否 |
 | T08 | 已定义 AC-38–43 | 已有独立端口公开冒烟 | 逐字节内存与抽象 cache、随机后端时延及最终内存比对私有分组已实现 | 参考 RTL 两种种子各 75/75；16 个独立变异体已检出 | 否 |
 | T09 | 已定义 CPU-ACT/DIR/DIFF/PIPE | 已有 ADDI/延时冒烟、ELF 总线入口与 45 个 ACT4 RV32I/Zicsr ELF | ACT4 45、定向 108、随机 100、等待 80、运行中复位 4、异常专项 4、延时 64 与结构审查已接入统一功能评分 | 五级参考 CPU 75/75；21 个可编译缺陷变异体已检出 | 否 |
-| T10 | 已定义 MM-INT/F16/F8/F4/MX8/MX4/PROTO/SYSTOLIC/CORNER | 固定端口 10 模式、20 例公开冒烟与数值 oracle | 待实现；当前没有私有评分入口 | 待实现；尚无 PPA 基线 | 否 |
+| T10 | 已定义 MM-INT/F16/F8/F4/MX8/MX4/PROTO/SYSTOLIC/CORNER | 固定端口 10 模式、20 块公开冒烟与流式数值 oracle | 待实现；当前没有私有评分入口 | 待实现；尚无 PPA 基线 | 否 |
 
 `design_only` 状态必须保留到十题公开与隐藏验收器、参考实现、变异体和 PPA 参数完成并通过[发布门禁](methodology.md#发布门禁)。验收用例在设计文档里列出，**不等于已经写好可执行的测试程序**。
