@@ -22,14 +22,19 @@ module tb_cpu_elf;
   logic [7:0] memory [0:MEM_BYTES-1];
   string image_file;
   string trace_file;
+  string reset_when;
   int trace_fd;
   int seed, max_cycles, cycle_count, commit_count, trap_count;
+  int unsigned response_delay_mask;
+  int backpressure_cycles;
   int unsigned rng;
   bit pending_response, pending_error;
+  bit pending_request_write;
   int response_delay;
   logic [31:0] pending_data;
   bit held_request, host_written, host_committed;
   bit passed;
+  bit reset_done;
   logic [31:0] held_addr, held_wdata, host_value;
   logic [3:0] held_strb;
   bit held_write;
@@ -75,6 +80,7 @@ module tb_cpu_elf;
                          {held_addr,held_write,held_strb,held_wdata}))
       $fatal(1, "CPU-PIPE-MEM request changed under backpressure cycle=%0d", cycle_count);
     held_request = rst_n && dmem_req_valid && !dmem_req_ready;
+    if (held_request) backpressure_cycles++;
     if (held_request) begin
       held_addr = dmem_req_addr;
       held_write = dmem_req_write;
@@ -89,12 +95,14 @@ module tb_cpu_elf;
       error_now = !in_memory(dmem_req_addr) && dmem_req_addr != TOHOST;
       pending_response = 1;
       pending_error = error_now;
+      pending_request_write = dmem_req_write;
       pending_data = error_now ? 0 :
                      dmem_req_addr == TOHOST ? host_value : read_word(dmem_req_addr);
       rng ^= rng << 13;
       rng ^= rng >> 17;
       rng ^= rng << 5;
       response_delay = int'(rng % 8);
+      response_delay_mask |= 1 << (response_delay + 1);
       if (dmem_req_write && !error_now) begin
         if (dmem_req_wstrb == 0)
           $fatal(1, "CPU-ELF store request has zero byte strobes");
@@ -116,6 +124,8 @@ module tb_cpu_elf;
     clk = 1;
     #2;
     imem_rdata = next_instruction;
+    if (!rst_n && (commit_valid || trap_valid))
+      $fatal(1, "CPU-PIPE-RESET commit/trap visible during reset");
     if (rst_n) begin
       if (commit_valid) begin
         commit_count++;
@@ -168,23 +178,57 @@ module tb_cpu_elf;
     end
     seed = 20260925;
     max_cycles = 100000;
+    reset_when = "";
     void'($value$plusargs("SEED=%d", seed));
     void'($value$plusargs("MAX_CYCLES=%d", max_cycles));
+    void'($value$plusargs("RESET_WHEN=%s", reset_when));
     $readmemh(image_file, memory);
     clk = 0; rst_n = 0; imem_rdata = 32'h0000_0013;
     dmem_req_ready = 0; dmem_rsp_valid = 0;
     dmem_rsp_rdata = 0; dmem_rsp_err = 0;
-    pending_response = 0; pending_error = 0;
+    pending_response = 0; pending_error = 0; pending_request_write = 0;
     pending_data = 0; response_delay = 0;
     held_request = 0; host_written = 0; host_committed = 0;
     passed = 0;
+    reset_done = 0;
     host_value = 0;
     cycle_count = 0; commit_count = 0; trap_count = 0;
+    response_delay_mask = 0;
+    backpressure_cycles = 0;
     rng = 32'(seed) ^ 32'h9e37_79b9;
     step(); step();
     rst_n = 1;
     for (int i = 0; i < max_cycles; i++) begin
       step();
+      if (reset_when != "" && !reset_done &&
+          ((reset_when == "alu" && commit_valid &&
+            (commit_insn[6:0] == 7'h13 || commit_insn[6:0] == 7'h33)) ||
+           (reset_when == "branch" && commit_valid && commit_insn[6:0] == 7'h63) ||
+           (reset_when == "load_wait" && pending_response &&
+            !pending_request_write && response_delay > 0))) begin
+        reset_done = 1;
+        $display("CPU_RESET_INJECT phase=%s cycle=%0d", reset_when, cycle_count);
+        rst_n = 0;
+        pending_response = 0;
+        pending_error = 0;
+        pending_request_write = 0;
+        response_delay = 0;
+        held_request = 0;
+        host_written = 0;
+        host_committed = 0;
+        host_value = 0;
+        store_queue.delete();
+        $readmemh(image_file, memory);
+        if (trace_fd != 0) begin
+          $fclose(trace_fd);
+          trace_fd = $fopen(trace_file, "w");
+          if (trace_fd == 0) $fatal(1, "CPU-PIPE-RESET cannot reopen trace");
+        end
+        step();
+        step();
+        imem_rdata = 32'h0000_0013;
+        rst_n = 1;
+      end
       if (host_written && host_committed) begin
         if (host_value != 1)
           $fatal(1, "CPU-ELF program failed tohost=%h", host_value);
@@ -195,10 +239,13 @@ module tb_cpu_elf;
     if (!passed)
       $fatal(1, "CPU-ELF timeout cycles=%0d commits=%0d traps=%0d tohost=%h",
              cycle_count, commit_count, trap_count, host_value);
+    if (reset_when != "" && !reset_done)
+      $fatal(1, "CPU-PIPE-RESET requested phase not observed: %s", reset_when);
     if (store_queue.size() != 0)
       $fatal(1, "CPU-ELF accepted stores remain uncommitted: %0d", store_queue.size());
-    $display("CPU_ELF_PASS cycles=%0d commits=%0d traps=%0d tohost=%h seed=%0d",
-             cycle_count, commit_count, trap_count, host_value, seed);
+    $display("CPU_ELF_PASS cycles=%0d commits=%0d traps=%0d tohost=%h seed=%0d delays=%h backpressure=%0d",
+             cycle_count, commit_count, trap_count, host_value, seed,
+             response_delay_mask, backpressure_cycles);
     if (trace_fd != 0) $fclose(trace_fd);
     $finish;
   end
