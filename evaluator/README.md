@@ -14,7 +14,7 @@ python3 evaluator/public_check.py T08 /path/to/submission
 python3 evaluator/public_check.py T09 /path/to/submission
 ```
 
-编译与仿真在独立临时目录执行，失败以非零退出码和 JSON 摘要报告。T07 公开样例覆盖 AW/W 两种先后顺序、APB SETUP/ACCESS、部分/零字节使能、读写及错误响应、有限等待和 B/R 背压，尚未覆盖同时读写争用和运行中复位。T08 公开样例覆盖命中、干净/脏替换、整行写回、部分写、后端与 CPU 背压，以及空闲时复位。T09 公开样例只检查 64 条无相关 ADDI 的取指至退休延时和退休观察口；它不运行 ELF 或覆盖完整 ISA。T10 公开样例覆盖十个模式、20 块连续双 1024-bit/拍输入、最高位、16 行输出及背压，数值特殊值和结构审查尚未覆盖。这里的用例都是**公开冒烟样例**，不用于正式评分；T01–T09 的私有隐藏验收器、参考实现和变异体已在评测方仓库实现；T10 尚未完成，PPA 和交付资格仍待冻结。隐藏验收器使用相同连接原则，并保存在不暴露给参赛工作区的评测服务中。
+编译与仿真在独立临时目录执行，失败以非零退出码和 JSON 摘要报告。T07 公开样例覆盖 AW/W 两种先后顺序、APB SETUP/ACCESS、部分/零字节使能、读写及错误响应、有限等待和 B/R 背压，尚未覆盖同时读写争用和运行中复位。T08 公开样例覆盖命中、干净/脏替换、整行写回、部分写、后端与 CPU 背压，以及空闲时复位。T09 公开样例只检查 64 条无相关 ADDI 的取指至退休延时和退休观察口；它不运行 ELF 或覆盖完整 ISA。T10 公开样例覆盖十个模式、20 块连续双 1024-bit/拍输入、最高位、16 行输出及背压；数值特殊值和自动结构网表检查由私有评测器执行。这里的用例都是**公开冒烟样例**，不用于正式评分；T01–T09 的私有隐藏验收器、参考实现和变异体已在评测方仓库实现；T10 独立参考及 PPA 基线尚未完成。隐藏验收器使用相同连接原则，并保存在不暴露给参赛工作区的评测服务中。
 
 `cpu_elf_check.py` 是另一个评测方入口。它解析符合任务卡内存布局的 RV32 ELF，把 `PT_LOAD` 段装入评测方的 256 KiB 镜像，通过固定 CPU 端口提供一周期取指和有界数据端等待，直到已提交的 `tohost=1` 写入或超时。例如：
 
@@ -33,9 +33,9 @@ python3 evaluator/check_act4_sail.py \
   --output /tmp/act4_sail_results.json
 ```
 
-私有统一评分入口还运行总线等待、运行中复位、取指至退休延时，并读取评测方持有的流水线结构审查证据；参考 CPU 的 F/P 为 75/75。正式排名仍等待 PPA 参数和交付资格冻结。
+私有统一评分入口还运行总线等待、运行中复位、取指至退休延时与自动时序组合门禁；参考 CPU 的 F/P 为 75/75。正式排名仍等待 PPA 参数和交付资格冻结。
 
-`score_rules.json` 将十题的 F=60/P=15 分项逐一映射到验收组，`score_run.py` 将评测方生成的组内通过数、严重安全缺陷、PPA 三元组和完成时间转成分层分数。它**不调用**公开冒烟测试来制造正式分数。输入须包含 `task_id`、`groups`、`delivery_qualified`、`elapsed_seconds`、`time_limit_seconds`，可含 `ppa_measurement` 和 `ppa_reference`。每个验收组必须有 `cases_passed`、`cases_total`，安全缺陷另标 `safety_violation`。缺少应有验收组直接报错，不推断为通过；所有组全过得子项满分，无安全缺陷且各组通过比例的等权平均至少一半得半分，其余得零分。T01–T09 私有隐藏组执行器已接入；T10 隐藏组尚未实现，PPA 正式测量和交付门禁仍在准备。
+`score_rules.json` 将十题的 F=60/P=15 分项逐一映射到验收组，`score_run.py` 将评测方生成的组内通过数、严重安全缺陷、PPA 三元组和完成时间转成分层分数。它**不调用**公开冒烟测试来制造正式分数。输入须包含 `task_id`、`groups`、`delivery_qualified`、`elapsed_seconds`、`time_limit_seconds`，可含 `ppa_measurement` 和 `ppa_reference`。每个验收组必须有 `cases_passed`、`cases_total`，安全缺陷另标 `safety_violation`。缺少应有验收组直接报错，不推断为通过；所有组全过得子项满分，无安全缺陷且各组通过比例的等权平均至少一半得半分，其余得零分。T01–T10 私有隐藏组执行器已接入；T10 独立参考及 PPA 基线仍在准备。
 
 T10 的[`matmul_oracle.py`](matmul_oracle.py)公开了精确格式解码、MX scale 和数值误差界，可供参赛者复核题意；`tb_T10.sv` 是固定端口的 20 块流式公开冒烟。`score_run.py` 在 T10 隐藏验收和 PPA 参考值校准完成前会拒绝为 T10 输出正式分数。
 
@@ -50,7 +50,7 @@ python3 evaluator/cdc_2ff_check.py /path/to/t06_yosys.json --depth 8
 python3 -m unittest evaluator.test_cdc_2ff_check -v
 ```
 
-回归用 Yosys 生成多种网表：分离寄存器和 packed 移位寄存器的双级链通过；一级链和第一级直接暴露给输出的变异体失败。检查还确认前两级异步复位连接目的域本地低有效复位。公开工具**并非完整 CDC 签核**：Gray 码生成、每次只翻转一位、存储体边界、复位释放、MTBF 与物理实现不由它证明。正式 AC-31 还需评测方对候选 RTL 做按源文件哈希绑定的结构审查；公开工具单独 PASS 不给 AC-31 满分。
+回归用 Yosys 生成多种网表：分离寄存器和 packed 移位寄存器的双级链通过；一级链和第一级直接暴露给输出的变异体失败。检查还确认前两级异步复位连接目的域本地低有效复位。该工具**并非完整 CDC 签核**：Gray 码生成、每次只翻转一位、存储体边界、复位释放、MTBF 与物理实现不由它证明。AC-31 分数按四组参数下的自动网表规则产生；其他可观察 FIFO 行为由独立端口长流检查。
 
 ## T09 取指至退休延时检查原型
 
@@ -61,4 +61,4 @@ python3 evaluator/cpu_latency_check.py /path/to/evaluator-captured-trace.jsonl
 python3 -m unittest evaluator.test_cpu_latency_check -v
 ```
 
-合成轨迹回归已覆盖正常、早一拍、晚一拍、漏提交、重复取指和重复退休。T09 公开 RTL 测试连接一周期指令存储器检查这一延时；私有评分入口另用自己的 ELF 装载器、数据总线、Sail 提交差分、精确异常测试和结构审查评分。Agent 自带的 `run.sh`/UT 输出不能直接作为这个 trace 的评分输入。
+合成轨迹回归已覆盖正常、早一拍、晚一拍、漏提交、重复取指和重复退休。T09 公开 RTL 测试连接一周期指令存储器检查这一延时；私有评分入口另用自己的 ELF 装载器、数据总线、Sail 提交差分、精确异常测试和自动时序评分。Agent 自带的 `run.sh`/UT 输出不能直接作为这个 trace 的评分输入。

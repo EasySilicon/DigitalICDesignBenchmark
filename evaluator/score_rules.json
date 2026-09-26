@@ -71,7 +71,7 @@
       {"id":"F_ACT4","layer":"F","points":10,"groups":["CPU-ACT"]},
       {"id":"P_HAZARD","layer":"P","points":6,"groups":["CPU-DIR-HAZ","CPU-PIPE-HAZ"]},
       {"id":"P_MEMORY_WAIT","layer":"P","points":5,"groups":["CPU-PIPE-MEM"]},
-      {"id":"P_PIPELINE","layer":"P","points":4,"groups":["CPU-PIPE-FLUSH","CPU-PIPE-LAT","CPU-PIPE-STRUCT","CPU-PIPE-RESET"],"critical_groups":["CPU-PIPE-STRUCT","CPU-PIPE-LAT"]}
+      {"id":"P_PIPELINE","layer":"P","points":4,"groups":["CPU-PIPE-FLUSH","CPU-PIPE-LAT","CPU-PIPE-RESET"],"critical_groups":["CPU-PIPE-LAT"]}
     ],
     "T10": [
       {"id":"F_INT","layer":"F","points":10,"groups":["MM-INT"]},
