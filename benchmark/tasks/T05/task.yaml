@@ -1,0 +1,6 @@
+id: T05
+title: round_robin_stream_arbiter
+level_hypothesis: 5
+origin: original
+time_limit_minutes: 240
+same_model_token_cap: 160000

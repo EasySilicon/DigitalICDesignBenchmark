@@ -29,6 +29,7 @@ def run(submission: Path, elf: Path, seed: int, max_cycles: int,
         command = [
             "verilator", "--binary", "--timing", "--assert", "-Wno-fatal",
             "-j", "4", "--top-module", "tb_cpu_elf", "--Mdir", str(work),
+            f"-I{ROOT.parent}",
             f"-I{(submission / 'rtl').resolve()}",
             *map(str, sources), str(ROOT / "public" / "tb_cpu_elf.sv"),
         ]

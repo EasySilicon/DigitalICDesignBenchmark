@@ -1,0 +1,6 @@
+id: T01
+title: priority_encoder_8x3
+level_hypothesis: 1
+origin: cvdp
+time_limit_minutes: 30
+same_model_token_cap: 20000

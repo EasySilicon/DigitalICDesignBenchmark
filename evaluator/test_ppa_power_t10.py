@@ -18,15 +18,21 @@ class T10PowerWorkloadTest(unittest.TestCase):
                                        ("b", 256, count * 16),
                                        ("as", 64, count),
                                        ("bs", 64, count),
-                                       ("reset", 1, count)):
+                                       ("reset", 1, count),
+                                       ("phase", 1, count)):
                 (root / f"{name}.mem").write_text(("0" * width + "\n") * lines)
             (root / "mode.mem").write_text("".join(f"{mode:x}\n" for mode in range(10)))
             entries = []
             for case in range(count):
                 entries.extend(f"MM_ROW {case} {row} {'0' * 256}" for row in range(16))
                 entries.append(f"MM_CASE {case} 1 1 1 16")
-            log = "\n".join(entries) + f"\nMM_END cases={count}\n"
+            log = ("\n".join(entries) +
+                   f"\nMM_STREAM input_bubble_phases={'0' * 13} finished={count}\n")
             check_t10_workload(log, root, count)
+            bubble = log.replace("input_bubble_phases=" + "0" * 13,
+                                 "input_bubble_phases=" + "1" + "0" * 12, 1)
+            with self.assertRaisesRegex(RuntimeError, "continuous workload"):
+                check_t10_workload(bubble, root, count)
             corrupted = log.replace(f"MM_ROW 0 0 {'0' * 256}", "MM_ROW 0 0 1", 1)
             with self.assertRaisesRegex(RuntimeError, "numerical mismatch"):
                 check_t10_workload(corrupted, root, count)

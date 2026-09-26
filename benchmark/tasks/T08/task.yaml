@@ -1,0 +1,6 @@
+id: T08
+title: direct_mapped_writeback_cache
+level_hypothesis: 8
+origin: original
+time_limit_minutes: 720
+same_model_token_cap: 480000

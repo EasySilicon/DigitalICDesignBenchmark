@@ -1,6 +1,6 @@
-# 数字芯片设计交付 Benchmark v0.2
+# Digital IC Design Benchmark for Agents
 
-本目录是一套正在校准的数字芯片交付 benchmark，用于比较多 Agent 系统与通用 coding agent 的完整 RTL 交付质量。它包含 10 个任务，覆盖组合逻辑、时序控制、片上总线、CDC、缓存、五级流水线 CPU 和多精度 NPU 矩阵乘法。每题要求 Agent 自行完成 RTL、可运行验证环境和 PPA 优化迭代。旧版 T01–T09 均有公开冒烟、私有隐藏验收器和 75/75 的参考功能分；统一 ASAP7 最坏角、2500 ps 的三种子布线和长负载功耗试跑也已完成，[九题参考三元组](ppa-baselines.json)作为试评分记录。**新增 T10 已按每拍 A/B 各 1024 bit 修订题卡、数值 oracle 和公开冒烟，但没有隐藏验收器、参考 RTL、变异体或 PPA 基线，不能给正式分数。**工具镜像 digest、不同 RTL 写法的公平性检查、交付质量门禁和完整试做报告仍须按[发布门禁](methodology.md#发布门禁)校准。
+Digital IC Design Benchmark for Agents 是一套正在校准的数字芯片设计与交付 benchmark，用于比较多 Agent 系统与通用 coding agent 的完整 RTL 交付质量。它包含 10 个任务，覆盖组合逻辑、时序控制、片上总线、CDC、缓存、五级流水线 CPU 和多精度 NPU 矩阵乘法。每题要求 Agent 自行完成 RTL、可运行验证环境和 PPA 优化迭代。旧版 T01–T09 均有公开冒烟、私有隐藏验收器和 75/75 的参考功能分；旧 2500 ps / 400 MHz 下的九题三种子布线和功耗结果已归档为[历史试跑](ppa-baselines-400mhz.json)。新的全题目标为 1000 ps / 1 GHz；[当前基线](ppa-baselines.json)为空，十题均待重新实现或校准。**T10 已升级为跨块连续双 1024-bit/拍、四行槽输出的流接口；评测方独立参考 RTL 已通过 2,624 块隐藏流式回归、复位和 256 PE 结构检查，第一版单层 OpenROAD 网表连接触及 32 GiB 上限，采用 PE 宏的探索性顶层连接已通过；14 个可编译缺陷变异体已全部检出。1 GHz 三种子 PPA 基线和新验收器物理校准仍缺，不能给正式分数。**工具镜像 digest、不同 RTL 写法的公平性检查、交付质量门禁和完整试做报告仍须按[发布门禁](methodology.md#发布门禁)校准。
 
 | ID | 难度假设 | 任务 | 来源 | 开发时限 |
 | --- | ---: | --- | --- | ---: |
@@ -13,14 +13,15 @@
 | T07 | 7 | AXI4-Lite 到 APB4 桥 | 原创 | 8 小时 |
 | T08 | 8 | 直接映射写回数据缓存 | 原创 | 12 小时 |
 | T09 | 9 | RV32I 五级流水线 CPU | 原创 | 24 小时 |
-| T10 | 10 | 16×16 双 1024-bit/拍多精度脉动阵列矩阵乘法 | 原创 | 48 小时 |
+| T10 | 10 | 16×16 持续双 1024-bit/拍多精度脉动阵列矩阵乘法 | 原创 | 48 小时 |
 
 难度序号是设计时的覆盖假设，不是 CVDP 官方难度，也不是已测得的等距难度。发布前应依照[校准流程](methodology.md#难度校准)用试运行数据调整或替换题目。两道 CVDP 题应单独报告，避免公开题的训练数据污染影响原创题结论。
 
 ## 规范入口
 
-- [任务卡](tasks.md)：每题的设计需求、接口、合法环境、硬件资源边界、验收点及分值。
-- [十题验收组](acceptance.md)：测试组 ID、参考模型与可检出的典型缺陷。
+- [任务包](tasks/)：T01–T10 各自的冻结任务卡、验收计划、公开制品与机器可读元数据。
+- [共享任务规则与索引](tasks.md)：跨题行为规则及任务包入口。
+- [共享验收规则与索引](acceptance.md)：跨题验收规则及各题测试组入口。
 - [独立端口公开冒烟](../evaluator/README.md)：T01–T10 可执行测试与提交接口样例。
 - [验证与交付契约](verification-contract.md)：参赛 Agent 的自带 UT、固定 DUT 接口、独立验收与 CPU ELF 入口。
 - [评测与评分方法](methodology.md)：运行资源、可比性、通用门禁、分数计算、校准和发布条件。
@@ -29,6 +30,7 @@
 - [领域与难度覆盖](coverage.md)：逐题设计领域、工程能力、难度来源和未覆盖范围。
 - [CPU 验收计划](cpu-validation.md)：ACT4 接入、流水线专项程序、差分测试和通过条件。
 - [NPU 验收计划](npu-validation.md)：T10 的格式边界、命令规模、数值 oracle、结构与物理发布门禁。
+- [NPU 工程质量门禁](npu-quality-gates.md)：T10 赛后候选与独立参考、开源物理可实现性及商用签核之间的差距。
 - [来源锁定](sources.lock.yaml)：CVDP 的修订、数据文件及题面哈希。
 - [机器可读清单](manifest.yaml)：题目 ID、时限、模型 token 上限及分值，供评测器读取。
 - [运行报告 schema](report.schema.json)：统一记录功能、PPA、完成时间和交付诊断。
@@ -50,9 +52,11 @@
 ## 来源
 
 - [NVIDIA CVDP 数据与运行框架](https://github.com/NVlabs/cvdp_benchmark)
-- [CVDP 数据集](https://huggingface.co/datasets/nvidia/cvdp-benchmark-dataset)
+- [CVDP 数据集](https://huggingface.co/datasets/nvidia/cvdp-benchmark-dataset)：T01/T02 是 CC-BY-4.0 的修改衍生题；归属、修改说明与许可证链接见[第三方声明](../THIRD_PARTY_NOTICES.md#nvidia-cvdp-benchmark-dataset)
 - [RISC-V Architectural Certification Tests](https://github.com/riscv/riscv-arch-test)
 - [RISC-V ISA 手册](https://github.com/riscv/riscv-isa-manual)
 - [Verilator 官方语言支持范围](https://verilator.org/guide/latest/languages.html)
 - [OCP OFP8 1.0](https://www.opencompute.org/documents/ocp-8-bit-floating-point-specification-ofp8-revision-1-0-2023-06-20-pdf)
 - [OCP MX 1.0](https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf)
+
+本仓库的自有代码和文档采用 [Apache-2.0](../LICENSE)。随仓库再分发的第三方材料仍适用各自许可证；完整映射见[第三方声明](../THIRD_PARTY_NOTICES.md)。

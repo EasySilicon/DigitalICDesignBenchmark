@@ -1,3 +1,8 @@
+# Modified derivative of riscv/riscv-arch-test,
+# config/cores/cve2/cv32e20/test_config.yaml at revision
+# 4a42cbd3756259bbc1f92a7d816bc2fd2bd551cb.
+# Upstream license: Apache-2.0 WITH SHL-2.1; this distribution elects
+# Apache-2.0. See ../../../THIRD_PARTY_NOTICES.md.
 name: ic-bcmk-rv32i
 compiler_exe: riscv32-unknown-elf-gcc
 objdump_exe: riscv32-unknown-elf-objdump

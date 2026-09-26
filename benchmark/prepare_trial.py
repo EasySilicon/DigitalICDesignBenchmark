@@ -36,9 +36,6 @@ def prepare(task: str, destination: Path) -> dict:
     for name in ("README.md", "public_check.py"):
         shutil.copy2(ROOT / "evaluator" / name, destination / "evaluator" / name)
     shutil.copy2(ROOT / "evaluator/public" / f"tb_{task}.sv", public / f"tb_{task}.sv")
-    if task == "T10":
-        shutil.copy2(ROOT / "evaluator/matmul_oracle.py",
-                     destination / "evaluator/matmul_oracle.py")
     if task == "T09":
         shutil.copy2(ROOT / "evaluator/public/tb_cpu_elf.sv", public / "tb_cpu_elf.sv")
         for name in CPU_PUBLIC:
@@ -53,7 +50,7 @@ def prepare(task: str, destination: Path) -> dict:
     )
     prompt = f"""You are the sole candidate Agent for benchmark task {task}. This is a fresh conversation and an independent working directory. You have {row['time_limit_minutes']} minutes of wall clock time. Use only public materials copied into this directory and installed local tools. Do not inspect other repositories or directories for benchmark reference RTL, hidden tests, answers, or scoring code.
 
-Read section {task} of `benchmark/tasks.md`, the full `benchmark/verification-contract.md`, and the relevant rows in `benchmark/acceptance.md`. Deliver synthesizable RTL in `rtl/`, `rtl/files.f`, a self-checking verification environment in `verif/`, an executable `run.sh`, and `README.md` documenting tests, limitations, design choices, and a PPA optimization comparison with measured results or attempted tool commands. Correctness has priority over PPA, and PPA over completion time.
+Read `benchmark/tasks/{task}/task.md`, `benchmark/tasks/{task}/acceptance.md`, the shared rules in `benchmark/tasks.md` and `benchmark/acceptance.md`, and the full `benchmark/verification-contract.md`. Deliver synthesizable RTL in `rtl/`, `rtl/files.f`, a self-checking verification environment in `verif/`, an executable `run.sh`, and `README.md` documenting tests, limitations, design choices, and a PPA optimization comparison with measured results or attempted tool commands. Correctness has priority over PPA, and PPA over completion time.
 
 Build your own independent scoreboard, directed edge cases, and randomized checks appropriate to the task. The copied public evaluator is a smoke test only. Run `python3 evaluator/public_check.py {task} .` and your own checks. Make `run.sh` deterministic under `BENCH_SEED` and write `results.json` in the required contract format.{elf_instruction}
 

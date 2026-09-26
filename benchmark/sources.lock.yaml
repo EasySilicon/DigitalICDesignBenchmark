@@ -2,6 +2,9 @@ schema_version: 1
 cvdp:
   repository: nvidia/cvdp-benchmark-dataset
   revision: 5b807d945f6a99aa645f7e43a64a2115e281b4bf
+  non_code_license: CC-BY-4.0
+  non_code_license_url: https://creativecommons.org/licenses/by/4.0/
+  attribution: NVIDIA CVDP Benchmark Dataset
   file: cvdp_v1.1.0_nonagentic_code_generation_no_commercial.jsonl
   file_sha256: cbcd81295561ebb16e4d857e096f4d9908d042c33aff3b58abf236e868411857
   items:
@@ -45,4 +48,4 @@ t10_formats:
   mx: https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf
   ofp8_revision: "1.0"
   mx_revision: "1.0"
-  benchmark_numeric_contract: benchmark/tasks.md#t10--每拍双-1024-bit-输入的多精度脉动阵列矩阵乘法
+  benchmark_numeric_contract: benchmark/tasks/T10/task.md

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "act4_revision": "4a42cbd3756259bbc1f92a7d816bc2fd2bd551cb",
   "sail_version": "0.14.1",
-  "config_sha256": "91d9f183599ac72e939b1bc8530bb2d5590ead18e79923489860e06bde27b198",
+  "config_sha256": "d69bb1e3c66ef2e4d4658b28dc908d60f6e9233a1130994b6afede26f021714d",
   "instruction_limit": 1000000,
   "total": 45,
   "passed": 45,

@@ -1,0 +1,6 @@
+id: T06
+title: asynchronous_fifo
+level_hypothesis: 6
+origin: original
+time_limit_minutes: 360
+same_model_token_cap: 240000

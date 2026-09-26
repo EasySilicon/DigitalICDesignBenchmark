@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "One frozen benchmark run result",
+  "title": "Digital IC Design Benchmark for Agents frozen run result",
   "type": "object",
   "additionalProperties": false,
   "required": [

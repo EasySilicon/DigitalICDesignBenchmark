@@ -9,4 +9,4 @@ cd vendor/asap7
 sha256sum -c SHA256SUMS
 ```
 
-ORFS 可通过 `PLATFORM_DIR=/absolute/path/to/this/repo/vendor/asap7` 直接引用本目录，无需再次下载 ASAP7。ASAP7 PDK/标准单元按 [ASAP7 BSD 3-Clause 许可](LICENSES/ASAP7-BSD-3-Clause.txt)再分发；ORFS 平台脚本的许可文本见 [ORFS BSD 3-Clause 许可](LICENSES/ORFS-BSD-3-Clause.txt)。两个文本随文件一同保留。
+ORFS 可通过 `PLATFORM_DIR=/absolute/path/to/this/repo/vendor/asap7` 直接引用本目录，无需再次下载 ASAP7。许可证按组件就近保留：ASAP7 PDK/标准单元按 [ASAP7 BSD 3-Clause 许可](LICENSES/ASAP7-BSD-3-Clause.txt)再分发，ORFS 平台脚本按 [ORFS BSD 3-Clause 许可](LICENSES/ORFS-BSD-3-Clause.txt)再分发，FakeRAM2.0 生成的宏按 [FakeRAM2.0 BSD 3-Clause 许可](LICENSES/FakeRAM2.0-BSD-3-Clause.txt)再分发；drc/asap7.lydrc 的 BSD-2-Clause 许可保留在文件头。完整的路径、上游和版权映射见仓库根目录的 [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md)。

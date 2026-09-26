@@ -1,6 +1,6 @@
 # T09 的 ACT4 生成配置
 
-本目录固定 RV32I + Zicsr、单 hart、M-mode 启动、256 KiB 外部镜像和 `0x8003_F000` 的 `tohost`。`include_priv_tests=false`：题卡只实现有限 M-mode CSR/异常集合，完整 Sm 测试的前提不成立；该集合另由独立定向和差分用例验收。Sail 配置由锁定 ACT4 修订中的 CV32E20 样例改造，链接脚本也源自该样例；其原始许可为 Apache-2.0 WITH SHL-2.1。公开生成 ELF 的来源及哈希见[制品清单](../../../evaluator/act4_elfs/MANIFEST.json)。
+本目录固定 RV32I + Zicsr、单 hart、M-mode 启动、256 KiB 外部镜像和 `0x8003_F000` 的 `tohost`。`include_priv_tests=false`：题卡只实现有限 M-mode CSR/异常集合，完整 Sm 测试的前提不成立；该集合另由独立定向和差分用例验收。Sail 配置、链接脚本、模型宏和运行配置均由锁定 ACT4 修订中的 CV32E20 样例修改而来；上游许可为 Apache-2.0 WITH SHL-2.1，本仓库依其许可选项按 Apache-2.0 分发，并在每个衍生文件标明修改。完整归属见[第三方声明](../../../THIRD_PARTY_NOTICES.md#risc-v-architectural-certification-tests-act4)。公开生成 ELF 的来源及哈希见[制品清单](../../../evaluator/act4_elfs/MANIFEST.json)。
 
 已验证的生成命令，在 ACT4 锁定检出目录执行：
 

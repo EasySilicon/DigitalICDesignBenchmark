@@ -47,9 +47,12 @@ def run(task: str, submission: Path, seed: int, width: int, depth: int, n_inputs
         compile_cmd = [
             "verilator", "--binary", "--timing", "--assert", "-Wno-fatal",
             "-j", "4", "--top-module", f"tb_{task}", "--Mdir", str(binary_dir),
+            f"-I{ROOT.parent}",
             f"-I{(submission / 'rtl').resolve()}",
             *map(str, sources), str(tb),
         ]
+        if task == "T10":
+            compile_cmd.insert(2, "--hierarchical")
         if task in {"T03", "T06"}:
             compile_cmd[1:1] = [f"-GWIDTH={width}", f"-GDEPTH={depth}"]
         elif task == "T05":

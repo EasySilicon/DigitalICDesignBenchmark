@@ -1,0 +1,6 @@
+id: T02
+title: serial_in_parallel_out_8bit
+level_hypothesis: 2
+origin: cvdp
+time_limit_minutes: 75
+same_model_token_cap: 40000

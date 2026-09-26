@@ -1,0 +1,6 @@
+id: T07
+title: axi4lite_to_apb4_bridge
+level_hypothesis: 7
+origin: original
+time_limit_minutes: 480
+same_model_token_cap: 320000

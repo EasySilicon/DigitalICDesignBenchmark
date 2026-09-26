@@ -34,10 +34,12 @@ DESIGNS = {
 
 
 def constraint_text(top: str, clocks: tuple[str, ...], period: int,
-                    io_delay_ratio: float) -> str:
+                    io_delay_ratio: float, clock_periods: dict[str, int] | None = None) -> str:
+    clock_periods = clock_periods or {}
     lines = [f"current_design {top}"]
     for clock in clocks:
-        lines.append(f"create_clock -name {clock}_clock -period {period} [get_ports {clock}]")
+        clock_period = clock_periods.get(clock, period)
+        lines.append(f"create_clock -name {clock}_clock -period {clock_period} [get_ports {clock}]")
     lines.append(f"create_clock -name vclk -period {period}")
     delay = period * io_delay_ratio
     lines.append(f"set_input_delay {delay:g} -clock vclk [all_inputs -no_clocks]")
@@ -98,15 +100,17 @@ def main() -> int:
     parser.add_argument("submission", type=Path)
     parser.add_argument("--orfs-root", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
-    parser.add_argument("--period-ps", type=int, default=750)
+    parser.add_argument("--period-ps", type=int, default=1000)
+    parser.add_argument("--rd-period-ps", type=int, default=1000,
+                        help="T06 read-clock period; T06 write clock uses --period-ps")
     parser.add_argument("--io-delay-ratio", type=float, default=0.20)
     parser.add_argument("--utilization", type=int, default=10)
     parser.add_argument("--density", type=float, default=0.60)
     parser.add_argument("--seed", type=int, default=11)
-    parser.add_argument("--corner", choices=("BC", "TC", "WC"), default="BC")
+    parser.add_argument("--corner", choices=("BC", "TC", "WC"), default="WC")
     parser.add_argument("--num-cores", type=int, default=4)
     args = parser.parse_args()
-    if (args.period_ps <= 0 or not 0 <= args.io_delay_ratio < 0.5 or
+    if (args.period_ps <= 0 or args.rd_period_ps <= 0 or not 0 <= args.io_delay_ratio < 0.5 or
             not 0 < args.utilization < 100 or not 0 < args.density < 1 or
             args.seed < 0 or args.num_cores < 1):
         parser.error("invalid numerical PPA parameter")
@@ -120,12 +124,14 @@ def main() -> int:
         parser.error("yosys and openroad must be available on PATH")
     source_files = sources_from_filelist(args.submission.resolve())
     top, parameters, clocks = DESIGNS[args.task]
+    clock_periods = ({"wr_clk": args.period_ps, "rd_clk": args.rd_period_ps}
+                     if args.task == "T06" else {})
     output = args.output_dir.resolve()
     output.mkdir(parents=True, exist_ok=True)
     sdc = output / "constraint.sdc"
     config = output / "config.mk"
     write_if_changed(sdc, constraint_text(top, clocks, args.period_ps,
-                                          args.io_delay_ratio))
+                                          args.io_delay_ratio, clock_periods))
     write_config(config, top, source_files, sdc, parameters,
                  args.utilization, args.density, args.corner)
     digest = hashlib.sha256()
@@ -133,7 +139,8 @@ def main() -> int:
     digest.update(sdc.read_bytes())
     for source in source_files:
         digest.update(source.read_bytes())
-    variant = (f"ic_probe_{args.task.lower()}_{args.corner.lower()}_p{args.period_ps}_"
+    t06_suffix = f"_rd{args.rd_period_ps}" if args.task == "T06" else ""
+    variant = (f"ic_probe_{args.task.lower()}_{args.corner.lower()}_p{args.period_ps}{t06_suffix}_"
                f"u{args.utilization}_d{args.density:g}_s{args.seed}_"
                f"{digest.hexdigest()[:10]}")
     report = flow / "reports" / "asap7" / top / variant / "6_finish.rpt"
@@ -152,7 +159,9 @@ def main() -> int:
                                  check=False)
     result = {"task": args.task, "variant": variant, "exit_code": outcome.returncode,
               "elapsed_seconds": round(time.monotonic() - start, 3),
-              "period_ps": args.period_ps, "utilization": args.utilization,
+              "period_ps": args.period_ps,
+              "clock_periods_ps": clock_periods or {clock: args.period_ps for clock in clocks},
+              "utilization": args.utilization,
               "density": args.density, "seed": args.seed, "corner": args.corner,
               "report": str(report), "measurement": "exploratory; no power or PPA score"}
     if outcome.returncode == 0 and report.is_file():

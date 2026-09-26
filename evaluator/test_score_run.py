@@ -1,6 +1,6 @@
 import unittest
 
-from evaluator.score_run import load_rules, score_run
+from evaluator.score_run import load_rules, ppa_provenance_valid, ppa_score, score_run
 
 
 class ScoreRunTest(unittest.TestCase):
@@ -12,7 +12,7 @@ class ScoreRunTest(unittest.TestCase):
         self.payload = {"task_id": "T01", "groups": self.groups,
                         "elapsed_seconds": 900, "time_limit_seconds": 1800,
                         "delivery_qualified": True,
-                        "ppa_measurement": {"routed": True, "wns_ns": 0.1,
+                        "ppa_measurement": {"routed": True, "setup_worst_slack_ns": 0.1,
                                             "annotation_fraction": 0.98,
                                             "area_um2": 10, "delay_ns": 1,
                                             "energy_per_op_pj": 2},
@@ -21,19 +21,45 @@ class ScoreRunTest(unittest.TestCase):
         provenance = {"task_id": "T01", "measurement_status": "three_seed",
                       "workload_sha256": "a" * 64,
                       "parameter_set": {"platform": "ASAP7_7p5t_RVT_NLDM",
-                                        "period_ps": 2500, "corner": "WC",
+                                        "period_ps": 1000, "corner": "WC",
                                         "utilization": 10, "density": 0.6,
                                         "seeds": [11, 29, 47]},
                       "per_seed": [{"layout_seed": seed} for seed in (11, 29, 47)]}
         self.payload["ppa_measurement"].update(provenance)
         self.payload["ppa_reference"].update(provenance)
 
-    def test_baseline_and_time(self):
+    def test_pending_baseline_blocks_ppa_and_time(self):
         scored = score_run(self.payload, self.rules)
         self.assertEqual(scored["functional_total"], 75)
-        self.assertEqual(scored["ppa_score"], 14)
-        self.assertEqual(scored["ppa_rank_bucket"], 28)
-        self.assertEqual(scored["time_score"], 2.5)
+        self.assertEqual(scored["ppa_score"], 0)
+        self.assertEqual(scored["ppa_rank_bucket"], 0)
+        self.assertEqual(scored["time_score"], 0)
+
+    def test_ppa_provenance_requires_common_1ghz_period(self):
+        self.assertTrue(ppa_provenance_valid("T01", self.payload["ppa_measurement"],
+                                             self.payload["ppa_reference"]))
+        self.payload["ppa_measurement"]["parameter_set"]["period_ps"] = 500
+        self.assertFalse(ppa_provenance_valid("T01", self.payload["ppa_measurement"],
+                                              self.payload["ppa_reference"]))
+
+    def test_t06_provenance_requires_frozen_asynchronous_clock_pair(self):
+        parameter_set = {"platform": "ASAP7_7p5t_RVT_NLDM", "period_ps": 1000,
+                         "corner": "WC", "utilization": 10, "density": 0.6,
+                         "seeds": [11, 29, 47],
+                         "clock_periods_ps": {"wr_clk": 1000, "rd_clk": 1000},
+                         "asynchronous_clock_groups": [["wr_clk", "rd_clk"]]}
+        measurement = dict(self.payload["ppa_measurement"], task_id="T06",
+                           parameter_set=parameter_set)
+        reference = dict(self.payload["ppa_reference"], task_id="T06",
+                         parameter_set=parameter_set)
+        self.assertTrue(ppa_provenance_valid("T06", measurement, reference))
+        measurement["parameter_set"] = dict(parameter_set,
+                                              clock_periods_ps={"wr_clk": 1000, "rd_clk": 1250})
+        self.assertFalse(ppa_provenance_valid("T06", measurement, reference))
+
+    def test_reference_ppa_formula(self):
+        self.assertEqual(ppa_score(self.payload["ppa_measurement"],
+                                   self.payload["ppa_reference"]), 14)
 
     def test_half_credit_excludes_ppa(self):
         self.groups["AC-02"]["cases_passed"] = 2

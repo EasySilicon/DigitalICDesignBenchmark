@@ -29,6 +29,7 @@ POWER_CLOCKS = {
     "T06": ("wr_clk", "rd_clk"), "T07": ("clk",),
     "T08": ("clk",), "T09": ("clk",), "T10": ("clk",),
 }
+T06_PEAK_CLOCK_PERIOD_PS = {"wr_clk": 1000.0, "rd_clk": 1000.0}
 PARAMETERS = {"T03": ("WIDTH=32", "DEPTH=16"),
               "T05": ("N=8", "WIDTH=32"),
               "T06": ("WIDTH=32", "DEPTH=16")}
@@ -41,7 +42,11 @@ MONITORED_OPS = {
     "T06": ("posedge rd_clk", "rd_rst_n", "rd_valid && rd_ready"),
     "T07": ("posedge clk", "rst_n", "(BVALID && BREADY) + (RVALID && RREADY)"),
     "T08": ("posedge clk", "rst_n", "rsp_valid && rsp_ready"),
-    "T10": ("posedge clk", "rst_n", "out_valid && out_ready && out_row == 4'd15"),
+    "T10": ("posedge clk", "rst_n && out_ready",
+            "int'(out_valid[0] && out_row[3:0] == 4'd15) + "
+            "int'(out_valid[1] && out_row[7:4] == 4'd15) + "
+            "int'(out_valid[2] && out_row[11:8] == 4'd15) + "
+            "int'(out_valid[3] && out_row[15:12] == 4'd15)"),
 }
 LOG_OPS = {
     "T09": r"CPU_ELF_PASS .*commits=(\d+)",
@@ -110,16 +115,18 @@ def useful_operations(task: str, simulation_log: str) -> int:
 def check_t10_workload(log: str, vectors: Path, case_count: int) -> None:
     if not 1 <= case_count <= 1024:
         raise ValueError("T10 case count outside hidden testbench capacity")
-    if log.count(f"MM_END cases={case_count}") != 1:
-        raise RuntimeError("T10 workload did not complete exactly once")
+    stream_markers = re.findall(
+        r"^MM_STREAM input_bubble_phases=([01]{13}) finished=(\d+)$",
+        log, re.MULTILINE,
+    )
+    if stream_markers != [("0" * 13, str(case_count))]:
+        raise RuntimeError("T10 continuous workload did not complete exactly once")
     markers = re.findall(r"^MM_CASE (\d+) ([01]) ([01]) ([01]) (\d+)$",
                          log, re.MULTILINE)
     if len(markers) != case_count or [int(row[0]) for row in markers] != list(range(case_count)):
         raise RuntimeError("T10 workload missing or duplicated case marker")
     if any(row[1:] != ("1", "1", "1", "16") for row in markers):
         raise RuntimeError("T10 workload protocol or latency check failed")
-    reset = {int(i): passed == "1" for i, passed in
-             re.findall(r"^MM_RESET (\d+) ([01])$", log, re.MULTILINE)}
     rows: dict[int, dict[int, int]] = {}
     for index, row, value in re.findall(r"^MM_ROW (\d+) (\d+) ([0-9a-fA-F]+)$",
                                         log, re.MULTILINE):
@@ -128,13 +135,11 @@ def check_t10_workload(log: str, vectors: Path, case_count: int) -> None:
             raise RuntimeError("T10 workload duplicated output row")
         rows[index][row] = int(value, 16)
     files = {name: [int(line, 16) for line in (vectors / f"{name}.mem").read_text().splitlines()]
-             for name in ("a", "b", "as", "bs", "mode", "reset")}
-    if any(len(files[name]) != case_count for name in ("as", "bs", "mode", "reset")) or \
+             for name in ("a", "b", "as", "bs", "mode", "phase")}
+    if any(len(files[name]) != case_count for name in ("as", "bs", "mode", "phase")) or \
             any(len(files[name]) != case_count * 16 for name in ("a", "b")):
         raise ValueError("T10 workload vector file length mismatch")
     for index in range(case_count):
-        if files["reset"][index] and not reset.get(index, False):
-            raise RuntimeError(f"T10 workload reset probe failed at case {index}")
         if set(rows.get(index, {})) != set(range(16)):
             raise RuntimeError(f"T10 workload missing row at case {index}")
         mode = files["mode"][index]
@@ -214,7 +219,7 @@ def run(args: argparse.Namespace) -> dict:
     if args.task == "T10":
         if args.vectors is None or args.case_count is None or args.testbench is None:
             raise ValueError("T10 requires --vectors, --case-count and --testbench")
-        for name in ("a", "b", "as", "bs", "mode", "pause", "stall", "reset"):
+        for name in ("a", "b", "as", "bs", "mode", "phase"):
             payload = (args.vectors / f"{name}.mem").read_bytes()
             workload_digest.update(len(payload).to_bytes(8, "big"))
             workload_digest.update(payload)
@@ -224,7 +229,7 @@ def run(args: argparse.Namespace) -> dict:
     cell_files = [path for path in cell_files if "_SEQ_" not in path.name]
     command = ["verilator", "--binary", "--timing", "--trace", "--trace-underscore", "-Wno-fatal",
                "-Wno-SPECIFYIGN", "-j", "4", "--top-module", top,
-               "--Mdir", str(output / "build")]
+               "--Mdir", str(output / "build"), f"-I{ROOT.parent}"]
     for definition in PARAMETERS.get(args.task, ()):
         command.append(f"-G{definition}")
     command += [str(output / "tb_power.sv"), str(result_dir / "6_final.v"),
@@ -271,6 +276,8 @@ def run(args: argparse.Namespace) -> dict:
     if args.ops is not None and args.ops != ops:
         raise ValueError(f"declared --ops={args.ops} differs from measured {ops}")
     duration, periods = vcd_stats(vcd, top, POWER_CLOCKS[args.task])
+    if args.task == "T06" and periods != T06_PEAK_CLOCK_PERIOD_PS:
+        raise ValueError("T06 PPA/power workload must drive independent wr_clk and rd_clk at 1000 ps")
     power_sdc = (result_dir / "6_final.sdc").read_text()
     for name, period in periods.items():
         pattern = rf"(create_clock -name {re.escape(name)}_clock -period )\S+"

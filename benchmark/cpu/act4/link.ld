@@ -1,4 +1,12 @@
-/* Derived from ACT4 CV32E20 sample linker script (Apache-2.0 WITH SHL-2.1). */
+/*
+ * Derived from riscv/riscv-arch-test, config/cores/cve2/cv32e20/link.ld,
+ * revision 4a42cbd3756259bbc1f92a7d816bc2fd2bd551cb.
+ *
+ * Upstream license: Apache-2.0 WITH SHL-2.1. The upstream license permits
+ * recipients to elect Apache-2.0; this modified file is distributed under
+ * that option. Changes: benchmark-specific memory map and stack size.
+ * See ../../../THIRD_PARTY_NOTICES.md.
+ */
 /* Set these to match the DUT memory map and hart count. */
 RAM_ORIGIN = 0x80000000;
 RAM_LENGTH = 0x3F000;

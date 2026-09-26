@@ -13,6 +13,7 @@ import math
 from pathlib import Path
 
 RULES_PATH = Path(__file__).with_name("score_rules.json")
+BASELINES_PATH = Path(__file__).resolve().parents[1] / "benchmark/ppa-baselines.json"
 
 
 def load_rules() -> dict:
@@ -80,7 +81,8 @@ def score_functional(task: str, results: dict, rules: dict) -> tuple[float, floa
 
 
 def ppa_score(measurement: dict, reference: dict) -> float:
-    if not measurement.get("routed", False) or measurement.get("wns_ns", -1) < 0 or \
+    if not measurement.get("routed", False) or \
+            measurement.get("setup_worst_slack_ns", -1) < 0 or \
             measurement.get("annotation_fraction", 0) < 0.95:
         return 0.0
     factors = []
@@ -96,9 +98,12 @@ def ppa_score(measurement: dict, reference: dict) -> float:
 
 
 def ppa_provenance_valid(task: str, measurement: dict, reference: dict) -> bool:
-    expected = {"platform": "ASAP7_7p5t_RVT_NLDM", "period_ps": 2500,
+    expected = {"platform": "ASAP7_7p5t_RVT_NLDM", "period_ps": 1000,
                 "corner": "WC", "utilization": 10, "density": 0.6,
                 "seeds": [11, 29, 47]}
+    if task == "T06":
+        expected["clock_periods_ps"] = {"wr_clk": 1000, "rd_clk": 1000}
+        expected["asynchronous_clock_groups"] = [["wr_clk", "rd_clk"]]
     for record in (measurement, reference):
         rows = record.get("per_seed")
         if record.get("task_id") != task or \
@@ -130,8 +135,13 @@ def score_run(payload: dict, rules: dict | None = None) -> dict:
     if not isinstance(delivery, bool):
         raise ValueError("delivery_qualified must be boolean")
     full = functional == rules["functional_total"]
+    baselines = json.loads(BASELINES_PATH.read_text())
+    official_reference = baselines.get("tasks", {}).get(task)
+    baseline_ready = baselines.get("status") == "qualified_1ghz" and \
+        isinstance(official_reference, dict) and \
+        payload.get("ppa_reference") == official_reference
     eligible = full and delivery and isinstance(payload.get("ppa_measurement"), dict) and \
-        isinstance(payload.get("ppa_reference"), dict) and \
+        baseline_ready and \
         ppa_provenance_valid(task, payload["ppa_measurement"], payload["ppa_reference"])
     ppa = ppa_score(payload["ppa_measurement"], payload["ppa_reference"]) if eligible else 0.0
     ppa_valid = eligible and ppa > 0

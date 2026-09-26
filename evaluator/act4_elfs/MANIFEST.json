@@ -14,10 +14,10 @@
   "tohost": "0x8003f000",
   "max_load_end_offset": 213696,
   "config_sha256": {
-    "link.ld": "445b3e98b851b496588bd058c27ffed60bad303942aedc5505c50f04bc3dea5d",
-    "rvmodel_macros.h": "bbae7ef6cb966e36f9e5e8bd18f01b75d4d9c3ae43b3e9d14001d56ca19b41a7",
-    "sail.json": "91d9f183599ac72e939b1bc8530bb2d5590ead18e79923489860e06bde27b198",
-    "test_config.yaml": "dd35ff09c032eab1bf9d85f9787995fc2746db423ea53c87f4f9ac1102513573",
+    "link.ld": "f60c333f6c91625b2bd263a590c0ddf387a961e0c684f8e4980562b191f56bed",
+    "rvmodel_macros.h": "7f7422cb4fd909c1c0a70c9f1f7e9b1fd899d050a3db210217d423a7cb933a24",
+    "sail.json": "d69bb1e3c66ef2e4d4658b28dc908d60f6e9233a1130994b6afede26f021714d",
+    "test_config.yaml": "89bdb87f0489ce5cbb5559272ccfe962ac47be729c8f7bdee3e6ce34b4e866a8",
     "udb.yaml": "e926c3b25949ead6b85fc7fb883b85d39d9d01d26f87c8d246ca86bbe62a49a6"
   },
   "elfs": [

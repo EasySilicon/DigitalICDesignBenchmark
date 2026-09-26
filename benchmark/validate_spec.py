@@ -6,7 +6,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import math
 from pathlib import Path
 from urllib.request import urlopen
 
@@ -14,6 +13,7 @@ import yaml
 
 
 ROOT = Path(__file__).resolve().parent
+PROJECT_NAME = "Digital IC Design Benchmark for Agents"
 
 
 def fail(message: str) -> None:
@@ -23,8 +23,12 @@ def fail(message: str) -> None:
 def validate_local() -> tuple[dict, dict]:
     manifest = yaml.safe_load((ROOT / "manifest.yaml").read_text())
     sources = yaml.safe_load((ROOT / "sources.lock.yaml").read_text())
-    tasks_doc = (ROOT / "tasks.md").read_text()
     readme = (ROOT / "README.md").read_text()
+
+    if manifest.get("project_name") != PROJECT_NAME:
+        fail("project name differs from the canonical name")
+    if not readme.startswith(f"# {PROJECT_NAME}\n"):
+        fail("benchmark overview title differs from the canonical project name")
 
     task_rows = manifest["tasks"]
     expected_ids = [f"T{index:02d}" for index in range(1, 11)]
@@ -47,36 +51,46 @@ def validate_local() -> tuple[dict, dict]:
     if manifest["ppa_measurement"]["flow"] != sources["ppa"]["flow"]:
         fail("PPA flow differs between manifest and source lock")
     baselines = json.loads((ROOT / "ppa-baselines.json").read_text())
-    calibrated_ids = expected_ids[:-1]
     ppa_inventory = manifest["ppa_measurement"]
-    if ppa_inventory["calibrated_baseline_tasks"] != calibrated_ids or \
-            ppa_inventory["pending_baseline_tasks"] != ["T10"]:
+    if ppa_inventory["calibrated_baseline_tasks"] != [] or \
+            ppa_inventory["pending_baseline_tasks"] != expected_ids:
         fail("PPA baseline scope must identify calibrated and pending tasks")
-    if set(baselines["tasks"]) != set(calibrated_ids):
-        fail("PPA baseline inventory must cover exactly the nine calibrated tasks")
+    if baselines["tasks"] != {} or baselines["status"] != "pending_1ghz_rebaseline":
+        fail("1 GHz PPA baseline inventory must remain empty until measured")
     if baselines["score_bucket_width_points"] != scores["ppa_rank_resolution_points"]:
         fail("PPA baseline bucket width differs from manifest")
-    if manifest["ppa_measurement"]["shared_clock_period_ps"] != 2500 or \
-            manifest["ppa_measurement"]["parameter_set_status"] != "trial_locked" or \
-            manifest["ppa_measurement"]["baseline_values_status"] != "trial_locked":
-        fail("trial PPA parameter lock differs from baseline records")
-    for task_id in calibrated_ids:
-        record = baselines["tasks"][task_id]
-        params = record["parameter_set"]
-        if record["task_id"] != task_id or record["measurement_status"] != "three_seed" or \
-                params["period_ps"] != 2500 or params["corner"] != "WC" or \
-                params["seeds"] != [11, 29, 47] or \
-                [row["layout_seed"] for row in record["per_seed"]] != [11, 29, 47] or \
-                record["annotation_fraction"] < 0.95 or record["wns_ns"] < 0:
-            fail(f"invalid PPA baseline configuration: {task_id}")
-        if any(not math.isfinite(record[key]) or record[key] <= 0 for key in
-               ("area_um2", "delay_ns", "energy_per_op_pj")):
-            fail(f"invalid PPA baseline values: {task_id}")
+    t06_clocks = ppa_inventory.get("task_clock_contracts", {}).get("T06")
+    t06_expected = {"wr_clk_period_ps": 1000, "rd_clk_period_ps": 1000,
+                    "relationship": "asynchronous"}
+    if ppa_inventory["shared_clock_period_ps"] != 1000 or \
+            t06_clocks != t06_expected or \
+            baselines["parameter_set"].get("task_clock_contracts", {}).get("T06") != t06_expected or \
+            ppa_inventory["parameter_set_status"] != "target_1ghz_pending_physical_calibration" or \
+            ppa_inventory["baseline_values_status"] != "pending_rebaseline" or \
+            baselines["parameter_set"]["period_ps"] != 1000:
+        fail("1 GHz target differs from pending baseline records")
+    historical = json.loads((ROOT / baselines["historical_400mhz_baselines"]).read_text())
+    if set(historical["tasks"]) != set(expected_ids[:-1]) or \
+            any(row["parameter_set"]["period_ps"] != 2500
+                for row in historical["tasks"].values()):
+        fail("archived 400 MHz measurements have inconsistent provenance")
 
     for index, row in enumerate(task_rows, start=1):
         task_id = row["id"]
-        if f"## {task_id} ·" not in tasks_doc or f"| {task_id} |" not in readme:
-            fail(f"missing task card or overview row: {task_id}")
+        task_dir = ROOT / "tasks" / task_id
+        task_doc = task_dir / "task.md"
+        acceptance_doc = task_dir / "acceptance.md"
+        task_metadata = yaml.safe_load((task_dir / "task.yaml").read_text())
+        if not task_doc.is_file() or not task_doc.read_text().startswith(f"# {task_id} ·"):
+            fail(f"missing task-local task card: {task_id}")
+        if not acceptance_doc.is_file() or not acceptance_doc.read_text().startswith(f"# {task_id}"):
+            fail(f"missing task-local acceptance plan: {task_id}")
+        if f"| {task_id} |" not in readme:
+            fail(f"missing overview row: {task_id}")
+        for key in ("id", "title", "level_hypothesis", "origin",
+                    "time_limit_minutes", "same_model_token_cap"):
+            if task_metadata.get(key) != row[key]:
+                fail(f"task metadata differs from manifest: {task_id}/{key}")
         if sum(row["f_points"]) != scores["functional_basic"]:
             fail(f"F points do not sum to 60: {task_id}")
         if sum(row["p_points"]) != scores["functional_edges"]:
@@ -112,7 +126,7 @@ def validate_local() -> tuple[dict, dict]:
             fail(f"missing executable public testbench: {task_id}")
     if not (ROOT.parent / sources["riscv"]["act4_generated_elf_manifest"]).is_file():
         fail("missing generated ACT4 ELF inventory")
-    cpu_plan = (ROOT / "cpu-validation.md").read_text()
+    cpu_plan = (ROOT / "tasks" / "T09" / "acceptance.md").read_text()
     if "CPU-PIPE-LAT" not in cpu_plan or "CPU-PIPE-THRU" in cpu_plan:
         fail("CPU structural timing gate must use per-instruction latency")
     if not (ROOT.parent / "evaluator" / "cpu_latency_check.py").is_file():

@@ -1,3 +1,8 @@
+// Modified derivative of riscv/riscv-arch-test,
+// config/cores/cve2/cv32e20/sail.json at revision
+// 4a42cbd3756259bbc1f92a7d816bc2fd2bd551cb.
+// Upstream license: Apache-2.0 WITH SHL-2.1; this distribution elects
+// Apache-2.0. See ../../../THIRD_PARTY_NOTICES.md.
 {
   "$schema": "https://github.com/riscv/sail-riscv/releases/download/0.14.1/sail_riscv_config_schema.json",
   "base": {

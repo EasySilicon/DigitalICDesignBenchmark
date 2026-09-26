@@ -1,3 +1,14 @@
+/*
+ * Derived from riscv/riscv-arch-test,
+ * config/cores/cve2/cv32e20/rvmodel_macros.h at revision
+ * 4a42cbd3756259bbc1f92a7d816bc2fd2bd551cb.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Changes: reduced the upstream CV32E20 model macros to this benchmark's
+ * RV32I/Zicsr tohost protocol and memory map. See
+ * ../../../THIRD_PARTY_NOTICES.md.
+ */
 #ifndef IC_BCMK_RVMODEL_MACROS_H
 #define IC_BCMK_RVMODEL_MACROS_H
 #define RVMODEL_DATA_SECTION
