@@ -1,5 +1,7 @@
 # T05 · ready/valid 轮询仲裁器
 
+[English](README.en.md)
+
 任务元数据见 `task.yaml`。
 
 - [冻结任务卡](task.md)

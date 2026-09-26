@@ -1,5 +1,7 @@
 # T01 · CVDP 8×3 优先编码器
 
+[English](README.en.md)
+
 任务元数据见 `task.yaml`。
 
 - [冻结任务卡](task.md)

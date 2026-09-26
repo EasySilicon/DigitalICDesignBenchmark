@@ -1,6 +1,8 @@
 # Digital IC Design Benchmark for Agents
 
-Digital IC Design Benchmark for Agents 是一套正在校准的数字芯片设计与交付 benchmark，用于比较多 Agent 系统与通用 coding agent 的完整 RTL 交付质量。它包含 10 个任务，覆盖组合逻辑、时序控制、片上总线、CDC、缓存、五级流水线 CPU 和多精度 NPU 矩阵乘法。每题要求 Agent 自行完成 RTL、可运行验证环境和 PPA 优化迭代。旧版 T01–T09 均有公开冒烟、私有隐藏验收器和 75/75 的参考功能分；旧 2500 ps / 400 MHz 下的九题三种子布线和功耗结果已归档为[历史试跑](ppa-baselines-400mhz.json)。新的全题目标为 1000 ps / 1 GHz；[当前基线](ppa-baselines.json)为空，十题均待重新实现或校准。**T10 已升级为跨块连续双 1024-bit/拍、四行槽输出的流接口；评测方独立参考 RTL 已通过 2,624 块隐藏流式回归、复位和 256 PE 结构检查，第一版单层 OpenROAD 网表连接触及 32 GiB 上限，采用 PE 宏的探索性顶层连接已通过；14 个可编译缺陷变异体已全部检出。1 GHz 三种子 PPA 基线和新验收器物理校准仍缺，不能给正式分数。**工具镜像 digest、不同 RTL 写法的公平性检查、交付质量门禁和完整试做报告仍须按[发布门禁](methodology.md#发布门禁)校准。
+[English](README.en.md)
+
+Digital IC Design Benchmark for Agents 是一套数字芯片设计与交付 benchmark，用于比较多 Agent 系统与通用 coding agent 的完整 RTL 交付质量。它包含 10 个任务，覆盖组合逻辑、时序控制、片上总线、CDC、缓存、五级流水线 CPU 和多精度 NPU 矩阵乘法。每题要求 Agent 自行完成 RTL、可运行验证环境和 PPA 优化迭代。全题的物理目标为 1000 ps / 1 GHz；正式 PPA 基线、工具镜像和发布证据将依照[发布门禁](methodology.md#发布门禁)冻结。
 
 | ID | 难度假设 | 任务 | 来源 | 开发时限 |
 | --- | ---: | --- | --- | ---: |
@@ -26,11 +28,11 @@ Digital IC Design Benchmark for Agents 是一套正在校准的数字芯片设�
 - [验证与交付契约](verification-contract.md)：参赛 Agent 的自带 UT、固定 DUT 接口、独立验收与 CPU ELF 入口。
 - [评测与评分方法](methodology.md)：运行资源、可比性、通用门禁、分数计算、校准和发布条件。
 - [PPA 测量方法](ppa.md)：统一工艺、约束、工作负载、功耗估计和排序规则。
-- [试评分 PPA 参考值](ppa-baselines.json)：九题三种子布线与门级活动功耗的中位数和重复性记录。
+- [PPA 参考值](ppa-baselines.json)：正式评分冻结后发布的参考三元组。
 - [领域与难度覆盖](coverage.md)：逐题设计领域、工程能力、难度来源和未覆盖范围。
 - [CPU 验收计划](cpu-validation.md)：ACT4 接入、流水线专项程序、差分测试和通过条件。
 - [NPU 验收计划](npu-validation.md)：T10 的格式边界、命令规模、数值 oracle、结构与物理发布门禁。
-- [NPU 工程质量门禁](npu-quality-gates.md)：T10 赛后候选与独立参考、开源物理可实现性及商用签核之间的差距。
+- [NPU 工程质量门禁](npu-quality-gates.md)：T10 的自动发布条件、开源物理实现范围与量产签核边界。
 - [来源锁定](sources.lock.yaml)：CVDP 的修订、数据文件及题面哈希。
 - [机器可读清单](manifest.yaml)：题目 ID、时限、模型 token 上限及分值，供评测器读取。
 - [运行报告 schema](report.schema.json)：统一记录功能、PPA、完成时间和交付诊断。

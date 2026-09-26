@@ -1,5 +1,7 @@
 # T09 · RV32I 五级流水线 CPU
 
+[English](README.en.md)
+
 任务元数据见 `task.yaml`。
 
 - [冻结任务卡](task.md)

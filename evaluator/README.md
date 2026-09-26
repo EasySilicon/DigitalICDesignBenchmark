@@ -1,5 +1,7 @@
 # 独立端口验收器的公开可执行样例
 
+[English](README.en.md)
+
 本文档属于 **Digital IC Design Benchmark for Agents**。
 
 `public_check.py` 只读取参赛提交的 `rtl/files.f` 和 RTL 源码，使用**评测方自己的** T01–T10 的测试平台编译并检查固定 DUT 端口。它不会调用提交内的 `run.sh`、`verif/` 或 `results.json`。例如：
@@ -39,7 +41,7 @@ python3 evaluator/check_act4_sail.py \
 
 `score_rules.json` 将十题的 F=60/P=15 分项逐一映射到验收组，`score_run.py` 将评测方生成的组内通过数、严重安全缺陷、PPA 三元组和完成时间转成分层分数。它**不调用**公开冒烟测试来制造正式分数。输入须包含 `task_id`、`groups`、`delivery_qualified`、`elapsed_seconds`、`time_limit_seconds`，可含 `ppa_measurement` 和 `ppa_reference`。每个验收组必须有 `cases_passed`、`cases_total`，安全缺陷另标 `safety_violation`。缺少应有验收组直接报错，不推断为通过；所有组全过得子项满分，无安全缺陷且各组通过比例的等权平均至少一半得半分，其余得零分。T01–T10 私有隐藏组执行器已接入；T10 独立参考的功能回归已通过，物理 PPA 基线仍在准备。
 
-T10 的[任务包内公开数值 oracle](../benchmark/tasks/T10/public/matmul_oracle.py)定义精确格式解码、MX scale 和数值误差界，可供参赛者复核题意；`tb_T10.sv` 是新固定流接口的 248 块持续吞吐公开冒烟，并额外检查一个背压块。`score_run.py` 在 T10 隐藏验收和 PPA 参考值校准完成前会拒绝为 T10 输出正式分数；试评入口对持续吞吐失败的提交将 PPA 与时间分置零。
+T10 的[任务包内公开数值 oracle](../benchmark/tasks/T10/public/matmul_oracle.py)定义精确格式解码、MX scale 和数值误差界，可供参赛者复核题意；`tb_T10.sv` 是固定流接口的 248 块持续吞吐公开冒烟，并额外检查一个背压块。`score_run.py` 在 T10 隐藏验收和 PPA 参考值校准完成前会拒绝为 T10 输出正式分数；试评入口对持续吞吐失败的提交将 PPA 与时间分置零。
 
 `delivery_check.py` 是交付入口的可执行检查：确认 `rtl/files.f`、`verif/`、`README.md`、可执行 `run.sh`，同一 `BENCH_SEED` 连续运行两次并校验 `results.json` 的测试行和版本字段。T09 另需评测方提供正反两个 ELF，检查 `--elf` 的文件哈希、`tohost`、超时字段与退出码。它只检查自带验证入口的交付形式，**不将其 PASS 当作 DUT 正确性**；PPA 探索记录与变异检出率仍需独立审计。
 
