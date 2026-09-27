@@ -34,19 +34,19 @@ ppa_measurement:
 tasks:
   - id: T01
     level_hypothesis: 1
-    title: priority_encoder_8x3
+    title: serial_in_parallel_out_8bit
     origin: cvdp
-    time_limit_minutes: 30
-    same_model_token_cap: 20000
+    time_limit_minutes: 45
+    same_model_token_cap: 30000
     f_points: [20, 40]
     p_points: [10, 5]
   - id: T02
     level_hypothesis: 2
-    title: serial_in_parallel_out_8bit
-    origin: cvdp
-    time_limit_minutes: 75
-    same_model_token_cap: 40000
-    f_points: [20, 40]
+    title: serdes_rx_comma_aligner
+    origin: original
+    time_limit_minutes: 90
+    same_model_token_cap: 80000
+    f_points: [25, 15, 20]
     p_points: [10, 5]
   - id: T03
     level_hypothesis: 3

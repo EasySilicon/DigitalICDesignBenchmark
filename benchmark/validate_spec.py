@@ -70,7 +70,8 @@ def validate_local() -> tuple[dict, dict]:
             baselines["parameter_set"]["period_ps"] != 1000:
         fail("1 GHz target differs from pending baseline records")
     historical = json.loads((ROOT / baselines["historical_400mhz_baselines"]).read_text())
-    if set(historical["tasks"]) != set(expected_ids[:-1]) or \
+    if historical.get("status") != "historical_partial_reference" or \
+            set(historical["tasks"]) != set(expected_ids[2:-1]) or \
             any(row["parameter_set"]["period_ps"] != 2500
                 for row in historical["tasks"].values()):
         fail("archived 400 MHz measurements have inconsistent provenance")

@@ -1,0 +1,34 @@
+{
+  "task_id": "T02",
+  "pilot_date": "2026-09-27",
+  "model": "gpt-6-sol",
+  "reasoning_effort": "high",
+  "workspace": "prepare_trial.py public-only copy",
+  "tmux_session": "t02_gpt6sol_20260927_retry",
+  "wall_clock_seconds": 577,
+  "reported_model_tokens": 79885,
+  "time_limit_minutes": 90,
+  "token_cap": 80000,
+  "agent_exit_code": 0,
+  "delivery": {
+    "qualified": true,
+    "self_check_tests": 6
+  },
+  "public_smoke": {
+    "passed": true,
+    "symbols_checked": 48
+  },
+  "synthesis": {
+    "yosys_check": "pass"
+  },
+  "independent_groups": {
+    "AC-05": {"passed": 20, "total": 20},
+    "AC-06": {"passed": 8, "total": 8},
+    "AC-07": {"passed": 10, "total": 10},
+    "AC-08A": {"passed": 8, "total": 8},
+    "AC-08B": {"passed": 6, "total": 6}
+  },
+  "functional_basic": 60,
+  "functional_edges": 15,
+  "qualification_note": "The blind pilot exposed a one-cycle error in the evaluator for slice-aligned training. The task text, public timing assertion, independent oracle, and reference RTL were corrected before the recorded 52/52 rerun. The candidate submission itself was not changed using hidden feedback."
+}

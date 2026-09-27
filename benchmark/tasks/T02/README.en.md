@@ -1,4 +1,4 @@
-# T02 · CVDP 8-bit serial-in/parallel-out register
+# T02 · SerDes RX comma aligner
 
 [中文](README.md)
 

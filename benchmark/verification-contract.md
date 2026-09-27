@@ -22,8 +22,8 @@ Agent 可以使用预装 Yosys、OpenROAD、ASAP7 和 ORFS 脚本反复测自己
 
 | 任务 | 顶层模块名 | 评测参数组合 | 外部连接 |
 | --- | --- | --- | --- |
-| T01 | `priority_encoder_8x3` | 无 | 题卡的 `in/out` |
-| T02 | `serial_in_parallel_out_8bit` | 无 | 题卡的 `clock/serial_in/parallel_out` |
+| T01 | `serial_in_parallel_out_8bit` | 无 | 题卡的 `clock/serial_in/parallel_out` |
+| T02 | `serdes_rx_comma_aligner` | 无 | 题卡的 `clk,rst_n,rx_valid,rx_bits,locked,symbol_valid,symbol_out` |
 | T03 | `synchronous_fifo` | `WIDTH,DEPTH`：`(8,3),(8,8),(32,16)`；再做交叉组合 | 题卡的单时钟流接口 |
 | T04 | `apb4_timer` | 无 | 题卡的 APB4、`irq` |
 | T05 | `round_robin_stream_arbiter` | `N,WIDTH`：`(4,8),(8,32)`；再做交叉组合 | `in_data` 定义为 packed `logic [N-1:0][WIDTH-1:0]`，下标 `i` 为第 `i` 路 |
@@ -51,7 +51,8 @@ Agent 可以使用预装 Yosys、OpenROAD、ASAP7 和 ORFS 脚本反复测自己
 
 | 任务 | 需求/验收组 | 可执行公开 UT | 独立隐藏 UT | 参考 RTL/变异体 | 当前可正式评分 |
 | --- | --- | --- | --- | --- | --- |
-| T01–T02 | 已定义 AC-01–08 | 已有独立端口公开冒烟 | 私有功能分组原型已实现 | 参考 RTL 各 75/75；每题 8 个有效变异体已检出 | 否 |
+| T01 | 已定义 AC-01–04 | 已有独立端口公开冒烟 | 待随当前任务包冻结 | 待随当前任务包冻结 | 否 |
+| T02 | 已定义 AC-05–08B | 已有含零错位逐拍锁定检查的公开冒烟 | 固定种子 bit-stream oracle 已实现 | 参考 RTL 与 `gpt-6-sol` 盲测均为 75/75；10 个可综合变异体全部检出 | 否 |
 | T03 | 已定义 AC-09–15 | 已有独立端口公开冒烟 | 六组 WIDTH/DEPTH 组合及长流私有功能分组已实现 | 参考 RTL 75/75；9 个独立变异体已检出 | 否 |
 | T04 | 已定义 AC-16–20 | 已有独立端口公开冒烟 | APB4 逐拍模型与分组测试已实现 | 参考 RTL 75/75；10 个独立变异体已检出 | 否 |
 | T05 | 已定义 AC-21–25 | 已有独立端口公开冒烟 | N=4/8、WIDTH=8/32 私有分组已实现 | 参考 RTL 75/75；9 个独立变异体已检出 | 否 |

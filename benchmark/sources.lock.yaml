@@ -9,10 +9,6 @@ cvdp:
   file_sha256: cbcd81295561ebb16e4d857e096f4d9908d042c33aff3b58abf236e868411857
   items:
     T01:
-      id: cvdp_copilot_8x3_priority_encoder_0001
-      categories: [cid003, easy]
-      prompt_sha256: 7d08613f35bfd1909f3378dfe699ad299847557f7bbd3a4f8791ab25572f0cec
-    T02:
       id: cvdp_copilot_serial_in_parallel_out_0004
       categories: [cid003, easy]
       prompt_sha256: f1fbe4e1a70f04d1b0917004195fca88d7c07324c3af163700d772e5396091f9

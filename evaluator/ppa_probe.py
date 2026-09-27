@@ -20,8 +20,8 @@ from pathlib import Path
 from public_check import ROOT, sources_from_filelist
 
 DESIGNS = {
-    "T01": ("priority_encoder_8x3", "", ()),
-    "T02": ("serial_in_parallel_out_8bit", "", ("clock",)),
+    "T01": ("serial_in_parallel_out_8bit", "", ("clock",)),
+    "T02": ("serdes_rx_comma_aligner", "", ("clk",)),
     "T03": ("synchronous_fifo", "WIDTH 32 DEPTH 16", ("clk",)),
     "T04": ("apb4_timer", "", ("clk",)),
     "T05": ("round_robin_stream_arbiter", "N 8 WIDTH 32", ("clk",)),

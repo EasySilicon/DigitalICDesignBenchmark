@@ -1,0 +1,24 @@
+{
+  "task_id": "T02",
+  "qualification_date": "2026-09-27",
+  "seed": 20260927,
+  "reference_sha256": "e8f89d59b4f3e67bcff6619fad62461bdde20c2a01f4660073b5759c6abc90c5",
+  "public_tb_sha256": "dba7cc4efcc1f5cc6ec6293e1e76f8d17ed91477d7ff8a8e50db10f4a789af20",
+  "hidden_tb_sha256": "c82d06fddf4383ee717eba9004de2aa9dac0939b99010360796418a561d896ee",
+  "hidden_runner_sha256": "86775793d7548de524cd02a58031f2649f250740bf3cbbdcc4a086e375c2f69f",
+  "mutation_runner_sha256": "8862a1662e45cc4bf5db16856ba698e94bb413a73de47fbe9acdb76989a94ac4",
+  "score_rules_sha256": "9e6e85d79a3700bdbab7bbf06aa4b098dcb4baa6d4c35474321aa59f5e98215f",
+  "reference_groups": {
+    "AC-05": {"passed": 20, "total": 20},
+    "AC-06": {"passed": 8, "total": 8},
+    "AC-07": {"passed": 10, "total": 10},
+    "AC-08A": {"passed": 8, "total": 8},
+    "AC-08B": {"passed": 6, "total": 6}
+  },
+  "functional_basic": 60,
+  "functional_edges": 15,
+  "reference_yosys_check": "pass",
+  "eligible_mutants": 10,
+  "killed_mutants": 10,
+  "ppa_baseline_status": "pending_1ghz_calibration"
+}

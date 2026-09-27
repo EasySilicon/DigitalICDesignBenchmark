@@ -48,7 +48,7 @@ def prepare(task: str, destination: Path) -> dict:
         " For T09, implement the required `run.sh --elf` mode and use the "
         "copied public ELF tools to exercise it." if task == "T09" else ""
     )
-    prompt = f"""You are the sole candidate Agent for benchmark task {task}. This is a fresh conversation and an independent working directory. You have {row['time_limit_minutes']} minutes of wall clock time. Use only public materials copied into this directory and installed local tools. Do not inspect other repositories or directories for benchmark reference RTL, hidden tests, answers, or scoring code.
+    prompt = f"""You are the sole candidate Agent for benchmark task {task}. This is a fresh conversation and an independent working directory. You have {row['time_limit_minutes']} minutes of wall clock time and an aggregate input-plus-output budget of {row['same_model_token_cap']} model tokens. Use only public materials copied into this directory and installed local tools. Do not inspect other repositories or directories for benchmark reference RTL, hidden tests, answers, or scoring code.
 
 Read `benchmark/tasks/{task}/task.md`, `benchmark/tasks/{task}/acceptance.md`, the shared rules in `benchmark/tasks.md` and `benchmark/acceptance.md`, and the full `benchmark/verification-contract.md`. Deliver synthesizable RTL in `rtl/`, `rtl/files.f`, a self-checking verification environment in `verif/`, an executable `run.sh`, and `README.md` documenting tests, limitations, design choices, and a PPA optimization comparison with measured results or attempted tool commands. Correctness has priority over PPA, and PPA over completion time.
 

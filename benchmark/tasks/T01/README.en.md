@@ -1,4 +1,4 @@
-# T01 · CVDP 8×3 priority encoder
+# T01 · CVDP 8-bit serial-in/parallel-out register
 
 [中文](README.md)
 

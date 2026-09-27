@@ -6,8 +6,8 @@
 
 | 任务 | 冻结任务卡 | 验收计划 |
 | --- | --- | --- |
-| T01 | [8×3 优先编码器](tasks/T01/task.md) | [T01 验收](tasks/T01/acceptance.md) |
-| T02 | [8 位串入并出寄存器](tasks/T02/task.md) | [T02 验收](tasks/T02/acceptance.md) |
+| T01 | [8 位串入并出寄存器](tasks/T01/task.md) | [T01 验收](tasks/T01/acceptance.md) |
+| T02 | [SerDes RX comma aligner](tasks/T02/task.md) | [T02 验收](tasks/T02/acceptance.md) |
 | T03 | [参数化同步 FIFO](tasks/T03/task.md) | [T03 验收](tasks/T03/acceptance.md) |
 | T04 | [APB4 定时器](tasks/T04/task.md) | [T04 验收](tasks/T04/acceptance.md) |
 | T05 | [轮询仲裁器](tasks/T05/task.md) | [T05 验收](tasks/T05/acceptance.md) |

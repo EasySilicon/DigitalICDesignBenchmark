@@ -6,8 +6,8 @@ Digital IC Design Benchmark for Agents evaluates end-to-end RTL delivery by mult
 
 | ID | Task | Time limit |
 | --- | --- | ---: |
-| T01 | 8×3 priority encoder | 30 min |
-| T02 | 8-bit serial-in/parallel-out shift register | 75 min |
+| T01 | 8-bit serial-in/parallel-out shift register | 45 min |
+| T02 | SerDes RX comma aligner | 90 min |
 | T03 | Parameterized synchronous FIFO | 2 h |
 | T04 | APB4 timer peripheral | 3 h |
 | T05 | ready/valid round-robin arbiter | 4 h |
@@ -28,4 +28,4 @@ Digital IC Design Benchmark for Agents evaluates end-to-end RTL delivery by mult
 
 Run `python3 benchmark/validate_spec.py` for a local consistency check. Create a task-only public workspace with `python3 benchmark/prepare_trial.py T04 /path/to/empty/T04`. Each evaluation run starts in a new conversation and an empty workspace with the same task material, model configuration, tool environment, and timing boundary.
 
-The repository evaluates functional correctness, open-flow PPA estimates, completion time, and verification-delivery quality. It does not claim tapeout signoff, analog validation, or RISC-V certification. T01 and T02 are modified derivatives of NVIDIA CVDP material; their attribution and license are listed in [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md).
+The repository evaluates functional correctness, open-flow PPA estimates, completion time, and verification-delivery quality. It does not claim tapeout signoff, analog validation, or RISC-V certification. T01 is a modified derivative of NVIDIA CVDP material; its attribution and license are listed in [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md).

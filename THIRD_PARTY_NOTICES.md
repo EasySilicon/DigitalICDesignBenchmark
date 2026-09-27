@@ -66,8 +66,8 @@ certification.
 
 ### NVIDIA CVDP benchmark dataset
 
-The T01 and T02 task cards in benchmark/tasks/T01/task.md and
-benchmark/tasks/T02/task.md are modified derivatives of the named prompts in
+The T01 task card in benchmark/tasks/T01/task.md is a modified derivative of
+the named prompt in
 the NVIDIA CVDP Benchmark Dataset:
 
 * dataset: [nvidia/cvdp-benchmark-dataset][cvdp];

@@ -1,6 +1,4 @@
-# T01 · CVDP 8×3 优先编码器
-
-[English](README.en.md)
+# T01 · CVDP 8 位串入并出寄存器
 
 任务元数据见 `task.yaml`。
 

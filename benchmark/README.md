@@ -6,8 +6,8 @@ Digital IC Design Benchmark for Agents 是一套数字芯片设计与交付 benc
 
 | ID | 难度假设 | 任务 | 来源 | 开发时限 |
 | --- | ---: | --- | --- | ---: |
-| T01 | 1 | 8×3 优先编码器 | CVDP easy | 30 分钟 |
-| T02 | 2 | 8 位串入并出移位寄存器 | CVDP easy | 75 分钟 |
+| T01 | 1 | 8 位串入并出移位寄存器 | CVDP easy | 45 分钟 |
+| T02 | 2 | SerDes RX comma aligner | 原创 | 90 分钟 |
 | T03 | 3 | 参数化同步 FIFO | 原创 | 2 小时 |
 | T04 | 4 | APB4 定时器外设 | 原创 | 3 小时 |
 | T05 | 5 | ready/valid 轮询仲裁器 | 原创 | 4 小时 |
@@ -54,7 +54,7 @@ Digital IC Design Benchmark for Agents 是一套数字芯片设计与交付 benc
 ## 来源
 
 - [NVIDIA CVDP 数据与运行框架](https://github.com/NVlabs/cvdp_benchmark)
-- [CVDP 数据集](https://huggingface.co/datasets/nvidia/cvdp-benchmark-dataset)：T01/T02 是 CC-BY-4.0 的修改衍生题；归属、修改说明与许可证链接见[第三方声明](../THIRD_PARTY_NOTICES.md#nvidia-cvdp-benchmark-dataset)
+- [CVDP 数据集](https://huggingface.co/datasets/nvidia/cvdp-benchmark-dataset)：T01 是 CC-BY-4.0 的修改衍生题；归属、修改说明与许可证链接见[第三方声明](../THIRD_PARTY_NOTICES.md#nvidia-cvdp-benchmark-dataset)
 - [RISC-V Architectural Certification Tests](https://github.com/riscv/riscv-arch-test)
 - [RISC-V ISA 手册](https://github.com/riscv/riscv-isa-manual)
 - [Verilator 官方语言支持范围](https://verilator.org/guide/latest/languages.html)

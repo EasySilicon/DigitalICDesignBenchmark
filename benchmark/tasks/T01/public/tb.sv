@@ -1,41 +1,54 @@
 `timescale 1ns/1ps
 
 module tb_T01;
-  logic [7:0] in;
-  wire [2:0] out;
+  logic clock;
+  logic serial_in;
+  wire [7:0] parallel_out;
+  logic [7:0] expected;
+  logic [7:0] before_edge;
   int seed;
-  int expected;
-  logic [7:0] vectors [0:15];
+  int unsigned state;
 
-  priority_encoder_8x3 dut (.in(in), .out(out));
+  serial_in_parallel_out_8bit dut (
+    .clock(clock), .serial_in(serial_in), .parallel_out(parallel_out)
+  );
 
   initial begin
-    if ($bits(dut.in) != 8 || $bits(dut.out) != 3)
+    if ($bits(dut.clock) != 1 || $bits(dut.serial_in) != 1 ||
+        $bits(dut.parallel_out) != 8)
       $fatal(1, "T01 fixed port width mismatch");
     seed = 20260925;
     void'($value$plusargs("SEED=%d", seed));
-    vectors[0] = 8'h00;
-    for (int i = 0; i < 8; i++) vectors[i + 1] = 8'(1 << i);
-    vectors[9] = 8'hff;
-    vectors[10] = 8'h81;
-    vectors[11] = 8'h55;
-    vectors[12] = 8'haa;
-    vectors[13] = 8'h18;
-    vectors[14] = 8'h03;
-    vectors[15] = 8'hc0;
-    // The hidden scorer will use all 256 values. This public smoke is small.
-    for (int pass = 0; pass < 2; pass++) begin
-      for (int k = 0; k < 16; k++) begin
-        in = vectors[(k * 5 + (seed & 15) + pass * 3) & 15];
-        #1;
-        expected = 0;
-        for (int bit_index = 0; bit_index < 8; bit_index++)
-          if (in[bit_index]) expected = bit_index;
-        if (out !== 3'(expected))
-          $fatal(1, "AC-01/02/03/04 in=%02h expected=%0d actual=%0d", in, expected, out);
-      end
+    state = 32'(seed) ^ 32'h9e3779b9;
+    clock = 0;
+    serial_in = 0;
+    expected = 0;
+    for (int sample = 0; sample < 320; sample++) begin
+      state ^= state << 13;
+      state ^= state >> 17;
+      state ^= state << 5;
+      serial_in = state[0];
+      #2;
+      if (sample >= 8 && parallel_out !== expected)
+        $fatal(1, "AC-03/04 changed before rising edge sample=%0d expected=%02h actual=%02h",
+               sample, expected, parallel_out);
+      clock = 1;
+      expected = {expected[6:0], serial_in};
+      #2;
+      if (sample >= 7 && parallel_out !== expected)
+        $fatal(1, "AC-01/02 sample=%0d expected=%02h actual=%02h",
+               sample, expected, parallel_out);
+      before_edge = parallel_out;
+      serial_in = ~serial_in;
+      #2;
+      if (sample >= 7 && parallel_out !== before_edge)
+        $fatal(1, "AC-04 changed between edges sample=%0d", sample);
+      clock = 0;
+      #2;
+      if (sample >= 7 && parallel_out !== before_edge)
+        $fatal(1, "AC-03 changed on falling edge sample=%0d", sample);
     end
-    $display("PUBLIC_PASS T01 vectors=32 seed=%0d", seed);
+    $display("PUBLIC_PASS T01 samples=320 seed=%0d", seed);
     $finish;
   end
 endmodule

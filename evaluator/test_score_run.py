@@ -101,6 +101,18 @@ class ScoreRunTest(unittest.TestCase):
         item = next(x for x in scored["score_items"] if x["id"] == "F_INTEGER_CONTROL")
         self.assertEqual(item["points"], 12.5)
 
+    def test_t02_qualified_groups_score_60_plus_15(self):
+        counts = {"AC-05": 20, "AC-06": 8, "AC-07": 10,
+                  "AC-08A": 8, "AC-08B": 6}
+        groups = {group: {"cases_passed": count, "cases_total": count,
+                          "safety_violation": False}
+                  for group, count in counts.items()}
+        scored = score_run(dict(self.payload, task_id="T02", groups=groups,
+                                time_limit_seconds=5400), self.rules)
+        self.assertEqual(scored["functional_basic"], 60)
+        self.assertEqual(scored["functional_edges"], 15)
+        self.assertTrue(scored["full_functional_pass"])
+
     def test_t10_cannot_receive_formal_score_before_qualification(self):
         groups = {group: {"cases_passed": 1, "cases_total": 1}
                   for item in self.rules["tasks"]["T10"] for group in item["groups"]}

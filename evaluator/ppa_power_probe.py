@@ -24,7 +24,7 @@ STDCELL = ROOT.parent / "vendor/asap7/verilog/stdcell"
 LIBERTY = ROOT.parent / "vendor/asap7/lib/NLDM"
 SEQUENTIAL = ROOT.parent / "env/asap7_seq_sim.v"
 POWER_CLOCKS = {
-    "T01": (), "T02": ("clock",), "T03": ("clk",),
+    "T01": ("clock",), "T02": ("clk",), "T03": ("clk",),
     "T04": ("clk",), "T05": ("clk",),
     "T06": ("wr_clk", "rd_clk"), "T07": ("clk",),
     "T08": ("clk",), "T09": ("clk",), "T10": ("clk",),
@@ -34,8 +34,8 @@ PARAMETERS = {"T03": ("WIDTH=32", "DEPTH=16"),
               "T05": ("N=8", "WIDTH=32"),
               "T06": ("WIDTH=32", "DEPTH=16")}
 MONITORED_OPS = {
-    "T01": ("in", "1", "1"),
-    "T02": ("posedge clock", "1", "1"),
+    "T01": ("posedge clock", "1", "1"),
+    "T02": ("posedge clk", "1", "1"),
     "T03": ("posedge clk", "rst_n", "out_valid && out_ready"),
     "T04": ("posedge clk", "rst_n", "PSEL && PENABLE && PREADY"),
     "T05": ("posedge clk", "rst_n", "out_valid && out_ready"),

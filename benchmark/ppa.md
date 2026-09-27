@@ -6,7 +6,7 @@ PPA 仅在任务的 F+P=75/75、交付合格且 RTL 可综合时计分；功能�
 
 ## 全题统一的参数与例外
 
-所有题目使用同一个 [ASAP7 平台修订](sources.lock.yaml)、工艺库组合、映射脚本、ABC 策略、时钟目标 `T_common=1000 ps`、I/O 延迟比例、驱动单元、输出负载、布局利用率、放置密度、布线层范围、RC 提取规则和三个固定布线种子。`config.mk`/SDC 由评测器生成，参赛者不得改动。**允许随题目变化的只有端口名、位宽、时钟个数和异步 CDC 例外路径的对象集合；数值参数不按候选或任务调优。** T01 用 `T_common` 约束输入到输出路径；T06 的 `wr_clk`、`rd_clk` 各为 1000 ps，但仅切除真正的跨异步时钟域路径，保留两域内部及同步器后级时序。
+所有题目使用同一个 [ASAP7 平台修订](sources.lock.yaml)、工艺库组合、映射脚本、ABC 策略、时钟目标 `T_common=1000 ps`、I/O 延迟比例、驱动单元、输出负载、布局利用率、放置密度、布线层范围、RC 提取规则和三个固定布线种子。`config.mk`/SDC 由评测器生成，参赛者不得改动。**允许随题目变化的只有端口名、位宽、时钟个数和异步 CDC 例外路径的对象集合；数值参数不按候选或任务调优。** T06 的 `wr_clk`、`rd_clk` 各为 1000 ps，但仅切除真正的跨异步时钟域路径，保留两域内部及同步器后级时序。
 
 | 参数族 | 1 GHz 目标及待校准项 |
 | --- | --- |
@@ -17,7 +17,7 @@ PPA 仅在任务的 F+P=75/75、交付合格且 RTL 可综合时计分；功能�
 | 存储映射 | T03/T06/T08 的小型存储体和 T09 寄存器文件一律映射为标准单元，不使用 fake SRAM/寄存器文件 macro |
 | 布线重复 | 固定种子 11/29/47；传给当前兼容版本的 ORFS `GRT_SEED` 和 `OR_SEED`，放置保持确定性，同一设计三次布线，指标取中位数 |
 
-上述值来自九题实测，不是直接照搬 [ORFS 的 ASAP7 平台配置](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/platforms/asap7/config.mk)及[示例 SDC](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/designs/asap7/ibex/constraint.sdc)。
+上述候选参数参考 T03–T09 的 400 MHz 历史实测，并非直接照搬 [ORFS 的 ASAP7 平台配置](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/platforms/asap7/config.mk)及[示例 SDC](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/designs/asap7/ibex/constraint.sdc)。T01、T02 与 T10 没有适用于当前题目的历史数值，均须随十题统一 1 GHz 校准重新测量。
 
 ### 参数探索与冻结门禁
 
@@ -39,8 +39,8 @@ PPA 仅在任务的 F+P=75/75、交付合格且 RTL 可综合时计分；功能�
 
 | 任务 | 有用操作与活动覆盖 |
 | --- | --- |
-| T01 | 一次输入向量变化；包含零、单热、多热和翻转较多的向量 |
-| T02 | 一次输入 bit 的上升沿采样；平衡 0/1 与不同连续游程 |
+| T01 | 一次输入 bit 的上升沿采样；平衡 0/1 与不同连续游程 |
+| T02 | 一个输出的 10-bit 对齐符号；固定训练、payload、marker、bit slip 与重锁分布 |
 | T03 | 一次成功读出且对应先前成功写入；复位丢弃的未读写入不计有效操作，空/满与中等占用混合 |
 | T04 | 一次完成的 APB 访问；计时器在固定负载中的倒计数活动计入该访问序列的总能耗 |
 | T05 | 一次成功输出；固定竞争强度与背压分布 |

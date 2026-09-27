@@ -6,16 +6,17 @@
   "ppa_bucket_width": 0.5,
   "tasks": {
     "T01": [
-      {"id":"F_SINGLE","layer":"F","points":20,"groups":["AC-01"]},
-      {"id":"F_MULTI","layer":"F","points":40,"groups":["AC-02"]},
-      {"id":"P_ZERO","layer":"P","points":10,"groups":["AC-03"]},
-      {"id":"P_COMB","layer":"P","points":5,"groups":["AC-04"]}
+      {"id":"F_FIRST","layer":"F","points":20,"groups":["AC-01"]},
+      {"id":"F_STREAM","layer":"F","points":40,"groups":["AC-02"]},
+      {"id":"P_EDGE","layer":"P","points":10,"groups":["AC-03"]},
+      {"id":"P_HOLD","layer":"P","points":5,"groups":["AC-04"]}
     ],
     "T02": [
-      {"id":"F_FIRST","layer":"F","points":20,"groups":["AC-05"]},
-      {"id":"F_STREAM","layer":"F","points":40,"groups":["AC-06"]},
-      {"id":"P_EDGE","layer":"P","points":10,"groups":["AC-07"]},
-      {"id":"P_HOLD","layer":"P","points":5,"groups":["AC-08"]}
+      {"id":"F_TRAIN","layer":"F","points":20,"groups":["AC-05"]},
+      {"id":"F_REASSEMBLE","layer":"F","points":20,"groups":["AC-06"]},
+      {"id":"F_PHASE","layer":"F","points":20,"groups":["AC-07"]},
+      {"id":"P_RELOCK","layer":"P","points":10,"groups":["AC-08A"],"critical_groups":["AC-08A"]},
+      {"id":"P_RESET","layer":"P","points":5,"groups":["AC-08B"]}
     ],
     "T03": [
       {"id":"F_ORDER","layer":"F","points":25,"groups":["AC-09"]},

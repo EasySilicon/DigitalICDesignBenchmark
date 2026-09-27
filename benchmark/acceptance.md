@@ -16,8 +16,8 @@
 
 | 任务 | 验收计划 |
 | --- | --- |
-| T01 | [优先编码器](tasks/T01/acceptance.md) |
-| T02 | [串入并出寄存器](tasks/T02/acceptance.md) |
+| T01 | [串入并出寄存器](tasks/T01/acceptance.md) |
+| T02 | [SerDes RX comma aligner](tasks/T02/acceptance.md) |
 | T03 | [同步 FIFO](tasks/T03/acceptance.md) |
 | T04 | [APB4 定时器](tasks/T04/acceptance.md) |
 | T05 | [轮询仲裁器](tasks/T05/acceptance.md) |

@@ -1,6 +1,6 @@
 id: T02
-title: serial_in_parallel_out_8bit
+title: serdes_rx_comma_aligner
 level_hypothesis: 2
-origin: cvdp
-time_limit_minutes: 75
-same_model_token_cap: 40000
+origin: original
+time_limit_minutes: 90
+same_model_token_cap: 80000

@@ -45,6 +45,8 @@ T10 的[任务包内公开数值 oracle](../benchmark/tasks/T10/public/matmul_or
 
 `delivery_check.py` 是交付入口的可执行检查：确认 `rtl/files.f`、`verif/`、`README.md`、可执行 `run.sh`，同一 `BENCH_SEED` 连续运行两次并校验 `results.json` 的测试行和版本字段。T09 另需评测方提供正反两个 ELF，检查 `--elf` 的文件哈希、`tohost`、超时字段与退出码。它只检查自带验证入口的交付形式，**不将其 PASS 当作 DUT 正确性**；PPA 探索记录与变异检出率仍需独立审计。
 
+T02 的独立功能入口为 `python3 evaluator/t02_check.py /path/to/submission`。它用 Python bit-stream oracle 生成逐周期向量，并检查 `AC-05` 至 `AC-08B`；`--reference` 可回归评测方参考 RTL。`python3 evaluator/t02_mutation_check.py` 重建并运行十个可综合缺陷变异体，资格记录见 `t02_qualification.json`，`gpt-6-sol` 的公开材料盲测记录见 `t02_pilot_gpt6sol.json`。这些文件随仓库公开，但 `prepare_trial.py` 不会把参考 RTL、隐藏向量生成器或变异逻辑复制到参赛工作区。
+
 ## T06 双级同步结构检查原型
 
 `cdc_2ff_check.py` 读取 [Yosys `write_json`](https://yosyshq.readthedocs.io/projects/yosys/en/0.46/cmd/write_json.html) 导出的展平网表，按触发器 `CLK/D/Q` 连线检查 `wr_clk→rd_clk` 和 `rd_clk→wr_clk` 两方向是否各有至少 `$clog2(DEPTH)+1` 条**直接、隔离的双级寄存器链**。第一级只能连到同目的时钟、同异步复位的第二级；跨域组合逻辑、第一级扇出到功能逻辑、`wr_ready/rd_valid` 直接依赖异域触发器都会报错。运行入口：
