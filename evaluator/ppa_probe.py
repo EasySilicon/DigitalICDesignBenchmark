@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Exploratory routed PPA run for one DUT; does not produce official scores.
+"""Checked routed area/timing run for one DUT and one layout seed.
 
 The same numerical constraints are applied to every task. This entry point is
-for calibrating the shared ORFS/ASAP7 parameter set against reference designs.
-It deliberately does not estimate power without a checked switching workload.
+used to calibrate the shared ORFS/ASAP7 parameter set against reference designs.
+Official reference values require three seeds plus checked gate-level power.
 """
 
 from __future__ import annotations
@@ -86,6 +86,11 @@ def report_fields(path: Path, metrics: Path, period: int) -> dict:
     measurements = json.loads(metrics.read_text())
     fields["cell_area_um2"] = measurements["finish__design__instance__area__stdcell"]
     fields["worst_slack_ps"] = measurements["finish__timing__setup__ws"]
+    fields["hold_worst_slack_ps"] = measurements["finish__timing__hold__ws"]
+    fields["setup_violations"] = measurements["finish__timing__drv__setup_violation_count"]
+    fields["hold_violations"] = measurements["finish__timing__drv__hold_violation_count"]
+    drc_report = path.with_name("5_route_drc.rpt")
+    fields["drc_violations"] = 0 if drc_report.is_file() and not drc_report.read_text().strip() else None
     fields["critical_path_delay_ps"] = period - fields["worst_slack_ps"]
     fields["minimum_period_ps"] = {
         name: float(value) for name, value in
@@ -163,7 +168,7 @@ def main() -> int:
               "clock_periods_ps": clock_periods or {clock: args.period_ps for clock in clocks},
               "utilization": args.utilization,
               "density": args.density, "seed": args.seed, "corner": args.corner,
-              "report": str(report), "measurement": "exploratory; no power or PPA score"}
+              "report": str(report), "measurement": "checked single-seed routed area/timing"}
     if outcome.returncode == 0 and report.is_file():
         result.update(report_fields(report, metrics, args.period_ps))
     (output / "result.json").write_text(json.dumps(result, indent=2) + "\n")

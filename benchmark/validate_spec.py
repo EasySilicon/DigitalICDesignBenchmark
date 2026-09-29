@@ -52,23 +52,78 @@ def validate_local() -> tuple[dict, dict]:
         fail("PPA flow differs between manifest and source lock")
     baselines = json.loads((ROOT / "ppa-baselines.json").read_text())
     ppa_inventory = manifest["ppa_measurement"]
-    if ppa_inventory["calibrated_baseline_tasks"] != [] or \
-            ppa_inventory["pending_baseline_tasks"] != expected_ids:
+    calibrated = ppa_inventory["calibrated_baseline_tasks"]
+    pending = ppa_inventory["pending_baseline_tasks"]
+    if len(calibrated) != len(set(calibrated)) or len(pending) != len(set(pending)) or \
+            set(calibrated).intersection(pending) or \
+            set(calibrated).union(pending) != set(expected_ids) or \
+            set(baselines["tasks"]) != set(calibrated):
         fail("PPA baseline scope must identify calibrated and pending tasks")
-    if baselines["tasks"] != {} or baselines["status"] != "pending_1ghz_rebaseline":
-        fail("1 GHz PPA baseline inventory must remain empty until measured")
+    expected_baseline_status = ("pending_1ghz_rebaseline" if not calibrated else
+                                "qualified_1ghz" if not pending else
+                                "partial_1ghz_qualified")
+    if baselines["status"] != expected_baseline_status:
+        fail("1 GHz PPA baseline status differs from calibrated task inventory")
     if baselines["score_bucket_width_points"] != scores["ppa_rank_resolution_points"]:
         fail("PPA baseline bucket width differs from manifest")
     t06_clocks = ppa_inventory.get("task_clock_contracts", {}).get("T06")
     t06_expected = {"wr_clk_period_ps": 1000, "rd_clk_period_ps": 1000,
                     "relationship": "asynchronous"}
+    expected_parameter_status = ("target_1ghz_pending_physical_calibration"
+                                 if not calibrated else
+                                 "target_1ghz_calibrated" if not pending else
+                                 "target_1ghz_partially_calibrated")
+    expected_values_status = ("pending_rebaseline" if not calibrated else
+                              "qualified" if not pending else "partial_rebaseline")
     if ppa_inventory["shared_clock_period_ps"] != 1000 or \
             t06_clocks != t06_expected or \
             baselines["parameter_set"].get("task_clock_contracts", {}).get("T06") != t06_expected or \
-            ppa_inventory["parameter_set_status"] != "target_1ghz_pending_physical_calibration" or \
-            ppa_inventory["baseline_values_status"] != "pending_rebaseline" or \
+            ppa_inventory["parameter_set_status"] != expected_parameter_status or \
+            ppa_inventory["baseline_values_status"] != expected_values_status or \
             baselines["parameter_set"]["period_ps"] != 1000:
-        fail("1 GHz target differs from pending baseline records")
+        fail("1 GHz target differs from baseline records")
+    common_parameters = {"platform": "ASAP7_7p5t_RVT_NLDM", "period_ps": 1000,
+                         "corner": "WC", "utilization": 10, "density": 0.6,
+                         "seeds": [11, 29, 47]}
+    for task_id in calibrated:
+        row = baselines["tasks"][task_id]
+        parameters = dict(common_parameters)
+        if task_id == "T06":
+            parameters.update({"clock_periods_ps": {"wr_clk": 1000, "rd_clk": 1000},
+                               "asynchronous_clock_groups": [["wr_clk", "rd_clk"]]})
+        seeds = row.get("per_seed")
+        hashes = (row.get("source_sha256", ""), row.get("workload_sha256", ""))
+        if row.get("task_id") != task_id or \
+                row.get("qualification_status") != "qualified_1ghz" or \
+                row.get("measurement_status") != "three_seed" or \
+                row.get("parameter_set") != parameters or \
+                not row.get("routed") or row.get("drc_violations") != 0 or \
+                row.get("setup_worst_slack_ns", -1) < 0 or \
+                row.get("hold_worst_slack_ns", -1) < 0 or \
+                row.get("annotation_fraction", 0) < ppa_inventory["minimum_activity_annotation"] or \
+                any(len(value) != 64 or any(character not in "0123456789abcdef" for character in value)
+                    for value in hashes) or \
+                any(not isinstance(row.get(key), (int, float)) or row[key] <= 0
+                    for key in ("area_um2", "delay_ns", "average_power_mw",
+                                "energy_per_op_pj")) or \
+                not isinstance(seeds, list) or len(seeds) != 3 or \
+                any(not isinstance(seed, dict) for seed in seeds) or \
+                sorted(seed.get("layout_seed") for seed in seeds
+                       if isinstance(seed, dict)) != [11, 29, 47] or \
+                any(seed.get("drc_violations") != 0 or
+                    seed.get("setup_worst_slack_ns", -1) < 0 or
+                    seed.get("hold_worst_slack_ns", -1) < 0 or
+                    seed.get("annotation_fraction", 0) < ppa_inventory["minimum_activity_annotation"] or
+                    any(not isinstance(seed.get(key), (int, float)) or seed[key] <= 0
+                        for key in ("area_um2", "delay_ns", "average_power_mw",
+                                    "energy_per_op_pj", "ops")) or
+                    any(len(seed.get(key, "")) != 64 or
+                        any(character not in "0123456789abcdef" for character in seed.get(key, ""))
+                        for key in ("config_sha256", "constraint_sha256",
+                                    "finish_report_sha256", "drc_report_sha256",
+                                    "power_report_sha256"))
+                    for seed in seeds):
+            fail(f"invalid qualified PPA baseline: {task_id}")
     historical = json.loads((ROOT / baselines["historical_400mhz_baselines"]).read_text())
     if historical.get("status") != "historical_partial_reference" or \
             set(historical["tasks"]) != set(expected_ids[2:-1]) or \

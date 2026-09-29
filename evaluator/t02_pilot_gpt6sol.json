@@ -10,6 +10,8 @@
   "time_limit_minutes": 90,
   "token_cap": 80000,
   "agent_exit_code": 0,
+  "hidden_rerun_date": "2026-09-28",
+  "hidden_tb_sha256": "aa539f801cd793d45c58a798af265831c0961d7d43d19054bca2970b95ce80e8",
   "delivery": {
     "qualified": true,
     "self_check_tests": 6

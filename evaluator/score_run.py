@@ -83,6 +83,8 @@ def score_functional(task: str, results: dict, rules: dict) -> tuple[float, floa
 def ppa_score(measurement: dict, reference: dict) -> float:
     if not measurement.get("routed", False) or \
             measurement.get("setup_worst_slack_ns", -1) < 0 or \
+            measurement.get("hold_worst_slack_ns", -1) < 0 or \
+            measurement.get("drc_violations") != 0 or \
             measurement.get("annotation_fraction", 0) < 0.95:
         return 0.0
     factors = []
@@ -112,7 +114,15 @@ def ppa_provenance_valid(task: str, measurement: dict, reference: dict) -> bool:
                 not isinstance(rows, list) or len(rows) != 3 or \
                 any(not isinstance(row, dict) or type(row.get("layout_seed")) is not int
                     for row in rows) or \
-                sorted(row["layout_seed"] for row in rows) != expected["seeds"]:
+                sorted(row["layout_seed"] for row in rows) != expected["seeds"] or \
+                any(row.get("drc_violations") != 0 or
+                    row.get("setup_worst_slack_ns", -1) < 0 or
+                    row.get("hold_worst_slack_ns", -1) < 0 or
+                    row.get("annotation_fraction", 0) < 0.95 or
+                    any(not isinstance(row.get(key), (int, float)) or
+                        not math.isfinite(row[key]) or row[key] <= 0
+                        for key in ("area_um2", "delay_ns", "energy_per_op_pj"))
+                    for row in rows):
             return False
     workload = measurement.get("workload_sha256")
     return isinstance(workload, str) and len(workload) == 64 and \
@@ -137,8 +147,9 @@ def score_run(payload: dict, rules: dict | None = None) -> dict:
     full = functional == rules["functional_total"]
     baselines = json.loads(BASELINES_PATH.read_text())
     official_reference = baselines.get("tasks", {}).get(task)
-    baseline_ready = baselines.get("status") == "qualified_1ghz" and \
+    baseline_ready = baselines.get("status") in {"partial_1ghz_qualified", "qualified_1ghz"} and \
         isinstance(official_reference, dict) and \
+        official_reference.get("qualification_status") == "qualified_1ghz" and \
         payload.get("ppa_reference") == official_reference
     eligible = full and delivery and isinstance(payload.get("ppa_measurement"), dict) and \
         baseline_ready and \

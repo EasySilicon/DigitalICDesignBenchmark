@@ -2,22 +2,22 @@
 
 PPA 仅在任务的 F+P=75/75、交付合格且 RTL 可综合时计分；功能错误的低面积实现不获得 PPA 分。正式评估固定使用 **Yosys 综合映射 → ASAP7 7.5T 标准单元 → OpenROAD 布局、时钟树、详细布线、寄生提取及时序/功耗报告**，不单独运行另一套 STA 工具。[OpenROAD 官方流程](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/docs/user/UserGuide.md)和[OpenRCX 文档](https://openroad.readthedocs.io/en/latest/main/src/rcx/README.html)给出这些阶段的能力。综合后的 Yosys 面积/时序只作为诊断；排名使用**布线后**指标。ASAP7 是预测性公开工艺，不等于量产工艺签核。[ASAP7 项目说明](https://github.com/The-OpenROAD-Project/asap7/blob/main/README.md)
 
-全题目标为 **1000 ps（1 GHz）**、WC 角和种子 11/29/47。T06 的 `wr_clk`、`rd_clk` 也各按 1000 ps 约束，但两者是显式异步的独立时钟域；相同标称频率不改变其 CDC 性质。[PPA 基线清单](ppa-baselines.json)仅在十题均按本页参数完成验证后用于正式计分。本机使用 Yosys 0.69+150、OpenROAD 26Q2-1164-g08f67ee5ec 和仓库内 ASAP7。正式榜单还须锁定统一物理参数、工具镜像 digest、复核不同 RTL 写法的公平性并完成发布门禁。
+全题目标为 **1000 ps（1 GHz）**、WC 角和种子 11/29/47。T06 的 `wr_clk`、`rd_clk` 也各按 1000 ps 约束，但两者是显式异步的独立时钟域；相同标称频率不改变其 CDC 性质。[PPA 基线清单](ppa-baselines.json)按任务记录资格：某题的三种子物理与功耗门禁完成后，该题即可启用 PPA/时间评分，不必等待其余题；整套 benchmark 的发布状态仍须等待十题全部完成。本机使用 Yosys 0.69+150、OpenROAD 26Q2-1164-g08f67ee5ec 和仓库内 ASAP7。正式榜单还须锁定工具镜像 digest、复核不同 RTL 写法的公平性并完成发布门禁。
 
 ## 全题统一的参数与例外
 
 所有题目使用同一个 [ASAP7 平台修订](sources.lock.yaml)、工艺库组合、映射脚本、ABC 策略、时钟目标 `T_common=1000 ps`、I/O 延迟比例、驱动单元、输出负载、布局利用率、放置密度、布线层范围、RC 提取规则和三个固定布线种子。`config.mk`/SDC 由评测器生成，参赛者不得改动。**允许随题目变化的只有端口名、位宽、时钟个数和异步 CDC 例外路径的对象集合；数值参数不按候选或任务调优。** T06 的 `wr_clk`、`rd_clk` 各为 1000 ps，但仅切除真正的跨异步时钟域路径，保留两域内部及同步器后级时序。
 
-| 参数族 | 1 GHz 目标及待校准项 |
+| 参数族 | 统一 1 GHz 参数 |
 | --- | --- |
 | 单元库 | ASAP7 7.5T、RVT、NLDM；WC/SS 时序，TT 活动功耗 |
 | 映射与负载 | 固定 ORFS ASAP7 配置的 Yosys/ABC、`BUFx2_ASAP7_75t_R` 驱动与 3.898 fF 输出负载 |
 | 全局时钟目标 | 所有任务及每个时钟域均为 1000 ps（1 GHz）；T06 的 `wr_clk`、`rd_clk` 虽同频但独立并声明为异步 |
-| I/O 与物理约束 | I/O 延迟比例 20%；目标利用率与放置密度须十题统一探索并冻结 |
+| I/O 与物理约束 | I/O 延迟比例 20%；核心利用率 10%；放置密度 0.60 |
 | 存储映射 | T03/T06/T08 的小型存储体和 T09 寄存器文件一律映射为标准单元，不使用 fake SRAM/寄存器文件 macro |
 | 布线重复 | 固定种子 11/29/47；传给当前兼容版本的 ORFS `GRT_SEED` 和 `OR_SEED`，放置保持确定性，同一设计三次布线，指标取中位数 |
 
-上述候选参数参考 T03–T09 的 400 MHz 历史实测，并非直接照搬 [ORFS 的 ASAP7 平台配置](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/platforms/asap7/config.mk)及[示例 SDC](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/designs/asap7/ibex/constraint.sdc)。T01、T02 与 T10 没有适用于当前题目的历史数值，均须随十题统一 1 GHz 校准重新测量。
+上述统一参数参考 T03–T09 的 400 MHz 历史实测，并非直接照搬 [ORFS 的 ASAP7 平台配置](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/platforms/asap7/config.mk)及[示例 SDC](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/designs/asap7/ibex/constraint.sdc)。T01–T09 已按当前参数完成三种子 1 GHz 校准；T09 的 seed 29 setup 裕量仅 +0.316 ps，属于达标但很薄的裕量。T10 仍须使用同一组参数重测；若后续全套门禁迫使统一参数改变，已校准题也必须整体重跑。
 
 ### 参数探索与冻结门禁
 

@@ -19,7 +19,10 @@ module t02_hidden_tb;
 
   initial begin
     clk = 1'b0;
-    forever #5 clk = ~clk;
+    if ($test$plusargs("POWER_WORKLOAD"))
+      forever #0.5 clk = ~clk;
+    else
+      forever #5 clk = ~clk;
   end
 
   initial begin
@@ -37,7 +40,7 @@ module t02_hidden_tb;
       rx_valid = vectors[cycle][22];
       rx_bits = vectors[cycle][21:12];
       @(posedge clk);
-      #1;
+      #0.1;
       if (locked !== vectors[cycle][11])
         $fatal(1, "locked mismatch cycle=%0d expected=%0b actual=%0b",
                cycle, vectors[cycle][11], locked);
@@ -49,6 +52,13 @@ module t02_hidden_tb;
                cycle, vectors[cycle][9:0], symbol_out);
     end
     $display("HIDDEN_PASS T02 cycles=%0d", vector_count);
+    if ($test$plusargs("POWER_WORKLOAD")) begin
+      $display("IC_GROUP AC-05 1 1");
+      $display("IC_GROUP AC-06 1 1");
+      $display("IC_GROUP AC-07 1 1");
+      $display("IC_GROUP AC-08A 1 1");
+      $display("IC_GROUP AC-08B 1 1");
+    end
     $finish;
   end
 endmodule

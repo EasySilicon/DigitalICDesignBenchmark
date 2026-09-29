@@ -2,7 +2,7 @@
 
 [中文](README.md)
 
-Digital IC Design Benchmark for Agents evaluates end-to-end RTL delivery by multi-agent systems and general coding agents. The suite has ten tasks spanning combinational logic, sequential control, on-chip buses, CDC, cache design, a five-stage CPU, and multi-precision NPU matrix multiplication. Agents deliver RTL, a runnable verification environment, and PPA exploration records. The common physical target is 1000 ps / 1 GHz; formal PPA baselines, the tool image, and release evidence are frozen under the [release gates](methodology.md#发布门禁).
+Digital IC Design Benchmark for Agents evaluates end-to-end RTL delivery by multi-agent systems and general coding agents. The suite has ten tasks spanning combinational logic, sequential control, on-chip buses, CDC, cache design, a five-stage CPU, and multi-precision NPU matrix multiplication. Agents deliver RTL, a runnable verification environment, and PPA exploration records. The common physical target is 1000 ps / 1 GHz. PPA baselines become active task by task after their release gates pass; T01 through T09 are qualified, while the tool image and suite-wide release evidence are still being frozen.
 
 | ID | Task | Time limit |
 | --- | --- | ---: |

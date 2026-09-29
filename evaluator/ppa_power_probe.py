@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Exploratory ASAP7 gate-activity and OpenROAD TT power measurement.
+"""Checked ASAP7 gate-activity and OpenROAD TT power measurement.
 
-Uses a checked workload to validate the VCD-to-OpenROAD path. This is not the
-frozen hidden power workload or an official PPA score.
+Each invocation measures one routed layout seed. Official reference values are
+qualified separately from three seeds with a frozen evaluator-owned workload.
 """
 
 from __future__ import annotations
@@ -35,7 +35,7 @@ PARAMETERS = {"T03": ("WIDTH=32", "DEPTH=16"),
               "T06": ("WIDTH=32", "DEPTH=16")}
 MONITORED_OPS = {
     "T01": ("posedge clock", "1", "1"),
-    "T02": ("posedge clk", "1", "1"),
+    "T02": ("posedge clk", "rst_n", "symbol_valid"),
     "T03": ("posedge clk", "rst_n", "out_valid && out_ready"),
     "T04": ("posedge clk", "rst_n", "PSEL && PENABLE && PREADY"),
     "T05": ("posedge clk", "rst_n", "out_valid && out_ready"),
@@ -80,6 +80,12 @@ def instrument_testbench(task: str, original: Path, output: Path) -> str:
         # reset falling edge before the APB monitor samples the first setup.
         source = source.replace("clk = 0; rst_n = 0;",
                                 "clk = 0; rst_n = 1; #1; rst_n = 0;")
+    if task == "T09":
+        # The functional ELF bench uses three 2 ns phases per step. Only the
+        # power copy runs at the qualified 1 GHz clock: 0.25 + 0.25 + 0.5 ns.
+        if source.count("#2;") != 3:
+            raise ValueError("T09 power bench clock phases changed")
+        source = source.replace("#2;", "#0.25;", 2).replace("#2;", "#0.5;", 1)
     ready = ("wait(!rst_n); wait(rst_n); #1;" if task == "T10" else
              "wait(rst_n); #1;" if task in {"T03", "T04", "T07", "T08", "T09"}
              else "wait(wr_rst_n && rd_rst_n); #1;" if task == "T06" else "")
@@ -205,8 +211,8 @@ def run(args: argparse.Namespace) -> dict:
         if not (result_dir / file).is_file():
             raise FileNotFoundError(result_dir / file)
     tb_path = (args.testbench if args.testbench is not None else
-               ROOT / "public" / ("tb_cpu_elf.sv" if args.task == "T09" else
-                                  f"tb_{args.task}.sv"))
+               ROOT.parent / "benchmark/tasks/T09/public/tb_cpu_elf.sv"
+               if args.task == "T09" else ROOT / "public" / f"tb_{args.task}.sv")
     workload_digest = hashlib.sha256()
     for payload in (tb_path.read_bytes(), Path(__file__).read_bytes(),
                     str(args.seed).encode(), str(args.power_goal).encode()):
@@ -216,6 +222,13 @@ def run(args: argparse.Namespace) -> dict:
         elf_bytes = args.elf.read_bytes()
         workload_digest.update(len(elf_bytes).to_bytes(8, "big"))
         workload_digest.update(elf_bytes)
+    if args.task == "T02":
+        if args.vectors is None or args.case_count is None or args.testbench is None:
+            raise ValueError("T02 requires --vectors, --case-count and --testbench")
+        payload = args.vectors.read_bytes()
+        workload_digest.update(len(payload).to_bytes(8, "big"))
+        workload_digest.update(payload)
+        workload_digest.update(str(args.case_count).encode())
     if args.task == "T10":
         if args.vectors is None or args.case_count is None or args.testbench is None:
             raise ValueError("T10 requires --vectors, --case-count and --testbench")
@@ -247,6 +260,9 @@ def run(args: argparse.Namespace) -> dict:
         image = output / "image.hex"
         write_hex_image(load_elf(args.elf), image)
         run_command += [f"+IMAGE={image}", "+MAX_CYCLES=200000"]
+    if args.task == "T02":
+        run_command += [f"+VECTORS={args.vectors.resolve()}",
+                        f"+COUNT={args.case_count}", "+POWER_WORKLOAD"]
     if args.task == "T10":
         run_command += [f"+VECTORS={args.vectors.resolve()}",
                         f"+CASE_COUNT={args.case_count}"]
@@ -262,13 +278,16 @@ def run(args: argparse.Namespace) -> dict:
     if args.task == "T10":
         check_t10_workload(simulation.stdout, args.vectors, args.case_count)
     elif args.testbench is not None:
-        groups = re.findall(r"^IC_GROUP (AC-\d+) (\d+) (\d+)$",
+        groups = re.findall(r"^IC_GROUP (AC-\d+[A-Z]?) (\d+) (\d+)$",
                             simulation.stdout, re.MULTILINE)
         behavioral_groups = [(name, good, total) for name, good, total in groups
                              if not (args.task == "T06" and name == "AC-31")]
         if not behavioral_groups or any(int(good) != int(total) or int(total) <= 0
                                         for _, good, total in behavioral_groups):
             raise RuntimeError("hidden gate workload failed group checks; see simulation.log")
+        if args.task == "T02" and {name for name, _, _ in behavioral_groups} != {
+                "AC-05", "AC-06", "AC-07", "AC-08A", "AC-08B"}:
+            raise RuntimeError("T02 gate workload missed a required acceptance group")
     elif ("CPU_ELF_PASS" if args.task == "T09" else
           f"PUBLIC_PASS {args.task}") not in simulation.stdout:
         raise RuntimeError("gate-level workload missed completion marker; see simulation.log")
@@ -278,6 +297,8 @@ def run(args: argparse.Namespace) -> dict:
     duration, periods = vcd_stats(vcd, top, POWER_CLOCKS[args.task])
     if args.task == "T06" and periods != T06_PEAK_CLOCK_PERIOD_PS:
         raise ValueError("T06 PPA/power workload must drive independent wr_clk and rd_clk at 1000 ps")
+    if args.task == "T09" and periods != {"clk": 1000.0}:
+        raise ValueError("T09 PPA/power workload must drive clk at 1000 ps")
     power_sdc = (result_dir / "6_final.sdc").read_text()
     for name, period in periods.items():
         pattern = rf"(create_clock -name {re.escape(name)}_clock -period )\S+"
@@ -318,7 +339,7 @@ def run(args: argparse.Namespace) -> dict:
             "power_w": {"internal": internal, "switching": switching,
                         "leakage": leakage, "total": total_power},
             "energy_j_per_op": total_power * duration / ops,
-            "measurement": "exploratory workload; no official PPA score"}
+            "measurement": "checked single-seed gate-level power workload"}
 
 
 def main() -> int:
@@ -331,9 +352,9 @@ def main() -> int:
     parser.add_argument("--seed", type=int, default=20260925)
     parser.add_argument("--elf", type=Path)
     parser.add_argument("--vectors", type=Path,
-                        help="T10 frozen power workload vector directory")
+                        help="T02 vector file or T10 frozen vector directory")
     parser.add_argument("--case-count", type=int,
-                        help="T10 number of matrix blocks in the power workload")
+                        help="T02 cycle count or T10 matrix-block count")
     parser.add_argument("--testbench", type=Path,
                         help="evaluator-owned single-module checked workload")
     parser.add_argument("--power-goal", type=int,

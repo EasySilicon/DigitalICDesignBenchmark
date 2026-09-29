@@ -11,4 +11,4 @@
 
 ## 冻结条件
 
-只有在十题参考实现均通过功能和物理门禁、参考三元组 `(A_ref,D_ref,E_ref)` 可复现、不同等价 RTL 写法完成公平性复核后，才将参数和结果写入 [ppa-baselines.json](ppa-baselines.json)。在此之前，本页不提供可用于排名的 PPA 数据。
+每题的参考实现通过功能、三种子物理与功耗门禁且参考三元组 `(A_ref,D_ref,E_ref)` 可复现后，即将该题结果写入 [ppa-baselines.json](ppa-baselines.json) 并单独启用其 PPA/时间评分。整套 benchmark 只有在十题均完成且不同等价 RTL 写法的公平性复核通过后，才把清单状态从 `partial_1ghz_qualified` 提升为 `qualified_1ghz`。

@@ -1,0 +1,58 @@
+{
+  "task_id": "T09",
+  "pilot_date": "2026-09-28",
+  "model": "gpt-6-sol",
+  "reasoning_effort": "default",
+  "workspace": "prepare_trial.py public-only copy",
+  "tmux_session": "rebase_t09_gpt6sol_20260928",
+  "wall_clock_seconds": 1323,
+  "model_usage": {
+    "input_tokens": 3343435,
+    "cached_input_tokens": 3225088,
+    "output_tokens": 52671,
+    "reasoning_output_tokens": 19894
+  },
+  "time_limit_minutes": 1440,
+  "token_cap": 1200000,
+  "token_cap_metric": "output_tokens",
+  "token_cap_compliant": true,
+  "agent_exit_code": 0,
+  "prompt_sha256": "a3b6bd5787dc63e136ffade4b831bf127bbbc08dcc2ae08eb2692976c5853b9a",
+  "candidate_sha256": "9ff4547bff79ef84a2817874a683320fb861076c04e715805964b17acb7b92b4",
+  "public_evaluator_report_sha256": "780e260dbbae85fe92deaf0164a4b9199b36a1a89344620f9e16f018409aa658",
+  "delivery": {
+    "qualified": true,
+    "self_check_tests": 79,
+    "positive_and_negative_elf_probes": "pass"
+  },
+  "independent_groups": {
+    "CPU-ACT": {"passed": 45, "total": 45},
+    "CPU-DIR-INT": {"passed": 24, "total": 24},
+    "CPU-DIR-MEM": {"passed": 20, "total": 20},
+    "CPU-DIR-HAZ": {"passed": 24, "total": 24},
+    "CPU-DIR-TRAP": {"passed": 8, "total": 28},
+    "CPU-DIR-CSR": {"passed": 16, "total": 16},
+    "CPU-DIFF-INT": {"passed": 34, "total": 34},
+    "CPU-DIFF-MEM": {"passed": 33, "total": 33},
+    "CPU-DIFF-TRAP": {"passed": 0, "total": 33},
+    "CPU-PIPE-HAZ": {"passed": 8, "total": 8},
+    "CPU-PIPE-FLUSH": {"passed": 6, "total": 8},
+    "CPU-PIPE-MEM": {"passed": 60, "total": 80},
+    "CPU-PIPE-RESET": {"passed": 3, "total": 4},
+    "CPU-PIPE-LAT": {"passed": 64, "total": 64}
+  },
+  "functional_basic": 50.0,
+  "functional_edges": 10.5,
+  "functional_total": 60.5,
+  "full_functional_pass": false,
+  "ppa_measurement": null,
+  "ppa_ineligible_reason": "independent functional suite did not pass in full",
+  "score": {
+    "ppa_eligible": false,
+    "ppa_score": 0.0,
+    "ppa_rank_bucket": 0,
+    "time_score": 0.0,
+    "display_score": 60.5,
+    "rank_key": [60.5, 0, 0]
+  }
+}

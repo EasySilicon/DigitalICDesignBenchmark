@@ -41,10 +41,13 @@
     "ppa_measurements": {
       "type": ["object", "null"],
       "additionalProperties": false,
-      "required": ["area_um2", "delay_ns", "average_power_mw", "energy_per_op_pj", "annotation_fraction"],
+      "required": ["area_um2", "delay_ns", "setup_worst_slack_ns", "hold_worst_slack_ns", "drc_violations", "average_power_mw", "energy_per_op_pj", "annotation_fraction"],
       "properties": {
         "area_um2": {"type": "number", "exclusiveMinimum": 0},
         "delay_ns": {"type": "number", "exclusiveMinimum": 0},
+        "setup_worst_slack_ns": {"type": "number", "minimum": 0},
+        "hold_worst_slack_ns": {"type": "number", "minimum": 0},
+        "drc_violations": {"const": 0},
         "average_power_mw": {"type": "number", "minimum": 0},
         "energy_per_op_pj": {"type": "number", "exclusiveMinimum": 0},
         "annotation_fraction": {"type": "number", "minimum": 0, "maximum": 1}
