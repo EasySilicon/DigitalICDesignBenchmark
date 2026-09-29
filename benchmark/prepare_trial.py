@@ -30,7 +30,7 @@ def prepare(task: str, destination: Path) -> dict:
         raise ValueError(f"destination is not empty: {destination}")
     destination.mkdir(parents=True, exist_ok=True)
     shutil.copytree(ROOT / "benchmark", destination / "benchmark",
-                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "npu-quality-gates.md"))
     public = destination / "evaluator/public"
     public.mkdir(parents=True)
     for name in ("README.md", "public_check.py"):
@@ -50,7 +50,7 @@ def prepare(task: str, destination: Path) -> dict:
     )
     prompt = f"""You are the sole candidate Agent for benchmark task {task}. This is a fresh conversation and an independent working directory. You have {row['time_limit_minutes']} minutes of wall clock time and an aggregate input-plus-output budget of {row['same_model_token_cap']} model tokens. Use only public materials copied into this directory and installed local tools. Do not inspect other repositories or directories for benchmark reference RTL, hidden tests, answers, or scoring code.
 
-Read `benchmark/tasks/{task}/task.md`, `benchmark/tasks/{task}/acceptance.md`, the shared rules in `benchmark/tasks.md` and `benchmark/acceptance.md`, and the full `benchmark/verification-contract.md`. Deliver synthesizable RTL in `rtl/`, `rtl/files.f`, a self-checking verification environment in `verif/`, an executable `run.sh`, and `README.md` documenting tests, limitations, design choices, and a PPA optimization comparison with measured results or attempted tool commands. Correctness has priority over PPA, and PPA over completion time.
+Read `benchmark/tasks/{task}/task.md`, `benchmark/tasks/{task}/acceptance.md`, and the shared task rules, acceptance rules, and full verification/delivery contract in `benchmark/README.md`. Deliver synthesizable RTL in `rtl/`, `rtl/files.f`, a self-checking verification environment in `verif/`, an executable `run.sh`, and `README.md` documenting tests, limitations, design choices, and a PPA optimization comparison with measured results or attempted tool commands. Correctness has priority over PPA, and PPA over completion time.
 
 Build your own independent scoreboard, directed edge cases, and randomized checks appropriate to the task. The copied public evaluator is a smoke test only. Run `python3 evaluator/public_check.py {task} .` and your own checks. Make `run.sh` deterministic under `BENCH_SEED` and write `results.json` in the required contract format.{elf_instruction}
 

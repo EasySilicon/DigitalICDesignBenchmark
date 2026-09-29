@@ -7,4 +7,4 @@
 - [冻结任务卡](task.md)
 - [验收计划](acceptance.md)
 - 公开数值 oracle：`public/matmul_oracle.py`
-- [跨题共享规则](../../tasks.md)与[通用验收规则](../../acceptance.md)
+- [跨题共享规则](../../README.md#共享任务规则)与[通用验收规则](../../README.md#通用验收规则)

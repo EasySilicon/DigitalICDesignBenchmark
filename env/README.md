@@ -2,7 +2,7 @@
 
 [English](README.en.md)
 
-本页给下载者提供**分阶段**环境准备方法。仓库当前为 `design_only`：规范校验和十题独立端口公开冒烟可运行（T10 为设计稿级公开样例），ACT4 RV32I/Zicsr 的 45 个生成 ELF 也已提供；T01–T09 的独立验收器、参考 RTL、变异体与 1 GHz PPA 基线已随仓库提供并完成本地校准，但尚无正式榜单；T10 的隐藏验收及正式 PPA 评分仍待实现与冻结。运行 `check_env.py` 只能检查依赖是否存在，不能代替[发布门禁](../benchmark/methodology.md#发布门禁)。推荐 Linux x86-64、Docker/OCI 与至少 16 vCPU、32 GiB RAM、100 GiB 空间；正式榜单应发布单一镜像 digest，避免依赖用户系统版本。
+本页给下载者提供**分阶段**环境准备方法。仓库当前为 `design_only`：规范校验和十题独立端口公开冒烟可运行（T10 为设计稿级公开样例），ACT4 RV32I/Zicsr 的 45 个生成 ELF 也已提供；T01–T09 的独立验收器、参考 RTL、变异体与 1 GHz PPA 基线已随仓库提供并完成本地校准，但尚无正式榜单；T10 的隐藏验收及正式 PPA 评分仍待实现与冻结。运行 `check_env.py` 只能检查依赖是否存在，不能代替[发布门禁](../benchmark/README.md#发布门禁)。推荐 Linux x86-64、Docker/OCI 与至少 16 vCPU、32 GiB RAM、100 GiB 空间；正式榜单应发布单一镜像 digest，避免依赖用户系统版本。
 
 物理设计和 Verilator 层次编译会产生较大的临时结果。运行前可将 `TMPDIR` 指向有足够空间的数据盘，例如 `mkdir -p /data/ic_bcmk_scratch && export TMPDIR=/data/ic_bcmk_scratch`；Python 评测器的临时编译会使用该目录。ORFS 的结果、日志和报告写在其 `flow/` 工作树内，因此也应把 ORFS 检出放在数据盘，并为重复 PPA 迭代预留空间。探索时应保留正在运行的构建；失败或被替代的构建在提取配置、报告和结果摘要后，直接删除其大型结果与编译目录。只有复测需要的基线数据库及宏抽象文件才长期保留。
 
@@ -16,7 +16,7 @@
 | CPU 验收 | RV32 bare-metal GCC ≥15/objdump、Sail RISC-V 0.14.1、ACT4 锁定修订及 uv ≥0.11.33、Ruby ≥3.4.10、Bundler ≥4.0.21 | 编译 ELF、生成适用 ACT4 与参考轨迹；`check_env.py --profile cpu` 检查这些命令，I/Zicsr 配置与生成 ELF 已提供，完整 CPU 验收未完成 |
 | 可选 | KLayout、波形查看器、综合可视化工具 | 调试或 GDS/DRC；目前 PPA 分数不要求 GDS/DRC，不进入参赛工具清单 |
 
-所有参赛系统在同一预装镜像运行。参赛者的模型 API 与费用配置属于[评测资源规则](../benchmark/methodology.md#资源约束)，不应写入公开镜像。ASAP7 已随仓库提供，无需另行下载；ACT4、Sail 和 ORFS 的修订见[来源锁定](../benchmark/sources.lock.yaml)；正式版还需锁定二进制、Python/C++ 包及工具镜像 digest。
+所有参赛系统在同一预装镜像运行。参赛者的模型 API 与费用配置属于[评测资源规则](../benchmark/README.md#资源约束)，不应写入公开镜像。ASAP7 已随仓库提供，无需另行下载；ACT4、Sail 和 ORFS 的修订见[来源锁定](../benchmark/sources.lock.yaml)；正式版还需锁定二进制、Python/C++ 包及工具镜像 digest。
 
 ## 现在可运行：规范校验
 
@@ -35,7 +35,7 @@ python3 -m venv .venv
 .venv/bin/python env/check_env.py --profile all --orfs-root /path/to/OpenROAD-flow-scripts --act4-root /path/to/riscv-arch-test --verify-platform-hashes
 ```
 
-`INCOMPLETE` 和非零退出码会指出缺项。工具存在也不能证明版本兼容或十题都可通过物理流程，须再做下述冒烟和[参数校准](../benchmark/ppa.md#参数探索与冻结门禁)。
+`INCOMPLETE` 和非零退出码会指出缺项。工具存在也不能证明版本兼容或十题都可通过物理流程，须再做下述冒烟和[参数校准](../benchmark/README.md#参数探索与冻结门禁)。
 
 如需先取得**锁定源码**以准备镜像，可在仓库根目录执行：
 

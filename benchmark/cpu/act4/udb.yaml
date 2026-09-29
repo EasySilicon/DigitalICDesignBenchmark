@@ -1,4 +1,4 @@
-# ACT4 UDB config for benchmark/tasks.md T09.
+# ACT4 UDB config for benchmark/tasks/T09/task.md.
 $schema: config_schema.json#
 kind: architecture configuration
 type: fully configured

@@ -20,10 +20,10 @@ Digital IC Design Benchmark for Agents evaluates end-to-end RTL delivery by mult
 ## Entry points
 
 - [Task packages](tasks/): frozen task cards, task-specific acceptance plans, public artifacts, and machine-readable metadata.
-- [Shared task rules](tasks.md) and [shared acceptance rules](acceptance.md).
-- [Verification and delivery contract](verification-contract.md): submission layout, fixed DUT interfaces, and independent evaluation.
+- [Shared task rules](README.md#共享任务规则) and [shared acceptance rules](README.md#通用验收规则).
+- [Verification and delivery contract](README.md#验证与交付契约): submission layout, fixed DUT interfaces, and independent evaluation.
 - [Public executable checks](../evaluator/README.en.md): task-specific port-level smoke checks.
-- [Evaluation methodology](methodology.md) and [PPA methodology](ppa.md).
+- [Evaluation methodology](README.md#评测与评分方法) and [PPA methodology](README.md#ppa-测量与评分).
 - [Environment setup](../env/README.en.md) and the vendored [ASAP7 platform](../vendor/README.en.md).
 
 Run `python3 benchmark/validate_spec.py` for a local consistency check. Create a task-only public workspace with `python3 benchmark/prepare_trial.py T04 /path/to/empty/T04`. Each evaluation run starts in a new conversation and an empty workspace with the same task material, model configuration, tool environment, and timing boundary.

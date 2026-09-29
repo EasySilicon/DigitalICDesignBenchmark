@@ -160,10 +160,13 @@ def validate_local() -> tuple[dict, dict]:
 
     if manifest["status"] != "design_only":
         fail("status cannot advance without the publication gates")
-    for required in ("methodology.md", "ppa.md", "acceptance.md", "cpu-validation.md", "npu-validation.md",
-                     "coverage.md", "verification-contract.md"):
+    for required in ("README.md", "README.en.md", "npu-validation.md"):
         if not (ROOT / required).is_file():
             fail(f"missing required document: {required}")
+    for heading in ("## 共享任务规则", "## 通用验收规则", "## 验证与交付契约",
+                    "## 评测与评分方法", "## PPA 测量与评分", "## 领域与难度覆盖"):
+        if heading not in readme:
+            fail(f"missing benchmark README section: {heading}")
     env_guide = ROOT.parent / "env" / "README.md"
     if not env_guide.is_file():
         fail("missing environment installation guide")

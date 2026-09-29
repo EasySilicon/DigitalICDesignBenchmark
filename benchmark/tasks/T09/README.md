@@ -8,4 +8,4 @@
 - [CPU 验收计划](acceptance.md)
 - 公开接口 testbench：`public/tb.sv`
 - 公开 ELF 总线平台：`public/tb_cpu_elf.sv`
-- [跨题共享规则](../../tasks.md)与[通用验收规则](../../acceptance.md)
+- [跨题共享规则](../../README.md#共享任务规则)与[通用验收规则](../../README.md#通用验收规则)
