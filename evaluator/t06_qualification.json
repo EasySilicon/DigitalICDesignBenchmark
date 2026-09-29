@@ -1,6 +1,6 @@
 {
   "task_id": "T06",
-  "qualification_date": "2026-09-28",
+  "qualification_date": "2026-09-29",
   "seed": 20260928,
   "reference_sha256": "224f5ca08c038f11ed6bb44c75abe619b3cab36183336adc52e5fb835355fecc",
   "public_tb_path": "../benchmark/tasks/T06/public/tb.sv",
@@ -8,7 +8,7 @@
   "hidden_tb_path": "t06_hidden_tb.sv",
   "hidden_tb_sha256": "e969c8f587e91f0b4846ede0e0047732a626d2fd4eaaf242ecfc39fef652148a",
   "hidden_runner_sha256": "8a94a690b8dc4c8e4403b457cb32aa39d37c3bb0ee0380f254b52b9d595a4779",
-  "mutation_runner_sha256": "e497d6c7d422139e36de86577e4f02835e4eb13fca6cd3a8f417efb655ab1f92",
+  "mutation_runner_sha256": "4e2fd197877a38545c141113a5a4abfb72f90b68fc9d77de5f64fab836c64b7f",
   "score_rules_sha256": "9e6e85d79a3700bdbab7bbf06aa4b098dcb4baa6d4c35474321aa59f5e98215f",
   "reference_groups": {
     "AC-26": {"passed": 400024, "total": 400024},
@@ -21,8 +21,8 @@
   "functional_basic": 60,
   "functional_edges": 15,
   "reference_yosys_check": "pass",
-  "eligible_mutants": 11,
-  "killed_mutants": 11,
+  "eligible_mutants": 13,
+  "killed_mutants": 13,
   "ppa_baseline_status": "qualified_1ghz",
   "ppa_baseline": "../benchmark/ppa-baselines.json#T06",
   "ppa_probe_sha256": "513a24893627da2b2cb14264963a35801ae667c5a73b6b0a8882b97038d9e360",

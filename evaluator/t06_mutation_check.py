@@ -5,10 +5,16 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
+import subprocess
 import tempfile
 from pathlib import Path
 
 from t06_check import ROOT, run
+
+
+QUALIFICATION_PARAMETERS = ((8, 8), (32, 16))
+FAILURE_GROUP = re.compile(r"^IC_FAILURE (AC-\d+) ", re.MULTILINE)
 
 
 MUTATIONS = {
@@ -19,6 +25,18 @@ MUTATIONS = {
     "one_stage_write_pointer": (
         "wr_gray_sync2 <= wr_gray_sync1;",
         "wr_gray_sync2 <= wr_gray;",
+    ),
+    "binary_write_pointer_crossing": (
+        "assign wr_gray_next = (wr_bin_next >> 1) ^ wr_bin_next;",
+        "assign wr_gray_next = wr_bin_next;",
+    ),
+    "wrong_full_gray_polarity": (
+        "assign full_next = wr_gray_next == {\n"
+        "    ~rd_gray_sync2[PTR_W-1:PTR_W-2], rd_gray_sync2[PTR_W-3:0]\n"
+        "  };",
+        "assign full_next = wr_gray_next == {\n"
+        "    ~rd_gray_sync2[PTR_W-1], rd_gray_sync2[PTR_W-2:0]\n"
+        "  };",
     ),
     "wrong_read_address": (
         "assign rd_data = mem[rd_bin[ADDR_W-1:0]];",
@@ -67,6 +85,19 @@ MUTATIONS = {
 }
 
 
+def synthesize_mutant(source: Path) -> None:
+    for width, depth in QUALIFICATION_PARAMETERS:
+        script = (f"read_verilog -sv {source}\n"
+                  f"chparam -set WIDTH {width} -set DEPTH {depth} asynchronous_fifo\n"
+                  "synth -top asynchronous_fifo\ncheck -assert\n")
+        result = subprocess.run(["yosys", "-Q", "-T", "-q", "-p", script],
+                                text=True, capture_output=True, timeout=180,
+                                check=False)
+        if result.returncode:
+            raise RuntimeError(f"Yosys synthesis failed for WIDTH={width} "
+                               f"DEPTH={depth}: {(result.stdout + result.stderr)[-4000:]}")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--seed", type=int, default=20260928)
@@ -81,15 +112,27 @@ def main() -> int:
             submission = base / name
             rtl = submission / "rtl"
             rtl.mkdir(parents=True)
-            (rtl / "dut.sv").write_text(reference.replace(needle, replacement, 1))
+            source = rtl / "dut.sv"
+            source.write_text(reference.replace(needle, replacement, 1))
             (rtl / "files.f").write_text("dut.sv\n")
             try:
+                synthesize_mutant(source)
                 # One small and one large configuration cover both pointer
                 # widths while keeping deterministic mutation qualification
                 # materially cheaper than a full candidate evaluation.
-                result = run(submission, args.seed, ((8, 8), (32, 16)))
-            except Exception as exc:  # compile/time-out mutants are ineligible
-                matrix[name] = {"eligible": False, "error": str(exc)}
+                result = run(submission, args.seed, QUALIFICATION_PARAMETERS)
+            except Exception as exc:
+                # Some broken FIFOs report an observable protocol failure and
+                # then time out while the testbench drains them. That is a
+                # valid kill, provided Yosys synthesis already succeeded.
+                message = str(exc)
+                failed_groups = sorted(set(FAILURE_GROUP.findall(message)))
+                if message.startswith("simulation failed") and failed_groups:
+                    matrix[name] = {"eligible": True, "killed": True,
+                                    "failed_groups": failed_groups,
+                                    "terminated_after_failure": True}
+                else:
+                    matrix[name] = {"eligible": False, "error": message}
                 continue
             failed_groups = [group for group, row in result["groups"].items()
                              if row["cases_passed"] != row["cases_total"]]
@@ -100,7 +143,8 @@ def main() -> int:
                "eligible": len(eligible),
                "killed": sum(row["killed"] for row in eligible)}
     print(json.dumps(summary, indent=2))
-    return 0 if eligible and all(row["killed"] for row in eligible) else 1
+    return 0 if len(eligible) == len(MUTATIONS) and len(eligible) >= 12 and \
+        all(row["killed"] for row in eligible) else 1
 
 
 if __name__ == "__main__":

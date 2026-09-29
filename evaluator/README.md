@@ -55,7 +55,7 @@ T04 的独立功能入口为 `python3 evaluator/t04_check.py /path/to/submission
 
 T05 的独立功能入口为 `python3 evaluator/t05_check.py /path/to/submission`，会对 `N={4,8}`、`WIDTH={8,32}` 四种组合汇总 `AC-21` 至 `AC-25`；`--reference` 回归评测方参考 RTL。`python3 evaluator/t05_mutation_check.py` 确定性生成并验证九个可综合缺陷变异体。功耗平台以 1000 ps 周期运行同一自检仲裁负载，并按完成的流传输计数。三种子 1 GHz 基线、冻结 hash 和资格结果见 `t05_qualification.json`，`gpt-6-sol` 盲测及正式 PPA 结果见 `t05_pilot_gpt6sol.json`。
 
-T06 的独立功能入口为 `python3 evaluator/t06_check.py /path/to/submission`，会对 `WIDTH={8,32}`、`DEPTH={8,16}` 四种组合和多组非锁相读写时钟比汇总 `AC-26` 至 `AC-31`；`--reference` 回归评测方参考 RTL。除逐拍外部记分板外，AC-31 还对每种参数组合运行 Yosys 网表双向 2FF/本地复位结构检查。`python3 evaluator/t06_mutation_check.py` 确定性生成并验证十一个可综合缺陷变异体。PPA 平台将 `wr_clk`、`rd_clk` 都约束为 1000 ps、声明为异步时钟组，功耗负载按成功读出计数。三种子 1 GHz 基线、冻结 hash 和资格结果见 `t06_qualification.json`，`gpt-6-sol` 盲测及正式 PPA 结果见 `t06_pilot_gpt6sol.json`。
+T06 的独立功能入口为 `python3 evaluator/t06_check.py /path/to/submission`，会对 `WIDTH={8,32}`、`DEPTH={8,16}` 四种组合和多组非锁相读写时钟比汇总 `AC-26` 至 `AC-31`；`--reference` 回归评测方参考 RTL。除逐拍外部记分板外，AC-31 还对每种参数组合运行 Yosys 网表双向 2FF/本地复位结构检查。`python3 evaluator/t06_mutation_check.py` 确定性生成并验证十三个可综合缺陷变异体，包括二进制指针直接跨域和满判 Gray 码极性错误。PPA 平台将 `wr_clk`、`rd_clk` 都约束为 1000 ps、声明为异步时钟组，功耗负载按成功读出计数。三种子 1 GHz 基线、冻结 hash 和资格结果见 `t06_qualification.json`，`gpt-6-sol` 盲测及正式 PPA 结果见 `t06_pilot_gpt6sol.json`。
 
 T07 的独立功能入口为 `python3 evaluator/t07_check.py /path/to/submission`，汇总 `AC-32` 至 `AC-37`，覆盖 AXI 写地址/数据任意先后、APB SETUP/ACCESS、读写响应、并发仲裁、等待/返回背压与复位；`--reference` 回归评测方参考 RTL。`python3 evaluator/t07_mutation_check.py` 确定性生成并验证十五个可综合缺陷变异体。三种子 1 GHz 基线、冻结 hash 和资格结果见 `t07_qualification.json`，`gpt-6-sol` 盲测及正式 PPA 结果见 `t07_pilot_gpt6sol.json`。
 
