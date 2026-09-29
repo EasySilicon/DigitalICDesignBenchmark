@@ -2,7 +2,9 @@
 
 [English](README.en.md)
 
-本页给下载者提供**分阶段**环境准备方法。仓库当前为 `design_only`：规范校验和十题独立端口公开冒烟可运行（T10 为设计稿级公开样例），ACT4 RV32I/Zicsr 的 45 个生成 ELF 也已提供；T01–T09 的隐藏验收器和 CPU 差分已在评测方环境试跑；T10 的隐藏验收及正式 PPA 评分仍待实现与冻结。运行 `check_env.py` 只能检查依赖是否存在，不能代替[发布门禁](../benchmark/methodology.md#发布门禁)。推荐 Linux x86-64、Docker/OCI 与至少 16 vCPU、32 GiB RAM、100 GiB 空间；正式榜单应发布单一镜像 digest，避免依赖用户系统版本。
+本页给下载者提供**分阶段**环境准备方法。仓库当前为 `design_only`：规范校验和十题独立端口公开冒烟可运行（T10 为设计稿级公开样例），ACT4 RV32I/Zicsr 的 45 个生成 ELF 也已提供；T01–T09 的独立验收器、参考 RTL、变异体与 1 GHz PPA 基线已随仓库提供并完成本地校准，但尚无正式榜单；T10 的隐藏验收及正式 PPA 评分仍待实现与冻结。运行 `check_env.py` 只能检查依赖是否存在，不能代替[发布门禁](../benchmark/methodology.md#发布门禁)。推荐 Linux x86-64、Docker/OCI 与至少 16 vCPU、32 GiB RAM、100 GiB 空间；正式榜单应发布单一镜像 digest，避免依赖用户系统版本。
+
+物理设计和 Verilator 层次编译会产生较大的临时结果。运行前可将 `TMPDIR` 指向有足够空间的数据盘，例如 `mkdir -p /data/ic_bcmk_scratch && export TMPDIR=/data/ic_bcmk_scratch`；Python 评测器的临时编译会使用该目录。ORFS 的结果、日志和报告写在其 `flow/` 工作树内，因此也应把 ORFS 检出放在数据盘，并为重复 PPA 迭代预留空间。探索时应保留正在运行的构建；失败或被替代的构建在提取配置、报告和结果摘要后，直接删除其大型结果与编译目录。只有复测需要的基线数据库及宏抽象文件才长期保留。
 
 ## 依赖分组
 
