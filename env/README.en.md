@@ -2,9 +2,11 @@
 
 [中文](README.md)
 
-This page describes staged environment preparation. The repository provides specification validation, public port-level smoke checks, and 45 generated ACT4 RV32I/Zicsr ELF artifacts. A formal benchmark release additionally freezes all task evaluators, reference implementations, PPA parameters, and a single tool-image digest. `check_env.py` checks for dependencies; it is not a release-gate substitute.
+This page describes staged environment preparation. The repository provides specification validation, public port-level smoke checks, and 45 generated ACT4 RV32I/Zicsr ELF artifacts. T01–T09 evaluators, reference RTL, mutation generators, and 1 GHz PPA baselines are published and calibrated for task-level evaluation; they are not copied into contestant workspaces. A formal suite release still requires T10 qualification, the tool-image digest, and the remaining release evidence. `check_env.py` checks for dependencies; it is not a release-gate substitute.
 
 Use Linux x86-64, Docker/OCI where possible, and at least 16 vCPU, 32 GiB RAM, and 100 GiB of disk.
+
+Physical-design and Verilator builds can produce large temporary files. Point `TMPDIR` to a data disk with sufficient space, and keep the ORFS checkout there as well: ORFS writes its results, logs, and reports under its own `flow/` tree. Preserve active builds and the reports needed for baseline reproduction; reclaim superseded build directories only after retaining their configuration and result summaries.
 
 | Layer | Required dependencies | Purpose |
 | --- | --- | --- |

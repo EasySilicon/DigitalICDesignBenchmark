@@ -17,7 +17,7 @@ Digital IC Design Benchmark for Agents 是一套数字芯片设计与交付 benc
 | T09 | 9 | RV32I 五级流水线 CPU | 原创 | 24 小时 |
 | T10 | 10 | 16×16 持续双 1024-bit/拍多精度脉动阵列矩阵乘法 | 原创 | 48 小时 |
 
-难度序号是设计时的覆盖假设，不是 CVDP 官方难度，也不是已测得的等距难度。发布前应依照[校准流程](methodology.md#难度校准)用试运行数据调整或替换题目。两道 CVDP 题应单独报告，避免公开题的训练数据污染影响原创题结论。
+难度序号是设计时的覆盖假设，不是 CVDP 官方难度，也不是已测得的等距难度。发布前应依照[校准流程](methodology.md#难度校准)用试运行数据调整或替换题目。T01 是 CVDP 衍生题，应与其余九道原创题分开报告，避免公开题的训练数据污染影响原创题结论。
 
 ## 规范入口
 
@@ -39,7 +39,7 @@ Digital IC Design Benchmark for Agents 是一套数字芯片设计与交付 benc
 - [安装与依赖清单](../env/README.md)：分阶段安装、版本锁定要求与离线自检。
 - [仓库内 ASAP7 平台](../vendor/README.md)：工艺平台来源、许可与逐文件哈希。
 
-本地设计一致性检查：`python3 benchmark/validate_spec.py`；加 `--verify-source` 可在线核对锁定的 CVDP 数据文件与两道题的题面哈希。2026-09-25 的在线核对已通过。
+本地设计一致性检查：`python3 benchmark/validate_spec.py`；加 `--verify-source` 可在线核对锁定的 CVDP 数据文件与 T01 原题的题面哈希。2026-09-25 的在线核对已通过。
 
 每题可用 `python3 benchmark/prepare_trial.py T04 /path/to/empty/T04` 生成独立参赛工作区及 `PROMPT.md`。比较不同 Agent 时，每题均从新对话和空工作区开始，锁定相同的任务材料、模型配置、工具环境及计时起止；不要复用上一题的会话或产物。Codex 试跑为每题启动新的 `codex exec --ephemeral` 进程，不使用 `resume`；评测方保存每题的启动、结束时间戳和退出码。正式验收器和参考 RTL 的源码随仓库公开，但 `prepare_trial.py` 不会把它们复制进被测 Agent 的工作区。
 
