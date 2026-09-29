@@ -109,8 +109,10 @@ def main() -> int:
     parser.add_argument("--rd-period-ps", type=int, default=1000,
                         help="T06 read-clock period; T06 write clock uses --period-ps")
     parser.add_argument("--io-delay-ratio", type=float, default=0.20)
-    parser.add_argument("--utilization", type=int, default=10)
-    parser.add_argument("--density", type=float, default=0.60)
+    parser.add_argument("--utilization", type=int, default=10,
+                        help="core utilization; default 10 reproduces the provisional T01-T09 baselines, not a frozen suite-wide requirement")
+    parser.add_argument("--density", type=float, default=0.60,
+                        help="placement density; default 0.60 reproduces the provisional T01-T09 baselines")
     parser.add_argument("--seed", type=int, default=11)
     parser.add_argument("--corner", choices=("BC", "TC", "WC"), default="WC")
     parser.add_argument("--num-cores", type=int, default=4)

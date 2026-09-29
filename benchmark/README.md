@@ -262,11 +262,11 @@ PPA 仅在任务的 F+P=75/75、交付合格且 RTL 可综合时计分；功能�
 | 单元库 | ASAP7 7.5T、RVT、NLDM；WC/SS 时序，TT 活动功耗 |
 | 映射与负载 | 固定 ORFS ASAP7 配置的 Yosys/ABC、`BUFx2_ASAP7_75t_R` 驱动与 3.898 fF 输出负载 |
 | 全局时钟目标 | 所有任务及每个时钟域均为 1000 ps（1 GHz）；T06 的 `wr_clk`、`rd_clk` 虽同频但独立并声明为异步 |
-| I/O 与物理约束 | I/O 延迟比例 20%；核心利用率 10%；放置密度 0.60 |
+| I/O 与物理约束 | I/O 延迟比例 20%；核心利用率 10%（现有 T01–T09 基线的试跑值，待十题共同复核）；放置密度 0.60 |
 | 存储映射 | T03/T06/T08 的小型存储体和 T09 寄存器文件一律映射为标准单元，不使用 fake SRAM/寄存器文件 macro |
 | 布线重复 | 固定种子 11/29/47；传给当前兼容版本的 ORFS `GRT_SEED` 和 `OR_SEED`，放置保持确定性，同一设计三次布线，指标取中位数 |
 
-上述统一参数并非直接照搬 [ORFS 的 ASAP7 平台配置](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/platforms/asap7/config.mk)及[示例 SDC](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/designs/asap7/ibex/constraint.sdc)。T01–T09 已按当前参数完成三种子 1 GHz 校准；T09 的 seed 29 setup 裕量仅 +0.316 ps，属于达标但很薄的裕量。T10 仍须使用同一组参数测量；若后续全套门禁迫使统一参数改变，已校准题也必须整体重跑。
+上述统一参数并非直接照搬 [ORFS 的 ASAP7 平台配置](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/platforms/asap7/config.mk)及[示例 SDC](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/designs/asap7/ibex/constraint.sdc)。`CORE_UTILIZATION` 决定初始核心面积目标，`PLACE_DENSITY` 决定放置器的目标密度；二者不是同一个门禁。10% 最初是 PPA 探针和九题试跑采用的默认核心利用率，现有记录没有证明它适用于 T10 或优于其他利用率；它不是题目的功能或商业实现要求。T01–T09 已按这组参数完成三种子 1 GHz 校准；T09 的 seed 29 setup 裕量仅 +0.316 ps，属于达标但很薄的裕量。T10 可用其他利用率作研发探索，但探索结果不得与正式基线直接比较或计分。十题共同复核后再冻结统一值；若统一值改变，已校准题也必须整体重跑。
 
 #### 参数探索与冻结门禁
 
