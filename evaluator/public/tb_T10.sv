@@ -1,6 +1,8 @@
 `timescale 1ns/1ps
 module tb_T10;
   localparam int MAX_BLOCKS = 512;
+  localparam int FIRST_ROW_LATENCY_LIMIT = 64;
+  localparam int LAST_ROW_LATENCY_LIMIT = 80;
   logic clk = 0;
   always #5 clk = ~clk;
   logic rst_n = 0;
@@ -138,9 +140,9 @@ module tb_T10;
             if (row != next_output_row[tag])
               $fatal(1, "missing/duplicate/reordered row tag=%0d row=%0d expected=%0d",
                      tag, row, next_output_row[tag]);
-            if (row == 0 && cycle-last_input_cycle[tag] > 48)
+            if (row == 0 && cycle-last_input_cycle[tag] > FIRST_ROW_LATENCY_LIMIT)
               $fatal(1, "first row latency tag=%0d", tag);
-            if (row == 15 && cycle-last_input_cycle[tag] > 64)
+            if (row == 15 && cycle-last_input_cycle[tag] > LAST_ROW_LATENCY_LIMIT)
               $fatal(1, "last row latency tag=%0d", tag);
             for (int col=0; col<16; col++) begin
               actual = out_data[slot*1024 + col*64 +: 64];

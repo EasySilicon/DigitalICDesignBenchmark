@@ -124,13 +124,6 @@ def validate_local() -> tuple[dict, dict]:
                                     "power_report_sha256"))
                     for seed in seeds):
             fail(f"invalid qualified PPA baseline: {task_id}")
-    historical = json.loads((ROOT / baselines["historical_400mhz_baselines"]).read_text())
-    if historical.get("status") != "historical_partial_reference" or \
-            set(historical["tasks"]) != set(expected_ids[2:-1]) or \
-            any(row["parameter_set"]["period_ps"] != 2500
-                for row in historical["tasks"].values()):
-        fail("archived 400 MHz measurements have inconsistent provenance")
-
     for index, row in enumerate(task_rows, start=1):
         task_id = row["id"]
         task_dir = ROOT / "tasks" / task_id

@@ -747,6 +747,5 @@
         }
       ]
     }
-  },
-  "historical_400mhz_baselines": "ppa-baselines-400mhz.json"
+  }
 }
