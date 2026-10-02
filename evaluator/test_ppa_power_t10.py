@@ -54,10 +54,10 @@ endmodule
                 entries.extend(f"MM_ROW {case} {row} {'0' * 256}" for row in range(16))
                 entries.append(f"MM_CASE {case} 1 1 1 16")
             log = ("\n".join(entries) +
-                   f"\nMM_STREAM input_bubble_phases={'0' * 13} finished={count}\n")
+                   f"\nMM_STREAM input_bubble_phases={'0' * 14} finished={count}\n")
             check_t10_workload(log, root, count)
-            bubble = log.replace("input_bubble_phases=" + "0" * 13,
-                                 "input_bubble_phases=" + "1" + "0" * 12, 1)
+            bubble = log.replace("input_bubble_phases=" + "0" * 14,
+                                 "input_bubble_phases=" + "1" + "0" * 13, 1)
             with self.assertRaisesRegex(RuntimeError, "continuous workload"):
                 check_t10_workload(bubble, root, count)
             corrupted = log.replace(f"MM_ROW 0 0 {'0' * 256}", "MM_ROW 0 0 1", 1)

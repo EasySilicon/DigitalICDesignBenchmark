@@ -134,10 +134,10 @@ def check_t10_workload(log: str, vectors: Path, case_count: int) -> None:
     if not 1 <= case_count <= 1024:
         raise ValueError("T10 case count outside hidden testbench capacity")
     stream_markers = re.findall(
-        r"^MM_STREAM input_bubble_phases=([01]{13}) finished=(\d+)$",
+        r"^MM_STREAM input_bubble_phases=([01]{14}) finished=(\d+)$",
         log, re.MULTILINE,
     )
-    if stream_markers != [("0" * 13, str(case_count))]:
+    if stream_markers != [("0" * 14, str(case_count))]:
         raise RuntimeError("T10 continuous workload did not complete exactly once")
     markers = re.findall(r"^MM_CASE (\d+) ([01]) ([01]) ([01]) (\d+)$",
                          log, re.MULTILINE)
