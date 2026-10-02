@@ -155,11 +155,53 @@ class ScoreRunTest(unittest.TestCase):
         self.assertEqual(scored["functional_edges"], 15)
         self.assertTrue(scored["full_functional_pass"])
 
-    def test_t10_cannot_receive_formal_score_before_qualification(self):
+    def test_t10_pending_baseline_reports_function_but_blocks_ppa_and_time(self):
         groups = {group: {"cases_passed": 1, "cases_total": 1}
                   for item in self.rules["tasks"]["T10"] for group in item["groups"]}
-        with self.assertRaisesRegex(ValueError, "design-only"):
-            score_run(dict(self.payload, task_id="T10", groups=groups), self.rules)
+        scored = score_run(dict(self.payload, task_id="T10", groups=groups,
+                                sustained_throughput_passed=True), self.rules)
+        self.assertEqual(scored["functional_total"], 75)
+        self.assertTrue(scored["full_functional_pass"])
+        self.assertFalse(scored["ppa_eligible"])
+        self.assertEqual(scored["ppa_score"], 0)
+        self.assertEqual(scored["time_score"], 0)
+
+    def test_t10_sustained_gate_is_required_and_zeroes_systolic_item(self):
+        groups = {group: {"cases_passed": 1, "cases_total": 1}
+                  for item in self.rules["tasks"]["T10"] for group in item["groups"]}
+        payload = dict(self.payload, task_id="T10", groups=groups)
+        with self.assertRaisesRegex(ValueError, "sustained_throughput_passed"):
+            score_run(payload, self.rules)
+        scored = score_run(dict(payload, sustained_throughput_passed=False), self.rules)
+        self.assertEqual(scored["functional_total"], 70)
+        self.assertFalse(scored["full_functional_pass"])
+        item = next(row for row in scored["score_items"] if row["id"] == "P_SYSTOLIC")
+        self.assertEqual(item["points"], 0)
+        self.assertTrue(item["safety_violation"])
+
+    def test_t10_qualified_baseline_enables_official_ppa_and_time(self):
+        groups = {group: {"cases_passed": 1, "cases_total": 1}
+                  for item in self.rules["tasks"]["T10"] for group in item["groups"]}
+        measurement = copy.deepcopy(self.payload["ppa_measurement"])
+        reference = copy.deepcopy(self.payload["ppa_reference"])
+        measurement["task_id"] = "T10"
+        reference["task_id"] = "T10"
+        reference["qualification_status"] = "qualified_1ghz"
+        payload = dict(self.payload, task_id="T10", groups=groups,
+                       sustained_throughput_passed=True,
+                       ppa_measurement=measurement, ppa_reference=reference,
+                       elapsed_seconds=86400, time_limit_seconds=172800)
+        with tempfile.TemporaryDirectory() as temporary:
+            baseline_path = Path(temporary) / "baselines.json"
+            baseline_path.write_text(json.dumps({
+                "status": "partial_1ghz_qualified",
+                "tasks": {"T10": reference},
+            }))
+            with patch("evaluator.score_run.BASELINES_PATH", baseline_path):
+                scored = score_run(payload, self.rules)
+        self.assertTrue(scored["ppa_eligible"])
+        self.assertEqual(scored["ppa_score"], 14)
+        self.assertEqual(scored["time_score"], 2.5)
 
 
 if __name__ == "__main__":

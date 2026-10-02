@@ -132,9 +132,20 @@ def ppa_provenance_valid(task: str, measurement: dict, reference: dict) -> bool:
 def score_run(payload: dict, rules: dict | None = None) -> dict:
     rules = rules or load_rules()
     task = payload["task_id"]
+    results = payload["groups"]
     if task == "T10":
-        raise ValueError("T10 is design-only until hidden acceptance and PPA baseline are qualified")
-    basic, edge, items = score_functional(task, payload["groups"], rules)
+        sustained = payload.get("sustained_throughput_passed")
+        if not isinstance(sustained, bool):
+            raise ValueError("T10 sustained_throughput_passed must be boolean")
+        if not sustained:
+            # The stream/structure gate is evaluator-owned and covers facts that
+            # cannot be reconstructed from aggregate group counts alone.  Keep
+            # the remaining functional diagnostics, but force P_SYSTOLIC to 0.
+            results = dict(results)
+            systolic = dict(results.get("MM-SYSTOLIC", {}))
+            systolic["safety_violation"] = True
+            results["MM-SYSTOLIC"] = systolic
+    basic, edge, items = score_functional(task, results, rules)
     functional = basic + edge
     duration = payload["elapsed_seconds"]
     limit = payload["time_limit_seconds"]
