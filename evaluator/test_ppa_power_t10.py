@@ -6,10 +6,37 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from ppa_power_probe import check_t10_workload
+from ppa_power_probe import check_t10_workload, instrument_testbench
 
 
 class T10PowerWorkloadTest(unittest.TestCase):
+    def test_power_copy_uses_one_ghz_clock(self):
+        source = """`timescale 1ns/1ps
+module tb_hidden_T10_stream;
+  logic clk=0, rst_n=0;
+  always #5 clk=~clk;
+endmodule
+"""
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            original = root / "tb.sv"
+            output = root / "tb_power.sv"
+            original.write_text(source)
+            self.assertEqual(instrument_testbench("T10", original, output),
+                             "tb_hidden_T10_stream")
+            instrumented = output.read_text()
+            self.assertIn("always #0.5 clk=~clk;", instrumented)
+            self.assertNotIn("always #5 clk=~clk;", instrumented)
+
+    def test_power_copy_rejects_ambiguous_clock(self):
+        source = "module tb_hidden_T10_stream; logic rst_n; endmodule\n"
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            original = root / "tb.sv"
+            original.write_text(source)
+            with self.assertRaisesRegex(ValueError, "one 10 ns debug clock"):
+                instrument_testbench("T10", original, root / "tb_power.sv")
+
     def test_complete_zero_workload_and_corrupt_lane(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)

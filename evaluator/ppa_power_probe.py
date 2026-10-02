@@ -30,6 +30,7 @@ POWER_CLOCKS = {
     "T08": ("clk",), "T09": ("clk",), "T10": ("clk",),
 }
 T06_PEAK_CLOCK_PERIOD_PS = {"wr_clk": 1000.0, "rd_clk": 1000.0}
+ONE_GHZ_CLOCK_PERIOD_PS = {"clk": 1000.0}
 PARAMETERS = {"T03": ("WIDTH=32", "DEPTH=16"),
               "T05": ("N=8", "WIDTH=32"),
               "T06": ("WIDTH=32", "DEPTH=16")}
@@ -86,6 +87,17 @@ def instrument_testbench(task: str, original: Path, output: Path) -> str:
         if source.count("#2;") != 3:
             raise ValueError("T09 power bench clock phases changed")
         source = source.replace("#2;", "#0.25;", 2).replace("#2;", "#0.5;", 1)
+    if task == "T10":
+        # The functional stream bench runs slowly for debug readability. The
+        # power copy must exercise the same routed design at the qualified
+        # 1 GHz clock used for timing and PPA scoring.
+        source, clock_edits = re.subn(
+            r"always\s+#5(?:\.0*)?\s+clk\s*=\s*~clk\s*;",
+            "always #0.5 clk=~clk;",
+            source,
+        )
+        if clock_edits != 1:
+            raise ValueError("T10 power bench must contain one 10 ns debug clock")
     ready = ("wait(!rst_n); wait(rst_n); #1;" if task == "T10" else
              "wait(rst_n); #1;" if task in {"T03", "T04", "T07", "T08", "T09"}
              else "wait(wr_rst_n && rd_rst_n); #1;" if task == "T06" else "")
@@ -297,8 +309,8 @@ def run(args: argparse.Namespace) -> dict:
     duration, periods = vcd_stats(vcd, top, POWER_CLOCKS[args.task])
     if args.task == "T06" and periods != T06_PEAK_CLOCK_PERIOD_PS:
         raise ValueError("T06 PPA/power workload must drive independent wr_clk and rd_clk at 1000 ps")
-    if args.task == "T09" and periods != {"clk": 1000.0}:
-        raise ValueError("T09 PPA/power workload must drive clk at 1000 ps")
+    if args.task in {"T09", "T10"} and periods != ONE_GHZ_CLOCK_PERIOD_PS:
+        raise ValueError(f"{args.task} PPA/power workload must drive clk at 1000 ps")
     power_sdc = (result_dir / "6_final.sdc").read_text()
     for name, period in periods.items():
         pattern = rf"(create_clock -name {re.escape(name)}_clock -period )\S+"
