@@ -26,7 +26,7 @@
   "ppa_baseline_status": "qualified_1ghz",
   "ppa_baseline": "../benchmark/ppa-baselines.json#T08",
   "ppa_probe_sha256": "513a24893627da2b2cb14264963a35801ae667c5a73b6b0a8882b97038d9e360",
-  "power_probe_sha256": "98e1bd4f47b9b3e705ed08e08dad38051e4c7560b1e2ef84f5d4dd5abce49eb3",
+  "power_probe_sha256": "a2a7955b4155d80e44508b572ea10845ee565c3ce320cf72148c5d258021a781",
   "power_workload_sha256": "4bda2417e277021202c68b379511e24cffc4e5916b53883bfdcc95e205fe582c",
   "power_workload_id": "T08-power-v1",
   "power_useful_operations": 647,
