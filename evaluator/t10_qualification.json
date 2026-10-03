@@ -1,0 +1,33 @@
+{
+  "task_id": "T10",
+  "qualification_date": "2026-10-03",
+  "reference_sha256": "248faca64fba735b879cad919f1f57a3cd638a7c784c6c35c8a223cd81538f91",
+  "functional_reference_status": "qualified",
+  "functional_cases": {
+    "passed": 2752,
+    "total": 2752,
+    "output_points_checked": 704512
+  },
+  "eligible_mutants": 14,
+  "killed_mutants": 14,
+  "ppa_baseline_status": "pending_hierarchical_three_seed",
+  "ppa_contract_path": "../benchmark/tasks/T10/ppa.md",
+  "ppa_contract_sha256": "479735f68141ced5ca124e2f55febf4b8419151d28615eced317dbd7979855a2",
+  "hierarchical_probe_status": "implementation_in_progress",
+  "hierarchy_contract": {
+    "tile_instances": 16,
+    "pe_instances_per_tile": 16,
+    "pe_instances_total": 256,
+    "fixed_module_names": false
+  },
+  "layout_seeds": [11, 29, 47],
+  "gate_clock_period_ps": 1000,
+  "platform": "ASAP7_7p5t_RVT_NLDM",
+  "setup_corner": "WC",
+  "signal_routing_layers": "M2-M7",
+  "clock_routing_layers": "M6-M7",
+  "power_workload_id": "T10-power-v1",
+  "power_workload_matrix_blocks": 200,
+  "minimum_activity_annotation": 0.95,
+  "baseline_blocker": "PE, tile and complete-top routed evidence for seeds 11/29/47 plus hierarchical activity power are not yet frozen"
+}

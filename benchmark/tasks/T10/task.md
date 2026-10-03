@@ -31,4 +31,6 @@
 
 **资源与评分**：非 PE 状态位数最多 262,144；PE 内的局部累加/结果队列也计入实际面积、时序与能耗。无额外完整乘积表、片外存储或未声明端口。16 vCPU、32 GiB RAM、100 GiB 磁盘；时限 48 小时，同模型 token 上限 200 万。F=60：INT8/INT16 10、FP16/BF16 10、FP8 两种编码 10、FP4 10、MXFP8 两种编码 10、MXFP4 10。P=15：握手、背压、块 ID 和复位 5；持续双 1024-bit/拍、四槽稳态输出、真实脉动结构与时延 5；特殊值及舍入/scale 边界 5。PPA 20、时间 5 遵循全题统一顺序和参数。物理入榜门槛为与其他九题相同的 **ASAP7/WC、1000 ps（1 GHz）** 时钟目标。持续吞吐与真实脉动结构属于 T10 正式入榜的硬门禁；任一失败时 PPA/时间分为零，其他功能分只作诊断展示。正式计分须完成独立参考、自动验收与三种子 ASAP7 PPA 基线的发布门禁。见[共享 NPU 验收计划](../../npu-validation.md)。
 
+为了让完整 16×16 设计能在 32 GiB 限额内接受一致的布线后评估，PPA 入榜还要求保留可自动发现的 16 个同型 4×4 tile、每 tile 16 个同型 PE 的综合层次；模块名不固定。评测方按候选自己的层次逐级硬化 PE、tile 和完整顶层，所有层级及功耗仍覆盖完整 DUT。详细规则见[PPA 评测契约](ppa.md)。
+
 格式依据：[OCP OFP8 1.0](https://www.opencompute.org/documents/ocp-8-bit-floating-point-specification-ofp8-revision-1-0-2023-06-20-pdf)、[OCP MX 1.0](https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf)。输出驻留阵列和波前数据流参考 [Gemmini 架构](https://github.com/ucb-bar/gemmini)；本题的 16×16、向量 PE、接口、误差界与时限为 benchmark 自定约束，不是这些来源的原样参数。
