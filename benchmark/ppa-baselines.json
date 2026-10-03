@@ -30,6 +30,8 @@
       "qualification_status": "qualified_1ghz",
       "source_sha256": "fc350f025fbeba08c9cff6a5ff273874bcab4ff5887968fa5b7b93be9ecdb6e4",
       "workload_sha256": "5eac7d71360c15ec2f5313ca429bcbae3ec8f3575f72f0f782d6d83eb5325ef2",
+      "workload_id": "T01-power-v1",
+      "workload_parameters": {"seed": 20260928},
       "measurement_status": "three_seed",
       "parameter_set": {
         "platform": "ASAP7_7p5t_RVT_NLDM",
@@ -110,6 +112,8 @@
       "qualification_status": "qualified_1ghz",
       "source_sha256": "e8f89d59b4f3e67bcff6619fad62461bdde20c2a01f4660073b5759c6abc90c5",
       "workload_sha256": "335b17246f10a2af6133e308b05970b3cecd25dfb8ea5abb2efd2c4651774b3b",
+      "workload_id": "T02-power-v1",
+      "workload_parameters": {"seed": 20260927, "case_count": 721, "vectors_sha256": "d36a2e7a136289d85d8045fff9cf8935d835ed5c3834dd873d402db335cc96bc"},
       "measurement_status": "three_seed",
       "parameter_set": {
         "platform": "ASAP7_7p5t_RVT_NLDM",
@@ -190,6 +194,8 @@
       "qualification_status": "qualified_1ghz",
       "source_sha256": "9ae8e49b6642816bbce629570b0926a255a169467b831888563d5ca3d28ffdf4",
       "workload_sha256": "d1189cb88da51a0d511960f7015732ff3fb9c628d11ce93be930e0e9e40e399f",
+      "workload_id": "T03-power-v1",
+      "workload_parameters": {"seed": 20260928},
       "measurement_status": "three_seed",
       "parameter_set": {
         "platform": "ASAP7_7p5t_RVT_NLDM",
@@ -270,6 +276,8 @@
       "qualification_status": "qualified_1ghz",
       "source_sha256": "04ca62b15323952e3d14e681da77ccb462b3a7ee343000d89a9f5f03d8383bbb",
       "workload_sha256": "bf44dbbc4dbc8b79ce8b48dccb055a4919db151ba4ed1c141126ec43ffbfc627",
+      "workload_id": "T04-power-v1",
+      "workload_parameters": {"seed": 20260928},
       "measurement_status": "three_seed",
       "parameter_set": {
         "platform": "ASAP7_7p5t_RVT_NLDM",
@@ -350,6 +358,8 @@
       "qualification_status": "qualified_1ghz",
       "source_sha256": "cb973356327aa09d7154be314b6c0061e14ac8afae638ab9d9b27336d29e3c24",
       "workload_sha256": "5e58d0019aefddd0326f5c182f6962b32e821edb114d2330db5487396f286685",
+      "workload_id": "T05-power-v1",
+      "workload_parameters": {"seed": 20260928},
       "measurement_status": "three_seed",
       "parameter_set": {
         "platform": "ASAP7_7p5t_RVT_NLDM",
@@ -430,6 +440,8 @@
       "qualification_status": "qualified_1ghz",
       "source_sha256": "224f5ca08c038f11ed6bb44c75abe619b3cab36183336adc52e5fb835355fecc",
       "workload_sha256": "fecaea06ab2bc3cb0ec6f11ed2b677b688e4e4e6b78b690a811b459703396f36",
+      "workload_id": "T06-power-v1",
+      "workload_parameters": {"seed": 20260928, "power_goal": 30000},
       "measurement_status": "three_seed",
       "parameter_set": {
         "platform": "ASAP7_7p5t_RVT_NLDM",
@@ -512,6 +524,8 @@
       "qualification_status": "qualified_1ghz",
       "source_sha256": "cbac6f3b705dfb0db4dc3d58ba68a0ce7ce3b9463551d0d65675a688b94f3791",
       "workload_sha256": "040c715e43ea6d45c5c2343f507b84b1e09c82ba9ef254c6833e1c4750596cb4",
+      "workload_id": "T07-power-v1",
+      "workload_parameters": {"seed": 20260928},
       "measurement_status": "three_seed",
       "parameter_set": {
         "platform": "ASAP7_7p5t_RVT_NLDM",
@@ -592,6 +606,8 @@
       "qualification_status": "qualified_1ghz",
       "source_sha256": "bba721ba122745819eb4f5ff93994a32608f978aa1356e642ba894691487fc8c",
       "workload_sha256": "4bda2417e277021202c68b379511e24cffc4e5916b53883bfdcc95e205fe582c",
+      "workload_id": "T08-power-v1",
+      "workload_parameters": {"seed": 20260928},
       "measurement_status": "three_seed",
       "parameter_set": {
         "platform": "ASAP7_7p5t_RVT_NLDM",
@@ -672,6 +688,8 @@
       "qualification_status": "qualified_1ghz",
       "source_sha256": "e45eebec486e192eb4288bfac639a6708e07015b4a855ddb4a1c4a2c2e593591",
       "workload_sha256": "9ea3d82ccc8d3f96f86965fdda0de98153a10e0ae7cf841c7fba8beee9404ac0",
+      "workload_id": "T09-power-v1",
+      "workload_parameters": {"seed": 20260928, "elf_sha256": "81409d0bca3da16b2da73233324a59632daf2a8f7d64b64284a6663397f782bd"},
       "measurement_status": "three_seed",
       "parameter_set": {
         "platform": "ASAP7_7p5t_RVT_NLDM",

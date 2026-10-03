@@ -25,6 +25,7 @@
   "ppa_baseline": "../benchmark/ppa-baselines.json#T01",
   "ppa_source_sha256": "fc350f025fbeba08c9cff6a5ff273874bcab4ff5887968fa5b7b93be9ecdb6e4",
   "power_workload_sha256": "5eac7d71360c15ec2f5313ca429bcbae3ec8f3575f72f0f782d6d83eb5325ef2",
+  "power_workload_id": "T01-power-v1",
   "layout_seeds": [11, 29, 47],
   "activity_annotation_fraction": 1.0,
   "historical_priority_encoder_assets_reused": false,

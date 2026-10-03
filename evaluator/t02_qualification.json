@@ -29,6 +29,7 @@
   "power_vector_generator_sha256": "a4d9b67d53d72a2a7fb11f41581e928ead132bce15328dc5e43f810356ec57db",
   "power_vectors_sha256": "d36a2e7a136289d85d8045fff9cf8935d835ed5c3834dd873d402db335cc96bc",
   "power_workload_sha256": "335b17246f10a2af6133e308b05970b3cecd25dfb8ea5abb2efd2c4651774b3b",
+  "power_workload_id": "T02-power-v1",
   "power_vector_cycles": 721,
   "power_useful_operations": 446,
   "layout_seeds": [11, 29, 47],

@@ -124,9 +124,19 @@ def ppa_provenance_valid(task: str, measurement: dict, reference: dict) -> bool:
                         for key in ("area_um2", "delay_ns", "energy_per_op_pj"))
                     for row in rows):
             return False
-    workload = measurement.get("workload_sha256")
-    return isinstance(workload, str) and len(workload) == 64 and \
-        workload == reference.get("workload_sha256")
+    # The evaluator owns the testbench and vectors.  Use an explicit workload
+    # contract ID as the compatibility gate.  The content hashes remain audit
+    # evidence, but must not invalidate every historical baseline whenever the
+    # probe implementation receives an unrelated maintenance change.
+    expected_workload = f"{task}-power-v1"
+    if measurement.get("workload_id") != expected_workload or \
+            reference.get("workload_id") != expected_workload:
+        return False
+    if measurement.get("workload_parameters") != reference.get("workload_parameters"):
+        return False
+    return all(isinstance(record.get("workload_sha256"), str) and
+               len(record["workload_sha256"]) == 64
+               for record in (measurement, reference))
 
 
 def score_run(payload: dict, rules: dict | None = None) -> dict:

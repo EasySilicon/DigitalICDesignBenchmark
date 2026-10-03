@@ -27,6 +27,7 @@
   "ppa_probe_sha256": "513a24893627da2b2cb14264963a35801ae667c5a73b6b0a8882b97038d9e360",
   "power_probe_sha256": "98e1bd4f47b9b3e705ed08e08dad38051e4c7560b1e2ef84f5d4dd5abce49eb3",
   "power_workload_sha256": "bf44dbbc4dbc8b79ce8b48dccb055a4919db151ba4ed1c141126ec43ffbfc627",
+  "power_workload_id": "T04-power-v1",
   "power_useful_operations": 1281,
   "layout_seeds": [11, 29, 47],
   "gate_clock_period_ps": 1000,

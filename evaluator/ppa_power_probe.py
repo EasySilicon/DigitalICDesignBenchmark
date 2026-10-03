@@ -29,6 +29,9 @@ POWER_CLOCKS = {
     "T06": ("wr_clk", "rd_clk"), "T07": ("clk",),
     "T08": ("clk",), "T09": ("clk",), "T10": ("clk",),
 }
+POWER_WORKLOAD_IDS = {
+    task: f"{task}-power-v1" for task in POWER_CLOCKS
+}
 T06_PEAK_CLOCK_PERIOD_PS = {"wr_clk": 1000.0, "rd_clk": 1000.0}
 ONE_GHZ_CLOCK_PERIOD_PS = {"clk": 1000.0}
 PARAMETERS = {"T03": ("WIDTH=32", "DEPTH=16"),
@@ -226,29 +229,41 @@ def run(args: argparse.Namespace) -> dict:
                ROOT.parent / "benchmark/tasks/T09/public/tb_cpu_elf.sv"
                if args.task == "T09" else ROOT / "public" / f"tb_{args.task}.sv")
     workload_digest = hashlib.sha256()
+    workload_parameters: dict[str, int | str] = {"seed": args.seed}
     for payload in (tb_path.read_bytes(), Path(__file__).read_bytes(),
                     str(args.seed).encode(), str(args.power_goal).encode()):
         workload_digest.update(len(payload).to_bytes(8, "big"))
         workload_digest.update(payload)
     if args.elf is not None:
         elf_bytes = args.elf.read_bytes()
+        workload_parameters["elf_sha256"] = hashlib.sha256(elf_bytes).hexdigest()
         workload_digest.update(len(elf_bytes).to_bytes(8, "big"))
         workload_digest.update(elf_bytes)
     if args.task == "T02":
         if args.vectors is None or args.case_count is None or args.testbench is None:
             raise ValueError("T02 requires --vectors, --case-count and --testbench")
         payload = args.vectors.read_bytes()
+        workload_parameters["case_count"] = args.case_count
+        workload_parameters["vectors_sha256"] = hashlib.sha256(payload).hexdigest()
         workload_digest.update(len(payload).to_bytes(8, "big"))
         workload_digest.update(payload)
         workload_digest.update(str(args.case_count).encode())
     if args.task == "T10":
         if args.vectors is None or args.case_count is None or args.testbench is None:
             raise ValueError("T10 requires --vectors, --case-count and --testbench")
+        vector_digest = hashlib.sha256()
         for name in ("a", "b", "as", "bs", "mode", "phase"):
             payload = (args.vectors / f"{name}.mem").read_bytes()
+            vector_digest.update(name.encode())
+            vector_digest.update(len(payload).to_bytes(8, "big"))
+            vector_digest.update(payload)
             workload_digest.update(len(payload).to_bytes(8, "big"))
             workload_digest.update(payload)
         workload_digest.update(str(args.case_count).encode())
+        workload_parameters["case_count"] = args.case_count
+        workload_parameters["vectors_sha256"] = vector_digest.hexdigest()
+    if args.power_goal is not None:
+        workload_parameters["power_goal"] = args.power_goal
     top = instrument_testbench(args.task, tb_path, output / "tb_power.sv")
     cell_files = sorted(STDCELL.glob("asap7sc7p5t_*RVT_TT_*.v"))
     cell_files = [path for path in cell_files if "_SEQ_" not in path.name]
@@ -345,6 +360,8 @@ def run(args: argparse.Namespace) -> dict:
         raise RuntimeError(f"activity annotation {annotation_ratio:.1%} below 95%")
     internal, switching, leakage, total_power = map(float, total.groups())
     return {"task": args.task, "flow_result_dir": str(result_dir),
+            "workload_id": POWER_WORKLOAD_IDS[args.task],
+            "workload_parameters": workload_parameters,
             "seed": args.seed, "workload_sha256": workload_digest.hexdigest(),
             "ops": ops, "vcd_window_seconds": duration,
             "vcd_clock_period_ps": periods, "activity_annotation": annotation_ratio,

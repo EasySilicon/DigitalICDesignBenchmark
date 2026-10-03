@@ -26,6 +26,8 @@ class ScoreRunTest(unittest.TestCase):
                         "ppa_reference": {"area_um2": 10, "delay_ns": 1,
                                           "energy_per_op_pj": 2}}
         provenance = {"task_id": "T01", "measurement_status": "three_seed",
+                      "workload_id": "T01-power-v1",
+                      "workload_parameters": {"seed": 20260928},
                       "workload_sha256": "a" * 64,
                       "parameter_set": {"platform": "ASAP7_7p5t_RVT_NLDM",
                                         "period_ps": 1000, "corner": "WC",
@@ -38,8 +40,8 @@ class ScoreRunTest(unittest.TestCase):
                                     "area_um2": 10, "delay_ns": 1,
                                     "energy_per_op_pj": 2}
                                    for seed in (11, 29, 47)]}
-        self.payload["ppa_measurement"].update(provenance)
-        self.payload["ppa_reference"].update(provenance)
+        self.payload["ppa_measurement"].update(copy.deepcopy(provenance))
+        self.payload["ppa_reference"].update(copy.deepcopy(provenance))
 
     def test_pending_baseline_blocks_ppa_and_time(self):
         scored = score_run(self.payload, self.rules)
@@ -84,9 +86,9 @@ class ScoreRunTest(unittest.TestCase):
                          "clock_periods_ps": {"wr_clk": 1000, "rd_clk": 1000},
                          "asynchronous_clock_groups": [["wr_clk", "rd_clk"]]}
         measurement = dict(self.payload["ppa_measurement"], task_id="T06",
-                           parameter_set=parameter_set)
+                           workload_id="T06-power-v1", parameter_set=parameter_set)
         reference = dict(self.payload["ppa_reference"], task_id="T06",
-                         parameter_set=parameter_set)
+                         workload_id="T06-power-v1", parameter_set=parameter_set)
         self.assertTrue(ppa_provenance_valid("T06", measurement, reference))
         measurement["parameter_set"] = dict(parameter_set,
                                               clock_periods_ps={"wr_clk": 1000, "rd_clk": 1250})
@@ -126,12 +128,22 @@ class ScoreRunTest(unittest.TestCase):
         self.payload["ppa_measurement"]["hold_worst_slack_ns"] = -0.001
         self.assertEqual(score_run(self.payload, self.rules)["ppa_score"], 0)
 
-    def test_pilot_or_mismatched_workload_gets_no_ppa(self):
+    def test_pilot_or_mismatched_workload_contract_gets_no_ppa(self):
         self.payload["ppa_measurement"]["measurement_status"] = "pilot"
         self.assertEqual(score_run(self.payload, self.rules)["ppa_score"], 0)
         self.payload["ppa_measurement"]["measurement_status"] = "three_seed"
-        self.payload["ppa_measurement"]["workload_sha256"] = "b" * 64
+        self.payload["ppa_measurement"]["workload_id"] = "T01-power-v2"
         self.assertEqual(score_run(self.payload, self.rules)["ppa_score"], 0)
+
+    def test_probe_maintenance_hash_change_keeps_same_workload_contract(self):
+        self.payload["ppa_measurement"]["workload_sha256"] = "b" * 64
+        self.assertTrue(ppa_provenance_valid(
+            "T01", self.payload["ppa_measurement"], self.payload["ppa_reference"]))
+
+    def test_workload_parameter_change_is_rejected(self):
+        self.payload["ppa_measurement"]["workload_parameters"]["seed"] += 1
+        self.assertFalse(ppa_provenance_valid(
+            "T01", self.payload["ppa_measurement"], self.payload["ppa_reference"]))
 
     def test_groups_have_equal_weight_in_half_credit(self):
         groups = {group: {"cases_passed": 1, "cases_total": 1}
@@ -186,6 +198,8 @@ class ScoreRunTest(unittest.TestCase):
         reference = copy.deepcopy(self.payload["ppa_reference"])
         measurement["task_id"] = "T10"
         reference["task_id"] = "T10"
+        measurement["workload_id"] = "T10-power-v1"
+        reference["workload_id"] = "T10-power-v1"
         reference["qualification_status"] = "qualified_1ghz"
         payload = dict(self.payload, task_id="T10", groups=groups,
                        sustained_throughput_passed=True,
