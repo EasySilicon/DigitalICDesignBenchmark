@@ -49,7 +49,7 @@ P_total = P_top_shell
 
 ## 必须保存的机器可读证据
 
-正式基线 JSON 至少包含：
+正式基线 JSON 必须通过同目录的 [`ppa-evidence.schema.json`](ppa-evidence.schema.json)，并至少包含：
 
 - 冻结 RTL、文件列表、结构检查、workload 和评测脚本的 SHA-256；
 - 工具版本、ASAP7 清单哈希、统一参数和布局种子；

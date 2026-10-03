@@ -7,5 +7,6 @@
 - [冻结任务卡](task.md)
 - [验收计划](acceptance.md)
 - [PPA 评测契约](ppa.md)
+- [PPA 证据 JSON Schema](ppa-evidence.schema.json)
 - 公开数值 oracle：`public/matmul_oracle.py`
 - [跨题共享规则](../../README.md#共享任务规则)与[通用验收规则](../../README.md#通用验收规则)

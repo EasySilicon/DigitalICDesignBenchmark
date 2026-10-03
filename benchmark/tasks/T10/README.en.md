@@ -7,5 +7,6 @@ Task metadata is in `task.yaml`. The public Python numerical oracle at `public/m
 - [Frozen task card](task.md)
 - [Acceptance plan](acceptance.md)
 - [PPA evaluation contract](ppa.md)
+- [PPA evidence JSON Schema](ppa-evidence.schema.json)
 - Public numerical oracle: `public/matmul_oracle.py`
 - [Suite-wide task rules](../../README.md#共享任务规则) and [acceptance rules](../../README.md#通用验收规则)

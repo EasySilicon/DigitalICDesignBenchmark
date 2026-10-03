@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/EasySilicon/DigitalICDesignBenchmark/benchmark/tasks/T10/ppa-evidence.schema.json",
+  "title": "T10 hierarchical three-seed PPA evidence",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "task_id", "measurement_status", "parameter_set", "source", "per_seed", "aggregate"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "task_id": {"const": "T10"},
+    "measurement_status": {"const": "three_seed_hierarchical"},
+    "parameter_set": {
+      "type": "object",
+      "required": ["platform", "corner", "period_ps", "signal_routing_layers", "clock_routing_layers", "seeds"],
+      "properties": {
+        "platform": {"const": "ASAP7_7p5t_RVT_NLDM"},
+        "corner": {"const": "WC"},
+        "period_ps": {"const": 1000},
+        "signal_routing_layers": {"const": "M2-M7"},
+        "clock_routing_layers": {"const": "M6-M7"},
+        "seeds": {"const": [11, 29, 47]}
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": ["rtl_sha256", "filelist_sha256", "structure_report_sha256", "hierarchy"],
+      "properties": {
+        "rtl_sha256": {"$ref": "#/$defs/sha256"},
+        "filelist_sha256": {"$ref": "#/$defs/sha256"},
+        "structure_report_sha256": {"$ref": "#/$defs/sha256"},
+        "hierarchy": {
+          "type": "object",
+          "required": ["tile_instances", "pe_instances_per_tile", "pe_instances_total"],
+          "properties": {
+            "tile_instances": {"const": 16},
+            "pe_instances_per_tile": {"const": 16},
+            "pe_instances_total": {"const": 256}
+          }
+        }
+      }
+    },
+    "per_seed": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "prefixItems": [
+        {"$ref": "#/$defs/seed11"},
+        {"$ref": "#/$defs/seed29"},
+        {"$ref": "#/$defs/seed47"}
+      ],
+      "items": false
+    },
+    "aggregate": {
+      "type": "object",
+      "required": ["area_um2", "delay_ns", "energy_per_op_pj", "annotation_fraction"],
+      "properties": {
+        "area_um2": {"type": "number", "exclusiveMinimum": 0},
+        "delay_ns": {"type": "number", "exclusiveMinimum": 0},
+        "energy_per_op_pj": {"type": "number", "exclusiveMinimum": 0},
+        "annotation_fraction": {"type": "number", "minimum": 0.95, "maximum": 1}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "bytes", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "bytes": {"type": "integer", "minimum": 0},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "level": {
+      "type": "object",
+      "required": ["area_um2", "setup_worst_slack_ps", "hold_worst_slack_ps", "drc_violations", "artifacts"],
+      "properties": {
+        "area_um2": {"type": "number", "exclusiveMinimum": 0},
+        "setup_worst_slack_ps": {"type": "number", "minimum": 0},
+        "hold_worst_slack_ps": {"type": "number", "minimum": 0},
+        "drc_violations": {"const": 0},
+        "artifacts": {
+          "type": "object",
+          "required": ["odb", "sdc", "spef", "lef", "liberty", "timing_report", "drc_report"],
+          "properties": {
+            "odb": {"$ref": "#/$defs/artifact"},
+            "sdc": {"$ref": "#/$defs/artifact"},
+            "spef": {"$ref": "#/$defs/artifact"},
+            "lef": {"$ref": "#/$defs/artifact"},
+            "liberty": {"$ref": "#/$defs/artifact"},
+            "timing_report": {"$ref": "#/$defs/artifact"},
+            "drc_report": {"$ref": "#/$defs/artifact"}
+          }
+        }
+      }
+    },
+    "power": {
+      "type": "object",
+      "required": ["matrix_blocks", "activity_annotation_fraction", "vcd_window_seconds", "components_w", "instance_weights", "total_power_w", "energy_j_per_block", "artifacts"],
+      "properties": {
+        "matrix_blocks": {"const": 200},
+        "activity_annotation_fraction": {"type": "number", "minimum": 0.95, "maximum": 1},
+        "vcd_window_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "components_w": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["top_shell", "tile_shell_sum", "pe_sum"],
+          "properties": {
+            "top_shell": {"type": "number", "exclusiveMinimum": 0},
+            "tile_shell_sum": {"type": "number", "exclusiveMinimum": 0},
+            "pe_sum": {"type": "number", "exclusiveMinimum": 0}
+          }
+        },
+        "instance_weights": {
+          "const": {"top_shell": 1, "tile_shell": 16, "pe": 256}
+        },
+        "total_power_w": {"type": "number", "exclusiveMinimum": 0},
+        "energy_j_per_block": {"type": "number", "exclusiveMinimum": 0},
+        "artifacts": {
+          "type": "object",
+          "required": ["workload_manifest", "activity_audit", "power_report"],
+          "properties": {
+            "workload_manifest": {"$ref": "#/$defs/artifact"},
+            "activity_audit": {"$ref": "#/$defs/artifact"},
+            "power_report": {"$ref": "#/$defs/artifact"}
+          }
+        }
+      }
+    },
+    "seed": {
+      "type": "object",
+      "required": ["layout_seed", "levels", "area_um2", "delay_ps", "power"],
+      "properties": {
+        "levels": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["pe", "tile", "top"],
+          "properties": {
+            "pe": {"$ref": "#/$defs/level"},
+            "tile": {"$ref": "#/$defs/level"},
+            "top": {"$ref": "#/$defs/level"}
+          }
+        },
+        "area_um2": {"type": "number", "exclusiveMinimum": 0},
+        "delay_ps": {"type": "number", "exclusiveMinimum": 0},
+        "power": {"$ref": "#/$defs/power"}
+      }
+    },
+    "seed11": {"allOf": [{"$ref": "#/$defs/seed"}, {"properties": {"layout_seed": {"const": 11}}}]},
+    "seed29": {"allOf": [{"$ref": "#/$defs/seed"}, {"properties": {"layout_seed": {"const": 29}}}]},
+    "seed47": {"allOf": [{"$ref": "#/$defs/seed"}, {"properties": {"layout_seed": {"const": 47}}}]}
+  }
+}

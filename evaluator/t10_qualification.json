@@ -12,7 +12,9 @@
   "killed_mutants": 14,
   "ppa_baseline_status": "pending_hierarchical_three_seed",
   "ppa_contract_path": "../benchmark/tasks/T10/ppa.md",
-  "ppa_contract_sha256": "479735f68141ced5ca124e2f55febf4b8419151d28615eced317dbd7979855a2",
+  "ppa_contract_sha256": "fc23237841a55896444a44e5e07196c8f67cb6b38884a2e8d611c37398b9d09d",
+  "ppa_evidence_schema_path": "../benchmark/tasks/T10/ppa-evidence.schema.json",
+  "ppa_evidence_schema_sha256": "d722b9c5cdaf9c9b656d4aad52fd19a2e7f40ad72fa66308544d8715310cb050",
   "hierarchical_probe_status": "implementation_in_progress",
   "hierarchy_contract": {
     "tile_instances": 16,
