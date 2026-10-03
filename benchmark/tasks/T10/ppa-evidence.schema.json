@@ -4,11 +4,32 @@
   "title": "T10 hierarchical three-seed PPA evidence",
   "type": "object",
   "additionalProperties": true,
-  "required": ["schema_version", "task_id", "measurement_status", "parameter_set", "source", "per_seed", "aggregate"],
+  "required": ["schema_version", "task_id", "measurement_status", "toolchain", "workload", "parameter_set", "source", "per_seed", "aggregate"],
   "properties": {
     "schema_version": {"const": 1},
     "task_id": {"const": "T10"},
     "measurement_status": {"const": "three_seed_hierarchical"},
+    "toolchain": {
+      "type": "object",
+      "required": ["yosys", "openroad", "orfs_revision", "asap7_manifest_sha256", "evaluator_sha256"],
+      "properties": {
+        "yosys": {"type": "string", "minLength": 1},
+        "openroad": {"type": "string", "minLength": 1},
+        "orfs_revision": {"type": "string", "minLength": 1},
+        "asap7_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "evaluator_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "workload": {
+      "type": "object",
+      "required": ["id", "matrix_blocks", "sha256", "oracle_sha256"],
+      "properties": {
+        "id": {"const": "T10-power-v1"},
+        "matrix_blocks": {"const": 200},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "oracle_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
     "parameter_set": {
       "type": "object",
       "required": ["platform", "corner", "period_ps", "signal_routing_layers", "clock_routing_layers", "seeds"],
@@ -98,8 +119,10 @@
     },
     "power": {
       "type": "object",
-      "required": ["matrix_blocks", "activity_annotation_fraction", "vcd_window_seconds", "components_w", "instance_weights", "total_power_w", "energy_j_per_block", "artifacts"],
+      "required": ["workload_id", "workload_sha256", "matrix_blocks", "activity_annotation_fraction", "vcd_window_seconds", "components_w", "instance_weights", "total_power_w", "energy_j_per_block", "artifacts"],
       "properties": {
+        "workload_id": {"const": "T10-power-v1"},
+        "workload_sha256": {"$ref": "#/$defs/sha256"},
         "matrix_blocks": {"const": 200},
         "activity_annotation_fraction": {"type": "number", "minimum": 0.95, "maximum": 1},
         "vcd_window_seconds": {"type": "number", "exclusiveMinimum": 0},
