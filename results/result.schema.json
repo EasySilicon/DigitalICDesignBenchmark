@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://easysilicon.example/schemas/ic-benchmark-model-result-v1.json",
+  "title": "Digital IC benchmark task result",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "model",
+    "task_id",
+    "trial_kind",
+    "delivery_qualified",
+    "functional_total",
+    "functional_possible",
+    "full_functional_pass",
+    "ppa_score",
+    "time_score",
+    "display_score",
+    "score_status",
+    "ranking_eligible"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "model": {"type": "string", "minLength": 1},
+    "task_id": {"pattern": "^T(0[1-9]|10)$"},
+    "trial_kind": {"enum": ["official", "pre_release_pilot", "diagnostic"]},
+    "delivery_qualified": {"type": "boolean"},
+    "functional_total": {"type": "number", "minimum": 0, "maximum": 75},
+    "functional_possible": {"const": 75},
+    "full_functional_pass": {"type": "boolean"},
+    "ppa_eligible": {"type": ["boolean", "null"]},
+    "ppa_score": {"type": ["number", "null"], "minimum": 0, "maximum": 20},
+    "ppa_possible": {"const": 20},
+    "time_score": {"type": ["number", "null"], "minimum": 0, "maximum": 5},
+    "time_possible": {"const": 5},
+    "display_score": {"type": "number", "minimum": 0, "maximum": 100},
+    "display_possible": {"const": 100},
+    "score_status": {"type": "string", "minLength": 1},
+    "ranking_eligible": {"type": "boolean"},
+    "ranking_ineligible_reason": {"type": "string"}
+  },
+  "additionalProperties": true
+}

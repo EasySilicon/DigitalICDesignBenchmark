@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "model": "gpt-6-sol",
+  "task_id": "T03",
+  "trial_kind": "pre_release_pilot",
+  "pilot_date": "2026-09-28",
+  "reasoning_effort": "default",
+  "elapsed_seconds": 520,
+  "model_tokens_reported": 74951,
+  "prompt_sha256": null,
+  "candidate_sha256": "9eb6d204fbabce943889248b7aad36a9e9a48597f03e6afb33128cae540c2595",
+  "delivery_qualified": true,
+  "functional_total": 75,
+  "functional_possible": 75,
+  "full_functional_pass": true,
+  "ppa_eligible": true,
+  "ppa_score": 13.7648473121331,
+  "ppa_possible": 20,
+  "ppa_rank_bucket": 28,
+  "time_score": 4.638888888888889,
+  "time_possible": 5,
+  "display_score": 93.40373620102199,
+  "display_possible": 100,
+  "score_status": "scored",
+  "ranking_eligible": false,
+  "ranking_ineligible_reason": "pre-release pilot; exact frozen benchmark revision, isolation, budgets, and repeated runs were not all satisfied",
+  "source_record": "evaluator/t03_pilot_gpt6sol.json",
+  "ppa_measurement": {
+    "measurement_status": "three_seed",
+    "parameter_set": {
+      "platform": "ASAP7_7p5t_RVT_NLDM",
+      "period_ps": 1000,
+      "corner": "WC",
+      "utilization": 10,
+      "density": 0.6,
+      "seeds": [
+        11,
+        29,
+        47
+      ]
+    },
+    "routed": true,
+    "setup_worst_slack_ns": 0.0305673,
+    "hold_worst_slack_ns": 0.103861,
+    "drc_violations": 0,
+    "annotation_fraction": 1.0,
+    "area_um2": 418.621,
+    "delay_ns": 0.9694327,
+    "energy_per_op_pj": 2.390808040201005
+  }
+}

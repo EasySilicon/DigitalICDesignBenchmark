@@ -5,7 +5,6 @@ __pycache__/
 .cache/
 third_party/
 work/
-results/
 reports/
 logs/
 # Local-only T10 reference-RTL iteration notes; release criteria live in tasks/T10/acceptance.md.
