@@ -94,6 +94,11 @@ module tb_hidden_T03 #(
   task automatic reset_fifo(input int scenario);
     in_valid = 0;
     out_ready = 0;
+    // Create an observable high-to-low transition.  Driving 1 and 0 in the
+    // same time slot makes the first reset check depend on simulator startup
+    // values instead of the DUT's asynchronous-reset behavior.
+    rst_n = 1;
+    #0.1;
     rst_n = 0;
     #0.2;
     check(13, out_valid === 1'b0,

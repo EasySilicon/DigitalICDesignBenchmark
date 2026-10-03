@@ -27,6 +27,33 @@ def read_result(path: Path) -> dict:
     return data
 
 
+# The agent runs inside a container at /workspace, while grading normally runs
+# from a host path.  Simulator products often embed their build-time absolute
+# path, so they are not part of a portable source handoff and must not be reused
+# by the delivery check.
+GENERATED_ROOT_ENTRIES = {
+    ".git",
+    "build",
+    "obj_dir",
+    "reports",
+    "results.json",
+}
+
+
+def stage_submission(source: Path, destination: Path) -> None:
+    """Copy a source handoff without root-level generated build products."""
+    destination.mkdir()
+    for entry in source.iterdir():
+        if entry.name in GENERATED_ROOT_ENTRIES:
+            continue
+        target = destination / entry.name
+        if entry.is_dir():
+            shutil.copytree(entry, target, symlinks=True,
+                            ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        elif entry.is_file() or entry.is_symlink():
+            shutil.copy2(entry, target, follow_symlinks=False)
+
+
 def run_entry(submission: Path, args: list[str], seed: int, timeout: int) -> tuple[int, dict, str]:
     result_path = submission / "results.json"
     result_path.unlink(missing_ok=True)
@@ -35,10 +62,11 @@ def run_entry(submission: Path, args: list[str], seed: int, timeout: int) -> tup
     finished = subprocess.run([str(submission / "run.sh"), *args], cwd=submission,
                               env=environment, text=True, capture_output=True,
                               timeout=timeout, check=False)
+    output = (finished.stdout + finished.stderr)[-2000:]
     if not result_path.is_file():
-        raise ValueError("run.sh did not create results.json")
+        raise ValueError(f"run.sh did not create results.json; output tail:\n{output}")
     return (finished.returncode, read_result(result_path),
-            (finished.stdout + finished.stderr)[-2000:])
+            output)
 
 
 def check_normal(result: dict) -> list[tuple[str, bool, int]]:
@@ -98,22 +126,25 @@ def check(task: str, submission: Path, seed: int, timeout: int,
         readme = submission / "README.md"
         if not readme.is_file() or not readme.read_text().strip():
             raise ValueError("README.md missing or empty")
-        rows = []
-        for index in range(2):
-            code, result, _ = run_entry(submission, [], seed, timeout)
-            if code != 0:
-                raise ValueError(f"self-check run {index + 1} exited {code}")
-            rows.append(check_normal(result))
-        if rows[0] != rows[1]:
-            raise ValueError("same-seed self-check results changed")
-        if task == "T09":
-            if good_elf is None or bad_elf is None:
-                raise ValueError("T09 requires evaluator-owned positive and negative ELF probes")
-            with tempfile.TemporaryDirectory(prefix="ic_bcmk_delivery_elf_") as directory:
+        with tempfile.TemporaryDirectory(prefix=f"ic_bcmk_delivery_{task}_") as directory:
+            staged = Path(directory) / "submission"
+            stage_submission(submission, staged)
+            rows = []
+            for index in range(2):
+                code, result, output = run_entry(staged, [], seed, timeout)
+                if code != 0:
+                    raise ValueError(
+                        f"self-check run {index + 1} exited {code}; output tail:\n{output}")
+                rows.append(check_normal(result))
+            if rows[0] != rows[1]:
+                raise ValueError("same-seed self-check results changed")
+            if task == "T09":
+                if good_elf is None or bad_elf is None:
+                    raise ValueError("T09 requires evaluator-owned positive and negative ELF probes")
                 for source, expected_success in ((good_elf, True), (bad_elf, False)):
                     elf = Path(directory) / f"program_{secrets.token_hex(8)}.elf"
                     shutil.copyfile(source, elf)
-                    code, result, _ = run_entry(submission, ["--elf", str(elf)],
+                    code, result, _ = run_entry(staged, ["--elf", str(elf)],
                                                 seed, timeout)
                     check_elf_result(result, elf, expected_success, code)
     except (OSError, ValueError, json.JSONDecodeError, subprocess.TimeoutExpired) as exc:
