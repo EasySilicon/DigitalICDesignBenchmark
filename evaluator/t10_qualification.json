@@ -12,7 +12,7 @@
   "killed_mutants": 14,
   "ppa_baseline_status": "pending_hierarchical_three_seed",
   "ppa_contract_path": "../benchmark/tasks/T10/ppa.md",
-  "ppa_contract_sha256": "fc23237841a55896444a44e5e07196c8f67cb6b38884a2e8d611c37398b9d09d",
+  "ppa_contract_sha256": "ddeea090e21801cbfb6e60de720e1da1f7fc6b80a2b4fc488c0ff2852f9f386d",
   "ppa_evidence_schema_path": "../benchmark/tasks/T10/ppa-evidence.schema.json",
   "ppa_evidence_schema_sha256": "b5c333f3884b3bea37452a89fb0dd4f8d864cb432d53b62159b499d90fcb6f77",
   "hierarchical_probe_status": "implementation_in_progress",
@@ -22,12 +22,18 @@
     "pe_instances_total": 256,
     "fixed_module_names": false
   },
-  "layout_seeds": [11, 29, 47],
+  "layout_seeds": [
+    11,
+    29,
+    47
+  ],
   "gate_clock_period_ps": 1000,
   "platform": "ASAP7_7p5t_RVT_NLDM",
   "setup_corner": "WC",
   "signal_routing_layers": "M2-M7",
   "clock_routing_layers": "M6-M7",
+  "clock_pin_access_layers": "M2-M5",
+  "forbidden_clock_layers": "M8-M9",
   "power_workload_id": "T10-power-v1",
   "power_workload_matrix_blocks": 200,
   "minimum_activity_annotation": 0.95,
