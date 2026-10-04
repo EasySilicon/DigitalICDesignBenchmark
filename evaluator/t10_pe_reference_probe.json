@@ -1,0 +1,165 @@
+{
+  "task_id": "T10",
+  "record_type": "single_seed_pe_reference_probe",
+  "status": "timing_converged_with_drc_residuals",
+  "qualification_use": "diagnostic_only_not_official_ppa_baseline",
+  "qualification_date": "2026-10-04",
+  "reference_sha256": "576afc80af06e936089fd8f841fbcc4f555cee254bfa1922f701296e1d092b8e",
+  "scope": {
+    "hierarchy_level": "pe",
+    "layout_seed": 11,
+    "clock_period_ps": 1000,
+    "corner": "WC",
+    "platform": "ASAP7_7p5t_RVT_NLDM"
+  },
+  "routing_policy": {
+    "signal_layers": "M2-M7",
+    "clock_layers": "M6-M7",
+    "forbidden_clock_layers": "M8-M9"
+  },
+  "toolchain": {
+    "openroad": "26Q2-1164-g08f67ee5ec",
+    "yosys": "0.69+150 (git 0d3483f04-dirty)",
+    "orfs_commit": "1ec57da7bf0f1491190cbea2673c2c01fb3bc3ae",
+    "asap7_manifest_sha256": "b3a4754d638f9b6a4b5a039ba5b730affd6f08b700c785ab25f68565e5ab6ccc"
+  },
+  "inputs": {
+    "rtl_sha256": "576afc80af06e936089fd8f841fbcc4f555cee254bfa1922f701296e1d092b8e",
+    "sdc_sha256": "6e410458a61795af9f352c41ea954c5f6863067cf784f6f4eb075966959defef",
+    "config_exact_sha256": "287a2473be137e2808b0672fa394f28a59e626a2ad1956322d52109f77e394fc",
+    "pre_cts_sha256": "1042cf4262f27f3a0529dc67e07dd406c82f5e799ee5a5ebec543bbdfb906b1a",
+    "macro_lef_sha256": [
+      "ce1b57bb21914f6ec7094180cd536d73d8578bf0107b4cea480527335018b141",
+      "d2d87af3d0a06cc5904739b00b983d44f738c0678f66dbe5bcb5ab0facc20670",
+      "f32379457d43b4020901775871ec202552e95ad80a227f01234ef25f5659b530",
+      "942ee1338363d3522216d5cadaa3865198963e1e6ccf435e98edde2128530e0e",
+      "e02331c16075e7b51bf1f6a50b67f73d42f9b4233f6cd614c704a39d32b652a0"
+    ],
+    "macro_lib_sha256": [
+      "42e23a9b272e3a0e77ab04981a0b87d1c95aac4aed66177451b12b7959615e02",
+      "84505e728baf4a9bd690db30164385a1de1f06b72f3e3be25a4c5f29ef3975fa",
+      "51e860277ecdc0a5fb2d644b14f65b09e906bc26e7997ac673f76115bd1c804e",
+      "701ec397d455bfd38dfca6552ed11a0adaec22cb2261e12dbe7c8c547aea74c5",
+      "a4dfb2235a7fbd233adc099829e49deeff110948b50e339411cac706f1e9d195"
+    ]
+  },
+  "results": {
+    "cts": {
+      "setup_wns_ps": 74.3962,
+      "hold_wns_ps": 74.1587,
+      "setup_tns_ps": 0,
+      "hold_tns_ps": 0
+    },
+    "global_route": {
+      "setup_wns_ps": 51.2822,
+      "hold_wns_ps": 74.7556,
+      "setup_tns_ps": 0,
+      "hold_tns_ps": 0,
+      "overflow": 0
+    },
+    "final_extracted": {
+      "setup_wns_ps": 22.2437,
+      "hold_wns_ps": 18.8151,
+      "setup_tns_ps": 0,
+      "hold_tns_ps": 0,
+      "fmax_hz": 1022750000.0,
+      "instance_area_um2": 60069.8
+    },
+    "detailed_route": {
+      "drc_violations": 5,
+      "violation_types": {
+        "Metal Spacing": 5
+      },
+      "violations": [
+        {
+          "type": "Metal Spacing",
+          "sources": "inst:float_quad\\[3\\].genblk2.class2.fp_quad net:net24982",
+          "bbox_um": "(365.0270, 278.1720) - (365.0400, 278.1900)",
+          "layer": "M2"
+        },
+        {
+          "type": "Metal Spacing",
+          "sources": "inst:float_quad\\[1\\].genblk2.class1.fp_quad net:level0\\[4\\]\\[314\\]",
+          "bbox_um": "(210.8160, 406.4400) - (210.8340, 406.4530)",
+          "layer": "M3"
+        },
+        {
+          "type": "Metal Spacing",
+          "sources": "inst:cpa_postprocess net:net22071",
+          "bbox_um": "(209.9390, 176.3520) - (210.0000, 176.3760)",
+          "layer": "M4"
+        },
+        {
+          "type": "Metal Spacing",
+          "sources": "inst:float_quad\\[0\\].class0.fp_quad net:quad_sum\\[0\\]\\[355\\]",
+          "bbox_um": "(133.7280, 413.9430) - (133.7520, 414.0050)",
+          "layer": "M5"
+        },
+        {
+          "type": "Metal Spacing",
+          "sources": "inst:float_quad\\[1\\].genblk2.class1.fp_quad net:quad_sum\\[1\\]\\[366\\]",
+          "bbox_um": "(316.4080, 310.8480) - (316.4690, 310.8800)",
+          "layer": "M6"
+        }
+      ],
+      "antenna_violations": 0
+    },
+    "electrical": {
+      "max_slew_violations": 763,
+      "max_cap_violations": 0,
+      "max_fanout_violations": 0
+    },
+    "power": {
+      "watts": 0.0278071,
+      "method": "vectorless",
+      "official_scoring_value": false
+    },
+    "elapsed_seconds": 5659
+  },
+  "artifacts": {
+    "final_odb": {
+      "path_from_orfs_flow_root": "results/asap7/t10_reference_pe/ic_t10_frozen_pe_exact_v15_margin_escape_m7_wc_p1000_seed11/6_final.odb",
+      "bytes": 290529930,
+      "sha256": "e43bb161f1cae8943ba3ff55c0765bba107b95574daafc1617144139b333fabf"
+    },
+    "final_sdc": {
+      "path_from_orfs_flow_root": "results/asap7/t10_reference_pe/ic_t10_frozen_pe_exact_v15_margin_escape_m7_wc_p1000_seed11/6_final.sdc",
+      "bytes": 40901,
+      "sha256": "176292a6101fff0e2836805feef511ddd98fa71127417b59a3530ad0da66cff7"
+    },
+    "final_spef": {
+      "path_from_orfs_flow_root": "results/asap7/t10_reference_pe/ic_t10_frozen_pe_exact_v15_margin_escape_m7_wc_p1000_seed11/6_final.spef",
+      "bytes": 105406625,
+      "sha256": "d6194d3dfdc89745686afaa395715fa586327233844b1c3d63db6d31f912452d"
+    },
+    "drc_report": {
+      "path_from_orfs_flow_root": "reports/asap7/t10_reference_pe/ic_t10_frozen_pe_exact_v15_margin_escape_m7_wc_p1000_seed11/5_route_drc.rpt",
+      "bytes": 793,
+      "sha256": "a929310e31e506ee7dc6c1ab19209653feed1796fbbb79752d09e953fab3a6d3"
+    },
+    "finish_report": {
+      "path_from_orfs_flow_root": "reports/asap7/t10_reference_pe/ic_t10_frozen_pe_exact_v15_margin_escape_m7_wc_p1000_seed11/6_finish.rpt",
+      "bytes": 106320,
+      "sha256": "89e7f25e0470332634a67c129384bb6bc15b9d72295a0495342d81ae446082e0"
+    },
+    "finish_metrics": {
+      "path_from_orfs_flow_root": "logs/asap7/t10_reference_pe/ic_t10_frozen_pe_exact_v15_margin_escape_m7_wc_p1000_seed11/6_report.json",
+      "bytes": 3935,
+      "sha256": "8becec5495d9d1334a32c7ed3c4768fdf35eb208919c7145cddb6694712b5f82"
+    }
+  },
+  "rejected_followup": {
+    "variant": "ic_t10_frozen_pe_exact_v16_segmented_escape_m7_wc_p1000_seed11",
+    "reason": "segmented macro-edge keepouts created a class1 upper-left routing hotspot",
+    "final_setup_wns_ps": 8.67006,
+    "final_hold_wns_ps": 15.4103,
+    "drc_violations": 42,
+    "selected_as_reference": false
+  },
+  "limitations": [
+    "Five macro-boundary metal-spacing violations remain; this probe is not DRC-clean signoff evidence.",
+    "The reported power is vectorless and is not the T10-power-v1 activity-qualified scoring value.",
+    "Only the PE at seed 11 is covered; PE seeds 29/47 and tile/top seeds 11/29/47 remain required.",
+    "The official T10 PPA and completion-time score remains disabled until the hierarchical three-seed contract is complete."
+  ]
+}

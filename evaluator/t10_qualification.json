@@ -1,7 +1,7 @@
 {
   "task_id": "T10",
-  "qualification_date": "2026-10-03",
-  "reference_sha256": "248faca64fba735b879cad919f1f57a3cd638a7c784c6c35c8a223cd81538f91",
+  "qualification_date": "2026-10-04",
+  "reference_sha256": "576afc80af06e936089fd8f841fbcc4f555cee254bfa1922f701296e1d092b8e",
   "functional_reference_status": "qualified",
   "functional_cases": {
     "passed": 2752,
@@ -15,7 +15,18 @@
   "ppa_contract_sha256": "ddeea090e21801cbfb6e60de720e1da1f7fc6b80a2b4fc488c0ff2852f9f386d",
   "ppa_evidence_schema_path": "../benchmark/tasks/T10/ppa-evidence.schema.json",
   "ppa_evidence_schema_sha256": "b5c333f3884b3bea37452a89fb0dd4f8d864cb432d53b62159b499d90fcb6f77",
-  "hierarchical_probe_status": "implementation_in_progress",
+  "hierarchical_probe_status": "v15_seed11_pe_timing_converged_with_5_drc_residuals",
+  "pe_reference_probe_path": "t10_pe_reference_probe.json",
+  "pe_reference_probe_sha256": "56ff5f2eea224362e28aacd4699103dff6d86ef4afdba78dcc2a52ed208e14fb",
+  "pe_reference_probe": {
+    "layout_seed": 11,
+    "setup_wns_ps": 22.2437,
+    "hold_wns_ps": 18.8151,
+    "fmax_hz": 1022750000.0,
+    "instance_area_um2": 60069.8,
+    "drc_violations": 5,
+    "official_ppa_baseline": false
+  },
   "hierarchy_contract": {
     "tile_instances": 16,
     "pe_instances_per_tile": 16,
@@ -37,5 +48,5 @@
   "power_workload_id": "T10-power-v1",
   "power_workload_matrix_blocks": 200,
   "minimum_activity_annotation": 0.95,
-  "baseline_blocker": "PE, tile and complete-top routed evidence for seeds 11/29/47 plus hierarchical activity power are not yet frozen"
+  "baseline_blocker": "DRC-clean PE evidence for seeds 11/29/47, all tile/top routed evidence for seeds 11/29/47, and hierarchical activity power are not yet frozen"
 }
