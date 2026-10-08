@@ -1,0 +1,101 @@
+{
+  "task_id": "T10",
+  "status": "independent_functional_package",
+  "official_ppa_baseline_qualified": false,
+  "source_revision": "e9da70a19e662940e329205e594fa44142ab96e0",
+  "source_selection": "selected T10 source snapshots, including current streaming failure-report fixes; no private Git history imported",
+  "files": [
+    {
+      "destination": "evaluator/T10_EVALUATION.md",
+      "sha256": "f8b11a30bdfe9a04df418f0133fe81d025a1eec68fa58d36464da9f988ded750"
+    },
+    {
+      "destination": "evaluator/fixtures/t10_mesh_good/rtl/files.f",
+      "sha256": "2d80524e00dc45d8ec000b3260ec0c5466f7b3d422affb9e98304ac2f7f4b0ec",
+      "source_file": "fixtures/t10_mesh_good/rtl/files.f",
+      "source_sha256": "2d80524e00dc45d8ec000b3260ec0c5466f7b3d422affb9e98304ac2f7f4b0ec"
+    },
+    {
+      "destination": "evaluator/fixtures/t10_mesh_good/rtl/mesh.sv",
+      "sha256": "e366d884ee13fdde115fe70eaba45c1213adb8853dd168c66e6e109bf024a86c",
+      "source_file": "fixtures/t10_mesh_good/rtl/mesh.sv",
+      "source_sha256": "e366d884ee13fdde115fe70eaba45c1213adb8853dd168c66e6e109bf024a86c"
+    },
+    {
+      "destination": "evaluator/grade_t10_pilot.py",
+      "sha256": "c6e2ff6622381ab83b092258fcfea0b4371403be537f06bb039b93c478592797",
+      "source_file": "grade_t10_pilot.py",
+      "source_sha256": "ad05107754a7d419509026202b61cd1e987cb7c52725d3aadd3d9a881e3dfbf4"
+    },
+    {
+      "destination": "evaluator/hidden/tb_hidden_T10.sv",
+      "sha256": "8cf2940a5142613b4b36687350b5b5c228b22f3b3511c25a21574facf9ec5d9a",
+      "source_file": "hidden/tb_hidden_T10.sv",
+      "source_sha256": "8cf2940a5142613b4b36687350b5b5c228b22f3b3511c25a21574facf9ec5d9a"
+    },
+    {
+      "destination": "evaluator/hidden/tb_hidden_T10_reset.sv",
+      "sha256": "a3c8c27f7b51bc968e89e2a3147557568496652fe93f9092561d58a9aca33c28",
+      "source_file": "hidden/tb_hidden_T10_reset.sv",
+      "source_sha256": "a3c8c27f7b51bc968e89e2a3147557568496652fe93f9092561d58a9aca33c28"
+    },
+    {
+      "destination": "evaluator/hidden/tb_hidden_T10_stream.sv",
+      "sha256": "cbb069ef55d10456aeecd1ec40862cc0e12477e7e4d97aeb2c6c1cad5841a9d2",
+      "source_file": "hidden/tb_hidden_T10_stream.sv",
+      "source_sha256": "cbb069ef55d10456aeecd1ec40862cc0e12477e7e4d97aeb2c6c1cad5841a9d2"
+    },
+    {
+      "destination": "evaluator/make_t10_power_vectors.py",
+      "sha256": "642899c59ce49f3c22cbffa6bd679bfb648e4c32d4648f8d4e06e8e2a64b3967",
+      "source_file": "make_t10_power_vectors.py",
+      "source_sha256": "7db7084bba4f6e206d28e30975ad64c76cd32e417d7b221c50ee4a43afc36e9c"
+    },
+    {
+      "destination": "evaluator/runner_t10.py",
+      "sha256": "68103178870fe3acf44548eb4999810f11bcc09ce16b628a5f13ca8efa3df072",
+      "source_file": "runner_t10.py",
+      "source_sha256": "da9bd951ed577fdda09dc76f48573e5b1a2177426caedc85699fa72c961390e5"
+    },
+    {
+      "destination": "evaluator/runner_t10_stream.py",
+      "sha256": "b9e08993c817fd6cc825d4fe00799f9c5781c9d6c5425612979c5127e594465e",
+      "source_file": "runner_t10_stream.py",
+      "source_sha256": "35a0405a27e3358d911f12ebc99f351f6df3766e7bc8065efe137dfc2c1a0fec"
+    },
+    {
+      "destination": "evaluator/t10_common.py",
+      "sha256": "f560f3fa69c231ee33480cb7808962de41c7e5ddd8a25e832d45659898c4aeab"
+    },
+    {
+      "destination": "evaluator/t10_fast_oracle.py",
+      "sha256": "0154d6148a035e710b16077368f1bccc38a579455f996aaf3b016607c1bd5dab",
+      "source_file": "t10_fast_oracle.py",
+      "source_sha256": "8e216c42c573d15523c51eff47f87ff5bf30e9405dc3ac3766808720153bbcd1"
+    },
+    {
+      "destination": "evaluator/t10_mutation_regression.py",
+      "sha256": "ea76687397a6a620873cd79603889a6df23a9d27a4cd395d96e397981cfde291",
+      "source_file": "t10_mutation_regression.py",
+      "source_sha256": "09c274fe7a65949fb1a4b15f2e91cfa6980103b6b0d24c1bcdfc6c1017c4eb43"
+    },
+    {
+      "destination": "evaluator/t10_structure_check.py",
+      "sha256": "a7fecc1c40b821db48406f364986758829486e48d41132fe88b5c5e35e1ac9b1",
+      "source_file": "t10_structure_check.py",
+      "source_sha256": "a7fecc1c40b821db48406f364986758829486e48d41132fe88b5c5e35e1ac9b1"
+    },
+    {
+      "destination": "evaluator/test_runner_t10_generation.py",
+      "sha256": "6802a8fefe13483af25524f5e1de4daea8b643471d2503912bb67b7b7b8e979b",
+      "source_file": "test_runner_t10_generation.py",
+      "source_sha256": "c5984fb756d0b7ceb8b7aee0e2ef5eb6cb1042513bd2362205af1d9dc7ff32f8"
+    },
+    {
+      "destination": "evaluator/test_t10_structure_check.py",
+      "sha256": "c3c04e19ed4968d9cd9118e6b620905f72a865ac60210b64befcb8d487e5be48",
+      "source_file": "test_t10_structure_check.py",
+      "source_sha256": "c3c04e19ed4968d9cd9118e6b620905f72a865ac60210b64befcb8d487e5be48"
+    }
+  ]
+}
