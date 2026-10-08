@@ -525,7 +525,7 @@
       "destination": "evaluator/t10_backend/physical/t10_assemble_ppa_evidence.py",
       "sha256": "0dd2b77f68d4d635a518787ce301aa70b05b5607396097896957355a9135fce3",
       "mode": "100755",
-      "current_sha256": "4b3038cefd6501c5ac250ac77702ae8c7ce22eb4a73a3ea346b1ae5097419da6",
+      "current_sha256": "cd3f1599246847d1a47670e5132d7089443b9a49bb9d3bab96fd9e1640e4a4dc",
       "modified_for_relocation": true
     },
     {
@@ -1804,15 +1804,25 @@
     },
     {
       "destination": "evaluator/t10_backend/doctor.py",
-      "sha256": "6790152a294ca9e9a3b52c208b5cd137a8b6f1f4cdfbc950c3a7c028332a9658"
+      "sha256": "fdbc328d0908931752f247ea113e1dca2e29fc8857ed36fee6d0865556f29b4f"
     },
     {
       "destination": "evaluator/t10_backend/test_portability.py",
-      "sha256": "39144979a3e3f232e7c5d09aa05bfd737202d7755bfa609c0dc3c936101e5d22"
+      "sha256": "d80373eb1553e5e25e3658cfe57e21a5e2c6bf2418f0ca7f885250d8c7b619b5"
     },
     {
       "destination": "evaluator/t10_backend/physical/t10_paths.py",
       "sha256": "8470224064f5e38c98ce6154284084fe0882232b6c33a88cf302309b2b4eee87"
+    },
+    {
+      "destination": "evaluator/t10_backend/physical/t10_ppa_hierarchy_check.py",
+      "sha256": "cc6ced030ac5569e5738169c247b9fab8af3220f2dcaa5479492ed8b6b1b9ae3",
+      "source": "t10_ppa_hierarchy_check.py"
+    },
+    {
+      "destination": "evaluator/t10_backend/test_t10_ppa_hierarchy_check.py",
+      "sha256": "5ee90cc727e83f4f0ef9eb5f596c98ecac57225bfae2ee2130df19ee63e1d1b2",
+      "source": "test_t10_ppa_hierarchy_check.py"
     }
   ],
   "runtime_host_paths_removed": true,
@@ -1822,7 +1832,7 @@
     "independent T10 streaming evaluator package for functional qualification helpers"
   ],
   "verification": {
-    "relocation_tests_passed": 5,
+    "relocation_tests_passed": 6,
     "python_bash_syntax_checked": true,
     "tcl_script_completeness_checked": true,
     "ppa_dependency_doctor_passed": true,

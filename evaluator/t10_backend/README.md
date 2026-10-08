@@ -97,3 +97,19 @@ this path cleanup changes no timing, clock-layer, functional or grading rule.
 `SNAPSHOT.json` preserves original imported SHA-256 values in `sha256`, records
 current relocated versions in `current_sha256`, and lists added support files.
 RTL bytes are unchanged. No physical baseline is promoted by this cleanup.
+
+## 分支职责
+
+`main` 提供独立 streaming/reset 验收器、精确数值 oracle、通用 256-PE
+结构检查与功耗负载生成器。它们不要求候选实现沿用参考实现的层次分解。
+本分支的 `physical/t10_ppa_hierarchy_check.py` 只检查当前参考后端使用的
+16 个 4×4 tile 分解，供物理组装使用，不作为独立功能门禁。
+
+```bash
+python3 evaluator/t10_backend/doctor.py --profile qualification
+PYTHONPATH=evaluator/t10_backend/physical:evaluator python3 -m unittest \
+  evaluator.t10_backend.test_t10_ppa_hierarchy_check -q
+```
+
+后端依赖主分支的验收包。历史宏版本与当前参考 RTL 的一致性检查、完整
+宏构建编排及 clean checkout 端到端物理重跑仍待完成；本提交不发布正式 PPA 基线。

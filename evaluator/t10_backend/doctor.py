@@ -55,7 +55,7 @@ def main() -> int:
             if not resolved:
                 missing.append(f"executable: {executable}")
     elif args.profile == "qualification":
-        for name in ("runner_t10_stream.py", "runner_t10.py", "runner.py",
+        for name in ("runner_t10_stream.py", "runner_t10.py", "t10_common.py",
                      "t10_structure_check.py", "t10_fast_oracle.py",
                      "hidden/tb_hidden_T10_stream.sv", "hidden/tb_hidden_T10_reset.sv"):
             require(paths["T10_QUALIFICATION_ROOT"] / name)

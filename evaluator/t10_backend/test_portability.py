@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import json
+import hashlib
+import importlib.util
 import os
 from pathlib import Path
 import shutil
@@ -9,6 +11,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 
 BACKEND = Path(__file__).resolve().parent
@@ -77,6 +80,51 @@ class PortabilityTest(unittest.TestCase):
         self.assertNotEqual(run.returncode, 0)
         self.assertIn("Set T10_QUALIFICATION_ROOT", run.stderr)
         self.assertNotIn("ModuleNotFoundError", run.stderr)
+
+    def test_evidence_assembly_uses_bundled_validator_after_relocation(self):
+        physical = self.backend / "physical"
+        with patch.object(sys, "path", [str(physical), *sys.path]):
+            spec = importlib.util.spec_from_file_location(
+                "relocated_ppa_assembly", physical / "t10_assemble_ppa_evidence.py")
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+        evidence = self.root / "evidence"
+        for seed in (11, 29, 47):
+            folder = evidence / f"seed{seed}"
+            folder.mkdir(parents=True)
+            for level in ("pe", "tile", "top"):
+                (folder / f"{level}.json").write_text(json.dumps({
+                    "level": level, "layout_seed": seed,
+                    "setup_worst_slack_ps": 10.0, "area_um2": 100.0}))
+            (folder / "power.json").write_text(json.dumps({
+                "layout_seed": seed, "energy_j_per_block": 1e-12,
+                "activity_annotation_fraction": 1.0}))
+        workload = self.root / "workload.json"
+        workload.write_text(json.dumps({"task_id": "T10", "case_count": 200,
+                                       "oracle_check": {"oracle_sha256": "a" * 64}}))
+        hierarchy = self.root / "hierarchy.json"
+        hierarchy.write_text(json.dumps({"result": {"tile_instances": 16,
+                                                     "pe_instances_per_tile": 16,
+                                                     "pe_instances_total": 256}}))
+        manifest = self.root / "platform.json"
+        manifest.write_text("{}")
+        filelist = self.reference.with_name("files.f")
+        filelist.write_text(self.reference.name + "\n")
+        output = self.root / "unqualified_baseline.json"
+        argv = ["assemble", "--evidence-root", str(evidence),
+                "--workload-manifest", str(workload), "--hierarchy-report", str(hierarchy),
+                "--rtl", str(self.reference), "--filelist", str(filelist),
+                "--asap7-manifest", str(manifest), "--orfs-root", str(self.root),
+                "--output", str(output)]
+        # Fake external version queries and a rejecting gate; never publish fixture data.
+        with patch.object(sys, "argv", argv), patch.object(module, "output", return_value="fixture"), \
+             patch.object(module, "qualify", return_value={"status": "unqualified"}) as gate:
+            self.assertEqual(module.main(), 1)
+        record = gate.call_args.args[0]
+        expected = hashlib.sha256((physical / "t10_ppa_qualify.py").read_bytes()).hexdigest()
+        self.assertEqual(record["toolchain"]["evaluator_sha256"], expected)
+        self.assertEqual(len(record["per_seed"]), 3)
+        self.assertFalse(output.exists())
 
     def test_shell_runner_preserves_paths_with_spaces(self):
         # The fake executable records argv/environment. No OpenROAD is launched.

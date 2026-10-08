@@ -102,7 +102,7 @@ def main() -> int:
                 for row in per_seed]
     annotations = [float(row["power"]["activity_annotation_fraction"])
                    for row in per_seed]
-    evaluator = PRIVATE_ROOT / "t10_ppa_qualify.py"
+    evaluator = Path(__file__).resolve().with_name("t10_ppa_qualify.py")
     record = {
         "schema_version": 1,
         "task_id": "T10",
