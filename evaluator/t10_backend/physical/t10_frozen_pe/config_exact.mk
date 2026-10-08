@@ -1,7 +1,11 @@
+ifndef T10_BACKEND_ROOT
+T10_BACKEND_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../..)
+endif
+include $(T10_BACKEND_ROOT)/config.mk
 export PLATFORM = asap7
 export DESIGN_NAME = t10_reference_pe
-export VERILOG_FILES = /home/reefshark/research/agent_os/ic_bcmk_eval_private/refs/T10/rtl/npu_systolic_matmul_16x16.sv
-export SDC_FILE = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_pe/constraint.sdc
+export VERILOG_FILES = $(T10_REFERENCE_RTL)
+export SDC_FILE = $(T10_BACKEND_ROOT)/physical/t10_frozen_pe/constraint.sdc
 export CORE_UTILIZATION = 24
 export CORE_ASPECT_RATIO = 1
 export CORE_MARGIN = 0.5
@@ -24,13 +28,13 @@ export ADDITIONAL_LIBS = \
   $(T10_FP2_LIB) \
   $(T10_INT_LIB) \
   $(T10_CPA_LIB)
-export PDN_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_pe/pdn.tcl
-export POST_PDN_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_pe_post_pdn_four_vss_bridges.tcl
-export IO_CONSTRAINTS = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_pe/io.tcl
-export MACRO_PLACEMENT_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_pe/macro_place.tcl
-export PRE_GLOBAL_PLACE_SKIP_IO_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_pe_forwarding_regions.tcl
-export PRE_GLOBAL_PLACE_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_pe_forwarding_regions.tcl
-export PRE_CTS_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_pe/pre_cts_m6_m7.tcl
+export PDN_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_pe/pdn.tcl
+export POST_PDN_TCL = $(T10_BACKEND_ROOT)/physical/t10_pe_post_pdn_four_vss_bridges.tcl
+export IO_CONSTRAINTS = $(T10_BACKEND_ROOT)/physical/t10_frozen_pe/io.tcl
+export MACRO_PLACEMENT_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_pe/macro_place.tcl
+export PRE_GLOBAL_PLACE_SKIP_IO_TCL = $(T10_BACKEND_ROOT)/physical/t10_pe_forwarding_regions.tcl
+export PRE_GLOBAL_PLACE_TCL = $(T10_BACKEND_ROOT)/physical/t10_pe_forwarding_regions.tcl
+export PRE_CTS_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_pe/pre_cts_m6_m7.tcl
 export MAX_ROUTING_LAYER = M7
 export MIN_CLK_ROUTING_LAYER = M6
 export ROUTING_LAYER_ADJUSTMENT = 0

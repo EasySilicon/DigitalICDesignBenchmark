@@ -3,7 +3,7 @@
   "source_repository": "ic_bcmk_eval_private",
   "source_revision": "e9da70a19e662940e329205e594fa44142ab96e0",
   "import_method": "selected source-file snapshots; no private Git objects or history imported",
-  "status": "experimental_backend_archive",
+  "status": "experimental_backend_development",
   "official_ppa_baseline_qualified": false,
   "candidate_material": false,
   "standalone_reproduction_ready": false,
@@ -12,1333 +12,1820 @@
       "source": "experiments/T10_distributed_egress_v123/rtl/files.f",
       "destination": "evaluator/reference/T10_candidates/v123/rtl/files.f",
       "sha256": "8ffa4b5e1bdbead2fd7a99dccfb169562cf0e1f7dfecaa3d7bd1426dd03c441a",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "8ffa4b5e1bdbead2fd7a99dccfb169562cf0e1f7dfecaa3d7bd1426dd03c441a",
+      "modified_for_relocation": false
     },
     {
       "source": "experiments/T10_distributed_egress_v123/rtl/npu_systolic_matmul_16x16.sv",
       "destination": "evaluator/reference/T10_candidates/v123/rtl/npu_systolic_matmul_16x16.sv",
       "sha256": "6601f244693bf0a4b3c890164c34f3c64cf12f5705c2b7bc82a7a0256c4915c7",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "6601f244693bf0a4b3c890164c34f3c64cf12f5705c2b7bc82a7a0256c4915c7",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/README.md",
       "destination": "evaluator/t10_backend/physical/README.md",
       "sha256": "fa1f9f62fba59b425c3171b0d7be88939b2d4041be5fa4f1224755fd78cd20ee",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "d4d604f1f3516e01ca6878aac3da8e990ef2faf170fb19e5cc78461a635852e2",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/T10_CTS_CLOSURE_PLAN.md",
       "destination": "evaluator/t10_backend/physical/T10_CTS_CLOSURE_PLAN.md",
       "sha256": "71e22ba8622ebda7f36b1face17641e8429fc99aa42116bb34f0e1d59a334c89",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "8996bf2f4f53a117b527d3a0e90fb08b8febd4ef4cb645e6745dedebe7ea735b",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/T10_DISTRIBUTED_EGRESS_20261005.md",
       "destination": "evaluator/t10_backend/physical/T10_DISTRIBUTED_EGRESS_20261005.md",
       "sha256": "b50c179b52d514b3337854911fd28b25bb5b8934b07d1c6e3c6bf7dec974aba8",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "9af97c0611a9a3508126496f08c7d6db065f550780ad6da022a1dfd4de53912e",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/T10_FULL_DUT_LAYOUT_AUDIT_20261005.md",
       "destination": "evaluator/t10_backend/physical/T10_FULL_DUT_LAYOUT_AUDIT_20261005.md",
       "sha256": "69dbb110c365e1019b17015f1f8d6f73c58c89d847bafb95488044f7b3ac77ef",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "f97d7ef7461796222fd95db24713f10c5cb709a6620eb310212488749c5c11d4",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/T10_TOP_TIMING_CLOSURE_20261006.md",
       "destination": "evaluator/t10_backend/physical/T10_TOP_TIMING_CLOSURE_20261006.md",
       "sha256": "9e80ad68175c89678d015a7952e9af4c4f7b4f08e2d298440b4a23a57add79fe",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "b8faba7e5ea95cf17bb2f5e0e12c6b71808ae4e1cc6870bc26d2eb0baf530910",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/openroad_grid_probe/make_probe.py",
       "destination": "evaluator/t10_backend/physical/openroad_grid_probe/make_probe.py",
       "sha256": "c1b99054b6a115f7d4efb24317601d1e0be6f0071db265b6e1b8e60d16d9ff27",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "31d15a832aa8212ab4840e406c66671db6fc61daa22387f3efe3e922210fcc7d",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_archive_level.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_archive_level.sh",
       "sha256": "2e6c071840e85819afc4334a347a0094008116f5ea90c99a939540e381de2930",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "9de95494db7cf85dbf26b4c889d72b1c9bd8632b750ccc4bb7d4a3cea225c034",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_boundary_locality_probe.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_boundary_locality_probe.sh",
       "sha256": "4beb568c674a59c825754317ba89140a76f1596d03070d9d5956aab71d2915cb",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "0001a76491f2dc675ca001fe00fa7970487dfe62efc58f0c139eda53ef390423",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_distributed_control_locality.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_distributed_control_locality.sh",
       "sha256": "64cdbf05c205060ac0ac2acb6d04811af5c867bfc3e2bb49a1b7c6c34adaa12c",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "4878e610444f6d84649b3e044769e9840166ca3f5129a835fcdc4d268a19b192",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_distributed_output_qualification.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_distributed_output_qualification.sh",
       "sha256": "3450ee2ebbb290142bbc208d9525acf6ebf514ebc50a58c71bc2952befc9cdc6",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "6460501cf7c27d45384c021874711cb745cb129257511f81ec6161164b01e303",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_distributed_physical_candidate.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_distributed_physical_candidate.sh",
       "sha256": "a7750ed253078fdb4d2690f4614b4f0daf42dec5e31b46ced28c33301eadb816",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "49eb83a9d59b93cc9dbb4427f08148a6d218d4d2b1efd8a6800a4ea45348d1a5",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_export_pe_v16_grt.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_export_pe_v16_grt.sh",
       "sha256": "2f2506c315afba084fe62175bc67ff222a9ee23c66cdb69946d65716a0692e0f",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "b14e35ba6e8d13eb0fb6ef7a73350187d4063a70c5af874f5aaf9dbd21cc58b2",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_finish_hier_block.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_finish_hier_block.sh",
       "sha256": "e15513ab6441a9bd364b422a4a197d90ae32bd3eef169608dfd1f12391bed338",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "5b5c96d81740c09c5332362f21c2deece323933acfb0df4813781dae6d89356b",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_finish_tile.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_finish_tile.sh",
       "sha256": "7681708fdec093a93abf03ae17e10c0e92b82cdea34b5d7354252782ca376951",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "d35ca8dd4bec5bc5cad1d5b2b623b67cf6ef844eb1285e1b690c7f75b3f3d13d",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_frozen_cpa_postprocess.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_frozen_cpa_postprocess.sh",
       "sha256": "23e5e38205d49802be59fd6675ac8643ffba1faed8e3634f798ecc0d61dd3eff",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "49b28d47915a1d34ba0545e6195f75ea97e6756033e988eaacb17328f0dcfbfc",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_frozen_fp_quad.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_frozen_fp_quad.sh",
       "sha256": "b8b8c471a5a0582243d04af47052ac3dde3576319cf86e31cd2ab505a5cd2feb",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "a4828bddf4f969eb76426b12172d25e764867b234b94acf7985a61a3add182e0",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_frozen_int_group.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_frozen_int_group.sh",
       "sha256": "c1cf5d8a46ae913d3fff5da370c9a04c6b8a671d4d40aaa235e35f4887710d46",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "ddaca7ff062b75327e4a6f4148ec1e26b5d67a2dd08cda4ad3acfd72970aaacb",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_frozen_pe.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_frozen_pe.sh",
       "sha256": "27a703991f3456c59332588b7a185449249cac0bb07eeb6ad9890376d1d6488f",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "cd11f3f9155c2cdf7c2381024914ce37b1fa54e0b0b22c98fecfad5ecb30f34a",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_frozen_pe_checkpoint_route.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_frozen_pe_checkpoint_route.sh",
       "sha256": "3b65844b74a91991a6551db9df9e055d59c74c770af73b105e6713d5108ba92e",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "e346159f729c6e109d82d7d43ed2576122ece72cd68923e290f259caf80c4fd4",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_frozen_pe_exact.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_frozen_pe_exact.sh",
       "sha256": "e04f03c656f79da02af507323cd6724ca8473117fb6bd901fa602d700e6afa43",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "ad876594888ea4a9367a587f01bd67189d3453dd151603e0cdf2e31c79f946f3",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_frozen_tile.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_frozen_tile.sh",
       "sha256": "d396f75258ba4f37c49ec126b9b084ed6dca84005716bfbfc67c26bfdf5adcd0",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "1d44bd3c2a2e1ef1dd6ab45912060a5696bdfcb99c24d66b24820c6b58cae096",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_frozen_top.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_frozen_top.sh",
       "sha256": "ca9d43aba83bc8a4f6f2e791eb97ed9c7d6bcfc2e56f3cbb44993ba74a93e1ef",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "d33f9a1af64a3be87cf27881b46301a09193273e6a45361be00844b77c9f713a",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_full_dut_path_audit.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_full_dut_path_audit.sh",
       "sha256": "e283640e053973758572597d9cedc05a9f5e8fc24813a1d182c41e4e5b981ebd",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "49231ebc2ecb17dfc013d872b07d93f1bbbbcdb7f70184d5a60da2f7741e48b3",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_input_geometry_audit.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_input_geometry_audit.sh",
       "sha256": "d83e3096eae4e05b2398ff1b42f45d44fce5f88939a531a77446bf9ac58242e8",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "f00b4277a43f1dfa8ac01442eb2d058516de86e68aacc2b273eb0d7b69e3ab26",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_local_accept_path_validation.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_local_accept_path_validation.sh",
       "sha256": "3271f20928bb4d21f9664cc96289ab5e148070ba7cade3457f50b4f349595fae",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "81aab525ec86695653b41eef829a3cda19b719acac58fe379ac7fd032205eeeb",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_localize_gather_combinational.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_localize_gather_combinational.sh",
       "sha256": "d4833ee64b01e16780e04d25deede5f5bc447455d3e8fc1a0d5f90994cf28973",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "3797777a161fe6c338024dd6948b03fa1f6f29d84f8fdec00954bd0ff0395f0b",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_mapped_cell_only.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_mapped_cell_only.sh",
       "sha256": "c8ba5c67d041a1257c8e3fe3311b8731ece397d9122c464d4d20f20d800466eb",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "ff83a4e84b62928d97d383d0cf59383bb15dc9f83e96c5a198b6a19941d7be11",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_place_top_port_buffers.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_place_top_port_buffers.sh",
       "sha256": "77d1a4d19c707c1a75b7a4bc09a9f4665ed20ba4395c21805a04a7d186b3c62c",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "1709e3ba530ba9125c4639f4c64c54b0622fdbe1612ba3d9c66a5d9e35212d76",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_post_cts_legalize_probe.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_post_cts_legalize_probe.sh",
       "sha256": "3f5c6ce9bc09678df65419a8886fcb6e32b8809d41f6f0a70d1f686c14db4634",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "87aac5ed6a2b3b7c52a29a150b61908c84066b26e943a9ebecd9eee3cdfa7910",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_promote_hier_clock_pin.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_promote_hier_clock_pin.sh",
       "sha256": "db505599881c8c4e4ea32e76a97ea8ac09d438d66bdbb3570db6dbbcdc74b673",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "a9f72142c4f39299a9a6daae20ed67dcdc48429a56fdde3a766a643d033111d8",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_repair_frozen_cpa.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_repair_frozen_cpa.sh",
       "sha256": "ee988139fa6d036a7651209f53f0c10b4a35d4b0b93482072980ddece607ed70",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "10d115b2e6184638a4f0b953fbdcd1049fdd8bf978094b021b2cacbb6acfdcaf",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_resume_pe_route.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_resume_pe_route.sh",
       "sha256": "6b322c4751d4ad5977bb71247cd885ec9c65d00310f9611fc9acea83b35f0207",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "735f2d0a6e9f5ee17421da6d06a3b6296ce2ad1f99841df70b8102d349634b85",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_spread_output_repeaters.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_spread_output_repeaters.sh",
       "sha256": "d8d3be52765321684be10bd74902d2fc11c1dbc847de45d221e4640af3e44309",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "d3886f5f938d39d6741f0e396394bf194bdd30b95ec37b25878f216219300443",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_tile_cts_probe_sweep.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_tile_cts_probe_sweep.sh",
       "sha256": "d05d88ebd8975b65dfa065c8cde8e3021038d18b8ec341e334fd2e9934aed08e",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "7212f154b76665c5f607ef07c2942f8b839516a0d07816a11beb71009f8299bc",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_tile_slvt_cts_probe.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_tile_slvt_cts_probe.sh",
       "sha256": "65f35aca59f93d33ba3c9f33cefcc02d8797ff63c9b13e91dbe4eb4de330fb30",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "fd6cd849d084fb4bd821e105ab9655d23c9d5d766b82ab630eb4561ad1816618",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_tile_v33_queue.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_tile_v33_queue.sh",
       "sha256": "5fe02e08febdbadcafa3166edbc42f53f106afd8e46a3ee5e35489f588373e25",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "cda296f5a934cd631bf93b9c0ae27f9fd8d8321b953eed768d99c34e97ee55b8",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_top_clock_channel_repair.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_top_clock_channel_repair.sh",
       "sha256": "6425a873d09d12eeed4134ff7f80c8e205932c3e305a319e96c25bd8eb24fde5",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "5a9c9e2792f4ea434485002739190971e070aabb9d958f73cc01a3a33699ee69",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_top_clock_estimate.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_top_clock_estimate.sh",
       "sha256": "711215ac0d75a3a54c82501ebb12d7978861cbf1d53ef43c50b8b68a99444dd1",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "a68f7a7742c41106bb5b08f3dc29c2a93593cda27fcd9ab2d374535192952acf",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_top_clock_repair_pa_probe.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_top_clock_repair_pa_probe.sh",
       "sha256": "7e6d308672d9c56f7bd173d14a525884d731b435948705274635ae836530da4c",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "3cfbd363fbf6f7bee812f57eae4b5618618201df7c7e07b584c6ccb46aba4766",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_top_coarse_grt_probe.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_top_coarse_grt_probe.sh",
       "sha256": "15419ed0ce34cdea12e5bd707b1ed5abec8f4912d1da98525b3f2a34901e81dc",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "b512c101d3974ff14c000499efe7bf2bd0debd51d4a44b8acbdc6eb6bd516dd6",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_top_data_control_repair.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_top_data_control_repair.sh",
       "sha256": "9cecb81d54e29127a8f09e6628a6d9ee44f2ce4b570092d0f0a7d25d33e03b7d",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "308ac319c4b73abfa95c06b1ef537bbefb049d5eaa311e149650d3fa0ffe746d",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_top_detail_place_probe.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_top_detail_place_probe.sh",
       "sha256": "2ea2e4e8abd5017700399dbaaf11195feca929672440a3a487fe6429688ed86d",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "37d77949644379a7b4a83bcae4571bd0bd04a1a1ab4c5765534882a59dfcba8a",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_top_grt_probe.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_top_grt_probe.sh",
       "sha256": "bec5c5dea579458a748450729cac45c6308aa0c61d9c228e478b40e3c00305af",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "b494b75d831543922a0bcefe4dd67a963b45ba932a3922036e1ab4787c52209c",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_top_grt_snapshot_probe.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_top_grt_snapshot_probe.sh",
       "sha256": "27f330237e0a3802be7dcce403e27941e1d753fee40153c9955c344cc856c809",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "04ee308305ce17478db0e914fdf9f8dbce2c0fe5df959c14339086b093cbc604",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_top_place_probe.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_top_place_probe.sh",
       "sha256": "444c7098246e8b199186b9a971e2e518d926e152d66f193726d59675edf0bdc1",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "debd91ddb486f9265b5a7f52fca2e683b0aa1ba2886272f1025e22238c421976",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_top_popcount_eco_probe.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_top_popcount_eco_probe.sh",
       "sha256": "7d9cb68f439d8b4a473a5ac8543806e5908d3044b17eab37ef1478bcdf698189",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "ee576bc3e753e7acf44c77484438eb9ffaf4c2aca33a5123a3fc05161493ef18",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_top_popcount_synth_probe.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_top_popcount_synth_probe.sh",
       "sha256": "0274124a6b53f7b586428349aeb78af83fdd2f8cab6edd2329b7c037553bf818",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "7fb66d22c488fdb13f75056dee542a5b504e5b208edf1873e4819a0d5044d280",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_top_resize_probe.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_top_resize_probe.sh",
       "sha256": "a8ff271f4a38681c98e316f64f4e35932f54d6419aab9c612e508efef2412fb8",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "10b173f89127e52db28c611f190c4b50f6132525a9616601ad6abd0180450b70",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_top_retime_route_checkpoint.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_top_retime_route_checkpoint.sh",
       "sha256": "c5daced023f237299400cb912a7d3904eaca38e3fd54fe7826dfad677f3b2e53",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "1cc514868f9460de7cdeb138acc1f9dadadbe656d56ff6ed0a5519263890fc8f",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_top_slvt_cts_probe.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_top_slvt_cts_probe.sh",
       "sha256": "8bf66175a2ca020afebf38187aa69c393f57d87bcce9d94cf09a3b0f06da7a03",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "e2a2194054eba8f25e4c88186bd26fe157630168345b99f29e1b8ec614bdbe35",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_top_sparse_legalize_probe.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_top_sparse_legalize_probe.sh",
       "sha256": "f129fab0ac3a239a0105a213171f12a6006414fe4c3b87b57b668ee511dacc23",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "76dd8b88a7d8c8582425129a30f11c5bc4d94a4a74993537617c2e937b05d8f0",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_top_transport_synth_probe.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_top_transport_synth_probe.sh",
       "sha256": "88250e03e24b5f802420dc60f940dcd5bd21de8f87ea17de37be3597407db6b1",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "40a6105b6c32dd7459128beaece2c80fe41c77f8209b7a00fac6af3d89558a8c",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_transport_floorplan_probe.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_transport_floorplan_probe.sh",
       "sha256": "78461b9c5491a8e401313f8441c4a68d7ef0e7403c73651f0a7ed727512b45b2",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "35e644972745c5be2b4f0b17efd0b93c29efe839416bd0a09bf0afa804910132",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_transport_interface_probe.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_transport_interface_probe.sh",
       "sha256": "c488dfcc342f85e812e3c69afa9e22b6ada43b5b4da00f3083092faaba7de0a2",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "fb6ff48150fc808f13435c8fda1611ed32053f22a09e13d766b10d6908343a9c",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_transport_spatial_checks.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_transport_spatial_checks.sh",
       "sha256": "1077551e6fbabe7ca8785161a2623ed6669ae1f5995f2e2251e554a2c0788964",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "080849871d1632697fec86f1551e0c00ecf5be5470c430f32bbd45e6c2326b9e",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_transport_spatial_probe.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_transport_spatial_probe.sh",
       "sha256": "49a9c85cc7c3185839ec915655ea00cc3861950119f61431c1eb4cbd663fbd1c",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "15e3f09d73c8d66b903e9a61d966b0801283f7a6f15094f7108f573dc6cff314",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_v93_units_audit.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_v93_units_audit.sh",
       "sha256": "aea4802ccb655fa08cefd78e2f7814a9a2057625fc39b9df43fbdc61090f34a1",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "87eb15a8ed23cafa17a86ce8616952827c05ba3d84ab9793177bed097729aab8",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/run_t10_validate_top_placement.sh",
       "destination": "evaluator/t10_backend/physical/run_t10_validate_top_placement.sh",
       "sha256": "5b304b13709239bec21f694162b29945f2689723256dc74aa859d0eaefa14731",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "9c3fb679cbc483780cf1e51400f5b8439b2d5586e839e8d7e7276a60328a2280",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_acquire_openroad_slot.sh",
       "destination": "evaluator/t10_backend/physical/t10_acquire_openroad_slot.sh",
       "sha256": "2689238ad108886af274198a4e45da1713fe3d4fe922edf4bf801ce611bb5908",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "9f9cb19732bf0c8e80d330a1521b5f92631743d9d6dd05228865e2301a7acc36",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_add_interface_buffers.py",
       "destination": "evaluator/t10_backend/physical/t10_add_interface_buffers.py",
       "sha256": "5ba58dec8dcd95de8f2847ed4782289ce1f5347084e0d4e17c1ee74a06d9a0df",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "5ba58dec8dcd95de8f2847ed4782289ce1f5347084e0d4e17c1ee74a06d9a0df",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_analyze_net_only_fixed_shapes.py",
       "destination": "evaluator/t10_backend/physical/t10_analyze_net_only_fixed_shapes.py",
       "sha256": "e6b406be9ac48eda26f0134981d5ff08185ec95d086c355e4e9ad4ccc91d57a6",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "e6b406be9ac48eda26f0134981d5ff08185ec95d086c355e4e9ad4ccc91d57a6",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_analyze_net_only_klayout_union.py",
       "destination": "evaluator/t10_backend/physical/t10_analyze_net_only_klayout_union.py",
       "sha256": "cef7091ae06fe000b400d889d2f46649c830487c638c3fc7b151179d29bd965e",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "cef7091ae06fe000b400d889d2f46649c830487c638c3fc7b151179d29bd965e",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_assemble_ppa_evidence.py",
       "destination": "evaluator/t10_backend/physical/t10_assemble_ppa_evidence.py",
       "sha256": "0dd2b77f68d4d635a518787ce301aa70b05b5607396097896957355a9135fce3",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "4b3038cefd6501c5ac250ac77702ae8c7ce22eb4a73a3ea346b1ae5097419da6",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_audit_def_clock_layers.py",
       "destination": "evaluator/t10_backend/physical/t10_audit_def_clock_layers.py",
       "sha256": "cabbaafd1e20280dc5724379c5d9538ba55d9377182d1167e7d8c9486b7095ea",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "cabbaafd1e20280dc5724379c5d9538ba55d9377182d1167e7d8c9486b7095ea",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_audit_full_dut_input_geometry.py",
       "destination": "evaluator/t10_backend/physical/t10_audit_full_dut_input_geometry.py",
       "sha256": "94c59592fa1e644bc91e284c32195ac6c6144902fcf29e7ecdc6a0af20b13fe1",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "94c59592fa1e644bc91e284c32195ac6c6144902fcf29e7ecdc6a0af20b13fe1",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_audit_pe_physical_equivalence.py",
       "destination": "evaluator/t10_backend/physical/t10_audit_pe_physical_equivalence.py",
       "sha256": "ceba407cb788dc933b416ab818bf76ac3b89b993a9268ca79d8e6388819ec013",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "ceba407cb788dc933b416ab818bf76ac3b89b993a9268ca79d8e6388819ec013",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_audit_top_clock_geometry.py",
       "destination": "evaluator/t10_backend/physical/t10_audit_top_clock_geometry.py",
       "sha256": "567ce334a6f8a59894b5d4df9c9c1b359163e5a7d8283df0ca9f6513702422b9",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "567ce334a6f8a59894b5d4df9c9c1b359163e5a7d8283df0ca9f6513702422b9",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_audit_top_data_branches.py",
       "destination": "evaluator/t10_backend/physical/t10_audit_top_data_branches.py",
       "sha256": "3d947940cd505639efa7fa0f44309fc6ecc55e53b6ae24c962d886452175fe1c",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "3d947940cd505639efa7fa0f44309fc6ecc55e53b6ae24c962d886452175fe1c",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_audit_top_placement.tcl",
       "destination": "evaluator/t10_backend/physical/t10_audit_top_placement.tcl",
       "sha256": "f5ad4d754c5974658162fb08a82bb408acde775aceee6ebfc1d241b92c5e5044",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "f5ad4d754c5974658162fb08a82bb408acde775aceee6ebfc1d241b92c5e5044",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_audit_v93_units.tcl",
       "destination": "evaluator/t10_backend/physical/t10_audit_v93_units.tcl",
       "sha256": "588711b0897719b5e6a0019e23ae06458ccf54e1e16bf033309a80c7335eb4a0",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "588711b0897719b5e6a0019e23ae06458ccf54e1e16bf033309a80c7335eb4a0",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_audit_wire_raw.cc",
       "destination": "evaluator/t10_backend/physical/t10_audit_wire_raw.cc",
       "sha256": "693f4e700f8b426954bd40b400ca0c2e5a4a57569e8e30522f273a3221b7f174",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "693f4e700f8b426954bd40b400ca0c2e5a4a57569e8e30522f273a3221b7f174",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_build_macro_lef.py",
       "destination": "evaluator/t10_backend/physical/t10_build_macro_lef.py",
       "sha256": "41afc5144138387e430b8587e879b5efae27af41d33e9f4c789337ad4f8afebd",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "41afc5144138387e430b8587e879b5efae27af41d33e9f4c789337ad4f8afebd",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_build_mcmm_input_manifest.py",
       "destination": "evaluator/t10_backend/physical/t10_build_mcmm_input_manifest.py",
       "sha256": "2b8fa30e312ee8212fe09cdbf0e4e74896cf11cb46b1884e45da1d5f036eb441",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "2b8fa30e312ee8212fe09cdbf0e4e74896cf11cb46b1884e45da1d5f036eb441",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_bypass_pe_edge_serial_stage.py",
       "destination": "evaluator/t10_backend/physical/t10_bypass_pe_edge_serial_stage.py",
       "sha256": "24ebe985ba9de6aa37efd4e031fff19389b322c0558d47d1c790722e8e0bfd60",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "24ebe985ba9de6aa37efd4e031fff19389b322c0558d47d1c790722e8e0bfd60",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_bypass_pe_parallel_clock_prestage.py",
       "destination": "evaluator/t10_backend/physical/t10_bypass_pe_parallel_clock_prestage.py",
       "sha256": "5ac5a1cc285485bed9bd25d23efdc2856963891b8ca28ee90ba23e2fea69140e",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "5ac5a1cc285485bed9bd25d23efdc2856963891b8ca28ee90ba23e2fea69140e",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_check_hierarchical_v1_set.py",
       "destination": "evaluator/t10_backend/physical/t10_check_hierarchical_v1_set.py",
       "sha256": "7244049685275aa29293476e19f0258416c1ac632e211c2884350c61c31f5716",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "7244049685275aa29293476e19f0258416c1ac632e211c2884350c61c31f5716",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_check_klayout_drc.py",
       "destination": "evaluator/t10_backend/physical/t10_check_klayout_drc.py",
       "sha256": "87fa91cf4d4b12c5c7ea7f76797b462fdecb0a6aaec983524ce1e1b03b8de5e0",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "87fa91cf4d4b12c5c7ea7f76797b462fdecb0a6aaec983524ce1e1b03b8de5e0",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_check_klayout_partition_set.py",
       "destination": "evaluator/t10_backend/physical/t10_check_klayout_partition_set.py",
       "sha256": "32a7174fda9ccfcbb501b5cf228eb68feada30a8a946194c2c0adeb9e71f70f1",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "32a7174fda9ccfcbb501b5cf228eb68feada30a8a946194c2c0adeb9e71f70f1",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_check_mcmm_signoff.py",
       "destination": "evaluator/t10_backend/physical/t10_check_mcmm_signoff.py",
       "sha256": "5cbff1897946c821125d61eadf64cf87163cf77afed976e8f01d8c8fa26886c5",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "5cbff1897946c821125d61eadf64cf87163cf77afed976e8f01d8c8fa26886c5",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_check_odb_connectivity.py",
       "destination": "evaluator/t10_backend/physical/t10_check_odb_connectivity.py",
       "sha256": "9edb8491d9b948b3f1bcbc59f043b7bbe4eb4ec534cc6dc654d2107c9b86825c",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "9edb8491d9b948b3f1bcbc59f043b7bbe4eb4ec534cc6dc654d2107c9b86825c",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_check_top_cell_overlaps.py",
       "destination": "evaluator/t10_backend/physical/t10_check_top_cell_overlaps.py",
       "sha256": "7ef740cf5d91fc294d0eef25ea907c8595ae1df5ab46e58c8aeed00a9c2b13ec",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "7ef740cf5d91fc294d0eef25ea907c8595ae1df5ab46e58c8aeed00a9c2b13ec",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_check_v1_macro_boundary.py",
       "destination": "evaluator/t10_backend/physical/t10_check_v1_macro_boundary.py",
       "sha256": "a88cd6cc5ef2a2559c370e64407ec20e71d73bce0bf979d42a0e5c830b1394d4",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "a88cd6cc5ef2a2559c370e64407ec20e71d73bce0bf979d42a0e5c830b1394d4",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_class2_corner_io.tcl",
       "destination": "evaluator/t10_backend/physical/t10_class2_corner_io.tcl",
       "sha256": "229b0fea9a8259a764c63a4d04af195a7fa38c80d5153c71f327fa5cc843bed7",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "229b0fea9a8259a764c63a4d04af195a7fa38c80d5153c71f327fa5cc843bed7",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_classify_drc_root_sites.py",
       "destination": "evaluator/t10_backend/physical/t10_classify_drc_root_sites.py",
       "sha256": "9161b1b8b944c5e41940880687d2b194a2b2362b1e80a8a011c80c79059e462c",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "9161b1b8b944c5e41940880687d2b194a2b2362b1e80a8a011c80c79059e462c",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_clock_route_audit.tcl",
       "destination": "evaluator/t10_backend/physical/t10_clock_route_audit.tcl",
       "sha256": "8e7f11b03bed5582ee9e413db0eaa23162324e457dbd1bb4eff10d47a09651a4",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "8e7f11b03bed5582ee9e413db0eaa23162324e457dbd1bb4eff10d47a09651a4",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_clone_pe_shared_valid_output_ff.py",
       "destination": "evaluator/t10_backend/physical/t10_clone_pe_shared_valid_output_ff.py",
       "sha256": "1660e43657af5702ba37f93e4d1c00a7f6e2755ec00f990e6c2855232b84d398",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "1660e43657af5702ba37f93e4d1c00a7f6e2755ec00f990e6c2855232b84d398",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_collapse_pe_output_buffers.py",
       "destination": "evaluator/t10_backend/physical/t10_collapse_pe_output_buffers.py",
       "sha256": "86dbc1d58998cdfc6c125ff60cd8d4f974688b17412f534063be83e9c4f656e6",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "86dbc1d58998cdfc6c125ff60cd8d4f974688b17412f534063be83e9c4f656e6",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_diagnose_distributed_stream.py",
       "destination": "evaluator/t10_backend/physical/t10_diagnose_distributed_stream.py",
       "sha256": "c59f097c65d05ae6467c6d6f9948c36d47fd86454d5f2209840da2ceea1b78b2",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "4ab8a8f7948dbb23af44df5b6cc0eb0d4e3d2b79f11717872eecf7763f61c29e",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_experiment_bank_ff_place.py",
       "destination": "evaluator/t10_backend/physical/t10_experiment_bank_ff_place.py",
       "sha256": "e622682792af60ed4677713b32a1fe3e8bd7ab0cc3266e6f51f405d957f3bc4c",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "e622682792af60ed4677713b32a1fe3e8bd7ab0cc3266e6f51f405d957f3bc4c",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_experiment_bankpipe_hop_place.py",
       "destination": "evaluator/t10_backend/physical/t10_experiment_bankpipe_hop_place.py",
       "sha256": "acdd2a0fb007dcd24e4c7299be9442da8863727b1e31525a2deb7cb1cb75aea9",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "acdd2a0fb007dcd24e4c7299be9442da8863727b1e31525a2deb7cb1cb75aea9",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_experiment_pe_a_output_cone_place.py",
       "destination": "evaluator/t10_backend/physical/t10_experiment_pe_a_output_cone_place.py",
       "sha256": "22b2a54ae8f315f6ef0e038cd65511661d126e26eeada6742e5776405739184c",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "22b2a54ae8f315f6ef0e038cd65511661d126e26eeada6742e5776405739184c",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_experiment_pe_bottom_output_cone_place.py",
       "destination": "evaluator/t10_backend/physical/t10_experiment_pe_bottom_output_cone_place.py",
       "sha256": "46bd8d9fea3ecfc442fb1e06a3123d0d06f6f2310d5be9c89b1ae22e6d9a3997",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "46bd8d9fea3ecfc442fb1e06a3123d0d06f6f2310d5be9c89b1ae22e6d9a3997",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_experiment_pe_bt_out_ff_place.py",
       "destination": "evaluator/t10_backend/physical/t10_experiment_pe_bt_out_ff_place.py",
       "sha256": "f2510fe5c4eaa4e5e065fbe22d5958c6041e23e90fc7e12b818d300b66e66fa6",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "f2510fe5c4eaa4e5e065fbe22d5958c6041e23e90fc7e12b818d300b66e66fa6",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_experiment_pe_bt_output_cone_place.py",
       "destination": "evaluator/t10_backend/physical/t10_experiment_pe_bt_output_cone_place.py",
       "sha256": "9b5668575b7d6e7adf5972a4dc92a67cf109f6f539621dc38a3a9268793f5291",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "9b5668575b7d6e7adf5972a4dc92a67cf109f6f539621dc38a3a9268793f5291",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_experiment_result_hop_place.py",
       "destination": "evaluator/t10_backend/physical/t10_experiment_result_hop_place.py",
       "sha256": "45a4fe4eb2452e6fd53b79021afa823db9c16dd13fccdd59e94f8a62d61ae930",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "45a4fe4eb2452e6fd53b79021afa823db9c16dd13fccdd59e94f8a62d61ae930",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_export_bank_timing.tcl",
       "destination": "evaluator/t10_backend/physical/t10_export_bank_timing.tcl",
       "sha256": "3ac757cc4cbb35dc00d653a559ceaeecd910b2870d0dbfcdaf09a145b2900a88",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "3ac757cc4cbb35dc00d653a559ceaeecd910b2870d0dbfcdaf09a145b2900a88",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_export_detailed_lef.tcl",
       "destination": "evaluator/t10_backend/physical/t10_export_detailed_lef.tcl",
       "sha256": "ea696c474190bf51b6fd9f2e20b55bea29a8f29660dd03e44bf872b46ff456a8",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "ea696c474190bf51b6fd9f2e20b55bea29a8f29660dd03e44bf872b46ff456a8",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_export_guided_place_hook.py",
       "destination": "evaluator/t10_backend/physical/t10_export_guided_place_hook.py",
       "sha256": "a9f46470ef067f539d34628af0a67ca213f98f8b3349c947089914dd5e112dc9",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "a9f46470ef067f539d34628af0a67ca213f98f8b3349c947089914dd5e112dc9",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_export_macro_views.py",
       "destination": "evaluator/t10_backend/physical/t10_export_macro_views.py",
       "sha256": "d546bd9dff3975cb1fb3d94cbf2bec9f9f82e788a3868a8bee88ca41bfd9c86b",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "d546bd9dff3975cb1fb3d94cbf2bec9f9f82e788a3868a8bee88ca41bfd9c86b",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_export_pe_bt_cone_hook.py",
       "destination": "evaluator/t10_backend/physical/t10_export_pe_bt_cone_hook.py",
       "sha256": "cd628811d13a815f338da6374d14a266f1fe470abeaba8448deec524f9b97782",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "cd628811d13a815f338da6374d14a266f1fe470abeaba8448deec524f9b97782",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_extract_klayout_frontend_deck.py",
       "destination": "evaluator/t10_backend/physical/t10_extract_klayout_frontend_deck.py",
       "sha256": "1d70b0a89266668b64f72589b608d43aa555c9b1a37bbc942a3501a29398cb37",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "1d70b0a89266668b64f72589b608d43aa555c9b1a37bbc942a3501a29398cb37",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_extract_klayout_route_deck.py",
       "destination": "evaluator/t10_backend/physical/t10_extract_klayout_route_deck.py",
       "sha256": "d08fb43d9fabf0c27372080a931328cc19284faf66f0b1cafdf23d9bfc62d1e3",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "d08fb43d9fabf0c27372080a931328cc19284faf66f0b1cafdf23d9bfc62d1e3",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_extract_klayout_route_sections.py",
       "destination": "evaluator/t10_backend/physical/t10_extract_klayout_route_sections.py",
       "sha256": "447331de8d2845f91d697cae8a6da5bba4889639a3f4a70952d7cf7922541583",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "447331de8d2845f91d697cae8a6da5bba4889639a3f4a70952d7cf7922541583",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_extract_macro_pg.tcl",
       "destination": "evaluator/t10_backend/physical/t10_extract_macro_pg.tcl",
       "sha256": "c84d574a33aecfaf5d9c92c5ea2f864eb1a6f2b3a4dac569e0d36938bc53ed42",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "c84d574a33aecfaf5d9c92c5ea2f864eb1a6f2b3a4dac569e0d36938bc53ed42",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_finish_hier_block.tcl",
       "destination": "evaluator/t10_backend/physical/t10_finish_hier_block.tcl",
       "sha256": "2c4a9da3d5a38a0bda01d40a6a216565e7daa96550f6e3c301f9ca759a3caef9",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "2c4a9da3d5a38a0bda01d40a6a216565e7daa96550f6e3c301f9ca759a3caef9",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_cpa_postprocess/config.mk",
       "destination": "evaluator/t10_backend/physical/t10_frozen_cpa_postprocess/config.mk",
       "sha256": "b4fd03ab84c02c9b041ff73082ed08a414fb909ed8cd6fd02c17edc3ff946d41",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "d0e2b57380b6ce4fcefd03753c4fe00805afe63fc9f69d0a11fad93ea3e58930",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_frozen_cpa_postprocess/constraint.sdc",
       "destination": "evaluator/t10_backend/physical/t10_frozen_cpa_postprocess/constraint.sdc",
       "sha256": "27784af6ec3b6ebc586ed5f50d0271bf6faf822c967f108ee2befd5fa61d4b0a",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "27784af6ec3b6ebc586ed5f50d0271bf6faf822c967f108ee2befd5fa61d4b0a",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_fp_quad/config.mk",
       "destination": "evaluator/t10_backend/physical/t10_frozen_fp_quad/config.mk",
       "sha256": "a15ba9ab7db8d8c020b3b23863803913f6cc7181194083bb0ed0fdb821ff07e1",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "63b3e11250abfb9e93b76f403eb942abfca65b87f9ac8b2f8a0c8001ca91ed8c",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_frozen_fp_quad/constraint_class0.sdc",
       "destination": "evaluator/t10_backend/physical/t10_frozen_fp_quad/constraint_class0.sdc",
       "sha256": "fbd8b532fe27e1ba182f648b55aaafad558842d3763fa93d1115933d409c3308",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "fbd8b532fe27e1ba182f648b55aaafad558842d3763fa93d1115933d409c3308",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_fp_quad/constraint_class1.sdc",
       "destination": "evaluator/t10_backend/physical/t10_frozen_fp_quad/constraint_class1.sdc",
       "sha256": "e56c01043c8ab306aab215961a75294897ad99c84a6d70982d1475085d002ea5",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "e56c01043c8ab306aab215961a75294897ad99c84a6d70982d1475085d002ea5",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_fp_quad/constraint_class2.sdc",
       "destination": "evaluator/t10_backend/physical/t10_frozen_fp_quad/constraint_class2.sdc",
       "sha256": "d4b4e15a94a4226dc8695923ad2fb45a6421ca1e7e716459b7b476bc5854525a",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "d4b4e15a94a4226dc8695923ad2fb45a6421ca1e7e716459b7b476bc5854525a",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_fp_quad/pdn.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_fp_quad/pdn.tcl",
       "sha256": "97aabed26d33a3b0946e3c75377f76cea07e455f3f4a56a658d4fbb7c047439f",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "97aabed26d33a3b0946e3c75377f76cea07e455f3f4a56a658d4fbb7c047439f",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_fp_quad/pre_cts_m6_m7.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_fp_quad/pre_cts_m6_m7.tcl",
       "sha256": "1d042748e0c22524ed99c9e7d63cec236afa4885a991bc3b5e5222519c678928",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "1d042748e0c22524ed99c9e7d63cec236afa4885a991bc3b5e5222519c678928",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_int_group/config.mk",
       "destination": "evaluator/t10_backend/physical/t10_frozen_int_group/config.mk",
       "sha256": "e644c053759b3e8f0ee4f7ccd0fb29f7d891cb574f218b3ee5ec4ee910d77363",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "7eb14458e36edcf7100da8d17c24df9ab71450cfe68a58345f45f8306a4fc0a7",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_frozen_int_group/constraint.sdc",
       "destination": "evaluator/t10_backend/physical/t10_frozen_int_group/constraint.sdc",
       "sha256": "14d78855f68023774d7661e5a3a04133145022a5865627b07cf226c7ccb3059b",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "14d78855f68023774d7661e5a3a04133145022a5865627b07cf226c7ccb3059b",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_int_group/pdn.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_int_group/pdn.tcl",
       "sha256": "7c9a227dbec14c1435026900bd0bce7c3d54ce72ab9090ceb2cf87f5e435c577",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "7c9a227dbec14c1435026900bd0bce7c3d54ce72ab9090ceb2cf87f5e435c577",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_int_group/pre_cts_m6_m7.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_int_group/pre_cts_m6_m7.tcl",
       "sha256": "2a82e747e8f006af15183ae4ecb72ed2f4530db8ea94cf3876c3fb205f2d2640",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "2a82e747e8f006af15183ae4ecb72ed2f4530db8ea94cf3876c3fb205f2d2640",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_pe/config.mk",
       "destination": "evaluator/t10_backend/physical/t10_frozen_pe/config.mk",
       "sha256": "1404fff45aa8c171d4d7d48e461d634a06a828b6caf430402888ba53df3edcbb",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "afc799bfca5244b292551f868242d61e4263d32045c96c559a16753d1ea93aae",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_frozen_pe/config_exact.mk",
       "destination": "evaluator/t10_backend/physical/t10_frozen_pe/config_exact.mk",
       "sha256": "287a2473be137e2808b0672fa394f28a59e626a2ad1956322d52109f77e394fc",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "3cc97b299cc22a52f6bfd4ba29b30841b38704202025f5c7b7a9efc7b8e8220e",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_frozen_pe/constraint.sdc",
       "destination": "evaluator/t10_backend/physical/t10_frozen_pe/constraint.sdc",
       "sha256": "4b03ee50df2ec9c8a8cbfdf5387c14075fd81ad4423630ba6f8e96182063cef6",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "4b03ee50df2ec9c8a8cbfdf5387c14075fd81ad4423630ba6f8e96182063cef6",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_pe/io.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_pe/io.tcl",
       "sha256": "76d523dfa8fe69588d0d2f8dbbbb2a79d6c301f929bc582895a1872dfb9a3e0d",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "76d523dfa8fe69588d0d2f8dbbbb2a79d6c301f929bc582895a1872dfb9a3e0d",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_pe/macro_place.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_pe/macro_place.tcl",
       "sha256": "2b237a95c5d7f2ed716a1e98b5e6164d25d11b2b2df294f2f3a95b16760dced7",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "2b237a95c5d7f2ed716a1e98b5e6164d25d11b2b2df294f2f3a95b16760dced7",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_pe/pdn.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_pe/pdn.tcl",
       "sha256": "fd7dcb6b39bcfbcc7b1d4a4074f0f1048dfebfd34d94692dd2133e26e6071ef9",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "fd7dcb6b39bcfbcc7b1d4a4074f0f1048dfebfd34d94692dd2133e26e6071ef9",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_pe/pre_cts_m6_m7.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_pe/pre_cts_m6_m7.tcl",
       "sha256": "1042cf4262f27f3a0529dc67e07dd406c82f5e799ee5a5ebec543bbdfb906b1a",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "1042cf4262f27f3a0529dc67e07dd406c82f5e799ee5a5ebec543bbdfb906b1a",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_pe_checkpoint_route.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_pe_checkpoint_route.tcl",
       "sha256": "147f73ef2b5cbb08b4729a563dfc563951139b3fa18f2e1d421798b2c4fb851a",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "147f73ef2b5cbb08b4729a563dfc563951139b3fa18f2e1d421798b2c4fb851a",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_tile/bank_regions.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_tile/bank_regions.tcl",
       "sha256": "1ca7dc5e8a9b1ff6846428f16170f8c8385353350915b513aed200410867c177",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "1ca7dc5e8a9b1ff6846428f16170f8c8385353350915b513aed200410867c177",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_tile/bank_regions_direct.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_tile/bank_regions_direct.tcl",
       "sha256": "9f6b7cb438a995eaa3db7eeb5b37797db26f191dc25ba8a3f6445a74a7f60833",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "9f6b7cb438a995eaa3db7eeb5b37797db26f191dc25ba8a3f6445a74a7f60833",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_tile/check_pe_context_lib.py",
       "destination": "evaluator/t10_backend/physical/t10_frozen_tile/check_pe_context_lib.py",
       "sha256": "c7a59b73d032b59845c3790eca4da993f4de6cfd2d932d4346ab52fc720ad916",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "c7a59b73d032b59845c3790eca4da993f4de6cfd2d932d4346ab52fc720ad916",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_tile/config.mk",
       "destination": "evaluator/t10_backend/physical/t10_frozen_tile/config.mk",
       "sha256": "ac7a958a158a0857ea541e80237834b85c7f02f2f6e0927d1b6bbcbbaea33aad",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "a1dec763244279fe26efca50e6f58b89cc233b0f0a16fef4f774a131095fb841",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_frozen_tile/constraint.sdc",
       "destination": "evaluator/t10_backend/physical/t10_frozen_tile/constraint.sdc",
       "sha256": "fc3b420cd8654a0c63432b3510b54b26ffcb6430a822b1b3f88e1ce677175277",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "fc3b420cd8654a0c63432b3510b54b26ffcb6430a822b1b3f88e1ce677175277",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_tile/io.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_tile/io.tcl",
       "sha256": "3d2ac785e80cfd7b47401ba9980d5ac1f96b43c74f14654eef3954d0e5e06279",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "3d2ac785e80cfd7b47401ba9980d5ac1f96b43c74f14654eef3954d0e5e06279",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_tile/macro_place.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_tile/macro_place.tcl",
       "sha256": "cc87e4024c6b70fed535fcc9a02c6533201d4d5f32a7a32bc2c24830a3243958",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "cc87e4024c6b70fed535fcc9a02c6533201d4d5f32a7a32bc2c24830a3243958",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_tile/make_pe_context_lib.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_tile/make_pe_context_lib.tcl",
       "sha256": "f23a852160b3fbaf417feeede04b8964f7dcc23cd23115d8067ca8a150fae305",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "f23a852160b3fbaf417feeede04b8964f7dcc23cd23115d8067ca8a150fae305",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_tile/merge_pe_context_lib.py",
       "destination": "evaluator/t10_backend/physical/t10_frozen_tile/merge_pe_context_lib.py",
       "sha256": "17199563b3b03b922924c294f9de2e1f1d8633dbac330a4ad865ed428332527f",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "17199563b3b03b922924c294f9de2e1f1d8633dbac330a4ad865ed428332527f",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_tile/pdn.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_tile/pdn.tcl",
       "sha256": "6964ea48f3042d755f1f4270849f0f1dab3288891eee932ead5361c0b50eb7e0",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "6964ea48f3042d755f1f4270849f0f1dab3288891eee932ead5361c0b50eb7e0",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_tile/post_cts_wide_clock_ndr.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_tile/post_cts_wide_clock_ndr.tcl",
       "sha256": "6fc4b4be568e8938a0f2cef4ed02349e9c323f5eabb60a76721daf189ad958ef",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "6fc4b4be568e8938a0f2cef4ed02349e9c323f5eabb60a76721daf189ad958ef",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_tile/pre_cts_m6_m7.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_tile/pre_cts_m6_m7.tcl",
       "sha256": "2d770c7db2d938d7c42c712034fdbcfe9aa5f07aacd5e50557c37e647efb366d",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "2d770c7db2d938d7c42c712034fdbcfe9aa5f07aacd5e50557c37e647efb366d",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_tile/pre_detail_place.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_tile/pre_detail_place.tcl",
       "sha256": "e3e295c4eb02b24c438b1fd486bab69dce5c07a2e0ad36830decb0354607f626",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "e3e295c4eb02b24c438b1fd486bab69dce5c07a2e0ad36830decb0354607f626",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_tile/pre_resize_m7.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_tile/pre_resize_m7.tcl",
       "sha256": "145e32d4246fb6bcc69041184d451c32a8e7077fb69d052ea57c114b9b54f263",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "145e32d4246fb6bcc69041184d451c32a8e7077fb69d052ea57c114b9b54f263",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_top/clock_ndr_backbone.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_top/clock_ndr_backbone.tcl",
       "sha256": "f3e20cf629ace835c9a26a7730b01771634d764835df8d40eb2319b26d0c5952",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "f3e20cf629ace835c9a26a7730b01771634d764835df8d40eb2319b26d0c5952",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_top/config.mk",
       "destination": "evaluator/t10_backend/physical/t10_frozen_top/config.mk",
       "sha256": "ac86b20d5f68869bb201c74f55e8e6e8ded8c49c6a050720c548ed523d077d69",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "9029a3ac7ab92410d7d72836b8392ad43b6496c001e74fb77c1904c4ebddeaa9",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_frozen_top/constraint.sdc",
       "destination": "evaluator/t10_backend/physical/t10_frozen_top/constraint.sdc",
       "sha256": "6d3ed56b3ef34c47ab957a9207bc61f68b83d56a0db3cf612b808f4258836d04",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "6d3ed56b3ef34c47ab957a9207bc61f68b83d56a0db3cf612b808f4258836d04",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_top/estimate_clock_repair.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_top/estimate_clock_repair.tcl",
       "sha256": "3e9b368be0302dca6227a7dc5e768924b58f2183be21875190fc96fd42411ccc",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "3e9b368be0302dca6227a7dc5e768924b58f2183be21875190fc96fd42411ccc",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_top/estimate_mapped_cell_only.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_top/estimate_mapped_cell_only.tcl",
       "sha256": "f63abcbb80a15957551595d58ab0b4d4476beee8f9c49f9849691e7fa2301669",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "f63abcbb80a15957551595d58ab0b4d4476beee8f9c49f9849691e7fa2301669",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_top/io.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_top/io.tcl",
       "sha256": "be18cabb8bd91d7ef83c4f6e1c7e45c67047bcadb462a8a1b4f9f65196484f96",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "be18cabb8bd91d7ef83c4f6e1c7e45c67047bcadb462a8a1b4f9f65196484f96",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_top/macro_place.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_top/macro_place.tcl",
       "sha256": "231350f6fcede49dddfa7b9cd158a49e2f256a849a7185cb07bb382b11199874",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "231350f6fcede49dddfa7b9cd158a49e2f256a849a7185cb07bb382b11199874",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_top/pdn.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_top/pdn.tcl",
       "sha256": "fbb18248fe0ac9aa4ea942773fc63fb0eb069de14c219dfcf0ffc2635f37dd20",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "fbb18248fe0ac9aa4ea942773fc63fb0eb069de14c219dfcf0ffc2635f37dd20",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_top/post_global_route_diagnostic.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_top/post_global_route_diagnostic.tcl",
       "sha256": "327ba9547f787cebb48ee828ffeaadac0e054acfb00f1311d7ccc2fe5aee35a1",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "327ba9547f787cebb48ee828ffeaadac0e054acfb00f1311d7ccc2fe5aee35a1",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_top/pre_cts_m6_m7.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_top/pre_cts_m6_m7.tcl",
       "sha256": "45f0c7cdb434aaa9b17ce301c6d43c3187561be1b1e18acda2de4e6efc52077d",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "45f0c7cdb434aaa9b17ce301c6d43c3187561be1b1e18acda2de4e6efc52077d",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_top/pre_detail_place_sparse_rows.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_top/pre_detail_place_sparse_rows.tcl",
       "sha256": "1509cdb3804a020ee6a0973cfa4563b442883ab435b41fac70e098bfd723149e",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "1509cdb3804a020ee6a0973cfa4563b442883ab435b41fac70e098bfd723149e",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_top/pre_global_route_checkpoint.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_top/pre_global_route_checkpoint.tcl",
       "sha256": "e33fdfab68ecda94c2bbf5a743cd6599f8ad6d9c81f14729c543d05a86bf0fdb",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "a3c18ca4d78a1509b6b871d82ec5500124ace8aeab70424d8a4da862d6955442",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_frozen_top/retime_route_checkpoint.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_top/retime_route_checkpoint.tcl",
       "sha256": "99c605c19a0e0341580ad7b6f20a05318b88848fc68bc16bc4c1a04fbb29ed7b",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "fbfadb606db49ab42646b601016cae73c03541e295bd42355004f971a67bf280",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_frozen_top/skip_floorplan_timing_reference.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_top/skip_floorplan_timing_reference.tcl",
       "sha256": "69b513358304f1a73c92940632976141bc7ab8d8f4fc741ef2c8efee5c827587",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "69b513358304f1a73c92940632976141bc7ab8d8f4fc741ef2c8efee5c827587",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_top/skip_resize_reference.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_top/skip_resize_reference.tcl",
       "sha256": "61d9e03a84f1e49e80a4d858a33cc4bbe05cfd1630cd53cb2d5ca2c97b85af0a",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "7ce2c824c0bee92347ae5cbd1d7cf320552ddc4085c318365c28bd104689ce00",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_frozen_top/tapcell_reference.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_top/tapcell_reference.tcl",
       "sha256": "1dce115993af5daf60abaf8ef37dbb945eb0848e3779297594bca18633bd8056",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "1dce115993af5daf60abaf8ef37dbb945eb0848e3779297594bca18633bd8056",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_frozen_top/top_shell_regions.tcl",
       "destination": "evaluator/t10_backend/physical/t10_frozen_top/top_shell_regions.tcl",
       "sha256": "a32516343931c4184b58d12bed9b443d8b0639135fbef83f32669dff8448fba5",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "a32516343931c4184b58d12bed9b443d8b0639135fbef83f32669dff8448fba5",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_full_dut_path_audit.tcl",
       "destination": "evaluator/t10_backend/physical/t10_full_dut_path_audit.tcl",
       "sha256": "c4adff54dd2b4688f2a3b8e29a6e71c52d64036cfa169c5df02efedc1ad500de",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "c4adff54dd2b4688f2a3b8e29a6e71c52d64036cfa169c5df02efedc1ad500de",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_full_top_geometry_census.py",
       "destination": "evaluator/t10_backend/physical/t10_full_top_geometry_census.py",
       "sha256": "65d205f8eee68440858e1a4c0e2222cc4a8d3a726f9b71d08449b900271b01f2",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "65d205f8eee68440858e1a4c0e2222cc4a8d3a726f9b71d08449b900271b01f2",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_generate_macro_corner.tcl",
       "destination": "evaluator/t10_backend/physical/t10_generate_macro_corner.tcl",
       "sha256": "19f27446d1daca9920b2f23d68aac48ba93d886d9a3565393cc209908252d4fa",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "19f27446d1daca9920b2f23d68aac48ba93d886d9a3565393cc209908252d4fa",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_has_active_openroad.sh",
       "destination": "evaluator/t10_backend/physical/t10_has_active_openroad.sh",
       "sha256": "34fe92296eb6aa18d72724700725d583561b147e03035b7ea4b164f3f5344415",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "b10f8d4e5b21d52855ec2bf8a975a1301f6c2a890a3f07a8f90fddb4967f192a",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_localize_gather_combinational.py",
       "destination": "evaluator/t10_backend/physical/t10_localize_gather_combinational.py",
       "sha256": "46cc88e6e974a31f12a4b934eed94744224df9207479006bd9a4c535cf3be2bd",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "46cc88e6e974a31f12a4b934eed94744224df9207479006bd9a4c535cf3be2bd",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_make_asap7_manifest.py",
       "destination": "evaluator/t10_backend/physical/t10_make_asap7_manifest.py",
       "sha256": "52ac13a7001db5d0aa8e0b277cfff1b2c456a239726a4fda9d19a7d973abbae4",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "52ac13a7001db5d0aa8e0b277cfff1b2c456a239726a4fda9d19a7d973abbae4",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_make_distributed_output_candidate.py",
       "destination": "evaluator/t10_backend/physical/t10_make_distributed_output_candidate.py",
       "sha256": "5f7f1db416b54d24b46aba90ee69571e857a442591de7f8147573f56681e7c24",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "5f7f1db416b54d24b46aba90ee69571e857a442591de7f8147573f56681e7c24",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_make_finalsink38_place_hook.py",
       "destination": "evaluator/t10_backend/physical/t10_make_finalsink38_place_hook.py",
       "sha256": "a2db30a7971ec095f4f5b7879ae18f0f10ba7719c754e33bed3ea4d599c39f7e",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "a2db30a7971ec095f4f5b7879ae18f0f10ba7719c754e33bed3ea4d599c39f7e",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_make_gather_transport_candidate.py",
       "destination": "evaluator/t10_backend/physical/t10_make_gather_transport_candidate.py",
       "sha256": "588c90ee521f9f668ba11b1d28c0d67a5145ec37bee694fe77081002f5d0bc10",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "588c90ee521f9f668ba11b1d28c0d67a5145ec37bee694fe77081002f5d0bc10",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_make_hierarchical_drc_views.py",
       "destination": "evaluator/t10_backend/physical/t10_make_hierarchical_drc_views.py",
       "sha256": "732422123423c06ee328dbcb2374738427c53076366aac17b312c2ef84d1e160",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "732422123423c06ee328dbcb2374738427c53076366aac17b312c2ef84d1e160",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_make_level_evidence.py",
       "destination": "evaluator/t10_backend/physical/t10_make_level_evidence.py",
       "sha256": "aa7d5e969762cc414484863d0bc4016efbd5f7956da3b9f4c9eece8824930b2f",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "aa7d5e969762cc414484863d0bc4016efbd5f7956da3b9f4c9eece8824930b2f",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_make_macro_evidence.py",
       "destination": "evaluator/t10_backend/physical/t10_make_macro_evidence.py",
       "sha256": "b0a8dbab0dd6078a869a1de96e3275db1110d3fbfba0db2b572f21a8635e8d0c",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "b0a8dbab0dd6078a869a1de96e3275db1110d3fbfba0db2b572f21a8635e8d0c",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_merge_def_gds.py",
       "destination": "evaluator/t10_backend/physical/t10_merge_def_gds.py",
       "sha256": "01d6aa9dad93ef04ea021dff8c6ca1626d9188d775f2dd94dbc39e889a6d9ecd",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "01d6aa9dad93ef04ea021dff8c6ca1626d9188d775f2dd94dbc39e889a6d9ecd",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_merge_lef_pg_pins.py",
       "destination": "evaluator/t10_backend/physical/t10_merge_lef_pg_pins.py",
       "sha256": "cdeb42b9bf68809eb1df3720d1762ec138fa70258ef131737717959994ab682c",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "cdeb42b9bf68809eb1df3720d1762ec138fa70258ef131737717959994ab682c",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_parse_klayout_drc.py",
       "destination": "evaluator/t10_backend/physical/t10_parse_klayout_drc.py",
       "sha256": "bf15c3873e748640c1e79ae492d101b1e8e2d127945c0aa279967f67adfffcfc",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "bf15c3873e748640c1e79ae492d101b1e8e2d127945c0aa279967f67adfffcfc",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_partition_pe_parallel_clock.py",
       "destination": "evaluator/t10_backend/physical/t10_partition_pe_parallel_clock.py",
       "sha256": "796776c3af26c4fddadb284285a5c63e7b2367897578032eba24fbc8c168d435",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "796776c3af26c4fddadb284285a5c63e7b2367897578032eba24fbc8c168d435",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_patch_cluster01_wire_opcodes.cc",
       "destination": "evaluator/t10_backend/physical/t10_patch_cluster01_wire_opcodes.cc",
       "sha256": "f60b1fa9393783eaea26a95878f40bf8a56d2356eb4d3972e38b8fdd3dc71957",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "f60b1fa9393783eaea26a95878f40bf8a56d2356eb4d3972e38b8fdd3dc71957",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_patch_cluster02_wire_opcodes.cc",
       "destination": "evaluator/t10_backend/physical/t10_patch_cluster02_wire_opcodes.cc",
       "sha256": "b73ce2a8b45f4c414e16cc54d58a760d32d2ea4d129283bac0b2def6efc3237d",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "b73ce2a8b45f4c414e16cc54d58a760d32d2ea4d129283bac0b2def6efc3237d",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_patch_cluster03b_wire_opcodes.cc",
       "destination": "evaluator/t10_backend/physical/t10_patch_cluster03b_wire_opcodes.cc",
       "sha256": "133d7ab2057a5e58548f7064774d1125a5b1106976ac3216637d3228c6cdf7b4",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "133d7ab2057a5e58548f7064774d1125a5b1106976ac3216637d3228c6cdf7b4",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_patch_cluster04_wire_opcodes.cc",
       "destination": "evaluator/t10_backend/physical/t10_patch_cluster04_wire_opcodes.cc",
       "sha256": "bedc5a182329beb2d5421ce1327c0556eeb00749f6906ddaed0664dac531efae",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "bedc5a182329beb2d5421ce1327c0556eeb00749f6906ddaed0664dac531efae",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_patch_cluster07_wire_opcodes.cc",
       "destination": "evaluator/t10_backend/physical/t10_patch_cluster07_wire_opcodes.cc",
       "sha256": "7dba242fc70fdbe84f13795fad91551d13d21da43725e42915571a48be1bb27b",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "7dba242fc70fdbe84f13795fad91551d13d21da43725e42915571a48be1bb27b",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_patch_cluster10_wire_opcodes.cc",
       "destination": "evaluator/t10_backend/physical/t10_patch_cluster10_wire_opcodes.cc",
       "sha256": "f67449e77f297b98e9ceb7d128ec0a7c7a6ea461338140d63929bfeb2cfd2ae7",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "f67449e77f297b98e9ceb7d128ec0a7c7a6ea461338140d63929bfeb2cfd2ae7",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_patch_cluster12_wire_opcodes.cc",
       "destination": "evaluator/t10_backend/physical/t10_patch_cluster12_wire_opcodes.cc",
       "sha256": "e3b5419daa647f561984e2b6c1b5abed354ef547fb8aa29a9a9bbcfe0b637e74",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "e3b5419daa647f561984e2b6c1b5abed354ef547fb8aa29a9a9bbcfe0b637e74",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_patch_cluster13_wire_opcodes.cc",
       "destination": "evaluator/t10_backend/physical/t10_patch_cluster13_wire_opcodes.cc",
       "sha256": "60fe298cc410c22ef25986cfad9b8454d58ebcdaafb535b4082ac120556014eb",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "60fe298cc410c22ef25986cfad9b8454d58ebcdaafb535b4082ac120556014eb",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_patch_cluster14_wire_opcodes.cc",
       "destination": "evaluator/t10_backend/physical/t10_patch_cluster14_wire_opcodes.cc",
       "sha256": "f9fde94b86c499b98bf0d97b8c30732714c86318cedbb30d556554e4f0c0b963",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "f9fde94b86c499b98bf0d97b8c30732714c86318cedbb30d556554e4f0c0b963",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_patch_cluster15_wire_opcodes.cc",
       "destination": "evaluator/t10_backend/physical/t10_patch_cluster15_wire_opcodes.cc",
       "sha256": "3c5d04601c2974c55c18a955391490b5efea2b0ac500cf67e1920df69482a9f9",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "3c5d04601c2974c55c18a955391490b5efea2b0ac500cf67e1920df69482a9f9",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_patch_cluster23_wire_opcodes.cc",
       "destination": "evaluator/t10_backend/physical/t10_patch_cluster23_wire_opcodes.cc",
       "sha256": "028ae88c73386e03d210c6aed5518d401f2c7a7664c96efe5cee92d7cbef7192",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "028ae88c73386e03d210c6aed5518d401f2c7a7664c96efe5cee92d7cbef7192",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_pe_forwarding_regions.tcl",
       "destination": "evaluator/t10_backend/physical/t10_pe_forwarding_regions.tcl",
       "sha256": "5e1e7e03c86a57243dcbae24321be3d89ce4e47c8d6bdb8d6b23738faa98b5f3",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "73f4a58e758c9cd9374813fae6c983b23009acd5b642c7ce15c48129630d7f85",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_pe_mcmm_signoff.tcl",
       "destination": "evaluator/t10_backend/physical/t10_pe_mcmm_signoff.tcl",
       "sha256": "754c3ad2856d36b7acfc3e30dfbe727bcece65b328dedcf68a144253bf674338",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "754c3ad2856d36b7acfc3e30dfbe727bcece65b328dedcf68a144253bf674338",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_pe_pin_escape_hard_plus_blockages.tcl",
       "destination": "evaluator/t10_backend/physical/t10_pe_pin_escape_hard_plus_blockages.tcl",
       "sha256": "7d0456c8252a20834f6300dc08ed4bcc26cefebafb5f285db18c49caae378ebf",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "7d0456c8252a20834f6300dc08ed4bcc26cefebafb5f285db18c49caae378ebf",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_pe_pin_escape_soft_blockages.tcl",
       "destination": "evaluator/t10_backend/physical/t10_pe_pin_escape_soft_blockages.tcl",
       "sha256": "022dd4cde7cb1eadcc0e5b075fd40c5f26904bece260ff338810b52d26dea8fd",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "022dd4cde7cb1eadcc0e5b075fd40c5f26904bece260ff338810b52d26dea8fd",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_pe_pin_escape_soft_plus_blockages.tcl",
       "destination": "evaluator/t10_backend/physical/t10_pe_pin_escape_soft_plus_blockages.tcl",
       "sha256": "961cb163ba3de145a1aae2ff8ac98b393d2b81a4f53d5f96c2d68d2c158dd54c",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "961cb163ba3de145a1aae2ff8ac98b393d2b81a4f53d5f96c2d68d2c158dd54c",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_pe_post_grt_hold_repair.tcl",
       "destination": "evaluator/t10_backend/physical/t10_pe_post_grt_hold_repair.tcl",
       "sha256": "65e3e3a46c3a134242d15a25e841829673133bb4387f14142b81384746f80b2a",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "65e3e3a46c3a134242d15a25e841829673133bb4387f14142b81384746f80b2a",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_pe_post_pdn_four_vss_bridges.tcl",
       "destination": "evaluator/t10_backend/physical/t10_pe_post_pdn_four_vss_bridges.tcl",
       "sha256": "c10d5122683625b930332116075f14447d7dd306ecc18d32f4c0681cda037485",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "c10d5122683625b930332116075f14447d7dd306ecc18d32f4c0681cda037485",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_pe_pre_grt_hold_repair.tcl",
       "destination": "evaluator/t10_backend/physical/t10_pe_pre_grt_hold_repair.tcl",
       "sha256": "b46208a710a278375f3a660fb70704d76abbf044f47bd9e182f6045438beff6f",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "b46208a710a278375f3a660fb70704d76abbf044f47bd9e182f6045438beff6f",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_pe_u24_macro_place.tcl",
       "destination": "evaluator/t10_backend/physical/t10_pe_u24_macro_place.tcl",
       "sha256": "2b237a95c5d7f2ed716a1e98b5e6164d25d11b2b2df294f2f3a95b16760dced7",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "2b237a95c5d7f2ed716a1e98b5e6164d25d11b2b2df294f2f3a95b16760dced7",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_place_boundary_registers.py",
       "destination": "evaluator/t10_backend/physical/t10_place_boundary_registers.py",
       "sha256": "25ad88a0053d3b5d5cac94b6183ee6bef60a65af574a1ecc7f6029def162e66c",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "25ad88a0053d3b5d5cac94b6183ee6bef60a65af574a1ecc7f6029def162e66c",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_place_top_port_buffers.py",
       "destination": "evaluator/t10_backend/physical/t10_place_top_port_buffers.py",
       "sha256": "2637c4ee7ae8e257327a1278b62528c9af9c18ed04872b36d03f6e3d8d00cbc3",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "2637c4ee7ae8e257327a1278b62528c9af9c18ed04872b36d03f6e3d8d00cbc3",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_place_transport_spatial.py",
       "destination": "evaluator/t10_backend/physical/t10_place_transport_spatial.py",
       "sha256": "532270b45591d420d798de619a3b63fdd67f881adc7edf2079eef02950a96203",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "532270b45591d420d798de619a3b63fdd67f881adc7edf2079eef02950a96203",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_popcount_top_eco.py",
       "destination": "evaluator/t10_backend/physical/t10_popcount_top_eco.py",
       "sha256": "72298dc0205cc2edabc6ae76f5b89211db25754e0dce95afa17c5b9d3dc40b1b",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "57954bb6223415b079918d4e1ac83b94b0667a4f055f7d0110610adce68ab192",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_prepare_klayout_deck.py",
       "destination": "evaluator/t10_backend/physical/t10_prepare_klayout_deck.py",
       "sha256": "b1fd49bc9fff7399f9b6be5f98769fcf4ace25bb77477f25eca6dc18a9ac2e69",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "b1fd49bc9fff7399f9b6be5f98769fcf4ace25bb77477f25eca6dc18a9ac2e69",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_probe_global_route.tcl",
       "destination": "evaluator/t10_backend/physical/t10_probe_global_route.tcl",
       "sha256": "7b9864e9d61eb4385c14ea440d180fad384f18ef19e90ff07d8bdb8b5ba32861",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "7b9864e9d61eb4385c14ea440d180fad384f18ef19e90ff07d8bdb8b5ba32861",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_promote_hier_clock_pin.tcl",
       "destination": "evaluator/t10_backend/physical/t10_promote_hier_clock_pin.tcl",
       "sha256": "d1c7edb3ea696c841aa624bac9e48ad138eaab7311746383e07e64200667d9ae",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "d1c7edb3ea696c841aa624bac9e48ad138eaab7311746383e07e64200667d9ae",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_qualify_transport_candidate.py",
       "destination": "evaluator/t10_backend/physical/t10_qualify_transport_candidate.py",
       "sha256": "ddccd063e6e2d8761321d0583394aeb139d21164ae36423694cfae6b7392c9ec",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "7d7a2b4fa6019cfef88249c11dcd359aaaf1ae8321fb99e1447d6663311aaff5",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_record_route_checkpoint.py",
       "destination": "evaluator/t10_backend/physical/t10_record_route_checkpoint.py",
       "sha256": "c40a548db6975baab3206edf4759c591c3446ab399a92bfb29a512f270964a16",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "c40a548db6975baab3206edf4759c591c3446ab399a92bfb29a512f270964a16",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_refine_edge_obstructions.py",
       "destination": "evaluator/t10_backend/physical/t10_refine_edge_obstructions.py",
       "sha256": "b74dbbd947227a214c5c0d6477f0f541d76c83671b5d2415d298a9844366874b",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "b74dbbd947227a214c5c0d6477f0f541d76c83671b5d2415d298a9844366874b",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_rename_gds_cell.py",
       "destination": "evaluator/t10_backend/physical/t10_rename_gds_cell.py",
       "sha256": "36cb8bf9e318da72c1f155e0272b6a3e11eaea2aa2207589584ea6db17e29fac",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "36cb8bf9e318da72c1f155e0272b6a3e11eaea2aa2207589584ea6db17e29fac",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_rename_liberty_model.py",
       "destination": "evaluator/t10_backend/physical/t10_rename_liberty_model.py",
       "sha256": "b234d275d05ca9d70e0374f62a5fe52316dfdbb4e03092089553a4f5fb06abab",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "b234d275d05ca9d70e0374f62a5fe52316dfdbb4e03092089553a4f5fb06abab",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_repair_frozen_cpa_setup.tcl",
       "destination": "evaluator/t10_backend/physical/t10_repair_frozen_cpa_setup.tcl",
       "sha256": "0b0fd9fff94fc7b3abd483270b07e3570637ae76ee51c5d9c640372ad8ecbb9a",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "21783f41a5c4b04fbc5defe1c545d94c5f259ff9fa06a3982fc03a4d46047e89",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_repair_top_clock_channels.py",
       "destination": "evaluator/t10_backend/physical/t10_repair_top_clock_channels.py",
       "sha256": "c64c69fc534a60b2b260f052f6c454861c7630e0e4efa4e775cd6a15bc0f5d5b",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "c64c69fc534a60b2b260f052f6c454861c7630e0e4efa4e775cd6a15bc0f5d5b",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_repair_top_data_controls.py",
       "destination": "evaluator/t10_backend/physical/t10_repair_top_data_controls.py",
       "sha256": "133497293537e620bdc295b9671bebfda12a77989e9c02cbb0d4f0f8b3db8ab3",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "133497293537e620bdc295b9671bebfda12a77989e9c02cbb0d4f0f8b3db8ab3",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_resume_pe_route.tcl",
       "destination": "evaluator/t10_backend/physical/t10_resume_pe_route.tcl",
       "sha256": "7b6455b7273f8021b8f3b1549516ff8d18845fac687381e764b220be6a304774",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "7b6455b7273f8021b8f3b1549516ff8d18845fac687381e764b220be6a304774",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_route_repaired_cpa.tcl",
       "destination": "evaluator/t10_backend/physical/t10_route_repaired_cpa.tcl",
       "sha256": "f684aa063300b44258b64459df416a179ed29d5421b586d565ac5cf35b82cc9d",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "81bf322f672543c99ef0aebf3e5f442c16b58f7e43c2f323c2dfc09120c7823a",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_run_klayout_drc.sh",
       "destination": "evaluator/t10_backend/physical/t10_run_klayout_drc.sh",
       "sha256": "bb109df8f6c4e952d30bd1b37763ed2810e0def8a968fcd5e50a01f61c7411d4",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "f6e78792b2c1afae8d6f7da4c422e311415c6175c2a2f5905b54a42f6c795642",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_run_openroad_guarded.sh",
       "destination": "evaluator/t10_backend/physical/t10_run_openroad_guarded.sh",
       "sha256": "09e06a6c274ad8383a32ec7e5a0758d3c9fbf49eaa16a93689995449d3593b36",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "eb9715cc13ceed3ed7296e72a1aeb899d8d939a852bd1d425bf5ce96b3f24741",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_run_openroad_signoff.sh",
       "destination": "evaluator/t10_backend/physical/t10_run_openroad_signoff.sh",
       "sha256": "327ade94655b3d60bc56036846342850207a17f83eb089a54b193dca12bfb550",
-      "mode": "100755"
+      "mode": "100755",
+      "current_sha256": "e2b6232d0b623da08b7273b4a160b8524cc30ebf90f25a66005be4804153baa6",
+      "modified_for_relocation": true
     },
     {
       "source": "physical/t10_sparse_channel_legalize.py",
       "destination": "evaluator/t10_backend/physical/t10_sparse_channel_legalize.py",
       "sha256": "99d7d7b446d9c460238597fcece62ec6ef898466828f22a1a716dbd2808988fe",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "99d7d7b446d9c460238597fcece62ec6ef898466828f22a1a716dbd2808988fe",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_sparse_check.py",
       "destination": "evaluator/t10_backend/physical/t10_sparse_check.py",
       "sha256": "1f494bff5128c8a680b6f88cf29890d4a7fc75e9b2ae298c842c916b2755be0a",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "1f494bff5128c8a680b6f88cf29890d4a7fc75e9b2ae298c842c916b2755be0a",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_sparse_legalize.py",
       "destination": "evaluator/t10_backend/physical/t10_sparse_legalize.py",
       "sha256": "938dc1290a8d7d6b28e0166c888f76037581fc8919982863f1cf7525149e4f48",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "938dc1290a8d7d6b28e0166c888f76037581fc8919982863f1cf7525149e4f48",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_spread_output_repeaters.py",
       "destination": "evaluator/t10_backend/physical/t10_spread_output_repeaters.py",
       "sha256": "5a4de0343d33207d45baf3c38e831357bbbe6d6f7bd5627a489baad24cb52ede",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "5a4de0343d33207d45baf3c38e831357bbbe6d6f7bd5627a489baad24cb52ede",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_summarize_top_paths.py",
       "destination": "evaluator/t10_backend/physical/t10_summarize_top_paths.py",
       "sha256": "c97b70aa327b78321cbca8341b1197db9bb73b7ee45b0e7c4ae9f9643ae8ac30",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "c97b70aa327b78321cbca8341b1197db9bb73b7ee45b0e7c4ae9f9643ae8ac30",
+      "modified_for_relocation": false
     },
     {
       "source": "physical/t10_validate_top_placement.tcl",
       "destination": "evaluator/t10_backend/physical/t10_validate_top_placement.tcl",
       "sha256": "fd82253b823e844068fb5c619a342607bc42b0e75291f4dfe02bed2848911ea9",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "fd82253b823e844068fb5c619a342607bc42b0e75291f4dfe02bed2848911ea9",
+      "modified_for_relocation": false
     },
     {
       "source": "refs/T10/rtl/files.f",
       "destination": "evaluator/reference/T10/rtl/files.f",
       "sha256": "8ffa4b5e1bdbead2fd7a99dccfb169562cf0e1f7dfecaa3d7bd1426dd03c441a",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "8ffa4b5e1bdbead2fd7a99dccfb169562cf0e1f7dfecaa3d7bd1426dd03c441a",
+      "modified_for_relocation": false
     },
     {
       "source": "refs/T10/rtl/npu_systolic_matmul_16x16.sv",
       "destination": "evaluator/reference/T10/rtl/npu_systolic_matmul_16x16.sv",
       "sha256": "0c7646d7019e45477582faba0605f1c3ba557810a61cb617844aeeb24b632622",
-      "mode": "100644"
+      "mode": "100644",
+      "current_sha256": "0c7646d7019e45477582faba0605f1c3ba557810a61cb617844aeeb24b632622",
+      "modified_for_relocation": false
+    },
+    {
+      "source": "t10_ppa_qualify.py",
+      "destination": "evaluator/t10_backend/physical/t10_ppa_qualify.py",
+      "sha256": "0b71a8aca486934669294de8de81ea86d680580c3e4466ee98c721afcd80b614",
+      "mode": "100644",
+      "current_sha256": "0b71a8aca486934669294de8de81ea86d680580c3e4466ee98c721afcd80b614",
+      "modified_for_relocation": false
     }
-  ]
+  ],
+  "support_files": [
+    {
+      "destination": "evaluator/t10_backend/env.sh",
+      "sha256": "9842e9cef6029668fb2f5bbf73e7f1edf215bbe0deb734aad87821b9c6770131"
+    },
+    {
+      "destination": "evaluator/t10_backend/config.mk",
+      "sha256": "974f33acab5f6f3fcf658a6bbf6f11e664c7563c52b9128ede1a406514720722"
+    },
+    {
+      "destination": "evaluator/t10_backend/doctor.py",
+      "sha256": "6790152a294ca9e9a3b52c208b5cd137a8b6f1f4cdfbc950c3a7c028332a9658"
+    },
+    {
+      "destination": "evaluator/t10_backend/test_portability.py",
+      "sha256": "39144979a3e3f232e7c5d09aa05bfd737202d7755bfa609c0dc3c936101e5d22"
+    },
+    {
+      "destination": "evaluator/t10_backend/physical/t10_paths.py",
+      "sha256": "8470224064f5e38c98ce6154284084fe0882232b6c33a88cf302309b2b4eee87"
+    }
+  ],
+  "runtime_host_paths_removed": true,
+  "reproduction_requirements": [
+    "installed EDA toolchain and locked ORFS checkout",
+    "generated macro models/checkpoints and matching historical qualification receipts",
+    "independent T10 streaming evaluator package for functional qualification helpers"
+  ],
+  "verification": {
+    "relocation_tests_passed": 5,
+    "python_bash_syntax_checked": true,
+    "tcl_script_completeness_checked": true,
+    "ppa_dependency_doctor_passed": true,
+    "physical_flow_rerun": false
+  }
 }

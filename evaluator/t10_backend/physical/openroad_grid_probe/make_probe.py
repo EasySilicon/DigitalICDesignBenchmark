@@ -16,15 +16,17 @@ import struct
 import urllib.request
 
 ORIGINAL_SHA = "fcd7dcfc37d329bd43a7ede75805319a2e70e6879da11d42b4fd1c2e50e645c3"
-PREFIX = Path("/home/reefshark/.local/share/openroad-26Q2-1164-g08f67ee5ec")
 SOURCE_URL = "https://raw.githubusercontent.com/The-OpenROAD-Project/OpenROAD/08f67ee5ec/src/odb/src/db/dbBlock.cpp"
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("output", type=Path)
+    ap.add_argument("--openroad-prefix", type=Path, required=True,
+                    help="unpacked, hash-matching OpenROAD installation prefix")
     args = ap.parse_args()
-    original = PREFIX / "usr/bin/openroad"
+    prefix = args.openroad_prefix.expanduser().resolve()
+    original = prefix / "usr/bin/openroad"
     data = original.read_bytes()
     if hashlib.sha256(data).hexdigest() != ORIGINAL_SHA:
         raise SystemExit("unrecognized original executable; refusing to patch")
@@ -69,7 +71,7 @@ def main():
     executable.write_bytes(patched)
     executable.chmod(0o755)
     wrapper = args.output / "openroad"
-    dependency_paths = f"{PREFIX}/opt/or-tools/lib:{PREFIX}/usr/lib/x86_64-linux-gnu"
+    dependency_paths = f"{prefix}/opt/or-tools/lib:{prefix}/usr/lib/x86_64-linux-gnu"
     wrapper.write_text("#!/usr/bin/env bash\nset -euo pipefail\n"
                        f"export LD_LIBRARY_PATH={shlex.quote(dependency_paths)}"
                        '${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}\n'

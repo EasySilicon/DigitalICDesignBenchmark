@@ -8,6 +8,8 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import os
+from t10_paths import scratch_root
 
 
 def snapshot(block, excluded_pin):
@@ -29,8 +31,11 @@ def main():
     p.add_argument("input_odb")
     p.add_argument("output_odb")
     p.add_argument("report_json")
+    p.add_argument("--qualification-root", type=Path,
+                   default=Path(os.environ.get("T10_POPCOUNT_QUALIFICATION_ROOT",
+                                              str(scratch_root() / 't10_qualification/v65_popcount'))))
     args=p.parse_args()
-    qualification=Path('/mnt/ubu_3T/ic_bcmk_scratch/t10_qualification/v65_popcount')
+    qualification=args.qualification_root.expanduser().resolve()
     qbytes=(qualification/'qualification.json').read_bytes()
     assert hashlib.sha256(qbytes).hexdigest()=='c56b3c71801207bb17c925cc6abbb846db2dd3c06b807494d2d83070f02889a8'
     q=json.loads(qbytes)

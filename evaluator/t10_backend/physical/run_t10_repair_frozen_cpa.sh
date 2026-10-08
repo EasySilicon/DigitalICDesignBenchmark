@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)/env.sh"
 set -euo pipefail
+t10_init_scratch
 
-repo=/home/reefshark/research/agent_os/ic_bcmk_eval_private
+repo=${T10_BACKEND_ROOT}
 seed=${T10_LAYOUT_SEED:-11}
-source_root=/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_frozen_cpa_postprocess_exact_v2_m7_wc_p1000_seed${seed}
-scratch=${T10_SCRATCH_ROOT:-/mnt/ubu_3T/ic_bcmk_scratch/t10_frozen_cpa_postprocess/repair_seed${seed}}
-openroad=${T10_OPENROAD:-/home/reefshark/.local/bin/openroad}
+source_root=${T10_ORFS_ROOT}/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_frozen_cpa_postprocess_exact_v2_m7_wc_p1000_seed${seed}
+scratch=${T10_SCRATCH_ROOT:-${T10_SCRATCH_ROOT}/t10_frozen_cpa_postprocess/repair_seed${seed}}
+openroad=${T10_OPENROAD:-"${T10_OPENROAD_EXE}"}
 mkdir -p "$scratch"
 
 source "$repo/physical/t10_acquire_openroad_slot.sh"
-for path in "$source_root/4_cts.odb" "$source_root/4_cts.sdc"; do test -s "$path"; done
+for path in "$source_root/4_cts.odb" "$source_root/4_cts.sdc"; do t10_require_file "$path"; done
 
 export T10_INPUT_ODB="$source_root/4_cts.odb"
 export T10_INPUT_SDC="$source_root/4_cts.sdc"

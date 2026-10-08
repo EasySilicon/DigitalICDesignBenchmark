@@ -1,7 +1,11 @@
+ifndef T10_BACKEND_ROOT
+T10_BACKEND_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../..)
+endif
+include $(T10_BACKEND_ROOT)/config.mk
 export PLATFORM = asap7
 export DESIGN_NAME = t10_reference_cpa_postprocess
-export VERILOG_FILES = /home/reefshark/research/agent_os/ic_bcmk_eval_private/refs/T10/rtl/npu_systolic_matmul_16x16.sv
-export SDC_FILE = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_cpa_postprocess/constraint.sdc
+export VERILOG_FILES = $(T10_REFERENCE_RTL)
+export SDC_FILE = $(T10_BACKEND_ROOT)/physical/t10_frozen_cpa_postprocess/constraint.sdc
 export CORE_UTILIZATION = 42
 export CORE_ASPECT_RATIO = 1
 export CORE_MARGIN = 0.5
@@ -13,8 +17,8 @@ export GPL_ROUTABILITY_DRIVEN = 0
 export SYNTH_BLACKBOXES =
 export ADDITIONAL_LEFS =
 export ADDITIONAL_LIBS =
-export PDN_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_int_group/pdn.tcl
-export PRE_CTS_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_int_group/pre_cts_m6_m7.tcl
+export PDN_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_int_group/pdn.tcl
+export PRE_CTS_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_int_group/pre_cts_m6_m7.tcl
 export IO_PLACER_H = M6
 export MAX_ROUTING_LAYER = M7
 export MIN_CLK_ROUTING_LAYER = M6

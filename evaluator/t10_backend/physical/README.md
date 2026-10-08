@@ -1,3 +1,9 @@
+# Historical T10 physical experiments
+
+Source `../env.sh` (relative to this directory) before running the examples.
+Their artifact names and original hash guards are preserved; use the backend
+[configuration guide](../README.md) for current path defaults and prerequisites.
+
 # T10 sparse legalization experiment
 
 OpenROAD's standard detailed placement and `check_placement` both exceed the
@@ -100,19 +106,19 @@ the hash-bound release record with:
 
 ```sh
 python3 physical/t10_make_asap7_manifest.py \
-  /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/platforms/asap7 \
+  ${T10_ASAP7_PLATFORM} \
   qualification/T10_ASAP7_PLATFORM_MANIFEST.json
 
 python3 physical/t10_assemble_ppa_evidence.py \
-  --evidence-root /mnt/ubu_3T/ic_bcmk_scratch/t10_baseline \
+  --evidence-root ${T10_SCRATCH_ROOT}/t10_baseline \
   --workload-manifest qualification/T10_POWER_WORKLOAD_SEED20260925/manifest.json \
   --hierarchy-report qualification/T10_PPA_HIERARCHY_20261003.json \
   --rtl refs/T10/rtl/npu_systolic_matmul_16x16.sv \
   --filelist refs/T10/rtl/files.f \
   --asap7-manifest qualification/T10_ASAP7_PLATFORM_MANIFEST.json \
-  --orfs-root /mnt/ubu_3T/ic_bcmk_orfs_asap7 \
-  --yosys /home/reefshark/.local/bin/yosys \
-  --openroad /home/reefshark/.local/bin/openroad \
+  --orfs-root ${T10_ORFS_ROOT} \
+  --yosys ${T10_YOSYS_EXE} \
+  --openroad ${T10_OPENROAD_EXE} \
   --output qualification/T10_PPA_BASELINE.json \
   --qualification-output qualification/T10_PPA_BASELINE_GATE.json
 ```

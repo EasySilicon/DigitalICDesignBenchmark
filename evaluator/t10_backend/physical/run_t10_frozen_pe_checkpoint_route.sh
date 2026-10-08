@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)/env.sh"
 set -euo pipefail
+t10_init_scratch
 
-private_root=/home/reefshark/research/agent_os/ic_bcmk_eval_private
-orfs_root=${T10_ORFS_ROOT:-/mnt/ubu_3T/ic_bcmk_orfs_asap7}
+backend_root=${T10_BACKEND_ROOT}
+orfs_root=${T10_ORFS_ROOT}
 seed=${T10_LAYOUT_SEED:-11}
 variant=ic_t10_frozen_pe_exact_v13_macro_sample_m7_wc_p1000_seed${seed}
 result_dir=$orfs_root/flow/results/asap7/t10_reference_pe/$variant
-scratch=${T10_PE_CHECKPOINT_ROOT:-/mnt/ubu_3T/ic_bcmk_scratch/t10_frozen_pe_exact_checkpoint_v11/seed${seed}}
+scratch=${T10_PE_CHECKPOINT_ROOT:-${T10_SCRATCH_ROOT}/t10_frozen_pe_exact_checkpoint_v11/seed${seed}}
 state=$scratch/state.json
-driver=$private_root/physical/t10_frozen_pe_checkpoint_route.tcl
+driver=$backend_root/physical/t10_frozen_pe_checkpoint_route.tcl
 mode=${1:-status}
 vm_limit_gib=${T10_VM_LIMIT_GIB:-30}
 
@@ -57,7 +59,7 @@ if [[ $mode == promote ]]; then
   exit 0
 fi
 
-source "$private_root/physical/t10_acquire_openroad_slot.sh"
+source "$backend_root/physical/t10_acquire_openroad_slot.sh"
 [[ -s $driver ]] || die "missing Tcl driver: $driver"
 
 if [[ $mode == initial ]]; then
@@ -108,7 +110,7 @@ printf 'T10_CHECKPOINT_START stage=%d mode=%s input=%s output=%s log=%s\n' \
   "$stage" "$mode" "$input" "$output" "$log"
 ulimit -v $((vm_limit_gib * 1024 * 1024))
 set +e
-nice -n 10 /usr/bin/time -v /home/reefshark/.local/bin/openroad \
+nice -n 10 /usr/bin/time -v "${T10_OPENROAD_EXE}" \
   -no_init -exit -threads "$T10_THREADS" -no_splash "$driver" >"$log" 2>&1
 rc=$?
 set -e
@@ -124,7 +126,7 @@ printf '0\n' >"$log.exit"
 drvs=$(awk -F= '$1=="drvs" {print $2}' "$status_tmp")
 [[ $drvs =~ ^[0-9]+$ ]] || die "invalid DRC count in $status_tmp"
 
-python3 "$private_root/physical/t10_record_route_checkpoint.py" \
+python3 "$backend_root/physical/t10_record_route_checkpoint.py" \
   --output "$state_tmp" --stage "$stage" --mode "$mode" \
   --iterations "$iterations" --seed "$seed" --drvs "$drvs" \
   --input-odb "$input" --output-odb "$output" --drc-report "$drc" \

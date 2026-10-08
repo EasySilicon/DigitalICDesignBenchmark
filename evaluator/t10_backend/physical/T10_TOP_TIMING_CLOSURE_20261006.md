@@ -84,7 +84,7 @@ v124–v127 已完成相同物理参数验证：完整 DUT pre-CTS setup WNS 为
 hold 为 −363.59 ps。输入类 worst 为 −14106.4756 ps，寄存器类 worst 为
 −13070.7559 ps。相对 v122 全局改善1847.42 ps，但仍严重不满足1 GHz。
 最新报告目录：
-`/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/npu_systolic_matmul_16x16/ic_t10_candidate_top_v127_mask_capture_signals_m7_wc_p1000_seed11/top_path_audit/`。
+`${T10_ORFS_ROOT}/flow/results/asap7/npu_systolic_matmul_16x16/ic_t10_candidate_top_v127_mask_capture_signals_m7_wc_p1000_seed11/top_path_audit/`。
 
 实际最差三条 endpoint 路径（按 setup slack 排序，不把同一家族合并）：
 起点均为 `out_ready`，终点共同前缀为

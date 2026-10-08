@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)/env.sh"
 set -euo pipefail
-private_root=/home/reefshark/research/agent_os/ic_bcmk_eval_private
-orfs_root=${T10_ORFS_ROOT:-/mnt/ubu_3T/ic_bcmk_orfs_asap7}
+t10_init_scratch
+backend_root=${T10_BACKEND_ROOT}
+orfs_root=${T10_ORFS_ROOT}
 seed=${T10_LAYOUT_SEED:-11}
 source_variant=${T10_SOURCE_VARIANT:-ic_t10_frozen_top_v72_tilev54_gcell60_m7_wc_p1000_seed${seed}}
 variant=${T10_FLOW_VARIANT:-ic_t10_frozen_top_v73_tilev54_gcell60_diagnostic_m7_wc_p1000_seed${seed}}
 source_dir=$orfs_root/flow/results/asap7/npu_systolic_matmul_16x16/$source_variant
 result_dir=$orfs_root/flow/results/asap7/npu_systolic_matmul_16x16/$variant
-log_root=/mnt/ubu_3T/ic_bcmk_scratch/t10_frozen_top
-tool_root=/mnt/ubu_3T/ic_bcmk_scratch/t10_tools/openroad_gcell60
-test -s "$source_dir/4_cts_pin_access.odb.sha256"
-test -s "$source_dir/4_cts_pin_access.receipt"
-test -s "$source_dir/4_cts_pin_access.sdc"
+log_root=${T10_SCRATCH_ROOT}/t10_frozen_top
+tool_root=${T10_SCRATCH_ROOT}/t10_tools/openroad_gcell60
+t10_require_file "$source_dir/4_cts_pin_access.odb.sha256"
+t10_require_file "$source_dir/4_cts_pin_access.receipt"
+t10_require_file "$source_dir/4_cts_pin_access.sdc"
 mkdir -p "$result_dir"
 python3 - "$source_dir" "$log_root/${source_variant}_grt_resume.log" "$result_dir" "$tool_root" "${T10_EXPECT_INSTANCE_COUNT:-191281}" <<'PY'
 import hashlib,json,re,sys
@@ -56,7 +58,7 @@ export T10_MIN_AVAILABLE_GIB=80
 export T10_NUM_CORES=2
 ulimit -v 73400320
 set +e
-"$private_root/physical/run_t10_top_grt_probe.sh"
+"$backend_root/physical/run_t10_top_grt_probe.sh"
 status=$?
 set -e
 printf '%s\n' "$status" > "$result_dir/grt_probe.exit"

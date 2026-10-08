@@ -34,7 +34,7 @@ v105 的逐拍记录确认队列正常连续推进；停顿来自顶层等待最
 v107 去掉接口判断中冗余的第二级满状态延迟；原状态寄存器仍保留一级，块内 ingress_open 保证不撤回 ready。
 所有 14 个 phase 的 `input_bubble_phases` 为零。和原参考的 262077 bit 相比，非 PE 状态减少 16633 bit，约 6.35%。
 独立功能 receipt 位于
-`/mnt/ubu_3T/ic_bcmk_scratch/t10_qualification/v107_distributed_credit_stage1/qualification.json`。
+`${T10_SCRATCH_ROOT}/t10_qualification/v107_distributed_credit_stage1/qualification.json`。
 v108 是该候选的完整 DUT 综合/初始 floorplan，v109 是分散输出的空间布局候选；尚未取得 CTS/布线准入证据。
 
 ## 2026-10-06 的完整 DUT 物理结果
@@ -98,7 +98,7 @@ v111 理想时钟、零线寄生的 cell-only 诊断 setup 为 −479.79 ps，ho
 
 v104 的诊断测试是原测试副本，只添加失败拍与首末行延时打印，不改变验收谓词。
 正式 receipt 仍由原始测试产生。诊断证据在
-`/mnt/ubu_3T/ic_bcmk_scratch/t10_qualification/v104_distributed_local_ready/diagnostic_reports/`。
+`${T10_SCRATCH_ROOT}/t10_qualification/v104_distributed_local_ready/diagnostic_reports/`。
 后续不得把数值正确而吞吐失败的版本标为合格，也不得忽略混合流的输入停顿。
 
 ## 物理候选流程

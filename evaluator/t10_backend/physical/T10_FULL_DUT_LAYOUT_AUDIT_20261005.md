@@ -26,7 +26,7 @@
 RC 来源是未修改的 ORFS ASAP7 `setRC.tcl`。M8/M9 出现在平台 RC 表中不意味着时钟使用了它们。
 原生单位检查运行 2.14 秒，峰值 RSS 1104556 KiB，exit 0，确认 16 个 tile。
 
-证据目录：[审计目录](/mnt/ubu_3T/ic_bcmk_scratch/t10_frozen_top/v93_input_configuration_audit)。
+证据目录：[审计目录](${T10_SCRATCH_ROOT}/t10_frozen_top/v93_input_configuration_audit)。
 其中 `units.log` 是原生单位输出，`sta_provenance_check.log` 是原 STA 输入校验，
 `geometry.json` 是逐引脚/寄存器几何记录，`inputs.sha256` 与 `units_inputs.sha256` 固定审计输入。
 
@@ -69,7 +69,7 @@ A 最大 3871.864 µm、B 最大 3690.228 µm 的异常，需独立修复。
 超出约 350 倍。tile 输出负载 790.53 fF 也超过宏模板的最大 92.16 fF。
 这些极端条件下的延迟属于大幅外推，不能解释为可靠的实际硅延迟或最终工作频率。
 
-原始报告：[v93 STA](/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/npu_systolic_matmul_16x16/ic_t10_candidate_top_v93_clean_controls_m7_wc_p1000_seed11/placement_clock_estimate.rpt:990)。
+原始报告：[v93 STA](${T10_ORFS_ROOT}/flow/results/asap7/npu_systolic_matmul_16x16/ic_t10_candidate_top_v93_clean_controls_m7_wc_p1000_seed11/placement_clock_estimate.rpt:990)。
 
 ## 流程失误和后续约束
 

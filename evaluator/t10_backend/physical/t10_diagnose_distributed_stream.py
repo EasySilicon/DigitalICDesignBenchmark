@@ -6,8 +6,8 @@ import json
 import os
 import sys
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-import runner_t10_stream as runner
+from t10_paths import load_qualification_module
+runner = load_qualification_module('runner_t10_stream')
 root = Path(os.environ['T10_DISTRIBUTED_CANDIDATE_ROOT'])
 original_compile = runner.compile_hierarchical
 def diagnostic_compile(command, build):

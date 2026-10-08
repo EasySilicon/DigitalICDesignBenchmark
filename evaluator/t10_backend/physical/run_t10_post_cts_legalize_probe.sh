@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)/env.sh"
 set -euo pipefail
-private_root=/home/reefshark/research/agent_os/ic_bcmk_eval_private
-orfs_root=${T10_ORFS_ROOT:-/mnt/ubu_3T/ic_bcmk_orfs_asap7}
+t10_init_scratch
+backend_root=${T10_BACKEND_ROOT}
+orfs_root=${T10_ORFS_ROOT}
 seed=${T10_LAYOUT_SEED:-11}
 source_version=${T10_SOURCE_VERSION:-70}
 version=${T10_PROBE_VERSION:-71}
@@ -16,10 +18,10 @@ if [[ ! -s $result_dir/4_1_cts_interval_probe.odb ]]; then
   T10_LEGALIZED_ODB_NAME=4_1_cts_interval_probe.odb \
   T10_OUTPUT_SDC_NAME=4_cts.sdc \
   T10_ROW_STRIDE=1 \
-    "$private_root/physical/run_t10_top_sparse_legalize_probe.sh"
+    "$backend_root/physical/run_t10_top_sparse_legalize_probe.sh"
 fi
 T10_FLOW_VARIANT=$variant \
 T10_PLACEMENT_INPUT_ODB=$result_dir/4_1_cts_interval_probe.odb \
 T10_NATIVE_CHECKED_ODB_NAME=4_1_cts_native_checked.odb \
 T10_PLACEMENT_VALIDATED_ODB_NAME=4_1_cts.odb \
-  "$private_root/physical/run_t10_validate_top_placement.sh"
+  "$backend_root/physical/run_t10_validate_top_placement.sh"

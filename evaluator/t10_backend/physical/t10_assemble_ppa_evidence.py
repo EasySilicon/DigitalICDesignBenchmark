@@ -11,8 +11,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-PRIVATE_ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(PRIVATE_ROOT))
 from t10_ppa_qualify import qualify  # noqa: E402
 
 SEEDS = (11, 29, 47)

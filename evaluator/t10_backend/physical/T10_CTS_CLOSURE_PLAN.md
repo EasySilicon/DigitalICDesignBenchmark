@@ -168,7 +168,7 @@ Specific changes and evidence:
   Nine superseded/duplicate ODBs were deleted, freeing 3708346368 allocated
   bytes. Exact v81, v92 and v93 recovery checkpoints, native evidence and
   producer snapshots are retained. Cleanup manifest:
-  `/mnt/ubu_3T/ic_bcmk_scratch/t10_frozen_top/v93_superseded_checkpoint_cleanup.json`.
+  `${T10_SCRATCH_ROOT}/t10_frozen_top/v93_superseded_checkpoint_cleanup.json`.
 
 The v93 LEF footprint census is 100000000 um² of macro footprints plus
 88099.34382 um² of standard cells. The macro figure includes placement
@@ -192,7 +192,7 @@ body, including all tile/PE arithmetic, is byte-identical. Full-DUT acceptance
 passed all 2752 stream cases, mixed backpressure, reset, original 64/80-cycle
 limits, no input bubbles and 256-PE structure. Top state rises from 262077
 to 281961 bits, below the unchanged 306304-bit limit. Candidate source:
-`/mnt/ubu_3T/ic_bcmk_scratch/t10_qualification/v94_gather_transport/rtl/npu_systolic_matmul_16x16.sv`.
+`${T10_SCRATCH_ROOT}/t10_qualification/v94_gather_transport/rtl/npu_systolic_matmul_16x16.sv`.
 SHA-256: `15af9a93cb6c9e0b0eb2ca4d1bccf18c65f51544eb1414969c148be46553052f`.
 It is not yet physically qualified or promoted to the frozen reference.
 
@@ -404,7 +404,7 @@ The detailed record below this section describes earlier experiments.
   states and 44192 transitions. Full-DUT qualification passed 2752 streaming
   cases with mixed backpressure, the reset probe, and 256-PE structure checks.
   Candidate and reports are in
-  `/mnt/ubu_3T/ic_bcmk_scratch/t10_qualification/v65_popcount`.
+  `${T10_SCRATCH_ROOT}/t10_qualification/v65_popcount`.
   It has not replaced the frozen reference or physical source hash above.
 
 Only one T10 OpenROAD process may run. Admit a stage only with at least

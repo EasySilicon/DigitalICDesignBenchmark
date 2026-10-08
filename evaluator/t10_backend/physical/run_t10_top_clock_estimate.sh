@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)/env.sh"
 set -euo pipefail
-private_root=/home/reefshark/research/agent_os/ic_bcmk_eval_private
-orfs_root=/mnt/ubu_3T/ic_bcmk_orfs_asap7
+t10_init_scratch
+backend_root=${T10_BACKEND_ROOT}
+orfs_root=${T10_ORFS_ROOT}
 variant=${T10_FLOW_VARIANT:?name the full-top diagnostic variant}
 timing_mode=${T10_PLACEMENT_TIMING_MODE:-placement}
 case "$timing_mode" in placement|placement_ideal_clocks|cell_only|ideal_clocks_cell_only) ;; *) echo "invalid diagnostic timing mode" >&2; exit 2;; esac
 result_dir=$orfs_root/flow/results/asap7/npu_systolic_matmul_16x16/$variant
-platform=$orfs_root/flow/platforms/asap7
+platform=${T10_ASAP7_PLATFORM}
 input=${T10_CLOCK_ESTIMATE_ODB:-$result_dir/4_cts_clock_repair_pending.odb}
-test -s "$input"
+t10_require_file "$input"
 libs=()
 for pattern in '*_AO_RVT_SS*' '*_INVBUF_RVT_SS*' '*_OA_RVT_SS*' '*_SEQ_RVT_SS*' '*_SIMPLE_RVT_SS*' '*_INVBUF_SLVT_SS*'; do
   while IFS= read -r path; do libs+=("$path"); done < <(find "$platform/lib/NLDM" -maxdepth 1 -name "$pattern" -type f)
@@ -27,11 +29,11 @@ else
 fi
 export T10_CLOCK_ESTIMATE_REPORT=$result_dir/$report_base.rpt
 driver=$result_dir/${report_base}_driver.tcl
-cp "$private_root/physical/t10_frozen_top/estimate_clock_repair.tcl" "$driver"
+cp "$backend_root/physical/t10_frozen_top/estimate_clock_repair.tcl" "$driver"
 sha256sum "$input" "$T10_RETIME_SDC" "$driver" "$T10_RETIME_SETRC" "${libs[@]}" \
   > "$result_dir/${report_base}_inputs.sha256"
-source "$private_root/physical/t10_acquire_openroad_slot.sh"
+source "$backend_root/physical/t10_acquire_openroad_slot.sh"
 ulimit -v 50331648
-/usr/bin/time -v nice -n 10 /home/reefshark/.local/bin/openroad -no_init -exit -threads 2 \
+/usr/bin/time -v nice -n 10 "${T10_OPENROAD_EXE}" -no_init -exit -threads 2 \
   "$driver" \
-  > "/mnt/ubu_3T/ic_bcmk_scratch/t10_frozen_top/${variant}_${report_base}.log" 2>&1
+  > "${T10_SCRATCH_ROOT}/t10_frozen_top/${variant}_${report_base}.log" 2>&1

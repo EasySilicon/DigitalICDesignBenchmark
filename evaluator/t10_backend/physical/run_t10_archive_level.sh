@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)/env.sh"
 set -euo pipefail
+t10_init_scratch
 
 if [[ $# -ne 6 ]]; then
   echo "usage: $0 LEVEL(pe|tile|top) SEED INPUT.odb INPUT.sdc DRC.rpt OUTPUT_PREFIX" >&2
@@ -11,7 +13,7 @@ input_odb=$3
 input_sdc=$4
 drc_report=$5
 output_prefix=$6
-repo=/home/reefshark/research/agent_os/ic_bcmk_eval_private
+repo=${T10_BACKEND_ROOT}
 
 [[ "$level" =~ ^(pe|tile|top)$ ]]
 [[ "$seed" =~ ^(11|29|47)$ ]]

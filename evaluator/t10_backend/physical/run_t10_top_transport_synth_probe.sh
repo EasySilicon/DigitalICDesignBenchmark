@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)/env.sh"
 set -euo pipefail
-private_root=/home/reefshark/research/agent_os/ic_bcmk_eval_private
-orfs_root=/mnt/ubu_3T/ic_bcmk_orfs_asap7
-qualification=${T10_TRANSPORT_QUALIFICATION_ROOT:-/mnt/ubu_3T/ic_bcmk_scratch/t10_qualification/v96_pair_transport}
+t10_init_scratch
+backend_root=${T10_BACKEND_ROOT}
+orfs_root=${T10_ORFS_ROOT}
+qualification=${T10_TRANSPORT_QUALIFICATION_ROOT:-${T10_SCRATCH_ROOT}/t10_qualification/v96_pair_transport}
 candidate=$qualification/rtl/npu_systolic_matmul_16x16.sv
 variant=${T10_FLOW_VARIANT:-ic_t10_candidate_top_v97_pair_transport_synth_m7_wc_p1000_seed11}
 result_dir=$orfs_root/flow/results/asap7/npu_systolic_matmul_16x16/$variant
-log=/mnt/ubu_3T/ic_bcmk_scratch/t10_frozen_top/${variant}_synthesis.log
+log=${T10_SCRATCH_ROOT}/t10_frozen_top/${variant}_synthesis.log
 mkdir -p "$result_dir"
-python3 - "$private_root/refs/T10/rtl/npu_systolic_matmul_16x16.sv" "$qualification" "$result_dir" <<'PY'
+python3 - "${T10_REFERENCE_RTL}" "$qualification" "$result_dir" <<'PY'
 import hashlib,json,sys
 from pathlib import Path
 reference,q,result=map(Path,sys.argv[1:])
@@ -47,17 +49,17 @@ export T10_LAYOUT_SEED=11
 tile_dir=$orfs_root/flow/results/asap7/t10_reference_tile_4x4/ic_t10_frozen_tile_v54_onehot_slvtclk_wideclk_grt_m7_wc_p1000_seed11
 export T10_TILE_LEF=$tile_dir/t10_reference_tile_4x4_m7.lef
 export T10_TILE_LIB=$tile_dir/t10_reference_tile_4x4_wc.lib
-test -s "$T10_TILE_LEF"
-test -s "$T10_TILE_LIB"
-sha256sum "$candidate" "$private_root/physical/t10_frozen_top/config.mk" \
+t10_require_file "$T10_TILE_LEF"
+t10_require_file "$T10_TILE_LIB"
+sha256sum "$candidate" "$backend_root/physical/t10_frozen_top/config.mk" \
   "$T10_TILE_LEF" "$T10_TILE_LIB" "$qualification/qualification.json" \
   > "$result_dir/synthesis_inputs.sha256"
 ulimit -v 8388608
 cd "$orfs_root/flow"
-nice -n 10 make DESIGN_CONFIG="$private_root/physical/t10_frozen_top/config.mk" \
+nice -n 10 make DESIGN_CONFIG="$backend_root/physical/t10_frozen_top/config.mk" \
   FLOW_VARIANT="$variant" VERILOG_FILES="$candidate" \
-  YOSYS_EXE=/home/reefshark/.local/bin/yosys \
-  OPENROAD_EXE=/home/reefshark/.local/bin/openroad NUM_CORES=2 \
+  YOSYS_EXE="${T10_YOSYS_EXE}" \
+  OPENROAD_EXE="${T10_OPENROAD_EXE}" NUM_CORES=2 \
   do-yosys-canonicalize do-yosys > "$log" 2>&1
 sha256sum "$result_dir/1_2_yosys.v" > "$result_dir/1_2_yosys.v.sha256"
 printf 'T10_FULL_TOP_TRANSPORT_SYNTH_PASS %s\n' "$result_dir/1_2_yosys.v"

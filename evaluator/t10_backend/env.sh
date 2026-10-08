@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Source from any working directory. Explicit environment overrides win.
+T10_BACKEND_ROOT=${T10_BACKEND_ROOT:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)}
+T10_REPO_ROOT=${T10_REPO_ROOT:-$(cd -- "$T10_BACKEND_ROOT/../.." && pwd -P)}
+T10_EVALUATOR_ROOT=${T10_EVALUATOR_ROOT:-$T10_REPO_ROOT/evaluator}
+T10_REFERENCE_ROOT=${T10_REFERENCE_ROOT:-$T10_EVALUATOR_ROOT/reference}
+T10_REFERENCE_RTL=${T10_REFERENCE_RTL:-$T10_REFERENCE_ROOT/T10/rtl/npu_systolic_matmul_16x16.sv}
+T10_SCRATCH_ROOT=${T10_SCRATCH_ROOT:-$T10_REPO_ROOT/work/t10_backend}
+T10_ORFS_ROOT=${T10_ORFS_ROOT:-$T10_REPO_ROOT/third_party/OpenROAD-flow-scripts}
+T10_ASAP7_PLATFORM=${T10_ASAP7_PLATFORM:-$T10_REPO_ROOT/vendor/asap7}
+T10_QUALIFICATION_ROOT=${T10_QUALIFICATION_ROOT:-$T10_EVALUATOR_ROOT}
+T10_OPENROAD_EXE=${T10_OPENROAD_EXE:-${T10_OPENROAD:-$(type -P openroad || true)}}
+T10_OPENROAD_EXE=${T10_OPENROAD_EXE:-openroad}
+T10_OPENROAD=${T10_OPENROAD:-$T10_OPENROAD_EXE}
+T10_YOSYS_EXE=${T10_YOSYS_EXE:-$(type -P yosys || true)}
+T10_YOSYS_EXE=${T10_YOSYS_EXE:-yosys}
+T10_OPENROAD_LOCK=${T10_OPENROAD_LOCK:-$T10_SCRATCH_ROOT/t10_openroad.lock}
+export T10_BACKEND_ROOT T10_REPO_ROOT T10_EVALUATOR_ROOT T10_REFERENCE_ROOT
+export T10_REFERENCE_RTL T10_SCRATCH_ROOT T10_ORFS_ROOT T10_ASAP7_PLATFORM
+export T10_QUALIFICATION_ROOT T10_OPENROAD_EXE T10_OPENROAD T10_YOSYS_EXE
+export T10_OPENROAD_LOCK
+# ORFS must use the same checked-in ASAP7 platform as the public PPA flow.
+export PLATFORM_DIR="$T10_ASAP7_PLATFORM"
+
+t10_init_scratch() {
+  mkdir -p -- "$T10_SCRATCH_ROOT/t10_frozen_top" "$T10_SCRATCH_ROOT/tmp"
+  export TMPDIR=${TMPDIR:-$T10_SCRATCH_ROOT/tmp}
+}
+
+t10_require_file() {
+  if [[ ! -s $1 ]]; then
+    printf 'Missing required T10 input: %s\n' "$1" >&2
+    return 1
+  fi
+}

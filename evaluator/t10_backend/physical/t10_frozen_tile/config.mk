@@ -1,7 +1,11 @@
+ifndef T10_BACKEND_ROOT
+T10_BACKEND_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../..)
+endif
+include $(T10_BACKEND_ROOT)/config.mk
 export PLATFORM = asap7
 export DESIGN_NAME = t10_reference_tile_4x4
-export VERILOG_FILES = /home/reefshark/research/agent_os/ic_bcmk_eval_private/refs/T10/rtl/npu_systolic_matmul_16x16.sv
-export SDC_FILE = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_tile/constraint.sdc
+export VERILOG_FILES = $(T10_REFERENCE_RTL)
+export SDC_FILE = $(T10_BACKEND_ROOT)/physical/t10_frozen_tile/constraint.sdc
 
 # Fixed 2500 um square tile. Sixteen 493.326 um PE macros occupy about 62%
 # of the die and leave 100 um internal routing channels for the 92-bit
@@ -21,14 +25,14 @@ export GLOBAL_PLACEMENT_ARGS = -bin_grid_count 128
 export SYNTH_BLACKBOXES = t10_reference_pe
 export ADDITIONAL_LEFS = $(T10_PE_LEF) $(T10_CTS_CELL_LEF)
 export ADDITIONAL_LIBS = $(T10_PE_LIB) $(T10_POST_CTS_CELL_LIB)
-export PDN_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_tile/pdn.tcl
-export IO_CONSTRAINTS = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_tile/io.tcl
-export MACRO_PLACEMENT_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_tile/macro_place.tcl
-export PRE_GLOBAL_PLACE_SKIP_IO_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_tile/bank_regions_direct.tcl
-export PRE_RESIZE_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_tile/pre_resize_m7.tcl
-export PRE_DETAIL_PLACE_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_tile/pre_detail_place.tcl
-export PRE_CTS_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_tile/pre_cts_m6_m7.tcl
-export POST_CTS_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_tile/post_cts_wide_clock_ndr.tcl
+export PDN_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_tile/pdn.tcl
+export IO_CONSTRAINTS = $(T10_BACKEND_ROOT)/physical/t10_frozen_tile/io.tcl
+export MACRO_PLACEMENT_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_tile/macro_place.tcl
+export PRE_GLOBAL_PLACE_SKIP_IO_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_tile/bank_regions_direct.tcl
+export PRE_RESIZE_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_tile/pre_resize_m7.tcl
+export PRE_DETAIL_PLACE_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_tile/pre_detail_place.tcl
+export PRE_CTS_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_tile/pre_cts_m6_m7.tcl
+export POST_CTS_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_tile/post_cts_wide_clock_ndr.tcl
 export IO_PLACER_H = M6
 export MAX_ROUTING_LAYER = M7
 export MIN_CLK_ROUTING_LAYER = M6

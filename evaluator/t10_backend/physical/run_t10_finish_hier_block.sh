@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)/env.sh"
 set -euo pipefail
+t10_init_scratch
 
 if [[ $# -ne 3 ]]; then
   echo "usage: $0 INPUT.odb INPUT.sdc OUTPUT_PREFIX" >&2
@@ -9,14 +11,14 @@ fi
 input_odb=$1
 input_sdc=$2
 output_prefix=$3
-repo=/home/reefshark/research/agent_os/ic_bcmk_eval_private
-platform=${T10_ASAP7_PLATFORM:-/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/platforms/asap7}
-openroad=${T10_OPENROAD:-/home/reefshark/.local/bin/openroad}
+repo=${T10_BACKEND_ROOT}
+platform=${T10_ASAP7_PLATFORM:-${T10_ASAP7_PLATFORM}}
+openroad=${T10_OPENROAD:-"${T10_OPENROAD_EXE}"}
 
 source "$repo/physical/t10_acquire_openroad_slot.sh"
 for path in "$input_odb" "$input_sdc" "$platform/rcx_patterns.rules" \
             "$platform/setRC.tcl"; do
-  test -s "$path" || { echo "missing input: $path" >&2; exit 2; }
+  t10_require_file "$path" || { echo "missing input: $path" >&2; exit 2; }
 done
 
 standard_libs=(
@@ -26,7 +28,7 @@ standard_libs=(
   "$platform/lib/NLDM/asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib"
   "$platform/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz"
 )
-for path in "${standard_libs[@]}"; do test -s "$path"; done
+for path in "${standard_libs[@]}"; do t10_require_file "$path"; done
 
 mkdir -p "$(dirname "$output_prefix")"
 log="${output_prefix}_finish.log"

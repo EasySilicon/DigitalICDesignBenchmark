@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)/env.sh"
 set -euo pipefail
+t10_init_scratch
 # Complete 16x16 top. Isolated tool variant: diagnostic evidence only.
-private_root=/home/reefshark/research/agent_os/ic_bcmk_eval_private
-orfs_root=${T10_ORFS_ROOT:-/mnt/ubu_3T/ic_bcmk_orfs_asap7}
+backend_root=${T10_BACKEND_ROOT}
+orfs_root=${T10_ORFS_ROOT}
 seed=${T10_LAYOUT_SEED:-11}
 source_variant=${T10_SOURCE_VARIANT:-ic_t10_frozen_top_v71_tilev54_slvtclk_d200_wideclk_m7_wc_p1000_seed${seed}}
 variant=${T10_FLOW_VARIANT:-ic_t10_frozen_top_v72_tilev54_gcell60_m7_wc_p1000_seed${seed}}
-tool_root=/mnt/ubu_3T/ic_bcmk_scratch/t10_tools/openroad_gcell60
+tool_root=${T10_SCRATCH_ROOT}/t10_tools/openroad_gcell60
 source_dir=$orfs_root/flow/results/asap7/npu_systolic_matmul_16x16/$source_variant
 results_dir=$orfs_root/flow/results/asap7/npu_systolic_matmul_16x16/$variant
-test -s "$source_dir/4_cts.odb"
-test -s "$source_dir/4_cts.sdc"
-test -s "$source_dir/cell_overlap_check.json"
+t10_require_file "$source_dir/4_cts.odb"
+t10_require_file "$source_dir/4_cts.sdc"
+t10_require_file "$source_dir/cell_overlap_check.json"
 test -x "$tool_root/openroad"
 python3 - "$source_dir/cell_overlap_check.json" "$tool_root/manifest.json" "$tool_root/openroad-gcell60" <<'PY'
 import hashlib,json,sys
@@ -40,7 +42,7 @@ export T10_NUM_CORES=2
 # Bound our own process; do not consume the host's final memory reserve.
 ulimit -v 73400320
 set +e
-"$private_root/physical/run_t10_top_grt_probe.sh"
+"$backend_root/physical/run_t10_top_grt_probe.sh"
 status=$?
 set -e
 printf '%s\n' "$status" > "$results_dir/grt_probe.exit"

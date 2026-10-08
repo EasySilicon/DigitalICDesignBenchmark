@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)/env.sh"
 set -uo pipefail
+t10_init_scratch
 
-private_root=/home/reefshark/research/agent_os/ic_bcmk_eval_private
+backend_root=${T10_BACKEND_ROOT}
 priority_pid=${1:-}
 
 if [[ -n $priority_pid ]]; then
@@ -14,7 +16,7 @@ fi
 run_with_slot_retry() {
   local target=$1 rc
   while true; do
-    "$private_root/physical/run_t10_frozen_tile.sh" "$target"
+    "$backend_root/physical/run_t10_frozen_tile.sh" "$target"
     rc=$?
     case $rc in
       73|74|75)

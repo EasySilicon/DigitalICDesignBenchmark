@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)/env.sh"
 set -euo pipefail
-private_root=/home/reefshark/research/agent_os/ic_bcmk_eval_private
-orfs_root=/mnt/ubu_3T/ic_bcmk_orfs_asap7
+t10_init_scratch
+backend_root=${T10_BACKEND_ROOT}
+orfs_root=${T10_ORFS_ROOT}
 variant=${T10_FLOW_VARIANT:-ic_t10_frozen_top_v74_tilev54_gcell60_backbone_m7_wc_p1000_seed11}
 result_dir=$orfs_root/flow/results/asap7/npu_systolic_matmul_16x16/$variant
-platform=$orfs_root/flow/platforms/asap7
-tool_root=/mnt/ubu_3T/ic_bcmk_scratch/t10_tools/openroad_gcell60
-log=/mnt/ubu_3T/ic_bcmk_scratch/t10_frozen_top/${variant}_retime_saved_route.log
-test -s "$result_dir/5_1_grt.odb.sha256"
+platform=${T10_ASAP7_PLATFORM}
+tool_root=${T10_SCRATCH_ROOT}/t10_tools/openroad_gcell60
+log=${T10_SCRATCH_ROOT}/t10_frozen_top/${variant}_retime_saved_route.log
+t10_require_file "$result_dir/5_1_grt.odb.sha256"
 python3 - "$result_dir" "$tool_root" <<'PY'
 import hashlib,json,sys
 from pathlib import Path
@@ -34,9 +36,9 @@ export RESULTS_DIR=$result_dir/saved_route_retime
 export REPORTS_DIR=$orfs_root/flow/reports/asap7/npu_systolic_matmul_16x16/$variant/saved_route_retime
 export T10_REFERENCE_GRID_PROBE=1
 mkdir -p "$RESULTS_DIR" "$REPORTS_DIR"
-source "$private_root/physical/t10_acquire_openroad_slot.sh"
+source "$backend_root/physical/t10_acquire_openroad_slot.sh"
 ulimit -v 50331648
 /usr/bin/time -v nice -n 10 "$tool_root/openroad" -no_init -exit -threads 2 \
-  "$private_root/physical/t10_frozen_top/retime_route_checkpoint.tcl" \
+  "$backend_root/physical/t10_frozen_top/retime_route_checkpoint.tcl" \
   > "$log" 2>&1
 printf 'T10_FULL_TOP_SAVED_ROUTE_RETIME_PASS %s\n' "$REPORTS_DIR"

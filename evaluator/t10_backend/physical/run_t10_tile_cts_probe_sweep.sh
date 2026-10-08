@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)/env.sh"
 set -euo pipefail
+t10_init_scratch
 
-private_root=/home/reefshark/research/agent_os/ic_bcmk_eval_private
-orfs_root=${T10_ORFS_ROOT:-/mnt/ubu_3T/ic_bcmk_orfs_asap7}
+backend_root=${T10_BACKEND_ROOT}
+orfs_root=${T10_ORFS_ROOT}
 design=t10_reference_tile_4x4
 seed=${T10_LAYOUT_SEED:-11}
 source_variant=ic_t10_frozen_tile_v33_directmesh_pev16pg_m7_wc_p1000_seed${seed}
@@ -18,7 +20,7 @@ run_probe() {
   T10_SKIP_CTS_REPAIR_TIMING=1 \
   T10_CTS_ARGS_OVERRIDE="$args" \
   T10_FLOW_VARIANT="$variant" \
-    "$private_root/physical/run_t10_frozen_tile.sh" cts_resume
+    "$backend_root/physical/run_t10_frozen_tile.sh" cts_resume
 }
 
 base='-sink_clustering_enable -repair_clock_nets -apply_ndr half'

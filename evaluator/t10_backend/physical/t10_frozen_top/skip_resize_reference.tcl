@@ -427,7 +427,7 @@ proc repair_design_helper {} {
   # Port buffers and the targeted trees above were created after the initial
   # channel projection. Rebuild all clusters from current coordinates so every
   # new shell instance is covered before the second global placement.
-  source /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_top/top_shell_regions.tcl
+  source [file join $::env(T10_BACKEND_ROOT) physical t10_frozen_top/top_shell_regions.tcl]
   global_placement -density 0.60 -pad_left 0 -pad_right 0 \
     -force_center_initial_place -min_phi_coef 0.95 -max_phi_coef 1.05 \
     -bin_grid_count 128 -overflow 0.10

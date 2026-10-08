@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)/env.sh"
 set -euo pipefail
+t10_init_scratch
 
-private_root=/home/reefshark/research/agent_os/ic_bcmk_eval_private
-orfs_root=${T10_ORFS_ROOT:-/mnt/ubu_3T/ic_bcmk_orfs_asap7}
+backend_root=${T10_BACKEND_ROOT}
+orfs_root=${T10_ORFS_ROOT}
 seed=${T10_LAYOUT_SEED:-11}
 probe_version=${T10_PROBE_VERSION:-62}
 variant=${T10_FLOW_VARIANT:-ic_t10_frozen_top_v${probe_version}_tilev54_gpl010_m7_wc_p1000_seed${seed}}
@@ -10,14 +12,14 @@ variant=${T10_FLOW_VARIANT:-ic_t10_frozen_top_v${probe_version}_tilev54_gpl010_m
 tile_dir=$orfs_root/flow/results/asap7/t10_reference_tile_4x4/ic_t10_frozen_tile_v54_onehot_slvtclk_wideclk_grt_m7_wc_p1000_seed${seed}
 tile_lef=$tile_dir/t10_reference_tile_4x4_m7.lef
 tile_lib=$tile_dir/t10_reference_tile_4x4_wc.lib
-cts_lef=$orfs_root/flow/platforms/asap7/lef/asap7sc7p5t_28_SL_1x_220121a.lef
+cts_lef=${T10_ASAP7_PLATFORM}/lef/asap7sc7p5t_28_SL_1x_220121a.lef
 
-test -s "$tile_lef"
-test -s "$tile_lib"
-test -s "$cts_lef"
+t10_require_file "$tile_lef"
+t10_require_file "$tile_lib"
+t10_require_file "$cts_lef"
 
 T10_TILE_LEF=$tile_lef \
 T10_TILE_LIB=$tile_lib \
 T10_CTS_CELL_LEF=$cts_lef \
 T10_FLOW_VARIANT=$variant \
-  "$private_root/physical/run_t10_frozen_top.sh" place_probe
+  "$backend_root/physical/run_t10_frozen_top.sh" place_probe

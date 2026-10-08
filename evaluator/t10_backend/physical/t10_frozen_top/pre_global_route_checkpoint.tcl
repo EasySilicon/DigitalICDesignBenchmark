@@ -8,7 +8,7 @@ if {$t10_gcell_dbu != $::env(T10_EXPECT_GCELL_DBU)} {
 }
 puts "T10_GRID_PROBE diagnostic_only=1 gcell_dbu=$t10_gcell_dbu track_grids_unmodified=1"
 if {[info exists ::env(T10_CLOCK_NDR_POLICY)] && $::env(T10_CLOCK_NDR_POLICY) eq "backbone_only"} {
-    source /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_top/clock_ndr_backbone.tcl
+    source [file join $::env(T10_BACKEND_ROOT) physical t10_frozen_top/clock_ndr_backbone.tcl]
 }
 
 rename pin_access t10_native_pin_access

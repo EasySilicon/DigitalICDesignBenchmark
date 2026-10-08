@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)/env.sh"
 # Source this file immediately before launching a T10 OpenROAD process.
 # Other benchmark runs on this shared host have priority.  Admit T10 only when
 # no OpenROAD process is already active, memory is available, and the T10
@@ -30,7 +31,7 @@ if pgrep -x 'openroad.*' >/dev/null; then
   exit 74
 fi
 
-t10_lock=${T10_OPENROAD_LOCK:-/mnt/ubu_3T/ic_bcmk_scratch/t10_openroad.lock}
+t10_lock=${T10_OPENROAD_LOCK:-${T10_SCRATCH_ROOT}/t10_openroad.lock}
 mkdir -p "$(dirname "$t10_lock")"
 exec {T10_OPENROAD_LOCK_FD}>"$t10_lock"
 if ! flock -n "$T10_OPENROAD_LOCK_FD"; then

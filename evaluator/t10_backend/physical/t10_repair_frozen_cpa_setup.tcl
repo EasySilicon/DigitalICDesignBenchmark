@@ -1,5 +1,5 @@
 set_thread_count 4
-set platform /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/platforms/asap7
+set platform $::env(T10_ASAP7_PLATFORM)
 foreach lib [list \
   $platform/lib/NLDM/asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz \
   $platform/lib/NLDM/asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz \

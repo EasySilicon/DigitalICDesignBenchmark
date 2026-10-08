@@ -1,6 +1,10 @@
+ifndef T10_BACKEND_ROOT
+T10_BACKEND_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../..)
+endif
+include $(T10_BACKEND_ROOT)/config.mk
 export PLATFORM = asap7
 export DESIGN_NAME = $(T10_FP_DESIGN_NAME)
-export VERILOG_FILES = /home/reefshark/research/agent_os/ic_bcmk_eval_private/refs/T10/rtl/npu_systolic_matmul_16x16.sv
+export VERILOG_FILES = $(T10_REFERENCE_RTL)
 export SDC_FILE = $(T10_FP_CONSTRAINT)
 export CORE_UTILIZATION = 42
 export CORE_ASPECT_RATIO = 1
@@ -10,8 +14,8 @@ export SYNTH_USE_SYN = 0
 export SYNTH_HIERARCHICAL = 0
 export CORNER = WC
 export GPL_ROUTABILITY_DRIVEN = 0
-export PDN_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_fp_quad/pdn.tcl
-export PRE_CTS_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_fp_quad/pre_cts_m6_m7.tcl
+export PDN_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_fp_quad/pdn.tcl
+export PRE_CTS_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_fp_quad/pre_cts_m6_m7.tcl
 ifneq ($(strip $(T10_FP_IO_CONSTRAINTS)),)
 export IO_CONSTRAINTS = $(T10_FP_IO_CONSTRAINTS)
 endif

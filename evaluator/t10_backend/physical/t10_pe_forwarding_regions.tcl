@@ -15,7 +15,7 @@ if {$a_region != "NULL" || $b_region != "NULL"} {
     return
 }
 
-source /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_pe_pin_escape_soft_plus_blockages.tcl
+source [file join $::env(T10_BACKEND_ROOT) physical t10_pe_pin_escape_soft_plus_blockages.tcl]
 
 # Coordinates are in database units (1000 DBU/um).  Both fences avoid the
 # fixed child macros while leaving ample legalization and clock-routing room.

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)/env.sh"
 set -euo pipefail
+t10_init_scratch
 
 if [[ $# -ne 5 ]]; then
   echo "usage: $0 KLAYOUT_BIN INPUT_GDS DRC_DECK REPORT_RDB LOG" >&2

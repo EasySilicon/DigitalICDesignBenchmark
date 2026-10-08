@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)/env.sh"
 set -euo pipefail
+t10_init_scratch
 
 if [[ $# -ne 8 ]]; then
   echo "usage: $0 INPUT.odb OUTPUT.odb OUTPUT.lef LAYER X_MIN_DBU Y_MIN_DBU X_MAX_DBU Y_MAX_DBU" >&2
@@ -14,10 +16,10 @@ x_min=$5
 y_min=$6
 x_max=$7
 y_max=$8
-repo=/home/reefshark/research/agent_os/ic_bcmk_eval_private
-openroad=${T10_OPENROAD:-/home/reefshark/.local/bin/openroad}
+repo=${T10_BACKEND_ROOT}
+openroad=${T10_OPENROAD:-"${T10_OPENROAD_EXE}"}
 
-test -s "$input_odb"
+t10_require_file "$input_odb"
 test ! -e "$output_odb"
 test ! -e "$output_lef"
 source "$repo/physical/t10_acquire_openroad_slot.sh"

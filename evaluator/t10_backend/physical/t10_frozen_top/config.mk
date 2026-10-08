@@ -1,7 +1,11 @@
+ifndef T10_BACKEND_ROOT
+T10_BACKEND_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../..)
+endif
+include $(T10_BACKEND_ROOT)/config.mk
 export PLATFORM = asap7
 export DESIGN_NAME = npu_systolic_matmul_16x16
-export VERILOG_FILES = /home/reefshark/research/agent_os/ic_bcmk_eval_private/refs/T10/rtl/npu_systolic_matmul_16x16.sv
-export SDC_FILE = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_top/constraint.sdc
+export VERILOG_FILES = $(T10_REFERENCE_RTL)
+export SDC_FILE = $(T10_BACKEND_ROOT)/physical/t10_frozen_top/constraint.sdc
 
 # Complete 16x16 DUT as sixteen routed 4x4 tile macros.  Each routed tile is
 # 2500 um square.  The 10500 um top leaves 100 um channels between tiles and
@@ -29,14 +33,14 @@ export DONT_BUFFER_PORTS = 1
 export SYNTH_BLACKBOXES = t10_reference_tile_4x4
 export ADDITIONAL_LEFS = $(T10_TILE_LEF) $(T10_CTS_CELL_LEF)
 export ADDITIONAL_LIBS = $(T10_TILE_LIB) $(T10_POST_CTS_CELL_LIB)
-export PDN_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_top/pdn.tcl
-export IO_CONSTRAINTS = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_top/io.tcl
-export MACRO_PLACEMENT_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_top/macro_place.tcl
-export POST_GLOBAL_PLACE_SKIP_IO_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_top/top_shell_regions.tcl
-export TAPCELL_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_top/tapcell_reference.tcl
-export PRE_FLOORPLAN_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_top/skip_floorplan_timing_reference.tcl
-export PRE_RESIZE_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_top/skip_resize_reference.tcl
-export PRE_DETAIL_PLACE_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_top/pre_detail_place_sparse_rows.tcl
+export PDN_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_top/pdn.tcl
+export IO_CONSTRAINTS = $(T10_BACKEND_ROOT)/physical/t10_frozen_top/io.tcl
+export MACRO_PLACEMENT_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_top/macro_place.tcl
+export POST_GLOBAL_PLACE_SKIP_IO_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_top/top_shell_regions.tcl
+export TAPCELL_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_top/tapcell_reference.tcl
+export PRE_FLOORPLAN_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_top/skip_floorplan_timing_reference.tcl
+export PRE_RESIZE_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_top/skip_resize_reference.tcl
+export PRE_DETAIL_PLACE_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_top/pre_detail_place_sparse_rows.tcl
 # The stride-16 sparse row map keeps the 10.5 mm top-level OpenDP footprint
 # below host memory, but the default 100-row vertical search left one shell
 # gather cell unplaced in v44.  Search farther within the same sparse map;
@@ -47,11 +51,11 @@ else
 export DETAIL_PLACEMENT_ARGS = -max_displacement {500 1000}
 endif
 export T10_REFERENCE_RELEASE_GPL_REGIONS ?= 0
-export PRE_CTS_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_top/pre_cts_m6_m7.tcl
-export POST_CTS_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_tile/post_cts_wide_clock_ndr.tcl
+export PRE_CTS_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_top/pre_cts_m6_m7.tcl
+export POST_CTS_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_tile/post_cts_wide_clock_ndr.tcl
 ifeq ($(T10_REFERENCE_GRID_PROBE),1)
-export PRE_GLOBAL_ROUTE_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_top/pre_global_route_checkpoint.tcl
-export POST_GLOBAL_ROUTE_TCL = /home/reefshark/research/agent_os/ic_bcmk_eval_private/physical/t10_frozen_top/post_global_route_diagnostic.tcl
+export PRE_GLOBAL_ROUTE_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_top/pre_global_route_checkpoint.tcl
+export POST_GLOBAL_ROUTE_TCL = $(T10_BACKEND_ROOT)/physical/t10_frozen_top/post_global_route_diagnostic.tcl
 endif
 export IO_PLACER_H = M6
 export MAX_ROUTING_LAYER = M7

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)/env.sh"
 set -euo pipefail
+t10_init_scratch
 
 if [[ $# -ne 3 ]]; then
   echo "usage: $0 OPENROAD_BIN TCL_SCRIPT LOG" >&2
@@ -9,7 +11,7 @@ fi
 openroad_bin=$1
 tcl_script=$2
 log=$3
-repo=/home/reefshark/research/agent_os/ic_bcmk_eval_private
+repo=${T10_BACKEND_ROOT}
 : "${T10_OPENROAD_VMEM_KIB:=31457280}"
 
 for input in "$openroad_bin" "$tcl_script"; do
