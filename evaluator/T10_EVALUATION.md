@@ -47,3 +47,10 @@ trial 准备流程排除在被测 Agent 的工作区之外。`t10_mutation_regre
 生成/导出与参考层次组装。PE/tile Liberty、LEF、ODB 是这些流程的生成产物；
 ASAP7 库本身不包含我们的自定义 PE/tile 宏。端到端物理流程及正式 PPA 基线
 发布状态由该分支单独记录，不在本功能包提交中宣称收敛。
+
+## 包装后的复测记录
+
+[T10_PACKAGE_VERIFICATION.json](T10_PACKAGE_VERIFICATION.json) 记录 v123 候选
+从本公开 checkout 的独立入口复测结果：2752 个用例、独立复位探针、256-PE
+结构与 14 个无输入气泡阶段均通过，包含工具版本、RTL 与向量 SHA256。
+该记录只证明功能包可用，PPA 未在此次复测中运行。

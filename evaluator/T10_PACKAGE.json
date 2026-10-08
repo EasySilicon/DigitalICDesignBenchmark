@@ -7,7 +7,7 @@
   "files": [
     {
       "destination": "evaluator/T10_EVALUATION.md",
-      "sha256": "f8b11a30bdfe9a04df418f0133fe81d025a1eec68fa58d36464da9f988ded750"
+      "sha256": "d10acaecd2dcca41a95b4da112dfcaac56ebb7d8e4c5d82579bb19e729708e38"
     },
     {
       "destination": "evaluator/fixtures/t10_mesh_good/rtl/files.f",
