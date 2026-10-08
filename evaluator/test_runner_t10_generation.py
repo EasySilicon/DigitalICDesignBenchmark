@@ -41,6 +41,18 @@ class T10ScaleGenerationTest(unittest.TestCase):
         for rejected in (wrong_numeric, wrong_reset, partial, bubble, structure):
             self.assertFalse(functional_passed(rejected), rejected)
 
+    def test_scaled_functional_points_do_not_fail_full_score_gate(self) -> None:
+        functional = {"groups": {"MM-SYSTOLIC": {"cases_passed": 1, "cases_total": 1}},
+                      "phase": "run", "cases": 1, "structure": {"passed": True},
+                      "stream_line": "MM_STREAM input_bubble_phases=00000000000000 finished=1"}
+        with patch("grade_t10_pilot.load_rules", return_value={"functional_total": 50}), \
+             patch("grade_t10_pilot.score_functional", return_value=(40.0, 9.999999999999993, [])):
+            report = summarize({"delivery_qualified": True}, functional)
+        self.assertEqual(report["functional_total"], 50.0)
+        self.assertEqual(report["functional_possible"], 50)
+        self.assertIsNone(report["ppa_score"])
+        self.assertFalse(report["official_score_eligible"])
+
     def test_complemented_a_forward_mutation_materializes(self) -> None:
         mutation = next(row for row in MUTATIONS if row.name == "broken_a_forward")
         source = "always_ff @(posedge clk) a_out_n <= ~a_in;\n"
@@ -79,7 +91,7 @@ class T10ScaleGenerationTest(unittest.TestCase):
                             "stream_line": "MM_STREAM input_bubble_phases=00000000000000 finished=2624",
                             "structure": {"passed": True, "status": "qualified",
                                           "method": "yosys_netlist"}})
-        self.assertEqual(report["functional_total"], load_rules()["functional_total"])
+        self.assertAlmostEqual(report["functional_total"], load_rules()["functional_total"])
         self.assertTrue(report["sustained_throughput_passed"])
         systolic = next(item for item in report["score_items"]
                         if item["id"] == "P_SYSTOLIC")
@@ -92,7 +104,7 @@ class T10ScaleGenerationTest(unittest.TestCase):
                            {"groups": groups, "phase": "run", "cases": 2624,
                             "stream_line": "MM_STREAM input_bubble_phases=00000000000001 finished=2624",
                             "structure": {"passed": True}})
-        self.assertEqual(report["functional_total"], load_rules()["functional_total"])
+        self.assertAlmostEqual(report["functional_total"], load_rules()["functional_total"])
         self.assertFalse(report["sustained_throughput_passed"])
         self.assertEqual(report["ppa_score"], 0)
         self.assertEqual(report["time_score"], 0)
