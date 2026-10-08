@@ -1,0 +1,97 @@
+{
+  "task_id": "T10",
+  "checked_at_utc": "2026-10-08T04:14:02.359261+00:00",
+  "evaluation_revision": "000d8d0411e9dc53f7e4fd68629788655eedaf7a",
+  "candidate_path": "evaluator/reference/T10_candidates/v123",
+  "candidate_rtl_sha256": "6601f244693bf0a4b3c890164c34f3c64cf12f5705c2b7bc82a7a0256c4915c7",
+  "command": "python3 evaluator/runner_t10_stream.py evaluator/reference/T10_candidates/v123 --output-dir <scratch>",
+  "seed": 20260925,
+  "cases": 2752,
+  "functional_passed": true,
+  "groups": {
+    "MM-INT": {
+      "cases_passed": 128,
+      "cases_total": 128
+    },
+    "MM-F16": {
+      "cases_passed": 128,
+      "cases_total": 128
+    },
+    "MM-F8": {
+      "cases_passed": 128,
+      "cases_total": 128
+    },
+    "MM-F4": {
+      "cases_passed": 64,
+      "cases_total": 64
+    },
+    "MM-MX8": {
+      "cases_passed": 128,
+      "cases_total": 128
+    },
+    "MM-MX4": {
+      "cases_passed": 96,
+      "cases_total": 96
+    },
+    "MM-PROTO": {
+      "cases_passed": 337,
+      "cases_total": 337
+    },
+    "MM-SYSTOLIC": {
+      "cases_passed": 1616,
+      "cases_total": 1616
+    },
+    "MM-CORNER": {
+      "cases_passed": 128,
+      "cases_total": 128
+    }
+  },
+  "structure": {
+    "passed": true,
+    "reason": null,
+    "pe_module": "t10_reference_pe",
+    "pe_instances": 256,
+    "mesh_paths": [
+      16,
+      16
+    ],
+    "link_register_placement": "pe_output",
+    "top_state_bits": 245588,
+    "checked_links": [
+      [
+        "a_out",
+        "a_in"
+      ],
+      [
+        "b_out",
+        "b_in"
+      ]
+    ],
+    "flattened_from_hierarchy": true,
+    "status": "qualified",
+    "method": "yosys_netlist"
+  },
+  "stream_line": "MM_STREAM input_bubble_phases=00000000000000 finished=2752",
+  "reset_probe_passed": true,
+  "failures": [],
+  "vector_sha256": {
+    "a": "e772a69344190103bbb5218c17024b1c2e3eac550f0ee0d8cbbec3377461b39f",
+    "b": "f02994a29d3005f000368f2026aec3b4b1584ad8f16dd5ce1b671fd444043e9e",
+    "as": "3ebda274bcfb19c4c0aa4df6982c542410e402bb3ce7433ffdacf2060aedd9e8",
+    "bs": "3e7e7ccdc1681963e5c211ea6c0f57503bdfcc5bb0b3c11d2cfd0d0b5f8295bc",
+    "mode": "b114f50dee861210e94ef3100ed82413d291bf4f317f98e97877cd6989031ac0",
+    "phase": "b20790bec1cb5d7b067c7aeeca94d28936690ba3c364ed5be1833257f88b071c"
+  },
+  "full_report_sha256": "beb2a6735cee251d4204852221e617777ac819fffb08d1c0670588e0048170e9",
+  "tools": {
+    "verilator": "Verilator 5.051 devel rev vUNKNOWN-built20261006-c025ceb61",
+    "yosys": "Yosys 0.69+150 (git sha1 0d3483f04-dirty, Release, Clang /usr/bin/clang++ 21.1.8)"
+  },
+  "regressions": {
+    "functional_oracle_structure_power_suite_tests_passed": 36,
+    "new_normalized_score_boundary_regression_passed": true,
+    "current_worktree_normalized_score_compatibility_tests_passed": 3
+  },
+  "ppa_evaluated": false,
+  "official_ppa_baseline_qualified": false
+}
