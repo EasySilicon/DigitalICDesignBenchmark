@@ -23,7 +23,7 @@
     },
     {
       "destination": "evaluator/grade_t10_pilot.py",
-      "sha256": "c6e2ff6622381ab83b092258fcfea0b4371403be537f06bb039b93c478592797",
+      "sha256": "c13c03d6c694690a7f4130dcfde83c20fee3c8efcdc95c1555fb5b65fe46921f",
       "source_file": "grade_t10_pilot.py",
       "source_sha256": "ad05107754a7d419509026202b61cd1e987cb7c52725d3aadd3d9a881e3dfbf4"
     },
@@ -87,7 +87,7 @@
     },
     {
       "destination": "evaluator/test_runner_t10_generation.py",
-      "sha256": "6802a8fefe13483af25524f5e1de4daea8b643471d2503912bb67b7b7b8e979b",
+      "sha256": "176b247cf8b3c3d8145c288f0c13f689e39772ef6a98662e7fa4785e4954a553",
       "source_file": "test_runner_t10_generation.py",
       "source_sha256": "c5984fb756d0b7ceb8b7aee0e2ef5eb6cb1042513bd2362205af1d9dc7ff32f8"
     },

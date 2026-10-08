@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import re
 import sys
 from pathlib import Path
@@ -48,6 +49,8 @@ def summarize(delivery: dict, functional: dict) -> dict:
         }
     basic, edges, items = score_functional("T10", functional["groups"], rules)
     functional_total = basic + edges
+    if math.isclose(functional_total, possible, rel_tol=0, abs_tol=1e-9):
+        functional_total = float(possible)
     sustained = sustained_pass(functional)
     ppa_time_ineligible = functional_total < possible or not sustained
     result = {
