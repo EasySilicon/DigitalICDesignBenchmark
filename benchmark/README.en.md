@@ -2,7 +2,9 @@
 
 [中文](README.md)
 
+This benchmark evaluates whether widely used frontier models, working through coding agents, can handle real digital IC development and delivery tasks. Capabilities include long-context comprehension, logic and microarchitecture design, timing-window and CDC analysis, verification convergence, debugging and feature integration, timing closure, physical implementation and PPA optimization, and reproducible engineering handoff.
 
+It also supports controlled experiments on whether external harnesses such as Skills, multi-agent orchestration, and immediate quality gates improve the final performance of frontier or cost-effective models. These mechanisms are optional experimental variables, not entry requirements or presumed advantages. See the [motivation and evaluation philosophy](../README.en.md#motivation-and-evaluation-philosophy) and [experimental methodology](README.md#评测与评分方法).
 
 | ID | Task | Time limit |
 | --- | --- | ---: |

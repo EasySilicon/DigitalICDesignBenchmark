@@ -195,8 +195,8 @@
     }
   },
   "artifact_sha256": {
-    "benchmark/README.en.md": "272ef5531ba3366f25fbe7f773844ffe0b9693da281098633f9ee95de14d2eec",
-    "benchmark/README.md": "11b22f2e9c49ffa5397ec001bbfe404ef94572201f4175cc2028cb29d7136919",
+    "benchmark/README.en.md": "13b7a5c4080e771628b1ab1a58b8a777ec331e6e2395895cad0fd456a49e2240",
+    "benchmark/README.md": "8a1d9fda6ef0ed5a3cf2a7d610af79d0b98fc9f88ae4f6e5f6da31ab599d067c",
     "benchmark/candidate-rules.md": "b64e61e9777f2d67a9caf41ffae9764b20db70da29d1a7910a9c220c1a96fa01",
     "benchmark/cpu/act4/README.md": "16e43794acde77eee1221002ae674326fe364561c0b7a5975f7b138d78dde1e9",
     "benchmark/cpu/act4/link.ld": "f60c333f6c91625b2bd263a590c0ddf387a961e0c684f8e4980562b191f56bed",

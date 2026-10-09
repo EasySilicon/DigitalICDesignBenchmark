@@ -2,9 +2,9 @@
 
 [中文](README.md)
 
-**Evaluate digital IC design, verification, and delivery by coding agents and multi-agent systems.**
+**Evaluate frontier models on tasks grounded in real digital IC development and delivery workflows.**
 
-This benchmark asks whether an agent system can deliver a **functionally correct, synthesizable digital IP with independent self-tests, PPA exploration, and reproducible execution** under a fixed specification, tool environment, resource allocation, and development budget. Use it to compare general coding agents, specialist IC agents, engineering workflows, or successive model/system versions.
+This benchmark evaluates whether widely used frontier models, working through coding agents, can handle real digital IC engineering work: delivering a **functionally correct, synthesizable digital IP with independent self-tests, PPA exploration, and reproducible execution** under a fixed specification, tool environment, resource allocation, and development budget. It also supports experiments on external harnesses such as Skills, multi-agent orchestration, and immediate quality gates, as well as regression testing across model and system versions.
 
 The candidate develops the RTL, verification environment, fixes, and PPA optimizations. The evaluator tests the fixed DUT ports against its own behavioral models; candidate-reported PASS messages, coverage, and PPA reports do not directly determine scores. Evaluation priority is **functional correctness → PPA → completion time**.
 
@@ -20,15 +20,26 @@ The candidate develops the RTL, verification environment, fixes, and PPA optimiz
 
 ## Motivation and evaluation philosophy
 
-The benchmark began with a concrete engineering question: **can a multi-agent system with specialist roles, process management, and strict quality gates improve final delivery quality in digital IC development?** We want reproducible experiments that measure whether all specified behavior is implemented, boundary defects are found and fixed, physical costs are reasonable, and the required work fits a time and resource budget.
+The starting point is to **build a benchmark grounded in real digital IC development and delivery workflows, and test whether widely used frontier models can handle real chip engineering work.** Writing a fragment of RTL is only part of the task. Candidates must understand requirements, organize design and verification, analyze problems with EDA tools, iterate on optimizations, and deliver artifacts that pass independent acceptance.
 
-Tasks therefore cover an engineering cycle: **specification comprehension → architecture and RTL → candidate verification → debugging and fixes → PPA optimization → frozen handoff**. The benefit of multi-agent collaboration is a hypothesis to test through independent acceptance and controlled comparisons. Specialist roles, workflow gates, and collaboration mechanisms establish an advantage when they produce measurable improvements in delivered results.
+Tasks follow an engineering cycle: **specification comprehension → architecture and RTL → candidate verification → debugging and fixes → timing and PPA optimization → frozen handoff**. They include both greenfield design and reading, repairing, and extending existing RTL. Capabilities of interest include:
+
+- **Long-context comprehension and requirement decomposition:** extract requirements from long specifications, interface contracts, and existing RTL while preserving consistency across files and modules.
+- **Logic and microarchitecture design:** implement state machines, pipelines, storage, and protocol control with correct concurrency, backpressure, reset, and parameter boundaries.
+- **Timing-window and clock-domain analysis:** understand data-valid windows, setup/hold constraints, synchronizers, and CDC behavior; distinguish logical correctness from timing safety.
+- **Verification convergence:** build independent models and self-checking tests, cover corner cases, concurrency, and performance requirements, and eliminate defects through regression iterations.
+- **Debugging and brownfield changes:** locate rare, cross-module defects and add features without breaking existing behavior or interface compatibility.
+- **Timing closure and performance tradeoffs:** interpret timing reports, identify critical paths, and adjust logic and pipelines while meeting cycle and throughput requirements.
+- **Physical implementation and PPA optimization:** use synthesis, placement and routing, and memory macros while balancing area, power, timing, and physical constraints.
+- **Tool use and engineering handoff:** organize EDA runs, diagnose tool errors, manage time and compute resources, and deliver reproducible RTL, verification, and scripts.
+
+Building on model evaluation, we also explore **to what extent external harnesses—Skills, multi-agent orchestration, immediate quality gates, and similar mechanisms—can improve the final performance of frontier or cost-effective models on digital IC engineering tasks.** These are optional experimental variables, not prerequisites for using the benchmark. Their effects require controlled comparisons on the same tasks, without assuming that any particular architecture is better. Improvements should also be assessed against their time, inference cost, and compute requirements.
 
 The suite follows these principles:
 
 1. **Evaluate a complete deliverable.** Specifications constrain behavior, interfaces, resources, and handoff. Candidates deliver synthesizable RTL, their own verification, and executable reproduction, including the debugging and optimization work. Acceptance evaluates the final frozen project snapshot; claims made during development require evidence from the actual artifacts.
 
-2. **Prioritize correctness, then physical cost, then speed.** Functional errors fail the corresponding acceptance items and prevent PPA/time ranking eligibility for that task. Partial functional scores remain useful diagnostics. Fully functional designs are compared on area, routed delay, and energy under the common flow; completion time decides within comparable PPA buckets. This follows the engineering sequence of meeting the specification before optimizing cost and efficiency.
+2. **Prioritize correctness, then physical cost, then speed.** Functional errors fail the corresponding acceptance items and prevent PPA/time ranking eligibility for that task. Excellent PPA is meaningless when the required functionality is incorrect; this gate prevents perverse incentives in PPA optimization. Partial functional scores remain useful diagnostics. Fully functional designs are compared on area, routed delay, and energy under the common flow; completion time decides within comparable PPA buckets. This follows the engineering sequence of meeting the specification before optimizing cost and efficiency.
 
 3. **Keep acceptance independent and implementation flexible.** Fix DUT interfaces, protocols, and explicit architectural boundaries while allowing different RTL styles, legal microarchitectures, and verification frameworks. Evaluator-owned port transactions and behavioral models determine correctness; automatic netlist rules check required CDC/systolic structures. Candidate UTs assess verification handoff, while independent evaluation produces functional scores, allowing systems to use their own engineering methods.
 
@@ -36,7 +47,7 @@ The suite follows these principles:
 
 5. **Measure the physical cost of the complete design.** References and candidates use consistent process data, constraints, activity workloads, and measurement flows. Input transport, control, buffering, output, and actual interconnect contribute to complete-DUT cost; PE and other submodule results guide diagnosis and optimization. The goal is reproducible relative PPA, with reference-delivery scope determined by benchmark release gates.
 
-6. **Test collaboration benefits under equal aggregate budgets.** All roles share time, token, monetary, and compute budgets, including reasoning, verification, and PPA iterations. The same-model control track studies orchestration benefits; the product track measures practical system performance. Independent repetitions, pass rates, time, and cost provide evidence, with model settings and budget differences recorded alongside results.
+6. **Evaluate external harnesses through controlled comparisons.** Skills, orchestration strategies, and immediate quality gates are explicit experimental variables. All roles in a multi-agent system share time, token, monetary, and compute budgets, including reasoning, verification, and PPA iterations. The same-model control track studies harness effects; the product track measures practical model and system performance. Independent repetitions, pass rates, time, and cost provide evidence, with model settings and budget differences recorded alongside results.
 
 7. **Build difficulty through domain coverage and engineering interactions.** Tasks cover state control, parameterization, protocols, CDC, caches, pipelines, and spatial arrays. Boundaries, concurrent state, numerical semantics, and constraints across modules create difficulty. Different task scales reveal where systems are reliable and where they fail; pilot data calibrate difficulty and budgets. A compact suite makes repeated experiments practical.
 
@@ -44,7 +55,7 @@ The suite follows these principles:
 
 9. **Task and process materials are self-contained.** This repository includes T01–T10 specifications, acceptance plans, public tests, independent evaluator code/data, evaluation configurations, and completed reference baselines. It also includes ASAP7 Liberty, LEF, GDS, gate-level simulation models, and routing/extraction rules, with provenance, licenses, and file hashes. Users do not need to download a separate ASAP7 process package or standard-cell library. Process inputs are read directly from the repository; the task preparer copies permitted public materials into independent candidate workspaces. Install and pin Verilator, Yosys, OpenROAD, ORFS, and CPU tools according to the environment guide; model API access follows the experimental track's network policy.
 
-The intended outcome is evidence of **reliable delivery, optimization capability, and the engineering cost of achieving them**, useful for model selection, workflow improvement, and multi-agent system design. See the [full experimental methodology](benchmark/README.md#评测与评分方法).
+The intended outcome is evidence of **model capability boundaries, reliable delivery, optimization capability, and engineering cost** on real chip-development tasks, useful for model selection and external harness design. See the [full experimental methodology](benchmark/README.md#评测与评分方法).
 
 ## Current status
 
