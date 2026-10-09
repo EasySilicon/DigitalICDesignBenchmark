@@ -1,4 +1,4 @@
-# T01 · CVDP 8 位串入并出寄存器
+# T01 · SerDes RX comma aligner
 
 任务元数据见 `task.yaml`。
 

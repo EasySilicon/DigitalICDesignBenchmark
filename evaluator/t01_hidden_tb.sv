@@ -1,97 +1,64 @@
 `timescale 1ns/1ps
-module tb_hidden_T01;
-  logic clock, serial_in;
-  logic [7:0] parallel_out;
-  logic [7:0] expected, held;
-  int sampled, seed;
-  int unsigned rng;
-  int passed [1:4], total [1:4];
-  bit first_failure [1:4];
 
-  serial_in_parallel_out_8bit dut (.*);
+module t01_hidden_tb;
+  logic clk;
+  logic rst_n;
+  logic rx_valid;
+  logic [9:0] rx_bits;
+  wire locked;
+  wire symbol_valid;
+  wire [9:0] symbol_out;
+  logic [23:0] vectors [0:4095];
+  string vector_path;
+  int vector_count;
 
-  task automatic check(input int id, input bit okay, input string what);
-    total[id]++;
-    if (okay) passed[id]++;
-    else if (!first_failure[id]) begin
-      first_failure[id] = 1;
-      $display("IC_FAILURE AC-%02d sample=%0d %s expected=%02h actual=%02h",
-               id, sampled, what, expected, parallel_out);
-    end
-  endtask
-
-  function automatic int unsigned next_random(input int unsigned value);
-    int unsigned x;
-    x = value ^ (value << 13);
-    x = x ^ (x >> 17);
-    return x ^ (x << 5);
-  endfunction
-
-  task automatic sample_bit(input logic value, input bit stream_bit,
-                            input bit word_end);
-    // The complete low and high phases are each 0.5 ns. Consecutive rising
-    // edges are therefore exactly 1000 ps for the gate-level power workload.
-    held = parallel_out;
-    serial_in = ~value;
-    #0.1;
-    if (sampled >= 8) check(4, parallel_out === held, "low-phase input toggle");
-    serial_in = value;
-    #0.4;
-    if (sampled >= 8) check(4, parallel_out === held, "held before rising edge");
-
-    clock = 1;
-    expected = {expected[6:0], value};
-    sampled++;
-    #0.1;
-    if (stream_bit) check(2, parallel_out === expected, "sliding window");
-    if (word_end) check(1, parallel_out === expected, "complete word");
-    held = parallel_out;
-    serial_in = ~value;
-    #0.1;
-    if (sampled >= 8) check(4, parallel_out === held, "high-phase input toggle");
-    serial_in = value;
-    #0.29;
-    if (sampled >= 8) check(4, parallel_out === held, "held before falling edge");
-    clock = 0;
-    #0.01;
-    if (sampled >= 8) check(3, parallel_out === held, "falling edge changed output");
-  endtask
-
-  task automatic send_word(input logic [7:0] value);
-    for (int bit_index = 7; bit_index >= 0; bit_index--)
-      sample_bit(value[bit_index], 0, bit_index == 0);
-  endtask
+  serdes_rx_comma_aligner dut (
+    .clk(clk), .rst_n(rst_n), .rx_valid(rx_valid), .rx_bits(rx_bits),
+    .locked(locked), .symbol_valid(symbol_valid), .symbol_out(symbol_out)
+  );
 
   initial begin
-    seed = 20260928;
-    void'($value$plusargs("SEED=%d", seed));
-    rng = 32'(seed) ^ 32'h9e37_79b9;
-    if (rng == 0) rng = 32'h6d2b_79f5;
-    clock = 0;
-    serial_in = 0;
-    expected = 0;
-    sampled = 0;
-    for (int id = 1; id <= 4; id++) begin
-      passed[id] = 0;
-      total[id] = 0;
-      first_failure[id] = 0;
+    clk = 1'b0;
+    if ($test$plusargs("POWER_WORKLOAD"))
+      forever #0.5 clk = ~clk;
+    else
+      forever #5 clk = ~clk;
+  end
+
+  initial begin
+    rst_n = 1'b0;
+    rx_valid = 1'b0;
+    rx_bits = '0;
+    if (!$value$plusargs("VECTORS=%s", vector_path))
+      $fatal(1, "missing +VECTORS");
+    if (!$value$plusargs("COUNT=%d", vector_count) || vector_count <= 0 || vector_count > 4096)
+      $fatal(1, "invalid +COUNT");
+    $readmemh(vector_path, vectors);
+    for (int cycle = 0; cycle < vector_count; cycle++) begin
+      @(negedge clk);
+      rst_n = vectors[cycle][23];
+      rx_valid = vectors[cycle][22];
+      rx_bits = vectors[cycle][21:12];
+      @(posedge clk);
+      #0.1;
+      if (locked !== vectors[cycle][11])
+        $fatal(1, "locked mismatch cycle=%0d expected=%0b actual=%0b",
+               cycle, vectors[cycle][11], locked);
+      if (symbol_valid !== vectors[cycle][10])
+        $fatal(1, "symbol_valid mismatch cycle=%0d expected=%0b actual=%0b",
+               cycle, vectors[cycle][10], symbol_valid);
+      if (vectors[cycle][10] && symbol_out !== vectors[cycle][9:0])
+        $fatal(1, "symbol mismatch cycle=%0d expected=%03h actual=%03h",
+               cycle, vectors[cycle][9:0], symbol_out);
     end
-    check(1, $bits(dut.clock) == 1 && $bits(dut.serial_in) == 1 &&
-             $bits(dut.parallel_out) == 8, "fixed interface width");
-    send_word(8'h00);
-    send_word(8'hff);
-    send_word(8'ha5);
-    send_word(8'h5a);
-    send_word(8'h81);
-    send_word(8'h7e);
-    send_word(8'h96);
-    send_word(8'h69);
-    for (int index = 0; index < 1024; index++) begin
-      rng = next_random(rng);
-      sample_bit(rng[0], 1, 0);
+    $display("HIDDEN_PASS T01 cycles=%0d", vector_count);
+    if ($test$plusargs("POWER_WORKLOAD")) begin
+      $display("IC_GROUP AC-05 1 1");
+      $display("IC_GROUP AC-06 1 1");
+      $display("IC_GROUP AC-07 1 1");
+      $display("IC_GROUP AC-08A 1 1");
+      $display("IC_GROUP AC-08B 1 1");
     end
-    for (int id = 1; id <= 4; id++)
-      $display("IC_GROUP AC-%02d %0d %0d", id, passed[id], total[id]);
     $finish;
   end
 endmodule

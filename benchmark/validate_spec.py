@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
-"""Check benchmark design consistency; optionally verify pinned CVDP rows."""
+"""Check the frozen v0.3 task inventory and physical reference contracts."""
 
 from __future__ import annotations
 
 import argparse
 import hashlib
 import json
+import math
+import sys
 from pathlib import Path
-from urllib.request import urlopen
 
 import yaml
 
 
 ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(ROOT.parent / "evaluator"))
 PROJECT_NAME = "Digital IC Design Benchmark for Agents"
 
 
@@ -35,10 +37,35 @@ def validate_local() -> tuple[dict, dict]:
     actual_ids = [row["id"] for row in task_rows]
     if actual_ids != expected_ids:
         fail(f"task IDs/order differ: {actual_ids}")
+    expected_task_limits = {
+        "T01": 30, "T02": 60, "T03": 90, "T04": 90,
+        "T05": 120, "T06": 120, "T07": 120, "T08": 120, "T09": 120, "T10": 240,
+    }
+    actual_task_limits = {row["id"]: row["time_limit_minutes"] for row in task_rows}
+    if actual_task_limits != expected_task_limits:
+        fail("task time limits differ from the frozen v0.3 schedule")
+    if sum(row["time_limit_minutes"] for row in task_rows) != 1110:
+        fail("ten-task time budget must total 18 hours 30 minutes")
 
     scores = manifest["score"]
-    if sum(scores[key] for key in ("functional_basic", "functional_edges", "ppa", "completion_time")) != 100:
-        fail("suite display score does not sum to 100")
+    if sum(scores[key] for key in ("functional", "ppa", "completion_time")) != 105:
+        fail("suite display score does not sum to 105")
+    if scores["functional_raw_basic_weight"] + scores["functional_raw_edge_weight"] != 75 or \
+            scores["functional"] != 50 or scores["ppa"] != 50:
+        fail("score allocation differs from normalized function 50 + PPA 50")
+    if scores.get("candidate_delivery_error_penalty") != 5:
+        fail("each candidate-caused fatal delivery error must deduct 5 display points")
+    if scores.get("setup_violation_exponent") != 4:
+        fail("setup violations must use the frozen fourth-power frequency penalty")
+    if scores.get("task_raw_allocations") != {"T09": {"F": 48, "P": 27}}:
+        fail("T09 must reserve 10 normalized points for the cycle group")
+    expected_weights = {
+        "T01": 0.03, "T02": 0.03, "T03": 0.06, "T04": 0.06, "T05": 0.06,
+        "T06": 0.10, "T07": 0.10, "T08": 0.11, "T09": 0.20, "T10": 0.25,
+    }
+    if scores.get("task_weights") != expected_weights or \
+            not math.isclose(sum(expected_weights.values()), 1.0):
+        fail("task weights must match the frozen difficulty weighting and sum to one")
     if scores["rank_order"] != ["functional_total", "ppa_rank_bucket", "completion_time_seconds_ascending"]:
         fail("rank priority differs from function → PPA → time")
     if scores["suite_rank_order"] != ["full_functional_task_count", "functional_total_sum",
@@ -66,8 +93,8 @@ def validate_local() -> tuple[dict, dict]:
         fail("1 GHz PPA baseline status differs from calibrated task inventory")
     if baselines["score_bucket_width_points"] != scores["ppa_rank_resolution_points"]:
         fail("PPA baseline bucket width differs from manifest")
-    t06_clocks = ppa_inventory.get("task_clock_contracts", {}).get("T06")
-    t06_expected = {"wr_clk_period_ps": 1000, "rd_clk_period_ps": 1000,
+    t05_clocks = ppa_inventory.get("task_clock_contracts", {}).get("T05")
+    t05_expected = {"wr_clk_period_ps": 1000, "rd_clk_period_ps": 1000,
                     "relationship": "asynchronous"}
     expected_parameter_status = ("target_1ghz_pending_physical_calibration"
                                  if not calibrated else
@@ -76,8 +103,8 @@ def validate_local() -> tuple[dict, dict]:
     expected_values_status = ("pending_rebaseline" if not calibrated else
                               "qualified" if not pending else "partial_rebaseline")
     if ppa_inventory["shared_clock_period_ps"] != 1000 or \
-            t06_clocks != t06_expected or \
-            baselines["parameter_set"].get("task_clock_contracts", {}).get("T06") != t06_expected or \
+            t05_clocks != t05_expected or \
+            baselines["parameter_set"].get("task_clock_contracts", {}).get("T05") != t05_expected or \
             ppa_inventory["parameter_set_status"] != expected_parameter_status or \
             ppa_inventory["baseline_values_status"] != expected_values_status or \
             baselines["parameter_set"]["period_ps"] != 1000:
@@ -88,9 +115,17 @@ def validate_local() -> tuple[dict, dict]:
     for task_id in calibrated:
         row = baselines["tasks"][task_id]
         parameters = dict(common_parameters)
-        if task_id == "T06":
+        if task_id == "T05":
             parameters.update({"clock_periods_ps": {"wr_clk": 1000, "rd_clk": 1000},
                                "asynchronous_clock_groups": [["wr_clk", "rd_clk"]]})
+        if task_id == "T08":
+            from t11_sram import contract
+            parameters.update(corner="mixed_WC_standard_cells_TT_SRAM",
+                              clock_periods_ps={clock:1000 for clock in ("logic_clk","tx_clk","rx_clk")},
+                              asynchronous_clock_groups=[["logic_clk","tx_clk","rx_clk"]],
+                              ppa_policy_revision="2.0-lambdapdk-tdp-1ghz",
+                              memory_mapping="lambdapdk_tdp_4096x32",sram_contract=contract(),
+                              drc_scope=contract()["drc_scope"],lvs_performed=False)
         seeds = row.get("per_seed")
         hashes = (row.get("source_sha256", ""), row.get("workload_sha256", ""))
         if row.get("task_id") != task_id or \
@@ -140,16 +175,18 @@ def validate_local() -> tuple[dict, dict]:
                     "time_limit_minutes", "same_model_token_cap"):
             if task_metadata.get(key) != row[key]:
                 fail(f"task metadata differs from manifest: {task_id}/{key}")
-        if sum(row["f_points"]) != scores["functional_basic"]:
-            fail(f"F points do not sum to 60: {task_id}")
-        if sum(row["p_points"]) != scores["functional_edges"]:
-            fail(f"P points do not sum to 15: {task_id}")
+        allocation = scores["task_raw_allocations"].get(task_id, {
+            "F": scores["functional_raw_basic_weight"], "P": scores["functional_raw_edge_weight"]})
+        if not math.isclose(sum(row["f_points"]), allocation["F"]):
+            fail(f"F points do not sum to {allocation['F']}: {task_id}")
+        if not math.isclose(sum(row["p_points"]), allocation["P"]):
+            fail(f"P points do not sum to {allocation['P']}: {task_id}")
+        if task_metadata.get("f_points") != row["f_points"] or task_metadata.get("p_points") != row["p_points"]:
+            fail(f"task-local scoring weights differ from manifest: {task_id}")
         if row["level_hypothesis"] != index:
             fail(f"level hypothesis/order differs: {task_id}")
-        if row["time_limit_minutes"] <= 0 or row["same_model_token_cap"] <= 0:
+        if row["time_limit_minutes"] <= 0 or (row["same_model_token_cap"] is not None and row["same_model_token_cap"] <= 0):
             fail(f"invalid resource budget: {task_id}")
-        if row["origin"] == "cvdp" and task_id not in sources["cvdp"]["items"]:
-            fail(f"missing CVDP source lock: {task_id}")
 
     if manifest["status"] != "design_only":
         fail("status cannot advance without the publication gates")
@@ -183,6 +220,11 @@ def validate_local() -> tuple[dict, dict]:
         fail("CPU structural timing gate must use per-instruction latency")
     if not (ROOT.parent / "evaluator" / "cpu_latency_check.py").is_file():
         fail("missing CPU latency trace checker")
+    for name in ("t09_timing_check.py", "t09_timing_tb.sv"):
+        if not (ROOT.parent / "evaluator" / name).is_file():
+            fail(f"missing CPU cycle-performance checker: {name}")
+    if "port_timing_v1" not in cpu_plan or "N + M×(response_cycles+ready_delay) + H" not in cpu_plan:
+        fail("CPU cycle policy is missing its explicit workload budget")
     report_schema = json.loads((ROOT / "report.schema.json").read_text())
     if report_schema["properties"]["suite_id"]["const"] != manifest["suite_id"]:
         fail("report schema suite ID differs from manifest")
@@ -190,38 +232,24 @@ def validate_local() -> tuple[dict, dict]:
         fail("report schema PPA platform differs from source lock")
     if report_schema["properties"]["ppa_flow"]["const"] != sources["ppa"]["flow"]:
         fail("report schema PPA flow differs from source lock")
+    if __package__:
+        from .freeze_tasks import verify
+    else:
+        from freeze_tasks import verify
+    try:
+        for task_id in ("T08", "T09"):
+            verify(task_id)
+    except (OSError, ValueError, KeyError) as exc:
+        fail(str(exc))
     return manifest, sources
-
-
-def verify_cvdp(sources: dict) -> None:
-    cvdp = sources["cvdp"]
-    url = (
-        "https://huggingface.co/datasets/"
-        f"{cvdp['repository']}/resolve/{cvdp['revision']}/{cvdp['file']}"
-    )
-    raw = urlopen(url, timeout=60).read()
-    actual_file_hash = hashlib.sha256(raw).hexdigest()
-    if actual_file_hash != cvdp["file_sha256"]:
-        fail("CVDP file SHA-256 differs from lock")
-    rows = {row["id"]: row for row in (json.loads(line) for line in raw.splitlines())}
-    for task_id, locked in cvdp["items"].items():
-        row = rows.get(locked["id"])
-        if row is None:
-            fail(f"CVDP row missing: {task_id}")
-        prompt_hash = hashlib.sha256(row["input"]["prompt"].encode()).hexdigest()
-        if prompt_hash != locked["prompt_sha256"] or row["categories"] != locked["categories"]:
-            fail(f"CVDP prompt/category differs: {task_id}")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--verify-source", action="store_true", help="download pinned CVDP file")
-    args = parser.parse_args()
+    parser.parse_args()
     manifest, sources = validate_local()
-    if args.verify_source:
-        verify_cvdp(sources)
     print(json.dumps({"suite_id": manifest["suite_id"], "tasks": len(manifest["tasks"]),
-                      "status": manifest["status"], "source_verified": args.verify_source}))
+                      "status": manifest["status"]}))
 
 
 if __name__ == "__main__":

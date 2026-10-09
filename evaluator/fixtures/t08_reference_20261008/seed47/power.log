@@ -1,0 +1,33 @@
+[WARNING STA-1212] /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 13178, timing group from output port.
+[WARNING STA-1212] /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 13211, timing group from output port.
+[WARNING STA-1212] /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 13244, timing group from output port.
+[WARNING STA-1212] /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 13277, timing group from output port.
+[WARNING STA-1212] /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 13310, timing group from output port.
+[WARNING STA-1212] /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 13343, timing group from output port.
+[WARNING STA-1212] /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 13376, timing group from output port.
+[WARNING STA-1212] /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 14772, timing group from output port.
+[WARNING STA-1212] /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 14805, timing group from output port.
+[WARNING STA-1212] /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 14838, timing group from output port.
+Annotated 12506 pin activities.
+vcd         12506
+unannotated     0
+Group                  Internal  Switching    Leakage      Total
+                          Power      Power      Power      Power (Watts)
+----------------------------------------------------------------
+Sequential             7.92e-04   3.38e-05   3.01e-07   8.26e-04   6.1%
+Combinational          7.82e-05   8.37e-05   3.50e-07   1.62e-04   1.2%
+Clock                  9.30e-04   4.98e-04   7.02e-08   1.43e-03  10.6%
+Macro                  1.08e-02   0.00e+00   2.58e-04   1.10e-02  82.0%
+Pad                    0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+----------------------------------------------------------------
+Total                  1.26e-02   6.15e-04   2.59e-04   1.34e-02 100.0%
+                          93.5%       4.6%       1.9%
+T11_SRAM_POWER_BEGIN
+   Internal  Switching    Leakage      Total
+      Power      Power      Power      Power (Watts)
+--------------------------------------------
+   5.39e-03   0.00e+00   1.29e-04   5.52e-03 mac.tx_fifo.fifo_inst.mem.0.0
+   5.38e-03   0.00e+00   1.29e-04   5.51e-03 mac.rx_fifo.fifo_inst.mem.0.0
+T11_SRAM_POWER name=mac.rx_fifo.fifo_inst.mem.0.0 internal=0.005380026996135712 switching=0.0 leakage=0.00012889999197795987 total=0.005508927162736654
+T11_SRAM_POWER name=mac.tx_fifo.fifo_inst.mem.0.0 internal=0.005387960001826286 switching=0.0 leakage=0.00012889999197795987 total=0.005516860168427229
+T11_SRAM_POWER_END

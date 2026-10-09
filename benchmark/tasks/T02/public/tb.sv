@@ -1,127 +1,127 @@
 `timescale 1ns/1ps
 
-module tb_T02;
-  localparam logic [9:0] COMMA_P = 10'b0011111010;
-  localparam logic [9:0] COMMA_N = 10'b1100000101;
-  logic clk, rst_n, rx_valid;
-  logic [9:0] rx_bits;
-  wire locked, symbol_valid;
-  wire [9:0] symbol_out;
-  logic serial_bits [0:2047];
-  logic [9:0] expected [0:127];
-  int bit_count, expected_count, expected_index;
+module tb_T02 #(
+  parameter int WIDTH = 8,
+  parameter int DEPTH = 3
+);
+  logic clk, rst_n;
+  logic in_valid, in_ready;
+  logic [WIDTH-1:0] in_data;
+  logic out_valid, out_ready;
+  logic [WIDTH-1:0] out_data;
+  logic [WIDTH-1:0] oracle [0:DEPTH-1];
+  logic [WIDTH-1:0] held_data;
+  bit held;
+  int rd_ptr, wr_ptr, count, accepted, returned;
   int seed;
+  int unsigned random_state;
 
-  serdes_rx_comma_aligner dut (
-    .clk(clk), .rst_n(rst_n), .rx_valid(rx_valid), .rx_bits(rx_bits),
-    .locked(locked), .symbol_valid(symbol_valid), .symbol_out(symbol_out)
+  synchronous_fifo #(.WIDTH(WIDTH), .DEPTH(DEPTH)) dut (
+    .clk(clk), .rst_n(rst_n), .in_valid(in_valid), .in_ready(in_ready),
+    .in_data(in_data), .out_valid(out_valid), .out_ready(out_ready),
+    .out_data(out_data)
   );
 
-  task automatic append_symbol(input logic [9:0] symbol, input logic expect_output);
-    begin
-      for (int i = 0; i < 10; i++) serial_bits[bit_count + i] = symbol[i];
-      bit_count += 10;
-      if (expect_output) begin
-        expected[expected_count] = symbol;
-        expected_count++;
-      end
-    end
-  endtask
-
-  task automatic append_training(input logic polarity);
-    logic [9:0] comma;
-    begin
-      comma = polarity ? COMMA_N : COMMA_P;
-      append_symbol(comma, 1'b0);
-      append_symbol(comma, 1'b0);
-      append_symbol(comma, 1'b0);
-    end
-  endtask
-
-  task automatic append_frame(input int frame);
-    logic [9:0] payload;
-    begin
-      for (int i = 0; i < 15; i++) begin
-        payload = 10'(frame * 73 + i * 29 + 341 + seed);
-        if (payload == COMMA_P || payload == COMMA_N) payload = payload ^ 10'h201;
-        append_symbol(payload, 1'b1);
-      end
-      append_symbol(((frame & 1) != 0) ? COMMA_N : COMMA_P, 1'b1);
-    end
-  endtask
-
-  initial begin
+  task automatic reset_fifo;
     clk = 0;
-    forever #5 clk = ~clk;
-  end
+    rst_n = 0;
+    in_valid = 0;
+    out_ready = 0;
+    #2;
+    clk = 1;
+    #2;
+    clk = 0;
+    #2;
+    if (out_valid !== 0) $fatal(1, "AC-13 reset did not clear FIFO");
+    rd_ptr = 0;
+    wr_ptr = 0;
+    count = 0;
+    held = 0;
+    rst_n = 1;
+    #2;
+  endtask
 
-  task automatic drive_stream;
-    logic [9:0] chunk;
-    begin
-      for (int start = 0; start + 9 < bit_count; start += 10) begin
-        chunk = '0;
-        for (int i = 0; i < 10; i++) chunk[i] = serial_bits[start + i];
-        @(negedge clk);
-        rx_bits = chunk;
-        rx_valid = 1'b1;
-        @(posedge clk); #1;
-        if (symbol_valid) begin
-          if (!locked || expected_index >= expected_count ||
-              symbol_out !== expected[expected_index])
-            $fatal(1, "T02 output mismatch index=%0d expected=%03h actual=%03h locked=%0b",
-                   expected_index, expected[expected_index], symbol_out, locked);
-          expected_index++;
-        end
-      end
-      @(negedge clk);
-      rx_valid = 1'b0;
+  task automatic tick(input bit want_write, input logic [WIDTH-1:0] value,
+                      input bit want_read);
+    bit push, pop;
+    if (clk !== 0) $fatal(1, "testbench clock phase error");
+    in_valid = want_write;
+    in_data = value;
+    out_ready = want_read;
+    #2;
+    if (count == 0 && out_valid !== 0)
+      $fatal(1, "AC-10 empty FIFO asserted out_valid");
+    if (count == DEPTH && !want_read && in_ready !== 0)
+      $fatal(1, "AC-10 full FIFO asserted in_ready");
+    if (held && (out_valid !== 1 || out_data !== held_data))
+      $fatal(1, "AC-14 output changed under backpressure");
+    if (out_valid) begin
+      if (count == 0) $fatal(1, "AC-10 phantom item");
+      if (out_data !== oracle[rd_ptr])
+        $fatal(1, "AC-09 sequence mismatch expected=%h actual=%h count=%0d",
+               oracle[rd_ptr], out_data, count);
     end
+    push = in_valid && in_ready;
+    pop = out_valid && out_ready;
+    if (push && count == DEPTH && !pop)
+      $fatal(1, "AC-10 overflow accepted");
+    held = out_valid && !out_ready;
+    if (held) held_data = out_data;
+    clk = 1;
+    #2;
+    if (pop) begin
+      rd_ptr = (rd_ptr + 1) % DEPTH;
+      count--;
+      returned++;
+    end
+    if (push) begin
+      oracle[wr_ptr] = value;
+      wr_ptr = (wr_ptr + 1) % DEPTH;
+      count++;
+      accepted++;
+    end
+    clk = 0;
+    #2;
   endtask
 
   initial begin
-    if ($bits(dut.rx_bits) != 10 || $bits(dut.symbol_out) != 10)
+    if ($bits(dut.in_data) != WIDTH || $bits(dut.out_data) != WIDTH ||
+        $bits(dut.in_valid) != 1 || $bits(dut.out_valid) != 1)
       $fatal(1, "T02 fixed port width mismatch");
-    seed = 20260927;
+    seed = 20260925;
     void'($value$plusargs("SEED=%d", seed));
-    rx_valid = 0; rx_bits = 0; rst_n = 0;
-    bit_count = 0; expected_count = 0; expected_index = 0;
-    for (int i = 0; i < 3; i++) begin
-      serial_bits[bit_count] = (i == 1);
-      bit_count++;
+    random_state = 32'(seed) ^ 32'h6a09e667;
+    accepted = 0;
+    returned = 0;
+    reset_fifo();
+
+    // Fill exact capacity, then reject the next write until one item is read.
+    for (int i = 0; i < DEPTH; i++)
+      tick(1, WIDTH'(i + 8'h31), 0);
+    if (count != DEPTH) $fatal(1, "AC-10 failed to fill exact capacity");
+    tick(1, WIDTH'('hfe), 0);
+    if (count != DEPTH) $fatal(1, "AC-10 overflow changed occupancy");
+    tick(1, WIDTH'('hfd), 1);
+    if (count != DEPTH) $fatal(1, "AC-11 full simultaneous pop/push failed");
+
+    // Repeated wraparound, mixed pressure and an independent software queue.
+    for (int i = 0; i < 512; i++) begin
+      random_state ^= random_state << 13;
+      random_state ^= random_state >> 17;
+      random_state ^= random_state << 5;
+      tick(random_state[0], WIDTH'(random_state ^ (i * 17)), random_state[2]);
     end
-    append_training(1'b0);
-    append_frame(0); append_frame(1); append_frame(2);
-    for (int i = 0; i < 7; i++) begin
-      serial_bits[bit_count] = 1'b0;
-      bit_count++;
-    end
-    repeat (2) @(posedge clk);
-    @(negedge clk); rst_n = 1;
-    for (int i = 0; i < 3; i++) begin
-      rx_valid = 1'b1;
-      rx_bits = COMMA_P;
-      @(posedge clk); #1;
-      if (locked !== (i == 2) || symbol_valid)
-        $fatal(1, "T02 slice-aligned training timing mismatch comma=%0d locked=%0b valid=%0b",
-               i + 1, locked, symbol_valid);
-      @(negedge clk);
-    end
-    rx_bits = 10'h155;
-    @(posedge clk); #1;
-    if (!locked || !symbol_valid || symbol_out !== 10'h155)
-      $fatal(1, "T02 first post-training symbol mismatch locked=%0b valid=%0b symbol=%03h",
-             locked, symbol_valid, symbol_out);
-    @(negedge clk); rst_n = 0; rx_valid = 0;
-    #1;
-    if (locked || symbol_valid)
-      $fatal(1, "T02 asynchronous reset did not clear outputs");
-    repeat (2) @(posedge clk);
-    @(negedge clk); rst_n = 1;
-    drive_stream();
-    repeat (4) @(posedge clk);
-    if (expected_index != expected_count)
-      $fatal(1, "T02 did not emit all aligned symbols got=%0d expected=%0d", expected_index, expected_count);
-    $display("PUBLIC_PASS T02 symbols=%0d", expected_count);
+    for (int i = 0; i < DEPTH + 8; i++) tick(0, '0, 1);
+    if (count != 0) $fatal(1, "AC-09 drain timeout count=%0d", count);
+
+    // A running reset must invalidate old entries.
+    tick(1, WIDTH'('h55), 0);
+    if (count != 1) $fatal(1, "AC-13 setup failed");
+    reset_fifo();
+    tick(0, '0, 1);
+    if (count != 0) $fatal(1, "AC-13 stale data after reset");
+    $display("PUBLIC_PASS T02 WIDTH=%0d DEPTH=%0d accepted=%0d returned=%0d seed=%0d",
+             WIDTH, DEPTH, accepted, returned, seed);
     $finish;
   end
 endmodule

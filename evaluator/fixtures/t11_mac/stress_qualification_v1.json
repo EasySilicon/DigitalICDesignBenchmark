@@ -1,0 +1,621 @@
+{
+  "task": "T08",
+  "stress_revision": "1.0-concurrency-progress",
+  "scope": "Host-only, unscored concurrency qualification; original submissions, frozen judges and summaries unchanged",
+  "completed_utc": "2026-10-07T15:32:39+00:00",
+  "author_output_root": "/mnt/ubu_3T/ic_bcmk_trials/t11_concurrency_20261007_a4Wbjl",
+  "control_provenance": "Previously qualified, repaired old gpt-6.1-sol MAC submission, not an independently frozen reference or current-version trial. Public starter is intentionally defective. Private legacy T08 NoC reference is unrelated.",
+  "inputs": {
+    "control": "/mnt/ubu_3T/ic_bcmk_trials/t11_judge_v31_20261007_SemNQg/control",
+    "glm": "/mnt/ubu_3T/ic_bcmk_trials/t11_glm_v3_90m_20261007/glm-5.3-flash/workspace",
+    "kimi": "/mnt/ubu_3T/ic_bcmk_trials/t11_mac_kimi_glm_20261007_v2/kimi-k3-256k-launch3/workspace"
+  },
+  "summaries": {
+    "control": {
+      "stress_revision": "1.0-concurrency-progress",
+      "compiled": true,
+      "full_pass": true,
+      "run_count": 270,
+      "passed_count": 270,
+      "matrix": {
+        "seeds": [
+          20261007,
+          47,
+          91
+        ],
+        "logic_mhz": [
+          80,
+          100,
+          120,
+          125,
+          160
+        ],
+        "rx_phase_ns": [
+          0.01,
+          2.3,
+          7.99
+        ]
+      },
+      "rtl_sha256": {
+        "lfsr.v": "5502c8203b0dfc7246c1a2de93e60c199ded3c1d7840b106350d714f72a9a079",
+        "axis_adapter.v": "4b9b6649f12e374c24d36f2d42680ecf1f38cca8ae4fda7fd68dbf722b6c8140",
+        "axis_async_fifo.v": "339734a7984d7d540451c92f0831495837c451d170ba60dfbd59f851b28f4250",
+        "axis_async_fifo_adapter.v": "9dc661b88d459a318e40722df277720fe64ef4309230462e8538b1a44da1d57c",
+        "axis_gmii_rx.v": "70d8e8c8ebfd22b8b1ffed7c077864c1944217a3e844f79cd3807cc41cf449d7",
+        "axis_gmii_tx.v": "e7bae1eeefc9043463b5d5b0c125b19835ea44abdb46416759075a538384db5c",
+        "eth_mac_1g.v": "caacd61ad484d96ff14991100009aa67f16aa66a85d9bd245ed2869926da652c",
+        "rx_vlan_admission.sv": "368937f46086c91f06e6937cc842732ea508f267e2c54b1cdce7954e14319d37",
+        "eth_mac_1g_fifo.v": "1c51f77283e10eabdc4ba7c0542a25c3e4c416a348e68592de3a2c7d8b5c0c30",
+        "mac_1g_repair.sv": "b4358e99461f034ef42a7a53a95b2b518bc303f0a960f2327f30396deda5d984"
+      },
+      "checker_sha256": {
+        "evaluator/public/tb_T08.sv": "5cd85d3d1330c045fe3902b880864733cc3cba5e7b552acffd16168f5bb5abcc",
+        "evaluator/fixtures/t11_mac/tb_stress.sv": "3f9f043468bf307b1d5f9b740b651d81c4460123b7ea0a8244f8c5b1254e1fff",
+        "evaluator/t08_stress_check.py": "fe388c8aa88e1ace8da727d133f09e70bb46ca4b6d41438b31bf3db1caf4a66d"
+      },
+      "case_results": [
+        {
+          "case": 0,
+          "description": "continuous TX full/backpressure/drain/restart and bad-frame rollback"
+        },
+        {
+          "case": 1,
+          "description": "sustained full duplex with RX stalls, mixed metadata and corrupt/denied frames"
+        },
+        {
+          "case": 2,
+          "description": "overflowed RX frame cannot resurrect after mid-frame space release"
+        },
+        {
+          "case": 3,
+          "description": "publication/discard interleavings over twelve external release windows"
+        },
+        {
+          "case": 4,
+          "description": "coordinated reset during TX padding/FCS and queued RX metadata; six release orders"
+        },
+        {
+          "case": 5,
+          "description": "near-full RX concurrent read/write, asynchronous space return and ring reuse"
+        }
+      ],
+      "metrics_by_case": [
+        {
+          "case": 0,
+          "passed": 45,
+          "run_count": 45,
+          "tx_stalls_min": 0,
+          "tx_stalls_max": 10751,
+          "wire_overlap_min": 0,
+          "wire_overlap_max": 0,
+          "rx_overflows_min": 0,
+          "rx_overflows_max": 0
+        },
+        {
+          "case": 1,
+          "passed": 45,
+          "run_count": 45,
+          "tx_stalls_min": 0,
+          "tx_stalls_max": 2728,
+          "wire_overlap_min": 7864,
+          "wire_overlap_max": 16894,
+          "rx_overflows_min": 0,
+          "rx_overflows_max": 0
+        },
+        {
+          "case": 2,
+          "passed": 45,
+          "run_count": 45,
+          "tx_stalls_min": 0,
+          "tx_stalls_max": 0,
+          "wire_overlap_min": 0,
+          "wire_overlap_max": 0,
+          "rx_overflows_min": 6,
+          "rx_overflows_max": 6
+        },
+        {
+          "case": 3,
+          "passed": 45,
+          "run_count": 45,
+          "tx_stalls_min": 0,
+          "tx_stalls_max": 0,
+          "wire_overlap_min": 0,
+          "wire_overlap_max": 0,
+          "rx_overflows_min": 0,
+          "rx_overflows_max": 0
+        },
+        {
+          "case": 4,
+          "passed": 45,
+          "run_count": 45,
+          "tx_stalls_min": 0,
+          "tx_stalls_max": 0,
+          "wire_overlap_min": 0,
+          "wire_overlap_max": 230,
+          "rx_overflows_min": 0,
+          "rx_overflows_max": 0
+        },
+        {
+          "case": 5,
+          "passed": 45,
+          "run_count": 45,
+          "tx_stalls_min": 0,
+          "tx_stalls_max": 0,
+          "wire_overlap_min": 0,
+          "wire_overlap_max": 0,
+          "rx_overflows_min": 0,
+          "rx_overflows_max": 0
+        }
+      ],
+      "legacy_checker_sha256": {
+        "evaluator/public/tb_T08.sv": "62827a2077042418939465795bf0ae002f1fe628fad5d04fe6376207941e0bf6",
+        "evaluator/fixtures/t11_mac/tb_stress.sv": "d096538e5e05df9ac05af787ceb85a0ddbf2bd52fd7e84581073709b14e9c5b2",
+        "evaluator/t08_stress_check.py": "67b94136b1966035e081c488655a5d9aa5ec61768acc49bf08f14e2d0d2beb36"
+      }
+    },
+    "glm": {
+      "stress_revision": "1.0-concurrency-progress",
+      "compiled": true,
+      "full_pass": true,
+      "run_count": 270,
+      "passed_count": 270,
+      "matrix": {
+        "seeds": [
+          20261007,
+          47,
+          91
+        ],
+        "logic_mhz": [
+          80,
+          100,
+          120,
+          125,
+          160
+        ],
+        "rx_phase_ns": [
+          0.01,
+          2.3,
+          7.99
+        ]
+      },
+      "rtl_sha256": {
+        "lfsr.v": "5502c8203b0dfc7246c1a2de93e60c199ded3c1d7840b106350d714f72a9a079",
+        "axis_adapter.v": "4b9b6649f12e374c24d36f2d42680ecf1f38cca8ae4fda7fd68dbf722b6c8140",
+        "axis_async_fifo.v": "90f8b60bbb12a1c38c49545c048a258ade2f4d1bb26916b6bddc3fd554d4f8bc",
+        "axis_async_fifo_adapter.v": "9dc661b88d459a318e40722df277720fe64ef4309230462e8538b1a44da1d57c",
+        "axis_gmii_rx.v": "70d8e8c8ebfd22b8b1ffed7c077864c1944217a3e844f79cd3807cc41cf449d7",
+        "axis_gmii_tx.v": "3bf9b8a71bb9f49e772b4d0988c57a31ba3126be99bcab7627d5e2e6f742a381",
+        "eth_mac_1g.v": "caacd61ad484d96ff14991100009aa67f16aa66a85d9bd245ed2869926da652c",
+        "rx_vlan_admission.sv": "93860bae3f93b7d3951be7b60c0ba1b2b2043ef5d3ce566c2735f060f15b58c1",
+        "eth_mac_1g_fifo.v": "1c51f77283e10eabdc4ba7c0542a25c3e4c416a348e68592de3a2c7d8b5c0c30",
+        "mac_1g_repair.sv": "b4358e99461f034ef42a7a53a95b2b518bc303f0a960f2327f30396deda5d984"
+      },
+      "checker_sha256": {
+        "evaluator/public/tb_T08.sv": "5cd85d3d1330c045fe3902b880864733cc3cba5e7b552acffd16168f5bb5abcc",
+        "evaluator/fixtures/t11_mac/tb_stress.sv": "3f9f043468bf307b1d5f9b740b651d81c4460123b7ea0a8244f8c5b1254e1fff",
+        "evaluator/t08_stress_check.py": "fe388c8aa88e1ace8da727d133f09e70bb46ca4b6d41438b31bf3db1caf4a66d"
+      },
+      "case_results": [
+        {
+          "case": 0,
+          "description": "continuous TX full/backpressure/drain/restart and bad-frame rollback"
+        },
+        {
+          "case": 1,
+          "description": "sustained full duplex with RX stalls, mixed metadata and corrupt/denied frames"
+        },
+        {
+          "case": 2,
+          "description": "overflowed RX frame cannot resurrect after mid-frame space release"
+        },
+        {
+          "case": 3,
+          "description": "publication/discard interleavings over twelve external release windows"
+        },
+        {
+          "case": 4,
+          "description": "coordinated reset during TX padding/FCS and queued RX metadata; six release orders"
+        },
+        {
+          "case": 5,
+          "description": "near-full RX concurrent read/write, asynchronous space return and ring reuse"
+        }
+      ],
+      "metrics_by_case": [
+        {
+          "case": 0,
+          "passed": 45,
+          "run_count": 45,
+          "tx_stalls_min": 0,
+          "tx_stalls_max": 10751,
+          "wire_overlap_min": 0,
+          "wire_overlap_max": 0,
+          "rx_overflows_min": 0,
+          "rx_overflows_max": 0
+        },
+        {
+          "case": 1,
+          "passed": 45,
+          "run_count": 45,
+          "tx_stalls_min": 0,
+          "tx_stalls_max": 2728,
+          "wire_overlap_min": 7864,
+          "wire_overlap_max": 16894,
+          "rx_overflows_min": 0,
+          "rx_overflows_max": 0
+        },
+        {
+          "case": 2,
+          "passed": 45,
+          "run_count": 45,
+          "tx_stalls_min": 0,
+          "tx_stalls_max": 0,
+          "wire_overlap_min": 0,
+          "wire_overlap_max": 0,
+          "rx_overflows_min": 6,
+          "rx_overflows_max": 6
+        },
+        {
+          "case": 3,
+          "passed": 45,
+          "run_count": 45,
+          "tx_stalls_min": 0,
+          "tx_stalls_max": 0,
+          "wire_overlap_min": 0,
+          "wire_overlap_max": 0,
+          "rx_overflows_min": 0,
+          "rx_overflows_max": 0
+        },
+        {
+          "case": 4,
+          "passed": 45,
+          "run_count": 45,
+          "tx_stalls_min": 0,
+          "tx_stalls_max": 0,
+          "wire_overlap_min": 0,
+          "wire_overlap_max": 230,
+          "rx_overflows_min": 0,
+          "rx_overflows_max": 0
+        },
+        {
+          "case": 5,
+          "passed": 45,
+          "run_count": 45,
+          "tx_stalls_min": 0,
+          "tx_stalls_max": 0,
+          "wire_overlap_min": 0,
+          "wire_overlap_max": 0,
+          "rx_overflows_min": 0,
+          "rx_overflows_max": 0
+        }
+      ],
+      "legacy_checker_sha256": {
+        "evaluator/public/tb_T08.sv": "62827a2077042418939465795bf0ae002f1fe628fad5d04fe6376207941e0bf6",
+        "evaluator/fixtures/t11_mac/tb_stress.sv": "d096538e5e05df9ac05af787ceb85a0ddbf2bd52fd7e84581073709b14e9c5b2",
+        "evaluator/t08_stress_check.py": "67b94136b1966035e081c488655a5d9aa5ec61768acc49bf08f14e2d0d2beb36"
+      }
+    },
+    "kimi": {
+      "stress_revision": "1.0-concurrency-progress",
+      "compiled": true,
+      "full_pass": true,
+      "run_count": 270,
+      "passed_count": 270,
+      "matrix": {
+        "seeds": [
+          20261007,
+          47,
+          91
+        ],
+        "logic_mhz": [
+          80,
+          100,
+          120,
+          125,
+          160
+        ],
+        "rx_phase_ns": [
+          0.01,
+          2.3,
+          7.99
+        ]
+      },
+      "rtl_sha256": {
+        "lfsr.v": "5502c8203b0dfc7246c1a2de93e60c199ded3c1d7840b106350d714f72a9a079",
+        "axis_adapter.v": "4b9b6649f12e374c24d36f2d42680ecf1f38cca8ae4fda7fd68dbf722b6c8140",
+        "axis_async_fifo.v": "339734a7984d7d540451c92f0831495837c451d170ba60dfbd59f851b28f4250",
+        "axis_async_fifo_adapter.v": "9dc661b88d459a318e40722df277720fe64ef4309230462e8538b1a44da1d57c",
+        "axis_gmii_rx.v": "70d8e8c8ebfd22b8b1ffed7c077864c1944217a3e844f79cd3807cc41cf449d7",
+        "axis_gmii_tx.v": "5f1679d123c33f9df1f14e15311616afeb70ba56c2030f2dbe92f5539b14e744",
+        "eth_mac_1g.v": "caacd61ad484d96ff14991100009aa67f16aa66a85d9bd245ed2869926da652c",
+        "rx_vlan_admission.sv": "c6465f22f87640dfd5969e9d2e24c16515d86432aa8faae055bc5b888bd34bbe",
+        "eth_mac_1g_fifo.v": "1c51f77283e10eabdc4ba7c0542a25c3e4c416a348e68592de3a2c7d8b5c0c30",
+        "mac_1g_repair.sv": "b4358e99461f034ef42a7a53a95b2b518bc303f0a960f2327f30396deda5d984"
+      },
+      "checker_sha256": {
+        "evaluator/public/tb_T08.sv": "5cd85d3d1330c045fe3902b880864733cc3cba5e7b552acffd16168f5bb5abcc",
+        "evaluator/fixtures/t11_mac/tb_stress.sv": "3f9f043468bf307b1d5f9b740b651d81c4460123b7ea0a8244f8c5b1254e1fff",
+        "evaluator/t08_stress_check.py": "fe388c8aa88e1ace8da727d133f09e70bb46ca4b6d41438b31bf3db1caf4a66d"
+      },
+      "case_results": [
+        {
+          "case": 0,
+          "description": "continuous TX full/backpressure/drain/restart and bad-frame rollback"
+        },
+        {
+          "case": 1,
+          "description": "sustained full duplex with RX stalls, mixed metadata and corrupt/denied frames"
+        },
+        {
+          "case": 2,
+          "description": "overflowed RX frame cannot resurrect after mid-frame space release"
+        },
+        {
+          "case": 3,
+          "description": "publication/discard interleavings over twelve external release windows"
+        },
+        {
+          "case": 4,
+          "description": "coordinated reset during TX padding/FCS and queued RX metadata; six release orders"
+        },
+        {
+          "case": 5,
+          "description": "near-full RX concurrent read/write, asynchronous space return and ring reuse"
+        }
+      ],
+      "metrics_by_case": [
+        {
+          "case": 0,
+          "passed": 45,
+          "run_count": 45,
+          "tx_stalls_min": 0,
+          "tx_stalls_max": 10751,
+          "wire_overlap_min": 0,
+          "wire_overlap_max": 0,
+          "rx_overflows_min": 0,
+          "rx_overflows_max": 0
+        },
+        {
+          "case": 1,
+          "passed": 45,
+          "run_count": 45,
+          "tx_stalls_min": 0,
+          "tx_stalls_max": 2728,
+          "wire_overlap_min": 7864,
+          "wire_overlap_max": 16894,
+          "rx_overflows_min": 0,
+          "rx_overflows_max": 0
+        },
+        {
+          "case": 2,
+          "passed": 45,
+          "run_count": 45,
+          "tx_stalls_min": 0,
+          "tx_stalls_max": 0,
+          "wire_overlap_min": 0,
+          "wire_overlap_max": 0,
+          "rx_overflows_min": 6,
+          "rx_overflows_max": 6
+        },
+        {
+          "case": 3,
+          "passed": 45,
+          "run_count": 45,
+          "tx_stalls_min": 0,
+          "tx_stalls_max": 0,
+          "wire_overlap_min": 0,
+          "wire_overlap_max": 0,
+          "rx_overflows_min": 0,
+          "rx_overflows_max": 0
+        },
+        {
+          "case": 4,
+          "passed": 45,
+          "run_count": 45,
+          "tx_stalls_min": 0,
+          "tx_stalls_max": 0,
+          "wire_overlap_min": 0,
+          "wire_overlap_max": 230,
+          "rx_overflows_min": 0,
+          "rx_overflows_max": 0
+        },
+        {
+          "case": 5,
+          "passed": 45,
+          "run_count": 45,
+          "tx_stalls_min": 0,
+          "tx_stalls_max": 0,
+          "wire_overlap_min": 0,
+          "wire_overlap_max": 0,
+          "rx_overflows_min": 0,
+          "rx_overflows_max": 0
+        }
+      ],
+      "legacy_checker_sha256": {
+        "evaluator/public/tb_T08.sv": "62827a2077042418939465795bf0ae002f1fe628fad5d04fe6376207941e0bf6",
+        "evaluator/fixtures/t11_mac/tb_stress.sv": "d096538e5e05df9ac05af787ceb85a0ddbf2bd52fd7e84581073709b14e9c5b2",
+        "evaluator/t08_stress_check.py": "67b94136b1966035e081c488655a5d9aa5ec61768acc49bf08f14e2d0d2beb36"
+      }
+    }
+  },
+  "qualification": {
+    "task": "T08",
+    "stress_revision": "1.0-concurrency-progress",
+    "scope": "author-only dynamic concurrency qualification; no historical score update",
+    "completed_utc": "2026-10-07T15:32:39+00:00",
+    "baseline_passed": true,
+    "baseline_run_count": 270,
+    "baseline_rtl_sha256": {
+      "lfsr.v": "5502c8203b0dfc7246c1a2de93e60c199ded3c1d7840b106350d714f72a9a079",
+      "axis_adapter.v": "4b9b6649f12e374c24d36f2d42680ecf1f38cca8ae4fda7fd68dbf722b6c8140",
+      "axis_async_fifo.v": "339734a7984d7d540451c92f0831495837c451d170ba60dfbd59f851b28f4250",
+      "axis_async_fifo_adapter.v": "9dc661b88d459a318e40722df277720fe64ef4309230462e8538b1a44da1d57c",
+      "axis_gmii_rx.v": "70d8e8c8ebfd22b8b1ffed7c077864c1944217a3e844f79cd3807cc41cf449d7",
+      "axis_gmii_tx.v": "e7bae1eeefc9043463b5d5b0c125b19835ea44abdb46416759075a538384db5c",
+      "eth_mac_1g.v": "caacd61ad484d96ff14991100009aa67f16aa66a85d9bd245ed2869926da652c",
+      "rx_vlan_admission.sv": "368937f46086c91f06e6937cc842732ea508f267e2c54b1cdce7954e14319d37",
+      "eth_mac_1g_fifo.v": "1c51f77283e10eabdc4ba7c0542a25c3e4c416a348e68592de3a2c7d8b5c0c30",
+      "mac_1g_repair.sv": "b4358e99461f034ef42a7a53a95b2b518bc303f0a960f2327f30396deda5d984"
+    },
+    "checker_sha256": {
+      "evaluator/public/tb_T08.sv": "5cd85d3d1330c045fe3902b880864733cc3cba5e7b552acffd16168f5bb5abcc",
+      "evaluator/fixtures/t11_mac/tb_stress.sv": "3f9f043468bf307b1d5f9b740b651d81c4460123b7ea0a8244f8c5b1254e1fff",
+      "evaluator/t08_stress_check.py": "fe388c8aa88e1ace8da727d133f09e70bb46ca4b6d41438b31bf3db1caf4a66d"
+    },
+    "qualification_sha256": "1f2bcbf5db65d104f6acb39374700f022a1b30f4792c0a2fa2caf2ba97d0e541",
+    "coalescing_positive_control": {
+      "compiled": true,
+      "passed": true,
+      "run_count": 270
+    },
+    "variants": {
+      "rx_overflow_resurrection": {
+        "compiled": true,
+        "run_count": 45,
+        "failed_count": 45,
+        "assertion_witness_count": 45,
+        "detected": true,
+        "matrix": {
+          "seeds": [
+            20261007,
+            47,
+            91
+          ],
+          "logic_mhz": [
+            80,
+            100,
+            120,
+            125,
+            160
+          ],
+          "rx_phase_ns": [
+            0.01,
+            2.3,
+            7.99
+          ]
+        },
+        "first_witness": "[307731000] %Fatal: tb_stress.sv:40: Assertion failed in tb_t08_stress: RX prefix before physical frame completion\n%Error: /home/reefshark/research/agent_os/ic_bcmk/evaluator/fixtures/t11_mac/tb_stress.sv:40: Verilog $stop\nAborting...\n"
+      },
+      "tx_full_stuck": {
+        "compiled": true,
+        "run_count": 9,
+        "failed_count": 9,
+        "assertion_witness_count": 9,
+        "detected": true,
+        "matrix": {
+          "seeds": [
+            20261007,
+            47,
+            91
+          ],
+          "logic_mhz": [
+            160
+          ],
+          "rx_phase_ns": [
+            0.01,
+            2.3,
+            7.99
+          ]
+        },
+        "first_witness": "[704897000] %Fatal: tb_stress.sv:132: Assertion failed in tb_t08_stress.tx_send.unnamedblk6.await_accept: TX ready failed to recover with clocks running id=1008 offset=588\n%Error: /home/reefshark/research/agent_os/ic_bcmk/evaluator/fixtures/t11_mac/tb_stress.sv:132: Verilog $stop\nAborting...\n"
+      },
+      "cross_channel_wire_gate": {
+        "compiled": true,
+        "run_count": 45,
+        "failed_count": 45,
+        "assertion_witness_count": 45,
+        "detected": true,
+        "matrix": {
+          "seeds": [
+            20261007,
+            47,
+            91
+          ],
+          "logic_mhz": [
+            80,
+            100,
+            120,
+            125,
+            160
+          ],
+          "rx_phase_ns": [
+            0.01,
+            2.3,
+            7.99
+          ]
+        },
+        "first_witness": "[21140000] %Fatal: tb_stress.sv:76: Assertion failed in tb_t08_stress: TX wire identity/body/padding/CRC frame=0 offset=0\n%Error: /home/reefshark/research/agent_os/ic_bcmk/evaluator/fixtures/t11_mac/tb_stress.sv:76: Verilog $stop\nAborting...\n"
+      },
+      "reset_wire_ghost": {
+        "compiled": true,
+        "run_count": 45,
+        "failed_count": 45,
+        "assertion_witness_count": 45,
+        "detected": true,
+        "matrix": {
+          "seeds": [
+            20261007,
+            47,
+            91
+          ],
+          "logic_mhz": [
+            80,
+            100,
+            120,
+            125,
+            160
+          ],
+          "rx_phase_ns": [
+            0.01,
+            2.3,
+            7.99
+          ]
+        },
+        "first_witness": "RESET_WINDOW order=0 tx_wire_offset=30\n[2100000] %Fatal: tb_stress.sv:66: Assertion failed in tb_t08_stress: pre-reset TX traffic escaped into new epoch\n%Error: /home/reefshark/research/agent_os/ic_bcmk/evaluator/fixtures/t11_mac/tb_stress.sv:66: Verilog $stop\nAborting...\n"
+      }
+    },
+    "variant_count": 4,
+    "detected_count": 4,
+    "passed": true,
+    "limitations": [
+      "Finite faults cannot establish exhaustive verification or analog CDC safety.",
+      "Fault anchors apply only to the inherited baseline structure.",
+      "TX-full witness runs at 160 MHz; lower rates need not saturate TX storage.",
+      "Original RTL and scores are unchanged; no corrected reference is published."
+    ],
+    "legacy_checker_sha256": {
+      "evaluator/public/tb_T08.sv": "62827a2077042418939465795bf0ae002f1fe628fad5d04fe6376207941e0bf6",
+      "evaluator/fixtures/t11_mac/tb_stress.sv": "d096538e5e05df9ac05af787ceb85a0ddbf2bd52fd7e84581073709b14e9c5b2",
+      "evaluator/t08_stress_check.py": "67b94136b1966035e081c488655a5d9aa5ec61768acc49bf08f14e2d0d2beb36"
+    },
+    "legacy_qualification_sha256": "e26395d9e5065ad87eb33403c035da378ceabf58dc843960a62292164f53eb98"
+  },
+  "known_glm_boundary_defect": {
+    "status": "Still present, not corrected or re-scored here",
+    "judge_revision": "3.1-boundary-crosses",
+    "failed_cases": [
+      28,
+      30,
+      31,
+      33,
+      35,
+      36
+    ],
+    "host_replay_functional_points": 44,
+    "host_replay_max": 50,
+    "reason": "One-byte first-and-last handling uses stale configuration/header state. New concurrency suite uses normal frame lengths and does not invalidate earlier boundary failures.",
+    "original_summary_sha256": "4a6b51d35e7cb3703e9e51aac73e9400fb7477f2910a685e2347ce3bae78c414"
+  },
+  "conclusions": {
+    "new_candidate_bugs_found": false,
+    "positive_replays_passed": 810,
+    "positive_replays_total": 810,
+    "compiled_negative_variants": 4,
+    "detected_negative_variants": 4,
+    "negative_assertion_witnesses": 144,
+    "compile_failure_counts_as_detection": false,
+    "skills_author_only": true,
+    "no_formal_or_metastability_proof": true
+  },
+  "evidence_migration": "Task-ID relabel only, with byte-exact original checkers archived and normalized-byte equivalence verified; no fresh mutation run claimed."
+}

@@ -1,4 +1,4 @@
-# T03 · 参数化同步 FIFO
+# T03 · APB4 定时器与中断外设
 
 [English](README.en.md)
 

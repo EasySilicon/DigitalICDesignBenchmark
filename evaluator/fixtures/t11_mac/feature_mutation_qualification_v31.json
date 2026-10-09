@@ -1,0 +1,323 @@
+{
+  "task": "T08",
+  "scope": "host-only independent checker qualification",
+  "judge_revision": "3.1-boundary-crosses",
+  "completed_utc": "2026-10-07T14:38:26+00:00",
+  "baseline_rtl_sha256": {
+    "axis_adapter.v": "4b9b6649f12e374c24d36f2d42680ecf1f38cca8ae4fda7fd68dbf722b6c8140",
+    "axis_async_fifo.v": "339734a7984d7d540451c92f0831495837c451d170ba60dfbd59f851b28f4250",
+    "axis_async_fifo_adapter.v": "9dc661b88d459a318e40722df277720fe64ef4309230462e8538b1a44da1d57c",
+    "axis_gmii_rx.v": "70d8e8c8ebfd22b8b1ffed7c077864c1944217a3e844f79cd3807cc41cf449d7",
+    "axis_gmii_tx.v": "e7bae1eeefc9043463b5d5b0c125b19835ea44abdb46416759075a538384db5c",
+    "eth_mac_1g.v": "caacd61ad484d96ff14991100009aa67f16aa66a85d9bd245ed2869926da652c",
+    "eth_mac_1g_fifo.v": "1c51f77283e10eabdc4ba7c0542a25c3e4c416a348e68592de3a2c7d8b5c0c30",
+    "files.f": "610c11492a37468daa27b83c4c75dfb3ea6e75ba26236a6d0830a603f6972736",
+    "lfsr.v": "5502c8203b0dfc7246c1a2de93e60c199ded3c1d7840b106350d714f72a9a079",
+    "mac_1g_repair.sv": "b4358e99461f034ef42a7a53a95b2b518bc303f0a960f2327f30396deda5d984",
+    "rx_vlan_admission.sv": "368937f46086c91f06e6937cc842732ea508f267e2c54b1cdce7954e14319d37"
+  },
+  "judge_sha256": {
+    "evaluator/t08_check.py": "f812209bab88aa38dc06333c2ce5dfe4bafadd7e4be486f3e8b2aae339663ab1",
+    "evaluator/public/tb_T08.sv": "5cd85d3d1330c045fe3902b880864733cc3cba5e7b552acffd16168f5bb5abcc",
+    "evaluator/fixtures/t11_mac/tb_acceptance.sv": "d88029e9386df169b20f1a8cdda5f4fb2399a4995074b79117a9e2323b84081a"
+  },
+  "baseline_passed": true,
+  "baseline_run_count": 111,
+  "variant_count": 18,
+  "detected_count": 18,
+  "passed": true,
+  "variants": {
+    "reserved_admitted": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        10
+      ],
+      "expected_failure_cases": [
+        10
+      ]
+    },
+    "invalid_slots_match": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        9,
+        20
+      ],
+      "expected_failure_cases": [
+        9
+      ]
+    },
+    "live_enable": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        14,
+        15
+      ],
+      "expected_failure_cases": [
+        14,
+        15
+      ]
+    },
+    "swapped_tci": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        9,
+        10,
+        12,
+        13,
+        14,
+        19,
+        20,
+        22,
+        26,
+        30,
+        32,
+        33,
+        34,
+        36
+      ],
+      "expected_failure_cases": [
+        12
+      ]
+    },
+    "terminal_header_ignored": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        13
+      ],
+      "expected_failure_cases": [
+        13
+      ]
+    },
+    "mac_bad_cleared": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        3,
+        25,
+        32
+      ],
+      "expected_failure_cases": [
+        3
+      ]
+    },
+    "header_wrap": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        9,
+        10,
+        11,
+        12,
+        14,
+        15,
+        16,
+        19,
+        20,
+        21,
+        22,
+        26,
+        30,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "expected_failure_cases": [
+        9
+      ]
+    },
+    "drop_event_missing": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        8,
+        9,
+        10,
+        11,
+        13,
+        15,
+        16,
+        19,
+        20,
+        21,
+        22,
+        26,
+        28,
+        31,
+        33,
+        34,
+        35,
+        36
+      ],
+      "expected_failure_cases": [
+        8
+      ]
+    },
+    "live_list": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        19,
+        20
+      ],
+      "expected_failure_cases": [
+        19,
+        20
+      ]
+    },
+    "live_valid_mask": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        20
+      ],
+      "expected_failure_cases": [
+        20
+      ]
+    },
+    "live_vids": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        19
+      ],
+      "expected_failure_cases": [
+        19
+      ]
+    },
+    "live_untagged_flag": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        21
+      ],
+      "expected_failure_cases": [
+        21
+      ]
+    },
+    "live_priority_flag": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        22
+      ],
+      "expected_failure_cases": [
+        22
+      ]
+    },
+    "first_last_old_snapshot": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        28,
+        30,
+        31,
+        33,
+        35
+      ],
+      "expected_failure_cases": [
+        28,
+        31
+      ]
+    },
+    "bypass_short_rejected": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        14,
+        17,
+        29,
+        30,
+        31,
+        33,
+        35
+      ],
+      "expected_failure_cases": [
+        29,
+        30
+      ]
+    },
+    "first_last_stale_header": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        33,
+        36
+      ],
+      "expected_failure_cases": [
+        36
+      ]
+    },
+    "unimplemented": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        19,
+        20,
+        21,
+        22,
+        26,
+        28,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "expected_failure_cases": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        19,
+        20,
+        21,
+        22
+      ]
+    },
+    "mac_bad_policy_double_counted": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        11,
+        32
+      ],
+      "expected_failure_cases": [
+        32
+      ]
+    }
+  },
+  "limitations": [
+    "Finite mutation set is not proof of detecting every possible RTL error.",
+    "Mutation anchors are specific to the qualified streaming parser.",
+    "Existing frozen trials and original submissions are unchanged."
+  ],
+  "legacy_judge_sha256": {
+    "evaluator/t08_check.py": "6d1bd463bd534f378fbc1017263a5ff9a44c3fef846ff08759162c71ee5e83ac",
+    "evaluator/public/tb_T08.sv": "62827a2077042418939465795bf0ae002f1fe628fad5d04fe6376207941e0bf6",
+    "evaluator/fixtures/t11_mac/tb_acceptance.sv": "769b8230f611e94059e977e808e73f15d067923a664220cec86b15b42113cb4f"
+  },
+  "evidence_migration": "Task-label relabel only; original judge bytes archived in legacy_judge_v31; no fresh mutation run claimed."
+}

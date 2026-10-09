@@ -1,0 +1,42 @@
+int_add_sub_v0.elf: FAIL matched=0/11
+addi_sub: CAUGHT
+int_add_sub_v0.elf: FAIL matched=5/11
+sub_add: CAUGHT
+int_bitwise_v0.elf: FAIL matched=12/19
+xor_or: CAUGHT
+int_shift_immediate_v0.elf: FAIL matched=8/14
+sra_logical: CAUGHT
+int_beq_bne_v0.elf: FAIL matched=3/7
+beq_inverted: CAUGHT
+int_signed_branches_v0.elf: FAIL matched=3/8
+blt_unsigned: CAUGHT
+int_jal_link_flush_v0.elf: FAIL matched=3/13
+jal_link_plus8: CAUGHT
+int_jalr_lsb_x0_v0.elf: FAIL matched=6/18
+jalr_lsb: CAUGHT
+mem_lb_sign_v0.elf: FAIL matched=2/8
+lb_zero_extend: CAUGHT
+mem_lh_sign_v0.elf: FAIL matched=2/9
+lh_zero_extend: CAUGHT
+mem_sb_byte_lane_v0.elf: FAIL matched=3/11
+sb_unshifted: CAUGHT
+mem_sb_byte_lane_v0.elf: FAIL matched=3/11
+sb_lane0_only: CAUGHT
+mem_same_address_partial_sequence_v0.elf: FAIL matched=10/16
+load_lane0_only: CAUGHT
+haz_ex_to_ex_chain_v0.elf: FAIL matched=1/8
+no_rs1_forward: CAUGHT
+haz_both_sources_same_register_v0.elf: FAIL matched=1/7
+no_rs2_forward: CAUGHT
+trap_load_misaligned_v0.elf: FAIL matched=8/41
+load_misalign_cause5: CAUGHT
+trap_store_access_fault_v0.elf: FAIL matched=10/42
+store_fault_cause5: CAUGHT
+trap_ecall_m_v0.elf: FAIL matched=29/40
+mret_skips_one: CAUGHT
+csr_machine_csr_masks_v1.elf: FAIL matched=28/35
+mstatus_wrong_mie: CAUGHT
+mem_sw_overwrite_v0.elf: FAIL matched=4/10
+repeat_bus_request: CAUGHT
+mem_lw_full_width_v0.elf: FAIL matched=8/9
+never_accept_response: CAUGHT

@@ -13,24 +13,26 @@ from pathlib import Path
 from public_check import ROOT, sources_from_filelist
 
 
-EXPECTED_GROUPS = {f"AC-{index:02d}" for index in range(32, 38)}
+EXPECTED_GROUPS = {f"AC-{index:02d}" for index in range(38, 44)}
 GROUP_LINE = re.compile(r"^IC_GROUP (AC-\d+) (\d+) (\d+)$", re.MULTILINE)
 
 
 def run(submission: Path, seed: int) -> dict:
     sources = sources_from_filelist(submission.resolve())
     with tempfile.TemporaryDirectory(prefix="ic_bcmk_T07_hidden_") as temporary:
-        executable = Path(temporary) / "sim.vvp"
+        build = Path(temporary) / "build"
         compiled = subprocess.run(
-            ["iverilog", "-g2012", "-s", "tb_hidden_T07", "-o", str(executable),
-             *map(str, sources), str(ROOT / "t07_hidden_tb.sv")],
-            text=True, capture_output=True, timeout=120, check=False,
+            ["verilator", "--binary", "--timing", "--assert", "-Wno-fatal",
+             "-j", "4", "--top-module", "tb_hidden_T07", "--Mdir", str(build),
+             f"-I{(submission / 'rtl').resolve()}", *map(str, sources),
+             str(ROOT / "t07_hidden_tb.sv")],
+            text=True, capture_output=True, timeout=180, check=False,
         )
         if compiled.returncode:
             raise RuntimeError(f"compile failed: {(compiled.stdout + compiled.stderr)[-4000:]}")
         executed = subprocess.run(
-            ["vvp", str(executable), f"+SEED={seed}"],
-            text=True, capture_output=True, timeout=120, check=False,
+            [str(build / "Vtb_hidden_T07"), f"+SEED={seed}"],
+            text=True, capture_output=True, timeout=180, check=False,
         )
         if executed.returncode:
             raise RuntimeError(f"simulation failed: {(executed.stdout + executed.stderr)[-4000:]}")

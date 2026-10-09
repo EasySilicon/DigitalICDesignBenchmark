@@ -1,6 +1,14 @@
 id: T07
-title: axi4lite_to_apb4_bridge
+title: direct_mapped_writeback_cache
 level_hypothesis: 7
 origin: original
-time_limit_minutes: 480
-same_model_token_cap: 320000
+time_limit_minutes: 120
+same_model_token_cap: 480000
+f_points:
+- 15
+- 15
+- 15
+- 15
+p_points:
+- 10
+- 5

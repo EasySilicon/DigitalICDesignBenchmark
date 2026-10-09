@@ -1,0 +1,987 @@
+{
+  "task": "T11",
+  "status": "experimental",
+  "spec_revision": "3.0-frame-transactions",
+  "judge_revision": "3.1-boundary-crosses",
+  "functional_max": 50,
+  "functional_total": 50.0,
+  "full_functional_pass": true,
+  "ppa_status": "pending_frozen_reference",
+  "test_groups": [
+    {
+      "id": "tx_regression",
+      "possible_points": 8,
+      "earned_points": 8.0,
+      "passed": true,
+      "cases": [
+        0,
+        1,
+        23,
+        27
+      ]
+    },
+    {
+      "id": "rx_regression",
+      "possible_points": 8,
+      "earned_points": 8.0,
+      "passed": true,
+      "cases": [
+        2,
+        3,
+        24,
+        25,
+        26
+      ]
+    },
+    {
+      "id": "frame_tail_repair",
+      "possible_points": 10,
+      "earned_points": 10.0,
+      "passed": true,
+      "cases": [
+        4,
+        5,
+        6,
+        7,
+        18
+      ]
+    },
+    {
+      "id": "vlan_admission",
+      "possible_points": 10,
+      "earned_points": 10.0,
+      "passed": true,
+      "cases": [
+        8,
+        9,
+        10,
+        11,
+        32,
+        33
+      ]
+    },
+    {
+      "id": "metadata_headers",
+      "possible_points": 6,
+      "earned_points": 6.0,
+      "passed": true,
+      "cases": [
+        12,
+        13,
+        28,
+        29,
+        34,
+        36
+      ]
+    },
+    {
+      "id": "config_snapshot",
+      "possible_points": 4,
+      "earned_points": 4.0,
+      "passed": true,
+      "cases": [
+        14,
+        15,
+        19,
+        20,
+        21,
+        22,
+        30,
+        31
+      ]
+    },
+    {
+      "id": "reset_recovery",
+      "possible_points": 4,
+      "earned_points": 4.0,
+      "passed": true,
+      "cases": [
+        16,
+        17,
+        35
+      ]
+    }
+  ],
+  "cases": {
+    "0": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=0\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 54us; walltime 0.007 s; speed 7.426 ms/s\n- Verilator: cpu 0.007 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=0\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 54us; walltime 0.007 s; speed 7.553 ms/s\n- Verilator: cpu 0.007 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=0\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 54us; walltime 0.007 s; speed 7.473 ms/s\n- Verilator: cpu 0.007 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "1": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=1\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 8us; walltime 0.002 s; speed 3.392 ms/s\n- Verilator: cpu 0.002 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=1\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 8us; walltime 0.002 s; speed 3.567 ms/s\n- Verilator: cpu 0.002 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=1\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 8us; walltime 0.002 s; speed 3.565 ms/s\n- Verilator: cpu 0.002 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "2": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=2\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 83us; walltime 0.010 s; speed 8.456 ms/s\n- Verilator: cpu 0.010 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=2\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 83us; walltime 0.010 s; speed 8.462 ms/s\n- Verilator: cpu 0.010 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=2\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 83us; walltime 0.010 s; speed 8.425 ms/s\n- Verilator: cpu 0.010 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "3": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=3\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 22us; walltime 0.004 s; speed 6.059 ms/s\n- Verilator: cpu 0.004 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=3\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 22us; walltime 0.003 s; speed 6.184 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=3\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 22us; walltime 0.003 s; speed 6.213 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "4": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=4\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 1us; walltime 0.001 s; speed 1.036 ms/s\n- Verilator: cpu 0.001 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=4\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 1us; walltime 0.001 s; speed 1.065 ms/s\n- Verilator: cpu 0.001 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=4\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 1us; walltime 0.001 s; speed 997.057 us/s\n- Verilator: cpu 0.001 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "5": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=5\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 4us; walltime 0.002 s; speed 2.427 ms/s\n- Verilator: cpu 0.002 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=5\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 4us; walltime 0.001 s; speed 2.570 ms/s\n- Verilator: cpu 0.001 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=5\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 4us; walltime 0.001 s; speed 2.674 ms/s\n- Verilator: cpu 0.001 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "6": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=6\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 2us; walltime 0.001 s; speed 1.912 ms/s\n- Verilator: cpu 0.001 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=6\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 2us; walltime 0.001 s; speed 1.982 ms/s\n- Verilator: cpu 0.001 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=6\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 2us; walltime 0.001 s; speed 1.975 ms/s\n- Verilator: cpu 0.001 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "7": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=7\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 23us; walltime 0.003 s; speed 6.715 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=7\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 23us; walltime 0.003 s; speed 6.763 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=7\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 23us; walltime 0.003 s; speed 6.612 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "8": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=8\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 15us; walltime 0.003 s; speed 5.690 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=8\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 15us; walltime 0.003 s; speed 5.622 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=8\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 15us; walltime 0.003 s; speed 5.756 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "9": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=9\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 64us; walltime 0.008 s; speed 8.207 ms/s\n- Verilator: cpu 0.008 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=9\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 64us; walltime 0.008 s; speed 8.309 ms/s\n- Verilator: cpu 0.008 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=9\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 64us; walltime 0.008 s; speed 7.679 ms/s\n- Verilator: cpu 0.008 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "10": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=10\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 22us; walltime 0.003 s; speed 6.529 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=10\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 22us; walltime 0.003 s; speed 6.491 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=10\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 22us; walltime 0.003 s; speed 6.635 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "11": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=11\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 29us; walltime 0.004 s; speed 7.225 ms/s\n- Verilator: cpu 0.004 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=11\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 29us; walltime 0.004 s; speed 7.224 ms/s\n- Verilator: cpu 0.004 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=11\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 29us; walltime 0.004 s; speed 7.128 ms/s\n- Verilator: cpu 0.004 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "12": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=12\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 114us; walltime 0.013 s; speed 8.792 ms/s\n- Verilator: cpu 0.013 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=12\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 114us; walltime 0.013 s; speed 8.860 ms/s\n- Verilator: cpu 0.013 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=12\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 114us; walltime 0.014 s; speed 8.326 ms/s\n- Verilator: cpu 0.014 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "13": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=13\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 28us; walltime 0.004 s; speed 6.740 ms/s\n- Verilator: cpu 0.004 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=13\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 28us; walltime 0.004 s; speed 6.861 ms/s\n- Verilator: cpu 0.004 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=13\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 28us; walltime 0.004 s; speed 6.464 ms/s\n- Verilator: cpu 0.004 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "14": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=14\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 16us; walltime 0.003 s; speed 5.804 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=14\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 16us; walltime 0.003 s; speed 5.834 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=14\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 16us; walltime 0.003 s; speed 5.769 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "15": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=15\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 16us; walltime 0.003 s; speed 5.928 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=15\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 16us; walltime 0.003 s; speed 5.963 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=15\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 16us; walltime 0.003 s; speed 6.023 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "16": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=16\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 16us; walltime 0.003 s; speed 6.038 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=16\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 16us; walltime 0.003 s; speed 6.136 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=16\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 16us; walltime 0.003 s; speed 6.137 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "17": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=17\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 12us; walltime 0.002 s; speed 5.562 ms/s\n- Verilator: cpu 0.002 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=17\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 12us; walltime 0.002 s; speed 5.505 ms/s\n- Verilator: cpu 0.002 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=17\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 12us; walltime 0.002 s; speed 5.476 ms/s\n- Verilator: cpu 0.002 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "18": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=18\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 46us; walltime 0.006 s; speed 7.777 ms/s\n- Verilator: cpu 0.006 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=18\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 46us; walltime 0.006 s; speed 7.730 ms/s\n- Verilator: cpu 0.006 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=18\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 46us; walltime 0.006 s; speed 7.742 ms/s\n- Verilator: cpu 0.006 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "19": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "SNAPSHOT field=1 slot=0 old_allow=0 wire_update_offset=8\nSNAPSHOT field=1 slot=0 old_allow=0 wire_update_offset=10\nSNAPSHOT field=1 slot=0 old_allow=0 wire_update_offset=12\nSNAPSHOT field=1 slot=0 old_allow=1 wire_update_offset=8\nSNAPSHOT field=1 slot=0 old_allow=1 wire_update_offset=10\nSNAPSHOT field=1 slot=0 old_allow=1 wire_update_offset=12\nSNAPSHOT field=1 slot=1 old_allow=0 wire_update_offset=8\nSNAPSHOT field=1 slot=1 old_allow=0 wire_update_offset=10\nSNAPSHOT field=1 slot=1 old_allow=0 wire_update_offset=12\nSNAPSHOT field=1 slot=1 old_allow=1 wire_update_offset=8\nSNAPSHOT field=1 slot=1 old_allow=1 wire_update_offset=10\nSNAPSHOT field=1 slot=1 old_allow=1 wire_update_offset=12\nSNAPSHOT field=1 slot=2 old_allow=0 wire_update_offset=8\nSNAPSHOT field=1 slot=2 old_allow=0 wire_update_offset=10\nSNAPSHOT field=1 slot=2 old_allow=0 wire_update_offset=12\nSNAPSHOT field=1 slot=2 old_allow=1 wire_update_offset=8\nSNAPSHOT field=1 slot=2 old_allow=1 wire_update_offset=10\nSNAPSHOT field=1 slot=2 old_allow=1 wire_update_offset=12\nSNAPSHOT field=1 slot=3 old_allow=0 wire_update_offset=8\nSNAPSHOT field=1 slot=3 old_allow=0 wire_update_offset=10\nSNAPSHOT field=1 slot=3 old_allow=0 wire_update_offset=12\nSNAPSHOT field=1 slot=3 old_allow=1 wire_update_offset=8\nSNAPSHOT field=1 slot=3 old_allow=1 wire_update_offset=10\nSNAPSHOT field=1 slot=3 old_allow=1 wire_update_offset=12\nACCEPT_PASS T11 CASE=19\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 339us; walltime 0.037 s; speed 9.253 ms/s\n- Verilator: cpu 0.037 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "SNAPSHOT field=1 slot=0 old_allow=0 wire_update_offset=8\nSNAPSHOT field=1 slot=0 old_allow=0 wire_update_offset=10\nSNAPSHOT field=1 slot=0 old_allow=0 wire_update_offset=12\nSNAPSHOT field=1 slot=0 old_allow=1 wire_update_offset=8\nSNAPSHOT field=1 slot=0 old_allow=1 wire_update_offset=10\nSNAPSHOT field=1 slot=0 old_allow=1 wire_update_offset=12\nSNAPSHOT field=1 slot=1 old_allow=0 wire_update_offset=8\nSNAPSHOT field=1 slot=1 old_allow=0 wire_update_offset=10\nSNAPSHOT field=1 slot=1 old_allow=0 wire_update_offset=12\nSNAPSHOT field=1 slot=1 old_allow=1 wire_update_offset=8\nSNAPSHOT field=1 slot=1 old_allow=1 wire_update_offset=10\nSNAPSHOT field=1 slot=1 old_allow=1 wire_update_offset=12\nSNAPSHOT field=1 slot=2 old_allow=0 wire_update_offset=8\nSNAPSHOT field=1 slot=2 old_allow=0 wire_update_offset=10\nSNAPSHOT field=1 slot=2 old_allow=0 wire_update_offset=12\nSNAPSHOT field=1 slot=2 old_allow=1 wire_update_offset=8\nSNAPSHOT field=1 slot=2 old_allow=1 wire_update_offset=10\nSNAPSHOT field=1 slot=2 old_allow=1 wire_update_offset=12\nSNAPSHOT field=1 slot=3 old_allow=0 wire_update_offset=8\nSNAPSHOT field=1 slot=3 old_allow=0 wire_update_offset=10\nSNAPSHOT field=1 slot=3 old_allow=0 wire_update_offset=12\nSNAPSHOT field=1 slot=3 old_allow=1 wire_update_offset=8\nSNAPSHOT field=1 slot=3 old_allow=1 wire_update_offset=10\nSNAPSHOT field=1 slot=3 old_allow=1 wire_update_offset=12\nACCEPT_PASS T11 CASE=19\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 339us; walltime 0.037 s; speed 9.049 ms/s\n- Verilator: cpu 0.037 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "SNAPSHOT field=1 slot=0 old_allow=0 wire_update_offset=8\nSNAPSHOT field=1 slot=0 old_allow=0 wire_update_offset=10\nSNAPSHOT field=1 slot=0 old_allow=0 wire_update_offset=12\nSNAPSHOT field=1 slot=0 old_allow=1 wire_update_offset=8\nSNAPSHOT field=1 slot=0 old_allow=1 wire_update_offset=10\nSNAPSHOT field=1 slot=0 old_allow=1 wire_update_offset=12\nSNAPSHOT field=1 slot=1 old_allow=0 wire_update_offset=8\nSNAPSHOT field=1 slot=1 old_allow=0 wire_update_offset=10\nSNAPSHOT field=1 slot=1 old_allow=0 wire_update_offset=12\nSNAPSHOT field=1 slot=1 old_allow=1 wire_update_offset=8\nSNAPSHOT field=1 slot=1 old_allow=1 wire_update_offset=10\nSNAPSHOT field=1 slot=1 old_allow=1 wire_update_offset=12\nSNAPSHOT field=1 slot=2 old_allow=0 wire_update_offset=8\nSNAPSHOT field=1 slot=2 old_allow=0 wire_update_offset=10\nSNAPSHOT field=1 slot=2 old_allow=0 wire_update_offset=12\nSNAPSHOT field=1 slot=2 old_allow=1 wire_update_offset=8\nSNAPSHOT field=1 slot=2 old_allow=1 wire_update_offset=10\nSNAPSHOT field=1 slot=2 old_allow=1 wire_update_offset=12\nSNAPSHOT field=1 slot=3 old_allow=0 wire_update_offset=8\nSNAPSHOT field=1 slot=3 old_allow=0 wire_update_offset=10\nSNAPSHOT field=1 slot=3 old_allow=0 wire_update_offset=12\nSNAPSHOT field=1 slot=3 old_allow=1 wire_update_offset=8\nSNAPSHOT field=1 slot=3 old_allow=1 wire_update_offset=10\nSNAPSHOT field=1 slot=3 old_allow=1 wire_update_offset=12\nACCEPT_PASS T11 CASE=19\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 339us; walltime 0.037 s; speed 9.193 ms/s\n- Verilator: cpu 0.037 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "20": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "SNAPSHOT field=2 slot=0 old_allow=0 wire_update_offset=8\nSNAPSHOT field=2 slot=0 old_allow=0 wire_update_offset=10\nSNAPSHOT field=2 slot=0 old_allow=0 wire_update_offset=12\nSNAPSHOT field=2 slot=0 old_allow=1 wire_update_offset=8\nSNAPSHOT field=2 slot=0 old_allow=1 wire_update_offset=10\nSNAPSHOT field=2 slot=0 old_allow=1 wire_update_offset=12\nSNAPSHOT field=2 slot=1 old_allow=0 wire_update_offset=8\nSNAPSHOT field=2 slot=1 old_allow=0 wire_update_offset=10\nSNAPSHOT field=2 slot=1 old_allow=0 wire_update_offset=12\nSNAPSHOT field=2 slot=1 old_allow=1 wire_update_offset=8\nSNAPSHOT field=2 slot=1 old_allow=1 wire_update_offset=10\nSNAPSHOT field=2 slot=1 old_allow=1 wire_update_offset=12\nSNAPSHOT field=2 slot=2 old_allow=0 wire_update_offset=8\nSNAPSHOT field=2 slot=2 old_allow=0 wire_update_offset=10\nSNAPSHOT field=2 slot=2 old_allow=0 wire_update_offset=12\nSNAPSHOT field=2 slot=2 old_allow=1 wire_update_offset=8\nSNAPSHOT field=2 slot=2 old_allow=1 wire_update_offset=10\nSNAPSHOT field=2 slot=2 old_allow=1 wire_update_offset=12\nSNAPSHOT field=2 slot=3 old_allow=0 wire_update_offset=8\nSNAPSHOT field=2 slot=3 old_allow=0 wire_update_offset=10\nSNAPSHOT field=2 slot=3 old_allow=0 wire_update_offset=12\nSNAPSHOT field=2 slot=3 old_allow=1 wire_update_offset=8\nSNAPSHOT field=2 slot=3 old_allow=1 wire_update_offset=10\nSNAPSHOT field=2 slot=3 old_allow=1 wire_update_offset=12\nACCEPT_PASS T11 CASE=20\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 339us; walltime 0.038 s; speed 8.947 ms/s\n- Verilator: cpu 0.038 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "SNAPSHOT field=2 slot=0 old_allow=0 wire_update_offset=8\nSNAPSHOT field=2 slot=0 old_allow=0 wire_update_offset=10\nSNAPSHOT field=2 slot=0 old_allow=0 wire_update_offset=12\nSNAPSHOT field=2 slot=0 old_allow=1 wire_update_offset=8\nSNAPSHOT field=2 slot=0 old_allow=1 wire_update_offset=10\nSNAPSHOT field=2 slot=0 old_allow=1 wire_update_offset=12\nSNAPSHOT field=2 slot=1 old_allow=0 wire_update_offset=8\nSNAPSHOT field=2 slot=1 old_allow=0 wire_update_offset=10\nSNAPSHOT field=2 slot=1 old_allow=0 wire_update_offset=12\nSNAPSHOT field=2 slot=1 old_allow=1 wire_update_offset=8\nSNAPSHOT field=2 slot=1 old_allow=1 wire_update_offset=10\nSNAPSHOT field=2 slot=1 old_allow=1 wire_update_offset=12\nSNAPSHOT field=2 slot=2 old_allow=0 wire_update_offset=8\nSNAPSHOT field=2 slot=2 old_allow=0 wire_update_offset=10\nSNAPSHOT field=2 slot=2 old_allow=0 wire_update_offset=12\nSNAPSHOT field=2 slot=2 old_allow=1 wire_update_offset=8\nSNAPSHOT field=2 slot=2 old_allow=1 wire_update_offset=10\nSNAPSHOT field=2 slot=2 old_allow=1 wire_update_offset=12\nSNAPSHOT field=2 slot=3 old_allow=0 wire_update_offset=8\nSNAPSHOT field=2 slot=3 old_allow=0 wire_update_offset=10\nSNAPSHOT field=2 slot=3 old_allow=0 wire_update_offset=12\nSNAPSHOT field=2 slot=3 old_allow=1 wire_update_offset=8\nSNAPSHOT field=2 slot=3 old_allow=1 wire_update_offset=10\nSNAPSHOT field=2 slot=3 old_allow=1 wire_update_offset=12\nACCEPT_PASS T11 CASE=20\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 339us; walltime 0.038 s; speed 8.958 ms/s\n- Verilator: cpu 0.038 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "SNAPSHOT field=2 slot=0 old_allow=0 wire_update_offset=8\nSNAPSHOT field=2 slot=0 old_allow=0 wire_update_offset=10\nSNAPSHOT field=2 slot=0 old_allow=0 wire_update_offset=12\nSNAPSHOT field=2 slot=0 old_allow=1 wire_update_offset=8\nSNAPSHOT field=2 slot=0 old_allow=1 wire_update_offset=10\nSNAPSHOT field=2 slot=0 old_allow=1 wire_update_offset=12\nSNAPSHOT field=2 slot=1 old_allow=0 wire_update_offset=8\nSNAPSHOT field=2 slot=1 old_allow=0 wire_update_offset=10\nSNAPSHOT field=2 slot=1 old_allow=0 wire_update_offset=12\nSNAPSHOT field=2 slot=1 old_allow=1 wire_update_offset=8\nSNAPSHOT field=2 slot=1 old_allow=1 wire_update_offset=10\nSNAPSHOT field=2 slot=1 old_allow=1 wire_update_offset=12\nSNAPSHOT field=2 slot=2 old_allow=0 wire_update_offset=8\nSNAPSHOT field=2 slot=2 old_allow=0 wire_update_offset=10\nSNAPSHOT field=2 slot=2 old_allow=0 wire_update_offset=12\nSNAPSHOT field=2 slot=2 old_allow=1 wire_update_offset=8\nSNAPSHOT field=2 slot=2 old_allow=1 wire_update_offset=10\nSNAPSHOT field=2 slot=2 old_allow=1 wire_update_offset=12\nSNAPSHOT field=2 slot=3 old_allow=0 wire_update_offset=8\nSNAPSHOT field=2 slot=3 old_allow=0 wire_update_offset=10\nSNAPSHOT field=2 slot=3 old_allow=0 wire_update_offset=12\nSNAPSHOT field=2 slot=3 old_allow=1 wire_update_offset=8\nSNAPSHOT field=2 slot=3 old_allow=1 wire_update_offset=10\nSNAPSHOT field=2 slot=3 old_allow=1 wire_update_offset=12\nACCEPT_PASS T11 CASE=20\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 339us; walltime 0.037 s; speed 9.212 ms/s\n- Verilator: cpu 0.037 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "21": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "SNAPSHOT field=3 slot=0 old_allow=0 wire_update_offset=8\nSNAPSHOT field=3 slot=0 old_allow=0 wire_update_offset=10\nSNAPSHOT field=3 slot=0 old_allow=0 wire_update_offset=12\nSNAPSHOT field=3 slot=0 old_allow=1 wire_update_offset=8\nSNAPSHOT field=3 slot=0 old_allow=1 wire_update_offset=10\nSNAPSHOT field=3 slot=0 old_allow=1 wire_update_offset=12\nACCEPT_PASS T11 CASE=21\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 85us; walltime 0.010 s; speed 8.291 ms/s\n- Verilator: cpu 0.010 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "SNAPSHOT field=3 slot=0 old_allow=0 wire_update_offset=8\nSNAPSHOT field=3 slot=0 old_allow=0 wire_update_offset=10\nSNAPSHOT field=3 slot=0 old_allow=0 wire_update_offset=12\nSNAPSHOT field=3 slot=0 old_allow=1 wire_update_offset=8\nSNAPSHOT field=3 slot=0 old_allow=1 wire_update_offset=10\nSNAPSHOT field=3 slot=0 old_allow=1 wire_update_offset=12\nACCEPT_PASS T11 CASE=21\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 85us; walltime 0.010 s; speed 8.222 ms/s\n- Verilator: cpu 0.010 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "SNAPSHOT field=3 slot=0 old_allow=0 wire_update_offset=8\nSNAPSHOT field=3 slot=0 old_allow=0 wire_update_offset=10\nSNAPSHOT field=3 slot=0 old_allow=0 wire_update_offset=12\nSNAPSHOT field=3 slot=0 old_allow=1 wire_update_offset=8\nSNAPSHOT field=3 slot=0 old_allow=1 wire_update_offset=10\nSNAPSHOT field=3 slot=0 old_allow=1 wire_update_offset=12\nACCEPT_PASS T11 CASE=21\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 85us; walltime 0.010 s; speed 8.391 ms/s\n- Verilator: cpu 0.010 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "22": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "SNAPSHOT field=4 slot=0 old_allow=0 wire_update_offset=8\nSNAPSHOT field=4 slot=0 old_allow=0 wire_update_offset=10\nSNAPSHOT field=4 slot=0 old_allow=0 wire_update_offset=12\nSNAPSHOT field=4 slot=0 old_allow=1 wire_update_offset=8\nSNAPSHOT field=4 slot=0 old_allow=1 wire_update_offset=10\nSNAPSHOT field=4 slot=0 old_allow=1 wire_update_offset=12\nACCEPT_PASS T11 CASE=22\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 85us; walltime 0.011 s; speed 7.872 ms/s\n- Verilator: cpu 0.011 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "SNAPSHOT field=4 slot=0 old_allow=0 wire_update_offset=8\nSNAPSHOT field=4 slot=0 old_allow=0 wire_update_offset=10\nSNAPSHOT field=4 slot=0 old_allow=0 wire_update_offset=12\nSNAPSHOT field=4 slot=0 old_allow=1 wire_update_offset=8\nSNAPSHOT field=4 slot=0 old_allow=1 wire_update_offset=10\nSNAPSHOT field=4 slot=0 old_allow=1 wire_update_offset=12\nACCEPT_PASS T11 CASE=22\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 85us; walltime 0.010 s; speed 8.366 ms/s\n- Verilator: cpu 0.010 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "SNAPSHOT field=4 slot=0 old_allow=0 wire_update_offset=8\nSNAPSHOT field=4 slot=0 old_allow=0 wire_update_offset=10\nSNAPSHOT field=4 slot=0 old_allow=0 wire_update_offset=12\nSNAPSHOT field=4 slot=0 old_allow=1 wire_update_offset=8\nSNAPSHOT field=4 slot=0 old_allow=1 wire_update_offset=10\nSNAPSHOT field=4 slot=0 old_allow=1 wire_update_offset=12\nACCEPT_PASS T11 CASE=22\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 85us; walltime 0.010 s; speed 8.380 ms/s\n- Verilator: cpu 0.010 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "23": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=23\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 47us; walltime 0.006 s; speed 7.505 ms/s\n- Verilator: cpu 0.006 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=23\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 47us; walltime 0.006 s; speed 7.479 ms/s\n- Verilator: cpu 0.006 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=23\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 47us; walltime 0.006 s; speed 7.512 ms/s\n- Verilator: cpu 0.006 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "24": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=24\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 111us; walltime 0.013 s; speed 8.509 ms/s\n- Verilator: cpu 0.013 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=24\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 111us; walltime 0.013 s; speed 8.276 ms/s\n- Verilator: cpu 0.013 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=24\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 111us; walltime 0.013 s; speed 8.682 ms/s\n- Verilator: cpu 0.013 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "25": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=25\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 80us; walltime 0.010 s; speed 8.447 ms/s\n- Verilator: cpu 0.010 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=25\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 80us; walltime 0.010 s; speed 8.385 ms/s\n- Verilator: cpu 0.010 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=25\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 80us; walltime 0.010 s; speed 8.234 ms/s\n- Verilator: cpu 0.010 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "26": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=26\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 277us; walltime 0.030 s; speed 9.162 ms/s\n- Verilator: cpu 0.030 s on 1 threads; allocated 9 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=26\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 277us; walltime 0.030 s; speed 9.111 ms/s\n- Verilator: cpu 0.030 s on 1 threads; allocated 9 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=26\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 277us; walltime 0.030 s; speed 9.149 ms/s\n- Verilator: cpu 0.030 s on 1 threads; allocated 9 MB\n"
+        }
+      ]
+    },
+    "27": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=27\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 186us; walltime 0.021 s; speed 8.749 ms/s\n- Verilator: cpu 0.021 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=27\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 186us; walltime 0.021 s; speed 8.772 ms/s\n- Verilator: cpu 0.021 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=27\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 186us; walltime 0.021 s; speed 8.810 ms/s\n- Verilator: cpu 0.021 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "28": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "BOUNDARY mode=0 length=1\nBOUNDARY mode=0 length=2\nBOUNDARY mode=0 length=3\nBOUNDARY mode=0 length=4\nBOUNDARY mode=0 length=5\nBOUNDARY mode=0 length=6\nBOUNDARY mode=0 length=7\nBOUNDARY mode=0 length=8\nBOUNDARY mode=0 length=9\nBOUNDARY mode=0 length=10\nBOUNDARY mode=0 length=11\nBOUNDARY mode=0 length=12\nBOUNDARY mode=0 length=13\nBOUNDARY mode=0 length=14\nBOUNDARY mode=0 length=15\nBOUNDARY mode=0 length=16\nBOUNDARY mode=0 length=17\nBOUNDARY mode=0 length=18\nACCEPT_PASS T11 CASE=28\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 114us; walltime 0.014 s; speed 8.012 ms/s\n- Verilator: cpu 0.014 s on 1 threads; allocated 9 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "BOUNDARY mode=0 length=1\nBOUNDARY mode=0 length=2\nBOUNDARY mode=0 length=3\nBOUNDARY mode=0 length=4\nBOUNDARY mode=0 length=5\nBOUNDARY mode=0 length=6\nBOUNDARY mode=0 length=7\nBOUNDARY mode=0 length=8\nBOUNDARY mode=0 length=9\nBOUNDARY mode=0 length=10\nBOUNDARY mode=0 length=11\nBOUNDARY mode=0 length=12\nBOUNDARY mode=0 length=13\nBOUNDARY mode=0 length=14\nBOUNDARY mode=0 length=15\nBOUNDARY mode=0 length=16\nBOUNDARY mode=0 length=17\nBOUNDARY mode=0 length=18\nACCEPT_PASS T11 CASE=28\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 92us; walltime 0.011 s; speed 8.128 ms/s\n- Verilator: cpu 0.011 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "BOUNDARY mode=0 length=1\nBOUNDARY mode=0 length=2\nBOUNDARY mode=0 length=3\nBOUNDARY mode=0 length=4\nBOUNDARY mode=0 length=5\nBOUNDARY mode=0 length=6\nBOUNDARY mode=0 length=7\nBOUNDARY mode=0 length=8\nBOUNDARY mode=0 length=9\nBOUNDARY mode=0 length=10\nBOUNDARY mode=0 length=11\nBOUNDARY mode=0 length=12\nBOUNDARY mode=0 length=13\nBOUNDARY mode=0 length=14\nBOUNDARY mode=0 length=15\nBOUNDARY mode=0 length=16\nBOUNDARY mode=0 length=17\nBOUNDARY mode=0 length=18\nACCEPT_PASS T11 CASE=28\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 59us; walltime 0.010 s; speed 6.072 ms/s\n- Verilator: cpu 0.010 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "29": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "BOUNDARY mode=1 length=1\nBOUNDARY mode=1 length=2\nBOUNDARY mode=1 length=3\nBOUNDARY mode=1 length=4\nBOUNDARY mode=1 length=5\nBOUNDARY mode=1 length=6\nBOUNDARY mode=1 length=7\nBOUNDARY mode=1 length=8\nBOUNDARY mode=1 length=9\nBOUNDARY mode=1 length=10\nBOUNDARY mode=1 length=11\nBOUNDARY mode=1 length=12\nBOUNDARY mode=1 length=13\nBOUNDARY mode=1 length=14\nBOUNDARY mode=1 length=15\nBOUNDARY mode=1 length=16\nBOUNDARY mode=1 length=17\nBOUNDARY mode=1 length=18\nACCEPT_PASS T11 CASE=29\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 114us; walltime 0.014 s; speed 8.238 ms/s\n- Verilator: cpu 0.014 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "BOUNDARY mode=1 length=1\nBOUNDARY mode=1 length=2\nBOUNDARY mode=1 length=3\nBOUNDARY mode=1 length=4\nBOUNDARY mode=1 length=5\nBOUNDARY mode=1 length=6\nBOUNDARY mode=1 length=7\nBOUNDARY mode=1 length=8\nBOUNDARY mode=1 length=9\nBOUNDARY mode=1 length=10\nBOUNDARY mode=1 length=11\nBOUNDARY mode=1 length=12\nBOUNDARY mode=1 length=13\nBOUNDARY mode=1 length=14\nBOUNDARY mode=1 length=15\nBOUNDARY mode=1 length=16\nBOUNDARY mode=1 length=17\nBOUNDARY mode=1 length=18\nACCEPT_PASS T11 CASE=29\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 92us; walltime 0.011 s; speed 8.164 ms/s\n- Verilator: cpu 0.011 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "BOUNDARY mode=1 length=1\nBOUNDARY mode=1 length=2\nBOUNDARY mode=1 length=3\nBOUNDARY mode=1 length=4\nBOUNDARY mode=1 length=5\nBOUNDARY mode=1 length=6\nBOUNDARY mode=1 length=7\nBOUNDARY mode=1 length=8\nBOUNDARY mode=1 length=9\nBOUNDARY mode=1 length=10\nBOUNDARY mode=1 length=11\nBOUNDARY mode=1 length=12\nBOUNDARY mode=1 length=13\nBOUNDARY mode=1 length=14\nBOUNDARY mode=1 length=15\nBOUNDARY mode=1 length=16\nBOUNDARY mode=1 length=17\nBOUNDARY mode=1 length=18\nACCEPT_PASS T11 CASE=29\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 59us; walltime 0.010 s; speed 6.128 ms/s\n- Verilator: cpu 0.010 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "30": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "BOUNDARY mode=2 length=1\nBOUNDARY mode=2 length=2\nBOUNDARY mode=2 length=3\nBOUNDARY mode=2 length=4\nBOUNDARY mode=2 length=5\nBOUNDARY mode=2 length=6\nBOUNDARY mode=2 length=7\nBOUNDARY mode=2 length=8\nBOUNDARY mode=2 length=9\nBOUNDARY mode=2 length=10\nBOUNDARY mode=2 length=11\nBOUNDARY mode=2 length=12\nBOUNDARY mode=2 length=13\nBOUNDARY mode=2 length=14\nBOUNDARY mode=2 length=15\nBOUNDARY mode=2 length=16\nBOUNDARY mode=2 length=17\nBOUNDARY mode=2 length=18\nACCEPT_PASS T11 CASE=30\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 291us; walltime 0.033 s; speed 8.783 ms/s\n- Verilator: cpu 0.033 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "BOUNDARY mode=2 length=1\nBOUNDARY mode=2 length=2\nBOUNDARY mode=2 length=3\nBOUNDARY mode=2 length=4\nBOUNDARY mode=2 length=5\nBOUNDARY mode=2 length=6\nBOUNDARY mode=2 length=7\nBOUNDARY mode=2 length=8\nBOUNDARY mode=2 length=9\nBOUNDARY mode=2 length=10\nBOUNDARY mode=2 length=11\nBOUNDARY mode=2 length=12\nBOUNDARY mode=2 length=13\nBOUNDARY mode=2 length=14\nBOUNDARY mode=2 length=15\nBOUNDARY mode=2 length=16\nBOUNDARY mode=2 length=17\nBOUNDARY mode=2 length=18\nACCEPT_PASS T11 CASE=30\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 237us; walltime 0.027 s; speed 8.708 ms/s\n- Verilator: cpu 0.027 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "BOUNDARY mode=2 length=1\nBOUNDARY mode=2 length=2\nBOUNDARY mode=2 length=3\nBOUNDARY mode=2 length=4\nBOUNDARY mode=2 length=5\nBOUNDARY mode=2 length=6\nBOUNDARY mode=2 length=7\nBOUNDARY mode=2 length=8\nBOUNDARY mode=2 length=9\nBOUNDARY mode=2 length=10\nBOUNDARY mode=2 length=11\nBOUNDARY mode=2 length=12\nBOUNDARY mode=2 length=13\nBOUNDARY mode=2 length=14\nBOUNDARY mode=2 length=15\nBOUNDARY mode=2 length=16\nBOUNDARY mode=2 length=17\nBOUNDARY mode=2 length=18\nACCEPT_PASS T11 CASE=30\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 156us; walltime 0.022 s; speed 6.925 ms/s\n- Verilator: cpu 0.022 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "31": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "BOUNDARY mode=3 length=1\nBOUNDARY mode=3 length=2\nBOUNDARY mode=3 length=3\nBOUNDARY mode=3 length=4\nBOUNDARY mode=3 length=5\nBOUNDARY mode=3 length=6\nBOUNDARY mode=3 length=7\nBOUNDARY mode=3 length=8\nBOUNDARY mode=3 length=9\nBOUNDARY mode=3 length=10\nBOUNDARY mode=3 length=11\nBOUNDARY mode=3 length=12\nBOUNDARY mode=3 length=13\nBOUNDARY mode=3 length=14\nBOUNDARY mode=3 length=15\nBOUNDARY mode=3 length=16\nBOUNDARY mode=3 length=17\nBOUNDARY mode=3 length=18\nACCEPT_PASS T11 CASE=31\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 291us; walltime 0.033 s; speed 8.730 ms/s\n- Verilator: cpu 0.033 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "BOUNDARY mode=3 length=1\nBOUNDARY mode=3 length=2\nBOUNDARY mode=3 length=3\nBOUNDARY mode=3 length=4\nBOUNDARY mode=3 length=5\nBOUNDARY mode=3 length=6\nBOUNDARY mode=3 length=7\nBOUNDARY mode=3 length=8\nBOUNDARY mode=3 length=9\nBOUNDARY mode=3 length=10\nBOUNDARY mode=3 length=11\nBOUNDARY mode=3 length=12\nBOUNDARY mode=3 length=13\nBOUNDARY mode=3 length=14\nBOUNDARY mode=3 length=15\nBOUNDARY mode=3 length=16\nBOUNDARY mode=3 length=17\nBOUNDARY mode=3 length=18\nACCEPT_PASS T11 CASE=31\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 237us; walltime 0.027 s; speed 8.678 ms/s\n- Verilator: cpu 0.027 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "BOUNDARY mode=3 length=1\nBOUNDARY mode=3 length=2\nBOUNDARY mode=3 length=3\nBOUNDARY mode=3 length=4\nBOUNDARY mode=3 length=5\nBOUNDARY mode=3 length=6\nBOUNDARY mode=3 length=7\nBOUNDARY mode=3 length=8\nBOUNDARY mode=3 length=9\nBOUNDARY mode=3 length=10\nBOUNDARY mode=3 length=11\nBOUNDARY mode=3 length=12\nBOUNDARY mode=3 length=13\nBOUNDARY mode=3 length=14\nBOUNDARY mode=3 length=15\nBOUNDARY mode=3 length=16\nBOUNDARY mode=3 length=17\nBOUNDARY mode=3 length=18\nACCEPT_PASS T11 CASE=31\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 156us; walltime 0.023 s; speed 6.720 ms/s\n- Verilator: cpu 0.023 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "32": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=32\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 851us; walltime 0.095 s; speed 8.980 ms/s\n- Verilator: cpu 0.094 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=32\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 694us; walltime 0.077 s; speed 9.050 ms/s\n- Verilator: cpu 0.077 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=32\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 458us; walltime 0.063 s; speed 7.278 ms/s\n- Verilator: cpu 0.063 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "33": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "S trial=158 length=127 enable=1 mask=d\nPOLICY_CROSS trial=159 length=256 enable=0 mask=1\nPOLICY_CROSS trial=160 length=1 enable=1 mask=6\nPOLICY_CROSS trial=161 length=2 enable=0 mask=c\nPOLICY_CROSS trial=162 length=3 enable=0 mask=5\nPOLICY_CROSS trial=163 length=12 enable=1 mask=d\nPOLICY_CROSS trial=164 length=13 enable=1 mask=7\nPOLICY_CROSS trial=165 length=14 enable=1 mask=5\nPOLICY_CROSS trial=166 length=15 enable=1 mask=8\nPOLICY_CROSS trial=167 length=16 enable=0 mask=b\nPOLICY_CROSS trial=168 length=17 enable=1 mask=d\nPOLICY_CROSS trial=169 length=18 enable=0 mask=2\nPOLICY_CROSS trial=170 length=19 enable=0 mask=b\nPOLICY_CROSS trial=171 length=31 enable=0 mask=0\nPOLICY_CROSS trial=172 length=60 enable=0 mask=e\nPOLICY_CROSS trial=173 length=80 enable=1 mask=0\nPOLICY_CROSS trial=174 length=127 enable=1 mask=b\nPOLICY_CROSS trial=175 length=256 enable=1 mask=b\nPOLICY_CROSS trial=176 length=1 enable=0 mask=2\nPOLICY_CROSS trial=177 length=2 enable=0 mask=4\nPOLICY_CROSS trial=178 length=3 enable=0 mask=f\nPOLICY_CROSS trial=179 length=12 enable=1 mask=4\nPOLICY_CROSS trial=180 length=13 enable=0 mask=5\nPOLICY_CROSS trial=181 length=14 enable=0 mask=3\nPOLICY_CROSS trial=182 length=15 enable=0 mask=4\nPOLICY_CROSS trial=183 length=16 enable=0 mask=3\nPOLICY_CROSS trial=184 length=17 enable=1 mask=2\nPOLICY_CROSS trial=185 length=18 enable=1 mask=3\nPOLICY_CROSS trial=186 length=19 enable=1 mask=2\nPOLICY_CROSS trial=187 length=31 enable=1 mask=e\nPOLICY_CROSS trial=188 length=60 enable=1 mask=e\nPOLICY_CROSS trial=189 length=80 enable=0 mask=1\nPOLICY_CROSS trial=190 length=127 enable=1 mask=2\nPOLICY_CROSS trial=191 length=256 enable=0 mask=1\nACCEPT_PASS T11 CASE=33\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 1ms; walltime 0.161 s; speed 9.200 ms/s\n- Verilator: cpu 0.161 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "S trial=158 length=127 enable=1 mask=0\nPOLICY_CROSS trial=159 length=256 enable=0 mask=d\nPOLICY_CROSS trial=160 length=1 enable=1 mask=8\nPOLICY_CROSS trial=161 length=2 enable=1 mask=9\nPOLICY_CROSS trial=162 length=3 enable=0 mask=e\nPOLICY_CROSS trial=163 length=12 enable=0 mask=4\nPOLICY_CROSS trial=164 length=13 enable=1 mask=a\nPOLICY_CROSS trial=165 length=14 enable=0 mask=6\nPOLICY_CROSS trial=166 length=15 enable=1 mask=0\nPOLICY_CROSS trial=167 length=16 enable=1 mask=3\nPOLICY_CROSS trial=168 length=17 enable=0 mask=c\nPOLICY_CROSS trial=169 length=18 enable=0 mask=7\nPOLICY_CROSS trial=170 length=19 enable=0 mask=d\nPOLICY_CROSS trial=171 length=31 enable=0 mask=a\nPOLICY_CROSS trial=172 length=60 enable=1 mask=4\nPOLICY_CROSS trial=173 length=80 enable=0 mask=d\nPOLICY_CROSS trial=174 length=127 enable=0 mask=7\nPOLICY_CROSS trial=175 length=256 enable=0 mask=9\nPOLICY_CROSS trial=176 length=1 enable=1 mask=f\nPOLICY_CROSS trial=177 length=2 enable=1 mask=9\nPOLICY_CROSS trial=178 length=3 enable=0 mask=d\nPOLICY_CROSS trial=179 length=12 enable=0 mask=5\nPOLICY_CROSS trial=180 length=13 enable=1 mask=9\nPOLICY_CROSS trial=181 length=14 enable=0 mask=6\nPOLICY_CROSS trial=182 length=15 enable=1 mask=4\nPOLICY_CROSS trial=183 length=16 enable=1 mask=e\nPOLICY_CROSS trial=184 length=17 enable=1 mask=6\nPOLICY_CROSS trial=185 length=18 enable=1 mask=9\nPOLICY_CROSS trial=186 length=19 enable=1 mask=1\nPOLICY_CROSS trial=187 length=31 enable=0 mask=8\nPOLICY_CROSS trial=188 length=60 enable=1 mask=2\nPOLICY_CROSS trial=189 length=80 enable=1 mask=8\nPOLICY_CROSS trial=190 length=127 enable=0 mask=8\nPOLICY_CROSS trial=191 length=256 enable=0 mask=c\nACCEPT_PASS T11 CASE=33\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 1ms; walltime 0.133 s; speed 9.026 ms/s\n- Verilator: cpu 0.133 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "trial=158 length=127 enable=0 mask=8\nPOLICY_CROSS trial=159 length=256 enable=0 mask=0\nPOLICY_CROSS trial=160 length=1 enable=0 mask=a\nPOLICY_CROSS trial=161 length=2 enable=1 mask=c\nPOLICY_CROSS trial=162 length=3 enable=0 mask=1\nPOLICY_CROSS trial=163 length=12 enable=0 mask=3\nPOLICY_CROSS trial=164 length=13 enable=1 mask=c\nPOLICY_CROSS trial=165 length=14 enable=0 mask=6\nPOLICY_CROSS trial=166 length=15 enable=0 mask=6\nPOLICY_CROSS trial=167 length=16 enable=0 mask=5\nPOLICY_CROSS trial=168 length=17 enable=1 mask=2\nPOLICY_CROSS trial=169 length=18 enable=1 mask=8\nPOLICY_CROSS trial=170 length=19 enable=0 mask=9\nPOLICY_CROSS trial=171 length=31 enable=0 mask=0\nPOLICY_CROSS trial=172 length=60 enable=1 mask=4\nPOLICY_CROSS trial=173 length=80 enable=0 mask=1\nPOLICY_CROSS trial=174 length=127 enable=1 mask=c\nPOLICY_CROSS trial=175 length=256 enable=0 mask=d\nPOLICY_CROSS trial=176 length=1 enable=0 mask=9\nPOLICY_CROSS trial=177 length=2 enable=1 mask=5\nPOLICY_CROSS trial=178 length=3 enable=1 mask=0\nPOLICY_CROSS trial=179 length=12 enable=0 mask=0\nPOLICY_CROSS trial=180 length=13 enable=0 mask=7\nPOLICY_CROSS trial=181 length=14 enable=1 mask=a\nPOLICY_CROSS trial=182 length=15 enable=0 mask=b\nPOLICY_CROSS trial=183 length=16 enable=1 mask=9\nPOLICY_CROSS trial=184 length=17 enable=0 mask=7\nPOLICY_CROSS trial=185 length=18 enable=1 mask=1\nPOLICY_CROSS trial=186 length=19 enable=0 mask=7\nPOLICY_CROSS trial=187 length=31 enable=0 mask=e\nPOLICY_CROSS trial=188 length=60 enable=1 mask=f\nPOLICY_CROSS trial=189 length=80 enable=1 mask=8\nPOLICY_CROSS trial=190 length=127 enable=1 mask=b\nPOLICY_CROSS trial=191 length=256 enable=1 mask=1\nACCEPT_PASS T11 CASE=33\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 791us; walltime 0.109 s; speed 7.252 ms/s\n- Verilator: cpu 0.109 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "34": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=34\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 537us; walltime 0.059 s; speed 9.120 ms/s\n- Verilator: cpu 0.059 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=34\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 441us; walltime 0.050 s; speed 8.789 ms/s\n- Verilator: cpu 0.050 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=34\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 297us; walltime 0.042 s; speed 7.059 ms/s\n- Verilator: cpu 0.042 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "35": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=35\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 51us; walltime 0.007 s; speed 7.421 ms/s\n- Verilator: cpu 0.007 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=35\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 42us; walltime 0.006 s; speed 7.102 ms/s\n- Verilator: cpu 0.006 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "ACCEPT_PASS T11 CASE=35\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 28us; walltime 0.005 s; speed 5.392 ms/s\n- Verilator: cpu 0.005 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    },
+    "36": {
+      "passed": true,
+      "runs": [
+        {
+          "seed": 20261007,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "BOUNDARY mode=4 length=1\nBOUNDARY mode=4 length=2\nBOUNDARY mode=4 length=3\nBOUNDARY mode=4 length=4\nBOUNDARY mode=4 length=5\nBOUNDARY mode=4 length=6\nBOUNDARY mode=4 length=7\nBOUNDARY mode=4 length=8\nBOUNDARY mode=4 length=9\nBOUNDARY mode=4 length=10\nBOUNDARY mode=4 length=11\nBOUNDARY mode=4 length=12\nBOUNDARY mode=4 length=13\nBOUNDARY mode=4 length=14\nBOUNDARY mode=4 length=15\nBOUNDARY mode=4 length=16\nBOUNDARY mode=4 length=17\nBOUNDARY mode=4 length=18\nACCEPT_PASS T11 CASE=36\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 291us; walltime 0.032 s; speed 9.006 ms/s\n- Verilator: cpu 0.032 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 47,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "BOUNDARY mode=4 length=1\nBOUNDARY mode=4 length=2\nBOUNDARY mode=4 length=3\nBOUNDARY mode=4 length=4\nBOUNDARY mode=4 length=5\nBOUNDARY mode=4 length=6\nBOUNDARY mode=4 length=7\nBOUNDARY mode=4 length=8\nBOUNDARY mode=4 length=9\nBOUNDARY mode=4 length=10\nBOUNDARY mode=4 length=11\nBOUNDARY mode=4 length=12\nBOUNDARY mode=4 length=13\nBOUNDARY mode=4 length=14\nBOUNDARY mode=4 length=15\nBOUNDARY mode=4 length=16\nBOUNDARY mode=4 length=17\nBOUNDARY mode=4 length=18\nACCEPT_PASS T11 CASE=36\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 237us; walltime 0.027 s; speed 8.677 ms/s\n- Verilator: cpu 0.027 s on 1 threads; allocated 8 MB\n"
+        },
+        {
+          "seed": 91,
+          "passed": true,
+          "exit_code": 0,
+          "log_tail": "BOUNDARY mode=4 length=1\nBOUNDARY mode=4 length=2\nBOUNDARY mode=4 length=3\nBOUNDARY mode=4 length=4\nBOUNDARY mode=4 length=5\nBOUNDARY mode=4 length=6\nBOUNDARY mode=4 length=7\nBOUNDARY mode=4 length=8\nBOUNDARY mode=4 length=9\nBOUNDARY mode=4 length=10\nBOUNDARY mode=4 length=11\nBOUNDARY mode=4 length=12\nBOUNDARY mode=4 length=13\nBOUNDARY mode=4 length=14\nBOUNDARY mode=4 length=15\nBOUNDARY mode=4 length=16\nBOUNDARY mode=4 length=17\nBOUNDARY mode=4 length=18\nACCEPT_PASS T11 CASE=36\n- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_acceptance.sv:515: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 156us; walltime 0.022 s; speed 7.013 ms/s\n- Verilator: cpu 0.022 s on 1 threads; allocated 8 MB\n"
+        }
+      ]
+    }
+  },
+  "synthesis": "not_evaluated_by_this_functional_judge",
+  "boundary_cases": {
+    "28": "fresh enabled bodies 1..18",
+    "29": "fresh bypass bodies 1..18",
+    "30": "tagged predecessor then bypass bodies 1..18",
+    "31": "bypass predecessor then enabled bodies 1..18",
+    "32": "short-body MAC-error precedence and recovery",
+    "33": "independent policy oracle over length/header/config crosses",
+    "34": "queued mixed metadata, terminal stalls and circular reuse",
+    "35": "coordinated reset with queued metadata then single-byte frames",
+    "36": "enabled tagged predecessor then enabled short bodies 1..18"
+  },
+  "boundary_clock_profiles": [
+    {
+      "seed": 20261007,
+      "logic_half_ns": 6.25,
+      "rx_phase_ns": 0.7
+    },
+    {
+      "seed": 47,
+      "logic_half_ns": 5.0,
+      "rx_phase_ns": 2.3
+    },
+    {
+      "seed": 91,
+      "logic_half_ns": 3.125,
+      "rx_phase_ns": 6.1
+    }
+  ]
+}

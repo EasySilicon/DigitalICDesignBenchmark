@@ -56,6 +56,36 @@ class SailCommitTests(unittest.TestCase):
             {"kind": "trap", "cycle": 10, "pc": 0x8000000C,
              "cause": 2, "tval": 0xFFFFFFFF}])["passed"])
 
+    def test_older_commit_and_younger_trap_may_share_cycle(self):
+        expected = [
+            {"pc": 0x80000000, "insn": 0x00100093, "rd": 1,
+             "wdata": 1, "mem_wstrb": 0},
+            {"kind": "trap", "pc": 0x80000004, "cause": 2,
+             "tval": 0xFFFFFFFF},
+        ]
+        observed = [
+            {"kind": "commit", "cycle": 13, "pc": 0x80000000,
+             "insn": 0x00100093, "rd": 1, "wdata": 1,
+             "mem_wstrb": 0},
+            {"kind": "trap", "cycle": 13, "pc": 0x80000004,
+             "cause": 2, "tval": 0xFFFFFFFF},
+        ]
+        self.assertTrue(compare_commits(expected, observed)["passed"])
+
+        commit = {"kind": "commit", "cycle": 13, "pc": 0x80000000,
+                  "insn": 0x00100093, "rd": 1, "wdata": 1,
+                  "mem_wstrb": 0}
+        trap = {"kind": "trap", "cycle": 13, "pc": 0x80000004,
+                "cause": 2, "tval": 0xFFFFFFFF}
+        for first, second in ((commit, commit), (trap, commit), (trap, trap)):
+            invalid = [first, second]
+            invalid_expected = [dict(first), dict(second)]
+            for item in invalid_expected:
+                item.pop("cycle")
+            result = compare_commits(invalid_expected, invalid)
+            self.assertFalse(result["passed"])
+            self.assertEqual(result["matched"], 1)
+
 
 if __name__ == "__main__":
     unittest.main()

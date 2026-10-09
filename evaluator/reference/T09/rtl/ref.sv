@@ -55,7 +55,16 @@ module rv32i_five_stage_cpu (
   logic [31:0] csr_write_data;
   logic ex_redirect, ex_mret, ex_trap;
   logic [31:0] ex_target;
-  logic hold_memory, hold_fetch_for_mem;
+  logic hold_memory, memory_done, memory_error;
+  logic load_dependency_stall, execute_start, pipeline_advance;
+  logic front_advance, redirect, trap_redirect;
+  logic [31:0] redirect_target;
+  // Two returned-instruction skid entries preserve in-flight responses while
+  // EX/MEM waits. Fetch credits do not depend on forwarded EX data or traps.
+  logic [31:0] fetch_queue_pc [0:1], fetch_queue_insn [0:1];
+  logic fetch_head, fetch_tail;
+  logic [1:0] fetch_count;
+  logic queue_push, queue_pop;
   logic [31:0] src1, src2;
   logic [31:0] load_result;
   logic jalr_pending;
@@ -65,11 +74,48 @@ module rv32i_five_stage_cpu (
   logic branch_pending, branch_taken_reg, branch_start;
   logic [31:0] branch_target_reg, jal_target_reg;
   logic jal_pending, jal_start;
-  logic mem_pending, mem_start;
-  logic [31:0] mem_src1_reg, mem_src2_reg;
-  logic operands_ready, hazard_start;
   logic use_rs1, use_rs2, ex_hazard1, ex_hazard2;
-  logic wb_hazard1, wb_hazard2;
+  logic ex_forward1, ex_forward2;
+  // One-hot source choices: RF snapshot, MEM/WB, EX/MEM. All-zero means x0.
+  logic [2:0] operand_select1, operand_select2;
+
+  function automatic logic writes_rd(input logic [31:0] instruction);
+    case (instruction[6:0])
+      7'h37, 7'h17, 7'h6f, 7'h67, 7'h03, 7'h13, 7'h33: writes_rd = 1'b1;
+      7'h73: writes_rd = instruction[14:12] != 0;
+      default: writes_rd = 1'b0;
+    endcase
+  endfunction
+
+  function automatic logic [2:0] operand_selection(input logic [4:0] source);
+    if (source == 0) operand_selection = 3'b000;
+    else if (idex.valid && writes_rd(idex.insn) && idex.insn[6:0] != 7'h03 &&
+             idex.insn[11:7] != 0 && source == idex.insn[11:7])
+      operand_selection = 3'b100;
+    else if (exmem.valid && exmem.reg_write && !exmem.trap && exmem.rd != 0 &&
+             source == exmem.rd)
+      operand_selection = 3'b010;
+    else operand_selection = 3'b001;
+  endfunction
+
+  // Four carry-select blocks. No latency is added: forwarded
+  // operands, arithmetic and EX/MEM capture still occur in the same EX cycle.
+  function automatic logic [31:0] fast_add(input logic [31:0] a, b,
+                                         input logic carry_in);
+    logic [8:0] sum_zero [0:3], sum_one [0:3];
+    logic [4:0] carry;
+    carry[0] = carry_in;
+    for (int block_index=0; block_index<4; block_index++) begin
+      sum_zero[block_index] = {1'b0,a[8*block_index+:8]} +
+                              {1'b0,b[8*block_index+:8]};
+      sum_one[block_index] = {1'b0,a[8*block_index+:8]} +
+                             {1'b0,b[8*block_index+:8]} + 9'd1;
+      carry[block_index+1] = sum_zero[block_index][8] |
+          ((&(a[8*block_index+:8] ^ b[8*block_index+:8])) & carry[block_index]);
+      fast_add[8*block_index+:8] = carry[block_index] ?
+                                  sum_one[block_index][7:0] : sum_zero[block_index][7:0];
+    end
+  endfunction
 
   assign jalr_imm = {{20{idex.insn[31]}}, idex.insn[31:20]};
   assign jalr_start = idex.valid && idex.insn[6:0] == 7'h67 &&
@@ -78,9 +124,6 @@ module rv32i_five_stage_cpu (
   assign branch_start = idex.valid && idex.insn[6:0] == 7'h63 &&
                         idex.insn[1:0] == 2'b11 && !branch_pending;
   assign jal_start = idex.valid && idex.insn[6:0] == 7'h6f && !jal_pending;
-  assign mem_start = idex.valid &&
-                     (idex.insn[6:0] == 7'h03 || idex.insn[6:0] == 7'h23) &&
-                     !mem_pending;
 
   function automatic logic [31:0] read_csr(input logic [11:0] address);
     case (address)
@@ -112,18 +155,21 @@ module rv32i_five_stage_cpu (
   assign use_rs2 = idex.valid &&
                    (idex.insn[6:0] == 7'h63 || idex.insn[6:0] == 7'h23 ||
                     idex.insn[6:0] == 7'h33);
-  assign ex_hazard1 = use_rs1 && idex.rs1 != 0 && exmem.valid &&
-                      exmem.reg_write && exmem.rd == idex.rs1;
-  assign ex_hazard2 = use_rs2 && idex.rs2 != 0 && exmem.valid &&
-                      exmem.reg_write && exmem.rd == idex.rs2;
-  assign wb_hazard1 = use_rs1 && idex.rs1 != 0 && memwb.valid &&
-                      memwb.reg_write && memwb.rd == idex.rs1;
-  assign wb_hazard2 = use_rs2 && idex.rs2 != 0 && memwb.valid &&
-                      memwb.reg_write && memwb.rd == idex.rs2;
-  assign hazard_start = !operands_ready &&
-                        (ex_hazard1 || ex_hazard2 || wb_hazard1 || wb_hazard2);
-  assign src1 = idex.rs1_value;
-  assign src2 = idex.rs2_value;
+  // A non-reading instruction ignores its source operands naturally. Do not
+  // put its opcode decoder on the forwarding-to-ALU data path; qualify only
+  // interlocks with use_rs, where false dependencies would cost cycles.
+  assign ex_hazard1 = ex_forward1;
+  assign ex_hazard2 = ex_forward2;
+  // Genuine EX/MEM and MEM/WB forwarding: ordinary ALU dependencies never
+  // become an extra execute cycle. A load is forwarded from MEM/WB only.
+  always_comb begin
+    src1 = (idex.rs1_value & {32{operand_select1[0]}}) |
+           (memwb.result & {32{operand_select1[1]}}) |
+           (exmem.result & {32{operand_select1[2]}});
+    src2 = (idex.rs2_value & {32{operand_select2[0]}}) |
+           (memwb.result & {32{operand_select2[1]}}) |
+           (exmem.result & {32{operand_select2[2]}});
+  end
 
   always_comb begin : execute
     logic [31:0] insn, imm_i, imm_s, imm_b, imm_u, imm_j;
@@ -198,7 +244,7 @@ module rv32i_five_stage_cpu (
           target = branch_target_reg;
         end
         7'h03: begin // loads
-          addr = mem_src1_reg + imm_i;
+          addr = fast_add(src1, imm_i, 1'b0);
           lane = addr[1:0];
           ex_result.addr = {addr[31:2],2'b0};
           ex_result.fault_addr = addr;
@@ -221,7 +267,7 @@ module rv32i_five_stage_cpu (
           end
         end
         7'h23: begin // stores
-          addr = mem_src1_reg + imm_s;
+          addr = fast_add(src1, imm_s, 1'b0);
           lane = addr[1:0];
           ex_result.addr = {addr[31:2],2'b0};
           ex_result.fault_addr = addr;
@@ -247,12 +293,12 @@ module rv32i_five_stage_cpu (
             end
             default: legal = 1'b0;
           endcase
-          ex_result.store_data = mem_src2_reg << (8*lane);
+          ex_result.store_data = src2 << (8*lane);
         end
         7'h13: begin // OP-IMM
           ex_result.reg_write = (rd != 0);
           case (funct3)
-            3'b000: ex_result.result = src1 + imm_i;
+            3'b000: ex_result.result = fast_add(src1, imm_i, 1'b0);
             3'b010: ex_result.result = ($signed(src1) < $signed(imm_i)) ? 1 : 0;
             3'b011: ex_result.result = (src1 < imm_i) ? 1 : 0;
             3'b100: ex_result.result = src1 ^ imm_i;
@@ -273,8 +319,8 @@ module rv32i_five_stage_cpu (
         7'h33: begin // OP
           ex_result.reg_write = (rd != 0);
           case ({funct7,funct3})
-            {7'h00,3'b000}: ex_result.result = src1 + src2;
-            {7'h20,3'b000}: ex_result.result = src1 - src2;
+            {7'h00,3'b000}: ex_result.result = fast_add(src1, src2, 1'b0);
+            {7'h20,3'b000}: ex_result.result = fast_add(src1, ~src2, 1'b1);
             {7'h00,3'b001}: ex_result.result = src1 << src2[4:0];
             {7'h00,3'b010}: ex_result.result = ($signed(src1) < $signed(src2)) ? 1 : 0;
             {7'h00,3'b011}: ex_result.result = (src1 < src2) ? 1 : 0;
@@ -351,18 +397,37 @@ module rv32i_five_stage_cpu (
         ex_result.store_strb = 0;
         ex_result.rd = 0;
         ex_trap = 1;
-        ex_redirect = 1;
-        ex_target = csr_mtvec;
-      end else if (opcode == 7'h63 && branch_pending) begin
-        // A branch consumes an extra EX cycle. Re-fetch the sequential
-        // instruction when the branch is not taken as well, because any
-        // younger response accepted during that cycle is speculative.
-        ex_redirect = 1;
-        ex_target = branch_taken_reg ? target : idex.pc_plus4;
-      end else if (branch_taken) begin
-        ex_redirect = 1;
-        ex_target = target;
+        // Redirect this precise exception from EX/MEM next cycle. A younger
+        // instruction can enter ID/EX but is blocked before EX/MEM/CSR writes.
+        // Forwarded address/alignment logic therefore never controls fetch.
+        ex_redirect = 0;
+        ex_target = 0;
       end
+      // Do not gate all control redirects with the shared exception result:
+      // doing so reintroduces a false forwarded-address -> alignment -> IF
+      // control path. Each control opcode checks its own registered target.
+      case (opcode)
+        7'h63: if (branch_pending &&
+                    (funct3 == 0 || funct3 == 1 || funct3 == 4 ||
+                     funct3 == 5 || funct3 == 6 || funct3 == 7) &&
+                    (!branch_taken_reg || branch_target_reg[1:0] == 0)) begin
+          ex_redirect = 1;
+          ex_target = branch_taken_reg ? branch_target_reg : idex.pc_plus4;
+        end
+        7'h6f: if (jal_pending && jal_target_reg[1:0] == 0) begin
+          ex_redirect = 1;
+          ex_target = jal_target_reg;
+        end
+        7'h67: if (funct3 == 0 && jalr_pending && jalr_target_reg[1:0] == 0) begin
+          ex_redirect = 1;
+          ex_target = jalr_target_reg;
+        end
+        7'h73: if (insn == 32'h3020_0073) begin
+          ex_redirect = 1;
+          ex_target = target;
+        end
+        default: ;
+      endcase
     end
   end
 
@@ -379,11 +444,25 @@ module rv32i_five_stage_cpu (
   end
 
   assign hold_memory = exmem.valid && (exmem.is_load || exmem.is_store);
-  assign hold_fetch_for_mem = idex.valid &&
-                               (idex.insn[6:0] == 7'h03 || idex.insn[6:0] == 7'h23);
-  // A request issued on a redirect cycle may be wrong-path. Its following
-  // response is discarded because pending_valid is cleared on that edge.
-  assign imem_valid = rst_n && !hold_memory && !hold_fetch_for_mem;
+  assign memory_done = hold_memory && mem_accepted && dmem_rsp_valid;
+  assign memory_error = memory_done && dmem_rsp_err;
+  assign trap_redirect = exmem.valid && exmem.trap;
+  assign load_dependency_stall = hold_memory && exmem.is_load &&
+                                 ((use_rs1 && ex_hazard1) || (use_rs2 && ex_hazard2));
+  assign execute_start = jalr_start || branch_start || jal_start;
+  assign pipeline_advance = (!hold_memory || memory_done) &&
+                            !memory_error && !load_dependency_stall && !trap_redirect;
+  assign redirect = memory_error || trap_redirect ||
+                    (pipeline_advance && !execute_start && idex.valid && ex_redirect);
+  assign redirect_target = (memory_error || trap_redirect) ? csr_mtvec : ex_target;
+  assign front_advance = pipeline_advance && !execute_start && !redirect;
+  assign queue_pop = front_advance && fetch_count != 0;
+  assign queue_push = pending_valid && !redirect &&
+                      (!front_advance || fetch_count != 0);
+  // Requests accepted on a redirect edge are permitted speculative fetches;
+  // their next-cycle responses are dropped. Credits include the in-flight
+  // response, so even an arbitrarily long data wait cannot overflow the queue.
+  assign imem_valid = rst_n && ({1'b0,fetch_count} + {2'b0,pending_valid} < 3'd2);
   assign imem_addr = fetch_pc;
   assign dmem_req_valid = rst_n && hold_memory && !mem_accepted;
   assign dmem_req_write = exmem.is_store;
@@ -404,16 +483,62 @@ module rv32i_five_stage_cpu (
   assign trap_cause = memwb.trap_cause;
   assign trap_tval = memwb.trap_tval;
 
+  // Fetch/IF-ID bookkeeping is independent of execute datapath selection.
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
       fetch_pc <= RESET_PC;
       pending_pc <= 0;
       pending_valid <= 0;
       ifid <= '0;
+      fetch_head <= 0;
+      fetch_tail <= 0;
+      fetch_count <= 0;
+      for (int i=0; i<2; i++) begin
+        fetch_queue_pc[i] <= 0;
+        fetch_queue_insn[i] <= 0;
+      end
+    end else if (redirect) begin
+      fetch_pc <= redirect_target;
+      pending_valid <= 0;
+      ifid.valid <= 0;
+      fetch_count <= 0;
+      fetch_head <= 0;
+      fetch_tail <= 0;
+    end else begin
+      pending_valid <= imem_valid;
+      if (imem_valid) begin
+        pending_pc <= fetch_pc;
+        fetch_pc <= fetch_pc + 4;
+      end
+      if (queue_push) begin
+        fetch_queue_pc[fetch_tail] <= pending_pc;
+        fetch_queue_insn[fetch_tail] <= imem_rdata;
+        fetch_tail <= !fetch_tail;
+      end
+      if (queue_pop) fetch_head <= !fetch_head;
+      case ({queue_push,queue_pop})
+        2'b10: fetch_count <= fetch_count + 1'b1;
+        2'b01: fetch_count <= fetch_count - 1'b1;
+        default: ;
+      endcase
+      if (front_advance) begin
+        ifid.valid <= (fetch_count != 0) || pending_valid;
+        ifid.pc <= fetch_count != 0 ? fetch_queue_pc[fetch_head] : pending_pc;
+        ifid.insn <= fetch_count != 0 ? fetch_queue_insn[fetch_head] : imem_rdata;
+      end
+    end
+  end
+
+  always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
       idex <= '0;
       exmem <= '0;
       memwb <= '0;
       mem_accepted <= 0;
+      ex_forward1 <= 0;
+      ex_forward2 <= 0;
+      operand_select1 <= 0;
+      operand_select2 <= 0;
       jalr_pending <= 0;
       jalr_target_reg <= 0;
       branch_pending <= 0;
@@ -421,10 +546,6 @@ module rv32i_five_stage_cpu (
       branch_target_reg <= 0;
       jal_pending <= 0;
       jal_target_reg <= 0;
-      mem_pending <= 0;
-      mem_src1_reg <= 0;
-      mem_src2_reg <= 0;
-      operands_ready <= 0;
       csr_mstatus <= 32'h0000_1800;
       csr_mtvec <= RESET_PC;
       csr_mscratch <= 0;
@@ -435,15 +556,11 @@ module rv32i_five_stage_cpu (
     end else begin
       memwb <= '0;
       if (hold_memory) begin
-        // Older instructions may retire while this memory operation waits.
-        // Refresh stalled ID operands; the returning load is forwarded from
-        // MEM/WB on the cycle after its response.
-        idex.rs1_value <= idex.rs1 == 0 ? 0 : regs[idex.rs1];
-        idex.rs2_value <= idex.rs2 == 0 ? 0 : regs[idex.rs2];
-        if (!mem_accepted) begin
-          if (dmem_req_valid && dmem_req_ready) mem_accepted <= 1;
-        end else if (dmem_rsp_valid && dmem_rsp_ready) begin
+        if (!mem_accepted && dmem_req_valid && dmem_req_ready)
+          mem_accepted <= 1;
+        if (memory_done) begin
           memwb <= exmem;
+          mem_accepted <= 0;
           if (dmem_rsp_err) begin
             memwb.trap <= 1;
             memwb.trap_cause <= exmem.is_load ? 5 : 7;
@@ -452,60 +569,66 @@ module rv32i_five_stage_cpu (
             memwb.is_store <= 0;
             memwb.store_strb <= 0;
             memwb.rd <= 0;
-            csr_mstatus[7] <= csr_mstatus[3];
-            csr_mstatus[3] <= 0;
-            csr_mstatus[12:11] <= 2'b11;
-            csr_mepc <= exmem.pc;
-            csr_mcause <= exmem.is_load ? 5 : 7;
-            csr_mtval <= exmem.fault_addr;
-            fetch_pc <= csr_mtvec;
-            pending_valid <= 0;
-            ifid.valid <= 0;
-            idex.valid <= 0;
-          end else begin
-            if (exmem.is_load) begin
-              memwb.result <= load_result;
-              if (exmem.reg_write) regs[exmem.rd] <= load_result;
-            end
+          end else if (exmem.is_load) begin
+            memwb.result <= load_result;
+            if (exmem.reg_write) regs[exmem.rd] <= load_result;
           end
-          exmem <= '0;
-          mem_accepted <= 0;
         end
       end else begin
         memwb <= exmem;
         if (exmem.valid && exmem.reg_write && exmem.rd != 0)
           regs[exmem.rd] <= exmem.result;
-        // The exception is already in EX/MEM when its architectural CSR
-        // state is written.  This keeps address generation and alignment
-        // checking off the EX-to-CSR timing path.
-        if (exmem.valid && exmem.trap) begin
-          csr_mstatus[7] <= csr_mstatus[3];
-          csr_mstatus[3] <= 0;
-          csr_mstatus[12:11] <= 2'b11;
-          csr_mepc <= exmem.pc;
-          csr_mcause <= exmem.trap_cause;
-          csr_mtval <= exmem.trap_tval;
-        end
         mem_accepted <= 0;
-        if (imem_valid) pending_pc <= fetch_pc;
-        if (hazard_start || jalr_start || branch_start || jal_start ||
-            mem_start) begin
-          if (hazard_start) begin
-            if (ex_hazard1) idex.rs1_value <= exmem.result;
-            else if (wb_hazard1) idex.rs1_value <= memwb.result;
-            if (ex_hazard2) idex.rs2_value <= exmem.result;
-            else if (wb_hazard2) idex.rs2_value <= memwb.result;
-            operands_ready <= 1;
-            if (pending_valid) fetch_pc <= pending_pc;
-            pending_valid <= 0;
-          end
-          // Resolve forwarded operands separately from redirect control.
-          // Both control instructions remain in EX for one extra cycle.
-          if (jalr_start && !hazard_start) begin
+      end
+
+      // Architectural exception state is written from the registered MEM
+      // instruction, not from the forwarded EX address/alignment path.
+      if (memory_error || (!hold_memory && exmem.valid && exmem.trap)) begin
+        csr_mstatus[7] <= csr_mstatus[3];
+        csr_mstatus[3] <= 0;
+        csr_mstatus[12:11] <= 2'b11;
+        csr_mepc <= exmem.pc;
+        csr_mcause <= memory_error ? (exmem.is_load ? 5 : 7) : exmem.trap_cause;
+        csr_mtval <= memory_error ? exmem.fault_addr : exmem.trap_tval;
+      end else if (pipeline_advance && !execute_start && idex.valid) begin
+        if (ex_mret) begin
+          csr_mstatus[3] <= csr_mstatus[7];
+          csr_mstatus[7] <= 1;
+          csr_mstatus[12:11] <= 2'b11;
+        end else if (csr_write_en) begin
+          case (csr_write_addr)
+            12'h300: csr_mstatus <= {19'b0,2'b11,3'b0,
+                                    csr_write_data[7],3'b0,
+                                    csr_write_data[3],3'b0};
+            12'h305: csr_mtvec <= {csr_write_data[31:2],2'b0};
+            12'h340: csr_mscratch <= csr_write_data;
+            12'h341: csr_mepc <= {csr_write_data[31:2],2'b0};
+            12'h342: csr_mcause <= csr_write_data;
+            12'h343: csr_mtval <= csr_write_data;
+            default: ;
+          endcase
+        end
+      end
+
+      if (redirect) begin
+        idex.valid <= 0;
+        ex_forward1 <= 0;
+        ex_forward2 <= 0;
+        operand_select1 <= 0;
+        operand_select2 <= 0;
+        jalr_pending <= 0;
+        branch_pending <= 0;
+        jal_pending <= 0;
+        exmem <= (memory_error || trap_redirect) ? stage_t'('0) : ex_result;
+      end else if (pipeline_advance) begin
+        if (execute_start) begin
+          // Extra control-resolution cycles are allowed; ALU and memory
+          // address generation remain genuine one-cycle EX operations.
+          if (jalr_start) begin
             jalr_target_reg <= (src1 + jalr_imm) & 32'hffff_fffe;
             jalr_pending <= 1;
           end
-          if (branch_start && !hazard_start) begin
+          if (branch_start) begin
             branch_pending <= 1;
             branch_target_reg <= idex.pc +
                 {{19{idex.insn[31]}},idex.insn[31],idex.insn[7],
@@ -520,59 +643,25 @@ module rv32i_five_stage_cpu (
               default: branch_taken_reg <= 0;
             endcase
           end
-          if (jal_start && !hazard_start) begin
+          if (jal_start) begin
             jal_pending <= 1;
             jal_target_reg <= idex.pc +
                 {{11{idex.insn[31]}},idex.insn[31],idex.insn[19:12],
                  idex.insn[20],idex.insn[30:21],1'b0};
           end
-          exmem <= ex_result;
-          exmem.valid <= 0;
-          if (mem_start && !hazard_start) begin
-            mem_src1_reg <= src1;
-            mem_src2_reg <= src2;
-            mem_pending <= 1;
-            // Keep IF/ID while this memory instruction spends an extra EX
-            // cycle. Drop and later re-request any younger in-flight fetch.
-            if (pending_valid) fetch_pc <= pending_pc;
-            pending_valid <= 0;
-          end else if (!hazard_start) begin
-            ifid.valid <= pending_valid;
-            ifid.pc <= pending_pc;
-            ifid.insn <= imem_rdata;
-            pending_valid <= imem_valid;
-            if (imem_valid) fetch_pc <= fetch_pc + 4;
-          end
+          exmem <= '0;
+          idex.rs1_value <= src1;
+          idex.rs2_value <= src2;
+          // The values just captured in ID/EX outlive the drained producers.
+          operand_select1 <= idex.rs1 == 0 ? 3'b000 : 3'b001;
+          operand_select2 <= idex.rs2 == 0 ? 3'b000 : 3'b001;
+          ex_forward1 <= 0;
+          ex_forward2 <= 0;
         end else begin
           jalr_pending <= 0;
           branch_pending <= 0;
           jal_pending <= 0;
-          mem_pending <= 0;
-          operands_ready <= 0;
           exmem <= ex_result;
-        if (idex.valid && ex_mret) begin
-          csr_mstatus[3] <= csr_mstatus[7];
-          csr_mstatus[7] <= 1;
-          csr_mstatus[12:11] <= 2'b11;
-        end else if (idex.valid && csr_write_en) begin
-          case (csr_write_addr)
-            12'h300: csr_mstatus <= {19'b0,2'b11,3'b0,
-                                    csr_write_data[7],3'b0,
-                                    csr_write_data[3],3'b0};
-            12'h305: csr_mtvec <= {csr_write_data[31:2],2'b0};
-            12'h340: csr_mscratch <= csr_write_data;
-            12'h341: csr_mepc <= {csr_write_data[31:2],2'b0};
-            12'h342: csr_mcause <= csr_write_data;
-            12'h343: csr_mtval <= csr_write_data;
-            default: ;
-          endcase
-        end
-        if (idex.valid && ex_redirect) begin
-          fetch_pc <= ex_target;
-          pending_valid <= 0;
-          ifid.valid <= 0;
-          idex.valid <= 0;
-        end else begin
           idex.valid <= ifid.valid;
           idex.pc <= ifid.pc;
           idex.insn <= ifid.insn;
@@ -581,15 +670,33 @@ module rv32i_five_stage_cpu (
           idex.rs2 <= ifid.insn[24:20];
           idex.rs1_value <= ifid.insn[19:15] == 0 ? 0 : regs[ifid.insn[19:15]];
           idex.rs2_value <= ifid.insn[24:20] == 0 ? 0 : regs[ifid.insn[24:20]];
-          ifid.valid <= pending_valid;
-          ifid.pc <= pending_pc;
-          ifid.insn <= imem_rdata;
-          pending_valid <= imem_valid;
-          if (imem_valid) begin
-            fetch_pc <= fetch_pc + 4;
-          end
+          // Compare register identities in ID, in parallel with the RF read.
+          // WB qualifications are captured here too. EX producers are
+          // conservatively decoded; a faulting producer redirects from MEM
+          // before its younger consumer can execute or make any side effect.
+          // EX data never traverses a register-number comparator.
+          operand_select1 <= operand_selection(ifid.insn[19:15]);
+          operand_select2 <= operand_selection(ifid.insn[24:20]);
+          ex_forward1 <= idex.valid && writes_rd(idex.insn) && idex.insn[11:7] != 0 &&
+                         ifid.insn[19:15] == idex.insn[11:7];
+          ex_forward2 <= idex.valid && writes_rd(idex.insn) && idex.insn[11:7] != 0 &&
+                         ifid.insn[24:20] == idex.insn[11:7];
         end
+      end else begin
+        // Preserve producer values while a memory request waits and old WB
+        // forwarding sources drain. The returning load is NOT used until WB.
+        idex.rs1_value <= src1;
+        idex.rs2_value <= src2;
+        operand_select1 <= idex.rs1 == 0 ? 3'b000 :
+                           memory_done && ex_forward1 ? 3'b010 : 3'b001;
+        operand_select2 <= idex.rs2 == 0 ? 3'b000 :
+                           memory_done && ex_forward2 ? 3'b010 : 3'b001;
+        if (memory_done || !hold_memory) begin
+          ex_forward1 <= 0;
+          ex_forward2 <= 0;
         end
+        if (memory_done) exmem <= '0;
+        else if (!hold_memory) exmem <= '0;
       end
     end
   end

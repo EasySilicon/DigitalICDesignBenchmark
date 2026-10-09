@@ -1,0 +1,231 @@
+{
+  "schema_version": 3,
+  "benchmark": "Digital IC Design Benchmark for Agents",
+  "suite_id": "ic-delivery-rtl-v0.3",
+  "model": "gpt-6-astra",
+  "trial_kind": "pre_release_pilot",
+  "result_revision_date": "2026-10-09",
+  "benchmark_base_commit": "87ad1a4",
+  "scoring_policy": "functional50-ppa50-setup-frequency-power4-hold-continuous-drc-half-delivery-v6",
+  "ranking_eligible": false,
+  "ranking_ineligible_reasons": [
+    "Suite-wide release qualification is pending: T10 reference PPA and the common tool-image freeze. See pending_components for model-specific unscored components."
+  ],
+  "task_count": 10,
+  "full_functional_task_count": 9,
+  "functional_score_sum": 450.0,
+  "functional_score_possible": 500,
+  "complete_display_score_task_count": 8,
+  "ppa_score_sum_for_available_tasks": 276.2163144576487,
+  "time_score_sum_for_available_tasks": 26.761805555555554,
+  "display_score_subtotal_with_unscored_components_omitted": 752.9781200132043,
+  "tasks": [
+    {
+      "task_id": "T01",
+      "functional_total": 50.0,
+      "ppa_score": 38.238449827830074,
+      "time_score": 0.0,
+      "display_score": 88.23844982783007,
+      "score_status": "scored",
+      "legacy_task_id": "T02",
+      "full_functional_pass": true
+    },
+    {
+      "task_id": "T02",
+      "functional_total": 50.0,
+      "ppa_score": 34.38062007255389,
+      "time_score": 3.5,
+      "display_score": 87.88062007255388,
+      "score_status": "scored",
+      "legacy_task_id": "T03",
+      "full_functional_pass": true
+    },
+    {
+      "task_id": "T03",
+      "functional_total": 50.0,
+      "ppa_score": 37.1367201945673,
+      "time_score": 3.9416666666666664,
+      "display_score": 91.07838686123397,
+      "score_status": "scored",
+      "legacy_task_id": "T04",
+      "full_functional_pass": true
+    },
+    {
+      "task_id": "T04",
+      "functional_total": 50.0,
+      "ppa_score": 43.31507052070609,
+      "time_score": 3.9555555555555557,
+      "display_score": 97.27062607626164,
+      "score_status": "scored",
+      "legacy_task_id": "T05",
+      "full_functional_pass": true
+    },
+    {
+      "task_id": "T05",
+      "functional_total": 50.0,
+      "ppa_score": 35.57429715697841,
+      "time_score": 4.149305555555555,
+      "display_score": 89.72360271253397,
+      "score_status": "scored",
+      "legacy_task_id": "T06",
+      "full_functional_pass": true
+    },
+    {
+      "task_id": "T06",
+      "functional_total": 50.0,
+      "ppa_score": 40.864403555635285,
+      "time_score": 3.9187499999999997,
+      "display_score": 94.78315355563528,
+      "score_status": "scored",
+      "legacy_task_id": "T07",
+      "full_functional_pass": true
+    },
+    {
+      "task_id": "T07",
+      "functional_total": 50.0,
+      "ppa_score": 39.771842455559835,
+      "time_score": 3.7222222222222223,
+      "display_score": 93.49406467778206,
+      "score_status": "scored",
+      "legacy_task_id": "T08",
+      "full_functional_pass": true
+    },
+    {
+      "task_id": "T08",
+      "legacy_task_id": "T11",
+      "functional_total": null,
+      "full_functional_pass": null,
+      "ppa_score": null,
+      "time_score": null,
+      "display_score": null,
+      "score_status": "not_run",
+      "grade_phase": "not_run",
+      "note": "No current frozen MAC submission; not assigned zero.",
+      "benchmark_freeze": {
+        "receipt": "benchmark/tasks/T08/FREEZE.json",
+        "receipt_sha256": "b06fdad0022a07bb4f9dd4f6f04f1a751ed0cd5b17a956580bd40fbb151f1181",
+        "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
+        "scope": "current grading contract"
+      },
+      "trial_kind": "pre_release_pilot"
+    },
+    {
+      "task_id": "T09",
+      "functional_total": 50.0,
+      "ppa_score": 6.9349106738178135,
+      "time_score": 3.574305555555556,
+      "display_score": 60.509216229373365,
+      "score_status": "scored",
+      "legacy_task_id": "T09",
+      "full_functional_pass": true,
+      "delivery_qualified": true,
+      "ppa_eligible": true,
+      "ppa_rank_bucket": 6,
+      "elapsed_seconds": 2053,
+      "candidate_delivery_error_count": 0,
+      "candidate_delivery_penalty": 0,
+      "display_score_before_candidate_penalty": 60.509216229373365,
+      "grade_phase": "regraded-current-t09-policy",
+      "scoring_policy": "t09_group_cycles10_v1",
+      "cycle_cases_passed": 22,
+      "cycle_cases_total": 22,
+      "benchmark_freeze": {
+        "receipt": "benchmark/tasks/T09/FREEZE.json",
+        "receipt_sha256": "c12ebdbe8c5dd6ec5473f2d5c9bb63fcab46a45199eeeb1bc893a44b0936d6df",
+        "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
+        "scope": "current grading contract"
+      },
+      "trial_kind": "pre_release_pilot"
+    },
+    {
+      "task_id": "T10",
+      "functional_total": 50.0,
+      "ppa_score": null,
+      "time_score": null,
+      "display_score": 50.0,
+      "score_status": "function_scored_ppa_not_available",
+      "legacy_task_id": "T10",
+      "full_functional_pass": true
+    }
+  ],
+  "task_weights": {
+    "T01": 0.03,
+    "T02": 0.03,
+    "T03": 0.06,
+    "T04": 0.06,
+    "T05": 0.06,
+    "T06": 0.1,
+    "T07": 0.1,
+    "T08": 0.11,
+    "T09": 0.2,
+    "T10": 0.25
+  },
+  "weighted_display_score_with_unscored_components_omitted": 65.3974941052297,
+  "weighted_display_score_possible": 105.0,
+  "weighted_task_contributions": {
+    "T01": 2.647153494834902,
+    "T02": 2.6364186021766165,
+    "T03": 5.4647032116740375,
+    "T04": 5.836237564575698,
+    "T05": 5.383416162752038,
+    "T06": 9.478315355563529,
+    "T07": 9.349406467778207,
+    "T09": 12.101843245874674,
+    "T10": 12.5
+  },
+  "covered_task_weight": 0.8899999999999999,
+  "covered_display_possible": 93.44999999999999,
+  "evaluated_task_count": 9,
+  "pending_functional_tasks": [
+    "T08"
+  ],
+  "pending_components": {
+    "T08": [
+      "functional_total",
+      "ppa_score",
+      "time_score"
+    ],
+    "T10": [
+      "ppa_score",
+      "time_score"
+    ]
+  },
+  "task_id_migration": {
+    "from_suite": "ic-delivery-rtl-v0.2",
+    "to_suite": "ic-delivery-rtl-v0.3",
+    "removed_legacy_task_id": "T01",
+    "mapping": {
+      "T02": "T01",
+      "T03": "T02",
+      "T04": "T03",
+      "T05": "T04",
+      "T06": "T05",
+      "T07": "T06",
+      "T08": "T07",
+      "T11": "T08",
+      "T09": "T09",
+      "T10": "T10"
+    },
+    "raw_trial_paths_and_rtl_unchanged": true,
+    "score_values_for_retained_tasks_unchanged": true,
+    "weights_policy": "existing weights by new task slot; no renormalization",
+    "legacy_result_snapshots": "backed up outside repository"
+  },
+  "task_scoring_policies": {
+    "T09": "t09_group_cycles10_v1"
+  },
+  "task_freeze_receipts": {
+    "T08": {
+      "receipt": "benchmark/tasks/T08/FREEZE.json",
+      "receipt_sha256": "b06fdad0022a07bb4f9dd4f6f04f1a751ed0cd5b17a956580bd40fbb151f1181",
+      "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
+      "scope": "current grading contract"
+    },
+    "T09": {
+      "receipt": "benchmark/tasks/T09/FREEZE.json",
+      "receipt_sha256": "c12ebdbe8c5dd6ec5473f2d5c9bb63fcab46a45199eeeb1bc893a44b0936d6df",
+      "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
+      "scope": "current grading contract"
+    }
+  }
+}

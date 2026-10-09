@@ -12,55 +12,50 @@ from t02_check import ROOT, run
 
 
 MUTATIONS = {
-    "positive_comma_only": (
-        "is_comma = symbol == COMMA_P || symbol == COMMA_N;",
-        "is_comma = symbol == COMMA_P;",
+    "bad_wrap": (
+        "wr_ptr <= (wr_ptr == DEPTH - 1) ? '0 : wr_ptr + 1'b1;",
+        "wr_ptr <= (wr_ptr == DEPTH) ? '0 : wr_ptr + 1'b1;",
     ),
-    "lock_after_two": (
-        "if (train_count[phase] == 2) begin",
-        "if (train_count[phase] == 1) begin",
+    "empty_pop": (
+        "if (pop)\n        rd_ptr <= (rd_ptr == DEPTH - 1) ? '0 : rd_ptr + 1'b1;",
+        "if (out_ready)\n        rd_ptr <= (rd_ptr == DEPTH - 1) ? '0 : rd_ptr + 1'b1;",
     ),
-    "force_phase_zero": (
-        "acquisition_phase = 4'(phase);",
-        "acquisition_phase = 4'd0;",
+    "fallthrough": (
+        "assign out_valid = count != 0;",
+        "assign out_valid = (count != 0) || in_valid;",
     ),
-    "swap_input_slices": (
-        "bit_window[9:0] = previous_bits;\n    bit_window[19:10] = rx_bits;",
-        "bit_window[9:0] = rx_bits;\n    bit_window[19:10] = previous_bits;",
+    "narrow_storage": (
+        "logic [WIDTH-1:0] storage [0:DEPTH-1];",
+        "logic [7:0] storage [0:DEPTH-1];",
     ),
-    "consume_invalid_cycles": (
-        "if (rx_valid) begin\n        previous_bits <= rx_bits;",
-        "if (1'b1) begin\n        previous_bits <= rx_bits;",
+    "no_count_reset": (
+        "count <= '0;",
+        "count <= count;",
     ),
-    "marker_at_symbol_15": (
-        "if (frame_position == 15) begin",
-        "if (frame_position == 14) begin",
+    "no_full_replace": (
+        "assign in_ready = (count != DEPTH) || (out_valid && out_ready);",
+        "assign in_ready = (count != DEPTH);",
     ),
-    "never_drop_lock": (
-        "end else if (marker_missed_once) begin",
-        "end else if (1'b0) begin",
+    "reverse_order": (
+        "assign out_data = storage[rd_ptr];",
+        "assign out_data = storage[wr_ptr];",
     ),
-    "output_unaligned_slice": (
-        "symbol_out <= scan_window[locked_phase];",
-        "symbol_out <= rx_bits;",
+    "short_capacity": (
+        "assign in_ready = (count != DEPTH) || (out_valid && out_ready);",
+        "assign in_ready = (count < DEPTH-1) || (out_valid && out_ready);",
     ),
-    "phase_plus_one": (
-        "locked_phase <= acquisition_phase;",
-        "locked_phase <= acquisition_phase + 1'b1;",
-    ),
-    "reset_keeps_lock": (
-        "previous_valid <= 1'b0;\n      locked <= 1'b0;",
-        "previous_valid <= 1'b0;\n      locked <= locked;",
+    "skip_last_write": (
+        "storage[wr_ptr] <= in_data;",
+        "if (wr_ptr != DEPTH-1) storage[wr_ptr] <= in_data;",
     ),
 }
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--seed", type=int, default=20260927)
+    parser.add_argument("--seed", type=int, default=20260928)
     args = parser.parse_args()
-    reference_path = ROOT / "reference/T02/serdes_rx_comma_aligner.sv"
-    reference = reference_path.read_text()
+    reference = (ROOT / "reference/T02/rtl/synchronous_fifo.sv").read_text()
     matrix = {}
     with tempfile.TemporaryDirectory(prefix="ic_bcmk_T02_mutants_") as temporary:
         base = Path(temporary)

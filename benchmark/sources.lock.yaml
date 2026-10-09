@@ -1,17 +1,4 @@
 schema_version: 1
-cvdp:
-  repository: nvidia/cvdp-benchmark-dataset
-  revision: 5b807d945f6a99aa645f7e43a64a2115e281b4bf
-  non_code_license: CC-BY-4.0
-  non_code_license_url: https://creativecommons.org/licenses/by/4.0/
-  attribution: NVIDIA CVDP Benchmark Dataset
-  file: cvdp_v1.1.0_nonagentic_code_generation_no_commercial.jsonl
-  file_sha256: cbcd81295561ebb16e4d857e096f4d9908d042c33aff3b58abf236e868411857
-  items:
-    T01:
-      id: cvdp_copilot_serial_in_parallel_out_0004
-      categories: [cid003, easy]
-      prompt_sha256: f1fbe4e1a70f04d1b0917004195fca88d7c07324c3af163700d772e5396091f9
 riscv:
   arch_test_repository: riscv/riscv-arch-test
   arch_test_branch: act4
@@ -37,11 +24,16 @@ ppa:
   flow: yosys_openroad_routed
   asap7_library_model_candidate: NLDM
   asap7_vt_candidate: RVT
-  finalized_parameter_set_status: pending_calibration
-  reference_values_status: pending_calibration
+  finalized_parameter_set_status: target_1ghz_partially_calibrated
+  reference_values_status: partial_1ghz_qualified
+  authoritative_baselines: benchmark/ppa-baselines.json
+  frozen_task_receipts:
+    T08: benchmark/tasks/T08/FREEZE.json
+    T09: benchmark/tasks/T09/FREEZE.json
+  pending_baseline_tasks: [T10]
 t10_formats:
   ofp8: https://www.opencompute.org/documents/ocp-8-bit-floating-point-specification-ofp8-revision-1-0-2023-06-20-pdf
   mx: https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf
-  ofp8_revision: "1.0"
-  mx_revision: "1.0"
+  ofp8_revision: '1.0'
+  mx_revision: '1.0'
   benchmark_numeric_contract: benchmark/tasks/T10/task.md

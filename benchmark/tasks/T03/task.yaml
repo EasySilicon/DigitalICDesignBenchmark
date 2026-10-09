@@ -1,6 +1,13 @@
 id: T03
-title: synchronous_fifo
+title: apb4_timer
 level_hypothesis: 3
 origin: original
-time_limit_minutes: 120
-same_model_token_cap: 80000
+time_limit_minutes: 90
+same_model_token_cap: 120000
+f_points:
+- 20
+- 20
+- 20
+p_points:
+- 10
+- 5

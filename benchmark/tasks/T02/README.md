@@ -1,4 +1,6 @@
-# T02 · SerDes RX comma aligner
+# T02 · 参数化同步 FIFO
+
+[English](README.en.md)
 
 任务元数据见 `task.yaml`。
 

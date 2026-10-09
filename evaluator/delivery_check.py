@@ -80,8 +80,11 @@ def check_normal(result: dict) -> list[tuple[str, bool, int]]:
                 type(item.get("seed")) is not int:
             raise ValueError("test row must have name, boolean passed, and integer seed")
         rows.append((item["name"], item["passed"], item["seed"]))
-    if len({row[0] for row in rows}) != len(rows):
-        raise ValueError("duplicate test names")
+    # A self-check may intentionally repeat the same named scenario under
+    # several deterministic seeds.  The pair identifies a test instance;
+    # rejecting a repeated name alone incorrectly penalizes multi-seed suites.
+    if len({(row[0], row[2]) for row in rows}) != len(rows):
+        raise ValueError("duplicate test name/seed pairs")
     if not all(row[1] for row in rows):
         raise ValueError("submission self-check failed")
     versions = result.get("tool_versions")

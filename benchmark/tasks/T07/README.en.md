@@ -1,4 +1,4 @@
-# T07 · AXI4-Lite to APB4 bridge
+# T07 · 256 B direct-mapped write-back cache
 
 [中文](README.md)
 

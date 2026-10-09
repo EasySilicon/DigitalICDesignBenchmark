@@ -58,6 +58,9 @@ module tb_T09;
           $fatal(1, "CPU-PIPE-LAT duplicate fetch PC=%h", imem_addr);
         fetched[fetch_index] = 1;
         fetch_cycle[fetch_index] = cycle_count;
+        if (fetch_index > 0 && (!fetched[fetch_index-1] ||
+                               cycle_count != fetch_cycle[fetch_index-1]+1))
+          $fatal(1, "CPU-PIPE-LAT unexpected fetch bubble index=%0d", fetch_index);
       end
     end
     if (rst_n && dmem_req_valid)

@@ -1,4 +1,4 @@
-# T04 · APB4 定时器与中断外设
+# T04 · ready/valid 轮询仲裁器
 
 [English](README.en.md)
 

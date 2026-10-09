@@ -1,0 +1,13 @@
+current_design mac_1g_repair
+create_clock -name logic_clk_clock -period 1000 [get_ports logic_clk]
+create_clock -name tx_clk_clock -period 1000 [get_ports tx_clk]
+create_clock -name rx_clk_clock -period 1000 [get_ports rx_clk]
+set_clock_groups -asynchronous -group [get_clocks logic_clk_clock] -group [get_clocks tx_clk_clock] -group [get_clocks rx_clk_clock]
+set_input_delay 200 -clock logic_clk_clock [get_ports {tx_axis_tdata tx_axis_tvalid tx_axis_tlast tx_axis_tuser rx_axis_tready}]
+set_output_delay 200 -clock logic_clk_clock [get_ports {tx_axis_tready rx_axis_tdata rx_axis_tvalid rx_axis_tlast rx_axis_tuser rx_axis_tagged rx_axis_tci tx_error_underflow rx_error_bad_frame rx_error_bad_fcs tx_fifo_overflow tx_fifo_bad_frame tx_fifo_good_frame rx_fifo_overflow rx_fifo_bad_frame rx_fifo_good_frame}]
+set_output_delay 200 -clock tx_clk_clock [get_ports {gmii_txd gmii_tx_en gmii_tx_er}]
+set_input_delay 200 -clock rx_clk_clock [get_ports {gmii_rxd gmii_rx_dv gmii_rx_er cfg_vlan_enable cfg_accept_untagged cfg_accept_priority cfg_vlan_valid cfg_vlan_vids}]
+set_output_delay 200 -clock rx_clk_clock [get_ports {rx_vlan_drop}]
+set_false_path -from [get_ports logic_rst]
+set_false_path -from [get_ports tx_rst]
+set_false_path -from [get_ports rx_rst]

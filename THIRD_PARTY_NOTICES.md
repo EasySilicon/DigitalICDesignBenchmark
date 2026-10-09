@@ -42,6 +42,20 @@ is recorded in vendor/asap7/SHA256SUMS.
 The platform is included to run the benchmark's public PPA flow. It is a
 predictive research PDK, not a production PDK or a signoff library.
 
+### T08 optional dual-clock FakeRAM views from lambdapdk
+
+`vendor/lambdapdk_fakeram7/` contains the `fakeram7_tdp_4096x32`
+Verilog, Liberty and LEF research models, plus generator configuration and
+build provenance, from siliconcompiler/lambdapdk revision
+`15c783cc336ca002d2c31adfd2c2b14b363c66cf`. The repository's Apache-2.0
+license is retained as `vendor/lambdapdk_fakeram7/LICENSE.apache`.
+The generator is the gadfort/FakeRAM2.0 fork at the revision recorded in
+the original build.sh. These are predictive abstract views, not manufacturable
+SRAM GDS or SPICE-characterized macros. The original files are preserved under
+upstream/; sim/ fixes only a trailing port comma and the duplicate B-port loop
+variable declaration. The original and patched hashes are in manifest.json.
+These assets are separate from the unmodified vendor/asap7 snapshot.
+
 ### RISC-V Architectural Certification Tests (ACT4)
 
 The 45 ELF programs below evaluator/act4_elfs/ are generated artifacts from
@@ -67,20 +81,19 @@ This benchmark is not affiliated with, endorsed by, or a certification of
 RISC-V International. Passing these selected tests is not RISC-V
 certification.
 
-### NVIDIA CVDP benchmark dataset
+### T08 Ethernet MAC fixture
 
-The T01 task card in benchmark/tasks/T01/task.md is a modified derivative of
-the named prompt in
-the NVIDIA CVDP Benchmark Dataset:
-
-* dataset: [nvidia/cvdp-benchmark-dataset][cvdp];
-* locked dataset revision, file hash, prompt IDs, and prompt hashes:
-  benchmark/sources.lock.yaml;
-* license for the dataset's non-code content: [CC BY 4.0][cc-by].
-
-The task cards identify the source prompt, state that they are modified
-derivatives, and link to this notice and CC BY 4.0. NVIDIA and the dataset
-contributors do not endorse this benchmark or its results.
+The eight upstream Verilog modules in benchmark/tasks/T08/starter/rtl/ are
+derived from Alex Forencich's MIT-licensed verilog-ethernet, revision
+77320a9471d19c7dd383914bc049e02d9f4f1ffb (including its lib/axis contents).
+They retain their individual copyright and MIT permission notices, including
+the task-modified FIFO/TX files. The complete upstream license is
+[benchmark/tasks/T08/starter/LICENSE.upstream](benchmark/tasks/T08/starter/LICENSE.upstream).
+The fixture is deliberately defective and is not a production MAC distribution.
+Source mapping and task modifications are described in
+[benchmark/tasks/T08/PROVENANCE.md](benchmark/tasks/T08/PROVENANCE.md).
+Original task specification, wrapper, admission stub and verification code
+are project-owned Apache-2.0 material unless a specific notice says otherwise.
 
 ## Referenced but not redistributed
 
@@ -92,7 +105,7 @@ Users who obtain them must follow their respective licenses.
 
 ## Trademarks
 
-ASAP7, OpenROAD, ORFS, FakeRAM, RISC-V, NVIDIA, CVDP, Sail, Yosys, Verilator,
+ASAP7, OpenROAD, ORFS, FakeRAM, RISC-V, Sail, Yosys, Verilator,
 and OCP may be trademarks of their respective owners. Their use here is
 nominative only and does not imply affiliation, sponsorship, endorsement, or
 certification.
@@ -100,5 +113,3 @@ certification.
 [orfs]: https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/tree/1ec57da7bf0f1491190cbea2673c2c01fb3bc3ae
 [fakeram]: https://github.com/ABKGroup/FakeRAM2.0/tree/49dad15badc28a55363813e105c830c7776fc588
 [act4]: https://github.com/riscv/riscv-arch-test/tree/4a42cbd3756259bbc1f92a7d816bc2fd2bd551cb
-[cvdp]: https://huggingface.co/datasets/nvidia/cvdp-benchmark-dataset
-[cc-by]: https://creativecommons.org/licenses/by/4.0/

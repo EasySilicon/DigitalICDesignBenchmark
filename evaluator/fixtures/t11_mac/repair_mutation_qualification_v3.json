@@ -1,0 +1,117 @@
+{
+  "task": "T08",
+  "scope": "host-only frame-transaction checker qualification",
+  "spec_revision": "3.0-frame-transactions",
+  "judge_revision": "3.0-frame-pressure",
+  "completed_utc": "2026-10-07T08:33:15+00:00",
+  "baseline_passed": true,
+  "baseline_run_count": 84,
+  "baseline_rtl_sha256": {
+    "axis_adapter.v": "4b9b6649f12e374c24d36f2d42680ecf1f38cca8ae4fda7fd68dbf722b6c8140",
+    "axis_async_fifo.v": "339734a7984d7d540451c92f0831495837c451d170ba60dfbd59f851b28f4250",
+    "axis_async_fifo_adapter.v": "9dc661b88d459a318e40722df277720fe64ef4309230462e8538b1a44da1d57c",
+    "axis_gmii_rx.v": "70d8e8c8ebfd22b8b1ffed7c077864c1944217a3e844f79cd3807cc41cf449d7",
+    "axis_gmii_tx.v": "bb5e29b34320976a1ec3c52a18f81e705e46ed3274ba3950c590792f66fb753e",
+    "eth_mac_1g.v": "caacd61ad484d96ff14991100009aa67f16aa66a85d9bd245ed2869926da652c",
+    "eth_mac_1g_fifo.v": "1c51f77283e10eabdc4ba7c0542a25c3e4c416a348e68592de3a2c7d8b5c0c30",
+    "files.f": "610c11492a37468daa27b83c4c75dfb3ea6e75ba26236a6d0830a603f6972736",
+    "lfsr.v": "5502c8203b0dfc7246c1a2de93e60c199ded3c1d7840b106350d714f72a9a079",
+    "mac_1g_repair.sv": "b4358e99461f034ef42a7a53a95b2b518bc303f0a960f2327f30396deda5d984",
+    "rx_vlan_admission.sv": "66f789a1a9172cd481716ed3d8af4106a7ba188da3c7588be5d1f7db8394a524"
+  },
+  "judge_sha256": {
+    "evaluator/t08_check.py": "f812209bab88aa38dc06333c2ce5dfe4bafadd7e4be486f3e8b2aae339663ab1",
+    "evaluator/public/tb_T08.sv": "5cd85d3d1330c045fe3902b880864733cc3cba5e7b552acffd16168f5bb5abcc",
+    "evaluator/fixtures/t11_mac/tb_acceptance.sv": "d88029e9386df169b20f1a8cdda5f4fb2399a4995074b79117a9e2323b84081a"
+  },
+  "starter_fifo_sha256": "0bef75c77df1333e050d5e581a01751bcb804672a61fae6c83d16030d13a5319",
+  "coalescing_positive_control": {
+    "compiled": true,
+    "passed": true,
+    "functional_total": 50
+  },
+  "variant_count": 5,
+  "detected_count": 5,
+  "variants": {
+    "starter_regression": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        23,
+        24,
+        25,
+        26,
+        27
+      ],
+      "expected_failure_cases": [
+        23,
+        24,
+        25,
+        26,
+        27
+      ]
+    },
+    "publication_unrepaired": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        25
+      ],
+      "expected_failure_cases": [
+        25
+      ]
+    },
+    "rollback_unrepaired": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        23,
+        24,
+        26,
+        27
+      ],
+      "expected_failure_cases": [
+        23,
+        24,
+        26,
+        27
+      ]
+    },
+    "cancellation_unrepaired": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        24,
+        26
+      ],
+      "expected_failure_cases": [
+        24,
+        26
+      ]
+    },
+    "wrap_checkpoint_truncated": {
+      "compiled": true,
+      "detected": true,
+      "failed_cases": [
+        26,
+        27
+      ],
+      "expected_failure_cases": [
+        26,
+        27
+      ]
+    }
+  },
+  "passed": true,
+  "limitations": [
+    "Finite negative controls do not prove detection of all possible RTL faults.",
+    "Localization difficulty still requires timed candidate trials.",
+    "Original submissions, frozen input packages and old scores are unchanged."
+  ],
+  "legacy_judge_sha256": {
+    "evaluator/t08_check.py": "3c3b61d1ccda64f23e0fcd0f0012ff437e50b9797b635245dd69e04d32c5d84a",
+    "evaluator/public/tb_T08.sv": "d7384facb4fb566513fac91ad579235d373a183c832df18b37f43ef2cba5e556",
+    "evaluator/fixtures/t11_mac/tb_acceptance.sv": "30f92ba528c67921661cea5f83d17fa82c2248d1e872f6ce6f04b4d5ff337c16"
+  },
+  "evidence_migration": "Task-label relabel only; original judge bytes archived in legacy_judge_v31; no fresh mutation run claimed."
+}

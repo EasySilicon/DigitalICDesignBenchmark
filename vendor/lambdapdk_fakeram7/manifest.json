@@ -1,0 +1,19 @@
+{
+  "upstream": "https://github.com/siliconcompiler/lambdapdk",
+  "upstream_commit": "15c783cc336ca002d2c31adfd2c2b14b363c66cf",
+  "cell": "fakeram7_tdp_4096x32",
+  "sha256": {
+    "LICENSE.apache": "d9322192eec7f74e41b189686280b06add89b1d90661cfeab27bd4fa9ecff884",
+    "sim/fakeram7_tdp_4096x32.v": "e9de7756dfa3a68c4cd055915a41eca4ace81f8a77715d3facb92f32341bcf2a",
+    "upstream/build.sh": "68468402f9162ec80a817fede8a8e89e8df36b61b36649a3946ec34f1556f79f",
+    "upstream/fakeram7.cfg": "f215cef32dfc64db76291f553e215665a2b851f630f9bb0a2c5f99fe79e4a4a6",
+    "upstream/lef/fakeram7_tdp_4096x32.lef": "f0795e22e0e7c464e197eef5423fbfbfb826c8528685d00dfd6fe8f1afd01127",
+    "upstream/nldm/fakeram7_tdp_4096x32.lib": "2d7dc6e54dec2eae35db27a812d79a5d29faa5c2867c85a5fab9bbbdc037781a",
+    "upstream/verilog/fakeram7_tdp_4096x32.v": "3bca2f30bfac48ec6c15ecb82fc415662cc411ae4c550fa2c56b26e797266919"
+  },
+  "patches": [
+    "Remove trailing comma in module port list",
+    "Rename duplicate B-port integer loop variable j to k; no behavioral changes"
+  ],
+  "classification": "predictive research abstraction, not silicon/signoff SRAM"
+}

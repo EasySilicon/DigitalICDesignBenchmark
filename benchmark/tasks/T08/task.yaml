@@ -1,6 +1,31 @@
 id: T08
-title: direct_mapped_writeback_cache
+title: mac_1gbe_bug_repair_vlan_admission
+status: frozen
+spec_revision: 3.0-frame-transactions
+starter_revision: 3.0-coalesced-commit-regression
+judge_revision: 3.1-boundary-crosses
 level_hypothesis: 8
-origin: original
-time_limit_minutes: 720
-same_model_token_cap: 480000
+origin: MIT-licensed brownfield fixture plus original specification
+time_limit_minutes: 120
+same_model_token_cap: null
+functional_max: 50
+ppa_status: qualified_1ghz
+ppa_policy_revision: 2.0-lambdapdk-tdp-1ghz
+ppa_clock_periods_ps:
+  logic_clk: 1000
+  tx_clk: 1000
+  rx_clk: 1000
+ppa_clock_relationship: asynchronous
+ppa_memory_model: lambdapdk_fakeram7_tdp_4096x32
+ppa_timing_corners: mixed_WC_standard_cells_TT_SRAM
+ppa_drc_scope: routed_interconnect_and_macro_pin_access
+ppa_lvs_required: false
+f_points:
+- 12
+- 12
+- 15
+- 15
+- 6
+p_points:
+- 9
+- 6

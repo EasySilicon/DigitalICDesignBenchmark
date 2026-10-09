@@ -1,4 +1,4 @@
-# T06 · Dual-clock asynchronous FIFO
+# T06 · AXI4-Lite to APB4 bridge
 
 [中文](README.md)
 

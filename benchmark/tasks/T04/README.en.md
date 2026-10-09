@@ -1,4 +1,4 @@
-# T04 · APB4 timer and interrupt peripheral
+# T04 · ready/valid round-robin arbiter
 
 [中文](README.md)
 

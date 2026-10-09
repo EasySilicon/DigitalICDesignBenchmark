@@ -1,0 +1,107 @@
+{
+  "task": "T08",
+  "scope": "Host-only boundary regression qualification; not an authoritative historical trial regrade",
+  "judge_revision": "3.1-boundary-crosses",
+  "judge_sha256": {
+    "evaluator/t08_check.py": "f812209bab88aa38dc06333c2ce5dfe4bafadd7e4be486f3e8b2aae339663ab1",
+    "evaluator/public/tb_T08.sv": "5cd85d3d1330c045fe3902b880864733cc3cba5e7b552acffd16168f5bb5abcc",
+    "evaluator/fixtures/t11_mac/tb_acceptance.sv": "d88029e9386df169b20f1a8cdda5f4fb2399a4995074b79117a9e2323b84081a"
+  },
+  "known_glm_feature_sha256": "93860bae3f93b7d3951be7b60c0ba1b2b2043ef5d3ce566c2735f060f15b58c1",
+  "original_trial_and_summary_unchanged": true,
+  "expected_regression_failures": [
+    28,
+    30,
+    31,
+    33,
+    35,
+    36
+  ],
+  "passed": true,
+  "replays": {
+    "streaming_control": {
+      "judge_revision": "3.1-boundary-crosses",
+      "functional_total": 50,
+      "full_functional_pass": true,
+      "case_count": 37,
+      "run_count": 111,
+      "failed_cases": []
+    },
+    "independent_kimi_replay": {
+      "judge_revision": "3.1-boundary-crosses",
+      "functional_total": 50,
+      "full_functional_pass": true,
+      "case_count": 37,
+      "run_count": 111,
+      "failed_cases": []
+    },
+    "known_glm_regression": {
+      "judge_revision": "3.1-boundary-crosses",
+      "functional_total": 44,
+      "full_functional_pass": false,
+      "case_count": 37,
+      "run_count": 111,
+      "failed_cases": [
+        {
+          "case": 28,
+          "failed_seeds": [
+            20261007,
+            47,
+            91
+          ]
+        },
+        {
+          "case": 30,
+          "failed_seeds": [
+            20261007,
+            47,
+            91
+          ]
+        },
+        {
+          "case": 31,
+          "failed_seeds": [
+            20261007,
+            47,
+            91
+          ]
+        },
+        {
+          "case": 33,
+          "failed_seeds": [
+            20261007,
+            47,
+            91
+          ]
+        },
+        {
+          "case": 35,
+          "failed_seeds": [
+            20261007,
+            47,
+            91
+          ]
+        },
+        {
+          "case": 36,
+          "failed_seeds": [
+            20261007,
+            47,
+            91
+          ]
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "Finite tests cannot establish the absence of every possible RTL defect.",
+    "Original submitted RTL, frozen judges and historical scores are unchanged.",
+    "The Kimi replay and streaming control are separate implementation structures, not new timed model trials."
+  ],
+  "legacy_judge_sha256": {
+    "evaluator/t08_check.py": "6d1bd463bd534f378fbc1017263a5ff9a44c3fef846ff08759162c71ee5e83ac",
+    "evaluator/public/tb_T08.sv": "62827a2077042418939465795bf0ae002f1fe628fad5d04fe6376207941e0bf6",
+    "evaluator/fixtures/t11_mac/tb_acceptance.sv": "769b8230f611e94059e977e808e73f15d067923a664220cec86b15b42113cb4f"
+  },
+  "evidence_migration": "Task-label relabel only; original judge bytes archived in legacy_judge_v31; no fresh mutation run claimed."
+}

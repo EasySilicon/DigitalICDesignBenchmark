@@ -12,45 +12,41 @@ from t04_check import ROOT, run
 
 
 MUTATIONS = {
-    "count_write_wrong": (
-        "12'h008: if (|PSTRB) count_next = merge_bytes(count_reg, PWDATA, PSTRB);",
-        "12'h008: if (|PSTRB) count_next = merge_bytes(count_reg, PWDATA, PSTRB) - 1'b1;",
+    "advance_without_ready": (
+        "else if (out_valid && out_ready) begin",
+        "else if (out_valid) begin",
     ),
-    "ctrl_reserved_bits": (
-        "ctrl_next = merge_bytes(ctrl, PWDATA, PSTRB) & 32'h7;",
-        "ctrl_next = merge_bytes(ctrl, PWDATA, PSTRB);",
+    "fixed_priority": (
+        "search_start <= out_id + 1'b1;",
+        "search_start <= '0;",
     ),
-    "ignore_load_pstrb": (
-        "12'h004: load_next = merge_bytes(load_reg, PWDATA, PSTRB);",
-        "12'h004: load_next = PWDATA;",
+    "multiple_ready": (
+        "in_ready = selected & {N{out_ready}};",
+        "in_ready = {N{out_ready}};",
     ),
-    "invalid_success": (
-        "assign PSLVERR = access && !address_ok;",
-        "assign PSLVERR = 1'b0;",
+    "no_hold": (
+        "locked <= 1'b1;",
+        "locked <= 1'b0;",
     ),
-    "irq_ungated": (
-        "assign irq = pending && ctrl[2];",
-        "assign irq = pending;",
+    "no_pointer_reset": (
+        "search_start <= '0;",
+        "search_start <= search_start;",
     ),
-    "setup_early": (
-        "assign access = PSEL && PENABLE;",
-        "assign access = PSEL;",
+    "only_channel_zero": (
+        "out_valid = locked || (|in_valid);",
+        "out_valid = locked || grant[0];",
     ),
-    "status_strobe_ignored": (
-        "if (PSTRB[0] && PWDATA[0]) pending_next = 1'b0;",
-        "if (PWDATA[0]) pending_next = 1'b0;",
+    "skip_pointer": (
+        "search_start <= out_id + 1'b1;",
+        "search_start <= out_id + 2'b10;",
     ),
-    "status_zero_clears": (
-        "if (PSTRB[0] && PWDATA[0]) pending_next = 1'b0;",
-        "if (PSTRB[0] && !PWDATA[0]) pending_next = 1'b0;",
+    "truncate_data": (
+        "out_data |= in_data[i] & {WIDTH{selected[i]}};",
+        "out_data |= WIDTH'(8'(in_data[i])) & {WIDTH{selected[i]}};",
     ),
-    "terminal_early": (
-        "if (count_reg != 0) count_next = count_reg - 1'b1;",
-        "if (count_reg > 1) count_next = count_reg - 1'b1;",
-    ),
-    "zero_strobe_stalls": (
-        "12'h008: if (|PSTRB) count_next = merge_bytes(count_reg, PWDATA, PSTRB);",
-        "12'h008: count_next = merge_bytes(count_reg, PWDATA, PSTRB);",
+    "wrong_lane": (
+        "out_data |= in_data[i] & {WIDTH{selected[i]}};",
+        "out_data |= in_data[(i+1)%N] & {WIDTH{selected[i]}};",
     ),
 }
 
@@ -59,7 +55,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--seed", type=int, default=20260928)
     args = parser.parse_args()
-    reference = (ROOT / "reference/T04/rtl/apb4_timer.sv").read_text()
+    reference = (ROOT / "reference/T04/rtl/round_robin_stream_arbiter.sv").read_text()
     matrix = {}
     with tempfile.TemporaryDirectory(prefix="ic_bcmk_T04_mutants_") as temporary:
         base = Path(temporary)

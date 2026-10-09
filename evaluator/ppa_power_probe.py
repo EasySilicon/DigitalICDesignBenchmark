@@ -24,28 +24,27 @@ STDCELL = ROOT.parent / "vendor/asap7/verilog/stdcell"
 LIBERTY = ROOT.parent / "vendor/asap7/lib/NLDM"
 SEQUENTIAL = ROOT.parent / "env/asap7_seq_sim.v"
 POWER_CLOCKS = {
-    "T01": ("clock",), "T02": ("clk",), "T03": ("clk",),
-    "T04": ("clk",), "T05": ("clk",),
-    "T06": ("wr_clk", "rd_clk"), "T07": ("clk",),
-    "T08": ("clk",), "T09": ("clk",), "T10": ("clk",),
+    "T01": ("clk",), "T02": ("clk",),
+    "T03": ("clk",), "T04": ("clk",),
+    "T05": ("wr_clk", "rd_clk"), "T06": ("clk",),
+    "T07": ("clk",), "T09": ("clk",), "T10": ("clk",),
 }
 POWER_WORKLOAD_IDS = {
     task: f"{task}-power-v1" for task in POWER_CLOCKS
 }
-T06_PEAK_CLOCK_PERIOD_PS = {"wr_clk": 1000.0, "rd_clk": 1000.0}
+T05_PEAK_CLOCK_PERIOD_PS = {"wr_clk": 1000.0, "rd_clk": 1000.0}
 ONE_GHZ_CLOCK_PERIOD_PS = {"clk": 1000.0}
-PARAMETERS = {"T03": ("WIDTH=32", "DEPTH=16"),
-              "T05": ("N=8", "WIDTH=32"),
-              "T06": ("WIDTH=32", "DEPTH=16")}
+PARAMETERS = {"T02": ("WIDTH=32", "DEPTH=16"),
+              "T04": ("N=8", "WIDTH=32"),
+              "T05": ("WIDTH=32", "DEPTH=16")}
 MONITORED_OPS = {
-    "T01": ("posedge clock", "1", "1"),
-    "T02": ("posedge clk", "rst_n", "symbol_valid"),
-    "T03": ("posedge clk", "rst_n", "out_valid && out_ready"),
-    "T04": ("posedge clk", "rst_n", "PSEL && PENABLE && PREADY"),
-    "T05": ("posedge clk", "rst_n", "out_valid && out_ready"),
-    "T06": ("posedge rd_clk", "rd_rst_n", "rd_valid && rd_ready"),
-    "T07": ("posedge clk", "rst_n", "(BVALID && BREADY) + (RVALID && RREADY)"),
-    "T08": ("posedge clk", "rst_n", "rsp_valid && rsp_ready"),
+    "T01": ("posedge clk", "rst_n", "symbol_valid"),
+    "T02": ("posedge clk", "rst_n", "out_valid && out_ready"),
+    "T03": ("posedge clk", "rst_n", "PSEL && PENABLE && PREADY"),
+    "T04": ("posedge clk", "rst_n", "out_valid && out_ready"),
+    "T05": ("posedge rd_clk", "rd_rst_n", "rd_valid && rd_ready"),
+    "T06": ("posedge clk", "rst_n", "(BVALID && BREADY) + (RVALID && RREADY)"),
+    "T07": ("posedge clk", "rst_n", "rsp_valid && rsp_ready"),
     "T10": ("posedge clk", "rst_n && out_ready",
             "int'(out_valid[0] && out_row[3:0] == 4'd15) + "
             "int'(out_valid[1] && out_row[7:4] == 4'd15) + "
@@ -73,13 +72,13 @@ def instrument_testbench(task: str, original: Path, output: Path) -> str:
                                   ("round_robin_stream_arbiter", "#(.N(N), .WIDTH(WIDTH))"),
                                   ("asynchronous_fifo", "#(.WIDTH(WIDTH), .DEPTH(DEPTH))")):
         source = source.replace(f"{module_name} {instance} dut", f"{module_name} dut")
-    if task == "T03" and top == "tb_hidden_T03":
+    if task == "T02" and top == "tb_hidden_T02":
         # Gate primitives start at 0 in two-state Verilator. Let the testbench's
         # initial rst_n=1 settle before the first asynchronous falling edge.
         source = source.replace("reset_fifo(0);", "#1; reset_fifo(0);", 1)
-    if task == "T04" and top == "tb_hidden_T04":
+    if task == "T03" and top == "tb_hidden_T03":
         source = source.replace("    reset_timer();", "    #1; reset_timer();", 1)
-    if task in {"T07", "T08"}:
+    if task in {"T06", "T07"}:
         # The zero-delay cell simulator starts registers at zero. Force a
         # reset falling edge before the APB monitor samples the first setup.
         source = source.replace("clk = 0; rst_n = 0;",
@@ -102,8 +101,8 @@ def instrument_testbench(task: str, original: Path, output: Path) -> str:
         if clock_edits != 1:
             raise ValueError("T10 power bench must contain one 10 ns debug clock")
     ready = ("wait(!rst_n); wait(rst_n); #1;" if task == "T10" else
-             "wait(rst_n); #1;" if task in {"T03", "T04", "T07", "T08", "T09"}
-             else "wait(wr_rst_n && rd_rst_n); #1;" if task == "T06" else "")
+             "wait(rst_n); #1;" if task in {"T02", "T03", "T06", "T07", "T09"}
+             else "wait(wr_rst_n && rd_rst_n); #1;" if task == "T05" else "")
     monitor = ("initial begin\n  string vcd_path;\n"
                "  if ($value$plusargs(\"POWER_VCD=%s\", vcd_path)) begin\n"
                f"    {ready}\n"
@@ -239,9 +238,9 @@ def run(args: argparse.Namespace) -> dict:
         workload_parameters["elf_sha256"] = hashlib.sha256(elf_bytes).hexdigest()
         workload_digest.update(len(elf_bytes).to_bytes(8, "big"))
         workload_digest.update(elf_bytes)
-    if args.task == "T02":
+    if args.task == "T01":
         if args.vectors is None or args.case_count is None or args.testbench is None:
-            raise ValueError("T02 requires --vectors, --case-count and --testbench")
+            raise ValueError("T01 requires --vectors, --case-count and --testbench")
         payload = args.vectors.read_bytes()
         workload_parameters["case_count"] = args.case_count
         workload_parameters["vectors_sha256"] = hashlib.sha256(payload).hexdigest()
@@ -287,15 +286,15 @@ def run(args: argparse.Namespace) -> dict:
         image = output / "image.hex"
         write_hex_image(load_elf(args.elf), image)
         run_command += [f"+IMAGE={image}", "+MAX_CYCLES=200000"]
-    if args.task == "T02":
+    if args.task == "T01":
         run_command += [f"+VECTORS={args.vectors.resolve()}",
                         f"+COUNT={args.case_count}", "+POWER_WORKLOAD"]
     if args.task == "T10":
         run_command += [f"+VECTORS={args.vectors.resolve()}",
                         f"+CASE_COUNT={args.case_count}"]
     if args.power_goal is not None:
-        if args.task != "T06" or args.testbench is None:
-            raise ValueError("--power-goal requires a T06 evaluator-owned testbench")
+        if args.task != "T05" or args.testbench is None:
+            raise ValueError("--power-goal requires a T05 evaluator-owned testbench")
         run_command.append(f"+POWER_GOAL={args.power_goal}")
     simulation = subprocess.run(run_command, text=True, capture_output=True,
                                 timeout=600)
@@ -308,13 +307,13 @@ def run(args: argparse.Namespace) -> dict:
         groups = re.findall(r"^IC_GROUP (AC-\d+[A-Z]?) (\d+) (\d+)$",
                             simulation.stdout, re.MULTILINE)
         behavioral_groups = [(name, good, total) for name, good, total in groups
-                             if not (args.task == "T06" and name == "AC-31")]
+                             if not (args.task == "T05" and name == "AC-31")]
         if not behavioral_groups or any(int(good) != int(total) or int(total) <= 0
                                         for _, good, total in behavioral_groups):
             raise RuntimeError("hidden gate workload failed group checks; see simulation.log")
-        if args.task == "T02" and {name for name, _, _ in behavioral_groups} != {
+        if args.task == "T01" and {name for name, _, _ in behavioral_groups} != {
                 "AC-05", "AC-06", "AC-07", "AC-08A", "AC-08B"}:
-            raise RuntimeError("T02 gate workload missed a required acceptance group")
+            raise RuntimeError("T01 gate workload missed a required acceptance group")
     elif ("CPU_ELF_PASS" if args.task == "T09" else
           f"PUBLIC_PASS {args.task}") not in simulation.stdout:
         raise RuntimeError("gate-level workload missed completion marker; see simulation.log")
@@ -322,8 +321,8 @@ def run(args: argparse.Namespace) -> dict:
     if args.ops is not None and args.ops != ops:
         raise ValueError(f"declared --ops={args.ops} differs from measured {ops}")
     duration, periods = vcd_stats(vcd, top, POWER_CLOCKS[args.task])
-    if args.task == "T06" and periods != T06_PEAK_CLOCK_PERIOD_PS:
-        raise ValueError("T06 PPA/power workload must drive independent wr_clk and rd_clk at 1000 ps")
+    if args.task == "T05" and periods != T05_PEAK_CLOCK_PERIOD_PS:
+        raise ValueError("T05 PPA/power workload must drive independent wr_clk and rd_clk at 1000 ps")
     if args.task in {"T09", "T10"} and periods != ONE_GHZ_CLOCK_PERIOD_PS:
         raise ValueError(f"{args.task} PPA/power workload must drive clk at 1000 ps")
     power_sdc = (result_dir / "6_final.sdc").read_text()
@@ -381,13 +380,13 @@ def main() -> int:
     parser.add_argument("--seed", type=int, default=20260925)
     parser.add_argument("--elf", type=Path)
     parser.add_argument("--vectors", type=Path,
-                        help="T02 vector file or T10 frozen vector directory")
+                        help="T01 vector file or T10 frozen vector directory")
     parser.add_argument("--case-count", type=int,
-                        help="T02 cycle count or T10 matrix-block count")
+                        help="T01 cycle count or T10 matrix-block count")
     parser.add_argument("--testbench", type=Path,
                         help="evaluator-owned single-module checked workload")
     parser.add_argument("--power-goal", type=int,
-                        help="T06 hidden power workload transactions per clock-ratio phase")
+                        help="T05 hidden power workload transactions per clock-ratio phase")
     args = parser.parse_args()
     if args.ops is not None and args.ops <= 0:
         parser.error("--ops must be positive")

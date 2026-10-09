@@ -26,6 +26,11 @@ def check_trace(rows: list[dict]) -> dict:
             if START_PC <= pc < START_PC + 4 * INSTRUCTION_COUNT and (pc - START_PC) % 4 == 0:
                 if pc in fetched:
                     return {"passed": False, "reason": f"duplicate fetch PC 0x{pc:08x} at {cycle}"}
+                expected_fetch_pc = START_PC + 4*len(fetched)
+                if pc != expected_fetch_pc:
+                    return {"passed": False, "reason": f"out-of-order fetch PC 0x{pc:08x}"}
+                if fetched and cycle != fetched[pc-4] + 1:
+                    return {"passed": False, "reason": f"unexpected fetch bubble at {cycle}"}
                 fetched[pc] = cycle
         if row["commit_valid_post"]:
             pc = row["commit_pc_post"]
@@ -50,6 +55,7 @@ def check_trace(rows: list[dict]) -> dict:
                 f"committed={committed}, need {INSTRUCTION_COUNT}"}
     return {"passed": True, "instructions": INSTRUCTION_COUNT,
             "edge_delta": EDGE_DELTA,
+            "steady_state_ipc": 1.0,
             "measurement": "imem request at rising edge n; commit_valid after rising edge n+4"}
 
 

@@ -1,106 +1,231 @@
 {
-  "schema_version": 1,
+  "schema_version": 3,
   "benchmark": "Digital IC Design Benchmark for Agents",
-  "suite_id": "ic-delivery-rtl-v0.2",
+  "suite_id": "ic-delivery-rtl-v0.3",
   "model": "gpt-6-sol",
   "trial_kind": "pre_release_pilot",
-  "result_revision_date": "2026-10-03",
-  "evaluator_commit": "7743dc7293bf88465a052113fd2c35eb277e4b4c",
+  "result_revision_date": "2026-10-09",
+  "benchmark_base_commit": "87ad1a4",
+  "scoring_policy": "functional50-ppa50-setup-frequency-power4-hold-continuous-drc-half-delivery-v6",
   "ranking_eligible": false,
   "ranking_ineligible_reasons": [
-    "task workspaces were produced across pre-release benchmark revisions",
-    "T01 and T02 have current-task functional results but no current 1 GHz candidate PPA measurement",
-    "T10 scoring rules were corrected after the candidate run",
-    "the trial did not use a frozen isolated image or repeated runs"
+    "Suite-wide release qualification is pending: T10 reference PPA and the common tool-image freeze. See pending_components for model-specific unscored components."
   ],
   "task_count": 10,
-  "full_functional_task_count": 8,
-  "functional_score_sum": 723.0,
-  "functional_score_possible": 750,
+  "full_functional_task_count": 9,
+  "functional_score_sum": 450.0,
+  "functional_score_possible": 500,
   "complete_display_score_task_count": 8,
-  "ppa_score_sum_for_available_tasks": 71.72159700018214,
-  "time_score_sum_for_available_tasks": 23.62181712962963,
-  "display_score_subtotal_with_unscored_components_omitted": 818.3434141298118,
+  "ppa_score_sum_for_available_tasks": 259.70985440294754,
+  "time_score_sum_for_available_tasks": 28.922685185185184,
+  "display_score_subtotal_with_unscored_components_omitted": 738.6325395881327,
   "tasks": [
     {
       "task_id": "T01",
-      "functional_total": 75,
-      "ppa_score": null,
-      "time_score": null,
-      "display_score": 75,
-      "score_status": "function_scored_ppa_not_measured"
+      "functional_total": 50.0,
+      "ppa_score": 34.82319201763296,
+      "time_score": 2.1555555555555554,
+      "display_score": 86.97874757318851,
+      "score_status": "scored",
+      "legacy_task_id": "T02",
+      "full_functional_pass": true
     },
     {
       "task_id": "T02",
-      "functional_total": 75,
-      "ppa_score": null,
-      "time_score": null,
-      "display_score": 75,
-      "score_status": "function_scored_ppa_not_measured"
+      "functional_total": 50.0,
+      "ppa_score": 36.12863555692493,
+      "time_score": 3.570833333333333,
+      "display_score": 89.69946889025826,
+      "score_status": "scored",
+      "legacy_task_id": "T03",
+      "full_functional_pass": true
     },
     {
       "task_id": "T03",
-      "functional_total": 75,
-      "ppa_score": 13.7648473121331,
-      "time_score": 4.638888888888889,
-      "display_score": 93.40373620102199,
-      "score_status": "scored"
+      "functional_total": 50.0,
+      "ppa_score": 36.17092630669509,
+      "time_score": 3.6277777777777773,
+      "display_score": 89.79870408447287,
+      "score_status": "scored",
+      "legacy_task_id": "T04",
+      "full_functional_pass": true
     },
     {
       "task_id": "T04",
-      "functional_total": 75,
-      "ppa_score": 14.40833421110626,
-      "time_score": 4.656481481481482,
-      "display_score": 94.06481569258774,
-      "score_status": "scored"
+      "functional_total": 50.0,
+      "ppa_score": 37.24837484382614,
+      "time_score": 3.871296296296296,
+      "display_score": 91.11967114012243,
+      "score_status": "scored",
+      "legacy_task_id": "T05",
+      "full_functional_pass": true
     },
     {
       "task_id": "T05",
-      "functional_total": 75,
-      "ppa_score": 13.439990973153671,
-      "time_score": 4.728125,
-      "display_score": 93.16811597315368,
-      "score_status": "scored"
+      "functional_total": 50.0,
+      "ppa_score": 35.82111876916353,
+      "time_score": 4.300694444444445,
+      "display_score": 90.12181321360798,
+      "score_status": "scored",
+      "legacy_task_id": "T06",
+      "full_functional_pass": true
     },
     {
       "task_id": "T06",
-      "functional_total": 75,
-      "ppa_score": 14.040305536752873,
-      "time_score": 4.74537037037037,
-      "display_score": 93.78567590712323,
-      "score_status": "scored"
+      "functional_total": 50.0,
+      "ppa_score": 42.4354079727977,
+      "time_score": 3.7875000000000005,
+      "display_score": 96.22290797279769,
+      "score_status": "scored",
+      "legacy_task_id": "T07",
+      "full_functional_pass": true
     },
     {
       "task_id": "T07",
-      "functional_total": 75,
-      "ppa_score": 16.068118967036238,
-      "time_score": 4.852951388888888,
-      "display_score": 95.92107035592512,
-      "score_status": "scored"
+      "functional_total": 50.0,
+      "ppa_score": 34.37277741992453,
+      "time_score": 4.067361111111111,
+      "display_score": 88.44013853103564,
+      "score_status": "scored",
+      "legacy_task_id": "T08",
+      "full_functional_pass": true
     },
     {
       "task_id": "T08",
-      "functional_total": 75,
-      "ppa_score": 0.0,
-      "time_score": 0.0,
-      "display_score": 75.0,
-      "score_status": "physical_gate_failed"
+      "legacy_task_id": "T11",
+      "functional_total": null,
+      "full_functional_pass": null,
+      "ppa_score": null,
+      "time_score": null,
+      "display_score": null,
+      "score_status": "not_run",
+      "grade_phase": "not_run",
+      "note": "No current frozen MAC submission; not assigned zero.",
+      "benchmark_freeze": {
+        "receipt": "benchmark/tasks/T08/FREEZE.json",
+        "receipt_sha256": "b06fdad0022a07bb4f9dd4f6f04f1a751ed0cd5b17a956580bd40fbb151f1181",
+        "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
+        "scope": "current grading contract"
+      },
+      "trial_kind": "pre_release_pilot"
     },
     {
       "task_id": "T09",
-      "functional_total": 60.5,
-      "ppa_score": 0.0,
-      "time_score": 0.0,
-      "display_score": 60.5,
-      "score_status": "functional_gate_failed"
+      "functional_total": 50.0,
+      "ppa_score": 2.7094215159826365,
+      "time_score": 3.541666666666666,
+      "display_score": 56.2510881826493,
+      "score_status": "scored",
+      "legacy_task_id": "T09",
+      "full_functional_pass": true,
+      "delivery_qualified": true,
+      "ppa_eligible": true,
+      "ppa_rank_bucket": 2,
+      "elapsed_seconds": 2100,
+      "candidate_delivery_error_count": 0,
+      "candidate_delivery_penalty": 0,
+      "display_score_before_candidate_penalty": 56.2510881826493,
+      "grade_phase": "regraded-current-t09-policy",
+      "scoring_policy": "t09_group_cycles10_v1",
+      "cycle_cases_passed": 22,
+      "cycle_cases_total": 22,
+      "benchmark_freeze": {
+        "receipt": "benchmark/tasks/T09/FREEZE.json",
+        "receipt_sha256": "c12ebdbe8c5dd6ec5473f2d5c9bb63fcab46a45199eeeb1bc893a44b0936d6df",
+        "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
+        "scope": "current grading contract"
+      },
+      "trial_kind": "pre_release_pilot"
     },
     {
       "task_id": "T10",
-      "functional_total": 62.5,
-      "ppa_score": 0.0,
-      "time_score": 0.0,
-      "display_score": 62.5,
-      "score_status": "functional_gate_failed"
+      "functional_total": 50.0,
+      "ppa_score": null,
+      "time_score": null,
+      "display_score": 50.0,
+      "score_status": "function_scored_ppa_not_available",
+      "legacy_task_id": "T10",
+      "full_functional_pass": true
     }
-  ]
+  ],
+  "task_weights": {
+    "T01": 0.03,
+    "T02": 0.03,
+    "T03": 0.06,
+    "T04": 0.06,
+    "T05": 0.06,
+    "T06": 0.1,
+    "T07": 0.1,
+    "T08": 0.11,
+    "T09": 0.2,
+    "T10": 0.25
+  },
+  "weighted_display_score_with_unscored_components_omitted": 63.779280087108795,
+  "weighted_display_score_possible": 105.0,
+  "weighted_task_contributions": {
+    "T01": 2.6093624271956553,
+    "T02": 2.6909840667077476,
+    "T03": 5.387922245068372,
+    "T04": 5.467180268407346,
+    "T05": 5.407308792816479,
+    "T06": 9.622290797279769,
+    "T07": 8.844013853103565,
+    "T09": 11.250217636529861,
+    "T10": 12.5
+  },
+  "covered_task_weight": 0.8899999999999999,
+  "covered_display_possible": 93.44999999999999,
+  "evaluated_task_count": 9,
+  "pending_functional_tasks": [
+    "T08"
+  ],
+  "pending_components": {
+    "T08": [
+      "functional_total",
+      "ppa_score",
+      "time_score"
+    ],
+    "T10": [
+      "ppa_score",
+      "time_score"
+    ]
+  },
+  "task_id_migration": {
+    "from_suite": "ic-delivery-rtl-v0.2",
+    "to_suite": "ic-delivery-rtl-v0.3",
+    "removed_legacy_task_id": "T01",
+    "mapping": {
+      "T02": "T01",
+      "T03": "T02",
+      "T04": "T03",
+      "T05": "T04",
+      "T06": "T05",
+      "T07": "T06",
+      "T08": "T07",
+      "T11": "T08",
+      "T09": "T09",
+      "T10": "T10"
+    },
+    "raw_trial_paths_and_rtl_unchanged": true,
+    "score_values_for_retained_tasks_unchanged": true,
+    "weights_policy": "existing weights by new task slot; no renormalization",
+    "legacy_result_snapshots": "backed up outside repository"
+  },
+  "task_scoring_policies": {
+    "T09": "t09_group_cycles10_v1"
+  },
+  "task_freeze_receipts": {
+    "T08": {
+      "receipt": "benchmark/tasks/T08/FREEZE.json",
+      "receipt_sha256": "b06fdad0022a07bb4f9dd4f6f04f1a751ed0cd5b17a956580bd40fbb151f1181",
+      "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
+      "scope": "current grading contract"
+    },
+    "T09": {
+      "receipt": "benchmark/tasks/T09/FREEZE.json",
+      "receipt_sha256": "c12ebdbe8c5dd6ec5473f2d5c9bb63fcab46a45199eeeb1bc893a44b0936d6df",
+      "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
+      "scope": "current grading contract"
+    }
+  }
 }

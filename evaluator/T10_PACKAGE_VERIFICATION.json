@@ -1,6 +1,6 @@
 {
   "task_id": "T10",
-  "checked_at_utc": "2026-10-08T04:14:02.359261+00:00",
+  "checked_at_utc": "2026-10-08T03:14:02.359261+00:00",
   "evaluation_revision": "000d8d0411e9dc53f7e4fd68629788655eedaf7a",
   "candidate_path": "evaluator/reference/T10_candidates/v123",
   "candidate_rtl_sha256": "6601f244693bf0a4b3c890164c34f3c64cf12f5705c2b7bc82a7a0256c4915c7",

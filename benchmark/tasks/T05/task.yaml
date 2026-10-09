@@ -1,6 +1,14 @@
 id: T05
-title: round_robin_stream_arbiter
+title: asynchronous_fifo
 level_hypothesis: 5
 origin: original
-time_limit_minutes: 240
-same_model_token_cap: 160000
+time_limit_minutes: 120
+same_model_token_cap: 240000
+f_points:
+- 25
+- 15
+- 10
+- 10
+p_points:
+- 7
+- 8

@@ -1,0 +1,10 @@
+{
+  "mapped_netlist_sha256": "62d6a0763b91938cb6bb7ebf7e939cb2fc5bbec89e3da0a688747b679fa4383c",
+  "contract_sha256": "937fe4c8f528cd6bd9a00985276f4a829c271d1c630ee9ca4279b1ba4bdd5f08",
+  "functional_passes": 111,
+  "stress_passes": 270,
+  "evidence_sha256": {
+    "evidence/mapped_functional.json": "1e4166bc7a267b46f1338cfc8c48b7ccd2f9ac2c14f8d369ac2864bca5986548",
+    "evidence/mapped_stress.json": "5d882d78413ef421c2e4003485f9806359f78d68b7b2668fb39d23b491caf2dc"
+  }
+}

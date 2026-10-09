@@ -1,40 +1,39 @@
-`timescale 1ps/1ps
+`timescale 1ns/1ps
+module tb_hidden_T06;
+  logic clk, rst_n;
+  logic [31:0] AWADDR, WDATA, ARADDR, RDATA;
+  logic [2:0] AWPROT, ARPROT, PPROT;
+  logic [3:0] WSTRB, PSTRB;
+  logic AWVALID, AWREADY, WVALID, WREADY, BVALID, BREADY;
+  logic [1:0] BRESP, RRESP;
+  logic ARVALID, ARREADY, RVALID, RREADY;
+  logic [15:0] PADDR;
+  logic PSEL, PENABLE, PWRITE;
+  logic [31:0] PWDATA, PRDATA;
+  logic PREADY, PSLVERR;
+  logic aw_hs, w_hs, ar_hs, b_hs, r_hs;
+  logic [15:0] setup_addr, last_addr;
+  logic [31:0] setup_data, last_data;
+  logic [3:0] setup_strb, last_strb;
+  logic [2:0] setup_prot, last_prot;
+  logic setup_write, last_write;
+  logic [31:0] mem [0:16383];
+  bit apb_active;
+  int apb_count, wait_left, next_wait;
+  bit event_write [0:4095];
+  int passed [32:37], total [32:37];
+  bit first_failure [32:37];
+  int unsigned rng;
+  int seed;
 
-module tb_hidden_T06 #(
-  parameter int WIDTH = 8,
-  parameter int DEPTH = 8
-);
-  localparam int MAX_ITEMS = 120000;
+  axi4lite_to_apb4_bridge dut (.*);
 
-  logic wr_clk, wr_rst_n, wr_valid, wr_ready;
-  logic [WIDTH-1:0] wr_data;
-  logic rd_clk, rd_rst_n, rd_valid, rd_ready;
-  logic [WIDTH-1:0] rd_data;
-  logic [WIDTH-1:0] expected [0:MAX_ITEMS-1];
-  logic [WIDTH-1:0] stalled_data;
-  bit stalled, drivers_enabled, force_offer, force_take, power_mode;
-  int accepted, returned, goal, next_value;
-  int offer_percent, take_percent;
-  int passed [26:30], total [26:30];
-  bit first_failure [26:30];
-  int unsigned wr_rng, rd_rng;
-  int seed, power_goal;
-  time wr_half_ps, rd_half_ps;
-
-  asynchronous_fifo #(.WIDTH(WIDTH), .DEPTH(DEPTH)) dut (
-    .wr_clk(wr_clk), .wr_rst_n(wr_rst_n), .wr_valid(wr_valid),
-    .wr_ready(wr_ready), .wr_data(wr_data),
-    .rd_clk(rd_clk), .rd_rst_n(rd_rst_n), .rd_valid(rd_valid),
-    .rd_ready(rd_ready), .rd_data(rd_data)
-  );
-
-  task automatic check(input int group_id, input bit okay, input string what);
-    total[group_id]++;
-    if (okay) passed[group_id]++;
-    else if (!first_failure[group_id]) begin
-      first_failure[group_id] = 1;
-      $display("IC_FAILURE AC-%02d WIDTH=%0d DEPTH=%0d %s",
-               group_id, WIDTH, DEPTH, what);
+  task automatic check(input int id, input bit okay, input string what);
+    total[id]++;
+    if (okay) passed[id]++;
+    else if (!first_failure[id]) begin
+      first_failure[id] = 1;
+      $display("IC_FAILURE AC-%02d APB=%0d %s", id, apb_count, what);
     end
   endtask
 
@@ -45,237 +44,319 @@ module tb_hidden_T06 #(
     return x ^ (x << 5);
   endfunction
 
-  initial begin
-    wr_clk = 0;
-    forever begin
-      #(wr_half_ps);
-      wr_clk = ~wr_clk;
-    end
-  end
+  function automatic logic [31:0] merge_bytes(
+      input logic [31:0] old_value, new_value, input logic [3:0] strobes);
+    logic [31:0] merged;
+    merged = old_value;
+    for (int i=0; i<4; i++)
+      if (strobes[i]) merged[i*8 +: 8] = new_value[i*8 +: 8];
+    return merged;
+  endfunction
 
-  initial begin
-    rd_clk = 0;
-    #137;
-    forever begin
-      #(rd_half_ps);
-      rd_clk = ~rd_clk;
+  task automatic step;
+    if (clk !== 0) $fatal(1, "testbench clock phase error");
+    PRDATA = mem[PADDR[15:2]];
+    PSLVERR = PADDR == 16'h0020;
+    PREADY = wait_left == 0;
+    #0.4;
+    aw_hs = AWVALID && AWREADY;
+    w_hs = WVALID && WREADY;
+    ar_hs = ARVALID && ARREADY;
+    b_hs = BVALID && BREADY;
+    r_hs = RVALID && RREADY;
+    if (rst_n) begin
+      if (PSEL && !PENABLE) begin
+        check(36, !apb_active, "new SETUP while APB busy");
+        apb_active = 1;
+        setup_addr = PADDR;
+        setup_data = PWDATA;
+        setup_strb = PSTRB;
+        setup_prot = PPROT;
+        setup_write = PWRITE;
+        wait_left = next_wait;
+      end else if (PSEL && PENABLE) begin
+        check(36, apb_active, "ACCESS without SETUP");
+        check(36, {PADDR,PWDATA,PSTRB,PPROT,PWRITE} ===
+                  {setup_addr,setup_data,setup_strb,setup_prot,setup_write},
+              "APB payload unstable");
+        if (PREADY) begin
+          last_addr = PADDR;
+          last_data = PWDATA;
+          last_strb = PSTRB;
+          last_prot = PPROT;
+          last_write = PWRITE;
+          event_write[apb_count] = PWRITE;
+          apb_count++;
+          if (PWRITE && !PSLVERR)
+            mem[PADDR[15:2]] = merge_bytes(mem[PADDR[15:2]], PWDATA, PSTRB);
+          apb_active = 0;
+        end else wait_left--;
+      end else if (apb_active) check(36, 0, "APB access disappeared");
     end
-  end
+    clk = 1;
+    #0.4;
+    clk = 0;
+    #0.2;
+  endtask
 
-  always @(negedge wr_clk) begin
-    if (!wr_rst_n || !drivers_enabled || accepted >= goal) begin
-      wr_valid = 0;
-    end else if (!(wr_valid && !wr_ready)) begin
-      wr_rng = next_random(wr_rng);
-      wr_valid = force_offer || ((wr_rng % 100) < offer_percent);
-      if (wr_valid)
-        wr_data = WIDTH'(next_value);
-    end
-  end
-
-  always @(posedge wr_clk) begin
-    if (wr_rst_n && wr_valid && wr_ready) begin
-      check(27, accepted - returned < DEPTH,
-            $sformatf("overflow accepted=%0d returned=%0d", accepted, returned));
-      if (accepted < MAX_ITEMS)
-        expected[accepted] = wr_data;
-      accepted++;
-      next_value++;
-    end
-  end
-
-  always @(negedge rd_clk) begin
-    if (!rd_rst_n || !drivers_enabled) begin
-      rd_ready = 0;
-    end else begin
-      rd_rng = next_random(rd_rng);
-      rd_ready = force_take || ((rd_rng % 100) < take_percent);
-    end
-  end
-
-  always @(posedge rd_clk) begin
-    if (!rd_rst_n) begin
-      stalled = 0;
-    end else begin
-      if (stalled)
-        check(27, rd_valid === 1'b1 && rd_data === stalled_data,
-              "rd_valid/rd_data changed while blocked");
-      if (rd_valid)
-        check(27, returned < accepted,
-              $sformatf("unwritten item exposed accepted=%0d returned=%0d",
-                        accepted, returned));
-      if (rd_valid && rd_ready) begin
-        check(26, returned < accepted && rd_data === expected[returned],
-              $sformatf("order expected=%h actual=%h item=%0d",
-                        expected[returned], rd_data, returned));
-        returned++;
+  task automatic send_aw(input logic [31:0] addr, input logic [2:0] prot);
+    bit done;
+    AWADDR = addr;
+    AWPROT = prot;
+    AWVALID = 1;
+    done = 0;
+    for (int cycle=0; cycle<80; cycle++) begin
+      if (!done) begin
+        step();
+        if (aw_hs) begin AWVALID = 0; done = 1; end
       end
-      stalled = rd_valid && !rd_ready;
-      if (stalled)
-        stalled_data = rd_data;
     end
-  end
-
-  task automatic apply_reset(input int scenario);
-    drivers_enabled = 0;
-    wr_valid = 0;
-    rd_ready = 0;
-    wr_rst_n = 0;
-    rd_rst_n = 0;
-    #1;
-    check(30, rd_valid === 1'b0,
-          $sformatf("asynchronous assertion left rd_valid high scenario=%0d", scenario));
-    repeat (4) @(posedge wr_clk);
-    repeat (4) @(posedge rd_clk);
-    accepted = 0;
-    returned = 0;
-    goal = 0;
-    next_value = 32'h10000 * (scenario + 1);
-    stalled = 0;
-    wr_rst_n = 1;
-    repeat (3) @(posedge wr_clk);
-    rd_rst_n = 1;
-    repeat (4) @(posedge rd_clk);
-    check(30, rd_valid === 1'b0,
-          $sformatf("stale item after reset release scenario=%0d", scenario));
+    check(35, done, "AW handshake timeout");
+    AWVALID = 0;
   endtask
 
-  task automatic wait_until_drained(input int max_rd_cycles, input string label);
-    int cycles;
-    cycles = 0;
-    while ((accepted != goal || returned != goal) && cycles < max_rd_cycles) begin
-      @(posedge rd_clk);
-      cycles++;
+  task automatic send_w(input logic [31:0] data, input logic [3:0] strb);
+    bit done;
+    WDATA = data;
+    WSTRB = strb;
+    WVALID = 1;
+    done = 0;
+    for (int cycle=0; cycle<80; cycle++) begin
+      if (!done) begin
+        step();
+        if (w_hs) begin WVALID = 0; done = 1; end
+      end
     end
-    check(26, accepted == goal && returned == goal,
-          $sformatf("%s timeout accepted=%0d returned=%0d goal=%0d",
-                    label, accepted, returned, goal));
+    check(35, done, "W handshake timeout");
+    WVALID = 0;
   endtask
 
-  task automatic run_phase(input time next_wr_half_ps,
-                           input time next_rd_half_ps,
-                           input int transfers,
-                           input int next_offer_percent,
-                           input int next_take_percent,
-                           input string label);
-    drivers_enabled = 0;
-    @(negedge wr_clk);
-    @(negedge rd_clk);
-    if (!power_mode) begin
-      wr_half_ps = next_wr_half_ps;
-      rd_half_ps = next_rd_half_ps;
+  task automatic send_ar(input logic [31:0] addr, input logic [2:0] prot);
+    bit done;
+    ARADDR = addr;
+    ARPROT = prot;
+    ARVALID = 1;
+    done = 0;
+    for (int cycle=0; cycle<80; cycle++) begin
+      if (!done) begin
+        step();
+        if (ar_hs) begin ARVALID = 0; done = 1; end
+      end
     end
-    offer_percent = next_offer_percent;
-    take_percent = next_take_percent;
-    force_offer = 0;
-    force_take = 0;
-    goal = accepted + transfers;
-    drivers_enabled = 1;
-    wait_until_drained(transfers * 60 + 2000, label);
-    drivers_enabled = 0;
-    @(negedge wr_clk);
-    wr_valid = 0;
-    @(negedge rd_clk);
-    rd_ready = 0;
-    check(28, accepted == goal && returned == goal,
-          $sformatf("clock-ratio phase failed: %s", label));
+    check(35, done, "AR handshake timeout");
+    ARVALID = 0;
   endtask
 
-  task automatic check_eventual_visible;
-    int cycles;
-    goal = accepted + 1;
-    offer_percent = 100;
-    take_percent = 0;
-    force_offer = 1;
-    force_take = 0;
-    drivers_enabled = 1;
-    while (accepted < goal)
-      @(posedge wr_clk);
-    cycles = 0;
-    while (rd_valid !== 1'b1 && cycles < 200) begin
-      @(posedge rd_clk);
-      cycles++;
+  task automatic receive_b(input logic [1:0] response);
+    bit seen;
+    seen = 0;
+    for (int cycle=0; cycle<160; cycle++) begin
+      if (!seen) begin
+        if (BVALID) seen = 1;
+        else step();
+      end
     end
-    check(27, rd_valid === 1'b1 && cycles < 200,
-          $sformatf("written item not visible within 200 rd clocks cycles=%0d", cycles));
-    repeat (12) @(posedge rd_clk);
-    force_take = 1;
-    wait_until_drained(40, "eventual-visible drain");
-    drivers_enabled = 0;
-    force_offer = 0;
-    force_take = 0;
+    check(34, seen, "B response timeout");
+    if (seen) begin
+      check(34, BRESP === response,
+            $sformatf("BRESP expected=%b actual=%b", response, BRESP));
+      for (int i=0; i<7; i++) begin
+        step();
+        check(36, BVALID === 1'b1 && BRESP === response,
+              "B response changed under backpressure");
+      end
+      BREADY = 1;
+      step();
+      check(36, b_hs, "B handshake missing");
+      BREADY = 0;
+    end
+  endtask
+
+  task automatic receive_r(input logic [1:0] response,
+                           input logic [31:0] expected_data);
+    bit seen;
+    seen = 0;
+    for (int cycle=0; cycle<160; cycle++) begin
+      if (!seen) begin
+        if (RVALID) seen = 1;
+        else step();
+      end
+    end
+    check(34, seen, "R response timeout");
+    if (seen) begin
+      check(33, RRESP === response && RDATA === expected_data,
+            $sformatf("R expected=%b/%h actual=%b/%h",
+                      response, expected_data, RRESP, RDATA));
+      for (int i=0; i<7; i++) begin
+        step();
+        check(36, RVALID === 1'b1 && RRESP === response &&
+                  RDATA === expected_data, "R response changed under backpressure");
+      end
+      RREADY = 1;
+      step();
+      check(36, r_hs, "R handshake missing");
+      RREADY = 0;
+    end
+  endtask
+
+  task automatic write_tx(input bit w_first, input logic [31:0] addr,
+                          input logic [31:0] data, input logic [3:0] strb,
+                          input logic [2:0] prot);
+    int before_count;
+    bit valid_addr, expect_apb;
+    logic [1:0] expected_resp;
+    before_count = apb_count;
+    valid_addr = addr[31:16] == 0 && addr[1:0] == 0;
+    expect_apb = valid_addr && strb != 0;
+    expected_resp = !valid_addr ? 2'b11 :
+                    !expect_apb ? 2'b00 :
+                    addr[15:0] == 16'h0020 ? 2'b10 : 2'b00;
+    next_wait = int'(data[3:0]);
+    if (w_first) begin send_w(data,strb); send_aw(addr,prot); end
+    else begin send_aw(addr,prot); send_w(data,strb); end
+    receive_b(expected_resp);
+    check(32, apb_count == before_count + int'(expect_apb),
+          "write APB count mismatch");
+    if (expect_apb)
+      check(32, {last_write,last_addr,last_data,last_strb,last_prot} ===
+                {1'b1,addr[15:0],data,strb,prot}, "write APB payload mismatch");
+    if (!valid_addr || !expect_apb)
+      check(34, apb_count == before_count, "invalid/zero-strobe write touched APB");
+  endtask
+
+  task automatic read_tx(input logic [31:0] addr, input logic [2:0] prot);
+    int before_count;
+    bit valid_addr;
+    logic [1:0] expected_resp;
+    logic [31:0] expected_data;
+    before_count = apb_count;
+    valid_addr = addr[31:16] == 0 && addr[1:0] == 0;
+    expected_resp = !valid_addr ? 2'b11 :
+                    addr[15:0] == 16'h0020 ? 2'b10 : 2'b00;
+    expected_data = expected_resp == 0 ? mem[addr[15:2]] : 0;
+    next_wait = int'(addr[5:2]) % 16;
+    send_ar(addr,prot);
+    receive_r(expected_resp,expected_data);
+    check(33, apb_count == before_count + int'(valid_addr),
+          "read APB count mismatch");
+    if (valid_addr)
+      check(33, {last_write,last_addr,last_strb,last_prot} ===
+                {1'b0,addr[15:0],4'b0,prot}, "read APB payload mismatch");
+    if (!valid_addr)
+      check(34, apb_count == before_count, "invalid read touched APB");
+  endtask
+
+  task automatic reset_bridge;
+    AWVALID = 0; WVALID = 0; ARVALID = 0;
+    BREADY = 0; RREADY = 0;
+    rst_n = 0;
+    #0.2;
+    apb_active = 0;
+    wait_left = 0;
+    step();
+    step();
+    check(37, BVALID === 1'b0 && RVALID === 1'b0 && PSEL === 1'b0,
+          "reset did not flush requests/responses");
+    rst_n = 1;
+    for (int i=0; i<8; i++) begin
+      step();
+      check(37, BVALID === 1'b0 && RVALID === 1'b0 && PSEL === 1'b0,
+            "ghost transfer after reset");
+    end
+  endtask
+
+  task automatic simultaneous_pair(input bit first_write);
+    int before_count;
+    bit aw_done, w_done, ar_done;
+    logic [31:0] read_expected;
+    before_count = apb_count;
+    read_expected = mem[16'h0044 >> 2];
+    AWADDR = 32'h0000_0040; AWPROT = 3'b101; AWVALID = 1;
+    WDATA = 32'hfedc_ba98; WSTRB = 4'b0101; WVALID = 1;
+    ARADDR = 32'h0000_0044; ARPROT = 3'b011; ARVALID = 1;
+    aw_done = 0; w_done = 0; ar_done = 0;
+    next_wait = 2;
+    for (int i=0; i<80 && !(aw_done && w_done && ar_done); i++) begin
+      step();
+      if (aw_hs) begin AWVALID = 0; aw_done = 1; end
+      if (w_hs) begin WVALID = 0; w_done = 1; end
+      if (ar_hs) begin ARVALID = 0; ar_done = 1; end
+    end
+    check(35, aw_done && w_done && ar_done, "simultaneous AXI accept failed");
+    for (int i=0; i<160 && apb_count < before_count+2; i++) step();
+    check(35, apb_count == before_count+2, "read/write APB arbitration timeout");
+    if (apb_count >= before_count+2) begin
+      check(35, event_write[before_count] == first_write,
+            "first APB transaction violated read/write alternation");
+      check(35, event_write[before_count+1] != first_write,
+            "second APB transaction did not serve other direction");
+    end
+    receive_b(2'b00);
+    receive_r(2'b00,read_expected);
   endtask
 
   initial begin
-    seed = 20260928;
-    void'($value$plusargs("SEED=%d", seed));
-    power_mode = $value$plusargs("POWER_GOAL=%d", power_goal);
-    if (!power_mode)
-      power_goal = 0;
-    wr_half_ps = power_mode ? 500 : 1300;
-    rd_half_ps = power_mode ? 500 : 1900;
-    wr_rng = 32'(seed) ^ (WIDTH * 32'h9e3779b9) ^ DEPTH;
-    rd_rng = 32'(seed) ^ (DEPTH * 32'h85ebca6b) ^ WIDTH;
-    wr_rst_n = 1;
-    rd_rst_n = 1;
-    wr_valid = 0;
-    wr_data = 0;
-    rd_ready = 0;
-    drivers_enabled = 0;
-    force_offer = 0;
-    force_take = 0;
-    accepted = 0;
-    returned = 0;
-    goal = 0;
-    stalled = 0;
-    for (int i = 26; i <= 30; i++) begin
-      passed[i] = 0;
-      total[i] = 0;
-      first_failure[i] = 0;
+    seed = 20260925;
+    void'($value$plusargs("SEED=%d",seed));
+    rng = 32'(seed) ^ 32'h3c6ef372;
+    clk = 0; rst_n = 0;
+    AWADDR = 0; AWPROT = 0; AWVALID = 0;
+    WDATA = 0; WSTRB = 0; WVALID = 0; BREADY = 0;
+    ARADDR = 0; ARPROT = 0; ARVALID = 0; RREADY = 0;
+    PRDATA = 0; PREADY = 0; PSLVERR = 0;
+    apb_active = 0; apb_count = 0; wait_left = 0; next_wait = 0;
+    for (int i=0; i<16384; i++) mem[i] = 32'h9000_0000 ^ 32'(i*17);
+    for (int i=32; i<=37; i++) begin
+      passed[i]=0; total[i]=0; first_failure[i]=0;
     end
-
-    check(29, $bits(dut.wr_data) == WIDTH && $bits(dut.rd_data) == WIDTH,
-          "parameterized port width");
-    // Give the initial high level a distinct time slot so the first reset
-    // assertion is a real asynchronous falling edge in two-state simulation.
-    #1;
-    apply_reset(0);
-    check_eventual_visible();
-
-    if (power_mode) begin
-      run_phase(500, 500, power_goal, 78, 69, "fixed-1GHz-power");
-    end else begin
-      // Leave unread data before a run-time reset, then prove that no stale
-      // item is observable after independent reset release.
-      goal = accepted + DEPTH - 1;
-      offer_percent = 100;
-      take_percent = 0;
-      force_offer = 1;
-      drivers_enabled = 1;
-      while (accepted < goal)
-        @(posedge wr_clk);
-      apply_reset(1);
-
-      // Four non-locking clock regimes total at least 100,000 transfers for
-      // every WIDTH/DEPTH configuration.
-      run_phase(500, 750, 25000, 85, 61, "ratio-2-to-3");
-      run_phase(600, 1000, 25000, 91, 57, "ratio-3-to-5");
-      run_phase(503, 509, 25000, 73, 71, "near-one-to-one");
-      run_phase(900, 500, 25000, 67, 88, "slow-write-fast-read");
+    check(32, $bits(dut.AWADDR)==32 && $bits(dut.WSTRB)==4 &&
+              $bits(dut.PADDR)==16 && $bits(dut.PSTRB)==4,
+          "fixed interface width");
+    reset_bridge();
+    write_tx(0,32'h10,32'h1234_5678,4'hf,3'b101);
+    write_tx(1,32'h14,32'h89ab_cdef,4'b0101,3'b010);
+    write_tx(0,32'h18,32'hffff_ffff,4'b0000,3'b111);
+    write_tx(1,32'h0001_0010,32'habcd_1234,4'hf,0);
+    read_tx(32'h10,3'b001);
+    read_tx(32'h20,3'b010);
+    read_tx(32'h3,3'b111);
+    read_tx(32'h0002_0010,0);
+    reset_bridge();
+    simultaneous_pair(1);
+    write_tx(0,32'h48,32'h3434_3434,4'hf,0);
+    simultaneous_pair(0);
+    for (int i=0; i<180; i++) begin
+      logic [31:0] addr;
+      rng = next_random(rng);
+      addr = 32'((rng >> 5) & 32'hfffc);
+      if (i%19==0) addr = 32'h0001_0000 | addr;
+      else if (i%23==0) addr = addr | 1;
+      else if (i%29==0) addr = 32'h20;
+      write_tx(rng[4],addr,rng,4'(rng>>8),3'(rng>>12));
+      if (i%3==0) read_tx(addr,3'(rng>>16));
     end
-
-    check(29, passed[26] == total[26] && passed[27] == total[27] &&
-              passed[28] == total[28] && passed[30] == total[30],
-          "parameter combination failed behavioral scenarios");
-    $display("IC_STATS WIDTH=%0d DEPTH=%0d accepted=%0d returned=%0d power=%0d",
-             WIDTH, DEPTH, accepted, returned, power_mode);
-    for (int i = 26; i <= 30; i++)
-      $display("IC_GROUP AC-%02d %0d %0d", i, passed[i], total[i]);
+    send_aw(32'h0000_0050,3'b010);
+    reset_bridge();
+    send_aw(32'h0000_0054,0);
+    send_w(32'habcd_1234,4'hf);
+    for (int i=0; i<20 && !(PSEL && !PENABLE); i++) step();
+    check(37, PSEL && !PENABLE, "could not reach SETUP for reset test");
+    reset_bridge();
+    next_wait = 8;
+    send_aw(32'h0000_0058,0);
+    send_w(32'h5678_abcd,4'hf);
+    for (int i=0; i<20 && !(PSEL && PENABLE); i++) step();
+    check(37, PSEL && PENABLE, "could not reach ACCESS for reset test");
+    reset_bridge();
+    send_aw(32'h0000_005c,0);
+    send_w(32'h1111_2222,4'hf);
+    for (int i=0; i<50 && !BVALID; i++) step();
+    check(37, BVALID, "could not reach blocked B response");
+    reset_bridge();
+    write_tx(1,32'h60,32'h5555_aaaa,4'hf,3'b111);
+    read_tx(32'h60,3'b111);
+    for (int i=32; i<=37; i++)
+      $display("IC_GROUP AC-%02d %0d %0d",i,passed[i],total[i]);
     $finish;
-  end
-
-  initial begin
-    #5_000_000_000;
-    $fatal(1, "T06 hidden timeout WIDTH=%0d DEPTH=%0d", WIDTH, DEPTH);
   end
 endmodule

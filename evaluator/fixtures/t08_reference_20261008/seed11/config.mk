@@ -1,0 +1,16 @@
+export PLATFORM = asap7
+export DESIGN_NAME = mac_1g_repair
+export VERILOG_FILES = /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/single_seed/mapped/rtl/mapped.v
+export SDC_FILE = /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/single_seed/seed11/route/constraint.sdc
+export CORE_UTILIZATION = 10
+export CORE_ASPECT_RATIO = 1
+export CORE_MARGIN = 0.5
+export PLACE_DENSITY = 0.6
+export SYNTH_USE_SYN = 0
+export SYNTH_HIERARCHICAL = 0
+export CORNER = WC
+export SYNTH_MEMORY_MAX_BITS = 262144
+export SYNTH_MOCK_LARGE_MEMORIES = 0
+export ADDITIONAL_LEFS = /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/vendor/lambdapdk_fakeram7/upstream/lef/fakeram7_tdp_4096x32.lef
+export ADDITIONAL_LIBS = /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/vendor/lambdapdk_fakeram7/upstream/nldm/fakeram7_tdp_4096x32.lib
+export SYNTH_HDL_FRONTEND = 

@@ -2,5 +2,16 @@ id: T10
 title: mixed_precision_systolic_matmul_16x16_stream
 level_hypothesis: 10
 origin: original
-time_limit_minutes: 2880
+time_limit_minutes: 240
 same_model_token_cap: 2000000
+f_points:
+- 10
+- 10
+- 10
+- 10
+- 10
+- 10
+p_points:
+- 5
+- 5
+- 5

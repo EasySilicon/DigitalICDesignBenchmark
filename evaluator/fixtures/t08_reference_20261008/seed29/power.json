@@ -1,0 +1,81 @@
+{
+  "task": "T11",
+  "flow_result_dir": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/mac_1g_repair/ic_probe_t11_wc_p1000_u10_d0.6_s29_8697a3623d",
+  "workload_id": "T11-power-v1",
+  "workload_sha256": "50475eed79e95c3450db63bedfe6e0dc80dc1f1cf0c480bac2560c50744a237c",
+  "workload_parameters": {
+    "seed": 20260928,
+    "useful_unit": "accepted_body_octet",
+    "tx_frames": 3,
+    "rx_frames": 5,
+    "policy_drops": 1
+  },
+  "seed": 20260928,
+  "ops": 4296,
+  "vcd_window_seconds": 6.81383e-06,
+  "vcd_clock_period_ps": {
+    "logic_clk": 1000.0,
+    "tx_clk": 1000.0,
+    "rx_clk": 1000.0
+  },
+  "activity_annotation": 1.0,
+  "power_w": {
+    "internal": 0.0126,
+    "switching": 0.000616,
+    "leakage": 0.000259,
+    "total": 0.0134
+  },
+  "energy_j_per_op": 2.1253566573556798e-11,
+  "measurement": "checked single-seed gate-level power workload",
+  "sram_contract": {
+    "revision": "2.0-lambdapdk-tdp-1ghz",
+    "cell": "fakeram7_tdp_4096x32",
+    "upstream_commit": "15c783cc336ca002d2c31adfd2c2b14b363c66cf",
+    "model_sha256": {
+      "vendor/lambdapdk_fakeram7/upstream/nldm/fakeram7_tdp_4096x32.lib": "2d7dc6e54dec2eae35db27a812d79a5d29faa5c2867c85a5fab9bbbdc037781a",
+      "vendor/lambdapdk_fakeram7/upstream/lef/fakeram7_tdp_4096x32.lef": "f0795e22e0e7c464e197eef5423fbfbfb826c8528685d00dfd6fe8f1afd01127",
+      "vendor/lambdapdk_fakeram7/sim/fakeram7_tdp_4096x32.v": "e9de7756dfa3a68c4cd055915a41eca4ace81f8a77715d3facb92f32341bcf2a",
+      "evaluator/fixtures/t11_mac/sram_libmap.txt": "45dd6f689a6f619db5fa1be9d4909161d76c55bae9e9bcb79526192edf114917",
+      "evaluator/fixtures/t11_mac/sram_map.v": "7b5baad56d0ae0c8face110065b7f4e7344a4d1b831dbe3aa95ddb465e8399e9",
+      "evaluator/fixtures/t11_mac/sram_stub.v": "ea181d3136fcd8f2039378da6158fa795630c6a17e954bada2ede87c11eb33a6",
+      "evaluator/t11_sram.py": "7ba31a7bfdf7941be3b25ee2f862e06037a9194c5ecdb79f059f31ec85c273a8"
+    },
+    "contract_sha256": "937fe4c8f528cd6bd9a00985276f4a829c271d1c630ee9ca4279b1ba4bdd5f08",
+    "corner_policy": {
+      "setup_standard_cells": "WC",
+      "hold_standard_cells": "WC",
+      "sram_timing": "TT_0.7V_25C_research_model",
+      "power_standard_cells": "TT",
+      "power_sram": "TT",
+      "full_chip_worst_corner_signoff": false
+    },
+    "drc_scope": "OpenROAD detailed-router interconnect/pin-access DRC; macro internals excluded",
+    "lvs": "not_performed_not_required_for_research_PPA",
+    "capacity_bits_per_macro": 131072,
+    "mapping": "Yosys memory_libmap; independent positive-edge 1W1R; full physical width charged",
+    "limitations": [
+      "SRAM delay/power are simplified upstream predictions, not SPICE characterization",
+      "Macro GDS and internal transistor-level DRC/LVS are not provided",
+      "No fabricated SS/FF SRAM corners; timing is explicitly mixed-corner"
+    ]
+  },
+  "macro_count": 2,
+  "macro_power_report": "Internal  Switching    Leakage      Total\n      Power      Power      Power      Power (Watts)\n--------------------------------------------\n   5.39e-03   0.00e+00   1.29e-04   5.52e-03 mac.tx_fifo.fifo_inst.mem.0.0\n   5.38e-03   0.00e+00   1.29e-04   5.51e-03 mac.rx_fifo.fifo_inst.mem.0.0\nT11_SRAM_POWER name=mac.rx_fifo.fifo_inst.mem.0.0 internal=0.005380026996135712 switching=0.0 leakage=0.00012889999197795987 total=0.005508927162736654\nT11_SRAM_POWER name=mac.tx_fifo.fifo_inst.mem.0.0 internal=0.005387960001826286 switching=0.0 leakage=0.00012889999197795987 total=0.005516860168427229",
+  "macro_power_w": [
+    {
+      "instance": "mac.rx_fifo.fifo_inst.mem.0.0",
+      "internal": 0.005380026996135712,
+      "switching": 0.0,
+      "leakage": 0.00012889999197795987,
+      "total": 0.005508927162736654
+    },
+    {
+      "instance": "mac.tx_fifo.fifo_inst.mem.0.0",
+      "internal": 0.005387960001826286,
+      "switching": 0.0,
+      "leakage": 0.00012889999197795987,
+      "total": 0.005516860168427229
+    }
+  ],
+  "routed_netlist_sha256": "f32b9f11a1c7bad87ac9f6bd459b30ef6b0ca4684c2769ee113e128c7d705c7c"
+}

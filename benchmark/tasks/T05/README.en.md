@@ -1,4 +1,4 @@
-# T05 · ready/valid round-robin arbiter
+# T05 · Dual-clock asynchronous FIFO
 
 [中文](README.md)
 

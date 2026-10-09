@@ -1,102 +1,133 @@
 `timescale 1ns/1ps
 
 module tb_T05 #(
-  parameter int N = 4,
-  parameter int WIDTH = 8
+  parameter int WIDTH = 8,
+  parameter int DEPTH = 8
 );
-  logic clk, rst_n;
-  logic [N-1:0] in_valid, in_ready;
-  logic [N-1:0][WIDTH-1:0] in_data;
-  logic out_valid, out_ready;
-  logic [WIDTH-1:0] out_data;
-  logic [$clog2(N)-1:0] out_id;
-  int pointer, expected_id, seed;
+  logic wr_clk, wr_rst_n, wr_valid, wr_ready;
+  logic [WIDTH-1:0] wr_data;
+  logic rd_clk, rd_rst_n, rd_valid, rd_ready;
+  logic [WIDTH-1:0] rd_data;
+  logic [WIDTH-1:0] oracle [0:255];
+  logic [WIDTH-1:0] held_data;
+  bit held, enabled;
+  int writes, reads, target, seed;
   int unsigned rng;
-  int seq [0:N-1];
-  logic [N-1:0] expected_ready;
-  bit found;
+  time wr_half_period = 5;
+  time rd_half_period = 7;
 
-  round_robin_stream_arbiter #(.N(N), .WIDTH(WIDTH)) dut (
-    .clk(clk), .rst_n(rst_n), .in_valid(in_valid), .in_ready(in_ready),
-    .in_data(in_data), .out_valid(out_valid), .out_ready(out_ready),
-    .out_data(out_data), .out_id(out_id)
+  asynchronous_fifo #(.WIDTH(WIDTH), .DEPTH(DEPTH)) dut (
+    .wr_clk(wr_clk), .wr_rst_n(wr_rst_n), .wr_valid(wr_valid),
+    .wr_ready(wr_ready), .wr_data(wr_data),
+    .rd_clk(rd_clk), .rd_rst_n(rd_rst_n), .rd_valid(rd_valid),
+    .rd_ready(rd_ready), .rd_data(rd_data)
   );
 
-  task automatic tick(input logic [N-1:0] requests, input bit downstream_ready);
-    if (clk !== 0) $fatal(1, "testbench clock phase error");
-    in_valid = requests;
-    out_ready = downstream_ready;
-    for (int i = 0; i < N; i++)
-      in_data[i] = WIDTH'(seq[i] * 31 + i);
-    #2;
-    expected_id = 0;
-    found = 0;
-    for (int distance = 0; distance < N; distance++) begin
-      int candidate;
-      candidate = (pointer + distance) % N;
-      if (!found && requests[candidate]) begin
-        expected_id = candidate;
-        found = 1;
+  initial begin
+    wr_clk = 0;
+    forever #(wr_half_period) wr_clk = ~wr_clk;
+  end
+
+  initial begin
+    rd_clk = 0;
+    #3;
+    forever #(rd_half_period) rd_clk = ~rd_clk;
+  end
+
+  always @(negedge wr_clk) begin
+    wr_valid = enabled && wr_rst_n && writes < target;
+    wr_data = WIDTH'(writes + 1);
+  end
+
+  always @(posedge wr_clk) begin
+    if (wr_rst_n && wr_valid && wr_ready) begin
+      if (writes - reads >= DEPTH)
+        $fatal(1, "AC-27 FIFO accepted overflow writes=%0d reads=%0d", writes, reads);
+      oracle[writes] = wr_data;
+      writes++;
+    end
+  end
+
+  always @(negedge rd_clk) begin
+    rng ^= rng << 13;
+    rng ^= rng >> 17;
+    rng ^= rng << 5;
+    rd_ready = enabled && rng[1];
+  end
+
+  always @(posedge rd_clk) begin
+    if (!rd_rst_n) held = 0;
+    else begin
+      if (held && (rd_valid !== 1 || rd_data !== held_data))
+        $fatal(1, "AC-26/27 output changed under backpressure");
+      if (rd_valid && writes == reads)
+        $fatal(1, "AC-27 read domain exposed unwritten data");
+      if (rd_valid && rd_ready) begin
+        if (rd_data !== oracle[reads])
+          $fatal(1, "AC-26 expected=%h actual=%h item=%0d",
+                 oracle[reads], rd_data, reads);
+        reads++;
       end
+      held = rd_valid && !rd_ready;
+      if (held) held_data = rd_data;
     end
-    if (out_valid !== found)
-      $fatal(1, "AC-21 out_valid requests=%h expected=%0b actual=%0b",
-             requests, found, out_valid);
-    expected_ready = '0;
-    if (found) begin
-      if (out_id !== $clog2(N)'(expected_id))
-        $fatal(1, "AC-21/22 expected id=%0d actual=%0d", expected_id, out_id);
-      if (out_data !== in_data[expected_id])
-        $fatal(1, "AC-23 id=%0d expected data=%h actual=%h",
-               expected_id, in_data[expected_id], out_data);
-      if (downstream_ready) expected_ready[expected_id] = 1;
-    end
-    if (in_ready !== expected_ready)
-      $fatal(1, "AC-23 in_ready expected=%h actual=%h", expected_ready, in_ready);
-    clk = 1;
-    #2;
-    if (found && downstream_ready) begin
-      seq[expected_id]++;
-      pointer = (expected_id + 1) % N;
-    end
-    clk = 0;
-    #2;
+  end
+
+  task automatic run_clock_phase(input time next_wr_half_period,
+                                 input time next_rd_half_period,
+                                 input int phase_transfers);
+    enabled = 0;
+    wr_rst_n = 0;
+    rd_rst_n = 0;
+    wr_half_period = next_wr_half_period;
+    rd_half_period = next_rd_half_period;
+    repeat (4) @(negedge wr_clk);
+    repeat (4) @(negedge rd_clk);
+    wr_rst_n = 1;
+    repeat (2) @(negedge rd_clk);
+    rd_rst_n = 1;
+    target = writes + phase_transfers;
+    enabled = 1;
+    wait (writes == target && reads == target);
+    enabled = 0;
   endtask
 
   initial begin
-    if ($bits(dut.in_valid) != N || $bits(dut.in_ready) != N ||
-        $bits(dut.in_data) != N * WIDTH || $bits(dut.out_data) != WIDTH ||
-        $bits(dut.out_id) != $clog2(N))
+    if ($bits(dut.wr_data) != WIDTH || $bits(dut.rd_data) != WIDTH ||
+        $bits(dut.wr_ready) != 1 || $bits(dut.rd_valid) != 1)
       $fatal(1, "T05 fixed port width mismatch");
     seed = 20260925;
     void'($value$plusargs("SEED=%d", seed));
-    rng = 32'(seed) ^ 32'hbb67ae85;
-    clk = 0;
-    rst_n = 0;
-    in_valid = '0;
-    out_ready = 0;
-    in_data = '0;
-    pointer = 0;
-    for (int i = 0; i < N; i++) seq[i] = 1;
-    #2;
-    clk = 1;
-    #2;
-    clk = 0;
-    #2;
-    rst_n = 1;
-    #2;
-    tick('0, 1);
-    tick(N'(1 << 2), 1);
-    // All sources stay valid. A source changes payload only after its own
-    // handshake; backpressure leaves the selected payload unchanged.
-    for (int cycle = 0; cycle < 256; cycle++) begin
-      rng ^= rng << 13;
-      rng ^= rng >> 17;
-      rng ^= rng << 5;
-      tick('1, (cycle < 16) ? 1'b0 : rng[0]);
-    end
-    for (int cycle = 0; cycle < N * 4; cycle++) tick('1, 1);
-    $display("PUBLIC_PASS T05 N=%0d WIDTH=%0d seed=%0d", N, WIDTH, seed);
+    rng = 32'(seed) ^ 32'ha54ff53a;
+    wr_rst_n = 0;
+    rd_rst_n = 0;
+    wr_valid = 0;
+    wr_data = 0;
+    rd_ready = 0;
+    writes = 0;
+    reads = 0;
+    target = 0;
+    enabled = 0;
+    held = 0;
+    // Fixed non-locking ratios cover near-rate, write-faster, and read-faster flow.
+    run_clock_phase(5, 7, 64);
+    run_clock_phase(4, 9, 64);
+    run_clock_phase(9, 4, 64);
+    wr_rst_n = 0;
+    rd_rst_n = 0;
+    repeat (4) @(negedge wr_clk);
+    repeat (4) @(negedge rd_clk);
+    #50;
+    if (rd_valid !== 0)
+      $fatal(1, "AC-30 stale item after drain");
+    $display("PUBLIC_PASS T05 WIDTH=%0d DEPTH=%0d writes=%0d reads=%0d clock_pairs=3 seed=%0d",
+             WIDTH, DEPTH, writes, reads, seed);
     $finish;
+  end
+
+  initial begin
+    #100000;
+    $fatal(1, "AC-26 timeout writes=%0d reads=%0d target=%0d",
+           writes, reads, target);
   end
 endmodule

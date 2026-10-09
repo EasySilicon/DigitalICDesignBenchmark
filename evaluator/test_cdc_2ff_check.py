@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regression for the T06 two-stage structural checker."""
+"""Regression for the T05 two-stage structural checker."""
 
 from __future__ import annotations
 
@@ -84,6 +84,15 @@ class TwoStageCheckerTest(unittest.TestCase):
         self.assertTrue(result["passed"], result["findings"])
         self.assertEqual(result["verified_chains"]["wr_clk->rd_clk"], 4)
         self.assertEqual(result["verified_chains"]["rd_clk->wr_clk"], 4)
+
+    def test_yosys_scopeinfo_metadata_is_ignored(self) -> None:
+        module = self.elaborate(True)
+        module["cells"]["metadata_only"] = {
+            "type": "$scopeinfo", "parameters": {}, "attributes": {},
+            "port_directions": {}, "connections": {},
+        }
+        result = inspect(module, "wr_clk", "rd_clk", 4)
+        self.assertTrue(result["passed"], result["findings"])
 
     def test_one_stage_pointer_crossing_fails(self) -> None:
         result = inspect(self.elaborate(False), "wr_clk", "rd_clk", 4)

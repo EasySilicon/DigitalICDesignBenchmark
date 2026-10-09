@@ -1,9 +1,13 @@
-# T01 · CVDP 8 位串入并出寄存器
+# T01 · SerDes RX comma aligner
 
-**来源与许可**：本题是 NVIDIA CVDP Benchmark Dataset 中 `cvdp_copilot_serial_in_parallel_out_0004`（类别 `cid003/easy`）的修改衍生题。原始题面、锁定修订和哈希见 [sources.lock.yaml](../../sources.lock.yaml)；原数据集的非代码内容按 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) 许可。相对于原题面，本题补充了无复位初始化不计分、连续滑动窗口、资源边界、交付格式和独立评分规则；完整署名、许可证与无背书声明见[第三方声明](../../../THIRD_PARTY_NOTICES.md#nvidia-cvdp-benchmark-dataset)。**交付**：模块 `serial_in_parallel_out_8bit`、自检测试和运行脚本。
+**设计需求**：交付可综合模块 `serdes_rx_comma_aligner`、自检测试和运行脚本。该模块模拟高速串行链路接收端 PCS 的字对齐功能：从连续、可能与符号边界错位的 10-bit 串行切片中识别 comma，建立 10-bit 符号边界、持续重组符号，并在训练标记丢失后失锁和重新锁定。禁止使用 DPI、文件 I/O、延时、黑盒或外部辅助模块。
 
-**接口与需求**：输入 `clock`、`serial_in`，输出 `parallel_out[7:0]`。每个 `clock` 上升沿执行 `parallel_out <= {parallel_out[6:0], serial_in}`；两沿之间保持。此题**没有复位端口**，因此上电后的前 7 次沿输出不验收；从第 8 次沿起，结果必须等于最近 8 个采样 bit，最早采样 bit 位于 bit 7。
+**固定接口**：输入 `clk`、异步低有效复位 `rst_n`、`rx_valid` 和 `rx_bits[9:0]`；输出 `locked`、`symbol_valid` 和 `symbol_out[9:0]`。当 `rx_valid=1` 时，`rx_bits[0]` 是本拍最早到达的串行 bit，随后依次为 `[1]` 至 `[9]`；相邻有效拍的 bit 流连续。`rx_valid=0` 不代表插入 0 bit，模块必须保持对齐和锁定状态，且 `symbol_valid=0`。
 
-**资源边界**：8 位状态寄存器；不得增加隐藏初始化端口、数据表或外部辅助模块。
+**comma 与训练**：正 comma 为 `10'b0011111010`，负 comma 为 `10'b1100000101`；比较时按 `symbol[0]` 为最早 bit 的约定解释这两个 packed 常量。一次训练由三个连续的同极性或异极性 comma 符号组成。复位后或失锁后，模块必须扫描跨 `rx_bits` 边界的每一个连续 10-bit 窗口；发现三个相隔恰好 10 bit 的 comma 后锁定该相位。接受到包含最后一个训练 comma 末 bit 的切片后，`locked` 必须在该上升沿后置 1；若训练恰从 `rx_bits[0]` 开始，不得为了构造跨拍窗口而额外延迟一拍。训练 comma 不从 `symbol_out` 输出。
 
-**验收与分值**：F=60：首个完整 8-bit 字 20；连续至少 256 个采样 bit 的滑动窗口结果 40。P=15：只在上升沿采样 10；沿间输出保持 5。隐藏验收避免对未规定的初始值打分。
+**锁定输出与标记监督**：锁定后的下一有效输入拍必须输出训练序列之后的第一个完整 10-bit 符号；`symbol_out[0]` 仍是最早 bit。随后每个 `rx_valid` 拍输出恰好一个符号，不得丢失、重复或重排。测试流在训练后按 16 符号帧发送：15 个不等于任一 comma 的 payload 符号，随后一个 comma。模块在锁定相位上监督这一标记；连续两个预期标记位置不是 comma 时，必须在判断第二次失配的上升沿后拉低 `locked`，该拍及其后停止 `symbol_valid`。随后出现新的三 comma 训练时必须重新对齐；训练可从任意 bit 相位开始。
+
+**资源边界**：允许使用有限的移位/重组缓冲、相位状态、训练与标记计数器；不得依赖输入切片边界恰好等于符号边界，不得用固定测试序列或帧内容特化。`symbol_out` 仅在 `symbol_valid=1` 时评分。
+
+**验收原始权重**（75 点按比例归一为功能 50 分）：F=60：跨切片 comma 搜索和训练锁定 20；锁定后持续符号重组与位序 20；正/负 comma、所有 0–9 初始错位和 `rx_valid` 间隙 20。P=15：两次缺失标记后的失锁与新相位重新锁定 10；异步复位期间/释放后的输出与状态行为 5。隐藏验收使用固定种子 payload、随机初始相位、bit slip、训练中断和错误 marker。

@@ -1,4 +1,4 @@
-# T05 · ready/valid 轮询仲裁器
+# T05 · 双时钟异步 FIFO
 
 [English](README.en.md)
 

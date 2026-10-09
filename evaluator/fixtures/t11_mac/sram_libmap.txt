@@ -1,0 +1,16 @@
+# Fixed 4096x32 macro, used as 1W1R. Costs are policy choices, not silicon area.
+# No read clock-enable capability: upstream CE=0 invalidates the output.
+# Yosys must emulate any read-output hold externally; clocks are never gated.
+ram block $__T11_FAKERAM_4096X32_ {
+    abits 12;
+    width 32;
+    byte 1;
+    cost 4096;
+    init none;
+    port sw "W" {
+        clock posedge;
+    }
+    port sr "R" {
+        clock posedge;
+    }
+}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Qualify deterministic synthesizable T01 fault variants."""
+"""Qualify deterministic T01 RTL mutants against the hidden evaluator."""
 
 from __future__ import annotations
 
@@ -11,64 +11,82 @@ from pathlib import Path
 from t01_check import ROOT, run
 
 
-ASSIGNMENT = "parallel_out <= {parallel_out[6:0], serial_in};"
 MUTATIONS = {
-    "reverse_shift": (ASSIGNMENT,
-                      "parallel_out <= {serial_in, parallel_out[7:1]};"),
-    "falling_edge": ("always_ff @(posedge clock)",
-                     "always_ff @(negedge clock)"),
-    "clear_after_a5": (ASSIGNMENT,
-                       "parallel_out <= (parallel_out == 8'ha5) ? 8'h00 : "
-                       "{parallel_out[6:0], serial_in};"),
-    "drop_old_bits": (ASSIGNMENT,
-                      "parallel_out <= {1'b0, parallel_out[5:0], serial_in};"),
-    "invert_input": (ASSIGNMENT,
-                     "parallel_out <= {parallel_out[6:0], ~serial_in};"),
-    "ignore_zero": (ASSIGNMENT,
-                    "if (serial_in) parallel_out <= {parallel_out[6:0], serial_in};"),
-    "duplicate_new_bit": (ASSIGNMENT,
-                          "parallel_out <= {parallel_out[5:0], serial_in, serial_in};"),
+    "positive_comma_only": (
+        "is_comma = symbol == COMMA_P || symbol == COMMA_N;",
+        "is_comma = symbol == COMMA_P;",
+    ),
+    "lock_after_two": (
+        "if (train_count[phase] == 2) begin",
+        "if (train_count[phase] == 1) begin",
+    ),
+    "force_phase_zero": (
+        "acquisition_phase = 4'(phase);",
+        "acquisition_phase = 4'd0;",
+    ),
+    "swap_input_slices": (
+        "bit_window[9:0] = previous_bits;\n    bit_window[19:10] = rx_bits;",
+        "bit_window[9:0] = rx_bits;\n    bit_window[19:10] = previous_bits;",
+    ),
+    "consume_invalid_cycles": (
+        "if (rx_valid) begin\n        previous_bits <= rx_bits;",
+        "if (1'b1) begin\n        previous_bits <= rx_bits;",
+    ),
+    "marker_at_symbol_15": (
+        "if (frame_position == 15) begin",
+        "if (frame_position == 14) begin",
+    ),
+    "never_drop_lock": (
+        "end else if (marker_missed_once) begin",
+        "end else if (1'b0) begin",
+    ),
+    "output_unaligned_slice": (
+        "symbol_out <= scan_window[locked_phase];",
+        "symbol_out <= rx_bits;",
+    ),
+    "phase_plus_one": (
+        "locked_phase <= acquisition_phase;",
+        "locked_phase <= acquisition_phase + 1'b1;",
+    ),
+    "reset_keeps_lock": (
+        "previous_valid <= 1'b0;\n      locked <= 1'b0;",
+        "previous_valid <= 1'b0;\n      locked <= locked;",
+    ),
 }
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--seed", type=int, default=20260928)
+    parser.add_argument("--seed", type=int, default=20260927)
     args = parser.parse_args()
-    reference = (ROOT / "reference/T01/rtl/serial_in_parallel_out_8bit.sv").read_text()
-    variants = dict(MUTATIONS)
-    body_start = reference.index("  always_ff")
-    body_end = reference.index("endmodule", body_start)
-    variants["combinational_follow"] = (
-        reference[body_start:body_end],
-        "  always_comb parallel_out = {7'b0, serial_in};\n",
-    )
+    reference_path = ROOT / "reference/T01/serdes_rx_comma_aligner.sv"
+    reference = reference_path.read_text()
     matrix = {}
     with tempfile.TemporaryDirectory(prefix="ic_bcmk_T01_mutants_") as temporary:
-        root = Path(temporary)
-        for name, (needle, replacement) in variants.items():
+        base = Path(temporary)
+        for name, (needle, replacement) in MUTATIONS.items():
             if reference.count(needle) != 1:
                 raise SystemExit(f"mutation anchor is not unique: {name}")
-            submission = root / name
+            submission = base / name
             rtl = submission / "rtl"
             rtl.mkdir(parents=True)
             (rtl / "dut.sv").write_text(reference.replace(needle, replacement, 1))
             (rtl / "files.f").write_text("dut.sv\n")
             try:
                 result = run(submission, args.seed)
-            except Exception as exc:
+            except Exception as exc:  # compile failures are invalid mutants, not kills
                 matrix[name] = {"eligible": False, "error": str(exc)}
                 continue
-            failed = [group for group, row in result["groups"].items()
-                      if row["cases_passed"] != row["cases_total"]]
-            matrix[name] = {"eligible": True, "killed": bool(failed),
-                            "failed_groups": failed}
+            failed_groups = [group for group, row in result["groups"].items()
+                             if row["cases_passed"] != row["cases_total"]]
+            matrix[name] = {"eligible": True, "killed": bool(failed_groups),
+                            "failed_groups": failed_groups}
     eligible = [row for row in matrix.values() if row["eligible"]]
     summary = {"task_id": "T01", "seed": args.seed, "mutants": matrix,
                "eligible": len(eligible),
                "killed": sum(row["killed"] for row in eligible)}
     print(json.dumps(summary, indent=2))
-    return 0 if len(eligible) == len(variants) and all(row["killed"] for row in eligible) else 1
+    return 0 if eligible and all(row["killed"] for row in eligible) else 1
 
 
 if __name__ == "__main__":

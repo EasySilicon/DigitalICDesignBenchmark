@@ -16,6 +16,7 @@ from pathlib import Path
 import yaml
 
 from t09_oracle_check import ELFS, ORACLES, run as run_oracles
+from t09_timing_check import apply_timing_groups, run as run_timing
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
@@ -118,9 +119,14 @@ def run(submission: Path, seed: int, elapsed_seconds: float,
         diagnostics["latency"] = latency
         groups["CPU-PIPE-LAT"] = {"cases_passed": 64 if latency["passed"] else 0,
                                   "cases_total": 64}
+        timing = run_timing(submission)
+        diagnostics["timing_cycles"] = timing
+        apply_timing_groups(groups, timing)
         diagnostics["pipeline_timing"] = {
-            "method": "automatic_port_latency_hazard_flush",
-            "latency_passed": latency["passed"],
+            "method": "port_timing_v1_latency_throughput_paired_penalty_workload_budget",
+            "latency_passed": groups["CPU-PIPE-LAT"]["cases_passed"] == 64,
+            "timing_cases_passed": timing["cases_passed"],
+            "timing_cases_total": timing["cases_total"],
             "scope": "observable timing only; internal stage boundaries are not claimed",
         }
     manifest = yaml.safe_load((ROOT / "benchmark/manifest.yaml").read_text())
@@ -135,6 +141,7 @@ def run(submission: Path, seed: int, elapsed_seconds: float,
     rules = load_rules()
     result = score_run(payload, rules)
     return {"task_id": "T09", "phase": "scored", "seed": seed,
+            "scoring_policy": "t09_group_cycles10_v1",
             "elapsed_grading_seconds": round(time.monotonic() - started, 3),
             "groups": groups, "score": result, "diagnostics": diagnostics}
 

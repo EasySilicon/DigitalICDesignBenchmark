@@ -1,6 +1,15 @@
 id: T02
-title: serdes_rx_comma_aligner
+title: synchronous_fifo
 level_hypothesis: 2
 origin: original
-time_limit_minutes: 90
+time_limit_minutes: 60
 same_model_token_cap: 80000
+f_points:
+- 25
+- 15
+- 10
+- 10
+p_points:
+- 5
+- 5
+- 5

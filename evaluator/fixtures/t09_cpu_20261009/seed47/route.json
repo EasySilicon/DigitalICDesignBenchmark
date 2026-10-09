@@ -1,0 +1,27 @@
+{
+  "task": "T09",
+  "variant": "ic_probe_t09_wc_p1000_u10_d0.6_s47_2f347d8006",
+  "exit_code": 0,
+  "elapsed_seconds": 647.646,
+  "period_ps": 1000,
+  "clock_periods_ps": {
+    "clk": 1000
+  },
+  "utilization": 10,
+  "density": 0.6,
+  "seed": 47,
+  "corner": "WC",
+  "report": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/reports/asap7/rv32i_five_stage_cpu/ic_probe_t09_wc_p1000_u10_d0.6_s47_2f347d8006/6_finish.rpt",
+  "measurement": "checked single-seed routed area/timing",
+  "worst_slack_ps": 9.00757,
+  "critical_path_delay_ps": 990.99243,
+  "cell_area_um2": 2271.13,
+  "hold_worst_slack_ps": 45.6906,
+  "setup_violations": 0,
+  "hold_violations": 0,
+  "drc_violations": 0,
+  "minimum_period_ps": {
+    "clk_clock": 990.99,
+    "vclk": 0.0
+  }
+}

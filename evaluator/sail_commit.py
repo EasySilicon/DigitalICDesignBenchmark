@@ -81,12 +81,25 @@ def parse_trace(lines: list[str], include_traps: bool = False) -> list[dict]:
 
 def compare_commits(expected: list[dict], observed: list[dict]) -> dict:
     last_cycle = -1
+    last_kind: str | None = None
     for index, event in enumerate(observed):
         cycle = event.get("cycle")
-        if not isinstance(cycle, int) or cycle <= last_cycle:
+        kind = event.get("kind")
+        # The retirement and trap observation ports are independent.  In a
+        # single-issue in-order pipeline an older normal instruction may retire
+        # from WB in the same cycle that the following instruction raises a
+        # precise trap in EX.  The testbench records the older commit first, so
+        # that one commit->trap pair is a valid same-cycle ordering.  Every
+        # other pair must still advance the cycle count.
+        same_cycle_commit_trap = (
+            cycle == last_cycle and last_kind == "commit" and kind == "trap"
+        )
+        if (not isinstance(cycle, int) or cycle < last_cycle or
+                (cycle == last_cycle and not same_cycle_commit_trap)):
             return {"passed": False, "matched": index,
-                    "reason": f"nonincreasing commit cycle at index {index}"}
+                    "reason": f"invalid event cycle ordering at index {index}"}
         last_cycle = cycle
+        last_kind = kind
         if index >= len(expected):
             return {"passed": False, "matched": index,
                     "reason": "extra DUT commit after Sail reference ended"}

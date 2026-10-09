@@ -1,42 +1,160 @@
 {
   "task_id": "T09",
-  "qualification_date": "2026-09-29",
-  "seed": 20260928,
-  "reference_sha256": "e4b967494638c80f5779f983c0746fb7fbc35fd0e9cefc9b5f04530fb4274fe2",
-  "bus_testbench_path": "public/tb_cpu_elf.sv",
-  "bus_testbench_sha256": "837afe566b7e6170ccbbbf8ce97e159b0b7eda954aef99d10c5c903d7b5f09a2",
-  "functional_runner_sha256": "0f9b39388150d6bfcb95b5aab852ea58b55c074a32de1e3de45ece5c9cef277b",
-  "oracle_runner_sha256": "657b5c4ddee9bb28be985f26e3f2e8e58c1698d4b6a3babdd6afcb7b0e0e31e5",
-  "mutation_runner_sha256": "a3755621a32680245388de90ee173300790823226a85aae6212ffd73ae447e99",
-  "score_rules_sha256": "9e6e85d79a3700bdbab7bbf06aa4b098dcb4baa6d4c35474321aa59f5e98215f",
-  "frozen_data_tree_sha256": "334a0937648f6ad9c9ebe039512436b1a3113d81a89a14ddd53c2a6ecc300181",
-  "reference_report_sha256": "dbeea04a618fd58b306dbfcb8c6fe2dd65ac6ac73ebe97efeb08b427ce7d126d",
+  "qualification_date": "2026-10-09T10:36:41.214965+08:00",
+  "qualification_scope": "current reference: full functional + port_timing_v1 + three-seed PPA",
+  "reference_sha256": "e7d93ba595d9ebb3fcec4a93f230226fb3c737d2f579bd339082439fc0302e6d",
+  "source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
+  "current_timing_policy_status": "qualified",
+  "current_timing_report": "t09_timing_qualification.json",
   "reference_groups": {
-    "CPU-ACT": {"passed": 45, "total": 45},
-    "CPU-DIR-INT": {"passed": 24, "total": 24},
-    "CPU-DIR-MEM": {"passed": 20, "total": 20},
-    "CPU-DIR-HAZ": {"passed": 24, "total": 24},
-    "CPU-DIR-TRAP": {"passed": 28, "total": 28},
-    "CPU-DIR-CSR": {"passed": 16, "total": 16},
-    "CPU-DIFF-INT": {"passed": 34, "total": 34},
-    "CPU-DIFF-MEM": {"passed": 33, "total": 33},
-    "CPU-DIFF-TRAP": {"passed": 33, "total": 33},
-    "CPU-PIPE-HAZ": {"passed": 8, "total": 8},
-    "CPU-PIPE-FLUSH": {"passed": 8, "total": 8},
-    "CPU-PIPE-MEM": {"passed": 80, "total": 80},
-    "CPU-PIPE-RESET": {"passed": 4, "total": 4},
-    "CPU-PIPE-LAT": {"passed": 64, "total": 64}
+    "CPU-ACT": {
+      "passed": 45,
+      "total": 45
+    },
+    "CPU-DIR-INT": {
+      "passed": 24,
+      "total": 24
+    },
+    "CPU-DIR-MEM": {
+      "passed": 20,
+      "total": 20
+    },
+    "CPU-DIR-HAZ": {
+      "passed": 24,
+      "total": 24
+    },
+    "CPU-DIR-TRAP": {
+      "passed": 28,
+      "total": 28
+    },
+    "CPU-DIR-CSR": {
+      "passed": 16,
+      "total": 16
+    },
+    "CPU-DIFF-INT": {
+      "passed": 34,
+      "total": 34
+    },
+    "CPU-DIFF-MEM": {
+      "passed": 33,
+      "total": 33
+    },
+    "CPU-DIFF-TRAP": {
+      "passed": 33,
+      "total": 33
+    },
+    "CPU-PIPE-HAZ": {
+      "passed": 8,
+      "total": 8
+    },
+    "CPU-PIPE-FLUSH": {
+      "passed": 8,
+      "total": 8
+    },
+    "CPU-PIPE-MEM": {
+      "passed": 80,
+      "total": 80
+    },
+    "CPU-PIPE-RESET": {
+      "passed": 4,
+      "total": 4
+    },
+    "CPU-PIPE-LAT": {
+      "passed": 64,
+      "total": 64
+    },
+    "CPU-PIPE-CYCLES": {
+      "passed": 22,
+      "total": 22
+    }
   },
-  "functional_basic": 60,
-  "functional_edges": 15,
+  "functional_basic": 48,
+  "functional_edges": 27,
+  "functional_total_normalized": 50,
+  "scoring_policy": "t09_group_cycles10_v1",
+  "cycle_group_normalized_points": {
+    "full": 10,
+    "half": 5,
+    "zero": 0
+  },
+  "seed": 20260928,
   "eligible_mutants": 21,
   "killed_mutants": 21,
-  "mutation_report_sha256": "4a33583bbd5b7b13036a9aac8ce141c4df5c62f1b1389e10bd161985f3776d84",
   "ppa_baseline_status": "qualified_1ghz",
-  "ppa_margin_note": "seed 29 routed WC setup slack is only +0.315858 ps; this is a pass with minimal margin",
-  "ppa_probe_sha256": "513a24893627da2b2cb14264963a35801ae667c5a73b6b0a8882b97038d9e360",
-  "power_probe_sha256": "a2a7955b4155d80e44508b572ea10845ee565c3ce320cf72148c5d258021a781",
+  "layout_seeds": [
+    11,
+    29,
+    47
+  ],
+  "gate_clock_period_ps": 1000,
   "power_workload_id": "T09-power-v1",
-  "layout_seeds": [11, 29, 47],
-  "gate_clock_period_ps": 1000
+  "power_workload_parameters": {
+    "seed": 20260928,
+    "elf_sha256": "81409d0bca3da16b2da73233324a59632daf2a8f7d64b64284a6663397f782bd"
+  },
+  "evidence_path": "evaluator/fixtures/t09_cpu_20261009_cycles10",
+  "checker_sha256": {
+    "t09_check.py": "e1e750a08f2de0c9974d5d3590c6143e7f09353746627b2d1ba3f3bb4d80af33",
+    "t09_timing_check.py": "b91e233aaabacc640a4496587d162edcc72f665d9cd3b447a216e214daf3447b",
+    "t09_timing_tb.sv": "80d57d27b2d551b7d3a272b772e5d0cfd8ab2a86e2e4ea24c7005ff7788891ac",
+    "t09_mutation_check.py": "e72fb296f8abfed6dc0fe26adce66a92390e686c53360d9f1238cce64c235cd4",
+    "t09_oracle_check.py": "657b5c4ddee9bb28be985f26e3f2e8e58c1698d4b6a3babdd6afcb7b0e0e31e5",
+    "t09_wait_check.py": "1720226cdeb98e7bc739e2cf3cd6ad091a6dcb2403aefcc6226c942fac403ef1",
+    "t09_reset_check.py": "8d7b7166eb9bfe0b70fb1824d5e1c7458dc4cdd4e483fce3f9c3fc42c2a738ef",
+    "t09_spec_check.py": "83dcf060e3595b5a35111befa70f11471ad9314697009f83a51eed583397dc2f",
+    "cpu_latency_check.py": "e81ee9bc0cce11c3f3fb5f1ab9bab7f0ba6c8f24e1a1bbfeff5e02f15950f703",
+    "sail_commit.py": "1693336e4870514b05cc7742590bcc77a567d6415977be87569d7bc8db9cf10d",
+    "public_check.py": "21b1baf1acac8f26dbd395f3ea002cb0cfa7aa9b3a9e9ce9bdb7339e66556420",
+    "score_run.py": "55127dc795f4c45e0a03bf89a0ebcdd71f50d7a536c9437fd2df18cea3c0249a",
+    "t09_reference_freeze.py": "03cc992c61ce6b74bdeb072c0f4b279a6ece76f53d171cd5556da05861927a4a",
+    "ppa_aggregate.py": "864598d79d5ecd1006a59fbb4eb4381521e29fabf212684a9dc2832f171bf5ec",
+    "ppa_probe.py": "dc612897303b1968285cf367b9b27459b4b121102b40ae7b7001035e963640ef",
+    "ppa_power_probe.py": "545237b011b92c8aab4d2214eaf413bd8fb8d070c91df3ebae090bd81a2e2f05",
+    "score_rules.json": "88c6dd70fbb7d76b220e76fc3017b905de16b6169bde027a457f7e33f33362e3"
+  },
+  "bus_testbench_path": "benchmark/tasks/T09/public/tb_cpu_elf.sv",
+  "bus_testbench_sha256": "581914e6f3f67558c4027a0d66e6c95519181922fc446c8795c4e833e746faa6",
+  "public_latency_testbench_sha256": "058f7d46c174d485757e0b7b5501cdf9c550119aa642032bf519fe6d72fb8cbd",
+  "oracle_manifest_sha256": {
+    "t09_data/oracles/act4/MANIFEST.json": "7660059f4133389bec3781e79cfda794a06014567558b905d94b9e164b5a77e5",
+    "t09_data/programs/directed/MANIFEST.json": "6dc5ee4005ef6193e8855db00cb6cf0bd32cb14700ed3ddd225739ca603b22db",
+    "t09_data/programs/random/MANIFEST.json": "d9899118d91ab7b8eb56b8e539cfcea64fe63aa12740a7667d4505b5a9dc2e6d",
+    "t09_data/programs/spec/MANIFEST.json": "f12b38e9f56196cc8efa272bb2542131ed58c693ce8e2ca960de0119ec7e70ff"
+  },
+  "evidence_sha256": {
+    "functional.json": "ed1e1852b8e396503068cafe753ca02c0b7501624392744e9ea1d431584e0d61",
+    "functional.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mutations.json": "4e9af4df8479c221d3718df757dfbbcec6a6a9dcd405b8141147ec341f44833f",
+    "mutations.log": "90e07da81c0914a6cc7634ca1e96b86d424b6c012cca573695f6cad33afd2fa8",
+    "ppa.json": "fb36c9d1326628e184b92d8d055fb969d0c8ea6f81b10333f7e545265f36a564",
+    "seed11/5_route_drc.rpt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "seed11/6_finish.rpt": "9aa00a12fb741fa397f4ec3d55ca6b55a1dac48a57bbb124b8ef575b1d9b7a19",
+    "seed11/6_report.json": "d28418836610733b96093522d55bef95787558d7270f9944bd23e476adaeb812",
+    "seed11/config.mk": "3e85358b4e77446e894239bae15d0a454d82aaa386292685c4f5d3d95bdb4808",
+    "seed11/constraint.sdc": "fd5f90c682a00d97cfeae11eb01f435c5d6b708fc4cb0b6868be5ed6811b2d11",
+    "seed11/power.json": "773999cab7f50d0f651f07f1fe82279066c2e3c5717f50a82c7b92455b93e1a2",
+    "seed11/power.log": "5da00a5e14a6a1d9b4c880c1554a29fa3831834b66546b59475bdaeebb3438c3",
+    "seed11/route.json": "7f68ab89f8a4c6df0abe5e1d21d50bb23bd2f5c2dc33ab5111ab8ed9399be4d8",
+    "seed11/simulation.log": "07b2f36be75667ee5030de378804a0235edd776f9e05137175cf7d14bde834c2",
+    "seed29/5_route_drc.rpt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "seed29/6_finish.rpt": "9f751e729536c3691a25052ca5f5f7917cb8a1e84c35a8a0d22ccb886d7a9658",
+    "seed29/6_report.json": "3bb590a285b592c60cbbc37a1e2d4949a1e394aa2e1e2cc9e31ed228505ad626",
+    "seed29/config.mk": "6d2b0fc152ef01f08bd86fa55f2f426d46872aa926a3bf38206b25debff2f755",
+    "seed29/constraint.sdc": "fd5f90c682a00d97cfeae11eb01f435c5d6b708fc4cb0b6868be5ed6811b2d11",
+    "seed29/power.json": "4522d42e1de1f9d09181113546966906e519651ca47328fc6178397fc8f9b357",
+    "seed29/power.log": "c7b41cbd2975e3d5df6973a234ffa66dca049e68dc6147af3a267d3ec510e3ef",
+    "seed29/route.json": "96010a3c8fe7d0bb328a5193cd7316442d5de12cd78fb2ef311c1cc5400d66fd",
+    "seed29/simulation.log": "7c550de193313002ea6b6fe44f8a5f4033042560333213d7461cdcff3d757e59",
+    "seed47/5_route_drc.rpt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "seed47/6_finish.rpt": "62c79c564882a80e6002ad128477d0ef401a4891d5c06b8e7c8edf9a97dc0932",
+    "seed47/6_report.json": "2603942f9e67e9e4519a95bee0d272add4ec00ae1d885175f729ba7ff4eac016",
+    "seed47/config.mk": "993ae37a8c26d6e72c0390d39874aac9c74b07a17ab507a443b0e7a696a78466",
+    "seed47/constraint.sdc": "fd5f90c682a00d97cfeae11eb01f435c5d6b708fc4cb0b6868be5ed6811b2d11",
+    "seed47/power.json": "3a0a683c87987e07e76abbdfb1e533b32be0b1b062e69775aeb3f67ee5d2b0eb",
+    "seed47/power.log": "520ca6c6317368b6880c4b364aad6fc66998b268127f3f5811efda2da39609eb",
+    "seed47/route.json": "7437cc7f114beee34f3cc8bdeaab87c46c2b964cf279cebd14350a930dcc4502",
+    "seed47/simulation.log": "ad90f0280d7cd975b829f8bcf0aee66764952f166bf017d4c1403060abdb01f3",
+    "timing.json": "69353aca6daa82f3512cb49c4a086791b40933749d546435f86cc103d0b49750",
+    "timing.log": "401505105f9fe648364b79125f2340c25f112929820d6de8e0fd259fc2210d31"
+  }
 }

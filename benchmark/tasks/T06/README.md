@@ -1,4 +1,4 @@
-# T06 · 双时钟异步 FIFO
+# T06 · AXI4-Lite 到 APB4 桥
 
 [English](README.en.md)
 

@@ -12,65 +12,69 @@ from t07_check import ROOT, run
 
 
 MUTATIONS = {
-    "corrupt_read_data": (
-        "RDATA <= PSLVERR ? 0 : PRDATA;",
-        "RDATA <= PSLVERR ? 0 : (PRDATA ^ 32'h1);",
+    "alias_high_bit": (
+        "tags[index] == saved_addr[31:8]",
+        "tags[index] == {1'b0,saved_addr[30:8]}",
     ),
-    "drop_b_stall": (
-        "if (BVALID && BREADY) BVALID <= 0;",
-        "if (BVALID) BVALID <= 0;",
+    "bad_write_response": (
+        "rsp_rdata <= saved_write ? 0 : refill_data",
+        "rsp_rdata <= saved_write ? 32'h1 : refill_data",
     ),
-    "drop_r_stall": (
-        "if (RVALID && RREADY) RVALID <= 0;",
-        "if (RVALID) RVALID <= 0;",
+    "duplicate_response": (
+        "RESP: if(rsp_ready) state <= IDLE;",
+        "RESP: state <= RESP;",
     ),
-    "fixed_write_priority": (
-        "prefer_write <= 0;",
-        "prefer_write <= 1;",
+    "evict_clean": (
+        "if(valids[index] && dirtys[index]) state <= WB_REQ;",
+        "if(valids[index]) state <= WB_REQ;",
     ),
-    "force_full_strobe": (
-        "apb_strb <= w_strb;",
-        "apb_strb <= 4'hf;",
+    "hit_full_strobe": (
+        "put_word(lines[index],saved_addr[3:2],saved_data,saved_strb)",
+        "put_word(lines[index],saved_addr[3:2],saved_data,4'hf)",
     ),
-    "high_address_alias": (
-        "if (aw_addr[31:16] != 0 || aw_addr[1:0] != 0) begin",
-        "if (aw_addr[31:17] != 0 || aw_addr[1:0] != 0) begin",
+    "miss_full_strobe": (
+        "put_word(refill_data,saved_addr[3:2],saved_data,saved_strb)",
+        "put_word(refill_data,saved_addr[3:2],saved_data,4'hf)",
     ),
-    "ignore_wait": (
-        "ACCESS: if (PREADY) begin",
-        "ACCESS: if (1'b1) begin",
+    "no_dirty_evict": (
+        "if(valids[index] && dirtys[index]) state <= WB_REQ;",
+        "if(1'b0) state <= WB_REQ;",
     ),
-    "no_b_reset": (
-        "BVALID <= 0;\n      BRESP <= '0;",
-        "BVALID <= BVALID;\n      BRESP <= '0;",
+    "no_hit_dirty": (
+        "commit_dirty <= 1;",
+        "commit_dirty <= 0;",
     ),
-    "no_setup": (
-        "apb_write <= 1;\n              state <= SETUP;",
-        "apb_write <= 1;\n              state <= ACCESS;",
+    "no_miss_dirty": (
+        "commit_dirty <= saved_write && saved_strb != 0;",
+        "commit_dirty <= 0;",
     ),
-    "read_error_okay": (
-        "RRESP <= PSLVERR ? 2'b10 : 2'b00;",
-        "RRESP <= 2'b00;",
+    "no_valid_reset": (
+        "valids[i] <= 0; dirtys[i] <= 0;",
+        "valids[i] <= 1; dirtys[i] <= 0;",
     ),
-    "read_prot_zero": (
-        "apb_prot <= ar_prot;",
-        "apb_prot <= '0;",
+    "refill_rotated": (
+        ": refill_data;\n        commit_way <= 16'b1 << index;",
+        ": {refill_data[31:0],refill_data[127:32]};\n        commit_way <= 16'b1 << index;",
     ),
-    "w_requires_aw": (
-        "assign WREADY = !have_w && !write_busy && !BVALID;",
-        "assign WREADY = !have_w && !write_busy && !BVALID && (AWVALID || have_aw);",
+    "reverse_bytes": (
+        "data[8*b+:8];",
+        "data[8*(3-b)+:8];",
     ),
-    "write_error_okay": (
-        "BRESP <= PSLVERR ? 2'b10 : 2'b00;",
-        "BRESP <= 2'b00;",
+    "rsp_wait_ready": (
+        "assign rsp_valid = state == RESP;",
+        "assign rsp_valid = state == RESP && rsp_ready;",
     ),
-    "write_prot_zero": (
-        "apb_prot <= aw_prot;",
-        "apb_prot <= '0;",
+    "wrong_hit_word": (
+        "lines[index][32*int'(saved_addr[3:2])+:32];",
+        "lines[index][32*((int'(saved_addr[3:2])+1)%4)+:32];",
     ),
-    "zero_strobe_apb": (
-        "end else if (w_strb == 0) begin",
-        "end else if (1'b0) begin",
+    "wrong_wb_address": (
+        "state == WB_REQ ? wb_addr",
+        "state == WB_REQ ? {saved_addr[31:4],4'b0}",
+    ),
+    "wrong_wb_data": (
+        "assign mem_req_wdata = wb_data;",
+        "assign mem_req_wdata = wb_data ^ 128'h1;",
     ),
 }
 
@@ -78,12 +82,14 @@ MUTATIONS = {
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--seed", type=int, default=20260928)
+    parser.add_argument("--only", choices=sorted(MUTATIONS))
     args = parser.parse_args()
-    reference = (ROOT / "reference/T07/rtl/axi4lite_to_apb4_bridge.sv").read_text()
+    reference = (ROOT / "reference/T07/rtl/ref.sv").read_text()
     matrix = {}
     with tempfile.TemporaryDirectory(prefix="ic_bcmk_T07_mutants_") as temporary:
         base = Path(temporary)
-        for name, (needle, replacement) in MUTATIONS.items():
+        selected = ({args.only: MUTATIONS[args.only]} if args.only else MUTATIONS)
+        for name, (needle, replacement) in selected.items():
             if reference.count(needle) != 1:
                 raise SystemExit(f"mutation anchor is not unique: {name}")
             submission = base / name

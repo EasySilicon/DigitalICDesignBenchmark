@@ -1,4 +1,4 @@
-# T02 · SerDes RX comma aligner
+# T02 · Parameterized synchronous FIFO
 
 [中文](README.md)
 

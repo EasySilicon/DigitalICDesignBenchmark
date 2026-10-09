@@ -53,9 +53,9 @@ def run(task: str, submission: Path, seed: int, width: int, depth: int, n_inputs
         ]
         if task == "T10":
             compile_cmd.insert(2, "--hierarchical")
-        if task in {"T03", "T06"}:
+        if task in {"T02", "T05"}:
             compile_cmd[1:1] = [f"-GWIDTH={width}", f"-GDEPTH={depth}"]
-        elif task == "T05":
+        elif task == "T04":
             compile_cmd[1:1] = [f"-GWIDTH={width}", f"-GN={n_inputs}"]
         compiled = subprocess.run(compile_cmd, text=True, capture_output=True,
                                   timeout=600 if task == "T10" else 180, check=False)
@@ -70,8 +70,8 @@ def run(task: str, submission: Path, seed: int, width: int, depth: int, n_inputs
         return {"task": task, "passed": executed.returncode == 0 and
                 f"PUBLIC_PASS {task}" in executed.stdout, "phase": "run",
                 "seed": seed,
-                "parameters": ({"WIDTH": width, "DEPTH": depth} if task in {"T03", "T06"} else
-                               {"WIDTH": width, "N": n_inputs} if task == "T05" else {}),
+                "parameters": ({"WIDTH": width, "DEPTH": depth} if task in {"T02", "T05"} else
+                               {"WIDTH": width, "N": n_inputs} if task == "T04" else {}),
                 "elapsed_seconds": round(time.monotonic() - start, 3),
                 "log_tail": (executed.stdout + executed.stderr)[-8000:]}
 
@@ -86,8 +86,8 @@ def main() -> int:
     parser.add_argument("--depth", type=int, choices=[3, 8, 16], default=3)
     parser.add_argument("--n-inputs", type=int, choices=[4, 8], default=4)
     args = parser.parse_args()
-    if args.task == "T06" and args.depth == 3:
-        parser.error("T06 requires --depth 8 or 16")
+    if args.task == "T05" and args.depth == 3:
+        parser.error("T05 requires --depth 8 or 16")
     try:
         result = run(args.task, args.submission, args.seed, args.width, args.depth, args.n_inputs)
     except (OSError, ValueError, subprocess.TimeoutExpired) as exc:

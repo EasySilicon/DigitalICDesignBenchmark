@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "status": "partial_1ghz_qualified",
-  "score_bucket_width_points": 0.5,
+  "score_bucket_width_points": 1.25,
   "parameter_set": {
     "platform": "ASAP7_7p5t_RVT_NLDM",
     "period_ps": 1000,
@@ -9,13 +9,23 @@
     "utilization": 10,
     "density": 0.6,
     "task_clock_contracts": {
-      "T06": {
+      "T05": {
         "wr_clk_period_ps": 1000,
         "rd_clk_period_ps": 1000,
         "relationship": "asynchronous"
+      },
+      "T08": {
+        "logic_clk_period_ps": 1000,
+        "tx_clk_period_ps": 1000,
+        "rx_clk_period_ps": 1000,
+        "relationship": "asynchronous"
       }
     },
-    "seeds": [11, 29, 47]
+    "seeds": [
+      11,
+      29,
+      47
+    ]
   },
   "toolchain": {
     "yosys": "0.69+150 (0d3483f04)",
@@ -28,92 +38,14 @@
     "T01": {
       "task_id": "T01",
       "qualification_status": "qualified_1ghz",
-      "source_sha256": "fc350f025fbeba08c9cff6a5ff273874bcab4ff5887968fa5b7b93be9ecdb6e4",
-      "workload_sha256": "5eac7d71360c15ec2f5313ca429bcbae3ec8f3575f72f0f782d6d83eb5325ef2",
-      "workload_id": "T01-power-v1",
-      "workload_parameters": {"seed": 20260928},
-      "measurement_status": "three_seed",
-      "parameter_set": {
-        "platform": "ASAP7_7p5t_RVT_NLDM",
-        "period_ps": 1000,
-        "corner": "WC",
-        "utilization": 10,
-        "density": 0.6,
-        "seeds": [11, 29, 47]
-      },
-      "routed": true,
-      "setup_worst_slack_ns": 0.613427,
-      "hold_worst_slack_ns": 0.0728645,
-      "drc_violations": 0,
-      "annotation_fraction": 1.0,
-      "area_um2": 4.89888,
-      "delay_ns": 0.386573,
-      "average_power_mw": 0.0302,
-      "energy_per_op_pj": 0.0302,
-      "per_seed": [
-        {
-          "layout_seed": 11,
-          "area_um2": 4.89888,
-          "delay_ns": 0.386573,
-          "setup_worst_slack_ns": 0.613427,
-          "hold_worst_slack_ns": 0.0728645,
-          "drc_violations": 0,
-          "energy_per_op_pj": 0.0302,
-          "power_w": 0.0000302,
-          "average_power_mw": 0.0302,
-          "ops": 1088,
-          "annotation_fraction": 1.0,
-          "config_sha256": "cfc18dc4215f335f3bf4f5a3085900bf1ccb4242f31410e4d8c1dbb712db9d42",
-          "constraint_sha256": "acbfd3ba5c3609f5bc6100770884dbd114004ebb72ad3903896c7a91c300e171",
-          "finish_report_sha256": "4675b0fa3a652b9fe763e5b0866b1dc35e1b457b4f7fcaa8deda1a60b4397b1b",
-          "drc_report_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-          "power_report_sha256": "2fe86fb19b950b61f26299580a1c61ab940402d943abdb251237b5c3a568a12a"
-        },
-        {
-          "layout_seed": 29,
-          "area_um2": 4.89888,
-          "delay_ns": 0.386573,
-          "setup_worst_slack_ns": 0.613427,
-          "hold_worst_slack_ns": 0.0728645,
-          "drc_violations": 0,
-          "energy_per_op_pj": 0.0302,
-          "power_w": 0.0000302,
-          "average_power_mw": 0.0302,
-          "ops": 1088,
-          "annotation_fraction": 1.0,
-          "config_sha256": "dd5361497fb94b48947adb0577f25ba2433c6f07e96f33423d5b8b933a0e2460",
-          "constraint_sha256": "acbfd3ba5c3609f5bc6100770884dbd114004ebb72ad3903896c7a91c300e171",
-          "finish_report_sha256": "4675b0fa3a652b9fe763e5b0866b1dc35e1b457b4f7fcaa8deda1a60b4397b1b",
-          "drc_report_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-          "power_report_sha256": "2fe86fb19b950b61f26299580a1c61ab940402d943abdb251237b5c3a568a12a"
-        },
-        {
-          "layout_seed": 47,
-          "area_um2": 4.89888,
-          "delay_ns": 0.386573,
-          "setup_worst_slack_ns": 0.613427,
-          "hold_worst_slack_ns": 0.0728645,
-          "drc_violations": 0,
-          "energy_per_op_pj": 0.0302,
-          "power_w": 0.0000302,
-          "average_power_mw": 0.0302,
-          "ops": 1088,
-          "annotation_fraction": 1.0,
-          "config_sha256": "84410cc9c2db113fa33111ce8f7598be2bbd892137f14cd6b1d054b4b1558efa",
-          "constraint_sha256": "acbfd3ba5c3609f5bc6100770884dbd114004ebb72ad3903896c7a91c300e171",
-          "finish_report_sha256": "4675b0fa3a652b9fe763e5b0866b1dc35e1b457b4f7fcaa8deda1a60b4397b1b",
-          "drc_report_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-          "power_report_sha256": "2fe86fb19b950b61f26299580a1c61ab940402d943abdb251237b5c3a568a12a"
-        }
-      ]
-    },
-    "T02": {
-      "task_id": "T02",
-      "qualification_status": "qualified_1ghz",
       "source_sha256": "e8f89d59b4f3e67bcff6619fad62461bdde20c2a01f4660073b5759c6abc90c5",
       "workload_sha256": "335b17246f10a2af6133e308b05970b3cecd25dfb8ea5abb2efd2c4651774b3b",
-      "workload_id": "T02-power-v1",
-      "workload_parameters": {"seed": 20260927, "case_count": 721, "vectors_sha256": "d36a2e7a136289d85d8045fff9cf8935d835ed5c3834dd873d402db335cc96bc"},
+      "workload_id": "T01-power-v1",
+      "workload_parameters": {
+        "seed": 20260927,
+        "case_count": 721,
+        "vectors_sha256": "d36a2e7a136289d85d8045fff9cf8935d835ed5c3834dd873d402db335cc96bc"
+      },
       "measurement_status": "three_seed",
       "parameter_set": {
         "platform": "ASAP7_7p5t_RVT_NLDM",
@@ -121,7 +53,11 @@
         "corner": "WC",
         "utilization": 10,
         "density": 0.6,
-        "seeds": [11, 29, 47]
+        "seeds": [
+          11,
+          29,
+          47
+        ]
       },
       "routed": true,
       "setup_worst_slack_ns": 0.237529,
@@ -189,13 +125,15 @@
         }
       ]
     },
-    "T03": {
-      "task_id": "T03",
+    "T02": {
+      "task_id": "T02",
       "qualification_status": "qualified_1ghz",
       "source_sha256": "9ae8e49b6642816bbce629570b0926a255a169467b831888563d5ca3d28ffdf4",
       "workload_sha256": "d1189cb88da51a0d511960f7015732ff3fb9c628d11ce93be930e0e9e40e399f",
-      "workload_id": "T03-power-v1",
-      "workload_parameters": {"seed": 20260928},
+      "workload_id": "T02-power-v1",
+      "workload_parameters": {
+        "seed": 20260928
+      },
       "measurement_status": "three_seed",
       "parameter_set": {
         "platform": "ASAP7_7p5t_RVT_NLDM",
@@ -203,7 +141,11 @@
         "corner": "WC",
         "utilization": 10,
         "density": 0.6,
-        "seeds": [11, 29, 47]
+        "seeds": [
+          11,
+          29,
+          47
+        ]
       },
       "routed": true,
       "setup_worst_slack_ns": 0.0254264,
@@ -271,13 +213,15 @@
         }
       ]
     },
-    "T04": {
-      "task_id": "T04",
+    "T03": {
+      "task_id": "T03",
       "qualification_status": "qualified_1ghz",
       "source_sha256": "04ca62b15323952e3d14e681da77ccb462b3a7ee343000d89a9f5f03d8383bbb",
       "workload_sha256": "bf44dbbc4dbc8b79ce8b48dccb055a4919db151ba4ed1c141126ec43ffbfc627",
-      "workload_id": "T04-power-v1",
-      "workload_parameters": {"seed": 20260928},
+      "workload_id": "T03-power-v1",
+      "workload_parameters": {
+        "seed": 20260928
+      },
       "measurement_status": "three_seed",
       "parameter_set": {
         "platform": "ASAP7_7p5t_RVT_NLDM",
@@ -285,7 +229,11 @@
         "corner": "WC",
         "utilization": 10,
         "density": 0.6,
-        "seeds": [11, 29, 47]
+        "seeds": [
+          11,
+          29,
+          47
+        ]
       },
       "routed": true,
       "setup_worst_slack_ns": 0.15882,
@@ -353,13 +301,15 @@
         }
       ]
     },
-    "T05": {
-      "task_id": "T05",
+    "T04": {
+      "task_id": "T04",
       "qualification_status": "qualified_1ghz",
       "source_sha256": "cb973356327aa09d7154be314b6c0061e14ac8afae638ab9d9b27336d29e3c24",
       "workload_sha256": "5e58d0019aefddd0326f5c182f6962b32e821edb114d2330db5487396f286685",
-      "workload_id": "T05-power-v1",
-      "workload_parameters": {"seed": 20260928},
+      "workload_id": "T04-power-v1",
+      "workload_parameters": {
+        "seed": 20260928
+      },
       "measurement_status": "three_seed",
       "parameter_set": {
         "platform": "ASAP7_7p5t_RVT_NLDM",
@@ -367,7 +317,11 @@
         "corner": "WC",
         "utilization": 10,
         "density": 0.6,
-        "seeds": [11, 29, 47]
+        "seeds": [
+          11,
+          29,
+          47
+        ]
       },
       "routed": true,
       "setup_worst_slack_ns": 0.0613928,
@@ -435,13 +389,16 @@
         }
       ]
     },
-    "T06": {
-      "task_id": "T06",
+    "T05": {
+      "task_id": "T05",
       "qualification_status": "qualified_1ghz",
       "source_sha256": "224f5ca08c038f11ed6bb44c75abe619b3cab36183336adc52e5fb835355fecc",
       "workload_sha256": "fecaea06ab2bc3cb0ec6f11ed2b677b688e4e4e6b78b690a811b459703396f36",
-      "workload_id": "T06-power-v1",
-      "workload_parameters": {"seed": 20260928, "power_goal": 30000},
+      "workload_id": "T05-power-v1",
+      "workload_parameters": {
+        "seed": 20260928,
+        "power_goal": 30000
+      },
       "measurement_status": "three_seed",
       "parameter_set": {
         "platform": "ASAP7_7p5t_RVT_NLDM",
@@ -449,9 +406,21 @@
         "corner": "WC",
         "utilization": 10,
         "density": 0.6,
-        "seeds": [11, 29, 47],
-        "clock_periods_ps": {"wr_clk": 1000, "rd_clk": 1000},
-        "asynchronous_clock_groups": [["wr_clk", "rd_clk"]]
+        "seeds": [
+          11,
+          29,
+          47
+        ],
+        "clock_periods_ps": {
+          "wr_clk": 1000,
+          "rd_clk": 1000
+        },
+        "asynchronous_clock_groups": [
+          [
+            "wr_clk",
+            "rd_clk"
+          ]
+        ]
       },
       "routed": true,
       "setup_worst_slack_ns": 0.0657447,
@@ -519,13 +488,15 @@
         }
       ]
     },
-    "T07": {
-      "task_id": "T07",
+    "T06": {
+      "task_id": "T06",
       "qualification_status": "qualified_1ghz",
       "source_sha256": "cbac6f3b705dfb0db4dc3d58ba68a0ce7ce3b9463551d0d65675a688b94f3791",
       "workload_sha256": "040c715e43ea6d45c5c2343f507b84b1e09c82ba9ef254c6833e1c4750596cb4",
-      "workload_id": "T07-power-v1",
-      "workload_parameters": {"seed": 20260928},
+      "workload_id": "T06-power-v1",
+      "workload_parameters": {
+        "seed": 20260928
+      },
       "measurement_status": "three_seed",
       "parameter_set": {
         "platform": "ASAP7_7p5t_RVT_NLDM",
@@ -533,7 +504,11 @@
         "corner": "WC",
         "utilization": 10,
         "density": 0.6,
-        "seeds": [11, 29, 47]
+        "seeds": [
+          11,
+          29,
+          47
+        ]
       },
       "routed": true,
       "setup_worst_slack_ns": 0.401102,
@@ -601,13 +576,15 @@
         }
       ]
     },
-    "T08": {
-      "task_id": "T08",
+    "T07": {
+      "task_id": "T07",
       "qualification_status": "qualified_1ghz",
       "source_sha256": "bba721ba122745819eb4f5ff93994a32608f978aa1356e642ba894691487fc8c",
       "workload_sha256": "4bda2417e277021202c68b379511e24cffc4e5916b53883bfdcc95e205fe582c",
-      "workload_id": "T08-power-v1",
-      "workload_parameters": {"seed": 20260928},
+      "workload_id": "T07-power-v1",
+      "workload_parameters": {
+        "seed": 20260928
+      },
       "measurement_status": "three_seed",
       "parameter_set": {
         "platform": "ASAP7_7p5t_RVT_NLDM",
@@ -615,7 +592,11 @@
         "corner": "WC",
         "utilization": 10,
         "density": 0.6,
-        "seeds": [11, 29, 47]
+        "seeds": [
+          11,
+          29,
+          47
+        ]
       },
       "routed": true,
       "setup_worst_slack_ns": 0.0287688,
@@ -683,13 +664,179 @@
         }
       ]
     },
+    "T08": {
+      "task_id": "T08",
+      "source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
+      "workload_id": "T11-power-v1",
+      "workload_parameters": {
+        "seed": 20260928,
+        "useful_unit": "accepted_body_octet",
+        "tx_frames": 3,
+        "rx_frames": 5,
+        "policy_drops": 1
+      },
+      "workload_sha256": "50475eed79e95c3450db63bedfe6e0dc80dc1f1cf0c480bac2560c50744a237c",
+      "measurement_status": "three_seed",
+      "parameter_set": {
+        "platform": "ASAP7_7p5t_RVT_NLDM",
+        "period_ps": 1000,
+        "corner": "mixed_WC_standard_cells_TT_SRAM",
+        "utilization": 10,
+        "density": 0.6,
+        "seeds": [
+          11,
+          29,
+          47
+        ],
+        "ppa_policy_revision": "2.0-lambdapdk-tdp-1ghz",
+        "clock_periods_ps": {
+          "logic_clk": 1000,
+          "tx_clk": 1000,
+          "rx_clk": 1000
+        },
+        "asynchronous_clock_groups": [
+          [
+            "logic_clk",
+            "tx_clk",
+            "rx_clk"
+          ]
+        ],
+        "memory_mapping": "lambdapdk_tdp_4096x32",
+        "sram_contract": {
+          "revision": "2.0-lambdapdk-tdp-1ghz",
+          "cell": "fakeram7_tdp_4096x32",
+          "upstream_commit": "15c783cc336ca002d2c31adfd2c2b14b363c66cf",
+          "model_sha256": {
+            "vendor/lambdapdk_fakeram7/upstream/nldm/fakeram7_tdp_4096x32.lib": "2d7dc6e54dec2eae35db27a812d79a5d29faa5c2867c85a5fab9bbbdc037781a",
+            "vendor/lambdapdk_fakeram7/upstream/lef/fakeram7_tdp_4096x32.lef": "f0795e22e0e7c464e197eef5423fbfbfb826c8528685d00dfd6fe8f1afd01127",
+            "vendor/lambdapdk_fakeram7/sim/fakeram7_tdp_4096x32.v": "e9de7756dfa3a68c4cd055915a41eca4ace81f8a77715d3facb92f32341bcf2a",
+            "evaluator/fixtures/t11_mac/sram_libmap.txt": "45dd6f689a6f619db5fa1be9d4909161d76c55bae9e9bcb79526192edf114917",
+            "evaluator/fixtures/t11_mac/sram_map.v": "7b5baad56d0ae0c8face110065b7f4e7344a4d1b831dbe3aa95ddb465e8399e9",
+            "evaluator/fixtures/t11_mac/sram_stub.v": "ea181d3136fcd8f2039378da6158fa795630c6a17e954bada2ede87c11eb33a6",
+            "evaluator/t11_sram.py": "7ba31a7bfdf7941be3b25ee2f862e06037a9194c5ecdb79f059f31ec85c273a8"
+          },
+          "contract_sha256": "937fe4c8f528cd6bd9a00985276f4a829c271d1c630ee9ca4279b1ba4bdd5f08",
+          "corner_policy": {
+            "setup_standard_cells": "WC",
+            "hold_standard_cells": "WC",
+            "sram_timing": "TT_0.7V_25C_research_model",
+            "power_standard_cells": "TT",
+            "power_sram": "TT",
+            "full_chip_worst_corner_signoff": false
+          },
+          "drc_scope": "OpenROAD detailed-router interconnect/pin-access DRC; macro internals excluded",
+          "lvs": "not_performed_not_required_for_research_PPA",
+          "capacity_bits_per_macro": 131072,
+          "mapping": "Yosys memory_libmap; independent positive-edge 1W1R; full physical width charged",
+          "limitations": [
+            "SRAM delay/power are simplified upstream predictions, not SPICE characterization",
+            "Macro GDS and internal transistor-level DRC/LVS are not provided",
+            "No fabricated SS/FF SRAM corners; timing is explicitly mixed-corner"
+          ]
+        },
+        "drc_scope": "OpenROAD detailed-router interconnect/pin-access DRC; macro internals excluded",
+        "lvs_performed": false
+      },
+      "routed": true,
+      "setup_worst_slack_ns": 0.165093,
+      "hold_worst_slack_ns": 0.0120825,
+      "drc_violations": 0,
+      "annotation_fraction": 1.0,
+      "area_um2": 20073.793999999998,
+      "delay_ns": 0.8334259999999999,
+      "energy_per_op_pj": 21.2535665735568,
+      "per_seed": [
+        {
+          "layout_seed": 11,
+          "area_um2": 20073.793999999998,
+          "delay_ns": 0.8334259999999999,
+          "setup_worst_slack_ns": 0.166574,
+          "hold_worst_slack_ns": 0.0126662,
+          "drc_violations": 0,
+          "energy_per_op_pj": 21.2535665735568,
+          "power_w": 0.0134,
+          "ops": 4296,
+          "annotation_fraction": 1.0,
+          "macro_count": 2,
+          "macro_area_um2": 18956.224,
+          "standard_cell_area_um2": 1117.57,
+          "average_power_mw": 13.4,
+          "finish_report_sha256": "d1a0b6aefb83b897a70f799d2054f82916c8ef471bbd36f5fa0be76b70106f08",
+          "drc_report_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "power_report_sha256": "a37a70ca8d1b8a45b2b055b88152e805f5b30c9241d7a849b1b461516f26419a",
+          "constraint_sha256": "f3f3085da51d130a64bd37c4a909173d10be321f70e5742017b74814fa980783",
+          "config_sha256": "6cbf787970e612edfb6c877b2812696b36fdcdb3ed826e01fdd374d53ad6f6bc",
+          "evidence_route_record": "evaluator/fixtures/t08_reference_20261008/seed11/route.json",
+          "evidence_power_record": "evaluator/fixtures/t08_reference_20261008/seed11/power.json"
+        },
+        {
+          "layout_seed": 29,
+          "area_um2": 20073.793999999998,
+          "delay_ns": 0.8349070000000001,
+          "setup_worst_slack_ns": 0.165093,
+          "hold_worst_slack_ns": 0.0123623,
+          "drc_violations": 0,
+          "energy_per_op_pj": 21.2535665735568,
+          "power_w": 0.0134,
+          "ops": 4296,
+          "annotation_fraction": 1.0,
+          "macro_count": 2,
+          "macro_area_um2": 18956.224,
+          "standard_cell_area_um2": 1117.57,
+          "average_power_mw": 13.4,
+          "finish_report_sha256": "f38b880963cf3a290f1e945fa614ccfefbf8c280f3f7a61a80ec80d3580a82fc",
+          "drc_report_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "power_report_sha256": "b5875abb68f38925a0822acdf9e365591b3fe464ecdb7167b7140fe1dc2984a7",
+          "constraint_sha256": "f3f3085da51d130a64bd37c4a909173d10be321f70e5742017b74814fa980783",
+          "config_sha256": "8fddd6ee77b248d1eabccb6c5a73f3b2b5f9148e58c4288fb60432acc887ec47",
+          "evidence_route_record": "evaluator/fixtures/t08_reference_20261008/seed29/route.json",
+          "evidence_power_record": "evaluator/fixtures/t08_reference_20261008/seed29/power.json"
+        },
+        {
+          "layout_seed": 47,
+          "area_um2": 20073.793999999998,
+          "delay_ns": 0.833354,
+          "setup_worst_slack_ns": 0.166646,
+          "hold_worst_slack_ns": 0.0120825,
+          "drc_violations": 0,
+          "energy_per_op_pj": 21.2535665735568,
+          "power_w": 0.0134,
+          "ops": 4296,
+          "annotation_fraction": 1.0,
+          "macro_count": 2,
+          "macro_area_um2": 18956.224,
+          "standard_cell_area_um2": 1117.57,
+          "average_power_mw": 13.4,
+          "finish_report_sha256": "0b78e05f1b95dbce38b60ca668086e0887f2d0aaa94708fcddb69630f85fbf90",
+          "drc_report_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "power_report_sha256": "f47b3908f3343fe73a558acc896602b66744ecb2a54700c5f2b29689c363085b",
+          "constraint_sha256": "f3f3085da51d130a64bd37c4a909173d10be321f70e5742017b74814fa980783",
+          "config_sha256": "ada0ab6f0c1e26f49b620122fe81e34db688bdaa49d8fce82e1c3c1058174470",
+          "evidence_route_record": "evaluator/fixtures/t08_reference_20261008/seed47/route.json",
+          "evidence_power_record": "evaluator/fixtures/t08_reference_20261008/seed47/power.json"
+        }
+      ],
+      "legacy_task_id": "T11",
+      "qualification_status": "qualified_1ghz",
+      "average_power_mw": 13.4,
+      "freeze_evidence": {
+        "legacy_task_id": "T11",
+        "frozen_at_utc": "2026-10-08T10:40:21.622906+00:00",
+        "source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
+        "functional_passes": 111,
+        "stress_passes": 270,
+        "freeze_manifest_sha256": "5455e2dfa5ab99830e08a423a8a074036d658107585d784887570ad72c24a74b"
+      }
+    },
     "T09": {
       "task_id": "T09",
-      "qualification_status": "qualified_1ghz",
-      "source_sha256": "e45eebec486e192eb4288bfac639a6708e07015b4a855ddb4a1c4a2c2e593591",
-      "workload_sha256": "9ea3d82ccc8d3f96f86965fdda0de98153a10e0ae7cf841c7fba8beee9404ac0",
+      "source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
       "workload_id": "T09-power-v1",
-      "workload_parameters": {"seed": 20260928, "elf_sha256": "81409d0bca3da16b2da73233324a59632daf2a8f7d64b64284a6663397f782bd"},
+      "workload_parameters": {
+        "seed": 20260928,
+        "elf_sha256": "81409d0bca3da16b2da73233324a59632daf2a8f7d64b64284a6663397f782bd"
+      },
+      "workload_sha256": "e957abc96a65b67caf414f0bfd845389e3fee702d92d7e53a6e4d1f925233ee2",
       "measurement_status": "three_seed",
       "parameter_set": {
         "platform": "ASAP7_7p5t_RVT_NLDM",
@@ -697,73 +844,97 @@
         "corner": "WC",
         "utilization": 10,
         "density": 0.6,
-        "seeds": [11, 29, 47]
+        "seeds": [
+          11,
+          29,
+          47
+        ]
       },
       "routed": true,
-      "setup_worst_slack_ns": 0.000315858,
-      "hold_worst_slack_ns": 0.0338729,
+      "setup_worst_slack_ns": 0.00900757,
+      "hold_worst_slack_ns": 0.0435018,
       "drc_violations": 0,
       "annotation_fraction": 1.0,
-      "area_um2": 2490.07,
-      "delay_ns": 0.99046496,
-      "average_power_mw": 5.54,
-      "energy_per_op_pj": 31.12363520408163,
+      "area_um2": 2270.98,
+      "delay_ns": 0.99064659,
+      "energy_per_op_pj": 20.56672193877551,
       "per_seed": [
         {
           "layout_seed": 11,
-          "area_um2": 2490.02,
-          "delay_ns": 0.9875899,
-          "setup_worst_slack_ns": 0.0124101,
-          "hold_worst_slack_ns": 0.0338729,
+          "area_um2": 2270.98,
+          "delay_ns": 0.99064659,
+          "setup_worst_slack_ns": 0.00935341,
+          "hold_worst_slack_ns": 0.0447064,
           "drc_violations": 0,
-          "energy_per_op_pj": 31.12363520408163,
-          "power_w": 0.00554,
-          "average_power_mw": 5.54,
+          "energy_per_op_pj": 20.56672193877551,
+          "power_w": 0.00582,
           "ops": 1568,
           "annotation_fraction": 1.0,
-          "config_sha256": "1fc44453dc7c69bfc15d7fc2500dba62c66286a9d366067648300dcafe98a05b",
+          "route_record": "/mnt/ubu_3T/ic_bcmk_trials/t09_reference_opt_20261009/v10_route_s11/result.json",
+          "power_record": "/mnt/ubu_3T/ic_bcmk_trials/t09_reference_opt_20261009/v10_power_s11/result.json",
+          "config_sha256": "3e85358b4e77446e894239bae15d0a454d82aaa386292685c4f5d3d95bdb4808",
           "constraint_sha256": "fd5f90c682a00d97cfeae11eb01f435c5d6b708fc4cb0b6868be5ed6811b2d11",
-          "finish_report_sha256": "1d131c455f322ee5c2840918e102f8d01a457fd86e125fff23010c3b287857a5",
+          "finish_report_sha256": "9aa00a12fb741fa397f4ec3d55ca6b55a1dac48a57bbb124b8ef575b1d9b7a19",
           "drc_report_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-          "power_report_sha256": "c3dc646b4b0f618b8da50242b336b5880e494b6c40297b240c89b09e1095b82c"
+          "power_report_sha256": "5da00a5e14a6a1d9b4c880c1554a29fa3831834b66546b59475bdaeebb3438c3",
+          "routed_netlist_sha256": "8870fe37e6875e5543b4ee94c62213f49db094fb22fe308668e4cf081d18889c",
+          "routed_spef_sha256": "6fca03bb768b07a0e36794b10df1049b6187b7393431bc575ebe3297080bd93c",
+          "evidence_route_record": "evaluator/fixtures/t09_cpu_20261009_cycles10/seed11/route.json",
+          "evidence_power_record": "evaluator/fixtures/t09_cpu_20261009_cycles10/seed11/power.json",
+          "average_power_mw": 5.819999999999999
         },
         {
           "layout_seed": 29,
-          "area_um2": 2490.07,
-          "delay_ns": 0.999684142,
-          "setup_worst_slack_ns": 0.000315858,
-          "hold_worst_slack_ns": 0.034988,
+          "area_um2": 2270.98,
+          "delay_ns": 0.9851014,
+          "setup_worst_slack_ns": 0.0148986,
+          "hold_worst_slack_ns": 0.0435018,
           "drc_violations": 0,
-          "energy_per_op_pj": 31.12363520408163,
-          "power_w": 0.00554,
-          "average_power_mw": 5.54,
+          "energy_per_op_pj": 20.56672193877551,
+          "power_w": 0.00582,
           "ops": 1568,
           "annotation_fraction": 1.0,
-          "config_sha256": "0468017a424c87a6b007110e4395973515a94b9b7fb3fa061ae35b5c1c291329",
+          "route_record": "/mnt/ubu_3T/ic_bcmk_trials/t09_reference_opt_20261009/v10_route_s29/result.json",
+          "power_record": "/mnt/ubu_3T/ic_bcmk_trials/t09_reference_opt_20261009/v10_power_s29/result.json",
+          "config_sha256": "6d2b0fc152ef01f08bd86fa55f2f426d46872aa926a3bf38206b25debff2f755",
           "constraint_sha256": "fd5f90c682a00d97cfeae11eb01f435c5d6b708fc4cb0b6868be5ed6811b2d11",
-          "finish_report_sha256": "110ae24973ca7b98fc57a7385e844270d3cfe6a52ebc88fa18101f8bdfa9d9e6",
+          "finish_report_sha256": "9f751e729536c3691a25052ca5f5f7917cb8a1e84c35a8a0d22ccb886d7a9658",
           "drc_report_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-          "power_report_sha256": "dec3bc4fd2dca7aa5063082eca1cccf597ba250c4c74382f0c53a8453ec7377f"
+          "power_report_sha256": "c7b41cbd2975e3d5df6973a234ffa66dca049e68dc6147af3a267d3ec510e3ef",
+          "routed_netlist_sha256": "8870fe37e6875e5543b4ee94c62213f49db094fb22fe308668e4cf081d18889c",
+          "routed_spef_sha256": "a5edbc9c7fa261c8ca55b2687fe4a14f721546e676043869480d5840d091fd97",
+          "evidence_route_record": "evaluator/fixtures/t09_cpu_20261009_cycles10/seed29/route.json",
+          "evidence_power_record": "evaluator/fixtures/t09_cpu_20261009_cycles10/seed29/power.json",
+          "average_power_mw": 5.819999999999999
         },
         {
           "layout_seed": 47,
-          "area_um2": 2490.16,
-          "delay_ns": 0.99046496,
-          "setup_worst_slack_ns": 0.00953504,
-          "hold_worst_slack_ns": 0.0357598,
+          "area_um2": 2271.13,
+          "delay_ns": 0.99099243,
+          "setup_worst_slack_ns": 0.00900757,
+          "hold_worst_slack_ns": 0.045690600000000005,
           "drc_violations": 0,
-          "energy_per_op_pj": 31.12363520408163,
-          "power_w": 0.00554,
-          "average_power_mw": 5.54,
+          "energy_per_op_pj": 20.56672193877551,
+          "power_w": 0.00582,
           "ops": 1568,
           "annotation_fraction": 1.0,
-          "config_sha256": "57ef8832007f76e88b5d64ae13fe5d241687ebdb57cd6e04449b47d86b8265b7",
+          "route_record": "/mnt/ubu_3T/ic_bcmk_trials/t09_reference_opt_20261009/v10_route_s47/result.json",
+          "power_record": "/mnt/ubu_3T/ic_bcmk_trials/t09_reference_opt_20261009/v10_power_s47/result.json",
+          "config_sha256": "993ae37a8c26d6e72c0390d39874aac9c74b07a17ab507a443b0e7a696a78466",
           "constraint_sha256": "fd5f90c682a00d97cfeae11eb01f435c5d6b708fc4cb0b6868be5ed6811b2d11",
-          "finish_report_sha256": "e6bf357951b24205b3c13e273fd14ee71c4eb9f816c8bc9f859ba4a227a81d7d",
+          "finish_report_sha256": "62c79c564882a80e6002ad128477d0ef401a4891d5c06b8e7c8edf9a97dc0932",
           "drc_report_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-          "power_report_sha256": "498b718705fb45eebc91d8a7391f49eeaeb628a29e348cedca7b4f1a727e2354"
+          "power_report_sha256": "520ca6c6317368b6880c4b364aad6fc66998b268127f3f5811efda2da39609eb",
+          "routed_netlist_sha256": "8915ec22dc26eb99e0c95b7d24962018a69a25a9d736c72f9778d40d9f733081",
+          "routed_spef_sha256": "38feaff3eb88897a9032863d559c735d411c666a704b392353fe0862cc023459",
+          "evidence_route_record": "evaluator/fixtures/t09_cpu_20261009_cycles10/seed47/route.json",
+          "evidence_power_record": "evaluator/fixtures/t09_cpu_20261009_cycles10/seed47/power.json",
+          "average_power_mw": 5.819999999999999
         }
-      ]
+      ],
+      "qualification_status": "qualified_1ghz",
+      "timing_policy_revision": "port_timing_v1",
+      "average_power_mw": 5.819999999999999
     }
   }
 }

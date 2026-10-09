@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://easysilicon.example/schemas/ic-benchmark-model-result-v1.json",
+  "$id": "https://easysilicon.example/schemas/ic-benchmark-model-result-v3.json",
   "title": "Digital IC benchmark task result",
   "type": "object",
   "required": [
@@ -9,6 +9,7 @@
     "task_id",
     "trial_kind",
     "delivery_qualified",
+    "time_limit_seconds",
     "functional_total",
     "functional_possible",
     "full_functional_pass",
@@ -19,24 +20,49 @@
     "ranking_eligible"
   ],
   "properties": {
-    "schema_version": {"const": 1},
+    "schema_version": {"const": 3},
     "model": {"type": "string", "minLength": 1},
     "task_id": {"pattern": "^T(0[1-9]|10)$"},
     "trial_kind": {"enum": ["official", "pre_release_pilot", "diagnostic"]},
-    "delivery_qualified": {"type": "boolean"},
-    "functional_total": {"type": "number", "minimum": 0, "maximum": 75},
-    "functional_possible": {"const": 75},
-    "full_functional_pass": {"type": "boolean"},
+    "delivery_qualified": {"type": ["boolean", "null"]},
+    "candidate_delivery_error_count": {"type": "integer", "minimum": 0},
+    "candidate_delivery_penalty": {"type": "number", "minimum": 0},
+    "display_score_before_candidate_penalty": {"type": "number", "minimum": 0, "maximum": 105},
+    "candidate_delivery_error_details": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "time_limit_seconds": {"type": "number", "exclusiveMinimum": 0},
+    "functional_total": {"type": ["number", "null"], "minimum": 0, "maximum": 50},
+    "functional_possible": {"const": 50},
+    "full_functional_pass": {"type": ["boolean", "null"]},
     "ppa_eligible": {"type": ["boolean", "null"]},
-    "ppa_score": {"type": ["number", "null"], "minimum": 0, "maximum": 20},
-    "ppa_possible": {"const": 20},
+    "ppa_score": {"type": ["number", "null"], "minimum": 0, "maximum": 50},
+    "ppa_possible": {"const": 50},
     "time_score": {"type": ["number", "null"], "minimum": 0, "maximum": 5},
     "time_possible": {"const": 5},
-    "display_score": {"type": "number", "minimum": 0, "maximum": 100},
-    "display_possible": {"const": 100},
+    "display_score": {"type": ["number", "null"], "minimum": 0, "maximum": 105},
+    "display_possible": {"const": 105},
     "score_status": {"type": "string", "minLength": 1},
     "ranking_eligible": {"type": "boolean"},
-    "ranking_ineligible_reason": {"type": "string"}
+    "ranking_ineligible_reason": {"type": "string"},
+    "benchmark_freeze": {
+      "type": "object",
+      "required": ["receipt", "receipt_sha256", "reference_source_sha256", "scope"],
+      "properties": {
+        "receipt": {"enum": ["benchmark/tasks/T08/FREEZE.json", "benchmark/tasks/T09/FREEZE.json"]},
+        "receipt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "reference_source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "scope": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    }
   },
+  "allOf": [
+    {
+      "if": {"properties": {"trial_kind": {"const": "official"}}, "required": ["trial_kind"]},
+      "then": {"properties": {"delivery_qualified": {"type": "boolean"}, "functional_total": {"type": "number"}, "full_functional_pass": {"type": "boolean"}, "display_score": {"type": "number"}}}
+    }
+  ],
   "additionalProperties": true
 }

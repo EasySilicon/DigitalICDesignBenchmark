@@ -9,3 +9,8 @@ reports/
 logs/
 # Local-only T10 reference-RTL iteration notes; release criteria live in tasks/T10/acceptance.md.
 benchmark/npu-quality-gates.md
+
+# Publish final model summaries only.
+/results/*/*
+!/results/*/summary.json
+/evaluator/*_pilot_*.json

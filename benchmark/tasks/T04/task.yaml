@@ -1,6 +1,13 @@
 id: T04
-title: apb4_timer
+title: round_robin_stream_arbiter
 level_hypothesis: 4
 origin: original
-time_limit_minutes: 180
-same_model_token_cap: 120000
+time_limit_minutes: 90
+same_model_token_cap: 160000
+f_points:
+- 20
+- 20
+- 20
+p_points:
+- 10
+- 5

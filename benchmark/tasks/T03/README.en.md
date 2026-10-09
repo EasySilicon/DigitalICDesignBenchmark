@@ -1,4 +1,4 @@
-# T03 · Parameterized synchronous FIFO
+# T03 · APB4 timer and interrupt peripheral
 
 [中文](README.md)
 

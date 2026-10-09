@@ -21,10 +21,8 @@ From the repository root:
 python3 -m venv .venv
 .venv/bin/python -m pip install -r env/requirements-spec.txt
 .venv/bin/python env/check_env.py --profile spec
-.venv/bin/python benchmark/validate_spec.py --verify-source
 ```
 
-Without network access, omit `--verify-source`. For a full local report after installing tools:
 
 ```bash
 .venv/bin/python env/check_env.py --profile all \
@@ -33,3 +31,5 @@ Without network access, omit `--verify-source`. For a full local report after in
 ```
 
 Clone the ORFS and ACT4 revisions in `benchmark/sources.lock.yaml`; point ORFS's `PLATFORM_DIR` to this repository's `vendor/asap7`. A production evaluation image must pin every tool/package revision, the ASAP7 hashes, and its OCI digest. See the Chinese document for detailed Ubuntu installation notes and the ORFS compatibility patch used for local exploration.
+
+T08/T09 task-level freeze (2026-10-09): [T08 receipt](../benchmark/tasks/T08/FREEZE.json), [T09 receipt](../benchmark/tasks/T09/FREEZE.json). Run `python3 benchmark/freeze_tasks.py` from the repository root to verify specification, RTL, judge, scoring, baseline and portable evidence hashes. All six T09 archives have been regraded; untested T08 models remain null. Host-only receipts are excluded from candidate packages. T10 PPA and the suite-wide tool-image/release gates remain pending.

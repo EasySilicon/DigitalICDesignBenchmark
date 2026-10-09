@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Inspect a Yosys JSON netlist for direct two-flop T06 pointer synchronizers.
+"""Inspect a Yosys JSON netlist for direct two-flop T05 pointer synchronizers.
 
 This checks destination-domain active-low asynchronous resets. It does not prove Gray coding, memory safety,
 metastability MTBF, or physical CDC closure.
@@ -40,6 +40,11 @@ def inspect(module: dict, first_clock: str, second_clock: str, minimum: int) -> 
     for cell_name, cell in cells.items():
         conn = cell["connections"]
         directions = cell.get("port_directions", {})
+        # Recent Yosys versions may retain hierarchy provenance as zero-port
+        # $scopeinfo pseudo-cells after ``flatten``.  They are metadata rather
+        # than netlist logic and therefore cannot participate in a crossing.
+        if cell["type"] == "$scopeinfo" and not conn:
+            continue
         if not directions and not cell["type"].startswith("$mem"):
             findings.append(f"{cell_name}: unknown port directions; crossing not classifiable")
         for port_name, bits in conn.items():

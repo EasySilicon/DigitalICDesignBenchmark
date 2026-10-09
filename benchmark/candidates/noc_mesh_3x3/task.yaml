@@ -1,0 +1,6 @@
+id: candidate_noc_mesh_3x3
+title: noc_mesh_3x3_dual_vc
+level_hypothesis: 10
+origin: original
+time_limit_minutes: 120
+same_model_token_cap: 1200000

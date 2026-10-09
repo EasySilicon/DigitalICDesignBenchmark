@@ -13,7 +13,7 @@
     "ppa_score", "ppa_rank_bucket", "time_score", "display_score", "test_groups"
   ],
   "properties": {
-    "suite_id": {"const": "ic-delivery-rtl-v0.2"},
+    "suite_id": {"const": "ic-delivery-rtl-v0.3"},
     "run_id": {"type": "string", "minLength": 1},
     "track": {"enum": ["product", "same_model_control"]},
     "system": {"type": "string", "minLength": 1},
@@ -29,12 +29,19 @@
     "model_cost_usd": {"type": "number", "minimum": 0},
     "elapsed_seconds": {"type": "number", "minimum": 0},
     "time_limit_seconds": {"type": "number", "exclusiveMinimum": 0},
-    "functional_basic": {"type": "number", "minimum": 0, "maximum": 60},
-    "functional_edges": {"type": "number", "minimum": 0, "maximum": 15},
-    "functional_total": {"type": "number", "minimum": 0, "maximum": 75},
+    "functional_basic": {"type": "number", "minimum": 0, "maximum": 40},
+    "functional_edges": {"type": "number", "minimum": 0, "maximum": 10},
+    "functional_total": {"type": "number", "minimum": 0, "maximum": 50},
     "full_functional_pass": {"type": "boolean"},
     "delivery_qualified": {"type": "boolean"},
     "delivery_notes": {"type": "array", "items": {"type": "string"}},
+    "candidate_delivery_error_count": {"type": "integer", "minimum": 0},
+    "candidate_delivery_penalty": {"type": "number", "minimum": 0},
+    "display_score_before_candidate_penalty": {"type": "number", "minimum": 0, "maximum": 105},
+    "candidate_delivery_error_details": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
     "mutation_killed": {"type": ["integer", "null"], "minimum": 0},
     "mutation_eligible": {"type": ["integer", "null"], "minimum": 0},
     "ppa_eligible": {"type": "boolean"},
@@ -45,18 +52,18 @@
       "properties": {
         "area_um2": {"type": "number", "exclusiveMinimum": 0},
         "delay_ns": {"type": "number", "exclusiveMinimum": 0},
-        "setup_worst_slack_ns": {"type": "number", "minimum": 0},
-        "hold_worst_slack_ns": {"type": "number", "minimum": 0},
-        "drc_violations": {"const": 0},
+        "setup_worst_slack_ns": {"type": "number"},
+        "hold_worst_slack_ns": {"type": "number"},
+        "drc_violations": {"type": "integer", "minimum": 0},
         "average_power_mw": {"type": "number", "minimum": 0},
         "energy_per_op_pj": {"type": "number", "exclusiveMinimum": 0},
         "annotation_fraction": {"type": "number", "minimum": 0, "maximum": 1}
       }
     },
-    "ppa_score": {"type": "number", "minimum": 0, "maximum": 20},
+    "ppa_score": {"type": "number", "minimum": 0, "maximum": 50},
     "ppa_rank_bucket": {"type": "integer", "minimum": 0, "maximum": 40},
     "time_score": {"type": "number", "minimum": 0, "maximum": 5},
-    "display_score": {"type": "number", "minimum": 0, "maximum": 100},
+    "display_score": {"type": "number", "minimum": 0, "maximum": 105},
     "test_groups": {
       "type": "array",
       "items": {

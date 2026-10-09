@@ -1,0 +1,16 @@
+{
+  "task_id": "T09",
+  "phase": "run",
+  "timing_policy": "port_timing_v1",
+  "cases_total": 22,
+  "cases_passed": 22,
+  "elapsed_seconds": 0.144,
+  "rtl_sha256": {
+    "ref.sv": "e7d93ba595d9ebb3fcec4a93f230226fb3c737d2f579bd339082439fc0302e6d"
+  },
+  "checker_sha256": {
+    "t09_timing_check.py": "b91e233aaabacc640a4496587d162edcc72f665d9cd3b447a216e214daf3447b",
+    "t09_timing_tb.sv": "80d57d27b2d551b7d3a272b772e5d0cfd8ab2a86e2e4ea24c7005ff7788891ac"
+  },
+  "scope": "paired external cycle penalties, not internal stall-signal duration"
+}

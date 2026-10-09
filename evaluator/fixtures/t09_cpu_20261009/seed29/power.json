@@ -1,0 +1,25 @@
+{
+  "task": "T09",
+  "flow_result_dir": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/rv32i_five_stage_cpu/ic_probe_t09_wc_p1000_u10_d0.6_s29_7e322cf1f4",
+  "workload_id": "T09-power-v1",
+  "workload_parameters": {
+    "seed": 20260928,
+    "elf_sha256": "81409d0bca3da16b2da73233324a59632daf2a8f7d64b64284a6663397f782bd"
+  },
+  "seed": 20260928,
+  "workload_sha256": "e957abc96a65b67caf414f0bfd845389e3fee702d92d7e53a6e4d1f925233ee2",
+  "ops": 1568,
+  "vcd_window_seconds": 5.541e-06,
+  "vcd_clock_period_ps": {
+    "clk": 1000.0
+  },
+  "activity_annotation": 1.0,
+  "power_w": {
+    "internal": 0.00437,
+    "switching": 0.00145,
+    "leakage": 2.15e-06,
+    "total": 0.00582
+  },
+  "energy_j_per_op": 2.0566721938775507e-11,
+  "measurement": "checked single-seed gate-level power workload"
+}

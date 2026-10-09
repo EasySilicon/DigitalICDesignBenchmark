@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "from_suite": "ic-delivery-rtl-v0.2",
+  "to_suite": "ic-delivery-rtl-v0.3",
+  "date": "2026-10-08",
+  "removed_task": "T01",
+  "task_id_map": {
+    "T02": "T01",
+    "T03": "T02",
+    "T04": "T03",
+    "T05": "T04",
+    "T06": "T05",
+    "T07": "T06",
+    "T08": "T07",
+    "T11": "T08",
+    "T09": "T09",
+    "T10": "T10"
+  },
+  "weights_policy": "unchanged_by_new_slot",
+  "historical_trial_paths": "preserved; never renamed",
+  "frozen_reference_receipt": "benchmark/tasks/T08/PPA_FREEZE.json",
+  "immutable_internal_model_names": [
+    "evaluator/t11_sram.py",
+    "evaluator/fixtures/t11_mac/sram_libmap.txt",
+    "evaluator/fixtures/t11_mac/sram_map.v",
+    "evaluator/fixtures/t11_mac/sram_stub.v"
+  ],
+  "internal_names_note": "Historical physical-model identifiers are intentionally stable to preserve the measured SRAM contract hash; the only active MAC task identifier is T08."
+}

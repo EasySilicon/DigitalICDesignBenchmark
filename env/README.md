@@ -2,7 +2,7 @@
 
 [English](README.en.md)
 
-本页给下载者提供**分阶段**环境准备方法。仓库当前为 `design_only`：规范校验和十题独立端口公开冒烟可运行（T10 为设计稿级公开样例），ACT4 RV32I/Zicsr 的 45 个生成 ELF 也已提供；T01–T09 的独立验收器、参考 RTL、变异体与 1 GHz PPA 基线已随仓库提供并完成本地校准，但尚无正式榜单；T10 的隐藏验收及正式 PPA 评分仍待实现与冻结。运行 `check_env.py` 只能检查依赖是否存在，不能代替[发布门禁](../benchmark/README.md#发布门禁)。推荐 Linux x86-64、Docker/OCI 与至少 16 vCPU、32 GiB RAM、100 GiB 空间；正式榜单应发布单一镜像 digest，避免依赖用户系统版本。
+本页给下载者提供**分阶段**环境准备方法。仓库当前为 `design_only`：规范校验和十题独立端口公开冒烟可运行（T10 为设计稿级公开样例），ACT4 RV32I/Zicsr 的 45 个生成 ELF 也已提供；T01–T09 的独立验收器、参考 RTL、变异体与 1 GHz PPA 基线已随仓库提供并完成本地校准，但尚无正式榜单；T08/T09 任务级冻结已完成；T10 功能验收可运行，但完整 DUT PPA 与整套发布仍待完成。运行 `check_env.py` 只能检查依赖是否存在，不能代替[发布门禁](../benchmark/README.md#发布门禁)。推荐 Linux x86-64、Docker/OCI 与至少 16 vCPU、32 GiB RAM、100 GiB 空间；正式榜单应发布单一镜像 digest，避免依赖用户系统版本。
 
 物理设计和 Verilator 层次编译会产生较大的临时结果。运行前可将 `TMPDIR` 指向有足够空间的数据盘，例如 `mkdir -p /data/ic_bcmk_scratch && export TMPDIR=/data/ic_bcmk_scratch`；Python 评测器的临时编译会使用该目录。ORFS 的结果、日志和报告写在其 `flow/` 工作树内，因此也应把 ORFS 检出放在数据盘，并为重复 PPA 迭代预留空间。探索时应保留正在运行的构建；失败或被替代的构建在提取配置、报告和结果摘要后，直接删除其大型结果与编译目录。只有复测需要的基线数据库及宏抽象文件才长期保留。
 
@@ -12,9 +12,9 @@
 | --- | --- | --- |
 | 规范检查 | Python ≥3.10、PyYAML、jsonschema | [requirements-spec.txt](requirements-spec.txt) 锁定了本地已验证版本；现在可用 |
 | RTL 功能预检 | Verilator、Yosys、C++ 编译器、Python/cocotb | 编译/仿真及综合合法性；UVM/SVA 语法须在锁定镜像内按实际测试做冒烟验证；评测器尚未实现 |
-| ASAP7 PPA | Yosys ≥0.58、OpenROAD、GNU make、ORFS 流程脚本、[仓库内 ASAP7 平台](../vendor/README.md) | 映射、放置、时钟树、布线、RC 与 OpenROAD 自身的时序/功耗报告；不单独安装另一套 STA 工具；参数和镜像 digest 待校准 |
-| CPU 验收 | RV32 bare-metal GCC ≥15/objdump、Sail RISC-V 0.14.1、ACT4 锁定修订及 uv ≥0.11.33、Ruby ≥3.4.10、Bundler ≥4.0.21 | 编译 ELF、生成适用 ACT4 与参考轨迹；`check_env.py --profile cpu` 检查这些命令，I/Zicsr 配置与生成 ELF 已提供，完整 CPU 验收未完成 |
-| 可选 | KLayout、波形查看器、综合可视化工具 | 调试或 GDS/DRC；目前 PPA 分数不要求 GDS/DRC，不进入参赛工具清单 |
+| ASAP7 PPA | Yosys ≥0.58、OpenROAD、GNU make、ORFS 流程脚本、[仓库内 ASAP7 平台](../vendor/README.md) | 映射、放置、时钟树、布线、RC 与 OpenROAD 自身的时序/功耗报告；不单独安装另一套 STA 工具；T01–T09 参数已校准，T08/T09 已冻结；统一镜像 digest 待发布 |
+| CPU 验收 | RV32 bare-metal GCC ≥15/objdump、Sail RISC-V 0.14.1、ACT4 锁定修订及 uv ≥0.11.33、Ruby ≥3.4.10、Bundler ≥4.0.21 | 编译 ELF、生成适用 ACT4 与参考轨迹；`check_env.py --profile cpu` 检查这些命令，I/Zicsr 配置与生成 ELF 已提供，完整 CPU 功能、22 项周期检查与三种子 1 GHz 参考已冻结 |
+| 可选 | KLayout、波形查看器、综合可视化工具 | 调试或 GDS/DRC；研究 PPA 不要求完整 GDS/LVS；采用 OpenROAD 布线 DRC，候选违例触发 0.5 倍罚因子 |
 
 所有参赛系统在同一预装镜像运行。参赛者的模型 API 与费用配置属于[评测资源规则](../benchmark/README.md#资源约束)，不应写入公开镜像。ASAP7 已随仓库提供，无需另行下载；ACT4、Sail 和 ORFS 的修订见[来源锁定](../benchmark/sources.lock.yaml)；正式版还需锁定二进制、Python/C++ 包及工具镜像 digest。
 
@@ -26,10 +26,9 @@
 python3 -m venv .venv
 .venv/bin/python -m pip install -r env/requirements-spec.txt
 .venv/bin/python env/check_env.py --profile spec
-.venv/bin/python benchmark/validate_spec.py --verify-source
 ```
 
-`--verify-source` 会下载并核对锁定的 CVDP 数据文件；离线时改为不带该参数。完整本地依赖报告：
+完整本地依赖报告：
 
 ```bash
 .venv/bin/python env/check_env.py --profile all --orfs-root /path/to/OpenROAD-flow-scripts --act4-root /path/to/riscv-arch-test --verify-platform-hashes

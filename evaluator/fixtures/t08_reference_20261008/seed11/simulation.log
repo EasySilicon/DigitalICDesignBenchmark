@@ -1,0 +1,6 @@
+T11_POWER_PASS TX=3 RX=5 DROP=1 OPS=4296
+- /mnt/ubu_3T/ic_bcmk_trials/t11_single_seed_opt_20261008_WW0FuF/frozen_runner/evaluator/fixtures/t11_mac/tb_power.sv:262: Verilog $finish
+POWER_OPS=4296
+- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel
+- Verilator: $finish at 7us; walltime 0.084 s; speed 81.187 us/s
+- Verilator: cpu 0.084 s on 1 threads; allocated 6 MB

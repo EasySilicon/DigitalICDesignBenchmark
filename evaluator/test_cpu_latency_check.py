@@ -62,6 +62,20 @@ class CpuLatencyCheckTest(unittest.TestCase):
         })
         self.assertIn("duplicate retirement", check_trace(rows)["reason"])
 
+    def test_throttled_fetches_with_correct_individual_latency_fail(self) -> None:
+        rows = []
+        for cycle in range(2*INSTRUCTION_COUNT+EDGE_DELTA):
+            fetch_index = cycle//2
+            retire_cycle = cycle-EDGE_DELTA
+            retire_index = retire_cycle//2
+            rows.append({"cycle": cycle,
+                         "imem_valid_pre": cycle % 2 == 0 and fetch_index < INSTRUCTION_COUNT,
+                         "imem_addr_pre": START_PC+4*fetch_index,
+                         "commit_valid_post": retire_cycle >= 0 and retire_cycle % 2 == 0
+                         and retire_index < INSTRUCTION_COUNT,
+                         "commit_pc_post": START_PC+4*retire_index})
+        self.assertIn("fetch bubble", check_trace(rows)["reason"])
+
 
 if __name__ == "__main__":
     unittest.main()

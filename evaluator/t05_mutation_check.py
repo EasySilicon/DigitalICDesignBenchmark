@@ -1,61 +1,108 @@
 #!/usr/bin/env python3
-"""Qualify deterministic T05 RTL mutants against the independent evaluator."""
+"""Qualify deterministic T05 RTL mutants against behavioral and CDC checks."""
 
 from __future__ import annotations
 
 import argparse
 import json
+import re
+import subprocess
 import tempfile
 from pathlib import Path
 
 from t05_check import ROOT, run
 
 
+QUALIFICATION_PARAMETERS = ((8, 8), (32, 16))
+FAILURE_GROUP = re.compile(r"^IC_FAILURE (AC-\d+) ", re.MULTILINE)
+
+
 MUTATIONS = {
-    "advance_without_ready": (
-        "else if (out_valid && out_ready) begin",
-        "else if (out_valid) begin",
+    "one_stage_read_pointer": (
+        "rd_gray_sync2 <= rd_gray_sync1;",
+        "rd_gray_sync2 <= rd_gray;",
     ),
-    "fixed_priority": (
-        "search_start <= out_id + 1'b1;",
-        "search_start <= '0;",
+    "one_stage_write_pointer": (
+        "wr_gray_sync2 <= wr_gray_sync1;",
+        "wr_gray_sync2 <= wr_gray;",
     ),
-    "multiple_ready": (
-        "in_ready = selected & {N{out_ready}};",
-        "in_ready = {N{out_ready}};",
+    "binary_write_pointer_crossing": (
+        "assign wr_gray_next = (wr_bin_next >> 1) ^ wr_bin_next;",
+        "assign wr_gray_next = wr_bin_next;",
     ),
-    "no_hold": (
-        "locked <= 1'b1;",
-        "locked <= 1'b0;",
+    "wrong_full_gray_polarity": (
+        "assign full_next = wr_gray_next == {\n"
+        "    ~rd_gray_sync2[PTR_W-1:PTR_W-2], rd_gray_sync2[PTR_W-3:0]\n"
+        "  };",
+        "assign full_next = wr_gray_next == {\n"
+        "    ~rd_gray_sync2[PTR_W-1], rd_gray_sync2[PTR_W-2:0]\n"
+        "  };",
     ),
-    "no_pointer_reset": (
-        "search_start <= '0;",
-        "search_start <= search_start;",
+    "wrong_read_address": (
+        "assign rd_data = mem[rd_bin[ADDR_W-1:0]];",
+        "assign rd_data = mem[rd_bin[ADDR_W-1:0] + 1'b1];",
     ),
-    "only_channel_zero": (
-        "out_valid = locked || (|in_valid);",
-        "out_valid = locked || grant[0];",
+    "overwrite_slot_zero": (
+        "mem[wr_bin[ADDR_W-1:0]] <= wr_data;",
+        "mem['0] <= wr_data;",
     ),
-    "skip_pointer": (
-        "search_start <= out_id + 1'b1;",
-        "search_start <= out_id + 2'b10;",
+    "truncate_read_data": (
+        "assign rd_data = mem[rd_bin[ADDR_W-1:0]];",
+        "assign rd_data = WIDTH'(mem[rd_bin[ADDR_W-1:0]][7:0]);",
     ),
-    "truncate_data": (
-        "out_data |= in_data[i] & {WIDTH{selected[i]}};",
-        "out_data |= WIDTH'(8'(in_data[i])) & {WIDTH{selected[i]}};",
+    "advance_read_without_transfer": (
+        "assign rd_bin_next  = rd_bin + (rd_valid && rd_ready);",
+        "assign rd_bin_next  = rd_bin + rd_ready;",
     ),
-    "wrong_lane": (
-        "out_data |= in_data[i] & {WIDTH{selected[i]}};",
-        "out_data |= in_data[(i+1)%N] & {WIDTH{selected[i]}};",
+    "invert_written_data": (
+        "mem[wr_bin[ADDR_W-1:0]] <= wr_data;",
+        "mem[wr_bin[ADDR_W-1:0]] <= ~wr_data;",
+    ),
+    "shift_write_address": (
+        "mem[wr_bin[ADDR_W-1:0]] <= wr_data;",
+        "mem[wr_bin[ADDR_W-1:0] + 1'b1] <= wr_data;",
+    ),
+    "unstable_when_blocked": (
+        "assign rd_data = mem[rd_bin[ADDR_W-1:0]];",
+        "assign rd_data = mem[rd_bin[ADDR_W-1:0] + (!rd_ready)];",
+    ),
+    "remote_reset_read_sync": (
+        "always_ff @(posedge wr_clk or negedge wr_rst_n) begin\n"
+        "    if (!wr_rst_n) begin\n"
+        "      rd_gray_sync1",
+        "always_ff @(posedge wr_clk or negedge rd_rst_n) begin\n"
+        "    if (!rd_rst_n) begin\n"
+        "      rd_gray_sync1",
+    ),
+    "remote_reset_write_sync": (
+        "always_ff @(posedge rd_clk or negedge rd_rst_n) begin\n"
+        "    if (!rd_rst_n) begin\n"
+        "      wr_gray_sync1",
+        "always_ff @(posedge rd_clk or negedge wr_rst_n) begin\n"
+        "    if (!wr_rst_n) begin\n"
+        "      wr_gray_sync1",
     ),
 }
+
+
+def synthesize_mutant(source: Path) -> None:
+    for width, depth in QUALIFICATION_PARAMETERS:
+        script = (f"read_verilog -sv {source}\n"
+                  f"chparam -set WIDTH {width} -set DEPTH {depth} asynchronous_fifo\n"
+                  "synth -top asynchronous_fifo\ncheck -assert\n")
+        result = subprocess.run(["yosys", "-Q", "-T", "-q", "-p", script],
+                                text=True, capture_output=True, timeout=180,
+                                check=False)
+        if result.returncode:
+            raise RuntimeError(f"Yosys synthesis failed for WIDTH={width} "
+                               f"DEPTH={depth}: {(result.stdout + result.stderr)[-4000:]}")
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--seed", type=int, default=20260928)
     args = parser.parse_args()
-    reference = (ROOT / "reference/T05/rtl/round_robin_stream_arbiter.sv").read_text()
+    reference = (ROOT / "reference/T05/rtl/asynchronous_fifo.sv").read_text()
     matrix = {}
     with tempfile.TemporaryDirectory(prefix="ic_bcmk_T05_mutants_") as temporary:
         base = Path(temporary)
@@ -65,12 +112,27 @@ def main() -> int:
             submission = base / name
             rtl = submission / "rtl"
             rtl.mkdir(parents=True)
-            (rtl / "dut.sv").write_text(reference.replace(needle, replacement, 1))
+            source = rtl / "dut.sv"
+            source.write_text(reference.replace(needle, replacement, 1))
             (rtl / "files.f").write_text("dut.sv\n")
             try:
-                result = run(submission, args.seed)
+                synthesize_mutant(source)
+                # One small and one large configuration cover both pointer
+                # widths while keeping deterministic mutation qualification
+                # materially cheaper than a full candidate evaluation.
+                result = run(submission, args.seed, QUALIFICATION_PARAMETERS)
             except Exception as exc:
-                matrix[name] = {"eligible": False, "error": str(exc)}
+                # Some broken FIFOs report an observable protocol failure and
+                # then time out while the testbench drains them. That is a
+                # valid kill, provided Yosys synthesis already succeeded.
+                message = str(exc)
+                failed_groups = sorted(set(FAILURE_GROUP.findall(message)))
+                if message.startswith("simulation failed") and failed_groups:
+                    matrix[name] = {"eligible": True, "killed": True,
+                                    "failed_groups": failed_groups,
+                                    "terminated_after_failure": True}
+                else:
+                    matrix[name] = {"eligible": False, "error": message}
                 continue
             failed_groups = [group for group, row in result["groups"].items()
                              if row["cases_passed"] != row["cases_total"]]
@@ -81,7 +143,8 @@ def main() -> int:
                "eligible": len(eligible),
                "killed": sum(row["killed"] for row in eligible)}
     print(json.dumps(summary, indent=2))
-    return 0 if eligible and all(row["killed"] for row in eligible) else 1
+    return 0 if len(eligible) == len(MUTATIONS) and len(eligible) >= 12 and \
+        all(row["killed"] for row in eligible) else 1
 
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from evaluator.delivery_check import stage_submission
+from evaluator.delivery_check import check_normal, stage_submission
 
 
 class DeliveryStagingTests(unittest.TestCase):
@@ -34,6 +34,29 @@ class DeliveryStagingTests(unittest.TestCase):
                              "module dut; endmodule\n")
             self.assertEqual((staged / "verif" / "tb.py").read_text(), "# source\n")
             self.assertTrue((staged / "run.sh").stat().st_mode & 0o100)
+
+
+class DeliveryResultTests(unittest.TestCase):
+    @staticmethod
+    def result(tests):
+        return {
+            "tests": tests,
+            "tool_versions": {"verilator": "test-version"},
+            "elapsed_seconds": 1.0,
+        }
+
+    def test_same_name_with_distinct_seeds_is_valid(self):
+        rows = check_normal(self.result([
+            {"name": "AC-01", "passed": True, "seed": 11},
+            {"name": "AC-01", "passed": True, "seed": 29},
+            {"name": "AC-01", "passed": True, "seed": 47},
+        ]))
+        self.assertEqual(len(rows), 3)
+
+    def test_same_name_and_seed_is_duplicate(self):
+        duplicate = {"name": "AC-01", "passed": True, "seed": 11}
+        with self.assertRaisesRegex(ValueError, "name/seed"):
+            check_normal(self.result([duplicate, dict(duplicate)]))
 
 
 if __name__ == "__main__":

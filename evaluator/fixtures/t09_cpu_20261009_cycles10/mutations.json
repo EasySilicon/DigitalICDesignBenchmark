@@ -1,0 +1,154 @@
+{
+  "mutants": 21,
+  "compilable": 21,
+  "caught": 21,
+  "outcomes": [
+    {
+      "name": "addi_sub",
+      "elf": "int_add_sub_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "commit 0 wdata mismatch"
+    },
+    {
+      "name": "sub_add",
+      "elf": "int_add_sub_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "commit 5 wdata mismatch"
+    },
+    {
+      "name": "xor_or",
+      "elf": "int_bitwise_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "commit 12 wdata mismatch"
+    },
+    {
+      "name": "sra_logical",
+      "elf": "int_shift_immediate_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "commit 8 wdata mismatch"
+    },
+    {
+      "name": "beq_inverted",
+      "elf": "int_beq_bne_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "commit 3 pc mismatch"
+    },
+    {
+      "name": "blt_unsigned",
+      "elf": "int_signed_branches_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "commit 3 pc mismatch"
+    },
+    {
+      "name": "jal_link_plus8",
+      "elf": "int_jal_link_flush_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "commit 3 wdata mismatch"
+    },
+    {
+      "name": "jalr_lsb",
+      "elf": "int_jalr_lsb_x0_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "event 6: expected commit, got trap"
+    },
+    {
+      "name": "lb_zero_extend",
+      "elf": "mem_lb_sign_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "commit 2 wdata mismatch"
+    },
+    {
+      "name": "lh_zero_extend",
+      "elf": "mem_lh_sign_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "commit 2 wdata mismatch"
+    },
+    {
+      "name": "sb_unshifted",
+      "elf": "mem_sb_byte_lane_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "commit 3 strobed mem_wdata mismatch"
+    },
+    {
+      "name": "sb_lane0_only",
+      "elf": "mem_sb_byte_lane_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "commit 3 mem_wstrb mismatch"
+    },
+    {
+      "name": "load_lane0_only",
+      "elf": "mem_same_address_partial_sequence_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "commit 10 wdata mismatch"
+    },
+    {
+      "name": "no_rs1_forward",
+      "elf": "haz_ex_to_ex_chain_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "commit 1 wdata mismatch"
+    },
+    {
+      "name": "no_rs2_forward",
+      "elf": "haz_both_sources_same_register_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "commit 1 wdata mismatch"
+    },
+    {
+      "name": "load_misalign_cause5",
+      "elf": "trap_load_misaligned_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "trap 8 cause mismatch"
+    },
+    {
+      "name": "store_fault_cause5",
+      "elf": "trap_store_access_fault_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "trap 10 cause mismatch"
+    },
+    {
+      "name": "mret_skips_one",
+      "elf": "trap_ecall_m_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "commit 29 pc mismatch"
+    },
+    {
+      "name": "mstatus_wrong_mie",
+      "elf": "csr_machine_csr_masks_v1.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "commit 28 wdata mismatch"
+    },
+    {
+      "name": "repeat_bus_request",
+      "elf": "mem_sw_overwrite_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "missing 6 DUT commits"
+    },
+    {
+      "name": "never_accept_response",
+      "elf": "mem_lw_full_width_v0.elf",
+      "compilable": true,
+      "caught": true,
+      "reason": "missing 1 DUT commits"
+    }
+  ]
+}

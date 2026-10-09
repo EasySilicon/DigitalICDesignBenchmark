@@ -1,11 +1,11 @@
-# T07 · AXI4-Lite 到 APB4 桥
+# T07 · 256 B 直接映射写回数据缓存
 
-**设计需求**：一个时钟域，顶层输入包含 `clk,rst_n`；AXI4-Lite 32-bit 从接口连接 APB4 32-bit 主接口。AXI 端具有完整 `AWADDR[31:0]/AWPROT[2:0]/AWVALID/AWREADY`、`WDATA[31:0]/WSTRB[3:0]/WVALID/WREADY`、`BRESP[1:0]/BVALID/BREADY`、`ARADDR[31:0]/ARPROT[2:0]/ARVALID/ARREADY`、`RDATA[31:0]/RRESP[1:0]/RVALID/RREADY`；APB 端具有 `PADDR[15:0],PSEL,PENABLE,PWRITE,PWDATA[31:0],PSTRB[3:0],PPROT[2:0],PRDATA[31:0],PREADY,PSLVERR`。合法写把 `AWPROT` 传到 `PPROT`，合法读把 `ARPROT` 传到 `PPROT`。AW 与 W 可任意先后到达，各缓存一项，组成一笔写；AR 可独立缓存一项。每个方向最多一笔尚未返回的事务；APB 同时只能执行一笔。读写同时待发时按读写交替轮询，第一次优先写。APB 必须有至少一拍 SETUP，之后保持 ACCESS 到 `PREADY=1`，在等待期间控制、地址和写数据稳定。
+**设计需求**：端口还包括 `clk,rst_n`。32-bit 地址/数据，16 条 cache line，每条 16 B、4 个 32-bit word，容量 256 B；直接映射，write-back、write-allocate、little-endian。CPU 侧：`req_valid,req_ready,req_addr[31:0],req_write,req_wdata[31:0],req_wstrb[3:0]`；`rsp_valid,rsp_ready,rsp_rdata[31:0]`。CPU 地址始终 4 字节对齐；读忽略 `req_wstrb`，写以每个字节 strobe 更新目标 word，写响应数据为 0。一次只接受一笔尚未响应完成的 CPU 请求，响应顺序与请求顺序一致。复位使所有 valid/dirty 位为 0；复位只在缓存空闲时施加，不要求清零数据阵列。复位前尚未写回的脏数据按丢弃处理；验收器在检查持久数据的场景里会先驱逐脏行，再施加复位。
 
-**地址和响应**：合法 aperture 为 `0x0000_0000..0x0000_FFFF` 且 4 字节对齐；不合法请求不访问 APB，返回 AXI `DECERR`。合法 APB `PSLVERR=1` 映射为 `SLVERR`，否则 `OKAY`；出错读数据为 0。写 `WSTRB=0` 返回 `OKAY`，不访问 APB；其余写的 `PSTRB=WSTRB`。读时 `PSTRB=0`。B/R 响应在本端 ready 前保持 valid、resp、data 稳定。复位丢弃未完成请求和响应，不产生复位后的幽灵传输。
+**后端 line 接口**：`mem_req_valid,mem_req_ready,mem_req_write,mem_req_addr[31:0],mem_req_wdata[127:0]`；`mem_rsp_valid,mem_rsp_ready,mem_rsp_rdata[127:0]`。地址按 16 B 对齐；写请求为整行写回，读请求为整行回填；每个已接受请求恰有一个响应，写响应忽略数据。后端一次最多一笔未完成请求、按序返回且无错误，响应可能等待 0–7 周期；`mem_rsp_valid` 及数据保持至 `mem_rsp_ready` 握手。未命中且牺牲行为脏时先写回原行，再读新行；写未命中先回填再合并字节。命中不得访问后端；从接受 CPU 请求到给出 `rsp_valid` 不超过两个时钟周期（后端无关）。每笔被接受的 CPU 请求恰有一次响应。
 
-**环境假设**：AXI 主设备遵守各通道 valid 保持；APB 从设备最终给出 `PREADY`，可延迟 0–15 个 ACCESS 周期；在 `PREADY` 为 1 的 ACCESS 拍采样 `PRDATA/PSLVERR`。
+**资源边界**：仅 16×128-bit 数据阵列、16 个 tag、valid/dirty 位及小型控制状态；不得绕过缓存直接把每个命中请求送到后端。不得引入额外被测容量或预取器。所有状态可综合。
 
-**资源边界**：仅一深度 AW、W、AR 缓存和必要响应寄存器；不得引入大 FIFO、外部协议转换黑盒或改变总线语义。
+**资源与时限**：16 vCPU、32 GiB RAM、100 GiB 可写盘；开发时限 1 小时，同模型 token 上限 48 万。
 
-**验收与分值**：F=60：写事务及字节使能 20；读事务及数据 20；OKAY/SLVERR/DECERR 映射 20。P=15：AW/W 任意先后及读写公平性 5；APB 等待与 AXI 返回背压稳定 5；复位清空 5。隐藏测试使用独立 AXI 主、APB 从记分牌和随机化时延。
+**验收原始权重**（75 点按比例归一为功能 50 分）：F=60：读写命中 15；干净未命中与回填 15；脏行替换及写回地址/数据 15；部分写与 write-allocate 15。P=15：后端和 CPU 侧背压稳定 10；复位、命中时延与命中无后端流量 5。独立 byte-addressable 内存模型比对所有读结果和后端事务；仅在对各 index 的脏行执行冲突地址驱逐并等待全部响应后，才比对外部内存最终内容。

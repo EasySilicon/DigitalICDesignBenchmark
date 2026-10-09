@@ -1,35 +1,40 @@
-`timescale 1ns/1ps
-module tb_hidden_T05 #(
-  parameter int N = 4,
-  parameter int WIDTH = 8
-);
-  logic clk, rst_n;
-  logic [N-1:0] in_valid, in_ready;
-  logic [N-1:0][WIDTH-1:0] in_data;
-  logic out_valid, out_ready;
-  logic [WIDTH-1:0] out_data;
-  logic [$clog2(N)-1:0] out_id;
-  logic [N-1:0] pending_mask;
-  logic [WIDTH-1:0] held_data;
-  int held_id, pointer, seq [0:N-1], served [0:N-1];
-  bit holding;
-  int passed [21:25], total [21:25];
-  bit first_failure [21:25];
-  int unsigned rng;
-  int seed;
+`timescale 1ps/1ps
 
-  round_robin_stream_arbiter #(.N(N), .WIDTH(WIDTH)) dut (
-    .clk(clk), .rst_n(rst_n), .in_valid(in_valid), .in_ready(in_ready),
-    .in_data(in_data), .out_valid(out_valid), .out_ready(out_ready),
-    .out_data(out_data), .out_id(out_id)
+module tb_hidden_T05 #(
+  parameter int WIDTH = 8,
+  parameter int DEPTH = 8
+);
+  localparam int MAX_ITEMS = 120000;
+
+  logic wr_clk, wr_rst_n, wr_valid, wr_ready;
+  logic [WIDTH-1:0] wr_data;
+  logic rd_clk, rd_rst_n, rd_valid, rd_ready;
+  logic [WIDTH-1:0] rd_data;
+  logic [WIDTH-1:0] expected [0:MAX_ITEMS-1];
+  logic [WIDTH-1:0] stalled_data;
+  bit stalled, drivers_enabled, force_offer, force_take, power_mode;
+  int accepted, returned, goal, next_value;
+  int offer_percent, take_percent;
+  int passed [26:30], total [26:30];
+  bit first_failure [26:30];
+  int unsigned wr_rng, rd_rng;
+  int seed, power_goal;
+  time wr_half_ps, rd_half_ps;
+
+  asynchronous_fifo #(.WIDTH(WIDTH), .DEPTH(DEPTH)) dut (
+    .wr_clk(wr_clk), .wr_rst_n(wr_rst_n), .wr_valid(wr_valid),
+    .wr_ready(wr_ready), .wr_data(wr_data),
+    .rd_clk(rd_clk), .rd_rst_n(rd_rst_n), .rd_valid(rd_valid),
+    .rd_ready(rd_ready), .rd_data(rd_data)
   );
 
-  task automatic check(input int id, input bit okay, input string what);
-    total[id]++;
-    if (okay) passed[id]++;
-    else if (!first_failure[id]) begin
-      first_failure[id] = 1;
-      $display("IC_FAILURE AC-%02d N=%0d WIDTH=%0d %s", id, N, WIDTH, what);
+  task automatic check(input int group_id, input bit okay, input string what);
+    total[group_id]++;
+    if (okay) passed[group_id]++;
+    else if (!first_failure[group_id]) begin
+      first_failure[group_id] = 1;
+      $display("IC_FAILURE AC-%02d WIDTH=%0d DEPTH=%0d %s",
+               group_id, WIDTH, DEPTH, what);
     end
   endtask
 
@@ -40,130 +45,237 @@ module tb_hidden_T05 #(
     return x ^ (x << 5);
   endfunction
 
-  task automatic reset_arbiter;
-    clk = 0;
-    rst_n = 0;
-    in_valid = '0;
-    in_data = '0;
-    out_ready = 0;
-    pending_mask = '0;
-    pointer = 0;
-    holding = 0;
-    for (int i=0; i<N; i++) begin
-      seq[i] = 1;
-      served[i] = 0;
+  initial begin
+    wr_clk = 0;
+    forever begin
+      #(wr_half_ps);
+      wr_clk = ~wr_clk;
     end
-    #0.4;
-    clk = 1;
-    #0.4;
-    clk = 0;
-    #0.4;
-    rst_n = 1;
-    #0.4;
+  end
+
+  initial begin
+    rd_clk = 0;
+    #137;
+    forever begin
+      #(rd_half_ps);
+      rd_clk = ~rd_clk;
+    end
+  end
+
+  always @(negedge wr_clk) begin
+    if (!wr_rst_n || !drivers_enabled || accepted >= goal) begin
+      wr_valid = 0;
+    end else if (!(wr_valid && !wr_ready)) begin
+      wr_rng = next_random(wr_rng);
+      wr_valid = force_offer || ((wr_rng % 100) < offer_percent);
+      if (wr_valid)
+        wr_data = WIDTH'(next_value);
+    end
+  end
+
+  always @(posedge wr_clk) begin
+    if (wr_rst_n && wr_valid && wr_ready) begin
+      check(27, accepted - returned < DEPTH,
+            $sformatf("overflow accepted=%0d returned=%0d", accepted, returned));
+      if (accepted < MAX_ITEMS)
+        expected[accepted] = wr_data;
+      accepted++;
+      next_value++;
+    end
+  end
+
+  always @(negedge rd_clk) begin
+    if (!rd_rst_n || !drivers_enabled) begin
+      rd_ready = 0;
+    end else begin
+      rd_rng = next_random(rd_rng);
+      rd_ready = force_take || ((rd_rng % 100) < take_percent);
+    end
+  end
+
+  always @(posedge rd_clk) begin
+    if (!rd_rst_n) begin
+      stalled = 0;
+    end else begin
+      if (stalled)
+        check(27, rd_valid === 1'b1 && rd_data === stalled_data,
+              "rd_valid/rd_data changed while blocked");
+      if (rd_valid)
+        check(27, returned < accepted,
+              $sformatf("unwritten item exposed accepted=%0d returned=%0d",
+                        accepted, returned));
+      if (rd_valid && rd_ready) begin
+        check(26, returned < accepted && rd_data === expected[returned],
+              $sformatf("order expected=%h actual=%h item=%0d",
+                        expected[returned], rd_data, returned));
+        returned++;
+      end
+      stalled = rd_valid && !rd_ready;
+      if (stalled)
+        stalled_data = rd_data;
+    end
+  end
+
+  task automatic apply_reset(input int scenario);
+    drivers_enabled = 0;
+    wr_valid = 0;
+    rd_ready = 0;
+    wr_rst_n = 0;
+    rd_rst_n = 0;
+    #1;
+    check(30, rd_valid === 1'b0,
+          $sformatf("asynchronous assertion left rd_valid high scenario=%0d", scenario));
+    repeat (4) @(posedge wr_clk);
+    repeat (4) @(posedge rd_clk);
+    accepted = 0;
+    returned = 0;
+    goal = 0;
+    next_value = 32'h10000 * (scenario + 1);
+    stalled = 0;
+    wr_rst_n = 1;
+    repeat (3) @(posedge wr_clk);
+    rd_rst_n = 1;
+    repeat (4) @(posedge rd_clk);
+    check(30, rd_valid === 1'b0,
+          $sformatf("stale item after reset release scenario=%0d", scenario));
   endtask
 
-  task automatic step(input logic [N-1:0] requests, input bit sink_ready);
-    bit found;
-    bit observed_handshake;
-    int expected_id;
-    int observed_id;
-    logic [N-1:0] expected_ready;
-    logic [WIDTH-1:0] expected_data;
-    clk = 0;
-    in_valid = requests | pending_mask;
-    out_ready = sink_ready;
-    for (int i=0; i<N; i++)
-      in_data[i] = WIDTH'(seq[i]*32'h01010101 ^ (i*32'hb7522fa9));
-    #0.4;
-    found = holding;
-    expected_id = holding ? held_id : 0;
-    if (!holding) begin
-      for (int distance=0; distance<N; distance++) begin
-        int candidate;
-        candidate = (pointer + distance) % N;
-        if (!found && in_valid[candidate]) begin
-          found = 1;
-          expected_id = candidate;
-        end
-      end
+  task automatic wait_until_drained(input int max_rd_cycles, input string label);
+    int cycles;
+    cycles = 0;
+    while ((accepted != goal || returned != goal) && cycles < max_rd_cycles) begin
+      @(posedge rd_clk);
+      cycles++;
     end
-    expected_data = holding ? held_data : in_data[expected_id];
-    check(21, out_valid === found && (!found || out_id === $clog2(N)'(expected_id)),
-          $sformatf("selection expected_valid=%b expected_id=%0d actual_valid=%b actual_id=%0d",
-                    found, expected_id, out_valid, out_id));
-    if (found) begin
-      check(22, out_id === $clog2(N)'(expected_id),
-            $sformatf("rotation expected_id=%0d actual_id=%0d", expected_id, out_id));
-      check(23, out_data === expected_data,
-            $sformatf("data expected=%h actual=%h", expected_data, out_data));
-    end else check(22, out_valid === 0, "spurious arbitration output");
-    expected_ready = '0;
-    if (found && sink_ready) expected_ready[expected_id] = 1;
-    check(23, in_ready === expected_ready,
-          $sformatf("in_ready expected=%h actual=%h", expected_ready, in_ready));
-    if (holding)
-      check(24, out_valid === 1'b1 && out_id === $clog2(N)'(held_id) &&
-                out_data === held_data, "blocked output changed");
-    observed_handshake = out_valid && sink_ready;
-    observed_id = int'(out_id);
-    // A source whose actual handshake did not occur must retain valid and data.
-    pending_mask = in_valid & ~in_ready;
-    clk = 1;
-    #0.4;
-    for (int i=0; i<N; i++)
-      if (in_valid[i] && in_ready[i]) seq[i]++;
-    if (observed_handshake && observed_id < N) served[observed_id]++;
-    if (found && sink_ready) begin
-      pointer = (expected_id+1) % N;
-      holding = 0;
-    end else if (found && !holding) begin
-      holding = 1;
-      held_id = expected_id;
-      held_data = expected_data;
+    check(26, accepted == goal && returned == goal,
+          $sformatf("%s timeout accepted=%0d returned=%0d goal=%0d",
+                    label, accepted, returned, goal));
+  endtask
+
+  task automatic run_phase(input time next_wr_half_ps,
+                           input time next_rd_half_ps,
+                           input int transfers,
+                           input int next_offer_percent,
+                           input int next_take_percent,
+                           input string label);
+    drivers_enabled = 0;
+    @(negedge wr_clk);
+    @(negedge rd_clk);
+    if (!power_mode) begin
+      wr_half_ps = next_wr_half_ps;
+      rd_half_ps = next_rd_half_ps;
     end
-    clk = 0;
-    #0.2;
+    offer_percent = next_offer_percent;
+    take_percent = next_take_percent;
+    force_offer = 0;
+    force_take = 0;
+    goal = accepted + transfers;
+    drivers_enabled = 1;
+    wait_until_drained(transfers * 60 + 2000, label);
+    drivers_enabled = 0;
+    @(negedge wr_clk);
+    wr_valid = 0;
+    @(negedge rd_clk);
+    rd_ready = 0;
+    check(28, accepted == goal && returned == goal,
+          $sformatf("clock-ratio phase failed: %s", label));
+  endtask
+
+  task automatic check_eventual_visible;
+    int cycles;
+    goal = accepted + 1;
+    offer_percent = 100;
+    take_percent = 0;
+    force_offer = 1;
+    force_take = 0;
+    drivers_enabled = 1;
+    while (accepted < goal)
+      @(posedge wr_clk);
+    cycles = 0;
+    while (rd_valid !== 1'b1 && cycles < 200) begin
+      @(posedge rd_clk);
+      cycles++;
+    end
+    check(27, rd_valid === 1'b1 && cycles < 200,
+          $sformatf("written item not visible within 200 rd clocks cycles=%0d", cycles));
+    repeat (12) @(posedge rd_clk);
+    force_take = 1;
+    wait_until_drained(40, "eventual-visible drain");
+    drivers_enabled = 0;
+    force_offer = 0;
+    force_take = 0;
   endtask
 
   initial begin
-    seed = 20260925;
+    seed = 20260928;
     void'($value$plusargs("SEED=%d", seed));
-    rng = 32'(seed) ^ (N*32'h9e3779b9) ^ WIDTH;
-    for (int i=21; i<=25; i++) begin
+    power_mode = $value$plusargs("POWER_GOAL=%d", power_goal);
+    if (!power_mode)
+      power_goal = 0;
+    wr_half_ps = power_mode ? 500 : 1300;
+    rd_half_ps = power_mode ? 500 : 1900;
+    wr_rng = 32'(seed) ^ (WIDTH * 32'h9e3779b9) ^ DEPTH;
+    rd_rng = 32'(seed) ^ (DEPTH * 32'h85ebca6b) ^ WIDTH;
+    wr_rst_n = 1;
+    rd_rst_n = 1;
+    wr_valid = 0;
+    wr_data = 0;
+    rd_ready = 0;
+    drivers_enabled = 0;
+    force_offer = 0;
+    force_take = 0;
+    accepted = 0;
+    returned = 0;
+    goal = 0;
+    stalled = 0;
+    for (int i = 26; i <= 30; i++) begin
       passed[i] = 0;
       total[i] = 0;
       first_failure[i] = 0;
     end
-    check(21, $bits(dut.in_valid)==N && $bits(dut.in_ready)==N &&
-              $bits(dut.in_data)==N*WIDTH && $bits(dut.out_data)==WIDTH &&
-              $bits(dut.out_id)==$clog2(N), "fixed interface width");
-    // All request masks, each starting from the reset search pointer.
-    for (int mask=0; mask<(1<<N); mask++) begin
-      reset_arbiter();
-      step(N'(mask), 1);
+
+    check(29, $bits(dut.wr_data) == WIDTH && $bits(dut.rd_data) == WIDTH,
+          "parameterized port width");
+    // Give the initial high level a distinct time slot so the first reset
+    // assertion is a real asynchronous falling edge in two-state simulation.
+    #1;
+    apply_reset(0);
+    check_eventual_visible();
+
+    if (power_mode) begin
+      run_phase(500, 500, power_goal, 78, 69, "fixed-1GHz-power");
+    end else begin
+      // Leave unread data before a run-time reset, then prove that no stale
+      // item is observable after independent reset release.
+      goal = accepted + DEPTH - 1;
+      offer_percent = 100;
+      take_percent = 0;
+      force_offer = 1;
+      drivers_enabled = 1;
+      while (accepted < goal)
+        @(posedge wr_clk);
+      apply_reset(1);
+
+      // Four non-locking clock regimes total at least 100,000 transfers for
+      // every WIDTH/DEPTH configuration.
+      run_phase(500, 750, 25000, 85, 61, "ratio-2-to-3");
+      run_phase(600, 1000, 25000, 91, 57, "ratio-3-to-5");
+      run_phase(503, 509, 25000, 73, 71, "near-one-to-one");
+      run_phase(900, 500, 25000, 67, 88, "slow-write-fast-read");
     end
-    reset_arbiter();
-    step(N'(1<<2), 0);
-    for (int i=0; i<30; i++) begin
-      rng = next_random(rng);
-      step(N'(rng), 0);
-    end
-    step('1, 1);
-    reset_arbiter();
-    for (int round=0; round<40; round++) begin
-      for (int i=0; i<N; i++) step('1, 1);
-      for (int i=0; i<N; i++)
-        check(25, served[i] == round+1,
-              $sformatf("persistent source %0d service count=%0d round=%0d",
-                        i, served[i], round));
-    end
-    reset_arbiter();
-    for (int cycle=0; cycle<20000; cycle++) begin
-      rng = next_random(rng);
-      step(N'(rng>>3), (rng & 7) < 5);
-    end
-    for (int i=21; i<=25; i++)
+
+    check(29, passed[26] == total[26] && passed[27] == total[27] &&
+              passed[28] == total[28] && passed[30] == total[30],
+          "parameter combination failed behavioral scenarios");
+    $display("IC_STATS WIDTH=%0d DEPTH=%0d accepted=%0d returned=%0d power=%0d",
+             WIDTH, DEPTH, accepted, returned, power_mode);
+    for (int i = 26; i <= 30; i++)
       $display("IC_GROUP AC-%02d %0d %0d", i, passed[i], total[i]);
     $finish;
+  end
+
+  initial begin
+    #5_000_000_000;
+    $fatal(1, "T05 hidden timeout WIDTH=%0d DEPTH=%0d", WIDTH, DEPTH);
   end
 endmodule

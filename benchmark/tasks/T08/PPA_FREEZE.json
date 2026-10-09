@@ -1,0 +1,84 @@
+{
+  "task_id": "T08",
+  "legacy_task_id": "T11",
+  "qualification_status": "qualified_1ghz",
+  "source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
+  "workload_id": "T11-power-v1",
+  "workload_sha256": "50475eed79e95c3450db63bedfe6e0dc80dc1f1cf0c480bac2560c50744a237c",
+  "parameter_set": {
+    "platform": "ASAP7_7p5t_RVT_NLDM",
+    "period_ps": 1000,
+    "corner": "mixed_WC_standard_cells_TT_SRAM",
+    "utilization": 10,
+    "density": 0.6,
+    "seeds": [
+      11,
+      29,
+      47
+    ],
+    "ppa_policy_revision": "2.0-lambdapdk-tdp-1ghz",
+    "clock_periods_ps": {
+      "logic_clk": 1000,
+      "tx_clk": 1000,
+      "rx_clk": 1000
+    },
+    "asynchronous_clock_groups": [
+      [
+        "logic_clk",
+        "tx_clk",
+        "rx_clk"
+      ]
+    ],
+    "memory_mapping": "lambdapdk_tdp_4096x32",
+    "sram_contract": {
+      "revision": "2.0-lambdapdk-tdp-1ghz",
+      "cell": "fakeram7_tdp_4096x32",
+      "upstream_commit": "15c783cc336ca002d2c31adfd2c2b14b363c66cf",
+      "model_sha256": {
+        "vendor/lambdapdk_fakeram7/upstream/nldm/fakeram7_tdp_4096x32.lib": "2d7dc6e54dec2eae35db27a812d79a5d29faa5c2867c85a5fab9bbbdc037781a",
+        "vendor/lambdapdk_fakeram7/upstream/lef/fakeram7_tdp_4096x32.lef": "f0795e22e0e7c464e197eef5423fbfbfb826c8528685d00dfd6fe8f1afd01127",
+        "vendor/lambdapdk_fakeram7/sim/fakeram7_tdp_4096x32.v": "e9de7756dfa3a68c4cd055915a41eca4ace81f8a77715d3facb92f32341bcf2a",
+        "evaluator/fixtures/t11_mac/sram_libmap.txt": "45dd6f689a6f619db5fa1be9d4909161d76c55bae9e9bcb79526192edf114917",
+        "evaluator/fixtures/t11_mac/sram_map.v": "7b5baad56d0ae0c8face110065b7f4e7344a4d1b831dbe3aa95ddb465e8399e9",
+        "evaluator/fixtures/t11_mac/sram_stub.v": "ea181d3136fcd8f2039378da6158fa795630c6a17e954bada2ede87c11eb33a6",
+        "evaluator/t11_sram.py": "7ba31a7bfdf7941be3b25ee2f862e06037a9194c5ecdb79f059f31ec85c273a8"
+      },
+      "contract_sha256": "937fe4c8f528cd6bd9a00985276f4a829c271d1c630ee9ca4279b1ba4bdd5f08",
+      "corner_policy": {
+        "setup_standard_cells": "WC",
+        "hold_standard_cells": "WC",
+        "sram_timing": "TT_0.7V_25C_research_model",
+        "power_standard_cells": "TT",
+        "power_sram": "TT",
+        "full_chip_worst_corner_signoff": false
+      },
+      "drc_scope": "OpenROAD detailed-router interconnect/pin-access DRC; macro internals excluded",
+      "lvs": "not_performed_not_required_for_research_PPA",
+      "capacity_bits_per_macro": 131072,
+      "mapping": "Yosys memory_libmap; independent positive-edge 1W1R; full physical width charged",
+      "limitations": [
+        "SRAM delay/power are simplified upstream predictions, not SPICE characterization",
+        "Macro GDS and internal transistor-level DRC/LVS are not provided",
+        "No fabricated SS/FF SRAM corners; timing is explicitly mixed-corner"
+      ]
+    },
+    "drc_scope": "OpenROAD detailed-router interconnect/pin-access DRC; macro internals excluded",
+    "lvs_performed": false
+  },
+  "area_um2": 20073.793999999998,
+  "delay_ns": 0.8334259999999999,
+  "average_power_mw": 13.4,
+  "energy_per_op_pj": 21.2535665735568,
+  "setup_worst_slack_ns": 0.165093,
+  "hold_worst_slack_ns": 0.0120825,
+  "drc_violations": 0,
+  "freeze_evidence": {
+    "legacy_task_id": "T11",
+    "frozen_at_utc": "2026-10-08T10:40:21.622906+00:00",
+    "source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
+    "functional_passes": 111,
+    "stress_passes": 270,
+    "freeze_manifest_sha256": "5455e2dfa5ab99830e08a423a8a074036d658107585d784887570ad72c24a74b",
+    "public_manifest": "evaluator/fixtures/t08_reference_20261008/freeze.json"
+  }
+}
