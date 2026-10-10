@@ -33,7 +33,7 @@ Tasks follow an engineering cycle: **specification comprehension → architectur
 - **Physical implementation and PPA optimization:** use synthesis, placement and routing, and memory macros while balancing area, power, timing, and physical constraints.
 - **Tool use and engineering handoff:** organize EDA runs, diagnose tool errors, manage time and compute resources, and deliver reproducible RTL, verification, and scripts.
 
-Building on model evaluation, we also explore **to what extent external harnesses—Skills, multi-agent orchestration, immediate quality gates, and similar mechanisms—can improve the final performance of frontier or cost-effective models on digital IC engineering tasks.** These are optional experimental variables, not prerequisites for using the benchmark. Their effects require controlled comparisons on the same tasks, without assuming that any particular architecture is better. Improvements should also be assessed against their time, inference cost, and compute requirements.
+Building on model evaluation, we will further explore **to what extent external harnesses—Skills, multi-agent orchestration, immediate quality gates, and similar mechanisms—can improve the final performance of frontier or cost-effective models on digital IC engineering tasks.** These are optional experimental variables, not prerequisites for using the benchmark. Their effects require controlled comparisons on the same tasks, without assuming that any particular architecture is better. Improvements should also be assessed against their time, inference cost, and compute requirements.
 
 The suite follows these principles:
 
@@ -94,18 +94,18 @@ See the [full coverage mapping and scope limits](benchmark/README.md#领域与�
 
 ## Evaluated models and results
 
-The following values come from the [2026-10-09 per-task evaluation results](results/model-score-comparison.md). Models were evaluated with broadly consistent time budgets and Skill settings. Results use a common scoring policy to compare functional correctness, PPA and completion efficiency. Subtotals include scored components only; unmeasured components are explicitly marked.
+The following values come from the [2026-10-10 per-task evaluation results](results/model-score-comparison.md). Models were evaluated with broadly consistent time budgets and Skill settings. Results use a common scoring policy to compare functional correctness, PPA and completion efficiency. Subtotals include scored components only; unmeasured components are explicitly marked.
 
 | Model | Fully functional / evaluated tasks | Weighted display subtotal /105 | Result files |
 | --- | ---: | ---: | --- |
-| GPT-6-Astra | 9/9 | 65.40 | [summary.json](results/gpt-6-astra/summary.json) |
-| GPT-6.1-Sol | 9/9 | 64.25 | [summary.json](results/gpt-6.1-sol/summary.json) |
-| GPT-6-Sol | 9/9 | 63.78 | [summary.json](results/gpt-6-sol/summary.json) |
+| GPT-6-Astra | 10/10 | 75.07 | [summary.json](results/gpt-6-astra/summary.json) |
+| GPT-6.1-Sol | 10/10 | 73.83 | [summary.json](results/gpt-6.1-sol/summary.json) |
+| GPT-6-Sol | 10/10 | 73.04 | [summary.json](results/gpt-6-sol/summary.json) |
 | Kimi K3 | 7/10 | 58.94 | [summary.json](results/kimi-k3/summary.json) |
-| DeepSeek Flash | 7/9 | 47.30 | [summary.json](results/deepseek-flash/summary.json) |
+| DeepSeek Flash | 7/10 | 52.45 | [summary.json](results/deepseek-flash/summary.json) |
 | GLM-5.3-Flash | 6/10 | 41.41 | [summary.json](results/glm-5.3-flash/summary.json) |
 
-For the three GPT models, T10 currently contributes only 50 functional points; its PPA and time components remain pending. The totals therefore include only scored components. **`null` means unavailable or unresolved; `0` means adjudicated failure.** Missing components do not rescale the remaining task weights. Reconciled reruns and penalties for GLM and other runs are explained in the snapshot.
+All six models have completed scoring for the new T08. DeepSeek and GLM did not pass its full-functional gate, so their T08 PPA and time scores are 0. The three GPT models' T10 currently contributes only 50 functional points; its PPA and time components remain pending. The totals therefore include only scored components. **`null` means unavailable or unresolved; `0` means adjudicated failure.** Missing components do not rescale the remaining task weights. Reconciled reruns and penalties for GLM and other runs are explained in the snapshot.
 
 See the [archive policy](results/README.md) and [result schema](results/result.schema.json) for result classes, fields, and ranking eligibility. Check `scoring_policy`, specification revision, actual time budget, and tools before comparing them.
 
@@ -249,7 +249,7 @@ The current configuration is [score_rules.json](evaluator/score_rules.json). [pp
 
 Per-task ordering compares **functional score, PPA bucket, then completion time**. Suite ordering first compares the number of fully functional tasks and functional score sum, then PPA, then normalized time. The 105-point display and weighted subtotal do not replace layered ordering.
 
-Common physical targets are **ASAP7, 1 GHz (1,000 ps)**, layout seeds `{11,29,47}`, and at least 95% activity annotation. References must meet setup/hold with zero DRC. Routed candidates receive continuous setup/hold penalties and a 0.5 multiplier if any seed has DRC violations; negative WNS does not automatically zero PPA. Candidate failures to complete legal routing or obtain valid activity measurements are adjudicated separately. See the [PPA measurement/scoring specification](benchmark/README.md#ppa-测量与评分).
+Common physical targets are **ASAP7, 1 GHz (1,000 ps)**, layout seeds `{11,29,47}`, and at least 95% activity annotation. Qualified reference baselines have met setup/hold with zero DRC. Routed candidates receive continuous setup/hold penalties and a 0.5 multiplier if any seed has DRC violations; negative WNS does not automatically zero PPA. Candidate failures to complete legal routing or obtain valid activity measurements are adjudicated separately. See the [PPA measurement/scoring specification](benchmark/README.md#ppa-测量与评分).
 
 `ppa_probe.py` collects physical probes, `ppa_power_probe.py` collects gate-level activity power, and `ppa_aggregate.py` combines three-seed records. `score_run.py` consumes **evaluator-generated** groups and measurements, rather than candidate score claims. Unqualified/missing baselines remain pending; tool/evaluator faults are fixed and regraded on frozen submissions; adjudicated candidate failures score zero. Fatal candidate-caused handoff errors deduct five display points per distinct root cause while retaining verified component scores.
 
@@ -271,4 +271,4 @@ Task behavior follows each `task.md`; public smoke tests are examples. Historica
 
 Repository-owned code/documentation use [Apache-2.0](LICENSE). ACT4, ASAP7, and experimental starter RTL retain their own licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Locked revisions and sources are in [sources.lock.yaml](benchmark/sources.lock.yaml). The benchmark assesses digital RTL delivery and relative PPA on a public predictive process; it does not claim fabrication signoff or formal RISC-V/Ethernet certification.
 
-T08/T09 task-level freeze (2026-10-09): [T08 receipt](benchmark/tasks/T08/FREEZE.json), [T09 receipt](benchmark/tasks/T09/FREEZE.json). Run `python3 benchmark/freeze_tasks.py` from the repository root to verify specification, RTL, judge, scoring, baseline and portable evidence hashes. All six T09 archives have been regraded; untested T08 models remain null. Host-only receipts are excluded from candidate packages. T10 PPA and the suite-wide tool-image/release gates remain pending.
+T08/T09 task-level freeze (2026-10-09): [T08 receipt](benchmark/tasks/T08/FREEZE.json), [T09 receipt](benchmark/tasks/T09/FREEZE.json). Run `python3 benchmark/freeze_tasks.py` from the repository root to verify specification, RTL, judge, scoring, baseline and portable evidence hashes. All six T09 archives have been regraded, and all six T08 answers have been scored. Host-only receipts are excluded from candidate packages. T10 PPA and the suite-wide tool-image/release gates remain pending.

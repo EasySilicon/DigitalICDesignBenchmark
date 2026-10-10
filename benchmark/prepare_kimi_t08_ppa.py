@@ -5,7 +5,7 @@ import json
 import shutil
 from pathlib import Path
 
-from benchmark.prepare_t08_comparison import prepare_comparison, inventory, digest, write_json
+from benchmark.prepare_t08_comparison import prepare_comparison, inventory, digest, write_json, copy_common_synthesis_maps
 from benchmark.prepare_trial import ROOT
 
 
@@ -32,6 +32,7 @@ def main():
     shutil.copy2(args.orfs / 'flow/Makefile', kit / 'flow/Makefile')
     for name in ('scripts', 'util'):
         shutil.copytree(args.orfs / 'flow' / name, kit / 'flow' / name)
+    copy_common_synthesis_maps(kit, args.orfs)
     for name in ('asap7', 'lambdapdk_fakeram7'):
         shutil.copytree(ROOT / 'vendor' / name, kit / name)
     for name in ('sram_libmap.txt', 'sram_map.v', 'sram_stub.v'):

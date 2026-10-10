@@ -33,7 +33,7 @@ Agent 必须自行完成 RTL、验证环境、缺陷修复和 PPA 优化。评�
 - **物理实现与 PPA 优化**：使用综合、布局布线和存储宏，理解面积、功耗、时序及物理约束之间的权衡。
 - **工具使用与工程交付**：正确组织 EDA 调用、诊断工具错误，管理时间和计算资源，交付可复现运行的 RTL、验证与脚本。
 
-在模型能力评测的基础上，我们进一步探索：**Skill、多 Agent 编排、即时质量门禁等外部 harness，能在多大程度上提高前沿模型或性价比模型在数字芯片研发任务上的最终表现？** 这些机制是可选的实验变量，不是参加 benchmark 的前提。其作用应通过相同任务和受控条件下的对比来验证，而不预设某种架构必然更优；除最终质量外，也应观察取得改善所需的时间、推理费用和计算资源。
+在模型能力评测的基础上，我们将会进一步探索：**Skill、多 Agent 编排、即时质量门禁等外部 harness，能在多大程度上提高前沿模型或性价比模型在数字芯片研发任务上的最终表现？** 这些机制是可选的实验变量，不是参加 benchmark 的前提。其作用应通过相同任务和受控条件下的对比来验证，而不预设某种架构必然更优；除最终质量外，也应观察取得改善所需的时间、推理费用和计算资源。
 
 我们据此采用以下设计原则：
 
@@ -94,18 +94,18 @@ T10 计算 `16×64` 与 `64×16` 矩阵乘法，A/B **各每拍输入 1024 bit**
 
 ## 已测模型与结果
 
-下表来自 [2026-10-09 逐题评测结果](results/model-score-comparison.md)。各模型采用基本一致的时间预算与 Skill 设置，结果按统一评分规则汇总，用于比较功能正确性、PPA 和完成效率。表中小计仅包含已评分分项，尚未测量的部分明确标注。
+下表来自 [2026-10-10 逐题评测结果](results/model-score-comparison.md)。各模型采用基本一致的时间预算与 Skill 设置，结果按统一评分规则汇总，用于比较功能正确性、PPA 和完成效率。表中小计仅包含已评分分项，尚未测量的部分明确标注。
 
 | 模型 | 功能全通过 / 已验收题数 | 已评分部分的加权显示分 /105 | 结果文件 |
 | --- | ---: | ---: | --- |
-| GPT-6-Astra | 9/9 | 65.40 | [summary.json](results/gpt-6-astra/summary.json) |
-| GPT-6.1-Sol | 9/9 | 64.25 | [summary.json](results/gpt-6.1-sol/summary.json) |
-| GPT-6-Sol | 9/9 | 63.78 | [summary.json](results/gpt-6-sol/summary.json) |
+| GPT-6-Astra | 10/10 | 75.07 | [summary.json](results/gpt-6-astra/summary.json) |
+| GPT-6.1-Sol | 10/10 | 73.83 | [summary.json](results/gpt-6.1-sol/summary.json) |
+| GPT-6-Sol | 10/10 | 73.04 | [summary.json](results/gpt-6-sol/summary.json) |
 | Kimi K3 | 7/10 | 58.94 | [summary.json](results/kimi-k3/summary.json) |
-| DeepSeek Flash | 7/9 | 47.30 | [summary.json](results/deepseek-flash/summary.json) |
+| DeepSeek Flash | 7/10 | 52.45 | [summary.json](results/deepseek-flash/summary.json) |
 | GLM-5.3-Flash | 6/10 | 41.41 | [summary.json](results/glm-5.3-flash/summary.json) |
 
-三个 GPT 模型的 T10 当前只计功能 50 分，PPA/时间为待评项；因此表中总分是已评分部分的小计。**`null` 表示尚无测量结论，`0` 表示已判失败**，两者不能混用。缺失分项不计入小计，也不重新放大其余题目的权重。GLM 等运行的合并重评和罚分调整以快照中的逐项说明为准。
+六个模型的新 T08 均已完成评分；DeepSeek 和 GLM 未通过完整功能门槛，T08 的 PPA/时间判 0。三个 GPT 模型的 T10 当前只计功能 50 分，PPA/时间为待评项。因此表中总分是已评分部分的小计。**`null` 表示尚无测量结论，`0` 表示已判失败**，两者不能混用。缺失分项不计入小计，也不重新放大其余题目的权重。GLM 等运行的合并重评和罚分调整以快照中的逐项说明为准。
 
 结果分类、字段和可排名条件见 [结果归档说明](results/README.md) 与 [结果 schema](results/result.schema.json)。比较前须核对 `scoring_policy`、题面版本、实际时限和工具配置。
 
@@ -249,7 +249,7 @@ submission/
 
 单题按 **功能分、PPA 分档、完成时间**依次排序。套题先看功能全通过题数和功能总分，再看 PPA，最后看归一化完成时间。105 分显示分与上述加权小计用于展示，不取代分层排序。
 
-统一物理目标为 **ASAP7、1 GHz（1000 ps）**，布局种子为 `{11,29,47}`，有效活动标注率至少 95%。参考基线必须满足 setup/hold 且 DRC 为零。候选完成布线后的 setup/hold 违例按连续惩罚计分，存在 DRC 时乘 0.5；不能把任何负 WNS 都直接当成 PPA 零分。无法合法完成布线或取得有效活动测量的候选失败另行判定。具体公式与测量参数见 [PPA 测量与评分](benchmark/README.md#ppa-测量与评分)。
+统一物理目标为 **ASAP7、1 GHz（1000 ps）**，布局种子为 `{11,29,47}`，有效活动标注率至少 95%。参考基线已经满足 setup/hold 且 DRC 为零。候选完成布线后的 setup/hold 违例按连续惩罚计分，存在 DRC 时乘 0.5；不能把任何负 WNS 都直接当成 PPA 零分。无法合法完成布线或取得有效活动测量的候选失败另行判定。具体公式与测量参数见 [PPA 测量与评分](benchmark/README.md#ppa-测量与评分)。
 
 `ppa_probe.py` 提供物理探测，`ppa_power_probe.py` 提供门级活动功耗，`ppa_aggregate.py` 聚合三种子记录；最终由 `score_run.py` 读取**评测方生成**的组结果和测量，不读取候选自报分数。缺少合格基线记待评，工具/验收器故障修复后对冻结提交重评；独立裁定的候选失败记 0。候选原因的致命交付错误按独立根因扣显示分 5 分，保留已验证的分项成绩。
 
@@ -271,4 +271,4 @@ submission/
 
 本仓库自有代码与文档采用 [Apache-2.0](LICENSE)。ACT4、ASAP7 和实验 starter 等第三方材料适用各自许可证，详见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)；锁定修订与来源记录见 [sources.lock.yaml](benchmark/sources.lock.yaml)。本 benchmark 评估数字 RTL 交付与公开预测工艺上的相对 PPA，不声称真实流片签核或正式 RISC-V/以太网认证。
 
-T08/T09 task-level freeze (2026-10-09): [T08 receipt](benchmark/tasks/T08/FREEZE.json), [T09 receipt](benchmark/tasks/T09/FREEZE.json). Run `python3 benchmark/freeze_tasks.py` from the repository root to verify specification, RTL, judge, scoring, baseline and portable evidence hashes. All six T09 archives have been regraded; untested T08 models remain null. Host-only receipts are excluded from candidate packages. T10 PPA and the suite-wide tool-image/release gates remain pending.
+T08/T09 task-level freeze (2026-10-09): [T08 receipt](benchmark/tasks/T08/FREEZE.json), [T09 receipt](benchmark/tasks/T09/FREEZE.json). Run `python3 benchmark/freeze_tasks.py` from the repository root to verify specification, RTL, judge, scoring, baseline and portable evidence hashes. All six T09 archives have been regraded, and all six T08 answers have been scored. Host-only receipts are excluded from candidate packages. T10 PPA and the suite-wide tool-image/release gates remain pending.

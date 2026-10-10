@@ -15,13 +15,13 @@
     "T10": 240
   },
   "status": "complete",
-  "completed_tasks": 9,
+  "completed_tasks": 10,
   "full_functional_task_count": 7,
-  "functional_total_sum": 394.93333333333334,
+  "functional_total_sum": 441.76666666666665,
   "ppa_score_sum": 227.5819829458432,
   "time_score_sum": 28.287037037037038,
   "candidate_delivery_penalty_sum": 5,
-  "display_score_sum": 645.8023533162136,
+  "display_score_sum": 692.6356866495469,
   "tasks": [
     {
       "task_id": "T01",
@@ -107,21 +107,119 @@
     {
       "task_id": "T08",
       "legacy_task_id": "T11",
-      "functional_total": null,
-      "full_functional_pass": null,
-      "ppa_score": null,
-      "time_score": null,
-      "display_score": null,
-      "score_status": "not_run",
-      "grade_phase": "not_run",
-      "note": "No current frozen MAC submission; not assigned zero.",
+      "functional_total": 46.83333333333333,
+      "full_functional_pass": false,
+      "ppa_score": 0.0,
+      "time_score": 0.0,
+      "display_score": 46.83333333333333,
+      "score_status": "scored",
+      "grade_phase": "scored",
       "benchmark_freeze": {
         "receipt": "benchmark/tasks/T08/FREEZE.json",
         "receipt_sha256": "c0c40c16a71a938b93da14f7455179813cd0ad2f344367b1b340d03f1f98fa50",
         "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
         "scope": "current grading contract"
       },
-      "trial_kind": "pre_release_pilot"
+      "trial_kind": "pre_release_pilot",
+      "functional_basic": 37.83333333333333,
+      "functional_edges": 9.0,
+      "delivery_qualified": true,
+      "ppa_eligible": false,
+      "ppa_rank_bucket": 0,
+      "candidate_delivery_error_count": 0,
+      "candidate_delivery_penalty": 0,
+      "display_score_before_candidate_penalty": 46.83333333333333,
+      "score_items": [
+        {
+          "id": "TX_REGRESSION",
+          "layer": "F",
+          "points": 8.0,
+          "possible_points": 8.0,
+          "cases_passed": 4,
+          "cases_total": 4,
+          "safety_violation": false
+        },
+        {
+          "id": "RX_REGRESSION",
+          "layer": "F",
+          "points": 8.0,
+          "possible_points": 8.0,
+          "cases_passed": 5,
+          "cases_total": 5,
+          "safety_violation": false
+        },
+        {
+          "id": "FRAME_TAIL_REPAIR",
+          "layer": "F",
+          "points": 10.0,
+          "possible_points": 10.0,
+          "cases_passed": 5,
+          "cases_total": 5,
+          "safety_violation": false
+        },
+        {
+          "id": "VLAN_ADMISSION",
+          "layer": "F",
+          "points": 8.333333333333332,
+          "possible_points": 10.0,
+          "cases_passed": 5,
+          "cases_total": 6,
+          "safety_violation": false
+        },
+        {
+          "id": "CONFIG_SNAPSHOT",
+          "layer": "F",
+          "points": 3.5,
+          "possible_points": 4.0,
+          "cases_passed": 7,
+          "cases_total": 8,
+          "safety_violation": false
+        },
+        {
+          "id": "METADATA_HEADERS",
+          "layer": "P",
+          "points": 5.0,
+          "possible_points": 6.0,
+          "cases_passed": 5,
+          "cases_total": 6,
+          "safety_violation": false
+        },
+        {
+          "id": "RESET_RECOVERY",
+          "layer": "P",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 3,
+          "cases_total": 3,
+          "safety_violation": false
+        }
+      ],
+      "rank_key": [
+        46.83333333333333,
+        0,
+        0
+      ],
+      "model": "deepseek-flash",
+      "suite_id": "ic-delivery-rtl-v0.3",
+      "elapsed_seconds": 3337.8551318645477,
+      "time_limit_seconds": 7200,
+      "ranking_eligible": false,
+      "judge_revision": "3.1-boundary-crosses",
+      "source_sha256": "c92f8e07f8253e15e1a78984f188b44d05a91e7efc5013ad5136c6843ee404fa",
+      "eda": {
+        "method": "host_proc_sampling",
+        "finished": true,
+        "eda_wall_seconds_estimate": 3051.60734584101,
+        "observed_call_count": 909,
+        "sampling_interval_seconds": 0.1
+      },
+      "ppa_status": "zero_functional_gate",
+      "ppa_zero_reason": "Independent functional acceptance did not fully pass; PPA and time scores are zero under the frozen full-functional gate.",
+      "failed_functional_cases": [
+        31,
+        33,
+        36
+      ]
     },
     {
       "task_id": "T09",
@@ -179,13 +277,13 @@
     "T10": 0.25
   },
   "ranking_eligible": false,
-  "result_revision_date": "2026-10-09",
-  "functional_score_sum": 394.93333333333334,
+  "result_revision_date": "2026-10-10",
+  "functional_score_sum": 441.76666666666665,
   "functional_score_possible": 500,
   "ppa_score_sum_for_available_tasks": 227.5819829458432,
   "time_score_sum_for_available_tasks": 28.287037037037038,
-  "display_score_subtotal_with_unscored_components_omitted": 645.8023533162136,
-  "weighted_display_score_with_unscored_components_omitted": 47.29809350314062,
+  "display_score_subtotal_with_unscored_components_omitted": 692.6356866495469,
+  "weighted_display_score_with_unscored_components_omitted": 52.449760169807284,
   "weighted_display_score_possible": 105.0,
   "weighted_task_contributions": {
     "T01": 2.4859435303661734,
@@ -195,23 +293,16 @@
     "T05": 5.399748231578824,
     "T06": 9.29284208872864,
     "T07": 9.250181047037232,
+    "T08": 5.151666666666666,
     "T09": 8.986666666666666,
     "T10": 0.0
   },
-  "covered_task_weight": 0.8899999999999999,
-  "covered_display_possible": 93.44999999999999,
-  "complete_display_score_task_count": 9,
-  "evaluated_task_count": 9,
-  "pending_functional_tasks": [
-    "T08"
-  ],
-  "pending_components": {
-    "T08": [
-      "functional_total",
-      "ppa_score",
-      "time_score"
-    ]
-  },
+  "covered_task_weight": 1.0,
+  "covered_display_possible": 105.0,
+  "complete_display_score_task_count": 10,
+  "evaluated_task_count": 10,
+  "pending_functional_tasks": [],
+  "pending_components": {},
   "task_id_migration": {
     "from_suite": "ic-delivery-rtl-v0.2",
     "to_suite": "ic-delivery-rtl-v0.3",
@@ -252,5 +343,20 @@
       "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
       "scope": "current grading contract"
     }
-  }
+  },
+  "weighted_display_score": 52.449760169807284,
+  "weighted_display_possible": 105.0,
+  "weighted_contributions": {
+    "T01": 2.4859435303661734,
+    "T02": 2.671980086439033,
+    "T03": 5.453096767745887,
+    "T04": 3.7576350845781676,
+    "T05": 5.399748231578824,
+    "T06": 9.29284208872864,
+    "T07": 9.250181047037232,
+    "T08": 5.151666666666666,
+    "T09": 8.986666666666666,
+    "T10": 0.0
+  },
+  "totals_complete": true
 }

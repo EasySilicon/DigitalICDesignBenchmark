@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run one prepared Kimi/GLM T08 trial; host judge never enters the container."""
+"""Run one prepared T08 trial; host judge never enters the container."""
 from __future__ import annotations
 
 import argparse
@@ -45,7 +45,16 @@ def toml_value(value):
     return json.dumps(value, ensure_ascii=False)
 
 
-def prepare_auth(root: Path, agent: str, kimi_auth_dir: Path | None = None) -> None:
+def claude_model(model: str | None) -> str:
+    selected = 'glm-5.3-flash' if model is None else model
+    if selected not in ('glm-5.3-flash', 'deepseek-flash'):
+        raise ValueError('select the exact supported Claude Code model')
+    return selected
+
+
+def prepare_auth(root: Path, agent: str, kimi_auth_dir: Path | None = None,
+                 *, model: str | None = None, claude_settings: Path | None = None) -> None:
+    selected_claude = claude_model(model) if agent == 'claude' else None
     home = root / 'agent_home'
     if any(home.iterdir()):
         raise RuntimeError('refusing to reuse a nonempty candidate home')
@@ -81,30 +90,46 @@ def prepare_auth(root: Path, agent: str, kimi_auth_dir: Path | None = None) -> N
                 for path in (target / folder).rglob('*'):
                     if path.is_file():
                         path.chmod(0o600)
-    else:
+    elif agent == 'codex':
+        target = home / '.codex'
+        target.mkdir(mode=0o700)
+        shutil.copy2(Path.home() / '.codex/auth.json', target / 'auth.json')
+        (target / 'auth.json').chmod(0o600)
+        source = Path.home() / '.codex/installation_id'
+        if source.is_file():
+            shutil.copy2(source, target / source.name)
+    elif agent == 'claude':
         target = home / '.claude'
         target.mkdir(mode=0o700)
-        host = json.loads((Path.home() / '.claude/settings.json').read_text())
+        host = json.loads((claude_settings or Path.home() / '.claude/settings.json').read_text())
         env = {k: v for k, v in host.get('env', {}).items()
                if k in {'ANTHROPIC_AUTH_TOKEN', 'ANTHROPIC_API_KEY',
                         'ANTHROPIC_BASE_URL', 'CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC'}}
         for key in ('ANTHROPIC_MODEL', 'ANTHROPIC_REASONING_MODEL',
                     'ANTHROPIC_DEFAULT_OPUS_MODEL', 'ANTHROPIC_DEFAULT_SONNET_MODEL',
                     'ANTHROPIC_DEFAULT_HAIKU_MODEL', 'ANTHROPIC_DEFAULT_FABLE_MODEL'):
-            env[key] = 'glm-5.3-flash'
+            env[key] = selected_claude
         write_json(target / 'settings.json', {
             'env': env, 'disableBundledSkills': True,
             'permissions': {'deny': ['Skill', 'WebSearch', 'WebFetch']},
             'hasCompletedOnboarding': True, 'skipDangerousModePermissionPrompt': True,
         })
         (target / 'settings.json').chmod(0o600)
+    else:
+        raise ValueError(f'unsupported candidate CLI: {agent}')
     if any(home.rglob('SKILL.md')):
         raise RuntimeError('Skill found in candidate home')
 
 
 def command(root: Path, agent: str, container: str, session: str,
             shell: str | None = None, *, seconds: int = LIMIT,
-            gate: str = 'start_trial', resume_session: str | None = None) -> list[str]:
+            gate: str = 'start_trial', resume_session: str | None = None,
+            model: str | None = None) -> list[str]:
+    if agent not in ('kimi', 'claude', 'codex'):
+        raise ValueError(f'unsupported candidate CLI: {agent}')
+    if agent == 'codex' and model not in ('gpt-6-astra', 'gpt-6.1-sol', 'gpt-6-sol'):
+        raise ValueError('select the exact supported Codex model')
+    selected_claude = claude_model(model) if agent == 'claude' else None
     cmd = ['docker', 'run', '--name', container, '--network', 'host',
            '--user', '1000:1000', '--cpus', '16', '--memory', '32g',
            '--memory-swap', '32g', '--pids-limit', '4096',
@@ -117,6 +142,8 @@ def command(root: Path, agent: str, container: str, session: str,
             '-e', 'CCACHE_DIR=/tmp/ccache']
     if agent == 'claude':
         cmd += ['-e', 'CLAUDE_CODE_MAX_OUTPUT_TOKENS=128000']
+    if agent == 'codex':
+        cmd += ['-e', 'CODEX_HOME=/home/benchmark/.codex']
     for source in ('/usr', '/bin', '/lib', '/lib64', '/etc/passwd',
                    '/etc/group', '/etc/ssl', '/home/reefshark/.local', str(NODE), str(OSS)):
         cmd += ['-v', f'{source}:{source}:ro']
@@ -126,7 +153,7 @@ def command(root: Path, agent: str, container: str, session: str,
     # which may contain reference netlists and other trials' artifacts.
     if (root / 'public_eda').is_dir():
         cmd += ['-v', f'{root / "public_eda"}:/opt/t08_eda:ro']
-    config = '.kimi-code' if agent == 'kimi' else '.claude'
+    config = {'kimi': '.kimi-code', 'claude': '.claude', 'codex': '.codex'}[agent]
     cmd += ['-v', f'{root / "workspace"}:/workspace',
             '-v', f'{root / "agent_home"}:/home/benchmark',
             '-v', f'{root / "empty_skills"}:/empty_skills:ro',
@@ -136,14 +163,29 @@ def command(root: Path, agent: str, container: str, session: str,
         prompt_file = 'RESUME_PROMPT.md' if resume_session else 'PROMPT.md'
         kimi_start = (f'kimi --session {shlex.quote(resume_session)}'
                       if resume_session else 'kimi -m kimi-code/k3-256k')
+        claude_session = (f'--resume {shlex.quote(resume_session)}'
+                          if resume_session else f'--session-id {shlex.quote(session)}')
         launch = (
             f'{kimi_start} --skills-dir /empty_skills '
             f'--output-format stream-json -p "$(< /workspace/{prompt_file})"'
             if agent == 'kimi' else
-            f'claude -p "$(< /workspace/PROMPT.md)" --model glm-5.3-flash '
-            f'--session-id {shlex.quote(session)} --disallowedTools Skill,WebSearch,WebFetch '
+            f'claude -p "$(< /workspace/{prompt_file})" --model {shlex.quote(selected_claude)} '
+            f'{claude_session} --disallowedTools Skill,WebSearch,WebFetch '
             '--dangerously-skip-permissions --output-format stream-json --verbose'
         )
+        if agent == 'codex':
+            launch = (
+                'codex exec --json --ignore-user-config --skip-git-repo-check '
+                '--enable skip_host_skill_discovery --disable skill_search '
+                '--disable skill_mcp_dependency_install --disable plugins '
+                '--disable plugin_sharing --disable apps --disable remote_plugin '
+                '--disable recommended_plugins --disable multi_agent '
+                '--disable browser_use --disable computer_use --disable in_app_browser '
+                f'-m {shlex.quote(model)} -c \'model_reasoning_effort="high"\' '
+                '-c \'web_search="disabled"\' --dangerously-bypass-approvals-and-sandbox '
+                '-C /workspace --output-last-message /workspace/last_message.txt '
+                '- < /workspace/PROMPT.md'
+            )
         shell = (f'while [ ! -f /tmp/{gate} ]; do sleep 0.1; done; '
                  f'exec timeout --signal=INT --kill-after=30s {seconds}s {launch}')
     return [*cmd, shell]
@@ -157,6 +199,9 @@ def check_prepared(root: Path) -> dict:
         raise RuntimeError('public inputs changed after preparation')
     if digest(inventory(root / 'frozen_judge')) != manifest['judge_sha256']:
         raise RuntimeError('frozen judge changed after preparation')
+    if manifest.get('public_eda_sha256') is not None:
+        if digest(inventory(root / 'public_eda')) != manifest['public_eda_sha256']:
+            raise RuntimeError('public EDA kit changed after preparation')
     if any((root / 'empty_skills').iterdir()):
         raise RuntimeError('skill override is not empty')
     tasks = sorted(p.name for p in (root / 'workspace/benchmark/tasks').iterdir())
@@ -165,11 +210,13 @@ def check_prepared(root: Path) -> dict:
     return manifest
 
 
-def preflight(root: Path, kimi_auth_dir: Path | None = None) -> None:
+def preflight(root: Path, kimi_auth_dir: Path | None = None,
+              claude_settings: Path | None = None) -> None:
     manifest = check_prepared(root)
     agent = manifest['agent']
     if not any((root / 'agent_home').iterdir()):
-        prepare_auth(root, agent, kimi_auth_dir)
+        prepare_auth(root, agent, kimi_auth_dir, model=manifest['model'],
+                     claude_settings=claude_settings)
     name = 'ic-bcmk-t08-' + root.name.replace('.', '-') + '-preflight-' + uuid.uuid4().hex[:8]
     script = '''set -e
 test "$(ls /workspace/benchmark/tasks)" = T08
@@ -184,8 +231,13 @@ openroad -version
 g++ --version | head -1
 python3 --version
 '''
-    script += 'kimi -V\nkimi doctor\n' if agent == 'kimi' else 'claude --version\n'
-    cmd = command(root, agent, name, '', shell=script)
+    if agent == 'codex':
+        script += 'codex --version\ncodex login status\n'
+        script += 'test ! -e /home/benchmark/.agents/skills\n'
+        script += 'test ! -e /home/reefshark/.codex\n'
+    else:
+        script += 'kimi -V\nkimi doctor\n' if agent == 'kimi' else 'claude --version\n'
+    cmd = command(root, agent, name, '', shell=script, model=manifest['model'])
     result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
     (root / 'preflight.log').write_text(result.stdout + result.stderr)
     subprocess.run(['docker', 'rm', name], capture_output=True, check=True)
@@ -217,6 +269,15 @@ def parse_event_line(line: str) -> dict | None:
 
 
 def print_event(event: dict) -> None:
+    if event.get('type') == 'thread.started':
+        print(f'CODEX_SESSION {event.get("thread_id")}', flush=True)
+    if event.get('type') in ('item.started', 'item.completed') and isinstance(event.get('item'), dict):
+        item = event['item']
+        if item.get('type') in ('agent_message', 'reasoning'):
+            print(item.get('text', ''), flush=True)
+        elif item.get('type') == 'command_execution':
+            print(f'COMMAND {item.get("command")} exit={item.get("exit_code")}', flush=True)
+        return
     if event.get('type') == 'system' and event.get('subtype') == 'init':
         print(f'INIT model={event.get("model")} cwd={event.get("cwd")} '
               f'skills={event.get("skills")} session={event.get("session_id")}', flush=True)
@@ -318,20 +379,27 @@ def run(root: Path, resume: bool = False) -> None:
         state = json.loads((root / 'status.json').read_text())
         manifest = json.loads((root / 'run_manifest.json').read_text())
         limit = task_budget(manifest)
-        if state['status'] != 'runner_error' or manifest['agent'] != 'kimi':
-            raise RuntimeError('only a stopped Kimi runner-error session can use this resume path')
-        prior_elapsed = float(state['elapsed_seconds'])
+        user_paused = state['status'] == 'paused_by_user' and manifest['agent'] == 'claude'
+        if not user_paused and (state['status'] != 'runner_error' or manifest['agent'] != 'kimi'):
+            raise RuntimeError('resume requires a stopped Kimi runner-error or user-paused Claude session')
+        prior_elapsed = float(json.loads((root / 'user_pause.json').read_text())[
+            'candidate_elapsed_seconds_before_pause'] if user_paused else state['elapsed_seconds'])
         seconds = int(limit - prior_elapsed)
         if seconds <= 0:
             raise RuntimeError('original task time budget is exhausted')
-        sessions = []
-        for path in (root / 'agent_home/.kimi-code/sessions').rglob('state.json'):
-            item = json.loads(path.read_text())
-            if isinstance(item, dict) and str(item.get('id', '')).startswith('session_'):
-                sessions.append(item['id'])
-        if len(sessions) != 1:
-            raise RuntimeError('cannot identify exactly one persistent Kimi session')
-        resume_session = sessions[0]
+        if user_paused:
+            resume_session = manifest['session_id']
+            if not resume_session or not any((root / 'agent_home/.claude/projects').rglob(resume_session + '.jsonl')):
+                raise RuntimeError('persistent Claude session is missing')
+        else:
+            sessions = []
+            for path in (root / 'agent_home/.kimi-code/sessions').rglob('state.json'):
+                item = json.loads(path.read_text())
+                if isinstance(item, dict) and str(item.get('id', '')).startswith('session_'):
+                    sessions.append(item['id'])
+            if len(sessions) != 1:
+                raise RuntimeError('cannot identify exactly one persistent Kimi session')
+            resume_session = sessions[0]
         index = len(manifest.get('resumes', [])) + 1
         runtime = root / 'resumes' / f'{index:02d}'
         runtime.mkdir(parents=True, exist_ok=False)
@@ -348,11 +416,15 @@ def run(root: Path, resume: bool = False) -> None:
             prior_eda += [json.loads(path.read_text()) for path in
                          (Path(previous['runtime']) / 'telemetry_eda').glob('*/eda_time.json')]
         gate = f'start_resume_{index}'
+        reason_text = ('The user temporarily paused this exact session. Resume with the '
+            'budget specified below. No work or hidden-test feedback was added. '
+            if user_paused else
+            'The host runner interrupted you because it incorrectly parsed a numeric '
+            'tool-output line as a JSON event. This is an infrastructure fault, not a '
+            'candidate failure. The parser is now fixed. ')
         (root / 'workspace/RESUME_PROMPT.md').write_text(
             'Continue this exact existing T08 session and current workspace; do not '
-            'restart the task. The host runner interrupted you because it incorrectly '
-            'parsed a numeric tool-output line as a JSON event. This is an infrastructure '
-            'fault, not a candidate failure. The parser is now fixed. '
+            'restart the task. ' + reason_text +
             f'Already used candidate time: {prior_elapsed:.3f} seconds; '
             f'remaining original time budget: {seconds} seconds. '
             'Host interruption time is excluded. Read the updated TRIAL_CLOCK.json. '
@@ -360,7 +432,7 @@ def run(root: Path, resume: bool = False) -> None:
             'implementation and verification. No Skills or direct Web tools; no '
             'cumulative token hard cap. Keep the original persistent session.\n')
         manifest.setdefault('resumes', []).append({'index': index, 'session_id': resume_session,
-            'runtime': str(runtime), 'reason': 'host_log_parser_error',
+            'runtime': str(runtime), 'reason': 'user_pause' if user_paused else 'host_log_parser_error',
             'prior_elapsed_seconds': prior_elapsed, 'remaining_seconds': seconds})
         if (root / 'tmp' / gate).exists():
             raise RuntimeError('resume gate already exists')
@@ -375,7 +447,8 @@ def run(root: Path, resume: bool = False) -> None:
     manifest.update(container=container, session_id=session if resume_session or manifest['agent'] == 'claude' else None,
                     resource_limits={'memory_gib': 32, 'cpus': 16}, launched_utc=utc())
     cmd = command(root, manifest['agent'], container, session,
-                  seconds=seconds, gate=gate, resume_session=resume_session)
+                  seconds=seconds, gate=gate, resume_session=resume_session,
+                  model=manifest['model'])
     write_json(runtime / 'command.json', cmd)
     write_json(root / 'run_manifest.json', manifest)
     write_json(root / 'status.json', {'status': 'starting', 'container': container})
@@ -427,6 +500,10 @@ def run(root: Path, resume: bool = False) -> None:
                 event = parse_event_line(line)
                 if event is None:
                     continue
+                if manifest['agent'] == 'codex' and event.get('type') == 'thread.started':
+                    manifest['session_id'] = event['thread_id']
+                    write_json(root / 'run_manifest.json', manifest)
+                    write_json(root / 'session.json', {'thread_id': event['thread_id']})
                 if event.get('type') == 'system' and event.get('subtype') == 'init':
                     if manifest['agent'] == 'claude':
                         audit_claude(event, manifest['model'])
@@ -465,7 +542,7 @@ def run(root: Path, resume: bool = False) -> None:
                           'status': 'grading_incomplete', 'grading_error': str(error)}
         report.update(model=manifest['model'], experimental=True, elapsed_seconds=elapsed,
                       agent_exit_code=exit_code, init_audit_passed=audited, eda=eda,
-                      ppa_status='pending_frozen_reference', ppa_score=None,
+                      ppa_status='pending_candidate_measurement', ppa_score=None,
                       time_score=None, token_stop_enabled=False, finished_utc=utc())
         report['eda_segments'] = eda_segments
         report['prior_elapsed_seconds'] = prior_elapsed
@@ -500,9 +577,11 @@ def main() -> None:
     parser.add_argument('--resume', action='store_true')
     parser.add_argument('--kimi-auth-dir', type=Path,
                         help='credentials only; never copies old sessions or Skills')
+    parser.add_argument('--claude-settings', type=Path,
+                        help='explicit API configuration; only credential/endpoint fields are copied')
     args = parser.parse_args()
     root = args.root.resolve(strict=True)
-    preflight(root, args.kimi_auth_dir) if args.preflight else run(root, resume=args.resume)
+    preflight(root, args.kimi_auth_dir, args.claude_settings) if args.preflight else run(root, resume=args.resume)
 
 
 if __name__ == '__main__':

@@ -87,8 +87,9 @@ class FreezeTasksTest(unittest.TestCase):
                 jsonschema.validate(binding, schema["properties"]["benchmark_freeze"])
                 self.assertEqual(binding, summary["task_freeze_receipts"][task])
                 self.assertEqual(binding["receipt_sha256"], freeze.sha(freeze.ROOT / binding["receipt"]))
-                if task == "T08" and path.parent.name in ("gpt-6-astra", "gpt-6-sol", "gpt-6.1-sol", "deepseek-flash"):
-                    self.assertIsNone(row["functional_total"])
+                if row.get("functional_total") is not None:
+                    self.assertGreaterEqual(row["functional_total"], 0)
+                    self.assertLessEqual(row["functional_total"], 50)
         self.assertEqual(count, 6)
 
     def test_kimi_final_summary_preserves_scores_and_elapsed_time(self):

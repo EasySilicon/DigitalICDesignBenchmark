@@ -4,14 +4,37 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from benchmark.prepare_t08_comparison import MODELS, inventory, prepare_comparison
+from benchmark.prepare_t08_comparison import MODELS, inventory, prepare_comparison, copy_common_synthesis_maps
 
 
 class T08ComparisonTest(unittest.TestCase):
+    def test_deepseek_uses_claude_code_and_two_hour_budget(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / 'single'
+            release = prepare_comparison(root, models=('deepseek-flash',))
+            self.assertEqual(set(release['models']), {'deepseek-flash'})
+            self.assertEqual(release['time_limit_seconds'], 7200)
+            self.assertEqual(release['start_gate'], 'start_single')
+            manifest = json.loads((root / 'deepseek-flash/run_manifest.json').read_text())
+            self.assertEqual(manifest['model'], 'deepseek-flash')
+            self.assertEqual(manifest['agent'], 'claude')
+
+    def test_gpt61_sol_uses_exact_model_and_two_hour_budget(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / 'single'
+            release = prepare_comparison(root, models=('gpt-6.1-sol',))
+            self.assertEqual(set(release['models']), {'gpt-6.1-sol'})
+            self.assertEqual(release['time_limit_seconds'], 7200)
+            self.assertEqual(release['start_gate'], 'start_single')
+            manifest = json.loads((root / 'gpt-6.1-sol/run_manifest.json').read_text())
+            self.assertEqual(manifest['model'], 'gpt-6.1-sol')
+            self.assertEqual(manifest['agent'], 'codex')
+            self.assertEqual(manifest['reasoning_effort'], 'high')
+
     def test_identical_inputs_and_host_only_judges(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary) / "comparison"
-            release = prepare_comparison(root)
+            release = prepare_comparison(root, models=tuple(MODELS))
             trials = [root / name for name in MODELS]
             self.assertEqual(inventory(trials[0] / "workspace"),
                              inventory(trials[1] / "workspace"))
@@ -76,6 +99,34 @@ class T08ComparisonTest(unittest.TestCase):
             (root / "leak").symlink_to("/etc/passwd")
             with self.assertRaises(ValueError):
                 inventory(root)
+
+    def test_common_synthesis_map_is_included_without_designs(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            orfs, kit = root / 'orfs', root / 'kit'
+            source = orfs / 'flow/platforms/common/lcu_kogge_stone.v'
+            source.parent.mkdir(parents=True)
+            source.write_text('module public_map; endmodule\n')
+            copy_common_synthesis_maps(kit, orfs)
+            target = kit / 'flow/platforms/common/lcu_kogge_stone.v'
+            self.assertEqual(source.read_bytes(), target.read_bytes())
+            self.assertFalse((kit / 'flow/designs').exists())
+            copy_common_synthesis_maps(kit, orfs)
+            target.write_text('different\n')
+            with self.assertRaises(ValueError):
+                copy_common_synthesis_maps(kit, orfs)
+
+    def test_common_synthesis_map_missing_or_symlink_is_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            orfs, kit = root / 'orfs', root / 'kit'
+            with self.assertRaises(ValueError):
+                copy_common_synthesis_maps(kit, orfs)
+            source = orfs / 'flow/platforms/common/lcu_kogge_stone.v'
+            source.parent.mkdir(parents=True)
+            source.symlink_to('/etc/passwd')
+            with self.assertRaises(ValueError):
+                copy_common_synthesis_maps(kit, orfs)
 
 
 if __name__ == "__main__":

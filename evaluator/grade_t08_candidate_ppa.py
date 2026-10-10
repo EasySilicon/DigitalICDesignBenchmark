@@ -35,25 +35,33 @@ def write(path: Path, data):
 
 def publish(repo: Path, model: str, record: dict, trial: Path):
     """Replace only this task, keeping every other task and raw trial immutable."""
-    canonical = {'kimi-k3': '/mnt/ubu_3T/ic_bcmk_trials/kimi_k3_256k_20261004',
-                 'glm-5.3-flash': '/mnt/ubu_3T/ic_bcmk_trials/claude_glm_5_3_flash_20261005'}
     results = repo / 'results' / model
+    summary_paths = [results / 'summary.json']
     backup = trial / 'publication_backup' / model
     backup.mkdir(parents=True, exist_ok=True)
-    for path in (results / 'T08.json', results / 'summary.json', Path(canonical[model]) / 'summary.json'):
+    for path in [results / 'T08.json', *summary_paths]:
         if path.exists():
-            label = ('canonical_' if path.parent == Path(canonical[model]) else '') + path.name
+            label = path.name
             if not (backup / label).exists():
                 shutil.copy2(path, backup / label)
-    old = json.loads((results / 'T08.json').read_text())
+    old = json.loads((results / 'T08.json').read_text()) if (results / 'T08.json').exists() else {}
     old.update(record)
     write(results / 'T08.json', old)
-    for path in (results / 'summary.json', Path(canonical[model]) / 'summary.json'):
+    final_fields = {key: value for key, value in record.items() if key not in {
+        'previous_trial', 'trial_directory', 'ppa_measurement_file',
+        'additional_phase_elapsed_seconds', 'pilot_budget', 'run_phase', 'note'}}
+    if isinstance(final_fields.get('eda'), dict):
+        final_fields['eda'] = {key: value for key, value in final_fields['eda'].items()
+                               if key not in {'container', 'container_init_pid', 'attached_utc',
+                                              'active_calls', 'note'}}
+    for path in summary_paths:
         summary = json.loads(path.read_text())
         rows = summary['tasks']
         for row in rows:
             if row['task_id'] == 'T08':
-                row.update(record)
+                row.update(final_fields)
+                row.pop('note', None)
+                row['full_functional_pass'] = record['functional_total'] == 50
         totals = {key: sum(row.get(key) or 0 for row in rows) for key in
                   ('functional_total', 'ppa_score', 'time_score', 'display_score')}
         summary.update(functional_total_sum=totals['functional_total'],
@@ -73,6 +81,12 @@ def publish(repo: Path, model: str, record: dict, trial: Path):
             if any(row.get(key) is None for key in ('functional_total', 'ppa_score', 'time_score'))}
         summary['complete_display_score_task_count'] = len(rows) - len(summary['pending_components'])
         summary['totals_complete'] = not summary['pending_components']
+        summary['pending_functional_tasks'] = [row['task_id'] for row in rows
+                                               if row.get('functional_total') is None]
+        summary['evaluated_task_count'] = len(rows) - len(summary['pending_functional_tasks'])
+        summary['completed_tasks'] = summary['evaluated_task_count']
+        if 'remaining_unscored_component' in summary:
+            summary['remaining_unscored_component'] = summary['pending_components']
         write(path, summary)
     table = repo / 'results/model-score-comparison.md'
     if table.exists():
@@ -144,11 +158,32 @@ def delivery(trial: Path, output: Path):
     return report
 
 
+def result_model(manifest: dict) -> str:
+    name = manifest['model']
+    if name == 'kimi-code/k3-256k':
+        return 'kimi-k3'
+    if name not in {'gpt-6-astra', 'gpt-6-sol', 'gpt-6.1-sol',
+                    'glm-5.3-flash', 'deepseek-flash'}:
+        raise ValueError(f'unknown result model: {name}')
+    return name
+
+
+def candidate_clock(manifest: dict, functional: dict) -> tuple[float, float]:
+    """Use candidate development time only; independent EDA is excluded."""
+    elapsed = manifest.get('previous_submission_elapsed_seconds', 0) + functional['elapsed_seconds']
+    limit = manifest.get('cumulative_time_limit_seconds', manifest['time_limit_seconds'])
+    if elapsed < 0 or limit <= 0:
+        raise ValueError('invalid candidate clock')
+    return elapsed, limit
+
+
 def run(trial: Path, orfs: Path, repo: Path):
     output = trial / 'ppa_grading'
     output.mkdir(exist_ok=False)
     manifest = json.loads((trial / 'run_manifest.json').read_text())
     functional = json.loads((trial / 'summary.json').read_text())
+    model = result_model(manifest)
+    elapsed, limit = candidate_clock(manifest, functional)
     state = {'task': 'T08', 'status': 'running', 'selected_seeds': [11, 29, 47], 'completed_seeds': []}
     def update(stage, **fields):
         state.update(stage=stage, updated_utc=dt.datetime.now(dt.timezone.utc).isoformat(), **fields)
@@ -170,13 +205,14 @@ def run(trial: Path, orfs: Path, repo: Path):
         shutil.copytree(trial / 'workspace/rtl', submission / 'rtl', dirs_exist_ok=True)
         source_digest = source_hash(submission)
         write(output / 'submission_receipt.json', {'source_sha256': source_digest, 'frozen_utc': dt.datetime.now(dt.timezone.utc).isoformat()})
+        update('delivery_check')
         delivery_report = delivery(trial, output)
         groups = {g['id']: {'cases_total': len(g['cases']), 'cases_passed': sum(
                   functional['cases'][str(case)]['passed'] for case in g['cases']), 'safety_violation': False}
                   for g in functional['test_groups']}
         payload = {'task_id': 'T08', 'groups': groups,
-                   'elapsed_seconds': manifest['previous_submission_elapsed_seconds'] + functional['elapsed_seconds'],
-                   'time_limit_seconds': manifest['cumulative_time_limit_seconds'],
+                   'elapsed_seconds': elapsed,
+                   'time_limit_seconds': limit,
                    'delivery_qualified': delivery_report['delivery_qualified'],
                    'candidate_delivery_error_count': 0}
         measurement = None
@@ -200,6 +236,7 @@ def run(trial: Path, orfs: Path, repo: Path):
                 'evidence_sha256': {'evidence/' + name: sha256(mapped / 'evidence' / name) for name in names}})
             validated_mapping(submission, mapped)
             pairs = []
+            update('waiting_for_grading_lock')
             with Path('/mnt/ubu_3T/ic_bcmk_trials/grade.lock').open('a') as lock:
                 fcntl.flock(lock, fcntl.LOCK_EX)
                 for seed in (11, 29, 47):
@@ -227,18 +264,24 @@ def run(trial: Path, orfs: Path, repo: Path):
             raise RuntimeError('PPA provenance mismatch; do not publish fake zero score')
         score.update(model=manifest['model'], legacy_task_id='T11', suite_id='ic-delivery-rtl-v0.3',
             elapsed_seconds=payload['elapsed_seconds'], time_limit_seconds=payload['time_limit_seconds'],
-            additional_phase_elapsed_seconds=functional['elapsed_seconds'],
-            previous_trial=manifest['previous_trial'], trial_kind='ppa_continuation_60m', ranking_eligible=False,
+            trial_kind='pre_release_pilot', ranking_eligible=False,
             score_status='scored' if delivery_report['delivery_qualified'] else 'delivery_attribution_pending',
             grade_phase='scored' if delivery_report['delivery_qualified'] else 'delivery_attribution_pending',
             judge_revision=functional.get('judge_revision'), source_sha256=source_digest,
             ppa_measurement_file=str(output / 'measurement.json') if measurement else None,
-            trial_directory=str(trial), eda=functional.get('eda'),
-            note='Additional 60-minute PPA continuation after prior 90-minute pilot; cumulative budget 150 minutes. Not a uniform-budget ranking result.')
+            trial_directory=str(trial), eda=functional.get('eda'))
+        if not functional.get('full_functional_pass'):
+            score.update(ppa_status='zero_functional_gate',
+                         ppa_zero_reason='Independent functional acceptance did not fully pass; PPA and time scores are zero under the frozen full-functional gate.',
+                         failed_functional_cases=[int(case) for case, result in functional['cases'].items()
+                                                  if not result['passed']])
+        if manifest.get('previous_trial'):
+            score.update(previous_trial=manifest['previous_trial'],
+                         additional_phase_elapsed_seconds=functional['elapsed_seconds'])
         write(output / 'score.json', score)
         # Fatal delivery findings need evaluator attribution before any fixed -5
         # deduction. Preserve numeric independent RTL/PPA results, no invention.
-        publish(repo, 'kimi-k3', score, trial)
+        publish(repo, model, score, trial)
         write(trial / 'final_score.json', score)
         write(trial / 'status.json', {'status': 'scored', 'functional_total': score['functional_total'],
                                     'ppa_score': score['ppa_score'], 'display_score': score['display_score']})
