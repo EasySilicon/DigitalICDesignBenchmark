@@ -1,0 +1,328 @@
+{
+  "task_id": "T10",
+  "candidate": "v138_bank_alignment_clean",
+  "rtl_sha256": "2268a60e508243ac9b448457969b7f409218fa9fe8cb845339ca6f5c2b2cd70c",
+  "evidence_kind": "historical_runs_of_byte_identical_source",
+  "functional_qualified": true,
+  "physical_qualified": false,
+  "official_ppa_baseline_qualified": false,
+  "regressions": {
+    "original": {
+      "seed": 20260925,
+      "cases": 2752,
+      "functional_passed": true,
+      "reset_probe_passed": true,
+      "structure": {
+        "passed": true,
+        "reason": null,
+        "pe_module": "t10_reference_pe",
+        "pe_instances": 256,
+        "mesh_paths": [
+          16,
+          16
+        ],
+        "link_register_placement": "pe_output",
+        "top_state_bits": 306058,
+        "checked_links": [
+          [
+            "a_out",
+            "a_in"
+          ],
+          [
+            "b_out",
+            "b_in"
+          ]
+        ],
+        "flattened_from_hierarchy": true,
+        "status": "qualified",
+        "method": "yosys_netlist"
+      },
+      "groups": {
+        "MM-INT": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F16": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F8": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F4": {
+          "cases_passed": 64,
+          "cases_total": 64
+        },
+        "MM-MX8": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-MX4": {
+          "cases_passed": 96,
+          "cases_total": 96
+        },
+        "MM-PROTO": {
+          "cases_passed": 337,
+          "cases_total": 337
+        },
+        "MM-SYSTOLIC": {
+          "cases_passed": 1616,
+          "cases_total": 1616
+        },
+        "MM-CORNER": {
+          "cases_passed": 128,
+          "cases_total": 128
+        }
+      },
+      "stream_line": "MM_STREAM input_bubble_phases=00000000000000 finished=2752",
+      "first_latency_limit": 64,
+      "last_latency_limit": 80,
+      "rtl_sha256": "2268a60e508243ac9b448457969b7f409218fa9fe8cb845339ca6f5c2b2cd70c",
+      "runner_sha256": "b9e08993c817fd6cc825d4fe00799f9c5781c9d6c5425612979c5127e594465e",
+      "failures": []
+    },
+    "mixed_20261010": {
+      "seed": 20261010,
+      "cases": 2752,
+      "functional_passed": true,
+      "reset_probe_passed": true,
+      "structure": {
+        "passed": true,
+        "reason": null,
+        "pe_module": "t10_reference_pe",
+        "pe_instances": 256,
+        "mesh_paths": [
+          16,
+          16
+        ],
+        "link_register_placement": "pe_output",
+        "top_state_bits": 306058,
+        "checked_links": [
+          [
+            "a_out",
+            "a_in"
+          ],
+          [
+            "b_out",
+            "b_in"
+          ]
+        ],
+        "flattened_from_hierarchy": true,
+        "status": "qualified",
+        "method": "yosys_netlist"
+      },
+      "groups": {
+        "MM-INT": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F16": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F8": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F4": {
+          "cases_passed": 64,
+          "cases_total": 64
+        },
+        "MM-MX8": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-MX4": {
+          "cases_passed": 96,
+          "cases_total": 96
+        },
+        "MM-PROTO": {
+          "cases_passed": 337,
+          "cases_total": 337
+        },
+        "MM-SYSTOLIC": {
+          "cases_passed": 1616,
+          "cases_total": 1616
+        },
+        "MM-CORNER": {
+          "cases_passed": 128,
+          "cases_total": 128
+        }
+      },
+      "stream_line": "MM_STREAM input_bubble_phases=00000000000000 finished=2752",
+      "first_latency_limit": 64,
+      "last_latency_limit": 80,
+      "rtl_sha256": "2268a60e508243ac9b448457969b7f409218fa9fe8cb845339ca6f5c2b2cd70c",
+      "runner_sha256": "b9e08993c817fd6cc825d4fe00799f9c5781c9d6c5425612979c5127e594465e",
+      "failures": []
+    },
+    "mixed_20261011": {
+      "seed": 20261011,
+      "cases": 2752,
+      "functional_passed": true,
+      "reset_probe_passed": true,
+      "structure": {
+        "passed": true,
+        "reason": null,
+        "pe_module": "t10_reference_pe",
+        "pe_instances": 256,
+        "mesh_paths": [
+          16,
+          16
+        ],
+        "link_register_placement": "pe_output",
+        "top_state_bits": 306058,
+        "checked_links": [
+          [
+            "a_out",
+            "a_in"
+          ],
+          [
+            "b_out",
+            "b_in"
+          ]
+        ],
+        "flattened_from_hierarchy": true,
+        "status": "qualified",
+        "method": "yosys_netlist"
+      },
+      "groups": {
+        "MM-INT": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F16": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F8": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F4": {
+          "cases_passed": 64,
+          "cases_total": 64
+        },
+        "MM-MX8": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-MX4": {
+          "cases_passed": 96,
+          "cases_total": 96
+        },
+        "MM-PROTO": {
+          "cases_passed": 337,
+          "cases_total": 337
+        },
+        "MM-SYSTOLIC": {
+          "cases_passed": 1616,
+          "cases_total": 1616
+        },
+        "MM-CORNER": {
+          "cases_passed": 128,
+          "cases_total": 128
+        }
+      },
+      "stream_line": "MM_STREAM input_bubble_phases=00000000000000 finished=2752",
+      "first_latency_limit": 64,
+      "last_latency_limit": 80,
+      "rtl_sha256": "2268a60e508243ac9b448457969b7f409218fa9fe8cb845339ca6f5c2b2cd70c",
+      "runner_sha256": "b9e08993c817fd6cc825d4fe00799f9c5781c9d6c5425612979c5127e594465e",
+      "failures": []
+    },
+    "corners": {
+      "seed": 20261012,
+      "cases": 2752,
+      "functional_passed": true,
+      "reset_probe_passed": true,
+      "structure": {
+        "passed": true,
+        "reason": null,
+        "pe_module": "t10_reference_pe",
+        "pe_instances": 256,
+        "mesh_paths": [
+          16,
+          16
+        ],
+        "link_register_placement": "pe_output",
+        "top_state_bits": 306058,
+        "checked_links": [
+          [
+            "a_out",
+            "a_in"
+          ],
+          [
+            "b_out",
+            "b_in"
+          ]
+        ],
+        "flattened_from_hierarchy": true,
+        "status": "qualified",
+        "method": "yosys_netlist"
+      },
+      "groups": {
+        "MM-INT": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F16": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F8": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F4": {
+          "cases_passed": 64,
+          "cases_total": 64
+        },
+        "MM-MX8": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-MX4": {
+          "cases_passed": 96,
+          "cases_total": 96
+        },
+        "MM-PROTO": {
+          "cases_passed": 337,
+          "cases_total": 337
+        },
+        "MM-SYSTOLIC": {
+          "cases_passed": 1616,
+          "cases_total": 1616
+        },
+        "MM-CORNER": {
+          "cases_passed": 128,
+          "cases_total": 128
+        }
+      },
+      "stream_line": "MM_STREAM input_bubble_phases=00000000000000 finished=2752",
+      "first_latency_limit": 64,
+      "last_latency_limit": 80,
+      "rtl_sha256": "2268a60e508243ac9b448457969b7f409218fa9fe8cb845339ca6f5c2b2cd70c",
+      "runner_sha256": "b9e08993c817fd6cc825d4fe00799f9c5781c9d6c5425612979c5127e594465e",
+      "failures": []
+    }
+  },
+  "supplemental_full_occupancy_reset": {
+    "passed": true,
+    "rtl_sha256": "2268a60e508243ac9b448457969b7f409218fa9fe8cb845339ca6f5c2b2cd70c",
+    "bench_sha256": "e2c437d17f8fd672660d0ca87772cf0990936b7be9895a7b855c6dc4dd3a98ed",
+    "scenarios": 3
+  },
+  "physical_status": {
+    "seed": 11,
+    "synthesis_completed": true,
+    "placement_generated": true,
+    "native_placement_check_completed": false,
+    "placement_sta_completed": false,
+    "cts_completed": false,
+    "routed_ppa_completed": false,
+    "run_status": "stopped_by_user",
+    "reason": "Stopped while full-top native placement check was stalled under memory pressure; no v138 timing result was produced. Old v133 diagnostic timing must not be attributed to this candidate."
+  }
+}

@@ -3,8 +3,9 @@
 This directory contains the PE, 4x4-tile and complete 16x16-DUT backend sources
 imported from `ic_bcmk_eval_private` commit `e9da70a`. Runtime paths now follow
 this checkout and explicit environment overrides. Reference sources are in
-[../reference/T10/](../reference/T10/README.md); the latest distributed-egress
-candidate is in `../reference/T10_candidates/v123/rtl/`.
+[../reference/T10/](../reference/T10/README.md); the latest function-qualified
+control candidate is [v138](../reference/T10_candidates/v138_bank_alignment_clean/README.md).
+Its PPA is not qualified; v123 remains available as the earlier snapshot.
 
 ## Configure and check
 
