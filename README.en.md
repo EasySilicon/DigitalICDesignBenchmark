@@ -10,7 +10,7 @@ The candidate develops the RTL, verification environment, fixes, and PPA optimiz
 
 ## Navigation
 
-- [Motivation and evaluation philosophy](#motivation-and-evaluation-philosophy)
+- [Motivation and evaluation principles](#motivation-and-evaluation-principles)
 - [Tasks and capability coverage](#tasks-and-capability-coverage)
 - [Evaluated models and results](#evaluated-models-and-results)
 - [Environment setup](#environment-setup)
@@ -18,7 +18,7 @@ The candidate develops the RTL, verification environment, fixes, and PPA optimiz
 - [Acceptance and scoring](#acceptance-and-scoring)
 - [Repository guide](#repository-guide)
 
-## Motivation and evaluation philosophy
+## Motivation and evaluation principles
 
 The starting point is to **build a benchmark grounded in real digital IC development and delivery workflows, and test whether widely used frontier models can handle real chip engineering work.** Writing a fragment of RTL is only part of the task. Candidates must understand requirements, organize design and verification, analyze problems with EDA tools, iterate on optimizations, and deliver artifacts that pass independent acceptance.
 
@@ -59,11 +59,11 @@ The intended outcome is evidence of **model capability boundaries, reliable deli
 
 ## Current status
 
-The main suite, `ic-delivery-rtl-v0.3`, contains **ten tasks, T01–T10**, and remains in the pre-release `design_only` state.
+The main suite, `ic-delivery-rtl-v0.3`, contains **ten tasks, T01–T10**. T01–T09 have frozen task specifications, acceptance collateral, and three-seed 1 GHz PPA baselines. T10 has a working functional-evaluation package, but its complete-DUT three-seed PPA baseline is still pending. The full ten-task suite therefore remains in the pre-release `design_only` stage.
 
 | Scope | Available | Pending |
 | --- | --- | --- |
-| T01–T09 | Specifications, public smoke tests, independent evaluators, reference RTL, defect mutants, and locally calibrated three-seed 1 GHz PPA baselines | Frozen common tool image and suite-wide release evidence |
+| T01–T09 | Frozen task specifications and acceptance collateral, public smoke tests, reference RTL, defect mutants, and frozen three-seed 1 GHz PPA baselines | Complete |
 | T10 | Continuous-stream matrix evaluation, exact numerical oracle, reset/backpressure/throughput tests, and automatic PE mesh checks | Official three-seed PPA baseline for the complete DUT; currently functional pilot scoring only |
 
 The latest public T10 evaluator package replay passed **2,752 matrix blocks, a separate reset probe, 256-PE structural checks, and all 14 input phases without bubbles**. See [T10_PACKAGE_VERIFICATION.json](evaluator/T10_PACKAGE_VERIFICATION.json). This verifies the functional package, rather than qualifying a complete physical baseline.
@@ -74,7 +74,6 @@ The suite progresses from basic sequential logic through protocols, clock-domain
 
 | ID | Task | IC design domain | Capabilities exercised | Time limit | Suite display weight |
 | --- | --- | --- | --- | ---: | ---: |
-
 | T01 | [SerDes RX comma aligner](benchmark/tasks/T01/task.md) | Serial-link PCS and symbol synchronization | Bit windows across slices, alignment training, word assembly, lock loss/recovery | 30 min | 3% |
 | T02 | [Parameterized synchronous FIFO](benchmark/tasks/T02/task.md) | Stream buffering and storage | ready/valid, simultaneous push/pop, empty/full boundaries, non-power-of-two wrap | 60 min | 3% |
 | T03 | [APB4 timer peripheral](benchmark/tasks/T03/task.md) | Register peripherals and control FSMs | APB timing, byte writes, W1C, interrupts, event priorities | 90 min | 6% |
@@ -82,15 +81,15 @@ The suite progresses from basic sequential logic through protocols, clock-domain
 | T05 | [Asynchronous FIFO](benchmark/tasks/T05/task.md) | CDC, dual-clock buffering and reset | Gray pointers, two-stage synchronizers, conservative flags, cross-domain recovery | 120 min | 6% |
 | T06 | [AXI4-Lite to APB4 bridge](benchmark/tasks/T06/task.md) | On-chip interconnect and protocol conversion | Independent AW/W arrival, concurrent reads/writes, waits, response stalls, errors | 120 min | 10% |
 | T07 | [Direct-mapped write-back cache](benchmark/tasks/T07/task.md) | Memory hierarchy | Tags/indexing, dirty replacement, write allocation, byte enables, stalls on both sides | 120 min | 10% |
-| T08 | [1GbE MAC 缺陷修复与 VLAN 准入](benchmark/tasks/T08/task.md) | Brownfield Ethernet MAC | Corner-case repair, VLAN admission, long specification | 120 min | 11% |
-| T09 | [RV32I 五级流水线 CPU](benchmark/tasks/T09/task.md) | RTL design / verification | Frozen task-specific acceptance | 120 min | 20% |
-| T10 | [多精度脉动阵列矩阵乘法](benchmark/tasks/T10/task.md) | RTL design / verification | Frozen task-specific acceptance | 240 min | 25% |
+| T08 | [1GbE MAC bug fix and VLAN admission](benchmark/tasks/T08/task.md) | Brownfield Ethernet MAC | Long-specification and large-codebase comprehension, corner-case repair, VLAN admission | 120 min | 11% |
+| T09 | [RV32I five-stage pipelined CPU](benchmark/tasks/T09/task.md) | RTL design / verification | Five-stage pipeline, forwarding and hazard handling, variable-latency memory, precise exceptions and CSRs | 120 min | 20% |
+| T10 | [Multi-precision systolic-array matrix multiplication](benchmark/tasks/T10/task.md) | RTL design / verification | Multi-format numerical accuracy, sustained-stream throughput and backpressure, 256-PE physical systolic array | 240 min | 25% |
 
 T10 multiplies `16×64` and `64×16` matrices, accepting **1,024 bits per cycle on each of A and B**. It supports INT8, INT16, FP16, BF16, FP8 E4M3/E5M2, FP4 E2M1, MXFP8 E4M3/E5M2, and MXFP4. Continuous block throughput is required; a single high-bandwidth input burst is insufficient.
 
 
 
-See the [full coverage mapping and scope limits](benchmark/README.md#领域与难度覆盖) in the normative specification. The frozen [T08 MAC repair/VLAN task](benchmark/tasks/T08/README.md) is part of the ten-task suite, covering long-specification comprehension, RTL debugging, atomic frame transactions and feature regression.
+See the [full coverage mapping and scope limits](benchmark/README.md#领域与难度覆盖) in the normative specification.
 
 ## Evaluated models and results
 

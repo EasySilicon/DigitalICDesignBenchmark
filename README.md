@@ -10,7 +10,7 @@ Agent 必须自行完成 RTL、验证环境、缺陷修复和 PPA 优化。评�
 
 ## 导航
 
-- [设计出发点与评测哲学](#设计出发点与评测哲学)
+- [设计出发点与评测原则](#设计出发点与评测原则)
 - [题目与能力覆盖](#题目与能力覆盖)
 - [已测模型与结果](#已测模型与结果)
 - [环境准备](#环境准备)
@@ -18,7 +18,7 @@ Agent 必须自行完成 RTL、验证环境、缺陷修复和 PPA 优化。评�
 - [如何验收与评分](#如何验收与评分)
 - [目录与规范入口](#目录与规范入口)
 
-## 设计出发点与评测哲学
+## 设计出发点与评测原则
 
 这套 benchmark 的出发点是：**建立一套贴近数字芯片开发和交付真实业务流程的评测，检验市面上流行的前沿模型是否能胜任芯片研发中的真实工作。** 评测对象不只是模型能否写出一段 RTL，而是它能否理解需求、组织设计与验证、利用 EDA 工具分析问题、完成迭代优化，并交付可独立验收的工程产物。
 
@@ -59,11 +59,11 @@ Agent 必须自行完成 RTL、验证环境、缺陷修复和 PPA 优化。评�
 
 ## 当前状态
 
-当前主套件是 `ic-delivery-rtl-v0.3`，包含 **T01–T10 十道题**，仍处于预发布 `design_only` 状态。
+当前主套件是 `ic-delivery-rtl-v0.3`，包含 **T01–T10 十道题**。T01–T09 已完成题目、验收与三种子 1 GHz PPA 基线的冻结；T10 的功能验收包已可用，但完整 DUT 的三种子 PPA 基线尚未完成。因此，十题完整套件仍处于预发布 `design_only` 阶段。
 
 | 范围 | 已具备的能力 | 尚待完成 |
 | --- | --- | --- |
-| T01–T09 | 任务规格、公开冒烟、独立验收器、参考 RTL、缺陷变异体，以及本地校准的三种子 1 GHz PPA 基线 | 统一工具镜像与整套发布证据冻结 |
+| T01–T09 | 冻结的题卡与验收、公开冒烟、参考 RTL、缺陷变异体，以及冻结的三种子 1 GHz PPA 基线 | 已完成 |
 | T10 | 持续流多精度矩阵验收、精确数值 oracle、复位/背压/吞吐检查、自动 PE 网格检查 | 完整 DUT 的正式三种子 PPA 基线；当前只报告功能试评分 |
 
 T10 最近一次公开验收包复测通过 **2,752 个矩阵块、独立复位探针、256-PE 结构检查和 14 个无输入气泡阶段**，记录见 [T10_PACKAGE_VERIFICATION.json](evaluator/T10_PACKAGE_VERIFICATION.json)。这份记录证明功能验收包可运行，不代表完整物理基线已发布。
@@ -74,23 +74,20 @@ T10 最近一次公开验收包复测通过 **2,752 个矩阵块、独立复位�
 
 | ID | 任务 | 主要 IC 设计领域 | 重点考察能力 | 开发时限 | 套题显示分权重 |
 | --- | --- | --- | --- | ---: | ---: |
-
-| T01 | [SerDes RX comma aligner](benchmark/tasks/T01/task.md) | 串行链路 PCS 与符号同步 | 跨切片 bit 窗口、对齐训练、字重组、失锁/重锁 | 30 分钟 | 3% |
-| T02 | [参数化同步 FIFO](benchmark/tasks/T02/task.md) | 流式缓冲与存储 | ready/valid、同拍读写、空满边界、非 2 次幂回绕 | 60 分钟 | 3% |
+| T01 | [SerDes RX 逗号对齐器](benchmark/tasks/T01/task.md) | 串行链路 PCS 与符号同步 | 跨切片比特窗口、对齐训练、字重组、失锁/重锁 | 30 分钟 | 3% |
+| T02 | [参数化同步 FIFO](benchmark/tasks/T02/task.md) | 流式缓冲与存储 | 就绪/有效、同拍读写、空满边界、非 2 次幂回绕 | 60 分钟 | 3% |
 | T03 | [APB4 定时器外设](benchmark/tasks/T03/task.md) | 寄存器外设与控制状态机 | APB 时序、字节写、W1C、中断和事件优先级 | 90 分钟 | 6% |
-| T04 | [ready/valid 轮询仲裁器](benchmark/tasks/T04/task.md) | 多端口流控与资源调度 | 公平性、持续竞争、背压下数据保持、参数化 | 90 分钟 | 6% |
-| T05 | [异步 FIFO](benchmark/tasks/T05/task.md) | CDC、双时钟缓冲与复位 | Gray 指针、双级同步、保守空满判断、跨域恢复 | 120 分钟 | 6% |
+| T04 | [就绪/有效轮询仲裁器](benchmark/tasks/T04/task.md) | 多端口流控与资源调度 | 公平性、持续竞争、背压下数据保持、参数化 | 90 分钟 | 6% |
+| T05 | [异步 FIFO](benchmark/tasks/T05/task.md) | 跨时钟域、双时钟缓冲与复位 | 格雷码指针、双级同步、保守空满判断、跨域恢复 | 120 分钟 | 6% |
 | T06 | [AXI4-Lite 到 APB4 桥](benchmark/tasks/T06/task.md) | 片上互连与协议转换 | AW/W 解耦、读写并发、等待、响应背压和错误映射 | 120 分钟 | 10% |
-| T07 | [直接映射写回数据缓存](benchmark/tasks/T07/task.md) | 存储层次 | tag/index、脏行替换、写分配、字节使能、双侧背压 | 120 分钟 | 10% |
-| T08 | [1GbE MAC 缺陷修复与 VLAN 准入](benchmark/tasks/T08/task.md) | Brownfield Ethernet MAC | Corner-case repair, VLAN admission, long specification | 120 min | 11% |
-| T09 | [RV32I 五级流水线 CPU](benchmark/tasks/T09/task.md) | RTL design / verification | Frozen task-specific acceptance | 120 min | 20% |
-| T10 | [多精度脉动阵列矩阵乘法](benchmark/tasks/T10/task.md) | RTL design / verification | Frozen task-specific acceptance | 240 min | 25% |
+| T07 | [直接映射写回数据缓存](benchmark/tasks/T07/task.md) | 存储层次 | 标签/索引、脏行替换、写分配、字节使能、双侧背压 | 120 分钟 | 10% |
+| T08 | [1GbE MAC 缺陷修复与 VLAN 准入](benchmark/tasks/T08/task.md) | 存量以太网 MAC | 长规格理解、数千行代码上下文理解、边界条件修复、VLAN 准入 | 120 分钟 | 11% |
+| T09 | [RV32I 五级流水线 CPU](benchmark/tasks/T09/task.md) | RTL 设计 / 验证 | 五级流水线、旁路与冒险处理、可变等待存储器、精确异常与 CSR | 120 分钟 | 20% |
+| T10 | [多精度脉动阵列矩阵乘法](benchmark/tasks/T10/task.md) | RTL 设计 / 验证 | 256-PE 真实脉动结构、多格式精确数值计算、持续流吞吐与背压 | 240 分钟 | 25% |
 
 T10 计算 `16×64` 与 `64×16` 矩阵乘法，A/B **各每拍输入 1024 bit**；支持 INT8、INT16、FP16、BF16、FP8 E4M3/E5M2、FP4 E2M1、MXFP8 E4M3/E5M2 和 MXFP4。要求连续块流水，不能用单块突发带宽代替持续吞吐。
 
 横向工程能力贯穿所有题目：读懂规格、设计可综合 RTL、建立独立 scoreboard、处理边界与复位、定位缺陷、测量并优化 PPA，以及交付可重复运行的工程。难度序号是设计假设，实际难度仍需通过预算内通过率和完成时间校准。
-
-新 T08 已纳入主套件，考察长规格、既有 RTL 修复和新增特性。
 
 ## 已测模型与结果
 
