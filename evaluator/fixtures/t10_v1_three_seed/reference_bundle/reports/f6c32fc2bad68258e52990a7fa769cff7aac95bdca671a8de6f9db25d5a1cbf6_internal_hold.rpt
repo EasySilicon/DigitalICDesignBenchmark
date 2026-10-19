@@ -1,0 +1,30 @@
+Startpoint: a_work[47]$_DFF_P_
+            (rising edge-triggered flip-flop clocked by clk_clock)
+Endpoint: int_group[2].product_group
+          (rising edge-triggered flip-flop clocked by clk_clock)
+Path Group: clk_clock
+Path Type: min
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock clk_clock (rise edge)
+ 550.650574  550.650574   clock network delay (propagated)
+   0.000000  550.650574 ^ a_work[47]$_DFF_P_/CLK (DFFHQx4_ASAP7_75t_R)
+ 125.290169  675.940735 v a_work[47]$_DFF_P_/Q (DFFHQx4_ASAP7_75t_R)
+  71.927238  747.867981 v place16716/Y (BUFx2_ASAP7_75t_R)
+   0.114464  747.982483 v int_group[2].product_group/a_work[15] (t10_reference_int_group)
+             747.982483   data arrival time
+
+   0.000000    0.000000   clock clk_clock (rise edge)
+ 581.246399  581.246399   clock network delay (propagated)
+  -8.739565  572.506836   clock reconvergence pessimism
+             572.506836 ^ int_group[2].product_group/clk (t10_reference_int_group)
+ 149.918121  722.424927   library hold time
+             722.424927   data required time
+-----------------------------------------------------------------
+             722.424927   data required time
+            -747.982483   data arrival time
+-----------------------------------------------------------------
+              25.557501   slack (MET)
+
+

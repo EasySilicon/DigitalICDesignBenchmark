@@ -10,21 +10,20 @@
   },
   "eligible_mutants": 14,
   "killed_mutants": 14,
-  "ppa_baseline_status": "pending_hierarchical_three_seed",
+  "ppa_baseline_status": "qualified_1ghz",
   "ppa_contract_path": "../benchmark/tasks/T10/ppa.md",
-  "ppa_contract_sha256": "ddeea090e21801cbfb6e60de720e1da1f7fc6b80a2b4fc488c0ff2852f9f386d",
+  "ppa_contract_sha256": "857b6ed1ac997da9b01a7554a579ce0f9f5e7c674ce2d9a35ad63e28a1e62bf8",
   "ppa_evidence_schema_path": "../benchmark/tasks/T10/ppa-evidence.schema.json",
-  "ppa_evidence_schema_sha256": "b5c333f3884b3bea37452a89fb0dd4f8d864cb432d53b62159b499d90fcb6f77",
-  "hierarchical_probe_status": "v15_seed11_pe_timing_converged_with_5_drc_residuals",
-  "pe_reference_probe_path": "t10_pe_reference_probe.json",
-  "pe_reference_probe_sha256": "56ff5f2eea224362e28aacd4699103dff6d86ef4afdba78dcc2a52ed208e14fb",
+  "ppa_evidence_schema_sha256": "ae2698d6d1b7c6ba82caf5e37ad27eda9a397a2f2c4f14da77eb3c3fd119af85",
+  "pe_reference_probe_path": "t10_pe_manual_closure.json",
+  "pe_reference_probe_sha256": "b600dfd92a1be3e912e51ace4a55d3b79a5585517cb0bdc7f5504384fa713a46",
   "pe_reference_probe": {
     "layout_seed": 11,
-    "setup_wns_ps": 22.2437,
-    "hold_wns_ps": 18.8151,
-    "fmax_hz": 1022750000.0,
+    "setup_wns_ps": 22.243984,
+    "hold_wns_ps": 18.91387,
     "instance_area_um2": 60069.8,
-    "drc_violations": 5,
+    "drc_violations": 0,
+    "max_slew_violations": 756,
     "official_ppa_baseline": false
   },
   "hierarchy_contract": {
@@ -48,5 +47,21 @@
   "power_workload_id": "T10-power-v1",
   "power_workload_matrix_blocks": 200,
   "minimum_activity_annotation": 0.95,
-  "baseline_blocker": "DRC-clean PE evidence for seeds 11/29/47, all tile/top routed evidence for seeds 11/29/47, and hierarchical activity power are not yet frozen"
+  "baseline_blocker": null,
+  "physical_qualification_date": "2026-10-20",
+  "pe_reference_status": "v15_three_seed_single_pe_qualified",
+  "historical_pe_reference_probe_path": "t10_pe_reference_probe.json",
+  "historical_pe_reference_probe_sha256": "56ff5f2eea224362e28aacd4699103dff6d86ef4afdba78dcc2a52ed208e14fb",
+  "measurement_scope": "single_pe",
+  "physical_levels": [
+    "pe"
+  ],
+  "three_seed_reference": {
+    "qualification_date": "2026-10-20",
+    "scoring_baseline": "../benchmark/ppa-baselines.json#tasks.T10",
+    "evidence_record": "evaluator/fixtures/t10_v1_three_seed/reference_bundle/reports/2cb6f27d91ff0f46e1f27b3d8b82055683366c495cd09bca4b8e31c53fde154f_evidence.json",
+    "evidence_record_sha256": "2cb6f27d91ff0f46e1f27b3d8b82055683366c495cd09bca4b8e31c53fde154f",
+    "report_index": "evaluator/fixtures/t10_v1_three_seed/reference_bundle/index.json",
+    "report_index_sha256": "d465b36be13762a3cd9612606c2ceae8dbc2e2e432983f37fb456ece75401887"
+  }
 }

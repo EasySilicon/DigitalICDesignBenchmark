@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "method": "whole_database_geometric_signal_net_connectivity",
+  "odb": {
+    "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_frozen_cpa_postprocess_exact_v2_m7_wc_p1000_seed11/6_final.odb",
+    "bytes": 60844306,
+    "sha256": "d73775ef94c0e574d5fb5f052208f560905dbf963f4db5606988790b45265780"
+  },
+  "signal_nets_checked": 34692,
+  "power_ground_nets_excluded": 2,
+  "shapes_checked": 1464299,
+  "terminals_checked": 116521,
+  "failures": [],
+  "checker_sha256": "62947083499632c7b2ce7285b77e84b20b14669e58ec8071be9c7fa5115309b6"
+}

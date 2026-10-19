@@ -1,0 +1,41 @@
+Startpoint: postprocess.post2_in_exact[6]$_DFFE_PP_
+            (rising edge-triggered flip-flop clocked by clk_clock)
+Endpoint: postprocess.post3_abs_carry[18]$_DFFE_PP_
+          (rising edge-triggered flip-flop clocked by clk_clock)
+Path Group: clk_clock
+Path Type: max
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock clk_clock (rise edge)
+ 211.793533  211.793533   clock network delay (propagated)
+   0.000000  211.793533 ^ postprocess.post2_in_exact[6]$_DFFE_PP_/CLK (DFFHQx4_ASAP7_75t_R)
+ 116.047951  327.841492 v postprocess.post2_in_exact[6]$_DFFE_PP_/Q (DFFHQx4_ASAP7_75t_R)
+  58.243465  386.084930 v _49124_/Y (OR4x1_ASAP7_75t_R)
+  81.951782  468.036713 v _49135_/Y (OR5x1_ASAP7_75t_R)
+  68.655190  536.691895 v _49157_/Y (OR4x1_ASAP7_75t_R)
+  36.865345  573.557251 ^ _49201_/Y (NOR2x1_ASAP7_75t_R)
+  99.380280  672.937561 ^ _49579_/Y (AND4x1_ASAP7_75t_R)
+ 106.880615  779.818176 ^ _49990_/Y (AND4x1_ASAP7_75t_R)
+  84.376175  864.194336 ^ _50401_/Y (AND4x1_ASAP7_75t_R)
+  84.547646  948.742004 ^ _50545_/Y (AND5x1_ASAP7_75t_R)
+  60.689564 1009.431519 ^ _50667_/Y (AND2x2_ASAP7_75t_R)
+  63.925644 1073.357178 ^ _50801_/Y (AND4x1_ASAP7_75t_R)
+  45.809578 1119.166748 ^ _50812_/Y (AND3x1_ASAP7_75t_R)
+  36.950886 1156.117676 ^ _50823_/Y (AO22x1_ASAP7_75t_R)
+   0.039302 1156.156982 ^ postprocess.post3_abs_carry[18]$_DFFE_PP_/D (DFFHQx4_ASAP7_75t_R)
+            1156.156982   data arrival time
+
+1000.000000 1000.000000   clock clk_clock (rise edge)
+ 182.787140 1182.787109   clock network delay (propagated)
+   1.887737 1184.674805   clock reconvergence pessimism
+            1184.674805 ^ postprocess.post3_abs_carry[18]$_DFFE_PP_/CLK (DFFHQx4_ASAP7_75t_R)
+ -13.825158 1170.849609   library setup time
+            1170.849609   data required time
+-----------------------------------------------------------------
+            1170.849609   data required time
+            -1156.156982   data arrival time
+-----------------------------------------------------------------
+              14.692692   slack (MET)
+
+

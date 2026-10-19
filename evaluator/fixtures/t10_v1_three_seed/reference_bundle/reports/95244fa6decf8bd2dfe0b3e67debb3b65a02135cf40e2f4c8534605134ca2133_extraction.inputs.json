@@ -1,0 +1,80 @@
+{
+  "layout_seed": 47,
+  "patched_odb": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_manual_repair/repaired.odb",
+    "bytes": 294061018,
+    "sha256": "957bef8ef6df3dd128977903fd63a0f1d0bbc615301f20f8d1175c94f307c1cc"
+  },
+  "sdc": {
+    "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/6_final.sdc",
+    "bytes": 40901,
+    "sha256": "176292a6101fff0e2836805feef511ddd98fa71127417b59a3530ad0da66cff7"
+  },
+  "libraries": [
+    {
+      "path": "/home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz",
+      "bytes": 4181198,
+      "sha256": "9ac9c70139da3c4c72b2ed6113f011d8d96de2b30f9b261a237d2ed58ffa1ff5"
+    },
+    {
+      "path": "/home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz",
+      "bytes": 69301,
+      "sha256": "339371d339fc0e3f4f50fa493ce82b984743af46d26823263dcca7a391e64408"
+    },
+    {
+      "path": "/home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz",
+      "bytes": 3760577,
+      "sha256": "6912520ffc1ae5bf69103d0286bcb7867fc90de80365dfc8ec0d6b55a9113f27"
+    },
+    {
+      "path": "/home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib",
+      "bytes": 1513373,
+      "sha256": "c6a6d9ad22bfb1bc9cf1c4ac66d09ce575ca18648ce4e50597d92174bc290d78"
+    },
+    {
+      "path": "/home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz",
+      "bytes": 444914,
+      "sha256": "71e55ce94cde9d10ad726cf7131e7356501aa1c380ae4e138f47c2f8ca7ca7db"
+    },
+    {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed47_fp0/t10_reference_fp_quad_class0_exact_wc.lib",
+      "bytes": 727718,
+      "sha256": "b05fc1fc4bbb864a1f55945daf51204ca29784afa6a4c9d73f9a21955d062f69"
+    },
+    {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed47_fp1/t10_reference_fp_quad_class1_exact_wc.lib",
+      "bytes": 696975,
+      "sha256": "cf66a4284c4f35d9686f3259f03c09eae17459c315d1eb1f455e154905207499"
+    },
+    {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed47_fp2/t10_reference_fp_quad_class2_exact_wc.lib",
+      "bytes": 681691,
+      "sha256": "2625f84e7cc3ce64fe354fa39c9bbd731979e55bf34d6dcc435ce8bb36b5b95e"
+    },
+    {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed47_int/t10_reference_int_group_wc.lib",
+      "bytes": 92622,
+      "sha256": "e25825a2a559133f1e1a3ba3acf2a1ee7418929256d3451c998c5b7fd8eeed69"
+    },
+    {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed47_cpa/t10_reference_cpa_postprocess_wc.lib",
+      "bytes": 779637,
+      "sha256": "34e554dc282c3a708954d0b49f3d5cdd3bf17ad6c54f4298563087e1b88daaf2"
+    }
+  ],
+  "rc_rules": {
+    "path": "/home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/rcx_patterns.rules",
+    "bytes": 117122,
+    "sha256": "32a117e5e866d3de1406e8f18d65b6f1857781f156638941a4769e25ef5252cc"
+  },
+  "set_rc": {
+    "path": "/home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/setRC.tcl",
+    "bytes": 1159,
+    "sha256": "ce6e29fe23b648839009c53035901066653d5850f9419ba85169c715b2cebd14"
+  },
+  "script": {
+    "path": "/home/reefshark/research/agent_os/ic_bcmk/evaluator/t10_backend/v1/extract_manual.tcl",
+    "bytes": 873,
+    "sha256": "9a8f7e4de46ed58d8bbc3023089a21e5bab5b9fdfde8b6ebc19d6ae3b9264c58"
+  }
+}

@@ -1,0 +1,6 @@
+OpenROAD 26Q2-1164-g08f67ee5ec 
+Features included (+) or not (-): +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[WARNING ORD-0039] .openroad ignored with -python
+{"nets": [{"all_terminals_have_geometry": true, "components": 1, "net": "net24982", "shapes": 92, "terminals": 2}, {"all_terminals_have_geometry": true, "components": 1, "net": "level0\\[4\\]\\[314\\]", "shapes": 118, "terminals": 3}, {"all_terminals_have_geometry": true, "components": 1, "net": "net22071", "shapes": 178, "terminals": 2}, {"all_terminals_have_geometry": true, "components": 1, "net": "quad_sum\\[0\\]\\[355\\]", "shapes": 42, "terminals": 2}, {"all_terminals_have_geometry": true, "components": 1, "net": "quad_sum\\[1\\]\\[366\\]", "shapes": 174, "terminals": 2}], "odb": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v15_manual/v15_all_manual_v2.odb"}

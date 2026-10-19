@@ -100,7 +100,11 @@ def instrument_testbench(task: str, original: Path, output: Path) -> str:
         )
         if clock_edits != 1:
             raise ValueError("T10 power bench must contain one 10 ns debug clock")
-    ready = ("wait(!rst_n); wait(rst_n); #1;" if task == "T10" else
+        # Preserve the driver's original 1/10-cycle settling interval. Leaving
+        # #1 at the new 1 ns period advances past a sampling edge and presents
+        # in_start twice; it is an evaluator timing bug, not a DUT failure.
+        source = re.sub(r"#1(?:\.0*)?\s*;", "#0.1;", source)
+    ready = ("wait(!rst_n); wait(rst_n); #0.1;" if task == "T10" else
              "wait(rst_n); #1;" if task in {"T02", "T03", "T06", "T07", "T09"}
              else "wait(wr_rst_n && rd_rst_n); #1;" if task == "T05" else "")
     monitor = ("initial begin\n  string vcd_path;\n"

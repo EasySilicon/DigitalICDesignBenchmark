@@ -1,0 +1,47 @@
+Startpoint: a_operand_q[15]$_DFF_P_
+            (rising edge-triggered flip-flop clocked by clk_clock)
+Endpoint: product8_p10_reg[1][7]$_DFFE_PP_
+          (rising edge-triggered flip-flop clocked by clk_clock)
+Path Group: clk_clock
+Path Type: max
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock clk_clock (rise edge)
+ 153.315277  153.315277   clock network delay (propagated)
+   0.000000  153.315277 ^ a_operand_q[15]$_DFF_P_/CLK (DFFHQx4_ASAP7_75t_R)
+ 116.891579  270.206848 v a_operand_q[15]$_DFF_P_/Q (DFFHQx4_ASAP7_75t_R)
+  97.966805  368.173645 ^ _4094_/Y (INVx1_ASAP7_75t_R)
+  54.801609  422.975281 v _4489_/Y (NOR2x1_ASAP7_75t_R)
+  41.240955  464.216217 ^ _5943_/CON (FAx1_ASAP7_75t_R)
+  27.253256  491.469482 v _5943_/SN (FAx1_ASAP7_75t_R)
+  28.592184  520.061646 ^ _3473_/Y (INVx1_ASAP7_75t_R)
+  62.929771  582.991455 v _5944_/SN (FAx1_ASAP7_75t_R)
+  28.778702  611.770142 ^ _4052_/Y (INVx1_ASAP7_75t_R)
+  31.913860  643.684021 v _5939_/CON (FAx1_ASAP7_75t_R)
+  27.668036  671.352051 ^ _5939_/SN (FAx1_ASAP7_75t_R)
+  23.057167  694.409180 v _4366_/Y (INVx1_ASAP7_75t_R)
+  31.040615  725.449829 ^ _6108_/CON (HAxp5_ASAP7_75t_R)
+  24.996283  750.446106 v _4294_/Y (INVx1_ASAP7_75t_R)
+  44.045601  794.491699 ^ _5942_/CON (FAx1_ASAP7_75t_R)
+  47.366112  841.857788 ^ _5554_/Y (OA21x2_ASAP7_75t_R)
+  30.781433  872.639221 ^ _5565_/Y (OA21x2_ASAP7_75t_R)
+  57.165882  929.805115 v _5609_/Y (XNOR2x2_ASAP7_75t_R)
+  18.190117  947.995239 ^ _4419_/Y (NOR2x1_ASAP7_75t_R)
+  29.729664  977.724915 ^ _4430_/Y (AO21x1_ASAP7_75t_R)
+   0.023870  977.748779 ^ product8_p10_reg[1][7]$_DFFE_PP_/D (DFFHQx4_ASAP7_75t_R)
+             977.748779   data arrival time
+
+1000.000000 1000.000000   clock clk_clock (rise edge)
+ 134.573990 1134.573975   clock network delay (propagated)
+   0.544150 1135.118164   clock reconvergence pessimism
+            1135.118164 ^ product8_p10_reg[1][7]$_DFFE_PP_/CLK (DFFHQx4_ASAP7_75t_R)
+ -14.869490 1120.248657   library setup time
+            1120.248657   data required time
+-----------------------------------------------------------------
+            1120.248657   data required time
+            -977.748779   data arrival time
+-----------------------------------------------------------------
+             142.499908   slack (MET)
+
+

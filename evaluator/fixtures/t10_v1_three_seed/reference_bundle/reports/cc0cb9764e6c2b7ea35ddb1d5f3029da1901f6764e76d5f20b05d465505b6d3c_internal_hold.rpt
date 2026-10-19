@@ -1,0 +1,31 @@
+Startpoint: product_hh_pre_delay[0][4]$_DFFE_PP_
+            (rising edge-triggered flip-flop clocked by clk_clock)
+Endpoint: product_hh_pre_delay[0][4]$_DFFE_PP_
+          (rising edge-triggered flip-flop clocked by clk_clock)
+Path Group: clk_clock
+Path Type: min
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock clk_clock (rise edge)
+ 136.554733  136.554733   clock network delay (propagated)
+   0.000000  136.554733 ^ product_hh_pre_delay[0][4]$_DFFE_PP_/CLK (DFFHQx4_ASAP7_75t_R)
+  96.526329  233.081055 v product_hh_pre_delay[0][4]$_DFFE_PP_/Q (DFFHQx4_ASAP7_75t_R)
+  15.421275  248.502335 ^ _5213_/Y (NAND2x1_ASAP7_75t_R)
+  11.664392  260.166718 v _5214_/Y (OAI21x1_ASAP7_75t_R)
+   0.037859  260.204590 v product_hh_pre_delay[0][4]$_DFFE_PP_/D (DFFHQx4_ASAP7_75t_R)
+             260.204590   data arrival time
+
+   0.000000    0.000000   clock clk_clock (rise edge)
+ 151.687714  151.687714   clock network delay (propagated)
+ -15.132992  136.554733   clock reconvergence pessimism
+             136.554733 ^ product_hh_pre_delay[0][4]$_DFFE_PP_/CLK (DFFHQx4_ASAP7_75t_R)
+  22.859060  159.413788   library hold time
+             159.413788   data required time
+-----------------------------------------------------------------
+             159.413788   data required time
+            -260.204590   data arrival time
+-----------------------------------------------------------------
+             100.790794   slack (MET)
+
+

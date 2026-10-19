@@ -1,0 +1,33 @@
+Startpoint: float_quad[0].class0.fp_quad
+            (rising edge-triggered flip-flop clocked by clk_clock)
+Endpoint: negative_pair0_macro_q[1]$_DFFE_PP_
+          (rising edge-triggered flip-flop clocked by clk_clock)
+Path Group: clk_clock
+Path Type: max
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock clk_clock (rise edge)
+ 574.758789  574.758789   clock network delay (propagated)
+   0.000000  574.758789 ^ float_quad[0].class0.fp_quad/clk (t10_reference_fp_quad_class0_exact)
+ 412.110016  986.868835 ^ float_quad[0].class0.fp_quad/negative_count[1] (t10_reference_fp_quad_class0_exact)
+  99.851570 1086.720337 ^ place16000/Y (BUFx3_ASAP7_75t_R)
+ 308.713837 1395.434204 v _58320_/SN (FAx1_ASAP7_75t_R)
+  65.275116 1460.709351 ^ _35269_/Y (NAND2x1_ASAP7_75t_R)
+  43.010372 1503.719727 ^ _35271_/Y (OA21x2_ASAP7_75t_R)
+   0.029199 1503.748901 ^ negative_pair0_macro_q[1]$_DFFE_PP_/D (DFFHQx4_ASAP7_75t_R)
+            1503.748901   data arrival time
+
+1000.000000 1000.000000   clock clk_clock (rise edge)
+ 560.009705 1560.009644   clock network delay (propagated)
+  10.770967 1570.780640   clock reconvergence pessimism
+            1570.780640 ^ negative_pair0_macro_q[1]$_DFFE_PP_/CLK (DFFHQx4_ASAP7_75t_R)
+ -11.885350 1558.895264   library setup time
+            1558.895264   data required time
+-----------------------------------------------------------------
+            1558.895264   data required time
+            -1503.748901   data arrival time
+-----------------------------------------------------------------
+              55.146332   slack (MET)
+
+

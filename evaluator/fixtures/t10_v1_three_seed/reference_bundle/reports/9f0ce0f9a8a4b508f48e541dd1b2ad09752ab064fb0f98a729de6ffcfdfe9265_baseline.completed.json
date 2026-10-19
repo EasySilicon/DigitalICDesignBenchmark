@@ -1,0 +1,30 @@
+{
+  "status": "flow_completed_not_yet_qualified",
+  "result_dir": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe",
+  "inputs_sha256": "d598df36257842efb1162fb9310c6b0c9c73d174a23e91957ada3145b34544f7",
+  "elapsed_seconds": 6798.06774187088,
+  "artifacts": {
+    "6_final.odb": {
+      "bytes": 294060773,
+      "sha256": "c28ea9130f64a3cb4feae576bab634d88a605c6a03d4081f92e5cf7b719fa4a7"
+    },
+    "6_final.sdc": {
+      "bytes": 40901,
+      "sha256": "176292a6101fff0e2836805feef511ddd98fa71127417b59a3530ad0da66cff7"
+    },
+    "6_final.spef": {
+      "bytes": 108442894,
+      "sha256": "783def3599e72ba1b186c957b86e8ef5bfb2a56a583c6cf60b02f389902da376"
+    },
+    "6_final.v": {
+      "bytes": 6735554,
+      "sha256": "d2bbaadcd907f05fa73a3037ddf4173c9b420d5d8214439b0d1178028854acf1"
+    }
+  },
+  "placement_resume_inputs_sha256": "c38bec35ecd7c19615edea1d3fe8a4aecd81f36857c6af7ff7cd179920d49115",
+  "runtime_resources": {
+    "max_address_space_bytes": 34091302912,
+    "malloc_arena_max": "2",
+    "threads": 4
+  }
+}

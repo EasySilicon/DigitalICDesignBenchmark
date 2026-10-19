@@ -338,8 +338,14 @@ class ScoreRunTest(unittest.TestCase):
     def test_t10_pending_baseline_reports_function_but_blocks_ppa_and_time(self):
         groups = {group: {"cases_passed": 1, "cases_total": 1}
                   for item in self.rules["tasks"]["T10"] for group in item["groups"]}
-        scored = score_run(dict(self.payload, task_id="T10", groups=groups,
-                                sustained_throughput_passed=True), self.rules)
+        # Exercise a genuinely missing reference, independently of whether the
+        # checked-in measured T10 baseline has since been qualified.
+        with tempfile.TemporaryDirectory() as temporary:
+            baseline_path = Path(temporary) / "baselines.json"
+            baseline_path.write_text(json.dumps({"status": "partial_1ghz_qualified", "tasks": {}}))
+            with patch("evaluator.score_run.BASELINES_PATH", baseline_path):
+                scored = score_run(dict(self.payload, task_id="T10", groups=groups,
+                                        sustained_throughput_passed=True), self.rules)
         self.assertEqual(scored["functional_total"], 50)
         self.assertTrue(scored["full_functional_pass"])
         self.assertFalse(scored["ppa_eligible"])
@@ -368,6 +374,8 @@ class ScoreRunTest(unittest.TestCase):
         reference["task_id"] = "T10"
         measurement["workload_id"] = "T10-power-v1"
         reference["workload_id"] = "T10-power-v1"
+        for record in (measurement, reference):
+            self.single_pe(record)
         reference["qualification_status"] = "qualified_1ghz"
         payload = dict(self.payload, task_id="T10", groups=groups,
                        sustained_throughput_passed=True,
@@ -384,6 +392,43 @@ class ScoreRunTest(unittest.TestCase):
         self.assertTrue(scored["ppa_eligible"])
         self.assertEqual(scored["ppa_score"], 35)
         self.assertEqual(scored["time_score"], 2.5)
+
+    def single_pe(self, record):
+        record.update(task_id="T10", workload_id="T10-power-v1",
+                      measurement_status="three_seed_single_pe", measurement_scope="single_pe")
+        record["parameter_set"].update(utilization=24, density=0.24,
+                                       signal_routing_layers="M2-M7", clock_routing_layers="M6-M7")
+        for row in record["per_seed"]:
+            row["measurement_scope"] = "single_pe"
+
+    def test_t10_provenance_rejects_whole_dut_and_default_layout_parameters(self):
+        candidate = copy.deepcopy(self.payload["ppa_measurement"])
+        reference = copy.deepcopy(self.payload["ppa_reference"])
+        for record in (candidate, reference):
+            self.single_pe(record)
+        self.assertTrue(ppa_provenance_valid("T10",candidate,reference))
+        for location, key, value in (("top","measurement_scope","full_dut"),
+                                     ("top","measurement_status","three_seed"),
+                                     ("parameters","utilization",10),
+                                     ("parameters","density",0.6),
+                                     ("seed","measurement_scope","tile")):
+            with self.subTest(location=location,key=key):
+                bad=copy.deepcopy(candidate)
+                target=bad if location=="top" else bad["parameter_set"] if location=="parameters" else bad["per_seed"][0]
+                target[key]=value
+                self.assertFalse(ppa_provenance_valid("T10",bad,reference))
+
+    def test_t10_preserves_continuous_candidate_timing_and_drc_penalties(self):
+        candidate = copy.deepcopy(self.payload["ppa_measurement"])
+        reference = copy.deepcopy(self.payload["ppa_reference"])
+        for record in (candidate, reference):
+            self.single_pe(record)
+        candidate.update(setup_worst_slack_ns=-0.1,hold_worst_slack_ns=-0.05,drc_violations=2)
+        candidate["per_seed"][0].update(setup_worst_slack_ns=-0.1,hold_worst_slack_ns=-0.05,drc_violations=2)
+        self.assertTrue(ppa_provenance_valid("T10",candidate,reference))
+        points=ppa_score(candidate,reference)
+        self.assertGreater(points,0)
+        self.assertLess(points,17.5)
 
 
 if __name__ == "__main__":

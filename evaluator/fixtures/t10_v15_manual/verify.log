@@ -1,0 +1,38 @@
+OpenROAD 26Q2-1164-g08f67ee5ec 
+Features included (+) or not (-): +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 4 thread(s).
+T10_MANUAL_V15_PATCH nets=1 case=5 coordinates_changed=5
+T10_MANUAL_V15_ENCLOSURE nets=2 vias_replaced=2 coordinates_changed=0
+T10_MANUAL_V15_LOCAL cases=3,4 manual_local_edits_applied
+Deleted 4 routing obstructions
+[INFO RCX-0431] Defined process_corner X with ext_model_index 0
+[INFO RCX-0029] Defined extraction corner X
+[INFO RCX-0435] Reading extraction model file /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/platforms/asap7/rcx_patterns.rules ...
+[INFO RCX-0436] RC segment generation t10_reference_pe (max_merge_res 50.0) ...
+[INFO RCX-0040] Final 533857 rc segments
+[INFO RCX-0439] Coupling Cap extraction t10_reference_pe ...
+[INFO RCX-0440] Coupling threshhold is 0.1000 fF, coupling capacitance less than 0.1000 fF will be grounded.
+[INFO RCX-0442] 7% of 652076 wires extracted
+[INFO RCX-0442] 16% of 652076 wires extracted
+[INFO RCX-0442] 22% of 652076 wires extracted
+[INFO RCX-0442] 30% of 652076 wires extracted
+[INFO RCX-0442] 40% of 652076 wires extracted
+[INFO RCX-0442] 47% of 652076 wires extracted
+[INFO RCX-0442] 54% of 652076 wires extracted
+[INFO RCX-0442] 58% of 652076 wires extracted
+[INFO RCX-0442] 64% of 652076 wires extracted
+[INFO RCX-0442] 77% of 652076 wires extracted
+[INFO RCX-0442] 81% of 652076 wires extracted
+[INFO RCX-0442] 90% of 652076 wires extracted
+[INFO RCX-0442] 97% of 652076 wires extracted
+[INFO RCX-0442] 100% of 652076 wires extracted
+[INFO RCX-0045] Extract 60649 nets, 594500 rsegs, 594500 caps, 700693 ccs
+[INFO RCX-0443] 60649 nets finished
+[WARNING STA-0450] virtual clock vclk_in can not be propagated.
+[WARNING STA-0450] virtual clock vclk_out can not be propagated.
+[INFO ANT-0002] Found 0 net violations.
+[INFO ANT-0001] Found 0 pin violations.
+Design area 60070 um^2 25% utilization.
+T10_MANUAL_V15_VERIFY_COMPLETE

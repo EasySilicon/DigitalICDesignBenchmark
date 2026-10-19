@@ -63,9 +63,16 @@ class ResumeTest(unittest.TestCase):
                     self.fixture(root, int(command[command.index("--seed") + 1]))
                 return subprocess.CompletedProcess(command, 0)
             measured = dict(setup_worst_slack_ns=-.1, hold_worst_slack_ns=.01, drc_violations=0)
+            original_read_text = Path.read_text
+            def isolated_read_text(path, *args, **kwargs):
+                # EDA calls are mocked: host load must not stall this unit test.
+                if path == Path('/proc/meminfo'):
+                    return 'MemAvailable: 67108864 kB\n'
+                return original_read_text(path, *args, **kwargs)
             with patch("run_t08_sram_ppa.validated_mapping", return_value=receipt), \
                  patch("run_t08_sram_ppa.subprocess.run", side_effect=execute), \
                  patch("run_t08_sram_ppa.aggregate", return_value=measured) as measurement, \
+                 patch.object(Path, 'read_text', autospec=True, side_effect=isolated_read_text), \
                  patch("builtins.print"):
                 state = run(source, root, root / "flow", resume=True)
             layouts = [c for c in calls if Path(c[1]).name == "ppa_probe.py"]

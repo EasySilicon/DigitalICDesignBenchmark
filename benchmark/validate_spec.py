@@ -126,11 +126,21 @@ def validate_local() -> tuple[dict, dict]:
                               ppa_policy_revision="2.0-lambdapdk-tdp-1ghz",
                               memory_mapping="lambdapdk_tdp_4096x32",sram_contract=contract(),
                               drc_scope=contract()["drc_scope"],lvs_performed=False)
+        seed_hash_keys = ("config_sha256", "constraint_sha256", "finish_report_sha256",
+                          "drc_report_sha256", "power_report_sha256")
+        measurement_status = "three_seed"
+        if task_id == "T10":
+            from score_run import expected_ppa_parameters, ppa_provenance_valid
+            parameters = expected_ppa_parameters("T10")
+            measurement_status = "three_seed_single_pe"
+            seed_hash_keys = ("physical_record_sha256", "power_record_sha256")
+            if not ppa_provenance_valid("T10", row, row):
+                fail("T10 requires the qualified single-PE scope and parameters")
         seeds = row.get("per_seed")
         hashes = (row.get("source_sha256", ""), row.get("workload_sha256", ""))
         if row.get("task_id") != task_id or \
                 row.get("qualification_status") != "qualified_1ghz" or \
-                row.get("measurement_status") != "three_seed" or \
+                row.get("measurement_status") != measurement_status or \
                 row.get("parameter_set") != parameters or \
                 not row.get("routed") or row.get("drc_violations") != 0 or \
                 row.get("setup_worst_slack_ns", -1) < 0 or \
@@ -154,9 +164,7 @@ def validate_local() -> tuple[dict, dict]:
                                     "energy_per_op_pj", "ops")) or
                     any(len(seed.get(key, "")) != 64 or
                         any(character not in "0123456789abcdef" for character in seed.get(key, ""))
-                        for key in ("config_sha256", "constraint_sha256",
-                                    "finish_report_sha256", "drc_report_sha256",
-                                    "power_report_sha256"))
+                        for key in seed_hash_keys)
                     for seed in seeds):
             fail(f"invalid qualified PPA baseline: {task_id}")
     for index, row in enumerate(task_rows, start=1):

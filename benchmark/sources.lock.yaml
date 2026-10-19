@@ -24,13 +24,13 @@ ppa:
   flow: yosys_openroad_routed
   asap7_library_model_candidate: NLDM
   asap7_vt_candidate: RVT
-  finalized_parameter_set_status: target_1ghz_partially_calibrated
-  reference_values_status: partial_1ghz_qualified
+  finalized_parameter_set_status: target_1ghz_calibrated
+  reference_values_status: qualified_1ghz
   authoritative_baselines: benchmark/ppa-baselines.json
   frozen_task_receipts:
     T08: benchmark/tasks/T08/FREEZE.json
     T09: benchmark/tasks/T09/FREEZE.json
-  pending_baseline_tasks: [T10]
+  pending_baseline_tasks: []
 t10_formats:
   ofp8: https://www.opencompute.org/documents/ocp-8-bit-floating-point-specification-ofp8-revision-1-0-2023-06-20-pdf
   mx: https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf

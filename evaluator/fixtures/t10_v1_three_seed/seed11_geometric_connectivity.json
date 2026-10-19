@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "method": "whole_database_geometric_signal_net_connectivity",
+  "odb": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v15_manual/all_manual_verify/v15_manual_final.odb",
+    "bytes": 290531287,
+    "sha256": "e690f0f977270b546c50c9a56d278f5ac9e30f8dbe336a76406a6546f0f06741"
+  },
+  "signal_nets_checked": 60649,
+  "power_ground_nets_excluded": 2,
+  "shapes_checked": 2939211,
+  "terminals_checked": 167863,
+  "failures": [],
+  "checker_sha256": "62947083499632c7b2ce7285b77e84b20b14669e58ec8071be9c7fa5115309b6"
+}

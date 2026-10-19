@@ -75,8 +75,21 @@ class TaskIdMigrationTest(unittest.TestCase):
                 # Public checkout contains final summaries, never raw model archives.
                 jsonschema.validate(row, {**schema, "required": [
                     "task_id", "functional_total", "ppa_score", "time_score", "display_score"]})
-            if model.startswith("gpt-") or model == "deepseek-flash":
-                self.assertIsNone(summary["tasks"][7]["functional_total"])
+            # T08 was completed after the task-ID migration. Preserve those
+            # measured results; missing T10 candidate measurements stay null
+            # even after the reference baseline becomes available.
+            t08=summary["tasks"][7]
+            self.assertEqual(t08["score_status"],"scored")
+            expected={"deepseek-flash":281/6,"glm-5.3-flash":44}.get(model,50)
+            self.assertAlmostEqual(t08["functional_total"],expected)
+            for key in ("ppa_score","time_score","display_score"):
+                self.assertIsNotNone(t08[key])
+            if expected<50:
+                self.assertEqual(t08["ppa_score"],0)
+                self.assertEqual(t08["time_score"],0)
+            if model.startswith("gpt-"):
+                self.assertIsNone(summary["tasks"][9]["ppa_score"])
+                self.assertIsNone(summary["tasks"][9]["time_score"])
 
     def test_mac_candidate_package_excludes_freeze_and_reference(self):
         from benchmark.prepare_trial import prepare

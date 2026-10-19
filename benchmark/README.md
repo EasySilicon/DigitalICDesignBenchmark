@@ -75,7 +75,7 @@ Digital IC Design Benchmark for Agents 是一套贴近数字芯片真实研发�
 
 ## 通用验收规则
 
-本文件将各[任务卡](#共享任务规则)的 F/P 子项落实为测试组。表中的场景是**应覆盖的行为类**，不能仅凭表格视为已通过发布门禁。T01–T09 已完成任务级 1 GHz PPA 基线校准，T10、工具镜像和整套发布门禁仍待完成，因此目前不生成正式榜单。[端口冒烟与独立验收器](../evaluator/README.md)的源码随仓库公开；正式试做时，只把任务材料和公开冒烟复制进被测 Agent 的工作区，验收程序与种子不进入该工作区。每组测试必须有独立 oracle、超时上限和失败时的最小复现日志。
+本文件将各[任务卡](#共享任务规则)的 F/P 子项落实为测试组。表中的场景是**应覆盖的行为类**，不能仅凭表格视为已通过发布门禁。T01–T10 已完成任务级三种子 1 GHz PPA 基线校准（T10 为单 PE），工具镜像、公平性复核和整套发布检查仍待完成，因此目前不生成正式榜单。[端口冒烟与独立验收器](../evaluator/README.md)的源码随仓库公开；正式试做时，只把任务材料和公开冒烟复制进被测 Agent 的工作区，验收程序与种子不进入该工作区。每组测试必须有独立 oracle、超时上限和失败时的最小复现日志。
 
 任务专属的测试组、参考模型和缺陷类别位于各任务目录中的 `acceptance.md`；以下只列跨题共享规则和任务索引。
 
@@ -147,7 +147,7 @@ Agent 可以使用预装 Yosys、OpenROAD、ASAP7 和 ORFS 脚本反复测自己
 | 自带 UT | 参赛 Agent | 入口是否运行、自检是否真实、变异体检出率及需求覆盖记录 | 作为交付准入和质量诊断；不替代独立功能分 |
 
 | T09 独立验收器 | benchmark 团队 | 自有 ELF 装载器、存储器模型、ACT4、定向程序、逐条取指至退休延时和提交差分；流水线分由可观察时序组合门禁自动判定 | 是，F+P 原始权重 75，归一化功能分 50 |
-| T10 独立验收器 | benchmark 团队 | 自有矩阵向量生成器和精确数值模型核对固定端口；持续输入、四槽稳态输出、块 ID、背压和脉动 PE 网格自动检查 | 冻结参考 RTL 已通过 2,752 块及 704,512 个输出点验收，14/14 个缺陷变异体已检出；完整顶层 PPA 基线完成前只启用功能试评分 |
+| T10 独立验收器 | benchmark 团队 | 自有矩阵向量生成器和精确数值模型核对固定端口；持续输入、四槽稳态输出、块 ID、背压和脉动 PE 网格自动检查 | 冻结参考 RTL 已通过 2,752 块及 704,512 个输出点验收，14/14 个缺陷变异体已检出；单 PE 三种子物理与正式活动功耗已完成，历史候选需另行实测 |
 | 统一 PPA 流程 | benchmark 团队 | 固定工艺/约束/活动负载，布线后重测 | 功能全过且满足测量来源门禁后计 PPA /50 |
 
 每题都需要评测方的**独立、可自检的 UT 环境**，包括 CPU 和 NPU；ACT4 只能覆盖适用的 ISA 规则，不能检验题卡自定义总线、精确提交或五级流水线。评测方通过输入波形、事务和外部参考模型验收 RTL，故 Agent 的 UT 风格可以差别很大。T05 的双级同步器和 T10 的 PE 邻接网格需要自动静态检查；T09 按取指至退休延时、相关、冲刷与提交轨迹评估可观察五级时序，不能凭端口数学证明内部恰有五级。逐提交 F/P 分只由脚本和固定规则生成，不要求人工复核；参考 PPA 基线可在发布前人工核查。
@@ -166,7 +166,7 @@ Agent 可以使用预装 Yosys、OpenROAD、ASAP7 和 ORFS 脚本反复测自己
 | T07 | 已定义 AC-38–43 | 已有独立端口公开冒烟 | 逐字节内存与抽象 cache、随机后端时延及最终内存比对正式分组已实现 | 参考 RTL 与 `gpt-6-sol` 盲测均为 50/50；16 个独立变异体已检出；参考 RTL 三种子 1 GHz PPA 基线已合格，盲测候选未通过 1 GHz 物理门禁 | 是 |
 | T08 | 帧事务、VLAN、metadata、快照、复位 | 已有独立端口冒烟 | 37 场景 × 3 种子及 270 压力回归 | 参考功能 50/50；修复/特性负向证据保留；三种子 SRAM 1 GHz 基线已冻结 | 是 |
 | T09 | 已定义 CPU-ACT/DIR/DIFF/PIPE | 已有 ADDI/延时冒烟、ELF 总线入口与 45 个 ACT4 RV32I/Zicsr ELF | ACT4 45、定向 108、随机 100、等待 80、运行中复位 4、异常专项 4、延时 64 与自动时序组合门禁已公开接入统一功能评分 | 五级参考 CPU 50/50，新增固定端口周期检查 22/22；21 个可编译缺陷变异体已检出；旧盲测原始权重为 60.5/75（归一化 40.333/50）；2026-10-09 重冻三种子 WC 1 GHz 基线，setup/hold/DRC 全过，最小 setup 裕量为 seed 47 的 +9.008 ps | 是 |
-| T10 | 已修订 MM-INT/F16/F8/F4/MX8/MX4/PROTO/SYSTOLIC/CORNER，增加连续块流 | 新流接口 249 块持续输入公开冒烟及背压探针已接入 | 2,752 块隐藏持续流、32 拍背压、512 块随机混合格式和运行中复位已由冻结参考 RTL 全部通过 | 参考哈希已冻结，256 个 PE 与非 PE 状态上限检查通过；14/14 个可编译缺陷变异体已检出；同哈希子块已有 1 GHz 布线证据，完整顶层三种子 PPA 基线尚未完成 | 功能试评分可运行，PPA/时间禁用 |
+| T10 | 已修订 MM-INT/F16/F8/F4/MX8/MX4/PROTO/SYSTOLIC/CORNER，增加连续块流 | 新流接口 249 块持续输入公开冒烟及背压探针已接入 | 2,752 块隐藏持续流、32 拍背压、512 块随机混合格式和运行中复位已由冻结参考 RTL 全部通过 | 参考哈希已冻结，256 个 PE 与非 PE 状态上限检查通过；14/14 个可编译缺陷变异体已检出；同哈希 v15 单 PE 的种子 11/29/47 已完成 1 GHz 时序、完整 DRC/连通及正式活动功耗检查 | 是；历史候选的 PPA/时间仍需实测 |
 
 “任务级试评分可运行”不等于整套 benchmark 具备正式榜单资格。`design_only` 状态必须保留到十题独立验收器、参考实现、变异体和 PPA 参数完成并通过[发布门禁](#发布门禁)。验收用例在设计文档里列出，**不等于已经写好可执行的测试程序**。
 
@@ -291,7 +291,7 @@ PPA 仅在任务的归一化功能分为 50/50 且 RTL 可综合、测量来源�
 | 存储映射 | T02/T05/T07 的小型存储体和 T09 寄存器文件一律映射为标准单元，不使用 fake SRAM/寄存器文件 macro |
 | 布线重复 | 固定种子 11/29/47；传给当前兼容版本的 ORFS `GRT_SEED` 和 `OR_SEED`，放置保持确定性，同一设计三次布线，指标取中位数 |
 
-上述统一参数并非直接照搬 [ORFS 的 ASAP7 平台配置](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/platforms/asap7/config.mk)及[示例 SDC](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/designs/asap7/ibex/constraint.sdc)。`CORE_UTILIZATION` 决定初始核心面积目标，`PLACE_DENSITY` 决定放置器的目标密度；二者不是同一个门禁。10% 最初是 PPA 探针和九题试跑采用的默认核心利用率，现有记录没有证明它适用于 T10 或优于其他利用率；它不是题目的功能或商业实现要求。T01–T09 已按这组参数完成三种子 1 GHz 校准；T09 已于 2026-10-09 按新增周期规则重新资格验证并冻结；seed 11/29/47 setup 裕量为 +9.353/+14.899/+9.008 ps，hold 与 DRC 全过，最小裕量仍需如实保留。T10 可用其他利用率作研发探索，但探索结果不得与正式基线直接比较或计分。十题共同复核后再冻结统一值；若统一值改变，已校准题也必须整体重跑。
+上述统一参数并非直接照搬 [ORFS 的 ASAP7 平台配置](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/platforms/asap7/config.mk)及[示例 SDC](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/designs/asap7/ibex/constraint.sdc)。`CORE_UTILIZATION` 决定初始核心面积目标，`PLACE_DENSITY` 决定放置器的目标密度；二者不是同一个门禁。10% 最初是 PPA 探针和九题试跑采用的默认核心利用率，现有记录没有证明它适用于 T10 或优于其他利用率；它不是题目的功能或商业实现要求。T01–T09 已按这组参数完成三种子 1 GHz 校准；T09 已于 2026-10-09 按新增周期规则重新资格验证并冻结；seed 11/29/47 setup 裕量为 +9.353/+14.899/+9.008 ps，hold 与 DRC 全过，最小裕量仍需如实保留。T10 V1.0 的单 PE 正式参数为 24% / 0.24，内部宏为 42% / 0.42，见[单 PE 契约](tasks/T10/ppa.md)；不得套用其他九题的默认参数。参考与候选必须使用同题相同参数。若后续改动正式参数，受影响题目须整体重新校准。
 
 #### 参数探索与冻结门禁
 
@@ -300,7 +300,7 @@ PPA 仅在任务的归一化功能分为 50/50 且 RTL 可综合、测量来源�
 3. 冻结工具镜像 digest、Yosys/OpenROAD/ABC 精确版本、ASAP7 文件 hash、完整 `config.mk`/SDC、库角、ABC 脚本与 `-D` 目标、输出负载、物理及 RC 参数、三个种子、参考三元组和 PPA 排名分档宽度。冻结后所有参赛提交以及参考设计都从头用这套配置重跑；不能根据某个系统的表现再调参。
 4. 十题中任一参考设计在 16 vCPU/32 GiB 限额下无法运行，或需要专用宏才可布线时，先修正**全套统一参数或任务规模**并重新校准；不得让部分题用另一套工艺配置。参数探索和评测器隐藏运行不计入参赛者完成任务的时间。
 
-每次参数校准还须保存 OCI 镜像 digest、工具与工艺文件 hash、完整约束、三个种子的原始报告、功耗负载 hash、活动注释率、资源峰值和失败日志。某题的参考 RTL 完成功能、三种子物理及功耗门禁且参考三元组可复现后，将结果写入 [ppa-baselines.json](ppa-baselines.json) 并单独启用该题 PPA/时间评分；整套状态只有在十题及不同等价 RTL 写法的公平性复核全部完成后才能提升为 `qualified_1ghz`。
+每次参数校准还须保存 OCI 镜像 digest、工具与工艺文件 hash、完整约束、三个种子的原始报告、功耗负载 hash、活动注释率、资源峰值和失败日志。某题的参考 RTL 完成功能、三种子物理及功耗门禁且参考三元组可复现后，将结果写入 [ppa-baselines.json](ppa-baselines.json) 并单独启用该题 PPA/时间评分；十题参考均合格时，基线清单可标为 `qualified_1ghz`；这不代表套题正式发布，工具镜像、不同等价 RTL 写法的公平性复核与整套发布检查仍须单独完成。
 
 ### 统一物理测量
 
@@ -325,7 +325,7 @@ PPA 仅在任务的归一化功能分为 50/50 且 RTL 可综合、测量来源�
 | T07 | 一次完成的 CPU 请求；固定读写、命中、干净/脏缺失比例 |
 | T08 | 一个成功接收的帧体字节；固定 TX/RX 帧、VLAN 拒绝及恢复负载；三个独立 1 GHz 时钟，计入两块 SRAM 的活动功耗 |
 | T09 | 一条正常退休指令；固定整数、分支、load/store 比例和数据端等待分布 |
-| T10 | 一个完成的 16×16 输出块；十种模式、正常活动值、独立 A/B scale 与随机正负；必须在持续输入/四槽输出稳态窗口测量，计入多块并行与背压恢复能耗。负载的种子、块数与门级验证结果在冻结 PPA 基线时一同发布 |
+| T10 | 单 PE 完成每块点积的能耗；完整 DUT 仍运行十种模式的 200 块持续负载并通过数值检查，再等权平均 256 个 PE 的活动，计入 PE 内部宏。单 PE 结果不代表完整 NPU 能耗；详见[单 PE PPA 契约](tasks/T10/ppa.md) |
 
 `N_ops` 由评测方在门级测试平台的端口握手、采样事件或 CPU 退休事件中自动计数；固定负载的活动比例避免通过选择容易的操作降低能耗。对停顿较长的实现，窗口时长增大，因此能耗/操作会反映吞吐损失。初始复位、加载程序和测试平台初始化不计入功耗窗口；负载内的运行中复位及重启开销按同一规则计入所有候选。
 
@@ -372,14 +372,14 @@ S_PPA  = S_base × F_setup
 | 7 | T07 写回缓存／2 小时 | 存储层次、数据一致性边界 | tag/index、脏行替换、写分配、字节使能 | AC-38–43；独立字节内存模型 |
 | 8 | T08 MAC repair / 120 min | Ethernet MAC, brownfield RTL | Long-spec reasoning, corner-case repair, VLAN policy, CDC and metadata | 37 cases × 3 seeds; 270 stress runs |
 | 9 | T09 RV32I 五级 CPU／2 小时 | 处理器微架构、ISA 实现 | 取指至退休延时、旁路、停顿、冲刷、精确异常、按序提交 | CPU-ACT/DIR/DIFF/PIPE；逐条延时与至少 10 万条随机退休差分 |
-| 10 | T10 16×16 持续双 1024-bit/拍脉动阵列／4 小时 | NPU/DSP 算术、数据格式、空间阵列与流式吞吐 | 16×16 向量 PE 邻接转发、4/8/16 拍块启动间隔、四行槽/拍带 ID 输出、FP8/FP4/MX 数值、背压信用、舍入与物理成本 | MM-INT/F16/F8/F4/MX8/MX4/PROTO/SYSTOLIC/CORNER；冻结参考已通过 2,752 块流式验收，14 个可编译缺陷变异体已检出，完整顶层 PPA 基线待完成 |
+| 10 | T10 16×16 持续双 1024-bit/拍脉动阵列／4 小时 | NPU/DSP 算术、数据格式、空间阵列与流式吞吐 | 16×16 向量 PE 邻接转发、4/8/16 拍块启动间隔、四行槽/拍带 ID 输出、FP8/FP4/MX 数值、背压信用、舍入与物理成本 | MM-INT/F16/F8/F4/MX8/MX4/PROTO/SYSTOLIC/CORNER；冻结参考已通过 2,752 块流式验收，14 个可编译缺陷变异体已检出，单 PE 三种子物理与正式活动功耗已通过 |
 
 ### 覆盖范围的可核查结论
 
 - **九类主要领域**均有专门题目：单时钟状态控制、高速串行链路 PCS、流式缓冲与仲裁、片上总线与外设、CDC、存储层次、处理器、NPU/DSP 矩阵算术。T10 补上乘法阵列和低精度浮点/块缩放。
 - **时钟与状态尺度**从单寄存器、串行 bit-buffer 与对齐状态，到单时钟多状态、双异步时钟、五级流水线和 2D 波前阵列；检验的不是同一种 RTL 模板的十个变体。
 - **接口与协议**包含连续串行切片、ready/valid、APB4、AXI4-Lite、line 后端和 CPU 指令/数据接口；至少三题专门施加背压、乱序到达的独立通道或外部等待。
-- **横向能力**包括参数化（T02/T04/T05）、复位及事件优先级（T02–T10）、独立模型验证（全部题）、统一 ASAP7 布线后 PPA 评估（已校准题）。T10 的物理基线尚待补全。
+- **横向能力**包括参数化（T02/T04/T05）、复位及事件优先级（T02–T10）、独立模型验证（全部题）、统一 ASAP7 布线后 PPA 评估（已校准题）。T10 的单 PE 物理与正式活动功耗基线也已完成。
 - **难度结构**预置 1–3、4–6、7–9 三档及第十题压力项；逐题时限为 30 分钟至 4 小时，十题合计 18 小时 30 分钟。T10 是否确实难于 T09，以及更新后整体难度间距，必须用参考工程师和多种 agent 的预算内通过率、对数完成时间检验。
 
 ### 结论边界与后续扩展
@@ -398,4 +398,4 @@ S_PPA  = S_base × F_setup
 
 本仓库的自有代码和文档采用 [Apache-2.0](../LICENSE)。随仓库再分发的第三方材料仍适用各自许可证；完整映射见[第三方声明](../THIRD_PARTY_NOTICES.md)。
 
-T08/T09 task-level freeze (2026-10-09): [T08 receipt](../benchmark/tasks/T08/FREEZE.json), [T09 receipt](../benchmark/tasks/T09/FREEZE.json). Run `python3 benchmark/freeze_tasks.py` from the repository root to verify specification, RTL, judge, scoring, baseline and portable evidence hashes. All six T09 archives have been regraded; untested T08 models remain null. Host-only receipts are excluded from candidate packages. T10 PPA and the suite-wide tool-image/release gates remain pending.
+T08/T09 task-level freeze (2026-10-09): [T08 receipt](../benchmark/tasks/T08/FREEZE.json), [T09 receipt](../benchmark/tasks/T09/FREEZE.json). Run `python3 benchmark/freeze_tasks.py` from the repository root to verify specification, RTL, judge, scoring, baseline and portable evidence hashes. All six T09 archives have been regraded, and all six T08 answers have been scored. Host-only receipts are excluded from candidate packages. T10 single-PE three-seed PPA is complete; suite-wide tool-image, fairness, and release checks remain pending.

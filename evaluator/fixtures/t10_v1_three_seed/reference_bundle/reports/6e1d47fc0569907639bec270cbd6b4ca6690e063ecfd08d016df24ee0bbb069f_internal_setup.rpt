@@ -1,0 +1,36 @@
+Startpoint: impl.original_quad/general.lanes[3].fp_lane/product_negative_q$_DFF_P_
+            (rising edge-triggered flip-flop clocked by clk_clock)
+Endpoint: impl.original_quad/general.lanes[3].fp_lane/term_word[502]$_SDFF_PN0_
+          (rising edge-triggered flip-flop clocked by clk_clock)
+Path Group: clk_clock
+Path Type: max
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock clk_clock (rise edge)
+ 223.021515  223.021515   clock network delay (propagated)
+   0.000000  223.021515 ^ impl.original_quad/general.lanes[3].fp_lane/product_negative_q$_DFF_P_/CLK (DFFHQx4_ASAP7_75t_R)
+ 133.670609  356.692108 v impl.original_quad/general.lanes[3].fp_lane/product_negative_q$_DFF_P_/Q (DFFHQx4_ASAP7_75t_R)
+  93.857201  450.549316 ^ impl.original_quad/general.lanes[3].fp_lane/_6639_/Y (INVx4_ASAP7_75t_R)
+ 120.506660  571.055969 ^ impl.original_quad/general.lanes[3].fp_lane/_6650_/Y (AND2x2_ASAP7_75t_R)
+  88.925034  659.981018 ^ impl.original_quad/general.lanes[3].fp_lane/place2688/Y (BUFx5_ASAP7_75t_R)
+ 208.425217  868.406250 ^ impl.original_quad/general.lanes[3].fp_lane/place2687/Y (BUFx5_ASAP7_75t_R)
+ 154.953384 1023.359619 ^ impl.original_quad/general.lanes[3].fp_lane/place2686/Y (BUFx3_ASAP7_75t_R)
+  76.050392 1099.410034 ^ impl.original_quad/general.lanes[3].fp_lane/_6534_/Y (AND3x1_ASAP7_75t_R)
+  25.213497 1124.623535 ^ impl.original_quad/general.lanes[3].fp_lane/_6535_/Y (AO21x1_ASAP7_75t_R)
+   0.059730 1124.683228 ^ impl.original_quad/general.lanes[3].fp_lane/term_word[502]$_SDFF_PN0_/D (DFFHQx4_ASAP7_75t_R)
+            1124.683228   data arrival time
+
+1000.000000 1000.000000   clock clk_clock (rise edge)
+ 208.463089 1208.463135   clock network delay (propagated)
+   1.929599 1210.392700   clock reconvergence pessimism
+            1210.392700 ^ impl.original_quad/general.lanes[3].fp_lane/term_word[502]$_SDFF_PN0_/CLK (DFFHQx4_ASAP7_75t_R)
+ -14.051670 1196.341064   library setup time
+            1196.341064   data required time
+-----------------------------------------------------------------
+            1196.341064   data required time
+            -1124.683228   data arrival time
+-----------------------------------------------------------------
+              71.657791   slack (MET)
+
+

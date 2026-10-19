@@ -1,0 +1,151 @@
+[INFO ORD-0030] Using 4 thread(s).
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 13178, timing group from output port.
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 13211, timing group from output port.
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 13244, timing group from output port.
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 13277, timing group from output port.
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 13310, timing group from output port.
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 13343, timing group from output port.
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 13376, timing group from output port.
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 14772, timing group from output port.
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 14805, timing group from output port.
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_TT_nldm_211120.lib.gz line 14838, timing group from output port.
+T10_ACTIVITY_IMPORT nets=4022 pins=10896 physical_nets_without_activity=2
+T10_SEQUENTIAL_ACTIVITY annotated=1224 total=1224
+input       10896
+unannotated   124
+Unannotated pins:
+ a_work[0]
+ a_work[10]
+ a_work[11]
+ a_work[12]
+ a_work[13]
+ a_work[14]
+ a_work[15]
+ a_work[1]
+ a_work[2]
+ a_work[3]
+ a_work[4]
+ a_work[5]
+ a_work[6]
+ a_work[7]
+ a_work[8]
+ a_work[9]
+ b_work[0]
+ b_work[10]
+ b_work[11]
+ b_work[12]
+ b_work[13]
+ b_work[14]
+ b_work[15]
+ b_work[1]
+ b_work[2]
+ b_work[3]
+ b_work[4]
+ b_work[5]
+ b_work[6]
+ b_work[7]
+ b_work[8]
+ b_work[9]
+ clk
+ integer_partial_valid
+ integer_raw_input_valid
+ integer_raw_valid
+ mode_int8
+ p16_out[0]
+ p16_out[10]
+ p16_out[11]
+ p16_out[12]
+ p16_out[13]
+ p16_out[14]
+ p16_out[15]
+ p16_out[16]
+ p16_out[17]
+ p16_out[18]
+ p16_out[19]
+ p16_out[1]
+ p16_out[20]
+ p16_out[21]
+ p16_out[22]
+ p16_out[23]
+ p16_out[24]
+ p16_out[25]
+ p16_out[26]
+ p16_out[27]
+ p16_out[28]
+ p16_out[29]
+ p16_out[2]
+ p16_out[30]
+ p16_out[31]
+ p16_out[3]
+ p16_out[4]
+ p16_out[5]
+ p16_out[6]
+ p16_out[7]
+ p16_out[8]
+ p16_out[9]
+ p8_pair[0]
+ p8_pair[10]
+ p8_pair[11]
+ p8_pair[12]
+ p8_pair[13]
+ p8_pair[14]
+ p8_pair[15]
+ p8_pair[16]
+ p8_pair[17]
+ p8_pair[18]
+ p8_pair[19]
+ p8_pair[1]
+ p8_pair[20]
+ p8_pair[21]
+ p8_pair[22]
+ p8_pair[23]
+ p8_pair[24]
+ p8_pair[25]
+ p8_pair[26]
+ p8_pair[27]
+ p8_pair[28]
+ p8_pair[29]
+ p8_pair[2]
+ p8_pair[30]
+ p8_pair[31]
+ p8_pair[3]
+ p8_pair[4]
+ p8_pair[5]
+ p8_pair[6]
+ p8_pair[7]
+ p8_pair[8]
+ p8_pair[9]
+ clkload0/Y
+ clkload1/Y
+ clkload10/Y
+ clkload11/Y
+ clkload12/Y
+ clkload13/Y
+ clkload14/Y
+ clkload15/Y
+ clkload16/Y
+ clkload17/Y
+ clkload18/Y
+ clkload19/Y
+ clkload2/Y
+ clkload20/Y
+ clkload21/Y
+ clkload22/Y
+ clkload3/Y
+ clkload4/Y
+ clkload5/Y
+ clkload6/Y
+ clkload7/Y
+ clkload8/Y
+ clkload9/Y
+Group                       Internal       Switching         Leakage           Total
+                               Power           Power           Power           Power (Watts)
+------------------------------------------------------------------------------------
+Sequential           5.346789840e-04 5.404077820e-05 1.954054483e-07 5.889151362e-04  46.8%
+Combinational        1.279036223e-04 1.262580918e-04 2.598939943e-07 2.544216113e-04  20.2%
+Clock                2.318569750e-04 1.825098734e-04 1.780814962e-08 4.143846454e-04  32.9%
+Macro                0.000000000e+00 0.000000000e+00 0.000000000e+00 0.000000000e+00   0.0%
+Pad                  0.000000000e+00 0.000000000e+00 0.000000000e+00 0.000000000e+00   0.0%
+------------------------------------------------------------------------------------
+Total                8.944394649e-04 3.628089326e-04 4.731070078e-07 1.257721568e-03 100.0%
+                               71.1%           28.8%            0.0%

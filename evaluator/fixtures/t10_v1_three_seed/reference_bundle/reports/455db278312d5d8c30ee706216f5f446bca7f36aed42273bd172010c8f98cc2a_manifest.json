@@ -1,0 +1,102 @@
+{
+  "task_id": "T10",
+  "seed": 20260925,
+  "case_count": 200,
+  "mode_counts": {
+    "0": 32,
+    "1": 8,
+    "2": 8,
+    "3": 8,
+    "4": 16,
+    "5": 16,
+    "6": 32,
+    "7": 16,
+    "8": 16,
+    "9": 48
+  },
+  "vector_sha256": {
+    "a": "28feeca89f090a9d3e4a9d91305c0f1ba58979db0ba47cbb86ddc4e597943d31",
+    "b": "b309c27c6d9f638563e6711032508490c0c1c0ca704f87c45956c4d5bf714334",
+    "as": "2407573c3a8a62c91684f08c1262522c18af1082392445282ae761636723c0a6",
+    "bs": "40af6a22b4ae930a407e85a7b0bdc63dd2ada99a01cba065123c788e0e599860",
+    "mode": "2df97266f43d79942a7669a33b0fd9fac7732eac278b59746f7ef106e7ffe80a",
+    "phase": "2a39b08c259fc162be5b49dec24e3084bb4910eca70cda267d011ebcbe2ed58d"
+  },
+  "oracle_check": {
+    "status": "pass",
+    "matrix_blocks": 200,
+    "output_points": 51200,
+    "result_classes": {
+      "finite": 51200
+    },
+    "mode_output_points": {
+      "0": 8192,
+      "1": 2048,
+      "2": 2048,
+      "3": 2048,
+      "4": 4096,
+      "5": 4096,
+      "6": 8192,
+      "7": 4096,
+      "8": 4096,
+      "9": 12288
+    },
+    "phase_counts": {
+      "1": 16,
+      "2": 8,
+      "3": 8,
+      "4": 8,
+      "5": 16,
+      "6": 16,
+      "7": 32,
+      "8": 16,
+      "9": 16,
+      "10": 32,
+      "11": 32
+    },
+    "oracle_path": "benchmark/tasks/T10/public/matmul_oracle.py",
+    "oracle_sha256": "880a56317f3b54ea6b9f563ad2e6272d54e2332986bfd09780b25aa0a3aa57e7"
+  },
+  "generator": {
+    "path": "make_t10_power_vectors.py",
+    "sha256": "642899c59ce49f3c22cbffa6bd679bfb648e4c32d4648f8d4e06e8e2a64b3967"
+  },
+  "files": {
+    "a.mem": {
+      "bytes": 822400,
+      "sha256": "28feeca89f090a9d3e4a9d91305c0f1ba58979db0ba47cbb86ddc4e597943d31"
+    },
+    "as.mem": {
+      "bytes": 13000,
+      "sha256": "2407573c3a8a62c91684f08c1262522c18af1082392445282ae761636723c0a6"
+    },
+    "b.mem": {
+      "bytes": 822400,
+      "sha256": "b309c27c6d9f638563e6711032508490c0c1c0ca704f87c45956c4d5bf714334"
+    },
+    "bs.mem": {
+      "bytes": 13000,
+      "sha256": "40af6a22b4ae930a407e85a7b0bdc63dd2ada99a01cba065123c788e0e599860"
+    },
+    "mode.mem": {
+      "bytes": 400,
+      "sha256": "2df97266f43d79942a7669a33b0fd9fac7732eac278b59746f7ef106e7ffe80a"
+    },
+    "pause.mem": {
+      "bytes": 1000,
+      "sha256": "6614bc1696774c576c5d32aa9bdb7a5658fff684112907a6ec0b04856d954406"
+    },
+    "phase.mem": {
+      "bytes": 400,
+      "sha256": "2a39b08c259fc162be5b49dec24e3084bb4910eca70cda267d011ebcbe2ed58d"
+    },
+    "reset.mem": {
+      "bytes": 400,
+      "sha256": "b2a3ca01c7e12a128b8d8cd4adf840301744bff2bbe9f2ef9fdb939e5df2ce7a"
+    },
+    "stall.mem": {
+      "bytes": 600,
+      "sha256": "bfaa4f26dcfeafffc997ec485a75f9d6b424afd751fa7421185582e0de8a92e8"
+    }
+  }
+}

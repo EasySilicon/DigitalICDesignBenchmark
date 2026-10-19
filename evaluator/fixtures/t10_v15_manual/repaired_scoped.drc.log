@@ -1,0 +1,98 @@
+OpenROAD 26Q2-1164-g08f67ee5ec 
+Features included (+) or not (-): +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 8 thread(s).
+[INFO DRT-0149] Reading tech and libs.
+
+Units:                1000
+Number of layers:     21
+Number of macros:     217
+Number of vias:       40
+Number of viarulegen: 11
+
+[INFO DRT-0150] Reading design.
+
+Design:                   t10_reference_pe
+Die area:                 ( 0 0 ) ( 493326 493326 )
+Number of track patterns: 32
+Number of DEF vias:       0
+Number of components:     75281
+Number of terminals:      441
+Number of snets:          2
+Number of nets:           60649
+
+[INFO DRT-0167] List of default vias:
+  Layer V2
+    default via: VIA23
+  Layer V3
+    default via: VIA34
+  Layer V4
+    default via: VIA45
+  Layer V5
+    default via: VIA56
+  Layer V6
+    default via: VIA67
+  Layer V7
+    default via: VIA78
+  Layer V8
+    default via: VIA89
+  Layer V9
+    default via: VIA9Pad
+[INFO DRT-0162] Library cell analysis.
+[INFO DRT-0163] Instance analysis.
+[INFO DRT-0164] Number of unique instances = 244.
+[INFO DRT-0168] Init region query.
+[INFO DRT-0024]   Complete Active.
+[INFO DRT-0024]   Complete V0.
+[INFO DRT-0024]   Complete M1.
+[INFO DRT-0024]   Complete V1.
+[INFO DRT-0024]   Complete M2.
+[INFO DRT-0024]   Complete V2.
+[INFO DRT-0024]   Complete M3.
+[INFO DRT-0024]   Complete V3.
+[INFO DRT-0024]   Complete M4.
+[INFO DRT-0024]   Complete V4.
+[INFO DRT-0024]   Complete M5.
+[INFO DRT-0024]   Complete V5.
+[INFO DRT-0024]   Complete M6.
+[INFO DRT-0024]   Complete V6.
+[INFO DRT-0024]   Complete M7.
+[INFO DRT-0024]   Complete V7.
+[INFO DRT-0024]   Complete M8.
+[INFO DRT-0024]   Complete V8.
+[INFO DRT-0024]   Complete M9.
+[INFO DRT-0024]   Complete V9.
+[INFO DRT-0024]   Complete Pad.
+[INFO DRT-0033] Active shape region query size = 0.
+[INFO DRT-0033] V0 shape region query size = 0.
+[INFO DRT-0033] M1 shape region query size = 1227604.
+[INFO DRT-0033] V1 shape region query size = 19296784.
+[INFO DRT-0033] M2 shape region query size = 188844.
+[INFO DRT-0033] V2 shape region query size = 389202.
+[INFO DRT-0033] M3 shape region query size = 389212.
+[INFO DRT-0033] V3 shape region query size = 259468.
+[INFO DRT-0033] M4 shape region query size = 259662.
+[INFO DRT-0033] V4 shape region query size = 259468.
+[INFO DRT-0033] M5 shape region query size = 145717.
+[INFO DRT-0033] V5 shape region query size = 25968.
+[INFO DRT-0033] M6 shape region query size = 28605.
+[INFO DRT-0033] V6 shape region query size = 51340.
+[INFO DRT-0033] M7 shape region query size = 26144.
+[INFO DRT-0033] V7 shape region query size = 205528.
+[INFO DRT-0033] M8 shape region query size = 32386.
+[INFO DRT-0033] V8 shape region query size = 169125.
+[INFO DRT-0033] M9 shape region query size = 19945.
+[INFO DRT-0033] V9 shape region query size = 0.
+[INFO DRT-0033] Pad shape region query size = 0.
+[INFO DRT-0156] guideIn read 100000 guides.
+[INFO DRT-0156] guideIn read 200000 guides.
+[INFO DRT-0156] guideIn read 300000 guides.
+[INFO DRT-0156] guideIn read 400000 guides.
+[INFO DRT-0156] guideIn read 500000 guides.
+
+[INFO DRT-0157] Number of guides:     536459
+
+[INFO DRT-0176] GCELLGRID X 0 DO 865 STEP 570 ;
+[INFO DRT-0177] GCELLGRID Y 0 DO 865 STEP 570 ;
+T10_FULL_CHECK workers=15376 raw_unique=658 checked_scope=0 context_only=658 DRCSAFEDIST=500 MTSAFEDIST=4000

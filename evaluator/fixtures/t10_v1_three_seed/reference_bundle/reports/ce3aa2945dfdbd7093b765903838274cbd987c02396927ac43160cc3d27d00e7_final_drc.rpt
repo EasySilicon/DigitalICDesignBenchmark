@@ -1,0 +1,6 @@
+violation type: Metal Spacing
+	srcs: inst:float_quad\[3\].genblk2.class2.fp_quad net:net16515
+	bbox = (365.0270, 271.9620) - (365.0400, 271.9800) on Layer M2
+violation type: Metal Spacing
+	srcs: inst:float_quad\[3\].genblk2.class2.fp_quad net:quad_sum\[3\]\[215\]
+	bbox = (364.9790, 270.8160) - (365.0400, 270.8400) on Layer M4

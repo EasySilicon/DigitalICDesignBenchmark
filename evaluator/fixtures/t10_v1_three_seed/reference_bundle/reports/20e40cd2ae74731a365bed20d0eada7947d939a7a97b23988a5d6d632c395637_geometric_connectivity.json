@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "method": "whole_database_geometric_signal_net_connectivity",
+  "odb": {
+    "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed47_fp0/6_final.odb",
+    "bytes": 68152694,
+    "sha256": "86a781a5d76f27c6e90ea634cf2f6cf344aa4bffd31878f48e4b5927c685adaa"
+  },
+  "signal_nets_checked": 37397,
+  "power_ground_nets_excluded": 2,
+  "shapes_checked": 1735146,
+  "terminals_checked": 118680,
+  "failures": [],
+  "checker_sha256": "62947083499632c7b2ce7285b77e84b20b14669e58ec8071be9c7fa5115309b6"
+}

@@ -1,0 +1,42 @@
+OpenROAD 26Q2-1164-g08f67ee5ec 
+Features included (+) or not (-): +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 4 thread(s).
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 13156, timing group from output port.
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 13189, timing group from output port.
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 13222, timing group from output port.
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 13255, timing group from output port.
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 13288, timing group from output port.
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 13321, timing group from output port.
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 13354, timing group from output port.
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 14748, timing group from output port.
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 14781, timing group from output port.
+[WARNING STA-1212] /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz line 14814, timing group from output port.
+Deleted 4 routing obstructions
+[INFO RCX-0431] Defined process_corner X with ext_model_index 0
+[INFO RCX-0029] Defined extraction corner X
+[INFO RCX-0435] Reading extraction model file /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/rcx_patterns.rules ...
+[INFO RCX-0436] RC segment generation t10_reference_pe (max_merge_res 50.0) ...
+[INFO RCX-0040] Final 546382 rc segments
+[INFO RCX-0439] Coupling Cap extraction t10_reference_pe ...
+[INFO RCX-0440] Coupling threshhold is 0.1000 fF, coupling capacitance less than 0.1000 fF will be grounded.
+[INFO RCX-0442] 7% of 667154 wires extracted
+[INFO RCX-0442] 16% of 667154 wires extracted
+[INFO RCX-0442] 22% of 667154 wires extracted
+[INFO RCX-0442] 30% of 667154 wires extracted
+[INFO RCX-0442] 40% of 667154 wires extracted
+[INFO RCX-0442] 47% of 667154 wires extracted
+[INFO RCX-0442] 54% of 667154 wires extracted
+[INFO RCX-0442] 61% of 667154 wires extracted
+[INFO RCX-0442] 68% of 667154 wires extracted
+[INFO RCX-0442] 78% of 667154 wires extracted
+[INFO RCX-0442] 86% of 667154 wires extracted
+[INFO RCX-0442] 91% of 667154 wires extracted
+[INFO RCX-0442] 97% of 667154 wires extracted
+[INFO RCX-0442] 100% of 667154 wires extracted
+[INFO RCX-0045] Extract 63437 nets, 609807 rsegs, 609807 caps, 723313 ccs
+[INFO RCX-0443] 63437 nets finished
+[WARNING STA-0450] virtual clock vclk_in can not be propagated.
+[WARNING STA-0450] virtual clock vclk_out can not be propagated.
+T10_MANUAL_EXTRACTION_COMPLETE

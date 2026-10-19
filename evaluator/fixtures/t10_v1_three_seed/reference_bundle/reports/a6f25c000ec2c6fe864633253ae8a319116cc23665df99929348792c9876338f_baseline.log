@@ -1,0 +1,1375 @@
+mkdir -p ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/
+echo 1000 > ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/clock_period.txt
+/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/scripts/synth.sh /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/scripts/synth_canonicalize.tcl ./logs/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/1_1_yosys_canonicalize.log
+Using ABC speed script.
+Extracting clock period from SDC file: ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/clock_period.txt
+Setting clock period to 1000
+1. Executing Liberty frontend: /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz
+2. Executing Liberty frontend: /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz
+3. Executing Liberty frontend: /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz
+4. Executing Liberty frontend: /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib
+5. Executing Liberty frontend: /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz
+6. Executing Liberty frontend: /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed47_fp0/t10_reference_fp_quad_class0_exact_wc.lib
+7. Executing Liberty frontend: /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed47_fp1/t10_reference_fp_quad_class1_exact_wc.lib
+8. Executing Liberty frontend: /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed47_fp2/t10_reference_fp_quad_class2_exact_wc.lib
+9. Executing Liberty frontend: /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed47_int/t10_reference_int_group_wc.lib
+10. Executing Liberty frontend: /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed47_cpa/t10_reference_cpa_postprocess_wc.lib
+11. Executing Liberty frontend: /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz
+12. Executing Liberty frontend: /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz
+13. Executing Liberty frontend: /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz
+14. Executing Liberty frontend: /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib
+15. Executing Liberty frontend: /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz
+16. Executing Liberty frontend: /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed47_fp0/t10_reference_fp_quad_class0_exact_wc.lib
+17. Executing Liberty frontend: /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed47_fp1/t10_reference_fp_quad_class1_exact_wc.lib
+18. Executing Liberty frontend: /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed47_fp2/t10_reference_fp_quad_class2_exact_wc.lib
+19. Executing Liberty frontend: /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed47_int/t10_reference_int_group_wc.lib
+20. Executing Liberty frontend: /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed47_cpa/t10_reference_cpa_postprocess_wc.lib
+21. Executing Verilog-2005 frontend: /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv
+22. Executing Verilog-2005 frontend: /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/yoSys/cells_clkgate_R.v
+23. Executing HIERARCHY pass (managing design hierarchy).
+24. Executing AST frontend in derive mode using pre-parsed AST for module `\t10_reference_pe'.
+Warning: Replacing memory \quad_carry with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1731
+Warning: Replacing memory \quad_negative_count with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1705
+Warning: Replacing memory \quad_sum with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1704
+Warning: Replacing memory \integer_level2 with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1663
+Warning: Replacing memory \integer_level1 with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1660
+Warning: Replacing memory \integer_product with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1651
+Warning: Replacing memory \float_pending_words with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1818
+Warning: Replacing memory \level2_q with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1811
+Warning: Replacing memory \level1_q with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1798
+Warning: Replacing memory \integer_level2_q with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1796
+Warning: Replacing memory \integer_pre_sum with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1794
+Warning: Replacing memory \integer_product_reg with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1792
+Warning: Replacing memory \quad_sum_macro_q with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1784
+Warning: Replacing memory \pending_level1 with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1777, /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1773
+Warning: Replacing memory \pending_level0 with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1774, /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1768
+Warning: Replacing memory \level4 with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1767
+Warning: Replacing memory \level3 with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1767, /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1765
+Warning: Replacing memory \level2 with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1760
+Warning: Replacing memory \level1 with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1758
+Warning: Replacing memory \level0 with list of registers. See /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1759, /home/reefshark/research/agent_os/ic_bcmk/evaluator/reference/T10_v15/rtl/npu_systolic_matmul_16x16.sv:1750
+24.1. Analyzing design hierarchy..
+24.2. Analyzing design hierarchy..
+Warning: Selection "t10_reference_fp_quad_class0_exact" did not match any module.
+Warning: Selection "t10_reference_fp_quad_class1_exact" did not match any module.
+Warning: Selection "t10_reference_fp_quad_class2_exact" did not match any module.
+Warning: Selection "t10_reference_int_group" did not match any module.
+Warning: Selection "t10_reference_cpa_postprocess" did not match any module.
+25. Executing HIERARCHY pass (managing design hierarchy).
+25.1. Analyzing design hierarchy..
+25.2. Analyzing design hierarchy..
+26. Executing OPT_CLEAN pass (remove unused cells and wires).
+Warning: Ignoring module t10_reference_pe because it contains processes (run 'proc' command first).
+27. Executing RTLIL backend.
+Warnings: 26 unique messages, 26 total
+End of script. Logfile hash: 56ea746e62, time: 0.36s, user: 0.33s, system: 0.02s, MEM: 44.99 MB peak
+Yosys 0.69+150 (git sha1 0d3483f04-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
+Time spent: 76% 22x read_liberty (0 sec), 18% 2x hierarchy (0 sec), ...
+Elapsed time: 0:00.37[h:]min:sec. CPU time: user 0.34 sys 0.03 (99%). Peak memory: 46068KB.
+Log                       Ext     Elapsed/s Peak Memory/MB sha1sum result [0:20)
+1_1_yosys_canonicalize    .rtlil          0             44 31304627575c4812502c
+/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/scripts/synth.sh /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/scripts/synth.tcl ./logs/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/1_2_yosys.log
+Using ABC speed script.
+Extracting clock period from SDC file: ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/clock_period.txt
+Setting clock period to 1000
+1. Executing RTLIL frontend.
+Warning: Selection "t10_reference_fp_quad_class0_exact" did not match any module.
+Warning: Selection "t10_reference_fp_quad_class1_exact" did not match any module.
+Warning: Selection "t10_reference_fp_quad_class2_exact" did not match any module.
+Warning: Selection "t10_reference_int_group" did not match any module.
+Warning: Selection "t10_reference_cpa_postprocess" did not match any module.
+2. Executing HIERARCHY pass (managing design hierarchy).
+2.1. Analyzing design hierarchy..
+2.2. Analyzing design hierarchy..
+3. Executing SYNTH pass.
+3.1. Executing HIERARCHY pass (managing design hierarchy).
+3.1.1. Analyzing design hierarchy..
+3.1.2. Analyzing design hierarchy..
+3.2. Executing PROC pass (convert processes to netlists).
+3.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+3.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+3.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+3.2.4. Executing PROC_INIT pass (extract init attributes).
+3.2.5. Executing PROC_ARST pass (detect async resets in processes).
+3.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+3.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+3.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+3.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+3.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+3.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+3.2.12. Executing OPT_EXPR pass (perform const folding).
+3.3. Executing CHECK pass (checking for obvious problems).
+3.4. Executing FLATTEN pass (flatten design).
+3.5. Executing OPT_EXPR pass (perform const folding).
+3.6. Executing CHECK pass (checking for obvious problems).
+3.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+3.8. Executing OPT pass (performing simple optimizations).
+3.8.1. Executing OPT_EXPR pass (perform const folding).
+3.8.2. Executing OPT_MERGE pass (detect identical cells).
+3.8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+3.8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+3.8.5. Executing OPT_MERGE pass (detect identical cells).
+3.8.6. Executing OPT_DFF pass (perform DFF optimizations).
+3.8.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+3.8.8. Executing OPT_EXPR pass (perform const folding).
+3.8.9. Rerunning OPT passes. (Maybe there is more to do..)
+3.8.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+3.8.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+3.8.12. Executing OPT_MERGE pass (detect identical cells).
+3.8.13. Executing OPT_DFF pass (perform DFF optimizations).
+3.8.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+3.8.15. Executing OPT_EXPR pass (perform const folding).
+3.8.16. Finished fast OPT passes. (There is nothing left to do.)
+3.9. Executing FSM pass (extract and optimize FSM).
+3.9.1. Executing FSM_DETECT pass (finding FSMs in design).
+3.9.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+3.9.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+3.9.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+3.9.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+3.9.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+3.9.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+3.9.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+3.10. Executing OPT pass (performing simple optimizations).
+3.10.1. Executing OPT_EXPR pass (perform const folding).
+3.10.2. Executing OPT_MERGE pass (detect identical cells).
+3.10.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+3.10.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+3.10.5. Executing OPT_MERGE pass (detect identical cells).
+3.10.6. Executing OPT_DFF pass (perform DFF optimizations).
+3.10.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+3.10.8. Executing OPT_EXPR pass (perform const folding).
+3.10.9. Rerunning OPT passes. (Maybe there is more to do..)
+3.10.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+3.10.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+3.10.12. Executing OPT_MERGE pass (detect identical cells).
+3.10.13. Executing OPT_DFF pass (perform DFF optimizations).
+3.10.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+3.10.15. Executing OPT_EXPR pass (perform const folding).
+3.10.16. Rerunning OPT passes. (Maybe there is more to do..)
+3.10.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+3.10.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+3.10.19. Executing OPT_MERGE pass (detect identical cells).
+3.10.20. Executing OPT_DFF pass (perform DFF optimizations).
+3.10.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+3.10.22. Executing OPT_EXPR pass (perform const folding).
+3.10.23. Finished fast OPT passes. (There is nothing left to do.)
+3.11. Executing WREDUCE pass (reducing word size of cells).
+3.12. Executing PEEPOPT pass (run peephole optimizers).
+3.13. Executing OPT_CLEAN pass (remove unused cells and wires).
+3.14. Executing ALUMACC pass (create $alu and $macc cells).
+3.15. Executing SHARE pass (SAT-based resource sharing).
+3.16. Executing OPT pass (performing simple optimizations).
+3.16.1. Executing OPT_EXPR pass (perform const folding).
+3.16.2. Executing OPT_MERGE pass (detect identical cells).
+3.16.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+3.16.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+3.16.5. Executing OPT_MERGE pass (detect identical cells).
+3.16.6. Executing OPT_DFF pass (perform DFF optimizations).
+3.16.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+3.16.8. Executing OPT_EXPR pass (perform const folding).
+3.16.9. Rerunning OPT passes. (Maybe there is more to do..)
+3.16.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+3.16.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+3.16.12. Executing OPT_MERGE pass (detect identical cells).
+3.16.13. Executing OPT_DFF pass (perform DFF optimizations).
+3.16.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+3.16.15. Executing OPT_EXPR pass (perform const folding).
+3.16.16. Finished fast OPT passes. (There is nothing left to do.)
+3.17. Executing MEMORY pass.
+3.17.1. Executing OPT_MEM pass (optimize memories).
+3.17.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+3.17.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+3.17.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+3.17.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+3.17.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+3.17.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+3.17.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+3.17.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+3.17.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+3.18. Executing OPT_CLEAN pass (remove unused cells and wires).
+4. Executing SYNTH pass.
+4.1. Executing OPT pass (performing simple optimizations).
+4.1.1. Executing OPT_EXPR pass (perform const folding).
+4.1.2. Executing OPT_MERGE pass (detect identical cells).
+4.1.3. Executing OPT_DFF pass (perform DFF optimizations).
+4.1.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+4.1.5. Rerunning OPT passes. (Removed registers in this run.)
+4.1.6. Executing OPT_EXPR pass (perform const folding).
+4.1.7. Executing OPT_MERGE pass (detect identical cells).
+4.1.8. Executing OPT_DFF pass (perform DFF optimizations).
+4.1.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+4.1.10. Finished fast OPT passes.
+4.2. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+4.3. Executing OPT pass (performing simple optimizations).
+4.3.1. Executing OPT_EXPR pass (perform const folding).
+4.3.2. Executing OPT_MERGE pass (detect identical cells).
+4.3.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+4.3.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+4.3.5. Executing OPT_MERGE pass (detect identical cells).
+4.3.6. Executing OPT_SHARE pass.
+4.3.7. Executing OPT_DFF pass (perform DFF optimizations).
+4.3.8. Executing OPT_CLEAN pass (remove unused cells and wires).
+4.3.9. Executing OPT_EXPR pass (perform const folding).
+4.3.10. Rerunning OPT passes. (Maybe there is more to do..)
+4.3.11. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+4.3.12. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+4.3.13. Executing OPT_MERGE pass (detect identical cells).
+4.3.14. Executing OPT_SHARE pass.
+4.3.15. Executing OPT_DFF pass (perform DFF optimizations).
+4.3.16. Executing OPT_CLEAN pass (remove unused cells and wires).
+4.3.17. Executing OPT_EXPR pass (perform const folding).
+4.3.18. Rerunning OPT passes. (Maybe there is more to do..)
+4.3.19. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+4.3.20. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+4.3.21. Executing OPT_MERGE pass (detect identical cells).
+4.3.22. Executing OPT_SHARE pass.
+4.3.23. Executing OPT_DFF pass (perform DFF optimizations).
+4.3.24. Executing OPT_CLEAN pass (remove unused cells and wires).
+4.3.25. Executing OPT_EXPR pass (perform const folding).
+4.3.26. Rerunning OPT passes. (Maybe there is more to do..)
+4.3.27. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+4.3.28. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+4.3.29. Executing OPT_MERGE pass (detect identical cells).
+4.3.30. Executing OPT_SHARE pass.
+4.3.31. Executing OPT_DFF pass (perform DFF optimizations).
+4.3.32. Executing OPT_CLEAN pass (remove unused cells and wires).
+4.3.33. Executing OPT_EXPR pass (perform const folding).
+4.3.34. Finished fast OPT passes. (There is nothing left to do.)
+4.4. Executing TECHMAP pass (map to technology primitives).
+4.4.1. Executing Verilog-2005 frontend: /data/zhongzhuanzhan/ic_bcmk_tools/oss-cad-suite/lib/../share/yosys/techmap.v
+4.4.2. Executing Verilog-2005 frontend: /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/platforms/common/lcu_kogge_stone.v
+4.4.3. Continuing TECHMAP pass.
+4.5. Executing OPT pass (performing simple optimizations).
+4.5.1. Executing OPT_EXPR pass (perform const folding).
+4.5.2. Executing OPT_MERGE pass (detect identical cells).
+4.5.3. Executing OPT_DFF pass (perform DFF optimizations).
+4.5.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+4.5.5. Finished fast OPT passes.
+4.6. Executing HIERARCHY pass (managing design hierarchy).
+4.6.1. Analyzing design hierarchy..
+4.6.2. Analyzing design hierarchy..
+4.7. Printing statistics.
+4.8. Executing CHECK pass (checking for obvious problems).
+5. Executing OPT pass (performing simple optimizations).
+5.1. Executing OPT_EXPR pass (perform const folding).
+5.2. Executing OPT_MERGE pass (detect identical cells).
+5.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+5.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+5.5. Executing OPT_MERGE pass (detect identical cells).
+5.6. Executing OPT_DFF pass (perform DFF optimizations).
+5.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+5.8. Executing OPT_EXPR pass (perform const folding).
+5.9. Rerunning OPT passes. (Maybe there is more to do..)
+5.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+5.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+5.12. Executing OPT_MERGE pass (detect identical cells).
+5.13. Executing OPT_DFF pass (perform DFF optimizations).
+5.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+5.15. Executing OPT_EXPR pass (perform const folding).
+5.16. Finished fast OPT passes. (There is nothing left to do.)
+6. Executing EXTRACT_FA pass (find and extract full/half adders).
+7. Executing TECHMAP pass (map to technology primitives).
+7.1. Executing Verilog-2005 frontend: /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/yoSys/cells_adders_R.v
+7.2. Continuing TECHMAP pass.
+8. Executing TECHMAP pass (map to technology primitives).
+8.1. Executing Verilog-2005 frontend: /data/zhongzhuanzhan/ic_bcmk_tools/oss-cad-suite/lib/../share/yosys/techmap.v
+8.2. Continuing TECHMAP pass.
+9. Executing OPT pass (performing simple optimizations).
+9.1. Executing OPT_EXPR pass (perform const folding).
+9.2. Executing OPT_MERGE pass (detect identical cells).
+9.3. Executing OPT_DFF pass (perform DFF optimizations).
+9.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+9.5. Finished fast OPT passes.
+10. Executing DFFLEGALIZE pass (convert FFs and LATCHes to types supported by the target).
+11. Executing TECHMAP pass (map to technology primitives).
+11.1. Executing Verilog-2005 frontend: /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/yoSys/cells_latch_R.v
+11.2. Continuing TECHMAP pass.
+12. Executing DFFLIBMAP pass (mapping DFF/DLATCH cells to sequential cells from liberty file).
+12.1. Executing DFFLEGALIZE pass (convert FFs and LATCHes to types supported by the target).
+13. Executing OPT pass (performing simple optimizations).
+13.1. Executing OPT_EXPR pass (perform const folding).
+13.2. Executing OPT_MERGE pass (detect identical cells).
+13.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+13.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+13.5. Executing OPT_MERGE pass (detect identical cells).
+13.6. Executing OPT_DFF pass (perform DFF optimizations).
+13.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+13.8. Executing OPT_EXPR pass (perform const folding).
+13.9. Rerunning OPT passes. (Maybe there is more to do..)
+13.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+13.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+13.12. Executing OPT_MERGE pass (detect identical cells).
+13.13. Executing OPT_DFF pass (perform DFF optimizations).
+13.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+13.15. Executing OPT_EXPR pass (perform const folding).
+13.16. Finished fast OPT passes. (There is nothing left to do.)
+14. Executing SETUNDEF pass (replace undef values with defined constants).
+abc -script /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/scripts/abc_speed.script -liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz -liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz -liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz -liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib -liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz -liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed47_fp0/t10_reference_fp_quad_class0_exact_wc.lib -liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed47_fp1/t10_reference_fp_quad_class1_exact_wc.lib -liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed47_fp2/t10_reference_fp_quad_class2_exact_wc.lib -liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed47_int/t10_reference_int_group_wc.lib -liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed47_cpa/t10_reference_cpa_postprocess_wc.lib -dont_use *x1p*_ASAP7* -dont_use *xp*_ASAP7* -dont_use SDF* -dont_use ICG* -constr ./objects/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/abc.constr -D 1000
+15. Executing ABC pass (technology mapping using ABC).
+15.1. Summary of detected clock domains:
+15.2. Extracting gate netlist of module `\t10_reference_pe' to `<abc-temp-dir>/input.blif'..
+15.2.1. Executed ABC.
+15.2.2. Re-integrating ABC results.
+16. Executing SPLITNETS pass (splitting up multi-bit signals).
+17. Executing OPT_CLEAN pass (remove unused cells and wires).
+18. Executing HILOMAP pass (mapping to constant drivers).
+19. Executing INSBUF pass (insert buffer cells for connected wires).
+20. Executing CHECK pass (checking for obvious problems).
+21. Printing statistics.
+22. Executing CHECK pass (checking for obvious problems).
+23. Executing Verilog backend.
+23.1. Executing BMUXMAP pass.
+23.2. Executing DEMUXMAP pass.
+Warnings: 5 unique messages, 5 total
+End of script. Logfile hash: 319b7e802f, time: 9.96s, user: 7.79s, system: 1.02s, MEM: 221.02 MB peak
+Yosys 0.69+150 (git sha1 0d3483f04-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
+Time spent: 32% 1x abc (3 sec), 19% 32x opt_clean (2 sec), ...
+Elapsed time: 0:10.04[h:]min:sec. CPU time: user 11.24 sys 1.11 (123%). Peak memory: 226320KB.
+Log                       Ext     Elapsed/s Peak Memory/MB sha1sum result [0:20)
+1_2_yosys                 .v             10            221 fb7e95d7b2940db506ac
+cp /home/reefshark/research/agent_os/ic_bcmk/evaluator/t10_backend/v1/physical/t10_frozen_pe/constraint.sdc results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/1_2_yosys.sdc
+touch -r /home/reefshark/research/agent_os/ic_bcmk/evaluator/t10_backend/v1/physical/t10_frozen_pe/constraint.sdc results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/1_2_yosys.sdc
+OpenROAD 26Q2-1164-g08f67ee5ec 
+Features included (+) or not (-): +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 4 thread(s).
+mkdir -p ./objects/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe
+/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/scripts/flow.sh 1_synth synth_odb
+Running synth_odb.tcl, stage 1_synth
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/liberty_suppressions.tcl
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed47_fp0/t10_reference_fp_quad_class0_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed47_fp1/t10_reference_fp_quad_class1_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed47_fp2/t10_reference_fp_quad_class2_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed47_int/t10_reference_int_group_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed47_cpa/t10_reference_cpa_postprocess_wc.lib
+[INFO ODB-0227] LEF file: /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lef/asap7_tech_1x_201209.lef, created 30 layers, 9 vias
+[INFO ODB-0227] LEF file: /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lef/asap7sc7p5t_28_R_1x_220121a.lef, created 212 library cells
+[INFO ODB-0227] LEF file: /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed47_fp0/t10_reference_fp_quad_class0_exact_m7.lef, created 1 library cells
+[INFO ODB-0227] LEF file: /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed47_fp1/t10_reference_fp_quad_class1_exact_m7.lef, created 1 library cells
+[INFO ODB-0227] LEF file: /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed47_fp2/t10_reference_fp_quad_class2_exact_m7.lef, created 1 library cells
+[INFO ODB-0227] LEF file: /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed47_int/t10_reference_int_group_m7.lef, created 1 library cells
+[INFO ODB-0227] LEF file: /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed47_cpa/t10_reference_cpa_postprocess_m7.lef, created 1 library cells
+link_design t10_reference_pe
+read_sdc ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/1_2_yosys.sdc
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/setRC.tcl
+eliminate_dead_logic
+Removed 0 unused instances and 0 unused nets.
+Design area 58173 um^2 100% utilization.
+write_db ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/1_synth.odb
+write_sdc -no_timestamp ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/1_synth.sdc
+Elapsed time: 0:01.80[h:]min:sec. CPU time: user 1.70 sys 0.11 (99%). Peak memory: 331372KB.
+Log                       Ext     Elapsed/s Peak Memory/MB sha1sum result [0:20)
+1_synth                   .odb            1            323 f45990db29f5cb7edcbb
+1_synth                   .sdc                             7038d02fdd983d6f7cfa
+/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/scripts/flow.sh 2_1_floorplan floorplan
+Running floorplan.tcl, stage 2_1_floorplan
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/liberty_suppressions.tcl
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed47_fp0/t10_reference_fp_quad_class0_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed47_fp1/t10_reference_fp_quad_class1_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed47_fp2/t10_reference_fp_quad_class2_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed47_int/t10_reference_int_group_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed47_cpa/t10_reference_cpa_postprocess_wc.lib
+read_db ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/1_synth.odb
+read_sdc ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/1_synth.sdc
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/setRC.tcl
+
+==========================================================================
+Floorplan check_setup
+--------------------------------------------------------------------------
+number instances in verilog is 42099
+initialize_floorplan -utilization 24 -aspect_ratio 1 -core_space 0.5 -site asap7sc7p5t
+[INFO IFP-0107] Defining die area using utilization: 24.00% and aspect ratio: 1.
+[WARNING IFP-0028] Core area lower left (0.500, 0.500) snapped to (0.540, 0.540).
+[INFO IFP-0001] Added 1823 rows of 9116 site asap7sc7p5t.
+[INFO IFP-0100] Die BBox:  (  0.000  0.000 ) ( 493.326 493.326 ) um
+[INFO IFP-0101] Core BBox: (  0.540  0.540 ) ( 492.804 492.750 ) um
+[INFO IFP-0102] Core area:                       242297.263 um^2
+[INFO IFP-0103] Total instances area:             58172.539 um^2
+[INFO IFP-0104] Effective utilization:                0.240
+[INFO IFP-0105] Number of instances:                  42099
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/openRoad/make_tracks.tcl
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/fastroute.tcl
+set_dont_use "*x1p*_ASAP7* *xp*_ASAP7* SDF* ICG*"
+repair_tie_fanout -separation 0 asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120/TIELOx1_ASAP7_75t_R/L
+[INFO RSZ-0042] Inserted 2 tie TIELOx1_ASAP7_75t_R instances.
+repair_tie_fanout -separation 0 asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120/TIEHIx1_ASAP7_75t_R/H
+[INFO RSZ-0042] Inserted 1584 tie TIEHIx1_ASAP7_75t_R instances.
+repair_timing -setup_margin 175 -hold_margin 75 -repair_tns 100 -setup -skip_last_gasp -sequence unbuffer,sizeup,swap,vt_swap -verbose
+[WARNING EST-0027] no estimated parasitics. Using wire load models.
+[INFO RSZ-0100] Repair move sequence: UnbufferMove SizeUpMove SwapPinsMove 
+[INFO RSZ-0098] No setup violations found
+Default units for flow
+ time 1ps
+ capacitance 1fF
+ resistance 1kohm
+ voltage 1v
+ current 1mA
+ power 1pW
+ distance 1um
+   Layer   | Unit Resistance | Unit Capacitance 
+           |       (kohm/um) |          (fF/um)
+------------------------------------------------
+        M1 |        7.04e-02 |         1.00e-10
+        M2 |        2.97e-02 |         1.75e-01
+        M3 |        3.13e-02 |         1.56e-01
+        M4 |        1.80e-02 |         1.78e-01
+        M5 |        1.90e-02 |         1.64e-01
+        M6 |        1.19e-02 |         1.87e-01
+        M7 |        1.25e-02 |         1.63e-01
+        M8 |        8.45e-03 |         1.04e-01
+        M9 |        8.90e-03 |         9.28e-02
+       Pad |        0.00e+00 |         0.00e+00
+------------------------------------------------
+
+   Layer   | Via Resistance 
+           |         (kohm) 
+----------------------------
+        V1 |       1.72e-02 
+        V2 |       1.72e-02 
+        V3 |       1.72e-02 
+        V4 |       1.18e-02 
+        V5 |       1.18e-02 
+        V6 |       8.20e-03 
+        V7 |       8.20e-03 
+        V8 |       6.30e-03 
+        V9 |       6.30e-03 
+----------------------------
+Report metrics stage 2, floorplan final...
+
+==========================================================================
+floorplan final report_design_area
+--------------------------------------------------------------------------
+Design area 58242 um^2 24% utilization.
+source /home/reefshark/research/agent_os/ic_bcmk/evaluator/t10_backend/v1/physical/t10_frozen_pe/io.tcl
+write_db ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_1_floorplan.odb
+write_sdc -no_timestamp ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_1_floorplan.sdc
+Elapsed time: 0:06.10[h:]min:sec. CPU time: user 6.55 sys 0.50 (115%). Peak memory: 403872KB.
+Log                       Ext     Elapsed/s Peak Memory/MB sha1sum result [0:20)
+2_1_floorplan             .odb            6            394 360db18454e36090a7b3
+2_1_floorplan             .sdc                             7038d02fdd983d6f7cfa
+/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/scripts/flow.sh 2_2_floorplan_macro macro_place
+Running macro_place.tcl, stage 2_2_floorplan_macro
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/liberty_suppressions.tcl
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed47_fp0/t10_reference_fp_quad_class0_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed47_fp1/t10_reference_fp_quad_class1_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed47_fp2/t10_reference_fp_quad_class2_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed47_int/t10_reference_int_group_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed47_cpa/t10_reference_cpa_postprocess_wc.lib
+read_db ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_1_floorplan.odb
+read_sdc ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_1_floorplan.sdc
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/setRC.tcl
+source /home/reefshark/research/agent_os/ic_bcmk/evaluator/t10_backend/v1/physical/t10_frozen_pe/macro_place.tcl
+[INFO MPL-0035] Macro cpa_postprocess placed. Bounding box (210.000um, 100.032um), (316.734um, 206.766um). Orientation R0
+T10_FIXED_MACRO cpa_postprocess 210 100
+[INFO MPL-0035] Macro float_quad\[0\].class0.fp_quad placed. Bounding box (50.016um, 300.032um), (163.927um, 413.943um). Orientation R0
+T10_FIXED_MACRO float_quad\[0\].class0.fp_quad 50 300
+[INFO MPL-0035] Macro float_quad\[1\].genblk2.class1.fp_quad placed. Bounding box (210.000um, 300.032um), (316.408um, 406.440um). Orientation R0
+T10_FIXED_MACRO float_quad\[1\].genblk2.class1.fp_quad 210 300
+[INFO MPL-0035] Macro float_quad\[2\].genblk2.class2.fp_quad placed. Bounding box (365.040um, 325.056um), (439.703um, 399.719um). Orientation R0
+T10_FIXED_MACRO float_quad\[2\].genblk2.class2.fp_quad 365 325
+[INFO MPL-0035] Macro float_quad\[3\].genblk2.class2.fp_quad placed. Bounding box (365.040um, 210.048um), (439.703um, 284.711um). Orientation R0
+T10_FIXED_MACRO float_quad\[3\].genblk2.class2.fp_quad 365 210
+[INFO MPL-0035] Macro int_group\[0\].product_group placed. Bounding box (50.016um, 50.048um), (83.097um, 83.129um). Orientation R0
+T10_FIXED_MACRO int_group\[0\].product_group 50 50
+[INFO MPL-0035] Macro int_group\[1\].product_group placed. Bounding box (120.000um, 50.048um), (153.081um, 83.129um). Orientation R0
+T10_FIXED_MACRO int_group\[1\].product_group 120 50
+[INFO MPL-0035] Macro int_group\[2\].product_group placed. Bounding box (50.016um, 120.000um), (83.097um, 153.081um). Orientation R0
+T10_FIXED_MACRO int_group\[2\].product_group 50 120
+[INFO MPL-0035] Macro int_group\[3\].product_group placed. Bounding box (120.000um, 120.000um), (153.081um, 153.081um). Orientation R0
+T10_FIXED_MACRO int_group\[3\].product_group 120 120
+rtl_macro_placer -max_num_level 2 -halo_width 10 -halo_height 10 -min_ar 0.33 -area_weight 0.1 -wirelength_weight 100.0 -outline_weight 100.0 -boundary_weight 50.0 -notch_weight 50.0 -report_directory ./objects/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/rtlmp -fence_lx 0.0 -fence_ly 0.0 -fence_ux 0.0 -fence_uy 0.0 -target_util 0.24
+[WARNING MPL-0074] -halo_width/-halo_height are deprecated, use the set_macro_base_halo command instead.
+[INFO MPL-0062] Found fixed macro cpa_postprocess.
+[INFO MPL-0062] Found fixed macro float_quad\[0\].class0.fp_quad.
+[INFO MPL-0062] Found fixed macro float_quad\[1\].genblk2.class1.fp_quad.
+[INFO MPL-0062] Found fixed macro float_quad\[2\].genblk2.class2.fp_quad.
+[INFO MPL-0062] Found fixed macro float_quad\[3\].genblk2.class2.fp_quad.
+[INFO MPL-0062] Found fixed macro int_group\[0\].product_group.
+[INFO MPL-0062] Found fixed macro int_group\[1\].product_group.
+[INFO MPL-0062] Found fixed macro int_group\[2\].product_group.
+[INFO MPL-0062] Found fixed macro int_group\[3\].product_group.
+[INFO MPL-0017] No unfixed macros.
+[INFO MPL-0013] Skipping macro placement.
+Design area 58242 um^2 24% utilization.
+write_db ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_2_floorplan_macro.odb
+Elapsed time: 0:01.16[h:]min:sec. CPU time: user 1.07 sys 0.09 (99%). Peak memory: 279116KB.
+Log                       Ext     Elapsed/s Peak Memory/MB sha1sum result [0:20)
+2_2_floorplan_macro       .odb            1            272 74140776f89008c33c5f
+/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/scripts/flow.sh 2_3_floorplan_tapcell tapcell
+Running tapcell.tcl, stage 2_3_floorplan_tapcell
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/liberty_suppressions.tcl
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed47_fp0/t10_reference_fp_quad_class0_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed47_fp1/t10_reference_fp_quad_class1_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed47_fp2/t10_reference_fp_quad_class2_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed47_int/t10_reference_int_group_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed47_cpa/t10_reference_cpa_postprocess_wc.lib
+read_db ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_2_floorplan_macro.odb
+read_sdc ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_1_floorplan.sdc
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/setRC.tcl
+Tap and End Cap cell insertion
+  TAP Cell          : TAPCELL_ASAP7_75t_R
+  ENDCAP Cell       : TAPCELL_ASAP7_75t_R
+  Halo Around Macro : 2 2
+  TAP Cell Distance : 25
+[INFO ODB-0303] The initial 1823 rows (16618468 sites) were cut with 9 shapes for a total of 4220 rows (12747574 sites).
+[INFO TAP-0004] Inserted 3646 endcaps.
+[INFO TAP-0005] Inserted 12640 tapcells.
+Design area 58857 um^2 24% utilization.
+write_db ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_3_floorplan_tapcell.odb
+Elapsed time: 0:01.09[h:]min:sec. CPU time: user 1.01 sys 0.08 (99%). Peak memory: 264136KB.
+Log                       Ext     Elapsed/s Peak Memory/MB sha1sum result [0:20)
+2_3_floorplan_tapcell     .odb            1            257 39c60c708fc23f344649
+/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/scripts/flow.sh 2_4_floorplan_pdn pdn
+Running pdn.tcl, stage 2_4_floorplan_pdn
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/liberty_suppressions.tcl
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed47_fp0/t10_reference_fp_quad_class0_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed47_fp1/t10_reference_fp_quad_class1_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed47_fp2/t10_reference_fp_quad_class2_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed47_int/t10_reference_int_group_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed47_cpa/t10_reference_cpa_postprocess_wc.lib
+read_db ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_3_floorplan_tapcell.odb
+read_sdc ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_1_floorplan.sdc
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/setRC.tcl
+[INFO PDN-0001] Inserting grid: top
+[INFO PDN-0001] Inserting grid: CORE_macro_grid_1 - cpa_postprocess
+[INFO PDN-0001] Inserting grid: CORE_macro_grid_1 - float_quad\[0\].class0.fp_quad
+[INFO PDN-0001] Inserting grid: CORE_macro_grid_1 - float_quad\[1\].genblk2.class1.fp_quad
+[INFO PDN-0001] Inserting grid: CORE_macro_grid_1 - float_quad\[2\].genblk2.class2.fp_quad
+[INFO PDN-0001] Inserting grid: CORE_macro_grid_1 - float_quad\[3\].genblk2.class2.fp_quad
+[INFO PDN-0001] Inserting grid: CORE_macro_grid_1 - int_group\[0\].product_group
+[INFO PDN-0001] Inserting grid: CORE_macro_grid_1 - int_group\[1\].product_group
+[INFO PDN-0001] Inserting grid: CORE_macro_grid_1 - int_group\[2\].product_group
+[INFO PDN-0001] Inserting grid: CORE_macro_grid_1 - int_group\[3\].product_group
+[WARNING PDN-0195] Removing 7 via(s) between M2 and M5 at (211.6320 um, 408.5150 um) for VDD
+[WARNING PDN-0195] Removing 7 via(s) between M2 and M5 at (217.0320 um, 408.5150 um) for VDD
+[WARNING PDN-0195] Removing 7 via(s) between M2 and M5 at (233.2320 um, 408.5150 um) for VDD
+[WARNING PDN-0195] Removing 7 via(s) between M2 and M5 at (238.6320 um, 408.5150 um) for VDD
+[WARNING PDN-0195] Removing 7 via(s) between M2 and M5 at (249.4320 um, 408.5150 um) for VDD
+[WARNING PDN-0195] Removing 7 via(s) between M2 and M5 at (260.2320 um, 408.5150 um) for VDD
+[WARNING PDN-0195] Removing 7 via(s) between M2 and M5 at (265.6320 um, 408.5150 um) for VDD
+[WARNING PDN-0195] Removing 7 via(s) between M2 and M5 at (276.4320 um, 408.5150 um) for VDD
+[WARNING PDN-0195] Removing 7 via(s) between M2 and M5 at (281.8320 um, 408.5150 um) for VDD
+[WARNING PDN-0195] Removing 7 via(s) between M2 and M5 at (298.0320 um, 408.5150 um) for VDD
+[WARNING PDN-0195] Removing 7 via(s) between M2 and M5 at (303.4320 um, 408.5150 um) for VDD
+[WARNING PDN-0195] Removing 7 via(s) between M2 and M5 at (314.2320 um, 408.5150 um) for VDD
+source /home/reefshark/research/agent_os/ic_bcmk/evaluator/t10_backend/v1/physical/t10_pe_post_pdn_four_vss_bridges.tcl
+T10_PDN_VSS_BRIDGES 4
+T10_PDN_UPPER_INT_VDD_BRIDGES 2
+[INFO PSM-0040] All shapes on net VDD are connected.
+[INFO PSM-0040] All shapes on net VSS are connected.
+Took 212 seconds: source /home/reefshark/research/agent_os/ic_bcmk/evaluator/t10_backend/v1/physical/t10_pe_post_pdn_four_vss_bridges.tcl
+Design area 58857 um^2 24% utilization.
+write_db ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_4_floorplan_pdn.odb
+Elapsed time: 3:39.09[h:]min:sec. CPU time: user 216.81 sys 2.26 (99%). Peak memory: 6556084KB.
+Log                       Ext     Elapsed/s Peak Memory/MB sha1sum result [0:20)
+2_4_floorplan_pdn         .odb          219           6402 e86db5c0b6a714d50f5a
+cp ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_4_floorplan_pdn.odb ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_floorplan.odb
+cp ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_1_floorplan.sdc ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_floorplan.sdc
+/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/scripts/flow.sh 3_1_place_gp_skip_io global_place_skip_io
+Running global_place_skip_io.tcl, stage 3_1_place_gp_skip_io
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/liberty_suppressions.tcl
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed47_fp0/t10_reference_fp_quad_class0_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed47_fp1/t10_reference_fp_quad_class1_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed47_fp2/t10_reference_fp_quad_class2_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed47_int/t10_reference_int_group_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed47_cpa/t10_reference_cpa_postprocess_wc.lib
+read_db ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_floorplan.odb
+read_sdc ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_floorplan.sdc
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/setRC.tcl
+source /home/reefshark/research/agent_os/ic_bcmk/evaluator/t10_backend/v1/physical/t10_pe_forwarding_regions.tcl
+T10_FORWARD_REGIONS created grouped_a=92 grouped_b=92
+global_placement -skip_io -density 0.24 -pad_left 0 -pad_right 0
+[INFO GPL-0001] ---- Initialize GPL Main Data Structures
+[INFO GPL-0002] DBU: 1000
+[INFO GPL-0003] SiteSize: (  0.054  0.270 ) um
+[INFO GPL-0004] CoreBBox: (  0.540  0.540 ) ( 492.804 492.750 ) um
+[INFO GPL-0036] Movable instances area:       7024.761 um^2
+[INFO GPL-0037] Total instances area:        59038.357 um^2
+[INFO GPL-0035] Pin density area adjust:       489.817 um^2
+[INFO GPL-0032] ---- Initialize Region: Top-level
+[INFO GPL-0006] Number of instances:             74501
+[INFO GPL-0007] Movable instances:               43490
+[INFO GPL-0008] Fixed instances:                 21089
+[INFO GPL-0009] Dummy instances:                  9922
+[INFO GPL-0010] Number of nets:                  50246
+[INFO GPL-0011] Number of pins:                 146503
+[INFO GPL-0012] Die BBox:  (  0.000  0.000 ) ( 493.326 493.326 ) um
+[INFO GPL-0013] Core BBox: (  0.540  0.540 ) ( 492.804 492.750 ) um
+[INFO GPL-0016] Core area:                  242297.263 um^2
+[INFO GPL-0014] Region name: top-level.
+[INFO GPL-0015] Region area:                242297.263 um^2
+[INFO GPL-0017] Fixed instances area:       101322.194 um^2
+[INFO GPL-0018] Movable instances area:       7451.835 um^2
+[INFO GPL-0019] Utilization:                     5.286 %
+[INFO GPL-0020] Standard cells area:          7451.835 um^2
+[INFO GPL-0021] Large instances area:            0.000 um^2
+[INFO GPL-0032] ---- Initialize Region: t10_a_forward_cells
+[INFO GPL-0006] Number of instances:               633
+[INFO GPL-0007] Movable instances:                  92
+[INFO GPL-0008] Fixed instances:                     0
+[INFO GPL-0009] Dummy instances:                   541
+[INFO GPL-0010] Number of nets:                  50246
+[INFO GPL-0011] Number of pins:                 146503
+[INFO GPL-0012] Die BBox:  (  0.000  0.000 ) ( 493.326 493.326 ) um
+[INFO GPL-0013] Core BBox: (  0.540  0.540 ) ( 492.804 492.750 ) um
+[INFO GPL-0016] Core area:                  242297.263 um^2
+[INFO GPL-0014] Region name: t10_a_forward_cells.
+[INFO GPL-0015] Region area:                 21189.063 um^2
+[INFO GPL-0017] Fixed instances area:         3698.742 um^2
+[INFO GPL-0018] Movable instances area:         31.371 um^2
+[INFO GPL-0019] Utilization:                     0.179 %
+[INFO GPL-0020] Standard cells area:            31.371 um^2
+[INFO GPL-0021] Large instances area:            0.000 um^2
+[INFO GPL-0032] ---- Initialize Region: t10_b_forward_cells
+[INFO GPL-0006] Number of instances:               633
+[INFO GPL-0007] Movable instances:                  92
+[INFO GPL-0008] Fixed instances:                     0
+[INFO GPL-0009] Dummy instances:                   541
+[INFO GPL-0010] Number of nets:                  50246
+[INFO GPL-0011] Number of pins:                 146503
+[INFO GPL-0012] Die BBox:  (  0.000  0.000 ) ( 493.326 493.326 ) um
+[INFO GPL-0013] Core BBox: (  0.540  0.540 ) ( 492.804 492.750 ) um
+[INFO GPL-0016] Core area:                  242297.263 um^2
+[INFO GPL-0014] Region name: t10_b_forward_cells.
+[INFO GPL-0015] Region area:                 21691.589 um^2
+[INFO GPL-0017] Fixed instances area:         3698.742 um^2
+[INFO GPL-0018] Movable instances area:         31.371 um^2
+[INFO GPL-0019] Utilization:                     0.174 %
+[INFO GPL-0020] Standard cells area:            31.371 um^2
+[INFO GPL-0021] Large instances area:            0.000 um^2
+[INFO GPL-0005] ---- Execute Conjugate Gradient Initial Placement.
+[INFO GPL-0051] Source of initial instance position counters:
+	Odb location = 0	Core center = 43490	Region center = 184
+[INFO GPL-0033] ---- Initialize Nesterov Region: Top-level
+[INFO GPL-0023] Placement target density:       0.2400
+[INFO GPL-0024] Movable insts average area:      0.171 um^2
+[INFO GPL-0025] Ideal bin area:                  0.714 um^2
+[INFO GPL-0026] Ideal bin count:                339381
+[INFO GPL-0027] Total bin area:             242297.263 um^2
+[INFO GPL-0028] Bin count (X, Y):         512 ,    512
+[INFO GPL-0029] Bin size (W * H):       0.961 *  0.961 um
+[INFO GPL-0030] Number of bins:                 262144
+[INFO GPL-0033] ---- Initialize Nesterov Region: t10_a_forward_cells
+[INFO GPL-0023] Placement target density:       0.2400
+[INFO GPL-0024] Movable insts average area:      0.341 um^2
+[INFO GPL-0025] Ideal bin area:                  1.421 um^2
+[INFO GPL-0026] Ideal bin count:                 14913
+[INFO GPL-0027] Total bin area:              21189.063 um^2
+[INFO GPL-0028] Bin count (X, Y):          32 ,    256
+[INFO GPL-0029] Bin size (W * H):       1.357 *  1.906 um
+[INFO GPL-0030] Number of bins:                   8192
+[INFO GPL-0033] ---- Initialize Nesterov Region: t10_b_forward_cells
+[INFO GPL-0023] Placement target density:       0.2400
+[INFO GPL-0024] Movable insts average area:      0.341 um^2
+[INFO GPL-0025] Ideal bin area:                  1.421 um^2
+[INFO GPL-0026] Ideal bin count:                 15267
+[INFO GPL-0027] Total bin area:              21691.589 um^2
+[INFO GPL-0028] Bin count (X, Y):         256 ,     32
+[INFO GPL-0029] Bin size (W * H):       1.906 *  1.389 um
+[INFO GPL-0030] Number of bins:                   8192
+[INFO GPL-0084] ---- Execute Nesterov Global Placement.
+[INFO GPL-0031] HPWL: Half-Perimeter Wirelength
+Iteration | Overflow |     HPWL (um) |  HPWL(%) |   Penalty | Group
+---------------------------------------------------------------
+        0 |   0.9823 |  1.067765e+06 |   +0.00% |  5.27e-14 |      
+        0 |   0.6678 |  1.067765e+06 |   +0.00% |  3.98e-12 |  (t10_a_forward_cells)
+        0 |   0.6921 |  1.067765e+06 |   +0.00% |  3.70e-12 |  (t10_b_forward_cells)
+       10 |   0.9046 |  1.016827e+06 |   -4.77% |  8.42e-14 |      
+       10 |   0.7006 |  1.016827e+06 |   -4.77% |  6.37e-12 |  (t10_a_forward_cells)
+       10 |   0.5458 |  1.016827e+06 |   -4.77% |  5.91e-12 |  (t10_b_forward_cells)
+       20 |   0.8553 |  9.240693e+05 |   -9.12% |  1.37e-13 |      
+       20 |   0.5535 |  9.240693e+05 |   -9.12% |  1.04e-11 |  (t10_a_forward_cells)
+       20 |   0.2136 |  9.240693e+05 |   -9.12% |  9.14e-12 |  (t10_b_forward_cells)
+       30 |   0.8324 |  8.981859e+05 |   -2.80% |  2.23e-13 |      
+       30 |   0.5745 |  8.981859e+05 |   -2.80% |  1.69e-11 |  (t10_a_forward_cells)
+       30 |   0.3620 |  8.981859e+05 |   -2.80% |  1.35e-11 |  (t10_b_forward_cells)
+       40 |   0.8166 |  8.983189e+05 |   +0.01% |  3.63e-13 |      
+       40 |   0.5625 |  8.983189e+05 |   +0.01% |  2.75e-11 |  (t10_a_forward_cells)
+       40 |   0.5637 |  8.983189e+05 |   +0.01% |  1.98e-11 |  (t10_b_forward_cells)
+       50 |   0.7982 |  8.996492e+05 |   +0.15% |  5.91e-13 |      
+       50 |   0.5538 |  8.996492e+05 |   +0.15% |  4.47e-11 |  (t10_a_forward_cells)
+       50 |   0.5610 |  8.996492e+05 |   +0.15% |  2.92e-11 |  (t10_b_forward_cells)
+       60 |   0.7864 |  8.939970e+05 |   -0.63% |  9.62e-13 |      
+       60 |   0.5567 |  8.939970e+05 |   -0.63% |  7.28e-11 |  (t10_a_forward_cells)
+       60 |   0.5324 |  8.939970e+05 |   -0.63% |  4.30e-11 |  (t10_b_forward_cells)
+       70 |   0.7786 |  8.863585e+05 |   -0.85% |  1.57e-12 |      
+       70 |   0.5259 |  8.863585e+05 |   -0.85% |  1.19e-10 |  (t10_a_forward_cells)
+       70 |   0.5352 |  8.863585e+05 |   -0.85% |  6.33e-11 |  (t10_b_forward_cells)
+       80 |   0.7783 |  8.802341e+05 |   -0.69% |  2.55e-12 |      
+       80 |   0.5481 |  8.802341e+05 |   -0.69% |  1.93e-10 |  (t10_a_forward_cells)
+       80 |   0.5328 |  8.802341e+05 |   -0.69% |  9.33e-11 |  (t10_b_forward_cells)
+       90 |   0.7728 |  8.765397e+05 |   -0.42% |  4.16e-12 |      
+       90 |   0.5057 |  8.765397e+05 |   -0.42% |  3.15e-10 |  (t10_a_forward_cells)
+       90 |   0.5178 |  8.765397e+05 |   -0.42% |  1.37e-10 |  (t10_b_forward_cells)
+      100 |   0.7761 |  8.658995e+05 |   -1.21% |  6.77e-12 |      
+      100 |   0.4358 |  8.658995e+05 |   -1.21% |  5.12e-10 |  (t10_a_forward_cells)
+      100 |   0.5241 |  8.658995e+05 |   -1.21% |  2.02e-10 |  (t10_b_forward_cells)
+      110 |   0.7873 |  8.595522e+05 |   -0.73% |  1.10e-11 |      
+      110 |   0.3913 |  8.595522e+05 |   -0.73% |  8.35e-10 |  (t10_a_forward_cells)
+      110 |   0.5214 |  8.595522e+05 |   -0.73% |  2.98e-10 |  (t10_b_forward_cells)
+      120 |   0.7981 |  8.552831e+05 |   -0.50% |  1.80e-11 |      
+      120 |   0.3793 |  8.552831e+05 |   -0.50% |  1.36e-09 |  (t10_a_forward_cells)
+      120 |   0.5607 |  8.552831e+05 |   -0.50% |  4.39e-10 |  (t10_b_forward_cells)
+      130 |   0.7967 |  8.589357e+05 |   +0.43% |  2.93e-11 |      
+      130 |   0.3855 |  8.589357e+05 |   +0.43% |  2.21e-09 |  (t10_a_forward_cells)
+      130 |   0.5972 |  8.589357e+05 |   +0.43% |  6.47e-10 |  (t10_b_forward_cells)
+      140 |   0.7956 |  8.600303e+05 |   +0.13% |  4.77e-11 |      
+      140 |   0.4047 |  8.600303e+05 |   +0.13% |  3.60e-09 |  (t10_a_forward_cells)
+      140 |   0.5735 |  8.600303e+05 |   +0.13% |  9.53e-10 |  (t10_b_forward_cells)
+      150 |   0.7954 |  8.561069e+05 |   -0.46% |  7.76e-11 |      
+      150 |   0.4138 |  8.561069e+05 |   -0.46% |  5.87e-09 |  (t10_a_forward_cells)
+      150 |   0.5292 |  8.561069e+05 |   -0.46% |  1.40e-09 |  (t10_b_forward_cells)
+      160 |   0.7973 |  8.520508e+05 |   -0.47% |  1.26e-10 |      
+      160 |   0.4180 |  8.520508e+05 |   -0.47% |  9.56e-09 |  (t10_a_forward_cells)
+      160 |   0.5067 |  8.520508e+05 |   -0.47% |  2.07e-09 |  (t10_b_forward_cells)
+      170 |   0.7966 |  8.537643e+05 |   +0.20% |  2.06e-10 |      
+      170 |   0.4565 |  8.537643e+05 |   +0.20% |  1.56e-08 |  (t10_a_forward_cells)
+      170 |   0.5162 |  8.537643e+05 |   +0.20% |  3.05e-09 |  (t10_b_forward_cells)
+      180 |   0.7906 |  8.607058e+05 |   +0.81% |  3.35e-10 |      
+      180 |   0.4848 |  8.607058e+05 |   +0.81% |  2.54e-08 |  (t10_a_forward_cells)
+      180 |   0.5360 |  8.607058e+05 |   +0.81% |  4.48e-09 |  (t10_b_forward_cells)
+      190 |   0.7897 |  8.635115e+05 |   +0.33% |  5.46e-10 |      
+      190 |   0.4697 |  8.635115e+05 |   +0.33% |  4.13e-08 |  (t10_a_forward_cells)
+      190 |   0.5251 |  8.635115e+05 |   +0.33% |  6.60e-09 |  (t10_b_forward_cells)
+      200 |   0.7892 |  8.627619e+05 |   -0.09% |  8.88e-10 |      
+      200 |   0.4131 |  8.627619e+05 |   -0.09% |  6.72e-08 |  (t10_a_forward_cells)
+      200 |   0.5056 |  8.627619e+05 |   -0.09% |  9.73e-09 |  (t10_b_forward_cells)
+      210 |   0.7954 |  8.648026e+05 |   +0.24% |  1.45e-09 |      
+      210 |   0.3884 |  8.648026e+05 |   +0.24% |  1.09e-07 |  (t10_a_forward_cells)
+      210 |   0.4931 |  8.648026e+05 |   +0.24% |  1.43e-08 |  (t10_b_forward_cells)
+      220 |   0.7936 |  8.739368e+05 |   +1.06% |  2.35e-09 |      
+      220 |   0.3831 |  8.739368e+05 |   +1.06% |  1.78e-07 |  (t10_a_forward_cells)
+      220 |   0.4834 |  8.739368e+05 |   +1.06% |  2.11e-08 |  (t10_b_forward_cells)
+      230 |   0.7922 |  8.925143e+05 |   +2.13% |  3.83e-09 |      
+      230 |   0.3475 |  8.925143e+05 |   +2.13% |  2.90e-07 |  (t10_a_forward_cells)
+      230 |   0.4935 |  8.925143e+05 |   +2.13% |  3.10e-08 |  (t10_b_forward_cells)
+      240 |   0.7862 |  9.085346e+05 |   +1.79% |  6.22e-09 |      
+      240 |   0.2975 |  9.085346e+05 |   +1.79% |  4.30e-07 |  (t10_a_forward_cells)
+      240 |   0.4860 |  9.085346e+05 |   +1.79% |  4.56e-08 |  (t10_b_forward_cells)
+      250 |   0.7706 |  9.082802e+05 |   -0.03% |  1.01e-08 |      
+      250 |   0.2715 |  9.082802e+05 |   -0.03% |  6.33e-07 |  (t10_a_forward_cells)
+      250 |   0.4662 |  9.082802e+05 |   -0.03% |  6.72e-08 |  (t10_b_forward_cells)
+      260 |   0.7535 |  8.957397e+05 |   -1.38% |  1.65e-08 |      
+      260 |   0.2723 |  8.957397e+05 |   -1.38% |  9.33e-07 |  (t10_a_forward_cells)
+      260 |   0.4505 |  8.957397e+05 |   -1.38% |  9.89e-08 |  (t10_b_forward_cells)
+      270 |   0.7131 |  9.312609e+05 |   +3.97% |  2.68e-08 |      
+      270 |   0.2454 |  9.312609e+05 |   +3.97% |  1.37e-06 |  (t10_a_forward_cells)
+      270 |   0.4029 |  9.312609e+05 |   +3.97% |  1.45e-07 |  (t10_b_forward_cells)
+      280 |   0.6592 |  9.343941e+05 |   +0.34% |  4.35e-08 |      
+      280 |   0.2331 |  9.343941e+05 |   +0.34% |  2.02e-06 |  (t10_a_forward_cells)
+      280 |   0.3785 |  9.343941e+05 |   +0.34% |  2.14e-07 |  (t10_b_forward_cells)
+      290 |   0.6071 |  9.436698e+05 |   +0.99% |  7.07e-08 |      
+      290 |   0.1950 |  9.436698e+05 |   +0.99% |  2.96e-06 |  (t10_a_forward_cells)
+      290 |   0.3237 |  9.436698e+05 |   +0.99% |  3.14e-07 |  (t10_b_forward_cells)
+      300 |   0.5567 |  9.520884e+05 |   +0.89% |  1.15e-07 |      
+      300 |   0.1259 |  9.520884e+05 |   +0.89% |  4.36e-06 |  (t10_a_forward_cells)
+      300 |   0.2609 |  9.520884e+05 |   +0.89% |  4.62e-07 |  (t10_b_forward_cells)
+      310 |   0.5102 |  9.540339e+05 |   +0.20% |  1.87e-07 |      
+      310 |   0.0954 |  9.540339e+05 |   +0.20% |  6.41e-06 |  (t10_a_forward_cells)
+      310 |   0.2433 |  9.540339e+05 |   +0.20% |  6.80e-07 |  (t10_b_forward_cells)
+      310 |   0.0954 |  9.540339e+05 |          |  6.66e-06 | t10_a_forward_cells
+---------------------------------------------------------------
+[INFO GPL-1016] Region 't10_a_forward_cells' placement finished at iteration 310
+[INFO GPL-1002] Placed Cell Area               31.3713
+[INFO GPL-1003] Available Free Area         17490.3208
+[INFO GPL-1004] Minimum Feasible Density        0.0100 (cell_area / free_area)
+[INFO GPL-1006]   Suggested Target Densities:
+[INFO GPL-1007]     - For 90% usage of free space: 0.0020
+[INFO GPL-1008]     - For 80% usage of free space: 0.0022
+[INFO GPL-1009]     - For 50% usage of free space: 0.0036
+      320 |   0.4646 |  9.467765e+05 |   -0.76% |  3.04e-07 |      
+      320 |   0.1818 |  9.467765e+05 |   -0.76% |  1.00e-06 |  (t10_b_forward_cells)
+      329 |   0.0892 |  9.428058e+05 |          |  1.47e-06 | t10_b_forward_cells
+---------------------------------------------------------------
+[INFO GPL-1016] Region 't10_b_forward_cells' placement finished at iteration 329
+[INFO GPL-1002] Placed Cell Area               31.3713
+[INFO GPL-1003] Available Free Area         17992.8475
+[INFO GPL-1004] Minimum Feasible Density        0.0100 (cell_area / free_area)
+[INFO GPL-1006]   Suggested Target Densities:
+[INFO GPL-1007]     - For 90% usage of free space: 0.0019
+[INFO GPL-1008]     - For 80% usage of free space: 0.0022
+[INFO GPL-1009]     - For 50% usage of free space: 0.0035
+      330 |   0.4069 |  9.389370e+05 |   -0.83% |  4.95e-07 |      
+      340 |   0.3589 |  9.316435e+05 |   -0.78% |  8.06e-07 |      
+      350 |   0.3203 |  9.223011e+05 |   -1.00% |  1.22e-06 |      
+      360 |   0.2921 |  9.096778e+05 |   -1.37% |  1.80e-06 |      
+      370 |   0.2656 |  8.986241e+05 |   -1.22% |  2.65e-06 |      
+      380 |   0.2373 |  8.898304e+05 |   -0.98% |  3.91e-06 |      
+      390 |   0.2069 |  8.833375e+05 |   -0.73% |  5.76e-06 |      
+      400 |   0.1782 |  8.794690e+05 |   -0.44% |  8.49e-06 |      
+      410 |   0.1519 |  8.773646e+05 |   -0.24% |  1.25e-05 |      
+      420 |   0.1292 |  8.760732e+05 |   -0.15% |  1.84e-05 |      
+      430 |   0.1101 |  8.752236e+05 |   -0.10% |  2.71e-05 |      
+      437 |   0.0991 |  8.749612e+05 |          |  3.70e-05 |      
+---------------------------------------------------------------
+[INFO GPL-1001] Global placement finished at iteration 437
+[INFO GPL-1002] Placed Cell Area             7451.8346
+[INFO GPL-1003] Available Free Area         140975.0698
+[INFO GPL-1004] Minimum Feasible Density        0.0600 (cell_area / free_area)
+[INFO GPL-1006]   Suggested Target Densities:
+[INFO GPL-1007]     - For 90% usage of free space: 0.0587
+[INFO GPL-1008]     - For 80% usage of free space: 0.0661
+[INFO GPL-1009]     - For 50% usage of free space: 0.1057
+[INFO GPL-1014] Final placement area: 7514.58 (+0.00%)
+Took 34 seconds: global_placement -skip_io -density 0.24 -pad_left 0 -pad_right 0
+Design area 58857 um^2 24% utilization.
+write_db ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/3_1_place_gp_skip_io.odb
+Elapsed time: 0:35.01[h:]min:sec. CPU time: user 57.58 sys 0.24 (165%). Peak memory: 496564KB.
+Log                       Ext     Elapsed/s Peak Memory/MB sha1sum result [0:20)
+3_1_place_gp_skip_io      .odb           35            484 28f0d45378e7725229d9
+/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/scripts/flow.sh 3_2_place_iop io_placement
+Running io_placement.tcl, stage 3_2_place_iop
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/liberty_suppressions.tcl
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed47_fp0/t10_reference_fp_quad_class0_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed47_fp1/t10_reference_fp_quad_class1_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed47_fp2/t10_reference_fp_quad_class2_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed47_int/t10_reference_int_group_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed47_cpa/t10_reference_cpa_postprocess_wc.lib
+read_db ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/3_1_place_gp_skip_io.odb
+read_sdc ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_floorplan.sdc
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/setRC.tcl
+place_pins -hor_layers M4 -ver_layers M5
+Found 9 macro blocks.
+Using 2 tracks default min distance between IO pins.
+[INFO PPL-0067] Restrict pins [ b_in[0] b_in[10] b_in[11] b_in[12] b_in[13] ... ] to region 0.00u-493.33u at the TOP edge.
+[INFO PPL-0067] Restrict pins [ b_out[0] b_out[10] b_out[11] b_out[12] b_out[13] ... ] to region 0.00u-493.33u at the BOTTOM edge.
+[INFO PPL-0067] Restrict pins [ a_in[0] a_in[10] a_in[11] a_in[12] a_in[13] ... ] to region 0.00u-493.33u at the LEFT edge.
+[INFO PPL-0067] Restrict pins [ a_out[0] a_out[10] a_out[11] a_out[12] a_out[13] ... ] to region 0.00u-493.33u at the RIGHT edge.
+[INFO PPL-0001] Number of available slots 20492
+[INFO PPL-0002] Number of I/O             439
+[INFO PPL-0003] Number of I/O w/sink      439
+[INFO PPL-0004] Number of I/O w/o sink    0
+[INFO PPL-0005] Slots per section         200
+[INFO PPL-0008] Successfully assigned pins to sections.
+[INFO PPL-0012] I/O nets HPWL: 94932.88 um.
+Design area 58857 um^2 24% utilization.
+write_db ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/3_2_place_iop.odb
+Elapsed time: 0:01.29[h:]min:sec. CPU time: user 1.17 sys 0.12 (99%). Peak memory: 335352KB.
+Log                       Ext     Elapsed/s Peak Memory/MB sha1sum result [0:20)
+3_2_place_iop             .odb            1            327 e73a2939edc31131216c
+/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/scripts/flow.sh 3_3_place_gp global_place
+Running global_place.tcl, stage 3_3_place_gp
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/liberty_suppressions.tcl
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed47_fp0/t10_reference_fp_quad_class0_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed47_fp1/t10_reference_fp_quad_class1_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed47_fp2/t10_reference_fp_quad_class2_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed47_int/t10_reference_int_group_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed47_cpa/t10_reference_cpa_postprocess_wc.lib
+read_db ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/3_2_place_iop.odb
+read_sdc ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_floorplan.sdc
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/setRC.tcl
+source /home/reefshark/research/agent_os/ic_bcmk/evaluator/t10_backend/v1/physical/t10_pe_forwarding_regions.tcl
+T10_FORWARD_REGIONS reuse
+[INFO RSZ-0026] Removed 3441 buffers.
+Perform port buffering...
+[INFO RSZ-0027] Inserted 185 BUFx2_ASAP7_75t_R input buffers.
+[INFO RSZ-0028] Inserted 253 BUFx2_ASAP7_75t_R output buffers.
+global_placement -density 0.24 -pad_left 0 -pad_right 0 -timing_driven -force_center_initial_place -min_phi_coef 0.95 -max_phi_coef 1.05
+[INFO GPL-0001] ---- Initialize GPL Main Data Structures
+[INFO GPL-0002] DBU: 1000
+[INFO GPL-0003] SiteSize: (  0.054  0.270 ) um
+[INFO GPL-0004] CoreBBox: (  0.540  0.540 ) ( 492.804 492.750 ) um
+[INFO GPL-0036] Movable instances area:       6805.842 um^2
+[INFO GPL-0037] Total instances area:        58819.438 um^2
+[INFO GPL-0035] Pin density area adjust:       496.998 um^2
+[INFO GPL-0032] ---- Initialize Region: Top-level
+[INFO GPL-0006] Number of instances:             71498
+[INFO GPL-0007] Movable instances:               40487
+[INFO GPL-0008] Fixed instances:                 21089
+[INFO GPL-0009] Dummy instances:                  9922
+[INFO GPL-0010] Number of nets:                  47243
+[INFO GPL-0011] Number of pins:                 140936
+[INFO GPL-0012] Die BBox:  (  0.000  0.000 ) ( 493.326 493.326 ) um
+[INFO GPL-0013] Core BBox: (  0.540  0.540 ) ( 492.804 492.750 ) um
+[INFO GPL-0016] Core area:                  242297.263 um^2
+[INFO GPL-0014] Region name: top-level.
+[INFO GPL-0015] Region area:                242297.263 um^2
+[INFO GPL-0017] Fixed instances area:       101322.194 um^2
+[INFO GPL-0018] Movable instances area:       7240.097 um^2
+[INFO GPL-0019] Utilization:                     5.136 %
+[INFO GPL-0020] Standard cells area:          7240.097 um^2
+[INFO GPL-0021] Large instances area:            0.000 um^2
+[INFO GPL-0032] ---- Initialize Region: t10_a_forward_cells
+[INFO GPL-0006] Number of instances:               633
+[INFO GPL-0007] Movable instances:                  92
+[INFO GPL-0008] Fixed instances:                     0
+[INFO GPL-0009] Dummy instances:                   541
+[INFO GPL-0010] Number of nets:                  47243
+[INFO GPL-0011] Number of pins:                 140936
+[INFO GPL-0012] Die BBox:  (  0.000  0.000 ) ( 493.326 493.326 ) um
+[INFO GPL-0013] Core BBox: (  0.540  0.540 ) ( 492.804 492.750 ) um
+[INFO GPL-0016] Core area:                  242297.263 um^2
+[INFO GPL-0014] Region name: t10_a_forward_cells.
+[INFO GPL-0015] Region area:                 21189.063 um^2
+[INFO GPL-0017] Fixed instances area:         3698.742 um^2
+[INFO GPL-0018] Movable instances area:         31.371 um^2
+[INFO GPL-0019] Utilization:                     0.179 %
+[INFO GPL-0020] Standard cells area:            31.371 um^2
+[INFO GPL-0021] Large instances area:            0.000 um^2
+[INFO GPL-0032] ---- Initialize Region: t10_b_forward_cells
+[INFO GPL-0006] Number of instances:               633
+[INFO GPL-0007] Movable instances:                  92
+[INFO GPL-0008] Fixed instances:                     0
+[INFO GPL-0009] Dummy instances:                   541
+[INFO GPL-0010] Number of nets:                  47243
+[INFO GPL-0011] Number of pins:                 140936
+[INFO GPL-0012] Die BBox:  (  0.000  0.000 ) ( 493.326 493.326 ) um
+[INFO GPL-0013] Core BBox: (  0.540  0.540 ) ( 492.804 492.750 ) um
+[INFO GPL-0016] Core area:                  242297.263 um^2
+[INFO GPL-0014] Region name: t10_b_forward_cells.
+[INFO GPL-0015] Region area:                 21691.589 um^2
+[INFO GPL-0017] Fixed instances area:         3698.742 um^2
+[INFO GPL-0018] Movable instances area:         31.371 um^2
+[INFO GPL-0019] Utilization:                     0.174 %
+[INFO GPL-0020] Standard cells area:            31.371 um^2
+[INFO GPL-0021] Large instances area:            0.000 um^2
+[INFO GPL-0005] ---- Execute Conjugate Gradient Initial Placement.
+[INFO GPL-0051] Source of initial instance position counters:
+	Odb location = 0	Core center = 40487	Region center = 184
+[InitialPlace]  Iter: 1 conjugate gradient residual: 0.00056038 HPWL: 1543806223
+[InitialPlace]  Iter: 2 conjugate gradient residual: 0.00007845 HPWL: 1467420436
+[InitialPlace]  Iter: 3 conjugate gradient residual: 0.00000951 HPWL: 1430283040
+[InitialPlace]  Iter: 4 conjugate gradient residual: 0.00019713 HPWL: 1417526157
+[InitialPlace]  Iter: 5 conjugate gradient residual: 0.00000389 HPWL: 1410327447
+[INFO GPL-0033] ---- Initialize Nesterov Region: Top-level
+[INFO GPL-0023] Placement target density:       0.2400
+[INFO GPL-0024] Movable insts average area:      0.179 um^2
+[INFO GPL-0025] Ideal bin area:                  0.745 um^2
+[INFO GPL-0026] Ideal bin count:                325185
+[INFO GPL-0027] Total bin area:             242297.263 um^2
+[INFO GPL-0028] Bin count (X, Y):         512 ,    512
+[INFO GPL-0029] Bin size (W * H):       0.961 *  0.961 um
+[INFO GPL-0030] Number of bins:                 262144
+[INFO GPL-0033] ---- Initialize Nesterov Region: t10_a_forward_cells
+[INFO GPL-0023] Placement target density:       0.2400
+[INFO GPL-0024] Movable insts average area:      0.341 um^2
+[INFO GPL-0025] Ideal bin area:                  1.421 um^2
+[INFO GPL-0026] Ideal bin count:                 14913
+[INFO GPL-0027] Total bin area:              21189.063 um^2
+[INFO GPL-0028] Bin count (X, Y):          32 ,    256
+[INFO GPL-0029] Bin size (W * H):       1.357 *  1.906 um
+[INFO GPL-0030] Number of bins:                   8192
+[INFO GPL-0033] ---- Initialize Nesterov Region: t10_b_forward_cells
+[INFO GPL-0023] Placement target density:       0.2400
+[INFO GPL-0024] Movable insts average area:      0.341 um^2
+[INFO GPL-0025] Ideal bin area:                  1.421 um^2
+[INFO GPL-0026] Ideal bin count:                 15267
+[INFO GPL-0027] Total bin area:              21691.589 um^2
+[INFO GPL-0028] Bin count (X, Y):         256 ,     32
+[INFO GPL-0029] Bin size (W * H):       1.906 *  1.389 um
+[INFO GPL-0030] Number of bins:                   8192
+[INFO GPL-0084] ---- Execute Nesterov Global Placement.
+[INFO GPL-0031] HPWL: Half-Perimeter Wirelength
+Iteration | Overflow |     HPWL (um) |  HPWL(%) |   Penalty | Group
+---------------------------------------------------------------
+        0 |   0.7752 |  8.671750e+05 |   +0.00% |  2.25e-12 |      
+        0 |   0.1593 |  8.671750e+05 |   +0.00% |  6.05e-12 |  (t10_a_forward_cells)
+        0 |   0.1667 |  8.671750e+05 |   +0.00% |  5.52e-12 |  (t10_b_forward_cells)
+[INFO GPL-0100] Timing-driven iteration 1/2, virtual: false.
+[INFO GPL-0101]    Iter: 1, overflow: 0.367, keep resizer changes at: 1, HPWL: 867175025
+Iteration |   Area    | Resized | Buffers | Nets repaired | Remaining
+---------------------------------------------------------------------
+        0 |     +0.0% |       0 |       0 |             0 |     47243
+    final |     +1.8% |     270 |    4431 |          1417 |         0
+---------------------------------------------------------------------
+[INFO RSZ-0034] Found 1136 slew violations.
+[INFO RSZ-0036] Found 86 capacitance violations.
+[INFO RSZ-0037] Found 1242 long wires.
+[INFO RSZ-0039] Resized 270 instances.
+[INFO RSZ-0038] Inserted 4431 buffers in 1417 nets.
+   Iter   |    Area   | Removed | Inserted |   Pins
+          |           | Buffers | Buffers  | Remaining
+-------------------------------------------------------
+        0 |     +0.0% |       0 |        0 |     45471
+     4500 |     +0.0% |       0 |        0 |     40971
+     9000 |     +0.0% |       0 |        0 |     36471
+    13500 |     -0.1% |     172 |       77 |     31971
+    18000 |     -0.1% |     285 |      122 |     27471
+    22500 |     -0.2% |     465 |      185 |     22971
+    27000 |     -0.2% |     508 |      255 |     18471
+    31500 |     -0.4% |    1025 |      561 |     13971
+    36000 |     -0.3% |    1025 |      804 |      9471
+    40500 |     -0.4% |    1410 |     1330 |      4971
+    45000 |     -0.9% |    3808 |     3533 |       471
+    final |     -1.1% |    4431 |     4013 |         0
+-------------------------------------------------------
+[INFO GPL-0106] Timing-driven: worst slack 1.3778312e-10
+[INFO GPL-0107] Timing-driven: repair_design delta area: 369.839 um^2 (+5.11%)
+[INFO GPL-0108] Timing-driven: repair_design, gpl delta gcells: 4013 (+9.87%)
+[INFO GPL-0109] Timing-driven: repair_design, gcells created: 8444, deleted: 4431
+[INFO GPL-0110] Timing-driven: new target density: 0.24262343
+[INFO GPL-0107] Timing-driven: repair_design delta area: 0.000 um^2 (+0.00%)
+[INFO GPL-0108] Timing-driven: repair_design, gpl delta gcells: 4013 (+9.87%)
+[INFO GPL-0109] Timing-driven: repair_design, gcells created: 0, deleted: 0
+[INFO GPL-0110] Timing-driven: new target density: 0.24
+[INFO GPL-0107] Timing-driven: repair_design delta area: 0.000 um^2 (+0.00%)
+[INFO GPL-0108] Timing-driven: repair_design, gpl delta gcells: 4013 (+9.87%)
+[INFO GPL-0109] Timing-driven: repair_design, gcells created: 0, deleted: 0
+[INFO GPL-0110] Timing-driven: new target density: 0.24
+Iteration | Overflow |     HPWL (um) |  HPWL(%) |   Penalty | Group
+---------------------------------------------------------------
+       10 |   0.7668 |  8.775408e+05 |   +1.20% |  3.66e-12 |      
+       10 |   0.1366 |  8.775408e+05 |   +1.20% |  8.89e-12 |  (t10_a_forward_cells)
+       10 |   0.1309 |  8.775408e+05 |   +1.20% |  8.12e-12 |  (t10_b_forward_cells)
+       13 |   0.0998 |  8.763914e+05 |          |  9.48e-12 | t10_b_forward_cells
+---------------------------------------------------------------
+[INFO GPL-1016] Region 't10_b_forward_cells' placement finished at iteration 13
+[INFO GPL-1002] Placed Cell Area               31.3713
+[INFO GPL-1003] Available Free Area         17992.8475
+[INFO GPL-1004] Minimum Feasible Density        0.0100 (cell_area / free_area)
+[INFO GPL-1006]   Suggested Target Densities:
+[INFO GPL-1007]     - For 90% usage of free space: 0.0019
+[INFO GPL-1008]     - For 80% usage of free space: 0.0022
+[INFO GPL-1009]     - For 50% usage of free space: 0.0035
+       14 |   0.0963 |  8.759841e+05 |          |  1.08e-11 | t10_a_forward_cells
+---------------------------------------------------------------
+[INFO GPL-1016] Region 't10_a_forward_cells' placement finished at iteration 14
+[INFO GPL-1002] Placed Cell Area               31.3713
+[INFO GPL-1003] Available Free Area         17490.3208
+[INFO GPL-1004] Minimum Feasible Density        0.0100 (cell_area / free_area)
+[INFO GPL-1006]   Suggested Target Densities:
+[INFO GPL-1007]     - For 90% usage of free space: 0.0020
+[INFO GPL-1008]     - For 80% usage of free space: 0.0022
+[INFO GPL-1009]     - For 50% usage of free space: 0.0036
+       20 |   0.7707 |  8.744055e+05 |   -0.36% |  5.95e-12 |      
+       30 |   0.7749 |  8.733996e+05 |   -0.12% |  9.70e-12 |      
+       40 |   0.7798 |  8.724752e+05 |   -0.11% |  1.58e-11 |      
+       50 |   0.7827 |  8.716613e+05 |   -0.09% |  2.57e-11 |      
+       60 |   0.7855 |  8.708613e+05 |   -0.09% |  4.19e-11 |      
+       70 |   0.7884 |  8.703019e+05 |   -0.06% |  6.83e-11 |      
+       80 |   0.7902 |  8.697191e+05 |   -0.07% |  1.11e-10 |      
+       90 |   0.7932 |  8.688670e+05 |   -0.10% |  1.81e-10 |      
+      100 |   0.7960 |  8.683405e+05 |   -0.06% |  2.95e-10 |      
+      110 |   0.7954 |  8.677032e+05 |   -0.07% |  4.81e-10 |      
+      120 |   0.7940 |  8.669766e+05 |   -0.08% |  7.83e-10 |      
+      130 |   0.7940 |  8.661182e+05 |   -0.10% |  1.28e-09 |      
+      140 |   0.7933 |  8.653578e+05 |   -0.09% |  2.08e-09 |      
+      150 |   0.7922 |  8.655959e+05 |   +0.03% |  3.38e-09 |      
+      160 |   0.7863 |  8.706435e+05 |   +0.58% |  5.51e-09 |      
+      170 |   0.7596 |  9.258352e+05 |   +6.34% |  8.93e-09 |      
+      180 |   0.7215 |  1.012029e+06 |   +9.31% |  1.44e-08 |      
+      190 |   0.6568 |  1.083755e+06 |   +7.09% |  2.33e-08 |      
+      200 |   0.5495 |  1.099939e+06 |   +1.49% |  3.78e-08 |      
+      210 |   0.4454 |  1.207810e+06 |   +9.81% |  6.10e-08 |      
+[INFO GPL-0100] Timing-driven iteration 2/2, virtual: false.
+[INFO GPL-0101]    Iter: 220, overflow: 0.195, keep resizer changes at: 1, HPWL: 1221473415
+Iteration |   Area    | Resized | Buffers | Nets repaired | Remaining
+---------------------------------------------------------------------
+        0 |     +0.0% |       0 |       0 |             0 |     51256
+    final |     +0.6% |      57 |    1817 |           771 |         0
+---------------------------------------------------------------------
+[INFO RSZ-0034] Found 548 slew violations.
+[INFO RSZ-0036] Found 1 capacitance violations.
+[INFO RSZ-0037] Found 322 long wires.
+[INFO RSZ-0039] Resized 57 instances.
+[INFO RSZ-0038] Inserted 1817 buffers in 771 nets.
+   Iter   |    Area   | Removed | Inserted |   Pins
+          |           | Buffers | Buffers  | Remaining
+-------------------------------------------------------
+        0 |     +0.0% |       0 |        0 |     45471
+     4500 |     +0.0% |       0 |       60 |     40971
+     9000 |     +0.1% |      54 |      460 |     36471
+    13500 |     +0.0% |     250 |      641 |     31971
+    18000 |     +0.1% |     318 |      840 |     27471
+    22500 |     +0.0% |     472 |      922 |     22971
+    27000 |     -0.0% |    1193 |     1481 |     18471
+    31500 |     -0.1% |    1889 |     2107 |     13971
+    36000 |     -0.2% |    2132 |     2111 |      9471
+    40500 |     -0.2% |    2671 |     2610 |      4971
+    45000 |     -0.5% |    5203 |     3973 |       471
+    final |     -0.5% |    5830 |     4612 |         0
+-------------------------------------------------------
+[INFO GPL-0106] Timing-driven: worst slack -1.8312368e-10
+[INFO GPL-0107] Timing-driven: repair_design delta area: 46.554 um^2 (+0.61%)
+[INFO GPL-0108] Timing-driven: repair_design, gpl delta gcells: 599 (+1.34%)
+[INFO GPL-0109] Timing-driven: repair_design, gcells created: 6429, deleted: 5830
+[INFO GPL-0110] Timing-driven: new target density: 0.24295366
+[INFO GPL-0107] Timing-driven: repair_design delta area: 0.000 um^2 (+0.00%)
+[INFO GPL-0108] Timing-driven: repair_design, gpl delta gcells: 599 (+1.34%)
+[INFO GPL-0109] Timing-driven: repair_design, gcells created: 0, deleted: 0
+[INFO GPL-0110] Timing-driven: new target density: 0.24
+[INFO GPL-0107] Timing-driven: repair_design delta area: 0.000 um^2 (+0.00%)
+[INFO GPL-0108] Timing-driven: repair_design, gpl delta gcells: 599 (+1.34%)
+[INFO GPL-0109] Timing-driven: repair_design, gcells created: 0, deleted: 0
+[INFO GPL-0110] Timing-driven: new target density: 0.24
+Iteration | Overflow |     HPWL (um) |  HPWL(%) |   Penalty | Group
+---------------------------------------------------------------
+      220 |   0.3881 |  1.232471e+06 |   +2.04% |  9.89e-08 |      
+      230 |   0.3599 |  1.171539e+06 |   -4.94% |  1.60e-07 |      
+      240 |   0.3323 |  1.127456e+06 |   -3.76% |  2.50e-07 |      
+      250 |   0.3148 |  1.080374e+06 |   -4.18% |  3.69e-07 |      
+      260 |   0.3025 |  1.039362e+06 |   -3.80% |  5.43e-07 |      
+      270 |   0.2907 |  1.007921e+06 |   -3.03% |  8.00e-07 |      
+      280 |   0.2842 |  9.870928e+05 |   -2.07% |  1.18e-06 |      
+      290 |   0.2687 |  9.722404e+05 |   -1.50% |  1.74e-06 |      
+      300 |   0.2518 |  9.615999e+05 |   -1.09% |  2.56e-06 |      
+      310 |   0.2310 |  9.534154e+05 |   -0.85% |  3.77e-06 |      
+      320 |   0.2047 |  9.476273e+05 |   -0.61% |  5.55e-06 |      
+      330 |   0.1790 |  9.426736e+05 |   -0.52% |  8.18e-06 |      
+      340 |   0.1545 |  9.399889e+05 |   -0.28% |  1.20e-05 |      
+      350 |   0.1335 |  9.388165e+05 |   -0.12% |  1.78e-05 |      
+      360 |   0.1156 |  9.381311e+05 |   -0.07% |  2.61e-05 |      
+      370 |   0.0992 |  9.384488e+05 |   +0.03% |  3.85e-05 |      
+      370 |   0.0992 |  9.384488e+05 |          |  4.00e-05 |      
+---------------------------------------------------------------
+[INFO GPL-1001] Global placement finished at iteration 370
+[INFO GPL-1002] Placed Cell Area             7656.4903
+[INFO GPL-1003] Available Free Area         140975.0698
+[INFO GPL-1004] Minimum Feasible Density        0.0600 (cell_area / free_area)
+[INFO GPL-1006]   Suggested Target Densities:
+[INFO GPL-1007]     - For 90% usage of free space: 0.0603
+[INFO GPL-1008]     - For 80% usage of free space: 0.0679
+[INFO GPL-1009]     - For 50% usage of free space: 0.1086
+[INFO GPL-1011] Original area (um^2): 7302.84
+[INFO GPL-1013] Total timing-driven delta area: 416.39 (+5.70%)
+[INFO GPL-1014] Final placement area: 7719.23 (+5.70%)
+Took 56 seconds: global_placement -density 0.24 -pad_left 0 -pad_right 0 -timing_driven -force_center_initial_place -min_phi_coef 0.95 -max_phi_coef 1.05
+estimate_parasitics -placement
+Report metrics stage 3, global place...
+
+==========================================================================
+global place report_design_area
+--------------------------------------------------------------------------
+Design area 59058 um^2 24% utilization.
+write_db ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/3_3_place_gp.odb
+Elapsed time: 1:04.47[h:]min:sec. CPU time: user 96.97 sys 9.58 (165%). Peak memory: 765480KB.
+Log                       Ext     Elapsed/s Peak Memory/MB sha1sum result [0:20)
+3_3_place_gp              .odb           64            747 a2857a831c9cd48ab1f9
+/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/scripts/flow.sh 3_4_place_resized resize
+Running resize.tcl, stage 3_4_place_resized
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/liberty_suppressions.tcl
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed47_fp0/t10_reference_fp_quad_class0_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed47_fp1/t10_reference_fp_quad_class1_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed47_fp2/t10_reference_fp_quad_class2_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed47_int/t10_reference_int_group_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed47_cpa/t10_reference_cpa_postprocess_wc.lib
+read_db ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/3_3_place_gp.odb
+read_sdc ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_floorplan.sdc
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/setRC.tcl
+estimate_parasitics -placement
+Perform buffer insertion and gate resizing...
+repair_design -verbose
+Iteration |   Area    | Resized | Buffers | Nets repaired | Remaining
+---------------------------------------------------------------------
+        0 |     +0.0% |       0 |       0 |             0 |     51855
+     1000 |     +0.0% |       0 |       0 |             0 |     50855
+     2000 |     +0.0% |       1 |       9 |             4 |     49855
+     3000 |     +0.0% |       2 |      13 |             6 |     48855
+     4000 |     +0.0% |       2 |      13 |             6 |     47855
+     5000 |     +0.0% |       2 |      13 |             6 |     46855
+     6000 |     +0.0% |       2 |      13 |             6 |     45855
+     7000 |     +0.0% |       2 |      17 |             8 |     44855
+     8000 |     +0.0% |       2 |      23 |            11 |     43855
+     9000 |     +0.0% |       2 |      23 |            11 |     42855
+    10000 |     +0.0% |       2 |      23 |            11 |     41855
+    11000 |     +0.0% |       2 |      23 |            11 |     40855
+    12000 |     +0.0% |       2 |      23 |            11 |     39855
+    13000 |     +0.0% |       2 |      29 |            14 |     38855
+    14000 |     +0.0% |       2 |      33 |            16 |     37855
+    15000 |     +0.0% |       4 |     179 |            60 |     36855
+    16000 |     +0.0% |       4 |     186 |            63 |     35855
+    17000 |     +0.0% |       4 |     188 |            64 |     34855
+    18000 |     +0.1% |       4 |     219 |            78 |     33855
+    19000 |     +0.1% |       4 |     327 |           104 |     32855
+    20000 |     +0.1% |      10 |     394 |           130 |     31855
+    21000 |     +0.1% |      10 |     414 |           144 |     30855
+    22000 |     +0.1% |      11 |     460 |           157 |     29855
+    23000 |     +0.1% |      13 |     477 |           168 |     28855
+    24000 |     +0.1% |      14 |     479 |           170 |     27855
+    25000 |     +0.2% |      14 |     555 |           211 |     26855
+    26000 |     +0.2% |      14 |     560 |           212 |     25855
+    27000 |     +0.2% |      15 |     614 |           247 |     24855
+    28000 |     +0.2% |      15 |     637 |           259 |     23855
+    29000 |     +0.2% |      19 |     650 |           267 |     22855
+    30000 |     +0.3% |      19 |     980 |           335 |     21855
+    31000 |     +0.4% |      19 |    1762 |           519 |     20855
+    32000 |     +0.4% |      21 |    1832 |           569 |     19855
+    33000 |     +0.4% |      21 |    1866 |           580 |     18855
+    34000 |     +0.5% |      21 |    2295 |           710 |     17855
+    35000 |     +0.5% |      21 |    2389 |           743 |     16855
+    36000 |     +0.5% |      21 |    2391 |           744 |     15855
+    37000 |     +0.5% |      21 |    2400 |           753 |     14855
+    38000 |     +0.5% |      21 |    2400 |           753 |     13855
+    39000 |     +0.5% |      21 |    2400 |           753 |     12855
+    40000 |     +0.5% |      21 |    2400 |           753 |     11855
+    41000 |     +0.5% |      21 |    2400 |           753 |     10855
+    42000 |     +0.5% |      21 |    2400 |           753 |      9855
+    43000 |     +0.5% |      21 |    2400 |           753 |      8855
+    44000 |     +0.5% |      21 |    2400 |           753 |      7855
+    45000 |     +0.6% |      25 |    2440 |           771 |      6855
+    46000 |     +0.6% |      25 |    2440 |           771 |      5855
+    47000 |     +0.6% |      25 |    2440 |           771 |      4855
+    48000 |     +0.6% |      25 |    2440 |           771 |      3855
+    49000 |     +0.6% |      25 |    2440 |           771 |      2855
+    50000 |     +0.6% |      25 |    2465 |           786 |      1855
+    51000 |     +0.6% |      25 |    2465 |           786 |       855
+    final |     +0.6% |      25 |    2465 |           786 |         0
+---------------------------------------------------------------------
+[INFO RSZ-0034] Found 794 slew violations.
+[INFO RSZ-0036] Found 12 capacitance violations.
+[INFO RSZ-0039] Resized 25 instances.
+[INFO RSZ-0038] Inserted 2465 buffers in 786 nets.
+Floating nets: 
+[WARNING RSZ-0020] found 2 floating nets.
+Report metrics stage 3, resizer...
+
+==========================================================================
+resizer report_design_area
+--------------------------------------------------------------------------
+Design area 59400 um^2 25% utilization.
+Instance count before 66372, after 68837
+Pin count before 149721, after 154651
+write_db ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/3_4_place_resized.odb
+Elapsed time: 0:17.57[h:]min:sec. CPU time: user 22.70 sys 3.64 (149%). Peak memory: 565116KB.
+Log                       Ext     Elapsed/s Peak Memory/MB sha1sum result [0:20)
+3_4_place_resized         .odb           17            551 e2212ba5bac59bb399bc
+/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/scripts/flow.sh 3_5_place_dp detail_place
+Running detail_place.tcl, stage 3_5_place_dp
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/liberty_suppressions.tcl
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib
+read_liberty /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed47_fp0/t10_reference_fp_quad_class0_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed47_fp1/t10_reference_fp_quad_class1_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed47_fp2/t10_reference_fp_quad_class2_exact_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed47_int/t10_reference_int_group_wc.lib
+read_liberty /mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed47_cpa/t10_reference_cpa_postprocess_wc.lib
+read_db ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/3_4_place_resized.odb
+read_sdc ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/2_floorplan.sdc
+source /home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/setRC.tcl
+detailed_placement -max_displacement 100
+[INFO DPL-0006] Core area: 242297.26 um^2, Instances area: 59399.69 um^2, Utilization: 24.5%
+[INFO DPL-0005] Diamond search max displacement: +/- 1851 sites horizontally, +/- 370 rows vertically.
+[INFO DPL-1101] Legalizing using diamond search.
+Movements Summary
+---------------------------------------
+Total cells:                   47564
+Diamond Move Success:          47564 (100.00%)
+Diamond Move Failure:              0
+Rip-up and replace Success:        0 (  0.00% of diamond failures)
+Rip-up and replace Failure:        0
+Total Placement Failures:          0
+---------------------------------------
+Placement Analysis
+---------------------------------
+total displacement      20914.0 u
+average displacement        0.3 u
+max displacement           55.8 u
+original HPWL          940968.0 u
+legalized HPWL         952214.0 u
+delta HPWL                    1 %
+
+improve_placement -max_displacement "5 1"
+Detailed placement improvement.
+[INFO DPL-0401] Setting random seed to 1.
+[INFO DPL-0402] Setting maximum displacement 5 1 to 1350 270 units.
+[INFO DPL-0320] Collected 23925 fixed cells.
+[INFO DPL-0318] Collected 47748 single height cells.
+[INFO DPL-0321] Collected 0 wide cells.
+[INFO DPL-0322] Image (540, 540) - (492804, 492750)
+[INFO DPL-0310] Assigned 47748 cells into segments.  Movement in X-direction is 0.000000, movement in Y-direction is 0.000000.
+[INFO DPL-0313] Found 0 cells in wrong regions.
+[INFO DPL-0315] Found 0 row alignment problems.
+[INFO DPL-0314] Found 0 site alignment problems.
+[INFO DPL-0311] Found 0 overlaps between adjacent cells.
+[INFO DPL-0312] Found 0 edge spacing violations and 0 padding violations.
+[INFO DPL-0303] Running algorithm for independent set matching.
+[INFO DPL-0300] Set matching objective is wirelength.
+[INFO DPL-0301] Pass   1 of matching; objective is 9.519140e+08.
+[INFO DPL-0302] End of matching; objective is 9.518359e+08, improvement is 0.01 percent.
+[INFO DPL-0303] Running algorithm for global swaps.
+[INFO DPL-0306] Pass   1 of global swaps; hpwl is 9.496665e+08.
+[INFO DPL-0307] End of global swaps; objective is 9.496665e+08, improvement is 0.23 percent.
+[INFO DPL-0303] Running algorithm for vertical swaps.
+[INFO DPL-0308] Pass   1 of vertical swaps; hpwl is 9.492157e+08.
+[INFO DPL-0309] End of vertical swaps; objective is 9.492157e+08, improvement is 0.05 percent.
+[INFO DPL-0303] Running algorithm for reordering.
+[INFO DPL-0304] Pass   1 of reordering; objective is 9.491783e+08.
+[INFO DPL-0305] End of reordering; objective is 9.491783e+08, improvement is 0.00 percent.
+[INFO DPL-0303] Running algorithm for random improvement.
+[INFO DPL-0324] Random improver is using random generator.
+[INFO DPL-0325] Random improver is using hpwl objective.
+[INFO DPL-0326] Random improver cost string is (a).
+[INFO DPL-0332] End of pass, Generator random called 954960 times.
+[INFO DPL-0335] Generator random, Cumulative attempts 954960, swaps 26826, moves 436853 since last reset.
+[INFO DPL-0333] End of pass, Objective hpwl, Initial cost 9.483282e+08, Scratch cost 9.470448e+08, Incremental cost 9.470448e+08, Mismatch? N
+[INFO DPL-0338] End of pass, Total cost is 9.470448e+08.
+[INFO DPL-0327] Pass   1 of random improver; improvement in cost is 0.14 percent.
+[INFO DPL-0328] End of random improver; improvement is 0.135336 percent.
+[INFO DPL-0380] Cell flipping.
+[INFO DPL-0382] Changed 0 cell orientations for row compatibility.
+[INFO DPL-0383] Performed 18922 cell flips.
+[INFO DPL-0384] End of flipping; objective is 9.409841e+08, improvement is 0.73 percent.
+[INFO DPL-0313] Found 0 cells in wrong regions.
+[INFO DPL-0315] Found 0 row alignment problems.
+[INFO DPL-0314] Found 0 site alignment problems.
+[INFO DPL-0311] Found 0 overlaps between adjacent cells.
+[INFO DPL-0312] Found 0 edge spacing violations and 0 padding violations.
+Detailed Improvement Results
+------------------------------------------
+Original HPWL           952214.0 u (  520575.9,   431638.1)
+Final HPWL              940823.8 u (  511616.4,   429207.4)
+Delta HPWL                  -1.2 % (      -1.7,       -0.6)
+
+Took 12 seconds: improve_placement -max_displacement "5 1"
+optimize_mirroring
+[INFO DPL-0020] Mirrored 4541 instances
+[INFO DPL-0021] HPWL before          940823.8 u
+[INFO DPL-0022] HPWL after           940491.1 u
+[INFO DPL-0023] HPWL delta               -0.0 %
+[WARNING DPL-0008] Region placement check failed (1).
+ at_out_payload\[4\]$_DFF_PN0_
+[ERROR DPL-0033] detailed placement checks failed during check placement.
+write_db ./results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/3_5_place_dp-failed.odb
+Error: detail_place.tcl, 39 DPL-0033
+Elapsed time: 0:16.51[h:]min:sec. CPU time: user 16.14 sys 0.33 (99%). Peak memory: 1204684KB.
+make[1]: *** [Makefile:531：do-3_5_place_dp] 错误 1
+make: *** [Makefile:531：results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/3_5_place_dp.odb] 错误 2

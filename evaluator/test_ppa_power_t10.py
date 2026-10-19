@@ -28,6 +28,24 @@ endmodule
             self.assertIn("always #0.5 clk=~clk;", instrumented)
             self.assertNotIn("always #5 clk=~clk;", instrumented)
 
+    def test_power_copy_scales_drive_settling_with_clock(self):
+        source = """`timescale 1ns/1ps
+module tb_hidden_T10_stream;
+  logic clk=0, rst_n=0;
+  always #5 clk=~clk;
+  initial begin @(negedge clk); #1; @(posedge clk); end
+endmodule
+"""
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            original, output = root/"tb.sv", root/"power.sv"
+            original.write_text(source)
+            instrument_testbench("T10",original,output)
+            text = output.read_text()
+            self.assertIn("@(negedge clk); #0.1; @(posedge clk);",text)
+            self.assertIn("wait(!rst_n); wait(rst_n); #0.1;",text)
+            self.assertNotIn("#1;",text)
+
     def test_power_copy_rejects_ambiguous_clock(self):
         source = "module tb_hidden_T10_stream; logic rst_n; endmodule\n"
         with tempfile.TemporaryDirectory() as temp:

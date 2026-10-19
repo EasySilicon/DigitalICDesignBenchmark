@@ -1,0 +1,38 @@
+Startpoint: impl.original_quad/general.lanes[1].fp_lane/term_shift_q[0]$_DFF_P_
+            (rising edge-triggered flip-flop clocked by clk_clock)
+Endpoint: impl.original_quad/general.lanes[1].fp_lane/term_word[415]$_SDFF_PN0_
+          (rising edge-triggered flip-flop clocked by clk_clock)
+Path Group: clk_clock
+Path Type: max
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock clk_clock (rise edge)
+ 204.706940  204.706940   clock network delay (propagated)
+   0.000000  204.706940 ^ impl.original_quad/general.lanes[1].fp_lane/term_shift_q[0]$_DFF_P_/CLK (DFFHQx4_ASAP7_75t_R)
+ 140.345551  345.052490 ^ impl.original_quad/general.lanes[1].fp_lane/term_shift_q[0]$_DFF_P_/Q (DFFHQx4_ASAP7_75t_R)
+  45.852489  390.904968 ^ impl.original_quad/general.lanes[1].fp_lane/_3522_/Y (AND2x2_ASAP7_75t_R)
+  61.410820  452.315796 ^ impl.original_quad/general.lanes[1].fp_lane/_4577_/Y (AO21x1_ASAP7_75t_R)
+  75.422722  527.738525 ^ impl.original_quad/general.lanes[1].fp_lane/_5036_/Y (AO221x1_ASAP7_75t_R)
+  82.021057  609.759583 ^ impl.original_quad/general.lanes[1].fp_lane/_5038_/Y (AND2x2_ASAP7_75t_R)
+ 134.017014  743.776611 ^ impl.original_quad/general.lanes[1].fp_lane/_5146_/Y (AO32x2_ASAP7_75t_R)
+  94.674271  838.450867 ^ impl.original_quad/general.lanes[1].fp_lane/place2012/Y (BUFx6f_ASAP7_75t_R)
+ 157.545425  995.996277 ^ impl.original_quad/general.lanes[1].fp_lane/place2011/Y (BUFx2_ASAP7_75t_R)
+  66.167519 1062.163818 ^ impl.original_quad/general.lanes[1].fp_lane/_4102_/Y (AND3x1_ASAP7_75t_R)
+  25.196068 1087.359863 ^ impl.original_quad/general.lanes[1].fp_lane/_4103_/Y (AO21x2_ASAP7_75t_R)
+   0.039302 1087.399170 ^ impl.original_quad/general.lanes[1].fp_lane/term_word[415]$_SDFF_PN0_/D (DFFHQx4_ASAP7_75t_R)
+            1087.399170   data arrival time
+
+1000.000000 1000.000000   clock clk_clock (rise edge)
+ 186.896942 1186.896973   clock network delay (propagated)
+   1.862788 1188.759766   clock reconvergence pessimism
+            1188.759766 ^ impl.original_quad/general.lanes[1].fp_lane/term_word[415]$_SDFF_PN0_/CLK (DFFHQx4_ASAP7_75t_R)
+ -11.606888 1177.152832   library setup time
+            1177.152832   data required time
+-----------------------------------------------------------------
+            1177.152832   data required time
+            -1087.399170   data arrival time
+-----------------------------------------------------------------
+              89.753647   slack (MET)
+
+

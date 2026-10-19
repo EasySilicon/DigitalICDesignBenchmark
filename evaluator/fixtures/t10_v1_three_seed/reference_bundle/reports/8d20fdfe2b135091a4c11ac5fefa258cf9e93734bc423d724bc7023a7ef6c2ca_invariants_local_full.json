@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "nets_checked": 63961,
+  "changed_nets": [
+    "net16515",
+    "quad_sum\\[3\\]\\[215\\]"
+  ],
+  "invariant_sha256": {
+    "logical": "6a916d9728d2595319b19a3e243e6a375379730e5b811387d30a6d35cae3df1c",
+    "placements": "0ae5be7cdbc6e3d52f114a9156e97422a5aadbd7bf60750f447d5d1b957c81d3",
+    "masters": "1dd51397cadc36139accfc3d153d37dcb4bb9bf92070a17bd9713bf59d5e2a5b",
+    "obstructions": "a74600674ce888b747766afcd74a43d9482af4293dc43d6c6ea5a88a86c64fd1",
+    "bterms": "e46512ccc293b99a88f293420a9118582c12d579cf2f5b1f0ffd3cbf628e5eed"
+  },
+  "custom_vias_with_full_cut_coverage": [
+    "T10_S47_VIA23_M2_R9",
+    "T10_S47_VIA45_M4_STACK",
+    "T10_S47_VIA34_M4_STACK"
+  ],
+  "before": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_manual_repair/original/6_final.odb",
+    "bytes": 294060773,
+    "sha256": "c28ea9130f64a3cb4feae576bab634d88a605c6a03d4081f92e5cf7b719fa4a7"
+  },
+  "after": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_manual_repair/repaired_local.odb",
+    "bytes": 294061644,
+    "sha256": "fbde5a095ab470ee8456ccb43e3587ed92d78950ee96e2e7f0677378302dfaaf"
+  },
+  "checker": {
+    "path": "/home/reefshark/research/agent_os/ic_bcmk/evaluator/t10_backend/v1/audit_manual.py",
+    "bytes": 2801,
+    "sha256": "6ed135acd3a2456fbe25dc1b23273b2a9cf0a8ce2e0d138f2baa70f69755bd49"
+  },
+  "wire_iterator_policy": "OpenDB_paths_plus_explicit_RECT_decoder",
+  "full_geometry_entrypoint": {
+    "path": "/home/reefshark/research/agent_os/ic_bcmk/evaluator/t10_backend/v1/audit_manual_full.py",
+    "bytes": 617,
+    "sha256": "6e5d786319ef99a42411e5bfd2039f384dcad0b960e8fc2902091f562b4bc077"
+  },
+  "full_geometry_iterator": {
+    "path": "/home/reefshark/research/agent_os/ic_bcmk/evaluator/t10_backend/v1/full_geometry.py",
+    "bytes": 1301,
+    "sha256": "7a4c83e76056626775e4df2f398ff93d9de0f6a8f66c61d8dbf34c319266aaa5"
+  }
+}

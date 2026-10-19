@@ -1,0 +1,15 @@
+violation type: Metal Spacing
+	srcs: inst:float_quad\[3\].genblk2.class2.fp_quad net:net24982
+	bbox = (365.0270, 278.1720) - (365.0400, 278.1900) on Layer M2
+violation type: Metal Spacing
+	srcs: inst:float_quad\[1\].genblk2.class1.fp_quad net:level0\[4\]\[314\]
+	bbox = (210.8160, 406.4400) - (210.8340, 406.4530) on Layer M3
+violation type: Metal Spacing
+	srcs: inst:cpa_postprocess net:net22071
+	bbox = (209.9390, 176.3520) - (210.0000, 176.3760) on Layer M4
+violation type: Metal Spacing
+	srcs: inst:float_quad\[0\].class0.fp_quad net:quad_sum\[0\]\[355\]
+	bbox = (133.7280, 413.9430) - (133.7520, 414.0050) on Layer M5
+violation type: Metal Spacing
+	srcs: inst:float_quad\[1\].genblk2.class1.fp_quad net:quad_sum\[1\]\[366\]
+	bbox = (316.4080, 310.8480) - (316.4690, 310.8800) on Layer M6

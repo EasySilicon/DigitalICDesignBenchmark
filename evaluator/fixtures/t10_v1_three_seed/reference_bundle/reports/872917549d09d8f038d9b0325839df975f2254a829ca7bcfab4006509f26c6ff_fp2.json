@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "method": "whole_database_geometric_signal_net_connectivity",
+  "wire_iterator_policy": "OpenDB_paths_plus_explicit_RECT_decoder",
+  "odb": {
+    "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_frozen_fp_class2_cornerio_h50_m7_wc_p1000_seed11/6_final.odb",
+    "bytes": 25019570,
+    "sha256": "410ef5547f9e27143d6ac4c54f4a9a7c0eb26d2889b8ca7f0df1e7d3d329b133"
+  },
+  "signal_nets_checked": 14291,
+  "power_ground_nets_excluded": 2,
+  "shapes_checked": 585333,
+  "terminals_checked": 43776,
+  "failures": [],
+  "checker_sha256": "47b2846684e53c0a865ef1b0220d8b7e8e7dd0ab36b3597603fac4807293dc51",
+  "iterator_sha256": "7a4c83e76056626775e4df2f398ff93d9de0f6a8f66c61d8dbf34c319266aaa5",
+  "union_algorithm_sha256": "62947083499632c7b2ce7285b77e84b20b14669e58ec8071be9c7fa5115309b6"
+}

@@ -1,0 +1,47 @@
+Startpoint: csa_sum_accum[157]$_DFFE_PN0P_
+            (rising edge-triggered flip-flop clocked by clk_clock)
+Endpoint: post1_carry[159]$_SDFFCE_PN0P_
+          (rising edge-triggered flip-flop clocked by clk_clock)
+Path Group: clk_clock
+Path Type: max
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock clk_clock (rise edge)
+ 676.815430  676.815430   clock network delay (propagated)
+   0.000000  676.815430 ^ csa_sum_accum[157]$_DFFE_PN0P_/CLK (DFFASRHQNx1_ASAP7_75t_R)
+ 107.732986  784.548401 v csa_sum_accum[157]$_DFFE_PN0P_/QN (DFFASRHQNx1_ASAP7_75t_R)
+  43.085369  827.633789 v rebuffer19379/Y (BUFx6f_ASAP7_75t_R)
+  54.035278  881.669067 v wire19339/Y (BUFx12f_ASAP7_75t_R)
+  37.616856  919.285950 v wire19338/Y (BUFx12f_ASAP7_75t_R)
+  36.371296  955.657227 ^ _33922_/Y (INVx5_ASAP7_75t_R)
+  29.743429  985.400635 v _58752_/CON (FAx1_ASAP7_75t_R)
+  33.584026 1018.984680 ^ _57335_/Y (INVx1_ASAP7_75t_R)
+  40.346062 1059.330688 v _60488_/CON (FAx1_ASAP7_75t_R)
+  45.100258 1104.431030 v load_slew17170/Y (BUFx3_ASAP7_75t_R)
+  31.563419 1135.994385 v wire17169/Y (BUFx6f_ASAP7_75t_R)
+  26.055603 1162.050049 v wire17168/Y (BUFx6f_ASAP7_75t_R)
+  26.846636 1188.896606 v wire17167/Y (BUFx6f_ASAP7_75t_R)
+  30.783487 1219.680176 v wire17166/Y (BUFx12f_ASAP7_75t_R)
+  79.479538 1299.159668 v wire17165/Y (BUFx12f_ASAP7_75t_R)
+  79.821152 1378.980835 v wire17164/Y (BUFx6f_ASAP7_75t_R)
+  27.357117 1406.337891 v wire17163/Y (BUFx6f_ASAP7_75t_R)
+  26.175396 1432.513306 v wire17162/Y (BUFx6f_ASAP7_75t_R)
+  10.707435 1443.220825 ^ _50873_/Y (INVx2_ASAP7_75t_R)
+  33.393509 1476.614258 ^ _50874_/Y (AO32x1_ASAP7_75t_R)
+   0.045297 1476.659546 ^ post1_carry[159]$_SDFFCE_PN0P_/D (DFFHQx4_ASAP7_75t_R)
+            1476.659546   data arrival time
+
+1000.000000 1000.000000   clock clk_clock (rise edge)
+ 552.595337 1552.595337   clock network delay (propagated)
+   6.104464 1558.699829   clock reconvergence pessimism
+            1558.699829 ^ post1_carry[159]$_SDFFCE_PN0P_/CLK (DFFHQx4_ASAP7_75t_R)
+ -12.811637 1545.888184   library setup time
+            1545.888184   data required time
+-----------------------------------------------------------------
+            1545.888184   data required time
+            -1476.659546   data arrival time
+-----------------------------------------------------------------
+              69.228622   slack (MET)
+
+

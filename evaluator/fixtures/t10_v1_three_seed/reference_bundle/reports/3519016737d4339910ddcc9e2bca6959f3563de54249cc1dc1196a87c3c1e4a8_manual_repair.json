@@ -1,0 +1,74 @@
+{
+  "status": "manual_repair_installed_not_yet_qualified",
+  "layout_seed": 47,
+  "original_artifacts": {
+    "6_final.odb": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_manual_repair/original/6_final.odb",
+      "bytes": 294060773,
+      "sha256": "c28ea9130f64a3cb4feae576bab634d88a605c6a03d4081f92e5cf7b719fa4a7"
+    },
+    "6_final.sdc": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_manual_repair/original/6_final.sdc",
+      "bytes": 40901,
+      "sha256": "176292a6101fff0e2836805feef511ddd98fa71127417b59a3530ad0da66cff7"
+    },
+    "6_final.spef": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_manual_repair/original/6_final.spef",
+      "bytes": 108442894,
+      "sha256": "783def3599e72ba1b186c957b86e8ef5bfb2a56a583c6cf60b02f389902da376"
+    },
+    "6_final.v": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_manual_repair/original/6_final.v",
+      "bytes": 6735554,
+      "sha256": "d2bbaadcd907f05fa73a3037ddf4173c9b420d5d8214439b0d1178028854acf1"
+    }
+  },
+  "invariants": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_manual_repair/invariants.json",
+    "bytes": 1323,
+    "sha256": "8ca18b2697bd894c9d73396ce2f9aa7d709b5ba91ace07359f86dc3c19562cee"
+  },
+  "extraction_inputs": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_manual_repair/extraction.inputs.json",
+    "bytes": 3754,
+    "sha256": "95244fa6decf8bd2dfe0b3e67debb3b65a02135cf40e2f4c8534605134ca2133"
+  },
+  "extraction_log": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_manual_repair/extract.log",
+    "bytes": 3479,
+    "sha256": "949af74fe29b1e59c224e8cfcd1f1295e988f7a1d9b4e0285b4194ceb5195ce5"
+  },
+  "candidate_odb": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_manual_repair/repaired.odb",
+    "bytes": 294061018,
+    "sha256": "957bef8ef6df3dd128977903fd63a0f1d0bbc615301f20f8d1175c94f307c1cc"
+  },
+  "candidate_spef": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_manual_repair/repaired.spef",
+    "bytes": 108443016,
+    "sha256": "276355a2692579af2241e0a3cb6559540887e1badef9fec765c463641b84bfe2"
+  },
+  "original_native_drc_count": 2,
+  "negative_control": {
+    "drc.log": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_manual_repair/physical_before/pe/drc.log",
+      "bytes": 3697,
+      "sha256": "49306e8dd7f2dd663fb71470ec612e2c3da708819214401f05b35152614b04b0"
+    },
+    "final_drc.rpt": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_manual_repair/physical_before/pe/final_drc.rpt",
+      "bytes": 328,
+      "sha256": "ce3aa2945dfdbd7093b765903838274cbd987c02396927ac43160cc3d27d00e7"
+    },
+    "final_drc.rpt.raw": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_manual_repair/physical_before/pe/final_drc.rpt.raw",
+      "bytes": 69140,
+      "sha256": "7da05fd4573531b998b9a8bcfca6d44661b75b334c26b9f916800e1b46d085db"
+    }
+  },
+  "original_completion_marker": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_manual_repair/original/baseline.completed.json",
+    "bytes": 1073,
+    "sha256": "9f0ce0f9a8a4b508f48e541dd1b2ad09752ab064fb0f98a729de6ffcfdfe9265"
+  }
+}

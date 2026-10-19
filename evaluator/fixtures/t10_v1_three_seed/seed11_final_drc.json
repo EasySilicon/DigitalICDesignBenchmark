@@ -1,0 +1,44 @@
+{
+  "task_id": "T10",
+  "layout_seed": 11,
+  "record_type": "final_database_whole_pe_drc_verification",
+  "status": "drc_passed_not_three_seed_qualification",
+  "input_odb": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v15_manual/all_manual_verify/v15_manual_final.odb",
+    "bytes": 290531287,
+    "sha256": "e690f0f977270b546c50c9a56d278f5ac9e30f8dbe336a76406a6546f0f06741"
+  },
+  "openroad": "26Q2-1164-g08f67ee5ec",
+  "native_checker": "FlexGCWorker",
+  "worker_count": 15376,
+  "whole_pe_coverage": true,
+  "collection_filter": "marker_bbox intersects emitting_worker_drc_box",
+  "drc_margin_nm": 500,
+  "context_margin_nm": 4000,
+  "raw_markers": 658,
+  "valid_markers": 0,
+  "context_only_markers": 658,
+  "raw_byte_identical_to_repaired_route_control": true,
+  "waived_rules": [],
+  "waived_layers": [],
+  "waived_nets": [],
+  "report": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_final_gc.rpt",
+    "portable_identical_path": "evaluator/fixtures/t10_v15_manual/repaired_scoped.drc.rpt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw_report": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_final_gc.rpt.raw",
+    "portable_identical_path": "evaluator/fixtures/t10_v15_manual/repaired_scoped.drc.rpt.raw",
+    "bytes": 80360,
+    "sha256": "b1573fd68b6256742a6cd5ddda79f0409df9fb879cbd10e9760decbeffb0e931"
+  },
+  "log": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_final_gc.log",
+    "bytes": 3697,
+    "sha256": "503c460e7ddeb1ed372fe03ce330c25b73b2a3382f36dd2f95dfdf8deeade635"
+  },
+  "checker_source_sha256": "ab14cb49652d7bff1f464d344a84accdd5c4cec867c214ad6c7186f62366de1b",
+  "checker_wrapper_sha256": "6cedecbd89c4c16ee796bcfc0e97c93525b62e478a3e193a37e2af585578add0"
+}

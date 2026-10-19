@@ -177,7 +177,7 @@ def ppa_score(measurement: dict, reference: dict,
     return base * setup_factor * drc_factor
 
 
-def ppa_provenance_valid(task: str, measurement: dict, reference: dict) -> bool:
+def expected_ppa_parameters(task: str) -> dict:
     expected = {"platform": "ASAP7_7p5t_RVT_NLDM", "period_ps": 1000,
                 "corner": "WC", "utilization": 10, "density": 0.6,
                 "seeds": [11, 29, 47]}
@@ -193,15 +193,27 @@ def ppa_provenance_valid(task: str, measurement: dict, reference: dict) -> bool:
                         asynchronous_clock_groups=[["logic_clk","tx_clk","rx_clk"]],
                         ppa_policy_revision=policy["revision"],memory_mapping="lambdapdk_tdp_4096x32",
                         sram_contract=policy,drc_scope=policy["drc_scope"],lvs_performed=False)
+    if task == "T10":
+        expected.update(utilization=24, density=0.24,
+                        signal_routing_layers="M2-M7", clock_routing_layers="M6-M7")
+    return expected
+
+
+def ppa_provenance_valid(task: str, measurement: dict, reference: dict) -> bool:
+    expected = expected_ppa_parameters(task)
+    status = "three_seed_single_pe" if task == "T10" else "three_seed"
     for record in (measurement, reference):
         rows = record.get("per_seed")
+        if task == "T10" and record.get("measurement_scope") != "single_pe":
+            return False
         if record.get("task_id") != task or \
-                record.get("measurement_status") != "three_seed" or \
+                record.get("measurement_status") != status or \
                 record.get("parameter_set") != expected or \
                 not isinstance(rows, list) or len(rows) != 3 or \
                 any(not isinstance(row, dict) or type(row.get("layout_seed")) is not int
                     for row in rows) or \
                 sorted(row["layout_seed"] for row in rows) != expected["seeds"] or \
+                (task == "T10" and any(row.get("measurement_scope") != "single_pe" for row in rows)) or \
                 any(type(row.get("drc_violations")) is not int or
                     row["drc_violations"] < 0 or
                     not isinstance(row.get("setup_worst_slack_ns"), (int, float)) or

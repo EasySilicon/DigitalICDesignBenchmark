@@ -1,0 +1,154 @@
+{
+  "status": "qualified",
+  "design": "t10_reference_pe",
+  "area_um2": 60341.6,
+  "timing_ps": {
+    "setup": 69.228622,
+    "hold": 10.891954,
+    "setup_tns": 0.0,
+    "hold_tns": 0.0,
+    "internal_setup": 69.228622,
+    "internal_hold": 10.891954
+  },
+  "inputs": {
+    "odb": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/6_final.odb",
+      "bytes": 294061644,
+      "sha256": "fbde5a095ab470ee8456ccb43e3587ed92d78950ee96e2e7f0677378302dfaaf"
+    },
+    "sdc": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/6_final.sdc",
+      "bytes": 40901,
+      "sha256": "176292a6101fff0e2836805feef511ddd98fa71127417b59a3530ad0da66cff7"
+    },
+    "spef": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/6_final.spef",
+      "bytes": 108443086,
+      "sha256": "dfac565ed73705fd25421b5a085138f3de910235036ba65cc9f667fb103dfaad"
+    },
+    "netlist": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/6_final.v",
+      "bytes": 6735554,
+      "sha256": "d2bbaadcd907f05fa73a3037ddf4173c9b420d5d8214439b0d1178028854acf1"
+    }
+  },
+  "reports": {
+    "setup": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_physical_verification/pe/setup.rpt",
+      "bytes": 26,
+      "sha256": "69338889a4a5a0efb806afb739ccd3843bc9c8b61aef7fb53143e63ed0ef8781"
+    },
+    "hold": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_physical_verification/pe/hold.rpt",
+      "bytes": 26,
+      "sha256": "53cf935b3a1dd0bdbfc5573c55ea061f974bc4d5a83dea182b656869164d6306"
+    },
+    "setup_tns": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_physical_verification/pe/setup_tns.rpt",
+      "bytes": 17,
+      "sha256": "44f23fe41be6907ffbb46685b3ddca75e2346eb1009578f7dcf1a0c5a4bdc1d5"
+    },
+    "hold_tns": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_physical_verification/pe/hold_tns.rpt",
+      "bytes": 17,
+      "sha256": "d2cd5ac33c7e5ae94363b6f4cee3f294aa0852daa624c390b572ee0b5ed6f5db"
+    },
+    "internal_setup": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_physical_verification/pe/internal_setup.rpt",
+      "bytes": 2433,
+      "sha256": "db8692a821e409cfb339145e2ebc02b72f98f696bc54980c9ceb2744c28196c0"
+    },
+    "internal_hold": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_physical_verification/pe/internal_hold.rpt",
+      "bytes": 1387,
+      "sha256": "ce1178076dc5fde0386284f7a36622bedf19f540b70128b5a78b7cba7a1bd1a3"
+    },
+    "constraint_coverage": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_physical_verification/pe/constraint_coverage.rpt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "antenna": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_physical_verification/pe/antenna.rpt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "electrical": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_physical_verification/pe/electrical.rpt",
+      "bytes": 46441,
+      "sha256": "5625f4b346ffd039496a1d8d900619ad59df2a0a0eb52e5b2f6227d63f892412"
+    },
+    "connectivity": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_physical_verification/pe/geometric_connectivity.json",
+      "bytes": 561,
+      "sha256": "ce9b14ac960e02e015536007522822bb53109523e34f59412324994f0d4d1a1a"
+    },
+    "drc": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed47_physical_verification/pe/final_drc.rpt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "original_route_log": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/logs/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/5_2_route.log",
+      "bytes": 58491,
+      "sha256": "acd1f8836a08a5421b8404c7bb8fb0810aed70d32cff4339031307836b44c64f"
+    },
+    "original_finish_metrics": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/logs/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/6_report.json",
+      "bytes": 3791,
+      "sha256": "7bb8cb0e48fae01c5eda081b5a89cd840e859331452d8c0268b6ec3a891ed711"
+    }
+  },
+  "wc_libraries": [
+    {
+      "path": "/home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_AO_RVT_SS_nldm_211120.lib.gz",
+      "bytes": 4181198,
+      "sha256": "9ac9c70139da3c4c72b2ed6113f011d8d96de2b30f9b261a237d2ed58ffa1ff5"
+    },
+    {
+      "path": "/home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_INVBUF_RVT_SS_nldm_220122.lib.gz",
+      "bytes": 69301,
+      "sha256": "339371d339fc0e3f4f50fa493ce82b984743af46d26823263dcca7a391e64408"
+    },
+    {
+      "path": "/home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_OA_RVT_SS_nldm_211120.lib.gz",
+      "bytes": 3760577,
+      "sha256": "6912520ffc1ae5bf69103d0286bcb7867fc90de80365dfc8ec0d6b55a9113f27"
+    },
+    {
+      "path": "/home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SEQ_RVT_SS_nldm_220123.lib",
+      "bytes": 1513373,
+      "sha256": "c6a6d9ad22bfb1bc9cf1c4ac66d09ce575ca18648ce4e50597d92174bc290d78"
+    },
+    {
+      "path": "/home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/lib/NLDM/asap7sc7p5t_SIMPLE_RVT_SS_nldm_211120.lib.gz",
+      "bytes": 444914,
+      "sha256": "71e55ce94cde9d10ad726cf7131e7356501aa1c380ae4e138f47c2f8ca7ca7db"
+    },
+    {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed47_fp0/t10_reference_fp_quad_class0_exact_wc.lib",
+      "bytes": 727718,
+      "sha256": "b05fc1fc4bbb864a1f55945daf51204ca29784afa6a4c9d73f9a21955d062f69"
+    },
+    {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed47_fp1/t10_reference_fp_quad_class1_exact_wc.lib",
+      "bytes": 696975,
+      "sha256": "cf66a4284c4f35d9686f3259f03c09eae17459c315d1eb1f455e154905207499"
+    },
+    {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed47_fp2/t10_reference_fp_quad_class2_exact_wc.lib",
+      "bytes": 681691,
+      "sha256": "2625f84e7cc3ce64fe354fa39c9bbd731979e55bf34d6dcc435ce8bb36b5b95e"
+    },
+    {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed47_int/t10_reference_int_group_wc.lib",
+      "bytes": 92622,
+      "sha256": "e25825a2a559133f1e1a3ba3acf2a1ee7418929256d3451c998c5b7fd8eeed69"
+    },
+    {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed47_cpa/t10_reference_cpa_postprocess_wc.lib",
+      "bytes": 779637,
+      "sha256": "34e554dc282c3a708954d0b49f3d5cdd3bf17ad6c54f4298563087e1b88daaf2"
+    }
+  ]
+}

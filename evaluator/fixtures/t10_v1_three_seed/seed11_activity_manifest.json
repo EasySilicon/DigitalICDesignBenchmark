@@ -1,0 +1,135 @@
+{
+  "layout_seed": 11,
+  "measurement_status": "activity_not_yet_power_qualified",
+  "reference_rtl_sha256": "576afc80af06e936089fd8f841fbcc4f555cee254bfa1922f701296e1d092b8e",
+  "netlists": [
+    {
+      "block": "shell",
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/npu_systolic_matmul_16x16/ic_t10_v1_v15_power_gate_hier/1_2_yosys.v",
+      "sha256": "da2e5c5c367f771c3a6176e3e7e026d356875f73635893933ea02c29933966a7",
+      "annotated_source_sha256": "0514b4acaf8f99a3c11d33560a5a53c0959714b3cc03e8b57a736d1299e706b4"
+    },
+    {
+      "block": "pe",
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_pe/ic_t10_frozen_pe_exact_v15_margin_escape_m7_wc_p1000_seed11/6_final.v",
+      "sha256": "0f515592e691198d304cda4acf462a8aca1434781dcb13aacd8b141a1109d20c",
+      "annotated_source_sha256": "541aeb6c1e1ad0c7c3d067ba3bee2ea48aae906dd72394b26851554e8f5b3d75"
+    },
+    {
+      "block": "fp0",
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_frozen_fp_class0_m7_wc_p1000_seed11/6_final.v",
+      "sha256": "cea5a2904f8099866c0da4565764a12427f3dd3600da1e071e0b673ac1b696b4",
+      "annotated_source_sha256": "a92ebdd74f8cafa538cf1e6bb42e7364f1da14b634ab5845a7eb1d84af068388"
+    },
+    {
+      "block": "fp1",
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_frozen_fp_class1_cornerio_h50_m7_wc_p1000_seed11/6_final.v",
+      "sha256": "dfc38f4c1eba9e1ad8ee6695bce6c820368557470d173329485c6b4cfcfedc64",
+      "annotated_source_sha256": "c654157f523e3da85884f8e2547e212012e7b5944ddeefd9de05d02b07d4004a"
+    },
+    {
+      "block": "fp2",
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_frozen_fp_class2_cornerio_h50_m7_wc_p1000_seed11/6_final.v",
+      "sha256": "7b4689ed3cd84de4ee484d87e6cc347b605b0003aee55ca298e204bce4765fd4",
+      "annotated_source_sha256": "fe9b57f670678424a2850b0abd71187a2b9315c5cf2013e0c571d18bef8acd5f"
+    },
+    {
+      "block": "int",
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_frozen_int_group_exact_v2_m7_wc_p1000_seed11/6_final.v",
+      "sha256": "860234519e8f019a35ed680adf9856ba4749837c717a2b47da51693c9113d0ac",
+      "annotated_source_sha256": "62ee902ae98dee08a702970b50a9a55403ad6734675f082120ec027bb3417256"
+    },
+    {
+      "block": "cpa",
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_frozen_cpa_postprocess_exact_v2_m7_wc_p1000_seed11/6_final.v",
+      "sha256": "48993fc03219bd891ddae20c43a5bd0f72cd9b00e8e5ffb3841811e3621f9ccc",
+      "annotated_source_sha256": "75669e81c32a0a5810963fdd0accf0683d4eb98e5862cb027b91e008a225fbcc"
+    }
+  ],
+  "waveform_format": "SAIF",
+  "clock_period_ps": 1000,
+  "trace_policy": "all_direct_pe_and_internal_macro_nets",
+  "simulation_cell_models": [
+    {
+      "original": "/home/reefshark/research/agent_os/ic_bcmk/env/asap7_seq_sim.v",
+      "sha256": "905e012fb94843990aefc5383f5222dd910d3fa2ece809ec5b6ceeca2603930e",
+      "instrumented_sha256": "e4ae3f593369fdcf2cfb0f59b0f877bb41ef30a6a18cf4ee9914bf8690db1bdb"
+    },
+    {
+      "original": "/home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+      "sha256": "7d60ca80e150189367085daffcca59e2eb768ac4739c50ad04c318d8a3bb9d48",
+      "instrumented_sha256": "40a3b816a8e05f5d2e052d2af0caf0c1628ce3ca82a275c8809a23cf13fd2e92"
+    },
+    {
+      "original": "/home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+      "sha256": "8804a647af1e2161c13fffcaef9ec50786494534872ec50adaae593967a3b459",
+      "instrumented_sha256": "4d9bb475181ff309c4ce264526a1a922c23ce16c2857c4f8b0f6f6fd55ede06c"
+    },
+    {
+      "original": "/home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+      "sha256": "d98d028cdc47061912c4dffe12af420b65d3ce3f89f728c5a03d9819967b77b4",
+      "instrumented_sha256": "91d4426af40818d8aecc46c2a8a17877e3240605297b22f1b4e96120c2a1acd5"
+    },
+    {
+      "original": "/home/reefshark/research/agent_os/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v",
+      "sha256": "849946d9b648ef58f39a97027de5e7f24051f6ef4fded598dec861e3257ea4b6",
+      "instrumented_sha256": "9c59e02001325462f7f69c1f67b4b3b1910bcc10c51f938f8c3e70f49833d0c4"
+    }
+  ],
+  "waveform_scope": "TOP/tb_hidden_T10_stream/dut",
+  "workload_manifest_sha256": "455db278312d5d8c30ee706216f5f446bca7f36aed42273bd172010c8f98cc2a",
+  "compile_command": [
+    "verilator",
+    "--binary",
+    "--hierarchical",
+    "--timing",
+    "--assert",
+    "--trace-saif",
+    "--trace-underscore",
+    "--trace-max-width",
+    "262144",
+    "--output-split",
+    "10000",
+    "--output-split-cfuncs",
+    "10000",
+    "-Wno-fatal",
+    "-Wno-SPECIFYIGN",
+    "-j",
+    "4",
+    "--top-module",
+    "tb_hidden_T10_stream",
+    "--Mdir",
+    "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/build",
+    "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/tb_power.sv",
+    "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/shell.v",
+    "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/pe.v",
+    "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/fp0.v",
+    "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/fp1.v",
+    "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/fp2.v",
+    "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/int.v",
+    "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/cpa.v",
+    "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/direct_nets_asap7_seq_sim.v",
+    "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/direct_nets_asap7sc7p5t_AO_RVT_TT_201020.v",
+    "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/direct_nets_asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+    "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/direct_nets_asap7sc7p5t_OA_RVT_TT_201020.v",
+    "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/direct_nets_asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+  ],
+  "verilator": "Verilator 5.051 devel rev vUNKNOWN-built20261016-36ed5eb2c",
+  "compile_seconds": null,
+  "reused_build": true,
+  "staged_build_manifest_sha256": "43e40fdab18ca656ff45ff10b41acb764961b99c94ef43eb13565a9a67496025",
+  "saif_writer": {
+    "policy": "delayed_open_real_time_no_initial_value_toggle_v1",
+    "native_source": "/home/reefshark/.local/share/verilator/include/verilated_saif_c.cpp",
+    "native_sha256": "8d2827886d59ef9080a908d19b948268476c65c2a8a0ef05f8af5f03375b3b58",
+    "corrected_sha256": "d69d99f96610802e26ac10f0a2ee5ad88c3e3118ae08f50b002b466886930085",
+    "adapter_sha256": "dfc38288ce369dab019ddc3582f74baf1f32fc5121fcf3f3e5a9f5bab0dd4b7c",
+    "executable_sha256": "197de6d4a327c5f6c5bfaa7c6c157db585d73f314fe11a1f36ec72b2f8e79de2"
+  },
+  "simulation_seconds": 842.4857223033905,
+  "numerical_oracle_passed": true,
+  "protocol_and_latency_passed": true,
+  "completed_matrix_blocks": 200,
+  "output_points_checked": 51200,
+  "activity_sha256": "34beaeb48b021e6b4955f1b3ead702a746f8138811db1b18a43cbf526cfb5211"
+}

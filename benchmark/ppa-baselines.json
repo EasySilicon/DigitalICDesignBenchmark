@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "partial_1ghz_qualified",
+  "status": "qualified_1ghz",
   "score_bucket_width_points": 1.25,
   "parameter_set": {
     "platform": "ASAP7_7p5t_RVT_NLDM",
@@ -935,6 +935,98 @@
       "qualification_status": "qualified_1ghz",
       "timing_policy_revision": "port_timing_v1",
       "average_power_mw": 5.819999999999999
+    },
+    "T10": {
+      "task_id": "T10",
+      "qualification_status": "qualified_1ghz",
+      "measurement_status": "three_seed_single_pe",
+      "measurement_scope": "single_pe",
+      "source_sha256": "d7e7be0df51a42b1eff3796ad7fd4e85d9e225a211951e3c8ab66b53272fcc97",
+      "frozen_reference_path": "evaluator/reference/T10_v15",
+      "workload_id": "T10-power-v1",
+      "workload_sha256": "455db278312d5d8c30ee706216f5f446bca7f36aed42273bd172010c8f98cc2a",
+      "workload_parameters": {
+        "seed": 20260925,
+        "case_count": 200,
+        "vectors_sha256": "454d5945b8cd47513d77b453548c195226c73549f08bfb307fba137e0136a29a"
+      },
+      "parameter_set": {
+        "platform": "ASAP7_7p5t_RVT_NLDM",
+        "period_ps": 1000,
+        "corner": "WC",
+        "utilization": 24,
+        "density": 0.24,
+        "seeds": [
+          11,
+          29,
+          47
+        ],
+        "signal_routing_layers": "M2-M7",
+        "clock_routing_layers": "M6-M7"
+      },
+      "routed": true,
+      "per_seed": [
+        {
+          "layout_seed": 11,
+          "measurement_scope": "single_pe",
+          "area_um2": 60069.8,
+          "delay_ns": 0.9777560160000001,
+          "setup_worst_slack_ns": 0.022243984,
+          "hold_worst_slack_ns": 0.01891387,
+          "drc_violations": 0,
+          "energy_per_op_pj": 835.418826206342,
+          "power_w": 0.096585794116,
+          "average_power_mw": 96.585794116,
+          "ops": 200,
+          "annotation_fraction": 0.9830287802649612,
+          "physical_record_sha256": "98ca93914dbb87a25d88cab1fa69873fded2de781f1d2dc7e2dc5bb970002298",
+          "power_record_sha256": "4d0243b20b7c39e22bebc1f53e153723cdfbbc798444d0e4759acdbf0cbd65db"
+        },
+        {
+          "layout_seed": 29,
+          "measurement_scope": "single_pe",
+          "area_um2": 60298.3,
+          "delay_ns": 0.9448536679999999,
+          "setup_worst_slack_ns": 0.055146332,
+          "hold_worst_slack_ns": 0.025557501,
+          "drc_violations": 0,
+          "energy_per_op_pj": 837.50405323662,
+          "power_w": 0.09682687476,
+          "average_power_mw": 96.82687476,
+          "ops": 200,
+          "annotation_fraction": 0.9830287802649612,
+          "physical_record_sha256": "798286fb97df02be4da3296e46f8b3e00f21df5250988f46015a1822a934fb46",
+          "power_record_sha256": "22cf1c7f9532942e0c00b5a3393b3aca2944f1070f39827314991e53df4eda99"
+        },
+        {
+          "layout_seed": 47,
+          "measurement_scope": "single_pe",
+          "area_um2": 60341.6,
+          "delay_ns": 0.930771378,
+          "setup_worst_slack_ns": 0.069228622,
+          "hold_worst_slack_ns": 0.010891954,
+          "drc_violations": 0,
+          "energy_per_op_pj": 837.4419295521919,
+          "power_w": 0.096819692416,
+          "average_power_mw": 96.819692416,
+          "ops": 200,
+          "annotation_fraction": 0.9830287802649612,
+          "physical_record_sha256": "d05d7a7792b12ff94a34e54d41d36ffe46dd855ec35325a10b10fd646bc5fd97",
+          "power_record_sha256": "379a57bd7137f7f7e36dd8e79961bd0c37b3ba3805f087914151d6b67b0a62cf"
+        }
+      ],
+      "area_um2": 60298.3,
+      "delay_ns": 0.9448536679999999,
+      "energy_per_op_pj": 837.4419295521919,
+      "average_power_mw": 96.819692416,
+      "annotation_fraction": 0.9830287802649612,
+      "setup_worst_slack_ns": 0.022243984,
+      "hold_worst_slack_ns": 0.010891954,
+      "drc_violations": 0,
+      "evidence_record": "evaluator/fixtures/t10_v1_three_seed/reference_bundle/reports/2cb6f27d91ff0f46e1f27b3d8b82055683366c495cd09bca4b8e31c53fde154f_evidence.json",
+      "evidence_record_sha256": "2cb6f27d91ff0f46e1f27b3d8b82055683366c495cd09bca4b8e31c53fde154f",
+      "report_index": "evaluator/fixtures/t10_v1_three_seed/reference_bundle/index.json",
+      "report_index_sha256": "d465b36be13762a3cd9612606c2ceae8dbc2e2e432983f37fb456ece75401887"
     }
   }
 }

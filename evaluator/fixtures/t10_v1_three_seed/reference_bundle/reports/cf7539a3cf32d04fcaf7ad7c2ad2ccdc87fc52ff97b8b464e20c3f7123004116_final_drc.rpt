@@ -1,0 +1,87 @@
+violation type: Short
+	srcs: net:quad_sum\[3\]\[417\] net:quad_sum\[3\]\[471\]
+	bbox = (364.8910, 284.7960) - (365.3510, 284.8140) on Layer M2
+violation type: Short
+	srcs: net:quad_sum\[3\]\[208\] net:quad_sum\[3\]\[569\]
+	bbox = (364.9630, 284.7600) - (365.1350, 284.7780) on Layer M2
+violation type: Short
+	srcs: net:quad_sum\[3\]\[471\] net:quad_sum\[3\]\[559\]
+	bbox = (364.8960, 284.5870) - (364.9140, 284.8190) on Layer M3
+violation type: Short
+	srcs: net:quad_sum\[3\]\[541\] net:quad_sum\[3\]\[569\]
+	bbox = (364.9680, 284.6470) - (364.9860, 284.7830) on Layer M3
+violation type: Short
+	srcs: net:quad_sum\[3\]\[461\] net:net28192
+	bbox = (364.8130, 284.8320) - (365.2670, 284.8560) on Layer M4
+violation type: Short
+	srcs: net:quad_sum\[3\]\[280\] net:quad_sum\[3\]\[559\]
+	bbox = (365.1700, 284.9760) - (365.1770, 285.0000) on Layer M4
+violation type: Short
+	srcs: net:quad_sum\[3\]\[160\] net:quad_sum\[3\]\[471\]
+	bbox = (365.3090, 284.7840) - (365.3930, 284.8080) on Layer M4
+violation type: Metal Spacing
+	srcs: inst:float_quad\[3\].genblk2.class2.fp_quad net:quad_sum\[3\]\[469\]
+	bbox = (365.0270, 284.4540) - (365.0400, 284.4720) on Layer M2
+violation type: Metal Spacing
+	srcs: inst:float_quad\[3\].genblk2.class2.fp_quad net:quad_sum\[3\]\[465\]
+	bbox = (365.0400, 284.7110) - (365.0630, 284.7240) on Layer M2
+violation type: Metal Spacing
+	srcs: net:VDD net:quad_sum\[3\]\[473\]
+	bbox = (362.8770, 284.8330) - (362.8800, 284.8670) on Layer M3
+violation type: Metal Spacing
+	srcs: inst:float_quad\[3\].genblk2.class2.fp_quad net:quad_sum\[3\]\[465\]
+	bbox = (365.0400, 284.7110) - (365.0580, 284.7190) on Layer M3
+violation type: Metal Spacing
+	srcs: inst:float_quad\[3\].genblk2.class2.fp_quad net:quad_sum\[3\]\[471\]
+	bbox = (364.9690, 284.5920) - (365.0400, 284.6160) on Layer M4
+violation type: Metal Spacing
+	srcs: inst:float_quad\[3\].genblk2.class2.fp_quad net:quad_sum\[3\]\[571\]
+	bbox = (364.9790, 284.0160) - (365.0400, 284.0400) on Layer M4
+violation type: Metal Spacing
+	srcs: inst:float_quad\[3\].genblk2.class2.fp_quad net:quad_sum\[3\]\[301\]
+	bbox = (365.0400, 284.7110) - (365.0410, 284.7360) on Layer M4
+violation type: Metal Spacing
+	srcs: inst:float_quad\[0\].class0.fp_quad net:quad_sum\[0\]\[524\]
+	bbox = (136.9440, 413.9430) - (136.9680, 414.0050) on Layer M5
+violation type: Metal Spacing
+	srcs: net:quad_sum\[3\]\[316\] net:quad_sum\[3\]\[471\]
+	bbox = (364.8960, 284.6270) - (364.9200, 284.6290) on Layer M5
+violation type: Metal Spacing
+	srcs: inst:float_quad\[3\].genblk2.class2.fp_quad net:quad_sum\[3\]\[301\]
+	bbox = (365.0160, 284.7100) - (365.0400, 284.7110) on Layer M5
+violation type: Metal Spacing
+	srcs: inst:float_quad\[1\].genblk2.class1.fp_quad net:net19568
+	bbox = (316.4080, 329.6000) - (316.4690, 329.6320) on Layer M6
+violation type: Lef58EolKeepOut
+	srcs: inst:float_quad\[3\].genblk2.class2.fp_quad net:quad_sum\[3\]\[465\]
+	bbox = (365.0400, 284.7110) - (365.0400, 284.7190) on Layer M3
+violation type: Lef58EolKeepOut
+	srcs: net:quad_sum\[3\]\[280\] net:quad_sum\[3\]\[559\]
+	bbox = (365.1700, 284.9760) - (365.1770, 284.9760) on Layer M4
+violation type: Lef58EolKeepOut
+	srcs: net:quad_sum\[3\]\[280\] net:quad_sum\[3\]\[559\]
+	bbox = (365.1700, 284.9760) - (365.1770, 285.0000) on Layer M4
+violation type: Lef58EolKeepOut
+	srcs: net:quad_sum\[3\]\[280\] net:quad_sum\[3\]\[559\]
+	bbox = (365.1700, 285.0000) - (365.1770, 285.0000) on Layer M4
+violation type: Lef58EolKeepOut
+	srcs: net:quad_sum\[3\]\[316\] net:quad_sum\[3\]\[471\]
+	bbox = (364.8960, 284.6270) - (364.8960, 284.6290) on Layer M5
+violation type: Lef58EolKeepOut
+	srcs: net:quad_sum\[3\]\[316\] net:quad_sum\[3\]\[471\]
+	bbox = (364.8960, 284.6270) - (364.9200, 284.6290) on Layer M5
+violation type: Lef58EolKeepOut
+	srcs: net:quad_sum\[3\]\[316\] net:quad_sum\[3\]\[471\]
+	bbox = (364.9200, 284.6270) - (364.9200, 284.6290) on Layer M5
+violation type: Lef58SpacingEndOfLine
+	srcs: inst:float_quad\[3\].genblk2.class2.fp_quad net:quad_sum\[3\]\[465\]
+	bbox = (365.0400, 284.7110) - (365.0580, 284.7190) on Layer M3
+violation type: Lef58SpacingEndOfLine
+	srcs: net:quad_sum\[3\]\[316\] net:quad_sum\[3\]\[471\]
+	bbox = (364.8960, 284.6270) - (364.9200, 284.6290) on Layer M5
+violation type: Lef58CutSpacingTable
+	srcs: net:quad_sum\[3\]\[471\]
+	bbox = (365.3460, 284.7840) - (365.3640, 284.8080) on Layer V3
+violation type: Lef58CutSpacingTable
+	srcs: net:quad_sum\[3\]\[316\] net:quad_sum\[3\]\[471\]
+	bbox = (364.8960, 284.6160) - (364.9200, 284.6400) on Layer V4

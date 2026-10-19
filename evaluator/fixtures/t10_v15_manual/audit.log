@@ -1,0 +1,6 @@
+OpenROAD 26Q2-1164-g08f67ee5ec 
+Features included (+) or not (-): +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[WARNING ORD-0039] .openroad ignored with -python
+{"changed_nets": ["level0\\[4\\]\\[314\\]", "net22071", "net24982", "quad_sum\\[0\\]\\[355\\]", "quad_sum\\[1\\]\\[366\\]"], "invariant_sha256": {"bterms": "b7f4aad6d07ba5bf5fb0f07b89e7ffcbbb71346879c4d5a9761512ee7e900624", "logical": "35deb0541ee5ba7d2a34be42b13174fff319f97a0224004918cf053a84702059", "masters": "90d9ce4fd96f57f02b0e725b58b93d4a1dad587d5382b2d9584e396152cc1251", "obstructions": "a74600674ce888b747766afcd74a43d9482af4293dc43d6c6ea5a88a86c64fd1", "placements": "8eb4000710f2efe925877982ee1c5f55622963f0504c9dc400cef911e65af35e"}, "nets_checked": 60651, "status": "passed"}

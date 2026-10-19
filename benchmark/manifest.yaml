@@ -58,8 +58,8 @@ ppa_measurement:
       tx_clk_period_ps: 1000
       rx_clk_period_ps: 1000
       relationship: asynchronous
-  parameter_set_status: target_1ghz_partially_calibrated
-  baseline_values_status: partial_rebaseline
+  parameter_set_status: target_1ghz_calibrated
+  baseline_values_status: qualified
   calibrated_baseline_tasks:
   - T01
   - T02
@@ -70,8 +70,8 @@ ppa_measurement:
   - T07
   - T08
   - T09
-  pending_baseline_tasks:
   - T10
+  pending_baseline_tasks: []
 tasks:
 - id: T01
   level_hypothesis: 1

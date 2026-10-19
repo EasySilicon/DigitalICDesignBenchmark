@@ -1,0 +1,326 @@
+{
+  "task_id": "T10",
+  "record_type": "manual_single_seed_pe_closure",
+  "status": "single_seed_pe_timing_drc_converged",
+  "qualification_use": "diagnostic_only_not_official_ppa_baseline",
+  "qualification_date": "2026-10-19",
+  "reference_sha256": "576afc80af06e936089fd8f841fbcc4f555cee254bfa1922f701296e1d092b8e",
+  "previous_probe_path": "t10_pe_reference_probe.json",
+  "scope": {
+    "measurement_scope": "single_pe",
+    "layout_seed": 11,
+    "clock_period_ps": 1000,
+    "corner": "WC",
+    "platform": "ASAP7_7p5t_RVT_NLDM",
+    "drc_geometry": "entire PE routed shell including macro pins and obstructions; internal macro layouts not rechecked in this repair"
+  },
+  "toolchain": {
+    "openroad": "26Q2-1164-g08f67ee5ec",
+    "yosys": "0.69+150 (git 0d3483f04-dirty)",
+    "orfs_commit": "1ec57da7bf0f1491190cbea2673c2c01fb3bc3ae",
+    "asap7_manifest_sha256": "b3a4754d638f9b6a4b5a039ba5b730affd6f08b700c785ab25f68565e5ab6ccc"
+  },
+  "results": {
+    "setup_wns_ps": 22.243984,
+    "hold_wns_ps": 18.91387,
+    "setup_tns_ps": 0,
+    "hold_tns_ps": 0,
+    "instance_area_um2": 60069.8,
+    "valid_drc_violations": 0,
+    "antenna_net_violations": 0,
+    "antenna_pin_violations": 0,
+    "constraint_coverage_report_empty": true,
+    "electrical": {
+      "max_slew_violations": 756,
+      "max_cap_violations": 0,
+      "max_fanout_violations": 0,
+      "all_electrical_rules_passed": false
+    },
+    "power": {
+      "method": "vectorless",
+      "reported_shell_watts": 0.02780733,
+      "includes_internal_macro_power": false,
+      "official_scoring_value": false
+    }
+  },
+  "drc_controls": {
+    "native_worker": "FlexGCWorker",
+    "worker_count": 15376,
+    "collection_filter": "marker_bbox intersects emitting_worker_drc_box",
+    "drc_margin_nm": 500,
+    "context_margin_nm": 4000,
+    "whole_pe_coverage": true,
+    "waived_rules": [],
+    "waived_layers": [],
+    "waived_nets": [],
+    "raw_before": 663,
+    "raw_after": 658,
+    "scoped_before": 5,
+    "scoped_after": 0,
+    "unchanged_context_only": 658,
+    "new_markers": 0,
+    "native_unfiltered_matches_stock_byte_for_byte": true,
+    "historical_five_marker_negative_control_passed": true,
+    "verification_path": "fixtures/t10_v15_manual/drc_verification.json"
+  },
+  "invariants": {
+    "changed_nets": [
+      "level0\\[4\\]\\[314\\]",
+      "net22071",
+      "net24982",
+      "quad_sum\\[0\\]\\[355\\]",
+      "quad_sum\\[1\\]\\[366\\]"
+    ],
+    "invariant_sha256": {
+      "bterms": "b7f4aad6d07ba5bf5fb0f07b89e7ffcbbb71346879c4d5a9761512ee7e900624",
+      "logical": "35deb0541ee5ba7d2a34be42b13174fff319f97a0224004918cf053a84702059",
+      "masters": "90d9ce4fd96f57f02b0e725b58b93d4a1dad587d5382b2d9584e396152cc1251",
+      "obstructions": "a74600674ce888b747766afcd74a43d9482af4293dc43d6c6ea5a88a86c64fd1",
+      "placements": "8eb4000710f2efe925877982ee1c5f55622963f0504c9dc400cef911e65af35e"
+    },
+    "nets_checked": 60651,
+    "status": "passed"
+  },
+  "manual_edits": [
+    {
+      "net": "net24982",
+      "method": "crop VIA23 M2 enclosure, retain complete V2 cut coverage"
+    },
+    {
+      "net": "level0\\[4\\]\\[314\\]",
+      "method": "crop VIA23 M3 enclosure, retain complete V2 cut coverage"
+    },
+    {
+      "net": "net22071",
+      "method": "local M2/M3 detour, custom stacked V3/V4 M4 enclosure, minimum-area M4 patch"
+    },
+    {
+      "net": "quad_sum\\[0\\]\\[355\\]",
+      "method": "legal-width rectangular M5 patch covering V5 and adjacent V4 connection"
+    },
+    {
+      "net": "quad_sum\\[1\\]\\[366\\]",
+      "method": "move entire M7 segment +128 nm to checked free track; five coordinate replacements"
+    }
+  ],
+  "external_artifacts": [
+    {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v15_manual/v15_route_original.odb",
+      "bytes": 150156961,
+      "sha256": "76cb0aafa5ef8f94bbe7551314a90ab43426b1a8323a236023967c0481a7158b",
+      "role": "original_route"
+    },
+    {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v15_manual/v15_all_manual_v2.odb",
+      "bytes": 150158318,
+      "sha256": "0dfe73540d78c057da9d00c8563d4dd729b1747210bdfa94f44943d977dc70ff",
+      "role": "repaired_route"
+    },
+    {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v15_manual/all_manual_verify/v15_manual_final.odb",
+      "bytes": 290531287,
+      "sha256": "e690f0f977270b546c50c9a56d278f5ac9e30f8dbe336a76406a6546f0f06741",
+      "role": "repaired_final"
+    },
+    {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v15_manual/all_manual_verify/v15_manual_final.spef",
+      "bytes": 105406843,
+      "sha256": "22edeafff9e74317b0891631ac68c6427ee719a731f0c76e6a6fa9014d350c51",
+      "role": "reextracted_spef"
+    },
+    {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v15_manual/all_manual_verify/v15_manual_final.sdc",
+      "bytes": 40901,
+      "sha256": "176292a6101fff0e2836805feef511ddd98fa71127417b59a3530ad0da66cff7",
+      "role": "unchanged_sdc"
+    }
+  ],
+  "portable_artifacts": [
+    {
+      "path": "fixtures/t10_v15_manual/antenna.rpt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/audit.log",
+      "bytes": 908,
+      "sha256": "24873d751823d0bd80a1b27bfd80a75c351038a1046f4f073d79f54a7669111f"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/connectivity.log",
+      "bytes": 976,
+      "sha256": "f3a61e9a8cbc24e6b85c3141d2c095077bc29bb4591472cfe90fdb194f23d50f"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/constraint_coverage.rpt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/drc_verification.json",
+      "bytes": 1735,
+      "sha256": "487bcd3e4426e16bb777b68a439bd61e54d022df3141d8da3a3be41eca342c0e"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/electrical.rpt",
+      "bytes": 63733,
+      "sha256": "cbfc359d1c2175915c231d3e4aab7453eba3acc8842a9397d50b0242400ddb58"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/historical.drc.rpt",
+      "bytes": 793,
+      "sha256": "a929310e31e506ee7dc6c1ab19209653feed1796fbbb79752d09e953fab3a6d3"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/hold_path.rpt",
+      "bytes": 4852,
+      "sha256": "6e130215fb1852e621e9e75866b1b81c27d93103244856751a61c75822caef33"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/hold.rpt",
+      "bytes": 26,
+      "sha256": "c9159d5c72c38201f400f75c3c1c1d7a3a56f10bd843562cf3bbf49a7eae6891"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/hold_tns.rpt",
+      "bytes": 17,
+      "sha256": "d2cd5ac33c7e5ae94363b6f4cee3f294aa0852daa624c390b572ee0b5ed6f5db"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/original_full.drc.rpt",
+      "bytes": 81153,
+      "sha256": "a64999230e290745f7840aab8edf3f882a289f7ef3a23c90d54a2d1be2e95e07"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/original_scoped.drc.log",
+      "bytes": 3472,
+      "sha256": "de1755f13fde5cee21e49574e6dfd922e38ad186e83d21cae8073c740dbd2a1a"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/original_scoped.drc.rpt",
+      "bytes": 793,
+      "sha256": "a929310e31e506ee7dc6c1ab19209653feed1796fbbb79752d09e953fab3a6d3"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/original_scoped.drc.rpt.raw",
+      "bytes": 81153,
+      "sha256": "a64999230e290745f7840aab8edf3f882a289f7ef3a23c90d54a2d1be2e95e07"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/power_vectorless.rpt",
+      "bytes": 840,
+      "sha256": "a3bfb56839ed57ff01732c886ca0a7d82534bb2cb86733e253cebc1b8d164a1e"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/repaired_full.drc.rpt",
+      "bytes": 80360,
+      "sha256": "b1573fd68b6256742a6cd5ddda79f0409df9fb879cbd10e9760decbeffb0e931"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/repaired_scoped.drc.log",
+      "bytes": 3472,
+      "sha256": "042d9fd05462c134d5a4a4f2b46364c74fac14416143914826d024cffa57e604"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/repaired_scoped.drc.rpt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/repaired_scoped.drc.rpt.raw",
+      "bytes": 80360,
+      "sha256": "b1573fd68b6256742a6cd5ddda79f0409df9fb879cbd10e9760decbeffb0e931"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/setup_path.rpt",
+      "bytes": 5621,
+      "sha256": "b8946cdcfb079644cc16cb04544dc45ac524ccef4fd436fa33a54acac3ae37af"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/setup.rpt",
+      "bytes": 26,
+      "sha256": "de380c6360c3954f6d02b7ee758d9eeb21268546d9f4d5680de5ec03ca7ec88b"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/setup_tns.rpt",
+      "bytes": 17,
+      "sha256": "44f23fe41be6907ffbb46685b3ddca75e2346eb1009578f7dcf1a0c5a4bdc1d5"
+    },
+    {
+      "path": "fixtures/t10_v15_manual/verify.log",
+      "bytes": 2071,
+      "sha256": "707e57fcd50d1ae2eeccaa0d36890f5771b4f9b89cba4351272a940b6879c8d3"
+    }
+  ],
+  "scripts": [
+    {
+      "path": "t10_backend/physical/t10_manual_v15_apply.tcl",
+      "bytes": 578,
+      "sha256": "eb82f89b5fdcfdcd1e86eb7703026511f5b84a9dbc65da1fe7563d532c18a0a6"
+    },
+    {
+      "path": "t10_backend/physical/t10_manual_v15_audit.py",
+      "bytes": 3619,
+      "sha256": "371648a4629a509f104ef332c9657f13dd8f8341eeefa7f6ef01fbe04279364c"
+    },
+    {
+      "path": "t10_backend/physical/t10_manual_v15_compare_drc.py",
+      "bytes": 2183,
+      "sha256": "9016f0100dc35a4936d4b263840a9617f78ca0bc509a478fc2e63b155fd959ca"
+    },
+    {
+      "path": "t10_backend/physical/t10_manual_v15_connectivity.py",
+      "bytes": 3415,
+      "sha256": "09b9ffed25688c245a88f120bb854fff9f77231ccf3b39e492e9fd454bfb8eb2"
+    },
+    {
+      "path": "t10_backend/physical/t10_manual_v15_enclosure.cc",
+      "bytes": 4308,
+      "sha256": "6d8c10d8d855faf6beb7c3fd9a1dccbcba83eec5109307f59c32a9810625d171"
+    },
+    {
+      "path": "t10_backend/physical/t10_manual_v15_gc_diag.cc",
+      "bytes": 5591,
+      "sha256": "ab14cb49652d7bff1f464d344a84accdd5c4cec867c214ad6c7186f62366de1b"
+    },
+    {
+      "path": "t10_backend/physical/t10_manual_v15_gc_full.tcl",
+      "bytes": 323,
+      "sha256": "6cedecbd89c4c16ee796bcfc0e97c93525b62e478a3e193a37e2af585578add0"
+    },
+    {
+      "path": "t10_backend/physical/t10_manual_v15_inspect.py",
+      "bytes": 6104,
+      "sha256": "f50e9ee50be71cbb9d7ece064d1a93c9e859c5f13418a3511d9361be084651cd"
+    },
+    {
+      "path": "t10_backend/physical/t10_manual_v15_local.cc",
+      "bytes": 5788,
+      "sha256": "eb478d09e859ebbda94751cbed451e8e81ea127961b45b64999ac926d816004e"
+    },
+    {
+      "path": "t10_backend/physical/t10_manual_v15_patch.cc",
+      "bytes": 4124,
+      "sha256": "c10858846201431c36af997fb3d8990dbfd28c6b519a5e080a75951a2b97391d"
+    },
+    {
+      "path": "t10_backend/physical/t10_manual_v15_reproduce.sh",
+      "bytes": 3786,
+      "sha256": "c3c94d8e2c09569c753edc79c6445f7e9b6353bbc82fa28faba90670e3088155"
+    },
+    {
+      "path": "t10_backend/physical/t10_manual_v15_verify.tcl",
+      "bytes": 2302,
+      "sha256": "823367d84ed2716203adc2e1f2157c0029c49c2706a79d3342cfa58e46f4b5ac"
+    }
+  ],
+  "limitations": [
+    "Only PE seed 11 was repaired; seeds 29/47 and activity-qualified full-PE power are pending.",
+    "Internal macro shapes and abstracts are unchanged; their routed internals were not independently rechecked in this repair.",
+    "756 pre-existing max-slew violations remain; this is not all-electrical-rule or foundry signoff.",
+    "Vectorless shell power excludes internal macro power and must not be scored.",
+    "The V1.0 target is single-PE PPA, not tile/top physical implementation; full-DUT functional, structural and throughput gates remain.",
+    "The historical probe is preserved unchanged; this new record supersedes its five-residual-DRC status, not its historical provenance.",
+    "Production PPA scoring remains disabled; a qualified three-seed baseline and normalized scorer inputs are still required."
+  ]
+}

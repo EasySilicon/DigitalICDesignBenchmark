@@ -1,0 +1,54 @@
+{
+  "artifacts": [
+    {
+      "bytes": 793,
+      "marker_count": 5,
+      "path": "evaluator/fixtures/t10_v15_manual/historical.drc.rpt",
+      "sha256": "a929310e31e506ee7dc6c1ab19209653feed1796fbbb79752d09e953fab3a6d3"
+    },
+    {
+      "bytes": 81153,
+      "marker_count": 663,
+      "path": "evaluator/fixtures/t10_v15_manual/original_full.drc.rpt",
+      "sha256": "a64999230e290745f7840aab8edf3f882a289f7ef3a23c90d54a2d1be2e95e07"
+    },
+    {
+      "bytes": 80360,
+      "marker_count": 658,
+      "path": "evaluator/fixtures/t10_v15_manual/repaired_full.drc.rpt",
+      "sha256": "b1573fd68b6256742a6cd5ddda79f0409df9fb879cbd10e9760decbeffb0e931"
+    },
+    {
+      "bytes": 793,
+      "marker_count": 5,
+      "path": "evaluator/fixtures/t10_v15_manual/original_scoped.drc.rpt",
+      "sha256": "a929310e31e506ee7dc6c1ab19209653feed1796fbbb79752d09e953fab3a6d3"
+    },
+    {
+      "bytes": 0,
+      "marker_count": 0,
+      "path": "evaluator/fixtures/t10_v15_manual/repaired_scoped.drc.rpt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 81153,
+      "marker_count": 663,
+      "path": "evaluator/fixtures/t10_v15_manual/original_scoped.drc.rpt.raw",
+      "sha256": "a64999230e290745f7840aab8edf3f882a289f7ef3a23c90d54a2d1be2e95e07"
+    },
+    {
+      "bytes": 80360,
+      "marker_count": 658,
+      "path": "evaluator/fixtures/t10_v15_manual/repaired_scoped.drc.rpt.raw",
+      "sha256": "b1573fd68b6256742a6cd5ddda79f0409df9fb879cbd10e9760decbeffb0e931"
+    }
+  ],
+  "historical_markers": 5,
+  "new_markers": 0,
+  "raw_after": 658,
+  "raw_before": 663,
+  "scoped_after": 0,
+  "scoped_before": 5,
+  "status": "passed",
+  "unchanged_context_only": 658
+}

@@ -195,8 +195,8 @@
     }
   },
   "artifact_sha256": {
-    "benchmark/README.en.md": "13b7a5c4080e771628b1ab1a58b8a777ec331e6e2395895cad0fd456a49e2240",
-    "benchmark/README.md": "8a1d9fda6ef0ed5a3cf2a7d610af79d0b98fc9f88ae4f6e5f6da31ab599d067c",
+    "benchmark/README.en.md": "2857a7959b4e06a2f0e7a6796f08cb92fc3fa3dc1542df26a176d2dd26013daf",
+    "benchmark/README.md": "b831f65dd75d6bc325bacb230f8dc61b1b619fc214614ad9febefac0826d2fff",
     "benchmark/candidate-rules.md": "b64e61e9777f2d67a9caf41ffae9764b20db70da29d1a7910a9c220c1a96fa01",
     "benchmark/cpu/act4/README.md": "16e43794acde77eee1221002ae674326fe364561c0b7a5975f7b138d78dde1e9",
     "benchmark/cpu/act4/link.ld": "f60c333f6c91625b2bd263a590c0ddf387a961e0c684f8e4980562b191f56bed",
@@ -308,7 +308,7 @@
     "evaluator/fixtures/t09_cpu_20261009_cycles10/timing.log": "401505105f9fe648364b79125f2340c25f112929820d6de8e0fd259fc2210d31",
     "evaluator/make_cpu_smoke.py": "8f5a06286345a0ad7de781148c133613baafbafc5fa39b37a3072ba05c55276a",
     "evaluator/ppa_aggregate.py": "864598d79d5ecd1006a59fbb4eb4381521e29fabf212684a9dc2832f171bf5ec",
-    "evaluator/ppa_power_probe.py": "545237b011b92c8aab4d2214eaf413bd8fb8d070c91df3ebae090bd81a2e2f05",
+    "evaluator/ppa_power_probe.py": "b3dd0c34d777f7ee4c7c7db341dc3c3814f90774d217daaf6336592b433262ae",
     "evaluator/ppa_probe.py": "dc612897303b1968285cf367b9b27459b4b121102b40ae7b7001035e963640ef",
     "evaluator/public/tb_T09.sv": "234fc045573af66d6381671365cc7aa98e4ad01d2cd5463ca9f3fcb2ab4a4988",
     "evaluator/public/tb_cpu_elf.sv": "837afe566b7e6170ccbbbf8ce97e159b0b7eda954aef99d10c5c903d7b5f09a2",
@@ -316,7 +316,7 @@
     "evaluator/reference/T09/rtl/files.f": "15716de273eb958c4d90e311c03b7b506d7e6b0abacbb1189c772f9c390fb1f4",
     "evaluator/reference/T09/rtl/ref.sv": "e7d93ba595d9ebb3fcec4a93f230226fb3c737d2f579bd339082439fc0302e6d",
     "evaluator/sail_commit.py": "1693336e4870514b05cc7742590bcc77a567d6415977be87569d7bc8db9cf10d",
-    "evaluator/score_run.py": "55127dc795f4c45e0a03bf89a0ebcdd71f50d7a536c9437fd2df18cea3c0249a",
+    "evaluator/score_run.py": "d60b963224cb257e623471b06f60f9cdb505a74341774128849d6ef98046bece",
     "evaluator/t09_check.py": "e1e750a08f2de0c9974d5d3590c6143e7f09353746627b2d1ba3f3bb4d80af33",
     "evaluator/t09_data/oracles/act4/MANIFEST.json": "7660059f4133389bec3781e79cfda794a06014567558b905d94b9e164b5a77e5",
     "evaluator/t09_data/oracles/act4/rv32i/I/I-add-00.jsonl.gz": "6d4b2347c6ffe1f8b7d1aad68af0541ac4b58e89e59c52d1b0f01957c45e3776",

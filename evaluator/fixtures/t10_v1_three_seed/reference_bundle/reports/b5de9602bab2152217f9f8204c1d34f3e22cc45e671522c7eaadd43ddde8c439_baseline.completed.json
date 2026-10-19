@@ -1,0 +1,33 @@
+{
+  "status": "flow_completed_not_yet_qualified",
+  "result_dir": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_pe/ic_t10_v1_v15_seed29_pe",
+  "inputs_sha256": "c66c9d64c237f97f51a1b54f3450ddf2c23df7872951b6c611f7f74aebd95a80",
+  "elapsed_seconds": 5817.445242881775,
+  "artifacts": {
+    "6_final.odb": {
+      "bytes": 293716450,
+      "sha256": "16b4ba0bfc471c5004a50eece21265673d0fc8a576df24881bb9823f07d58581"
+    },
+    "6_final.sdc": {
+      "bytes": 40901,
+      "sha256": "176292a6101fff0e2836805feef511ddd98fa71127417b59a3530ad0da66cff7"
+    },
+    "6_final.spef": {
+      "bytes": 108163097,
+      "sha256": "4d247a59225c5374362a0a2b538f88dd217806bd656df155ac5840d26c518288"
+    },
+    "6_final.v": {
+      "bytes": 6693867,
+      "sha256": "7d298eb8db75106eaab69213c3058b77d7576d5c426ef2a3ad8ba7f74b33308e"
+    }
+  },
+  "runtime_resources": {
+    "max_address_space_bytes": null,
+    "malloc_arena_max": "2",
+    "threads": 4,
+    "memory_max_bytes": 34359738368,
+    "memory_swap_max_bytes": 0,
+    "cgroup_scope": "t10-v1-seed29-ram32.scope"
+  },
+  "memory_resume_inputs_sha256": "236f1c1850038d89307bd6c9317d7c90edefa187c10c34661858585cc9aa1cb9"
+}

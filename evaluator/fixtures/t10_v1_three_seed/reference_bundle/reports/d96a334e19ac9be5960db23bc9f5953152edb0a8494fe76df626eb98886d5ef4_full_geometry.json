@@ -1,0 +1,39 @@
+{
+  "status": "single_seed_all_geometry_passed",
+  "layout_seed": 11,
+  "wire_iterator_policy": "OpenDB_paths_plus_explicit_RECT_decoder",
+  "physical_sha256": "98ca93914dbb87a25d88cab1fa69873fded2de781f1d2dc7e2dc5bb970002298",
+  "checker_sha256": "5c2ef773cbe5ae47fd79b12fe6f594f56c649731e276aa0d64d387a7f33a41cb",
+  "blocks": {
+    "fp0": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_full_geometry/fp0.json",
+      "bytes": 851,
+      "sha256": "767369c3996167c5f20d5b769f80ec4bb145f5daa28a054cf797072ba3438272"
+    },
+    "fp1": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_full_geometry/fp1.json",
+      "bytes": 863,
+      "sha256": "55cb1c7bff35bc0e28e1a2a17c96804c888da4766022e22534504adf4bb9b27f"
+    },
+    "fp2": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_full_geometry/fp2.json",
+      "bytes": 862,
+      "sha256": "872917549d09d8f038d9b0325839df975f2254a829ca7bcfab4006509f26c6ff"
+    },
+    "int": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_full_geometry/int.json",
+      "bytes": 845,
+      "sha256": "129e0bacad63c0370bd764b0e9591f6be6c578486bb0a3a8f1393e9c516398d5"
+    },
+    "cpa": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_full_geometry/cpa.json",
+      "bytes": 861,
+      "sha256": "33f9e20a7d0bafcf483bfb2fe86d3006879c58f37a853ca93ed01c5b55ddc221"
+    },
+    "pe": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_full_geometry/pe.json",
+      "bytes": 794,
+      "sha256": "210f7ea8a3735f96456b155db6a167597131685fc5edae8e24d763236e74c9fc"
+    }
+  }
+}

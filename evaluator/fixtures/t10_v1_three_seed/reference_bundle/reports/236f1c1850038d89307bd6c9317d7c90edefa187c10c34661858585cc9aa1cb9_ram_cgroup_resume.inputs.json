@@ -1,0 +1,98 @@
+{
+  "reason": "terminal_allocator_failure_under_31p75GiB_RLIMIT_AS_use_actual_memory_limit",
+  "restarts_from": "retained_global_route_not_iteration13",
+  "original_inputs": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/ic_t10_v1_v15_seed29_pe/inputs.json",
+    "bytes": 2934,
+    "sha256": "c66c9d64c237f97f51a1b54f3450ddf2c23df7872951b6c611f7f74aebd95a80"
+  },
+  "checkpoints": {
+    "5_1_grt.odb": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_pe/ic_t10_v1_v15_seed29_pe/5_1_grt.odb",
+      "bytes": 120001371,
+      "sha256": "bcb5da4f2c4ac748954d2a81999f2d8ce57a2136a9fb039da479df10b5b9e077"
+    },
+    "5_1_grt.sdc": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_pe/ic_t10_v1_v15_seed29_pe/5_1_grt.sdc",
+      "bytes": 40901,
+      "sha256": "176292a6101fff0e2836805feef511ddd98fa71127417b59a3530ad0da66cff7"
+    },
+    "route.guide": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_pe/ic_t10_v1_v15_seed29_pe/route.guide",
+      "bytes": 18122791,
+      "sha256": "f9c2982b922bcaf4fe63b55d27dd7609cd667d2b91c1a058cda511bf1d997854"
+    }
+  },
+  "macro_views": {
+    "FP0_LEF": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed29_fp0/t10_reference_fp_quad_class0_exact_m7.lef",
+      "bytes": 122483,
+      "sha256": "ce1b57bb21914f6ec7094180cd536d73d8578bf0107b4cea480527335018b141"
+    },
+    "FP0_LIB": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed29_fp0/t10_reference_fp_quad_class0_exact_wc.lib",
+      "bytes": 727720,
+      "sha256": "f6b679448498df18a94da357403266cf7b232f87067f60ffd51d7301dec642de"
+    },
+    "FP1_LEF": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed29_fp1/t10_reference_fp_quad_class1_exact_m7.lef",
+      "bytes": 121478,
+      "sha256": "d2d87af3d0a06cc5904739b00b983d44f738c0678f66dbe5bcb5ab0facc20670"
+    },
+    "FP1_LIB": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed29_fp1/t10_reference_fp_quad_class1_exact_wc.lib",
+      "bytes": 696981,
+      "sha256": "2569086f8bbd80e7a73f1d2c2f74fd04b75c411fd4c95615a7ce05d237ea0924"
+    },
+    "FP2_LEF": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed29_fp2/t10_reference_fp_quad_class2_exact_m7.lef",
+      "bytes": 119138,
+      "sha256": "f32379457d43b4020901775871ec202552e95ad80a227f01234ef25f5659b530"
+    },
+    "FP2_LIB": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed29_fp2/t10_reference_fp_quad_class2_exact_wc.lib",
+      "bytes": 681691,
+      "sha256": "cb095b442782d6ca7f7795f957a035c91906b95bae36c38fb4448f9c6d907a42"
+    },
+    "INT_LEF": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed29_int/t10_reference_int_group_m7.lef",
+      "bytes": 17433,
+      "sha256": "942ee1338363d3522216d5cadaa3865198963e1e6ccf435e98edde2128530e0e"
+    },
+    "INT_LIB": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed29_int/t10_reference_int_group_wc.lib",
+      "bytes": 92622,
+      "sha256": "c7fc6c1cf37123fadd6cdfe14377e88b4b266fb3e174bf382cfa34362394ec4d"
+    },
+    "CPA_LEF": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed29_cpa/t10_reference_cpa_postprocess_m7.lef",
+      "bytes": 209431,
+      "sha256": "e8247b21b69d418f0cb8fc98a047b8c1af81fcaad01508e8f5257c58cf84c48c"
+    },
+    "CPA_LIB": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed29_cpa/t10_reference_cpa_postprocess_wc.lib",
+      "bytes": 779632,
+      "sha256": "d486daaaaf52d9344bb90fb8a0ce8a8be84a0d34bd0debf4f552e7b4f182aacf"
+    }
+  },
+  "failed_logs": [
+    {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/ic_t10_v1_v15_seed29_pe/failed_as31p75gib/baseline.log",
+      "bytes": 44070,
+      "sha256": "5866d94366521fb6b0a853295e9947c125e75c555c055bc37a7dc779fe9de9c8"
+    },
+    {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/ic_t10_v1_v15_seed29_pe/failed_as31p75gib/5_2_route.log",
+      "bytes": 44095,
+      "sha256": "0be9e35c3c25426924bd19dec244a58a8ebd180e215036c7138e1d4fad8b0127"
+    }
+  ],
+  "runtime_resources": {
+    "max_address_space_bytes": null,
+    "malloc_arena_max": "2",
+    "threads": 4,
+    "memory_max_bytes": 34359738368,
+    "memory_swap_max_bytes": 0,
+    "cgroup_scope": "t10-v1-seed29-ram32.scope"
+  }
+}

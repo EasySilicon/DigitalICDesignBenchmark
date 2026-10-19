@@ -1,0 +1,87 @@
+{
+  "status": "actual_gate_blocks_built",
+  "dependency_order": [
+    "t10_reference_cpa_postprocess",
+    "t10_reference_fp_quad_class0_exact",
+    "t10_reference_fp_quad_class1_exact",
+    "t10_reference_fp_quad_class2_exact",
+    "t10_reference_int_group",
+    "t10_reference_pe",
+    "t10_reference_result_quarter",
+    "t10_reference_tile_4x4",
+    "npu_systolic_matmul_16x16"
+  ],
+  "modules": [
+    {
+      "module": "t10_reference_cpa_postprocess",
+      "source": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/actual_modules/t10_reference_cpa_postprocess.v",
+      "source_sha256": "75669e81c32a0a5810963fdd0accf0683d4eb98e5862cb027b91e008a225fbcc",
+      "args_file": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/build/Vt10_reference_cpa_postprocess__hierMkArgs.f",
+      "args_sha256": "d9fd9d2a143a2eec20945d195669ba6a02c46d6c9862610f5f4f250466154d31"
+    },
+    {
+      "module": "t10_reference_fp_quad_class0_exact",
+      "source": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/actual_modules/t10_reference_fp_quad_class0_exact.v",
+      "source_sha256": "a92ebdd74f8cafa538cf1e6bb42e7364f1da14b634ab5845a7eb1d84af068388",
+      "args_file": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/build/Vt10_reference_fp_quad_class0_exact__hierMkArgs.f",
+      "args_sha256": "08f568ecf114ebc902ea16cb12d0565507939920f91370c6f7d90a86859ace84"
+    },
+    {
+      "module": "t10_reference_fp_quad_class1_exact",
+      "source": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/actual_modules/t10_reference_fp_quad_class1_exact.v",
+      "source_sha256": "c654157f523e3da85884f8e2547e212012e7b5944ddeefd9de05d02b07d4004a",
+      "args_file": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/build/Vt10_reference_fp_quad_class1_exact__hierMkArgs.f",
+      "args_sha256": "d945d976b7911cb2ab7bf1f058d6cf3483d29c56af4c3aad1bebf69469cc88f0"
+    },
+    {
+      "module": "t10_reference_fp_quad_class2_exact",
+      "source": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/actual_modules/t10_reference_fp_quad_class2_exact.v",
+      "source_sha256": "fe9b57f670678424a2850b0abd71187a2b9315c5cf2013e0c571d18bef8acd5f",
+      "args_file": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/build/Vt10_reference_fp_quad_class2_exact__hierMkArgs.f",
+      "args_sha256": "aeeed587344b883557513676cad1a9bd3559ee6d7ac37cf46fecba30dc376806"
+    },
+    {
+      "module": "t10_reference_int_group",
+      "source": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/actual_modules/t10_reference_int_group.v",
+      "source_sha256": "62ee902ae98dee08a702970b50a9a55403ad6734675f082120ec027bb3417256",
+      "args_file": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/build/Vt10_reference_int_group__hierMkArgs.f",
+      "args_sha256": "c53577e82503b8c872295a29f9e66fd5b07057a02ad5053bc5d9cd72661f59b5"
+    },
+    {
+      "module": "t10_reference_pe",
+      "source": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/actual_modules/t10_reference_pe.v",
+      "source_sha256": "541aeb6c1e1ad0c7c3d067ba3bee2ea48aae906dd72394b26851554e8f5b3d75",
+      "args_file": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/build/Vt10_reference_pe__hierMkArgs.f",
+      "args_sha256": "4e834b5c6cb4787afc4c62ba574620e725e94a1c345212add8a30ec76bc09801"
+    },
+    {
+      "module": "t10_reference_result_quarter",
+      "source": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/actual_modules/t10_reference_result_quarter.v",
+      "source_sha256": "abfb9b60f742f235bd5756f55c4b8b8341a292edac3142f46e043fd16ef11aa9",
+      "args_file": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/build/Vt10_reference_result_quarter__hierMkArgs.f",
+      "args_sha256": "5955e29a971d575d778d9aefddf94e96900a2fef8564a7639939e72dc8ef9e33"
+    },
+    {
+      "module": "t10_reference_tile_4x4",
+      "source": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/actual_modules/t10_reference_tile_4x4.v",
+      "source_sha256": "4643e35d6fc4c4e5bca706268fd9b84bf5d8b6c4f16452a138e6cc1fddb118e9",
+      "args_file": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/build/Vt10_reference_tile_4x4__hierMkArgs.f",
+      "args_sha256": "a1a7a8ed9cb8ad86bc5f9507fa3346c95246393f411a664921a369de075295c6"
+    },
+    {
+      "module": "npu_systolic_matmul_16x16",
+      "source": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/actual_modules/npu_systolic_matmul_16x16.v",
+      "source_sha256": "8d62c62ac479fca06da8a32150aa0d779d7e2983c3c009abdce5beb90e96fac5",
+      "args_file": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/build/Vnpu_systolic_matmul_16x16__hierMkArgs.f",
+      "args_sha256": "097ab66eaa9d2cbf5285cd97644d4958c1d7ce6d3b0e5722425d979a9c4f9e5c"
+    },
+    {
+      "module": "testbench",
+      "source": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/tb_power.sv",
+      "source_sha256": "c9a922da9184846af45cdf15f6b5ab732fbfa3a5e00a816997a625cd327148e4",
+      "args_file": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/seed11_activity_directnets/build/Vtb_hidden_T10_stream__hierMkArgs.f",
+      "args_sha256": "347c1677bbbbdca68fc90dab0afcad142ceaf2ee9836085341c275c03cce8577"
+    }
+  ],
+  "planning_sources_used_for_simulation": false
+}

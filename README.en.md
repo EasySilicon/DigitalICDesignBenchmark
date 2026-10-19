@@ -45,7 +45,7 @@ The suite follows these principles:
 
 4. **Make quality gates executable and traceable.** Requirements map to acceptance groups, and failures trace to seeds, inputs, expected values, and observations. Correct-reference regressions and known defect mutants calibrate evaluators; frozen scripts determine scores. Specification, evaluator, and tool faults receive separate attribution, followed by consistent regrading of affected frozen submissions after correction.
 
-5. **Measure the physical cost of the complete design.** References and candidates use consistent process data, constraints, activity workloads, and measurement flows. Input transport, control, buffering, output, and actual interconnect contribute to complete-DUT cost; PE and other submodule results guide diagnosis and optimization. The goal is reproducible relative PPA, with reference-delivery scope determined by benchmark release gates.
+5. **Use consistent PPA scope and conditions.** References and candidates use the same process data, constraints, activity workloads, and measurement flows. T01–T09 measure the complete DUT. For V1.0, T10 measures one PE's area, routed delay, and energy, while the complete 256-PE DUT must still pass functional, structural, and throughput checks. Single-PE results do not represent the complete NPU's cost. Each task's PPA contract defines its scope and release requirements.
 
 6. **Evaluate external harnesses through controlled comparisons.** Skills, orchestration strategies, and immediate quality gates are explicit experimental variables. All roles in a multi-agent system share time, token, monetary, and compute budgets, including reasoning, verification, and PPA iterations. The same-model control track studies harness effects; the product track measures practical model and system performance. Independent repetitions, pass rates, time, and cost provide evidence, with model settings and budget differences recorded alongside results.
 
@@ -59,14 +59,14 @@ The intended outcome is evidence of **model capability boundaries, reliable deli
 
 ## Current status
 
-The main suite, `ic-delivery-rtl-v0.3`, contains **ten tasks, T01–T10**. T01–T09 have frozen task specifications, acceptance collateral, and three-seed 1 GHz PPA baselines. T10 has a working functional-evaluation package, but its complete-DUT three-seed PPA baseline is still pending. The full ten-task suite therefore remains in the pre-release `design_only` stage.
+The main suite, `ic-delivery-rtl-v0.3`, contains **ten tasks, T01–T10**. T01–T09 have frozen task specifications, acceptance collateral, and three-seed 1 GHz PPA baselines. T10's V1.0 single-PE reference has also completed physical closure and activity-based power measurement for seeds 11/29/47. All ten reference baselines are available; the unified tool image, fairness checks across equivalent RTL implementations, and suite-wide release checks remain pending. The full suite therefore remains in the pre-release `design_only` stage.
 
 | Scope | Available | Pending |
 | --- | --- | --- |
 | T01–T09 | Frozen task specifications and acceptance collateral, public smoke tests, reference RTL, defect mutants, and frozen three-seed 1 GHz PPA baselines | Complete |
-| T10 | Continuous-stream matrix evaluation, exact numerical oracle, reset/backpressure/throughput tests, and automatic PE mesh checks | Official three-seed PPA baseline for the complete DUT; currently functional pilot scoring only |
+| T10 | Continuous-stream matrix evaluation, exact numerical oracle, reset/backpressure/throughput tests, PE mesh checks, and the single-PE three-seed 1 GHz PPA baseline with activity-based power | Reference complete; archived candidates still require individual PPA/time evaluation |
 
-The latest public T10 evaluator package replay passed **2,752 matrix blocks, a separate reset probe, 256-PE structural checks, and all 14 input phases without bubbles**. See [T10_PACKAGE_VERIFICATION.json](evaluator/T10_PACKAGE_VERIFICATION.json). This verifies the functional package, rather than qualifying a complete physical baseline.
+The latest public T10 evaluator package replay passed **2,752 matrix blocks, a separate reset probe, 256-PE structural checks, and all 14 input phases without bubbles**. See [T10_PACKAGE_VERIFICATION.json](evaluator/T10_PACKAGE_VERIFICATION.json). See the [three-seed implementation and measurement notes](evaluator/t10_backend/v1/README.md) for timing, complete DRC/connectivity checks, and activity-based power. Each full gate-level DUT passed 200 blocks, 51,200 output checks, and protocol checks. The single-PE median reference is **60,298.3 µm², 0.944853668 ns, and 837.441929552 pJ/block**, not the cost of the full NPU.
 
 ## Tasks and capability coverage
 
@@ -264,10 +264,10 @@ Common physical targets are **ASAP7, 1 GHz (1,000 ps)**, layout seeds `{11,29,47
 | [env/](env/README.en.md) | Installation, dependency discovery and compatibility patches |
 | [vendor/](vendor/README.en.md) | ASAP7 platform, provenance, licenses and hashes |
 
-Task behavior follows each `task.md`; public smoke tests are examples. Historical pilots do not override current specifications or scoring policy. `main` holds shared specifications and evaluators. `systolic_burnish` preserves experimental T10 backend flows, reference macro builds, and physical diagnostics; see `evaluator/t10_backend/README.md` on that branch.
+Task behavior follows each `task.md`; public smoke tests are examples. Historical pilots do not override current specifications or scoring policy. `main` holds shared specifications, evaluators, and the [v15 manual-repair and DRC-checking scripts](evaluator/t10_backend/README.md). `systolic_burnish` preserves the remaining historical T10 backend experiments and reference macro builds.
 
 ## License and provenance
 
 Repository-owned code/documentation use [Apache-2.0](LICENSE). ACT4, ASAP7, and experimental starter RTL retain their own licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Locked revisions and sources are in [sources.lock.yaml](benchmark/sources.lock.yaml). The benchmark assesses digital RTL delivery and relative PPA on a public predictive process; it does not claim fabrication signoff or formal RISC-V/Ethernet certification.
 
-T08/T09 task-level freeze (2026-10-09): [T08 receipt](benchmark/tasks/T08/FREEZE.json), [T09 receipt](benchmark/tasks/T09/FREEZE.json). Run `python3 benchmark/freeze_tasks.py` from the repository root to verify specification, RTL, judge, scoring, baseline and portable evidence hashes. All six T09 archives have been regraded, and all six T08 answers have been scored. Host-only receipts are excluded from candidate packages. T10 PPA and the suite-wide tool-image/release gates remain pending.
+T08/T09 task-level freeze (2026-10-09): [T08 receipt](benchmark/tasks/T08/FREEZE.json), [T09 receipt](benchmark/tasks/T09/FREEZE.json). Run `python3 benchmark/freeze_tasks.py` from the repository root to verify specification, RTL, judge, scoring, baseline and portable evidence hashes. All six T09 archives have been regraded, and all six T08 answers have been scored. Host-only receipts are excluded from candidate packages. The T10 single-PE three-seed reference is complete; suite-wide tool-image, fairness, and release checks remain pending.

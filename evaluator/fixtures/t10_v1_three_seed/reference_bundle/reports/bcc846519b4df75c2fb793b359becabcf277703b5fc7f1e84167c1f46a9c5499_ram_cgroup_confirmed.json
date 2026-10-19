@@ -1,0 +1,12 @@
+{
+  "status": "confirmed_running_not_qualified",
+  "layout_seed": 29,
+  "native_pid": 3774645,
+  "producer_pid": 3774587,
+  "control_group": "/user.slice/user-1000.slice/user@1000.service/app.slice/t10-v1-seed29-ram32.scope",
+  "memory_max_bytes": 34359738368,
+  "memory_swap_max_bytes": 0,
+  "max_address_space": "unlimited",
+  "scope": "entire_make_process_tree",
+  "verified_from": ["native /proc/PID/cgroup", "native /proc/PID/limits", "cgroup memory.max", "cgroup memory.swap.max", "systemctl --user show"]
+}

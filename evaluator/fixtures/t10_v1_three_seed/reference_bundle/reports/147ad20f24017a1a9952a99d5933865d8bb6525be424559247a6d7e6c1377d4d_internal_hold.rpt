@@ -1,0 +1,30 @@
+Startpoint: quad_sum_macro_q[2][371]$_DFFE_PP_
+            (rising edge-triggered flip-flop clocked by clk_clock)
+Endpoint: level1_q[2][371]$_DFFE_PP_
+          (rising edge-triggered flip-flop clocked by clk_clock)
+Path Group: clk_clock
+Path Type: min
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock clk_clock (rise edge)
+ 554.726562  554.726562   clock network delay (propagated)
+   0.000000  554.726562 ^ quad_sum_macro_q[2][371]$_DFFE_PP_/CLK (DFFHQx4_ASAP7_75t_R)
+ 117.162666  671.889221 v quad_sum_macro_q[2][371]$_DFFE_PP_/Q (DFFHQx4_ASAP7_75t_R)
+  74.469711  746.358948 v _48996_/Y (AO21x1_ASAP7_75t_R)
+   0.061229  746.420166 v level1_q[2][371]$_DFFE_PP_/D (DFFHQx4_ASAP7_75t_R)
+             746.420166   data arrival time
+
+   0.000000    0.000000   clock clk_clock (rise edge)
+ 703.469299  703.469299   clock network delay (propagated)
+ -10.311529  693.157776   clock reconvergence pessimism
+             693.157776 ^ level1_q[2][371]$_DFFE_PP_/CLK (DFFHQx4_ASAP7_75t_R)
+  34.348499  727.506287   library hold time
+             727.506287   data required time
+-----------------------------------------------------------------
+             727.506287   data required time
+            -746.420166   data arrival time
+-----------------------------------------------------------------
+              18.913870   slack (MET)
+
+

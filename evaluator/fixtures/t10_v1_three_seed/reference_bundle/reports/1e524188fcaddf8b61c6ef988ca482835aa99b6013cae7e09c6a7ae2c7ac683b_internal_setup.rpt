@@ -1,0 +1,42 @@
+Startpoint: postprocess.post4_magnitude[503]$_DFFE_PP_
+            (rising edge-triggered flip-flop clocked by clk_clock)
+Endpoint: postprocess.post5_shift[9]$_DFFE_PP_
+          (rising edge-triggered flip-flop clocked by clk_clock)
+Path Group: clk_clock
+Path Type: max
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock clk_clock (rise edge)
+ 199.018524  199.018524   clock network delay (propagated)
+   0.000000  199.018524 ^ postprocess.post4_magnitude[503]$_DFFE_PP_/CLK (DFFHQx4_ASAP7_75t_R)
+ 110.313538  309.332062 v postprocess.post4_magnitude[503]$_DFFE_PP_/Q (DFFHQx4_ASAP7_75t_R)
+  81.530891  390.862946 v _53168_/Y (OR4x1_ASAP7_75t_R)
+  88.899391  479.762329 v _53201_/Y (OR4x1_ASAP7_75t_R)
+ 102.561127  582.323486 v _53379_/Y (OR4x1_ASAP7_75t_R)
+  73.796303  656.119751 v _53656_/Y (OR4x1_ASAP7_75t_R)
+  56.365913  712.485657 v place2382/Y (BUFx3_ASAP7_75t_R)
+  80.720711  793.206421 ^ _53734_/Y (INVx1_ASAP7_75t_R)
+  86.539108  879.745483 ^ _37089_/Y (OA211x2_ASAP7_75t_R)
+  32.028103  911.773621 v _37167_/Y (OAI22x1_ASAP7_75t_R)
+  78.816452  990.590088 v _37244_/Y (AO32x1_ASAP7_75t_R)
+  40.758953 1031.348999 ^ _38757_/Y (NAND2x1_ASAP7_75t_R)
+  55.901283 1087.250244 ^ _39790_/Y (OA31x2_ASAP7_75t_R)
+  40.943359 1128.193604 ^ _39801_/Y (AND3x1_ASAP7_75t_R)
+  24.728664 1152.922363 ^ _39857_/Y (OR3x1_ASAP7_75t_R)
+   0.063616 1152.985962 ^ postprocess.post5_shift[9]$_DFFE_PP_/D (DFFHQx4_ASAP7_75t_R)
+            1152.985962   data arrival time
+
+1000.000000 1000.000000   clock clk_clock (rise edge)
+ 179.818680 1179.818726   clock network delay (propagated)
+   1.912935 1181.731567   clock reconvergence pessimism
+            1181.731567 ^ postprocess.post5_shift[9]$_DFFE_PP_/CLK (DFFHQx4_ASAP7_75t_R)
+ -10.818807 1170.912842   library setup time
+            1170.912842   data required time
+-----------------------------------------------------------------
+            1170.912842   data required time
+            -1152.985962   data arrival time
+-----------------------------------------------------------------
+              17.926882   slack (MET)
+
+

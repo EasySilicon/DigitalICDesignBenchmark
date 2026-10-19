@@ -1,0 +1,91 @@
+{
+  "reason": "one_cell_outside_unchanged_forwarding_fence_by_40_DBU",
+  "original_inputs": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/ic_t10_v1_v15_seed47_pe/inputs.json",
+    "bytes": 2934,
+    "sha256": "d598df36257842efb1162fb9310c6b0c9c73d174a23e91957ada3145b34544f7"
+  },
+  "failed_odb": {
+    "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_pe/ic_t10_v1_v15_seed47_pe/3_5_place_dp-failed.odb",
+    "bytes": 53690650,
+    "sha256": "d9d29fb3a0c11f5183e950ad0ddd86b62ed179af89774ab8c27905d7a062f10a"
+  },
+  "failed_logs": [
+    {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/ic_t10_v1_v15_seed47_pe/failed_placement/3_5_place_dp.log",
+      "bytes": 6759,
+      "sha256": "026939f957373ee42939ccd2c81686334a6d64551734d0a07904c6c04fb81cfe"
+    },
+    {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_v1_three_seed/ic_t10_v1_v15_seed47_pe/failed_placement/baseline.log",
+      "bytes": 103749,
+      "sha256": "a6f25c000ec2c6fe864633253ae8a319116cc23665df99929348792c9876338f"
+    }
+  ],
+  "macro_views": {
+    "FP0_LEF": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed47_fp0/t10_reference_fp_quad_class0_exact_m7.lef",
+      "bytes": 122483,
+      "sha256": "ce1b57bb21914f6ec7094180cd536d73d8578bf0107b4cea480527335018b141"
+    },
+    "FP0_LIB": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class0_exact/ic_t10_v1_v15_seed47_fp0/t10_reference_fp_quad_class0_exact_wc.lib",
+      "bytes": 727718,
+      "sha256": "b05fc1fc4bbb864a1f55945daf51204ca29784afa6a4c9d73f9a21955d062f69"
+    },
+    "FP1_LEF": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed47_fp1/t10_reference_fp_quad_class1_exact_m7.lef",
+      "bytes": 121478,
+      "sha256": "d2d87af3d0a06cc5904739b00b983d44f738c0678f66dbe5bcb5ab0facc20670"
+    },
+    "FP1_LIB": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class1_exact/ic_t10_v1_v15_seed47_fp1/t10_reference_fp_quad_class1_exact_wc.lib",
+      "bytes": 696975,
+      "sha256": "cf66a4284c4f35d9686f3259f03c09eae17459c315d1eb1f455e154905207499"
+    },
+    "FP2_LEF": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed47_fp2/t10_reference_fp_quad_class2_exact_m7.lef",
+      "bytes": 119138,
+      "sha256": "f32379457d43b4020901775871ec202552e95ad80a227f01234ef25f5659b530"
+    },
+    "FP2_LIB": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_fp_quad_class2_exact/ic_t10_v1_v15_seed47_fp2/t10_reference_fp_quad_class2_exact_wc.lib",
+      "bytes": 681691,
+      "sha256": "2625f84e7cc3ce64fe354fa39c9bbd731979e55bf34d6dcc435ce8bb36b5b95e"
+    },
+    "INT_LEF": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed47_int/t10_reference_int_group_m7.lef",
+      "bytes": 17433,
+      "sha256": "942ee1338363d3522216d5cadaa3865198963e1e6ccf435e98edde2128530e0e"
+    },
+    "INT_LIB": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_int_group/ic_t10_v1_v15_seed47_int/t10_reference_int_group_wc.lib",
+      "bytes": 92622,
+      "sha256": "e25825a2a559133f1e1a3ba3acf2a1ee7418929256d3451c998c5b7fd8eeed69"
+    },
+    "CPA_LEF": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed47_cpa/t10_reference_cpa_postprocess_m7.lef",
+      "bytes": 209431,
+      "sha256": "e8247b21b69d418f0cb8fc98a047b8c1af81fcaad01508e8f5257c58cf84c48c"
+    },
+    "CPA_LIB": {
+      "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/t10_reference_cpa_postprocess/ic_t10_v1_v15_seed47_cpa/t10_reference_cpa_postprocess_wc.lib",
+      "bytes": 779637,
+      "sha256": "34e554dc282c3a708954d0b49f3d5cdd3bf17ad6c54f4298563087e1b88daaf2"
+    }
+  },
+  "repair_script": {
+    "path": "/home/reefshark/research/agent_os/ic_bcmk/evaluator/t10_backend/v1/repair_seed47_placement.tcl",
+    "bytes": 2147,
+    "sha256": "28b51f848b63f3c7ab26e26f07ec860af5220ae37fa1c413a3a939563deb9f86"
+  },
+  "cell": "at_out_payload\\[4\\]$_DFF_PN0_",
+  "before": [
+    444960,
+    245700
+  ],
+  "after": [
+    445014,
+    246240
+  ]
+}

@@ -1,0 +1,37 @@
+Startpoint: impl.original_quad/general.lanes[1].fp_lane/term_shift_q[1]$_DFF_P_
+            (rising edge-triggered flip-flop clocked by clk_clock)
+Endpoint: impl.original_quad/general.lanes[1].fp_lane/term_word[438]$_SDFF_PN0_
+          (rising edge-triggered flip-flop clocked by clk_clock)
+Path Group: clk_clock
+Path Type: max
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock clk_clock (rise edge)
+ 222.966278  222.966278   clock network delay (propagated)
+   0.000000  222.966278 ^ impl.original_quad/general.lanes[1].fp_lane/term_shift_q[1]$_DFF_P_/CLK (DFFHQx4_ASAP7_75t_R)
+ 146.562119  369.528412 v impl.original_quad/general.lanes[1].fp_lane/term_shift_q[1]$_DFF_P_/Q (DFFHQx4_ASAP7_75t_R)
+ 148.907883  518.436279 ^ impl.original_quad/general.lanes[1].fp_lane/_5961_/Y (INVx1_ASAP7_75t_R)
+  89.881104  608.317383 ^ impl.original_quad/general.lanes[1].fp_lane/_7820_/Y (AND5x1_ASAP7_75t_R)
+  67.523483  675.840881 ^ impl.original_quad/general.lanes[1].fp_lane/_7821_/Y (AO21x1_ASAP7_75t_R)
+  78.404228  754.245117 ^ impl.original_quad/general.lanes[1].fp_lane/_8045_/Y (OR2x2_ASAP7_75t_R)
+ 108.474899  862.720032 ^ impl.original_quad/general.lanes[1].fp_lane/_8061_/Y (AO221x2_ASAP7_75t_R)
+ 119.938835  982.658875 ^ impl.original_quad/general.lanes[1].fp_lane/place2228/Y (BUFx5_ASAP7_75t_R)
+ 116.844864 1099.503662 ^ impl.original_quad/general.lanes[1].fp_lane/_6280_/Y (AND3x1_ASAP7_75t_R)
+  25.223490 1124.727173 ^ impl.original_quad/general.lanes[1].fp_lane/_6281_/Y (AO21x1_ASAP7_75t_R)
+   0.054068 1124.781250 ^ impl.original_quad/general.lanes[1].fp_lane/term_word[438]$_SDFF_PN0_/D (DFFHQx4_ASAP7_75t_R)
+            1124.781250   data arrival time
+
+1000.000000 1000.000000   clock clk_clock (rise edge)
+ 211.897781 1211.897705   clock network delay (propagated)
+   1.929623 1213.827271   clock reconvergence pessimism
+            1213.827271 ^ impl.original_quad/general.lanes[1].fp_lane/term_word[438]$_SDFF_PN0_/CLK (DFFHQx4_ASAP7_75t_R)
+ -12.887077 1200.940186   library setup time
+            1200.940186   data required time
+-----------------------------------------------------------------
+            1200.940186   data required time
+            -1124.781250   data arrival time
+-----------------------------------------------------------------
+              76.158966   slack (MET)
+
+

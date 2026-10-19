@@ -45,7 +45,7 @@ Agent 必须自行完成 RTL、验证环境、缺陷修复和 PPA 优化。评�
 
 4. **质量门禁必须可执行、可追溯。** 每个要求应映射到验收组，每次失败应能追溯到种子、输入、期望值和实际值。验收器自身通过正确参考回归和已知缺陷变异体校准；评分脚本按冻结规则运行。题面、验收器或工具缺陷要单独归因，修正后对受影响的冻结提交统一重评，避免把评测系统的问题算到候选头上。
 
-5. **PPA 衡量完整设计的代价。** 参考基线与候选采用一致的工艺、约束、活动负载和测量流程。输入传输、控制、缓存、输出与实际互连均计入完整 DUT 的成本，PE 或其他子模块的结果用于定位和优化。测量目标是可复现的相对 PPA，参考实现的交付范围由 benchmark 发布门禁确定。
+5. **统一 PPA 测量范围与条件。** 参考基线与候选采用一致的工艺、约束、活动负载和测量流程。T01–T09 测量完整 DUT；V1.0 的 T10 测量单 PE 的面积、布线后延时和能耗，完整 256-PE 设计仍须通过功能、结构与吞吐验收。单 PE 结果不代表整个 NPU 的成本。测量范围与发布条件见各题 PPA 契约。
 
 6. **外部 harness 的收益必须通过受控对比验证。** Skill、编排策略和即时质量门禁应作为明确的实验变量。多 Agent 系统的所有内部角色共享时间、token、费用和计算资源预算，推理、验证和 PPA 迭代都计入开发时间。同模型控制轨道用于分析 harness 的影响；产品轨道用于比较模型与系统的实际使用效果。多次独立运行、通过率、耗时和成本共同构成证据，模型配置与预算差异必须随结果记录。
 
@@ -59,14 +59,14 @@ Agent 必须自行完成 RTL、验证环境、缺陷修复和 PPA 优化。评�
 
 ## 当前状态
 
-当前主套件是 `ic-delivery-rtl-v0.3`，包含 **T01–T10 十道题**。T01–T09 已完成题目、验收与三种子 1 GHz PPA 基线的冻结；T10 的功能验收包已可用，但完整 DUT 的三种子 PPA 基线尚未完成。因此，十题完整套件仍处于预发布 `design_only` 阶段。
+当前主套件是 `ic-delivery-rtl-v0.3`，包含 **T01–T10 十道题**。T01–T09 已完成题目、验收与三种子 1 GHz PPA 基线的冻结；T10 的 V1.0 单 PE 参考也已完成种子 11/29/47 的物理收敛与正式活动功耗测量。十题参考基线已齐备，但统一工具镜像、不同 RTL 写法的公平性复核和整套发布检查尚未完成，因此完整套件仍处于预发布 `design_only` 阶段。
 
 | 范围 | 已具备的能力 | 尚待完成 |
 | --- | --- | --- |
 | T01–T09 | 冻结的题卡与验收、公开冒烟、参考 RTL、缺陷变异体，以及冻结的三种子 1 GHz PPA 基线 | 已完成 |
-| T10 | 持续流多精度矩阵验收、精确数值 oracle、复位/背压/吞吐检查、自动 PE 网格检查 | 完整 DUT 的正式三种子 PPA 基线；当前只报告功能试评分 |
+| T10 | 持续流多精度矩阵验收、精确数值 oracle、复位/背压/吞吐检查、自动 PE 网格检查，以及单 PE 三种子 1 GHz PPA 基线与正式活动功耗 | 参考基线已完成；历史候选的 PPA 与时间分仍需逐份实测 |
 
-T10 最近一次公开验收包复测通过 **2,752 个矩阵块、独立复位探针、256-PE 结构检查和 14 个无输入气泡阶段**，记录见 [T10_PACKAGE_VERIFICATION.json](evaluator/T10_PACKAGE_VERIFICATION.json)。这份记录证明功能验收包可运行，不代表完整物理基线已发布。
+T10 最近一次公开验收包复测通过 **2,752 个矩阵块、独立复位探针、256-PE 结构检查和 14 个无输入气泡阶段**，记录见 [T10_PACKAGE_VERIFICATION.json](evaluator/T10_PACKAGE_VERIFICATION.json)。三种子单 PE 的时序、完整 DRC/连通检查和正式功耗见[实现与测量说明](evaluator/t10_backend/v1/README.md)；每组完整门级 DUT 均通过 200 块、51,200 个输出点及协议检查。单 PE 的中位参考值为 **60,298.3 µm²、0.944853668 ns、837.441929552 pJ/块**，不代表整个 NPU 的成本。
 
 ## 题目与能力覆盖
 
@@ -262,10 +262,10 @@ submission/
 | [env/](env/README.md) | 依赖安装、自检与工具兼容补丁 |
 | [vendor/](vendor/README.md) | ASAP7 平台、来源、许可证与文件哈希 |
 
-任务行为以各题 `task.md` 的明确规定为准，公开冒烟只是示例。历史试跑记录不能覆盖当前题面或评分策略。`main` 承载通用规范与验收工具；`systolic_burnish` 保存 T10 实验后端流程、参考宏构建与物理诊断，说明见该分支的 `evaluator/t10_backend/README.md`。
+任务行为以各题 `task.md` 的明确规定为准，公开冒烟只是示例。历史试跑记录不能覆盖当前题面或评分策略。`main` 承载通用规范与验收工具；主分支的 `evaluator/t10_backend/physical/` 保存 v15 手工修复与检查脚本；`systolic_burnish` 保存其余 T10 历史实验流程、参考宏构建与物理诊断，说明见该分支的 `evaluator/t10_backend/README.md`。
 
 ## 许可证与来源
 
 本仓库自有代码与文档采用 [Apache-2.0](LICENSE)。ACT4、ASAP7 和实验 starter 等第三方材料适用各自许可证，详见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)；锁定修订与来源记录见 [sources.lock.yaml](benchmark/sources.lock.yaml)。本 benchmark 评估数字 RTL 交付与公开预测工艺上的相对 PPA，不声称真实流片签核或正式 RISC-V/以太网认证。
 
-T08/T09 task-level freeze (2026-10-09): [T08 receipt](benchmark/tasks/T08/FREEZE.json), [T09 receipt](benchmark/tasks/T09/FREEZE.json). Run `python3 benchmark/freeze_tasks.py` from the repository root to verify specification, RTL, judge, scoring, baseline and portable evidence hashes. All six T09 archives have been regraded, and all six T08 answers have been scored. Host-only receipts are excluded from candidate packages. T10 PPA and the suite-wide tool-image/release gates remain pending.
+T08/T09 已于 2026-10-09 完成题目级冻结，文件清单见 [T08 冻结记录](benchmark/tasks/T08/FREEZE.json) 和 [T09 冻结记录](benchmark/tasks/T09/FREEZE.json)。在仓库根目录运行 `python3 benchmark/freeze_tasks.py`，可核对题面、RTL、验收与评分代码、参考基线及随仓库保存的验证记录是否与清单一致。六份 T09 历史答卷均已重新评分，六份 T08 答卷也均已完成评分。仅供评测方核验的冻结记录不会放入参赛工作区。T10 单 PE 三种子 PPA 参考已补齐；整套工具镜像、公平性复核及发布检查仍待完成。

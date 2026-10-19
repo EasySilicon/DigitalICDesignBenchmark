@@ -1,0 +1,29 @@
+Startpoint: cpa.cpa_base_reg[8]$_DFFE_PP_
+            (rising edge-triggered flip-flop clocked by clk_clock)
+Endpoint: cpa.cpa_result[8]$_DFF_P_
+          (rising edge-triggered flip-flop clocked by clk_clock)
+Path Group: clk_clock
+Path Type: min
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock clk_clock (rise edge)
+ 188.965027  188.965027   clock network delay (propagated)
+   0.000000  188.965027 ^ cpa.cpa_base_reg[8]$_DFFE_PP_/CLK (DFFHQx4_ASAP7_75t_R)
+ 104.732185  293.697205 v cpa.cpa_base_reg[8]$_DFFE_PP_/Q (DFFHQx4_ASAP7_75t_R)
+   0.239614  293.936829 v cpa.cpa_result[8]$_DFF_P_/D (DFFHQx4_ASAP7_75t_R)
+             293.936829   data arrival time
+
+   0.000000    0.000000   clock clk_clock (rise edge)
+ 208.003845  208.003845   clock network delay (propagated)
+  -1.887737  206.116104   clock reconvergence pessimism
+             206.116104 ^ cpa.cpa_result[8]$_DFF_P_/CLK (DFFHQx4_ASAP7_75t_R)
+  33.436199  239.552292   library hold time
+             239.552292   data required time
+-----------------------------------------------------------------
+             239.552292   data required time
+            -293.936829   data arrival time
+-----------------------------------------------------------------
+              54.384525   slack (MET)
+
+

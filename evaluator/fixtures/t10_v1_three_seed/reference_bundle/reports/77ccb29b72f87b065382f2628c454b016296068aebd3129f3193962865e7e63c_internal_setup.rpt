@@ -1,0 +1,50 @@
+Startpoint: impl.original_quad/fp4_only.fp4_quad.local_magnitude_q3[3][1]$_SDFF_PP0_
+            (rising edge-triggered flip-flop clocked by clk_clock)
+Endpoint: impl.original_quad/fp4_only.fp4_quad.local_total_q4[9]$_DFF_P_
+          (rising edge-triggered flip-flop clocked by clk_clock)
+Path Group: clk_clock
+Path Type: max
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock clk_clock (rise edge)
+ 167.834747  167.834747   clock network delay (propagated)
+   0.000000  167.834747 ^ impl.original_quad/fp4_only.fp4_quad.local_magnitude_q3[3][1]$_SDFF_PP0_/CLK (DFFHQx4_ASAP7_75t_R)
+ 117.571953  285.406708 ^ impl.original_quad/fp4_only.fp4_quad.local_magnitude_q3[3][1]$_SDFF_PP0_/Q (DFFHQx4_ASAP7_75t_R)
+  19.192038  304.598724 v impl.original_quad/_2885_/Y (INVx1_ASAP7_75t_R)
+  40.726727  345.325470 ^ impl.original_quad/_3925_/CON (HAxp5_ASAP7_75t_R)
+  27.294361  372.619812 v impl.original_quad/_3925_/SN (HAxp5_ASAP7_75t_R)
+  22.304296  394.924133 ^ impl.original_quad/_2806_/Y (INVx1_ASAP7_75t_R)
+  17.592123  412.516235 v impl.original_quad/_2808_/Y (NAND2x1_ASAP7_75t_R)
+  12.259555  424.775787 ^ impl.original_quad/_2809_/Y (OAI21x1_ASAP7_75t_R)
+  36.143063  460.918854 ^ impl.original_quad/_2810_/Y (AND2x2_ASAP7_75t_R)
+  63.529015  524.447876 v impl.original_quad/_3891_/SN (FAx1_ASAP7_75t_R)
+  30.529579  554.977478 ^ impl.original_quad/_2801_/Y (INVx1_ASAP7_75t_R)
+  70.828453  625.805908 v impl.original_quad/_3884_/SN (FAx1_ASAP7_75t_R)
+  25.287216  651.093140 ^ impl.original_quad/_2800_/Y (INVx1_ASAP7_75t_R)
+  28.776258  679.869385 v impl.original_quad/_3901_/CON (HAxp5_ASAP7_75t_R)
+  27.145676  707.015076 ^ impl.original_quad/_2740_/Y (INVx1_ASAP7_75t_R)
+  37.409298  744.424377 v impl.original_quad/_3883_/CON (FAx1_ASAP7_75t_R)
+  47.036709  791.461060 v impl.original_quad/_2712_/Y (OA21x2_ASAP7_75t_R)
+  39.546642  831.007690 v impl.original_quad/_2713_/Y (OA21x2_ASAP7_75t_R)
+  37.405079  868.412781 v impl.original_quad/_2725_/Y (OA21x2_ASAP7_75t_R)
+  39.991344  908.404114 v impl.original_quad/_2726_/Y (OA21x2_ASAP7_75t_R)
+  37.319149  945.723267 v impl.original_quad/_2727_/Y (OA21x2_ASAP7_75t_R)
+  37.287395  983.010681 v impl.original_quad/_2728_/Y (OA21x2_ASAP7_75t_R)
+  48.854588 1031.865234 ^ impl.original_quad/_2730_/Y (XOR2x2_ASAP7_75t_R)
+   0.027756 1031.893066 ^ impl.original_quad/fp4_only.fp4_quad.local_total_q4[9]$_DFF_P_/D (DFFHQx4_ASAP7_75t_R)
+            1031.893066   data arrival time
+
+1000.000000 1000.000000   clock clk_clock (rise edge)
+ 156.607712 1156.607666   clock network delay (propagated)
+   3.988948 1160.596680   clock reconvergence pessimism
+            1160.596680 ^ impl.original_quad/fp4_only.fp4_quad.local_total_q4[9]$_DFF_P_/CLK (DFFHQx4_ASAP7_75t_R)
+ -10.479757 1150.116943   library setup time
+            1150.116943   data required time
+-----------------------------------------------------------------
+            1150.116943   data required time
+            -1031.893066   data arrival time
+-----------------------------------------------------------------
+             118.223877   slack (MET)
+
+

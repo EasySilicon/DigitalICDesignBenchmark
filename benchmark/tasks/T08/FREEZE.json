@@ -167,8 +167,8 @@
     "source_lock_riscv": null
   },
   "artifact_sha256": {
-    "benchmark/README.en.md": "13b7a5c4080e771628b1ab1a58b8a777ec331e6e2395895cad0fd456a49e2240",
-    "benchmark/README.md": "8a1d9fda6ef0ed5a3cf2a7d610af79d0b98fc9f88ae4f6e5f6da31ab599d067c",
+    "benchmark/README.en.md": "2857a7959b4e06a2f0e7a6796f08cb92fc3fa3dc1542df26a176d2dd26013daf",
+    "benchmark/README.md": "b831f65dd75d6bc325bacb230f8dc61b1b619fc214614ad9febefac0826d2fff",
     "benchmark/candidate-rules.md": "b64e61e9777f2d67a9caf41ffae9764b20db70da29d1a7910a9c220c1a96fa01",
     "benchmark/eda_time.py": "d4bc2b8ecd6ff7889004a3859921722a737bedd00e3b8ee93abc77d6c56953ce",
     "benchmark/freeze_tasks.py": "fc7703be017d41f26072aa21fdf8de7d57f92b08c2f83e60406bcebbfb7b1eb8",
@@ -260,7 +260,7 @@
     "evaluator/fixtures/t11_mac/tb_sram.sv": "c10e3fc74407f73d5ea595ad86b21eb14f6ab936862936fe42e43234a9483c48",
     "evaluator/fixtures/t11_mac/tb_stress.sv": "3f9f043468bf307b1d5f9b740b651d81c4460123b7ea0a8244f8c5b1254e1fff",
     "evaluator/ppa_aggregate.py": "864598d79d5ecd1006a59fbb4eb4381521e29fabf212684a9dc2832f171bf5ec",
-    "evaluator/ppa_power_probe.py": "545237b011b92c8aab4d2214eaf413bd8fb8d070c91df3ebae090bd81a2e2f05",
+    "evaluator/ppa_power_probe.py": "b3dd0c34d777f7ee4c7c7db341dc3c3814f90774d217daaf6336592b433262ae",
     "evaluator/ppa_probe.py": "dc612897303b1968285cf367b9b27459b4b121102b40ae7b7001035e963640ef",
     "evaluator/public/tb_T08.sv": "5cd85d3d1330c045fe3902b880864733cc3cba5e7b552acffd16168f5bb5abcc",
     "evaluator/public_check.py": "21b1baf1acac8f26dbd395f3ea002cb0cfa7aa9b3a9e9ce9bdb7339e66556420",
@@ -276,7 +276,7 @@
     "evaluator/reference/T08/rtl/mac_1g_repair.sv": "b4358e99461f034ef42a7a53a95b2b518bc303f0a960f2327f30396deda5d984",
     "evaluator/reference/T08/rtl/rx_vlan_admission.sv": "e656e29fabb4a76c355ea28af0cd1d063e00056d42d8c62cd050cf269bcf36e3",
     "evaluator/run_t08_sram_ppa.py": "ac0c0c53f31013670a4ac9fd19c924dca96c5249e3e7924a6f453bf1c2cad342",
-    "evaluator/score_run.py": "55127dc795f4c45e0a03bf89a0ebcdd71f50d7a536c9437fd2df18cea3c0249a",
+    "evaluator/score_run.py": "d60b963224cb257e623471b06f60f9cdb505a74341774128849d6ef98046bece",
     "evaluator/t08_check.py": "f812209bab88aa38dc06333c2ce5dfe4bafadd7e4be486f3e8b2aae339663ab1",
     "evaluator/t08_mutation_check.py": "00f57d922299ba5f89de912b8b62f2e4c26804fe13326bce3d60fdda0f3ccf5c",
     "evaluator/t08_power_probe.py": "3ddb05cf1e54292010417836cc3027787ed0d78e661a7453d76ad453f9f95a77",
