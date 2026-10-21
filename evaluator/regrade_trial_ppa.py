@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 
 from score_run import load_rules, ppa_score
+from power_compile_budget import POLICY_ID, TIMEOUT_STATUS, apply_to_scored_record
 
 
 POLICY = "setup-frequency-power4-hold-continuous-drc-half-v6"
@@ -49,12 +50,27 @@ def main() -> int:
             "old_ppa_score": prior.get("ppa_score"),
             "measurement_file": str(measurement_path),
         }
-        if not measurement_path.is_file():
+        archive = trial / 'grading' / task / 'score.json'
+        preserved = json.loads(archive.read_text()) if archive.is_file() else prior
+        checked = apply_to_scored_record(dict(preserved, task_id=task))
+        if checked.get('ppa_status') == TIMEOUT_STATUS:
+            row.update(status=TIMEOUT_STATUS, ppa_score=0, time_score=0,
+                       power_compile_policy=POLICY_ID,
+                       power_compile_records=checked['power_compile_records'])
+        elif not measurement_path.is_file():
             row.update({"status": "measurement_unavailable", "ppa_score": None})
         elif task not in baselines.get("tasks", {}):
             row.update({"status": "reference_unavailable", "ppa_score": None})
         else:
             measurement = json.loads(measurement_path.read_text())
+            checked = apply_to_scored_record(dict(preserved, task_id=task, ppa_measurement=measurement))
+            if checked.get('ppa_status') == TIMEOUT_STATUS:
+                row.update(status=TIMEOUT_STATUS, ppa_score=0, time_score=0,
+                           power_compile_policy=POLICY_ID,
+                           power_compile_records=checked['power_compile_records'],
+                           candidate_source_sha256=checked.get('candidate_source_sha256') or measurement['source_sha256'])
+                rows.append(row)
+                continue
             if measurement.get("measurement_status") != "three_seed":
                 row.update({"status": "invalid_measurement", "ppa_score": None})
             else:
@@ -69,13 +85,17 @@ def main() -> int:
                     "drc_violations": measurement["drc_violations"],
                     "ppa_score": score,
                 })
+        if checked.get('power_compile_policy') == POLICY_ID:
+            row.update(power_compile_policy=POLICY_ID,power_compile_records=checked['power_compile_records'],
+                       candidate_source_sha256=checked.get('candidate_source_sha256') or checked.get('candidate_sha256')
+                           or checked.get('source_sha256') or checked.get('ppa_measurement',{}).get('source_sha256'))
         rows.append(row)
 
     report = {
         "schema_version": 1,
         "model": args.model,
         "source_trial": str(trial),
-        "scoring_policy": POLICY,
+        "scoring_policy": POLICY + ('+' + POLICY_ID if any(row.get('power_compile_policy') == POLICY_ID for row in rows) else ''),
         "setup_violation_exponent": rules["setup_violation_exponent"],
         "scored_task_count": sum(row["status"] == "scored" for row in rows),
         "ppa_score_sum_for_available_tasks": sum(

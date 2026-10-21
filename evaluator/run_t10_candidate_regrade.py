@@ -14,11 +14,27 @@ import traceback
 
 from t10_candidate_physical import REPO, TRIALS, sha
 from grade_t10_candidate_ppa import grade
+from ppa_aggregate import source_hash
+from power_compile_budget import TIMEOUT_EXIT_CODE, TIMEOUT_STATUS, validate_timeout
+from t10_candidate_physical import artifact
 
 
 def save(path,value):
     temporary=path.with_suffix('.tmp')
     temporary.write_text(json.dumps(value,indent=2,ensure_ascii=False)+'\n');temporary.replace(path)
+
+
+def run_power(command, root, seed):
+    """Exit 124 alone is insufficient: require this source/seed's receipt."""
+    with (root/f'seed{seed}/activity_queue.log').open('x') as log:
+        result=subprocess.run(command,cwd=REPO,stdout=log,stderr=subprocess.STDOUT)
+    if result.returncode == TIMEOUT_EXIT_CODE:
+        path=root/f'activity_seed{seed}/power_compile.json'
+        validate_timeout(json.loads(path.read_text()),source_hash(root/'submission'),seed)
+        return dict(status=TIMEOUT_STATUS,ppa_score=0,time_score=0,
+                    failing_seed=seed,evidence=artifact(path))
+    result.check_returncode()
+    return None
 
 
 def main():
@@ -62,8 +78,13 @@ def main():
                     '-p','MemoryMax=32G','-p','MemorySwapMax=0','-p','CPUQuota=400%',
                     'python3','-u',str(REPO/'evaluator/t10_candidate_power.py'),
                     '--model-dir',str(root),'--seed',str(seed),'--orfs',str(a.orfs.resolve())]
-                with (root/f'seed{seed}/activity_queue.log').open('x') as log:
-                    subprocess.run(command,cwd=REPO,stdout=log,stderr=subprocess.STDOUT,check=True)
+                timeout=run_power(command,root,seed)
+                if timeout:
+                    record.update(timeout)
+                    break
+            if record['ppa_score']==0:
+                save(output,status)
+                continue
             report=grade(model,work,a.trials_root.resolve(),a.orfs.resolve())
             report_path=root/'scored.json'
             if report_path.exists():raise ValueError('scored report already exists')

@@ -18,6 +18,7 @@ import traceback
 
 from t10_candidate_physical import REPO, TRIALS, prepare, run_seed, sha, artifact, write_new_or_same
 from grade_t10_candidate_ppa import grade
+from power_compile_budget import TIMEOUT_EXIT_CODE, TIMEOUT_STATUS, validate_timeout
 
 POLICY=dict(memory_max_bytes=40*1024**3,memory_swap_max='max',max_address_space='unlimited',
             concurrency=1,cpu_threads=4,user_authorized_oom_ppa_zero=True,
@@ -26,6 +27,16 @@ POLICY=dict(memory_max_bytes=40*1024**3,memory_swap_max='max',max_address_space=
 
 def save(path,value):
     temp=path.with_suffix('.tmp');temp.write_text(json.dumps(value,indent=2,ensure_ascii=False)+'\n');temp.replace(path)
+
+
+def compile_timeout_zero(work,model,seed,runtime,source):
+    if runtime.get('exit_code')!=TIMEOUT_EXIT_CODE:return None
+    if not runtime.get('confirmed') or runtime.get('policy')!=POLICY or runtime.get('systemd_result')=='oom-kill':
+        raise ValueError('compile timeout lacks confirmed runtime policy')
+    path=work/model/f'activity_seed{seed}/power_compile.json'
+    validate_timeout(json.loads(path.read_text()),source,seed)
+    return dict(status=TIMEOUT_STATUS,ppa_score=0,time_score=0,display_score=50,
+        failing_seed=seed,evidence=artifact(path))
 
 
 def properties(unit):
@@ -371,6 +382,10 @@ def main():
                         child=subprocess.Popen(cmd,stdout=log,stderr=subprocess.STDOUT)
                         runtime=monitor(unit,work/model/f'seed{seed}/activity_runtime40.json',child)
                     if runtime['exit_code']:
+                        timeout=compile_timeout_zero(work,model,seed,runtime,item['source_sha256'])
+                        if timeout:
+                            row.update(timeout)
+                            break
                         if runtime['confirmed'] and runtime['systemd_result']=='oom-kill':
                             row.update(status='user_adjudicated_40g_power_oom_zero',ppa_score=0,time_score=0,failing_seed=seed)
                             break

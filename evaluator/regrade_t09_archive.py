@@ -23,12 +23,16 @@ if __package__:
     from .score_run import load_rules, ppa_provenance_valid, score_run, weighted_suite_score
     from .t09_reference_freeze import TOTALS, publish_atomic
     from .t09_timing_check import apply_timing_groups
+    from .power_compile_budget import POLICY_ID, TIMEOUT_STATUS
+    from .score_with_power_budget import score_run as budget_score_run
 else:
     from ppa_aggregate import source_hash
     from public_check import sources_from_filelist
     from score_run import load_rules, ppa_provenance_valid, score_run, weighted_suite_score
     from t09_reference_freeze import TOTALS, publish_atomic
     from t09_timing_check import apply_timing_groups
+    from power_compile_budget import POLICY_ID, TIMEOUT_STATUS
+    from score_with_power_budget import score_run as budget_score_run
 
 ROOT = Path(__file__).resolve().parents[1]
 POLICY = "t09_group_cycles10_v1"
@@ -72,20 +76,34 @@ def regrade_record(old: dict, grade: dict, entry: dict, reference: dict, rules: 
         if measurement.get("source_sha256") != digest or not ppa_provenance_valid("T09", measurement, reference):
             raise ValueError("PPA evidence does not match the answer or frozen workload")
         payload.update(ppa_measurement=measurement, ppa_reference=reference)
-    score = score_run(payload, rules)
-    if score["full_functional_pass"] and measurement is None and old.get("ppa_score") not in {0, 0.0}:
+    records = ([read(Path(path)) for path in entry['power_compile_records']]
+               if 'power_compile_records' in entry else old.get('power_compile_records',
+                   (measurement or {}).get('power_compile_records', [])))
+    current = bool(records or old.get('power_compile_policy') == POLICY_ID
+                   or POLICY_ID in old.get('scoring_policy', '')
+                   or old.get('ppa_status') == TIMEOUT_STATUS
+                   or (measurement or {}).get('power_compile_policy') == POLICY_ID)
+    if current:
+        payload.update(candidate_source_sha256=digest, power_compile_records=records,
+                       power_compile_policy=POLICY_ID, ppa_status=old.get('ppa_status'))
+        score = budget_score_run(payload, rules)
+    else:
+        score = score_run(payload, rules)
+    if score["full_functional_pass"] and measurement is None and old.get("ppa_score") not in {0, 0.0} and score.get('ppa_status') != TIMEOUT_STATUS:
         raise ValueError("missing valid PPA evidence for a previously measured passing answer")
     result = dict(old)
     result.update(score)
     result.update(elapsed_seconds=entry["elapsed"], functional_groups=groups,
                   functional_possible=50, ppa_possible=50, time_possible=5, display_possible=105,
                   score_status="scored", grade_phase="regraded-current-t09-policy",
-                  scoring_policy=POLICY, ranking_eligible=False,
+                  scoring_policy=POLICY + ('+' + POLICY_ID if current else ''), ranking_eligible=False,
                   candidate_sha256=digest,
                   cycle_cases_passed=groups["CPU-PIPE-CYCLES"]["cases_passed"], cycle_cases_total=22)
     if measurement is not None:
         result["ppa_measurement"] = measurement
-    if not score["full_functional_pass"]:
+    if score.get('ppa_status') == TIMEOUT_STATUS:
+        result['ppa_zero_reason'] = score['ppa_zero_reason']
+    elif not score["full_functional_pass"]:
         result["ppa_zero_reason"] = "Current T09 functional/cycle score is below 50; retained PPA measurements are diagnostic only."
     elif not score["ppa_eligible"]:
         result["ppa_zero_reason"] = old.get("ppa_failure_reason", "Preserved adjudicated candidate synthesis failure; no valid routed PPA measurement.")

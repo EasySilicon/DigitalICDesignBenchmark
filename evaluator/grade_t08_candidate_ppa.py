@@ -19,9 +19,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from ppa_aggregate import aggregate, expected_result_dir, source_hash
+from ppa_aggregate import expected_result_dir, source_hash
+from aggregate_with_power_budget import aggregate
 from t11_sram import prepare, contract, sha256, validated_mapping
-from score_run import score_run, weighted_suite_score, load_rules
+from score_run import weighted_suite_score, load_rules
+from score_with_power_budget import score_run
+from power_compile_budget import TIMEOUT_EXIT_CODE, validate_timeout
 from delivery_check import read_result, check_normal
 from benchmark.run_t08_comparison import command, TOOL_PATH
 
@@ -214,7 +217,8 @@ def run(trial: Path, orfs: Path, repo: Path):
                    'elapsed_seconds': elapsed,
                    'time_limit_seconds': limit,
                    'delivery_qualified': delivery_report['delivery_qualified'],
-                   'candidate_delivery_error_count': 0}
+                   'candidate_delivery_error_count': 0,
+                   'candidate_source_sha256': source_digest, 'power_compile_records': []}
         measurement = None
         if functional.get('full_functional_pass'):
             execute('power_environment_preflight', [sys.executable, str(ROOT / 'evaluator/t08_power_probe.py'), '--help'])
@@ -248,18 +252,31 @@ def run(trial: Path, orfs: Path, repo: Path):
                     execute(f'seed{seed}_route', [sys.executable, str(ROOT / 'evaluator/ppa_probe.py'), 'T08', str(submission),
                         '--orfs-root', str(orfs), '--output-dir', str(route), '--seed', str(seed), '--t08-sram-mapping', str(mapped)])
                     route_record = json.loads((route / 'result.json').read_text())
-                    execute(f'seed{seed}_power', [sys.executable, str(ROOT / 'evaluator/t08_power_probe.py'),
-                        '--flow-result-dir', str(expected_result_dir(route_record['report'])), '--output-dir', str(power),
-                        '--sram-route', str(route / 'result.json')])
+                    try:
+                        execute(f'seed{seed}_power', [sys.executable, str(ROOT / 'evaluator/power_probe_with_budget.py'),
+                            '--task', 'T08', '--layout-seed', str(seed), '--candidate-source-sha256', source_digest,
+                            '--flow-result-dir', str(expected_result_dir(route_record['report'])), '--output-dir', str(power),
+                            '--sram-route', str(route / 'result.json')])
+                    except subprocess.CalledProcessError as error:
+                        if error.returncode!=TIMEOUT_EXIT_CODE:raise
+                        record=json.loads((power/'power_compile.json').read_text())
+                        validate_timeout(record,source_digest,seed,'T08')
+                        payload['power_compile_records'].append(record)
+                        break
+                    payload['power_compile_records'].append(json.loads((power/'power_compile.json').read_text()))
                     pairs.append((route / 'result.json', power / 'result.json'))
                     state['completed_seeds'].append(seed)
                     update(f'seed{seed}_complete')
-            measurement = aggregate('T08', submission, pairs, (11, 29, 47))
-            write(output / 'measurement.json', measurement)
-            baseline = json.loads((ROOT / 'benchmark/ppa-baselines.json').read_text())['tasks']['T08']
-            payload.update(ppa_measurement=measurement, ppa_reference=baseline)
+            if not any(r['status']=='timeout' for r in payload['power_compile_records']):
+                measurement = aggregate('T08', submission, pairs, (11, 29, 47))
+                write(output / 'measurement.json', measurement)
+                baseline = json.loads((ROOT / 'benchmark/ppa-baselines.json').read_text())['tasks']['T08']
+                payload.update(ppa_measurement=measurement, ppa_reference=baseline)
         write(output / 'score_input.json', payload)
         score = score_run(payload)
+        if payload['power_compile_records']:
+            score.update(task_id='T08', candidate_source_sha256=source_digest,
+                         power_compile_records=payload['power_compile_records'])
         if measurement is not None and not score['ppa_eligible']:
             raise RuntimeError('PPA provenance mismatch; do not publish fake zero score')
         score.update(model=manifest['model'], legacy_task_id='T11', suite_id='ic-delivery-rtl-v0.3',

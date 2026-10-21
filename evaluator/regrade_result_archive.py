@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 
 from score_run import load_rules, ppa_score, weighted_suite_score
+from power_compile_budget import POLICY_ID, TIMEOUT_STATUS, apply_to_scored_record
 
 
 POLICY = "functional50-ppa50-setup-frequency-power4-hold-continuous-drc-half-delivery-v6"
@@ -18,7 +19,10 @@ def dump(path: Path, value: dict) -> None:
 
 
 def regrade_record(record: dict, rules: dict, baselines: dict) -> dict:
-    record = dict(record)
+    record = apply_to_scored_record(record)
+    if record.get('ppa_status') == TIMEOUT_STATUS:
+        record['scoring_policy'] = POLICY + '+' + POLICY_ID
+        return record
     measurement = record.get("ppa_measurement")
     if isinstance(measurement, dict) and record.get("ppa_eligible"):
         reference = baselines.get("tasks", {}).get(record["task_id"])
@@ -49,7 +53,7 @@ def regrade_record(record: dict, rules: dict, baselines: dict) -> dict:
                 "display_score_before_candidate_penalty": before,
                 "display_score": max(0.0, before - penalty),
             })
-    record["scoring_policy"] = POLICY
+    record["scoring_policy"] = POLICY + ('+' + POLICY_ID if record.get('power_compile_policy') == POLICY_ID else '')
     return record
 
 

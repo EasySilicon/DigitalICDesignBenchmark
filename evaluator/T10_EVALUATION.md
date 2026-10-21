@@ -1,8 +1,7 @@
 # T10 独立验收包
 
-本目录的验收包属于 `main`，不依赖 `systolic_burnish`、私有兄弟仓库、
-本机绝对路径或参考实现的 16-tile 层次。候选 DUT 从自身 `rtl/files.f`
-加载；测试通过题目固定的顶层端口进行。
+本包提供 T10 的独立数值、协议、结构及持续吞吐验收。候选 DUT 从自身
+`rtl/files.f` 加载，测试通过题目固定的顶层端口进行。
 
 ## 依赖与入口
 
@@ -15,7 +14,7 @@ hierarchical 编译的 Verilator、Yosys、C++ 编译器和 make。
 python3 evaluator/runner_t10_stream.py /path/to/submission \
   --seed 20260925 --output-dir work/T10_qualification
 
-# 功能试评分（正式 routed PPA 基线尚未通过发布门禁）
+# 功能试评分；PPA 由独立候选后端测量
 python3 evaluator/grade_t10_pilot.py --help
 
 # 固定 200-block 功耗工作负载；生成前验证 51200 个输出点均为有限结果
@@ -41,16 +40,22 @@ PYTHONPATH=evaluator python3 -m unittest \
 trial 准备流程排除在被测 Agent 的工作区之外。`t10_mutation_regression.py`
 用于验证特定参考 RTL 的故障注入能否被独立验收捕获，不是候选结构门禁。
 
-## 后端的分支边界
+## PPA 测量与编译时限
 
-`systolic_burnish` 的 `evaluator/t10_backend/` 提供实验物理流程、宏模型
-生成/导出与参考层次组装。PE/tile Liberty、LEF、ODB 是这些流程的生成产物；
-ASAP7 库本身不包含我们的自定义 PE/tile 宏。端到端物理流程及正式 PPA 基线
-发布状态由该分支单独记录，不在本功能包提交中宣称收敛。
+新候选的功耗仿真编译受[所有题目统一的 20 分钟时限](../benchmark/power-compile-policy.md)
+约束：每个布局种子的分层代码生成、C++ 编译、链接与 SAIF 运行库构建共用
+1,200 秒预算。超时停止编译进程树，PPA/耗时加分归零，已验证的功能分保留；
+环境错误和缺失记录不计作编译超时。`t10_candidate_power.py`、串行调度器
+和结果发布器共同执行该规则。冻结的 v1 参考复现脚本不作历史性改写。
 
-## 包装后的复测记录
+[v1 后端](t10_backend/v1/README.md)提供单 PE 三种子参考测量；
+`t10_candidate_physical.py`、`t10_candidate_power.py` 与
+`grade_t10_candidate_ppa.py` 负责候选物理、活动功耗和评分。完整 DUT 的
+功能、结构及持续吞吐资格与单 PE 测量分别校验。正式结果基线见
+[`ppa-baselines.json`](../benchmark/ppa-baselines.json)。
 
-[T10_PACKAGE_VERIFICATION.json](T10_PACKAGE_VERIFICATION.json) 记录 v123 候选
-从本公开 checkout 的独立入口复测结果：2752 个用例、独立复位探针、256-PE
+## 验证记录
+
+[T10_PACKAGE_VERIFICATION.json](T10_PACKAGE_VERIFICATION.json) 记录独立入口的功能回归结果：2752 个用例、独立复位探针、256-PE
 结构与 14 个无输入气泡阶段均通过，包含工具版本、RTL 与向量 SHA256。
-该记录只证明功能包可用，PPA 未在此次复测中运行。
+该记录涵盖功能、结构与吞吐；物理及功耗资格由后端报告独立记录。

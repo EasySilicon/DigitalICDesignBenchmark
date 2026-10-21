@@ -94,6 +94,18 @@ class T09RegradeTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.score()
 
+    def test_compile_timeout_survives_t09_archive_replay(self):
+        from evaluator.power_compile_budget import POLICY_ID, TIMEOUT_STATUS
+        source=self.reference['source_sha256']
+        self.old.update(candidate_source_sha256=source,power_compile_policy=POLICY_ID,
+            ppa_status=TIMEOUT_STATUS,power_compile_records=[dict(policy_id=POLICY_ID,
+                task_id='T09',layout_seed=11,candidate_source_sha256=source,status='timeout',
+                limit_seconds=1200,elapsed_seconds=1201,process_group_terminated=True)])
+        result=self.score()
+        self.assertEqual((result['ppa_score'],result['time_score'],result['display_score']),(0,0,45))
+        self.assertEqual(result['ppa_status'],TIMEOUT_STATUS)
+        self.assertIn('1200',result['ppa_zero_reason'])
+
     def test_summary_updates_aliases_without_changing_other_task_rows(self):
         updated = self.score()
         other = {'task_id': 'T08', 'functional_total': None, 'full_functional_pass': None,

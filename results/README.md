@@ -1,28 +1,27 @@
 # Model result archive
 
-Current task labels follow `ic-delivery-rtl-v0.3`: old T02–T08 become T01–T07, old T11 becomes T08, and T09/T10 are unchanged. The CVDP task is no longer part of this suite. Raw evidence and RTL were not renamed; each result carries `legacy_task_id`.
+This directory contains the six models' complete T01–T10 historical pilot scores. Each `summary.json` records component scores, fixed weights, delivery deductions, and eligibility metadata. `null` means unresolved; zero means an adjudicated zero. All 60 published results are resolved.
 
-Each model has a `summary.json` with per-task scores, totals, weights, penalties and pending status. Task-level records and verified remeasurement reports are also included where available; raw RTL and large EDA artifacts remain in the retained archives. Models were evaluated with broadly consistent time budgets and Skill settings, and results are summarized under a common scoring policy. Untested components are `null`, never silently zero.
+Scoring: functionality /50, PPA /50, time /5. Weights: T01/T02 3% each; T03–T05 6% each; T06/T07 10% each; T08 11%; T09 20%; T10 25%.
 
-Scoring is function /50 + PPA /50 + time /5 with the existing per-slot weights: T01/T02 0.03; T03–T05 0.06; T06/T07 0.10; T08 0.11; T09 0.20; T10 0.25. Missing scores are omitted, without renormalization.
-
-| Model | Current summary | Available weighted subtotal /105 |
+| Model | Current summary | Weighted display score /105 |
 |---|---|---:|
 | gpt-6-astra | [summary.json](gpt-6-astra/summary.json) | 76.023886 |
 | gpt-6.1-sol | [summary.json](gpt-6.1-sol/summary.json) | 74.765969 |
 | gpt-6-sol | [summary.json](gpt-6-sol/summary.json) | 73.041966 |
-| kimi-k3 | [summary.json](kimi-k3/summary.json) | 58.935377 |
+| kimi-k3 | [summary.json](kimi-k3/summary.json) | 58.153489 |
 | deepseek-flash | [summary.json](deepseek-flash/summary.json) | 52.449760 |
 | glm-5.3-flash | [summary.json](glm-5.3-flash/summary.json) | 41.410337 |
 
-On 2026-10-09, all six frozen T09 answers were replayed under `t09_group_cycles10_v1`: 40 normalized points across the legacy groups and 10/5/0 for the separate 22-case cycle group. Kimi passed 10/22 (confirmed by an independent repeat); all others passed 22/22. Functional scores are 50 for all three GPTs, 40 for Kimi, 44.933333 for DeepSeek and 22 for GLM; GLM's preserved 5-point delivery penalty makes its display score 17. Compatible GPT PPA evidence was rescored against the new reference without rerunning physical EDA. Elapsed times and delivery deductions were unchanged. Final published scores are in `summary.json`.
+## Records and verification
 
-T08 is scored for all six models. Display scores are 87.890600 for GPT-6-Astra, 87.135170 for GPT-6.1-Sol, 84.206239 for GPT-6-Sol, and 84.296691 for Kimi. The three GPT answers passed independent functional, concurrency and SRAM-mapped replay checks; formal PPA uses seeds11/29/47 against the same frozen baseline, with no setup/hold violations or routed DRC errors. DeepSeek scored 46.833333/50 on independent functional acceptance: cases 31, 33 and 36 failed short-frame boundary checks, while concurrency replay passed 270/270. GLM retains its independent 44/50 boundary replay. Both receive PPA/time 0 under the full-functional gate, without formal PPA EDA runs.
+- [Full scores and per-model loss analysis](model-score-comparison.md).
+- [PPA formula audit](ppa-formula-audit-20261021.json): numerical inputs, source hashes, and expected scores for all 60 results. Kimi T07 is published with the corrected setup penalty in [T07.json](kimi-k3/T07.json).
+- Verified T10 reports: [Astra](gpt-6-astra/T10-ppa40.json), [GPT-6.1-Sol](gpt-6.1-sol/T10-ppa40.json), and [GPT-6-Sol](gpt-6-sol/T10-ppa40.json).
+- Large RTL/EDA artifacts remain in the retained archives; published reports identify them by original path and hash.
 
-On 2026-10-21, verified three-seed single-PE T10 measurements were published for [Astra](gpt-6-astra/T10-ppa40.json) and [GPT-6.1-Sol](gpt-6.1-sol/T10-ppa40.json): PPA scores 0.421205 and 0.280647, and display scores 53.833705 and 53.728217. Each seed passed the full gate-level 200-block workload, all 51,200 output checks, and protocol checks. Routed DRC is zero and hold slack is nonnegative, but both miss the 1 GHz setup target and incur the existing fourth-power penalty. [GPT-6-Sol](gpt-6-sol/T10-ppa40.json) retains its 50 functional points, with PPA/time adjudicated 0 after the user explicitly directed that its excessively long gate-level simulation compilation be stopped. That is an individual user adjudication, not OOM or a completed three-seed power measurement, and does not establish a suite-wide automatic timeout. All three GPT T10 scores are now resolved. Evaluator errors are not automatically model failures.
+## Comparability
 
-These T10 remeasurements use the user-authorized serial 40 GiB RAM policy with swap allowed, not the default 32 GiB policy. The reference uses custom internal hard macros while historical candidates use flat PE implementations; the flow difference has not been isolated in a same-flow comparison. The historical results remain ineligible for official ranking. Large artifacts are referenced by their original paths and hashes in the reports, not bundled as a self-contained public replay environment.
+These historical pilots are not an official ranking. T10 candidate remeasurement used serial 40 GiB RAM with swap allowed, rather than the default 32 GiB. The reference uses internal hard macros while candidates use flat PEs; a same-flow comparison remains pending. Kimi T08 used a cumulative 150-minute development budget. GPT-6-Sol T10 retains 50 functional points and zero PPA/time under its historical compilation-termination adjudication.
 
-Full comparison: [model-score-comparison.md](model-score-comparison.md).
-
-T08/T09 task-level freeze (2026-10-09): [T08 receipt](../benchmark/tasks/T08/FREEZE.json), [T09 receipt](../benchmark/tasks/T09/FREEZE.json). Run `python3 benchmark/freeze_tasks.py` from the repository root to verify specification, RTL, judge, scoring, baseline and portable evidence hashes. All six T09 archives have been regraded, all six T08 answers have been scored, and all three GPT T10 scores are resolved. Host-only receipts are excluded from candidate packages. The suite-wide tool-image, fairness and release gates remain pending.
+Task labels follow `ic-delivery-rtl-v0.3`; raw archives retain legacy labels, with `legacy_task_id` providing the mapping. Current scoring rules and measurement scope are documented in the [root README](../README.en.md#acceptance-and-scoring).

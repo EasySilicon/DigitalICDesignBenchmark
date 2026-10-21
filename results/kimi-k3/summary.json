@@ -20,14 +20,14 @@
   "completed_tasks": 10,
   "full_functional_task_count": 7,
   "functional_total_sum": 456.66666666666663,
-  "ppa_score_sum": 217.83739363455027,
+  "ppa_score_sum": 210.01851161127047,
   "time_score_sum": 18.088985196705217,
-  "display_score_sum": 692.5930454979222,
+  "display_score_sum": 684.7741634746424,
   "tasks": [
     {
       "task_id": "T01",
       "legacy_task_id": "T02",
-      "functional_total": 50.0,
+      "functional_total": 50,
       "full_functional_pass": true,
       "ppa_score": 24.77853683439572,
       "time_score": 0.7138888888888889,
@@ -38,7 +38,7 @@
     {
       "task_id": "T02",
       "legacy_task_id": "T03",
-      "functional_total": 50.0,
+      "functional_total": 50,
       "full_functional_pass": true,
       "ppa_score": 35.20471466502102,
       "time_score": 3.9625,
@@ -49,7 +49,7 @@
     {
       "task_id": "T03",
       "legacy_task_id": "T04",
-      "functional_total": 50.0,
+      "functional_total": 50,
       "full_functional_pass": true,
       "ppa_score": 36.56737855761365,
       "time_score": 3.390740740740741,
@@ -60,7 +60,7 @@
     {
       "task_id": "T04",
       "legacy_task_id": "T05",
-      "functional_total": 50.0,
+      "functional_total": 50,
       "full_functional_pass": true,
       "ppa_score": 14.682895058141074,
       "time_score": 3.4518518518518517,
@@ -71,7 +71,7 @@
     {
       "task_id": "T05",
       "legacy_task_id": "T06",
-      "functional_total": 50.0,
+      "functional_total": 50,
       "full_functional_pass": true,
       "ppa_score": 36.16610363301013,
       "time_score": 3.0090277777777774,
@@ -82,29 +82,42 @@
     {
       "task_id": "T06",
       "legacy_task_id": "T07",
-      "functional_total": 25.0,
+      "functional_total": 25,
       "full_functional_pass": false,
-      "ppa_score": 0.0,
-      "time_score": 0.0,
-      "display_score": 25.0,
+      "ppa_score": 0,
+      "time_score": 0,
+      "display_score": 25,
       "grade_phase": "scored",
       "elapsed_seconds": 2980
     },
     {
       "task_id": "T07",
       "legacy_task_id": "T08",
-      "functional_total": 50.0,
+      "functional_total": 50,
       "full_functional_pass": true,
-      "ppa_score": 36.649966537096624,
+      "ppa_score": 28.831084513816844,
       "time_score": 3.052083333333333,
-      "display_score": 89.70204987042995,
+      "display_score": 81.88316784715018,
       "grade_phase": "scored",
-      "elapsed_seconds": 2805
+      "elapsed_seconds": 2805,
+      "ppa_rank_bucket": 23,
+      "ppa_eligible": true,
+      "scoring_policy": "functional50-ppa50-setup-frequency-power4-hold-continuous-drc-half-delivery-v6",
+      "display_score_before_candidate_penalty": 81.88316784715018,
+      "ppa_formula_regrade": {
+        "audit": "results/ppa-formula-audit-20261021.json",
+        "reason": "Historical score omitted the current fourth-power setup penalty.",
+        "prior_ppa_score": 36.649966537096624,
+        "prior_display_score": 89.70204987042995,
+        "setup_factor": 0.7866605958462306,
+        "original_measurement_unchanged": true,
+        "physical_flow_rerun": false
+      }
     },
     {
       "task_id": "T08",
       "legacy_task_id": "T11",
-      "functional_total": 50.0,
+      "functional_total": 50,
       "full_functional_pass": true,
       "ppa_score": 33.78779834927204,
       "time_score": 0.5088926041126252,
@@ -113,8 +126,8 @@
       "grade_phase": "scored",
       "judge_revision": "3.1-boundary-crosses",
       "elapsed_seconds": 8083.993312597275,
-      "functional_basic": 40.0,
-      "functional_edges": 10.0,
+      "functional_basic": 40,
+      "functional_edges": 10,
       "delivery_qualified": true,
       "ppa_eligible": true,
       "ppa_rank_bucket": 27,
@@ -125,8 +138,8 @@
         {
           "id": "TX_REGRESSION",
           "layer": "F",
-          "points": 8.0,
-          "possible_points": 8.0,
+          "points": 8,
+          "possible_points": 8,
           "cases_passed": 4,
           "cases_total": 4,
           "safety_violation": false
@@ -134,8 +147,8 @@
         {
           "id": "RX_REGRESSION",
           "layer": "F",
-          "points": 8.0,
-          "possible_points": 8.0,
+          "points": 8,
+          "possible_points": 8,
           "cases_passed": 5,
           "cases_total": 5,
           "safety_violation": false
@@ -143,8 +156,8 @@
         {
           "id": "FRAME_TAIL_REPAIR",
           "layer": "F",
-          "points": 10.0,
-          "possible_points": 10.0,
+          "points": 10,
+          "possible_points": 10,
           "cases_passed": 5,
           "cases_total": 5,
           "safety_violation": false
@@ -152,8 +165,8 @@
         {
           "id": "VLAN_ADMISSION",
           "layer": "F",
-          "points": 10.0,
-          "possible_points": 10.0,
+          "points": 10,
+          "possible_points": 10,
           "cases_passed": 6,
           "cases_total": 6,
           "safety_violation": false
@@ -161,8 +174,8 @@
         {
           "id": "CONFIG_SNAPSHOT",
           "layer": "F",
-          "points": 4.0,
-          "possible_points": 4.0,
+          "points": 4,
+          "possible_points": 4,
           "cases_passed": 8,
           "cases_total": 8,
           "safety_violation": false
@@ -170,8 +183,8 @@
         {
           "id": "METADATA_HEADERS",
           "layer": "P",
-          "points": 6.0,
-          "possible_points": 6.0,
+          "points": 6,
+          "possible_points": 6,
           "cases_passed": 6,
           "cases_total": 6,
           "safety_violation": false
@@ -179,15 +192,15 @@
         {
           "id": "RESET_RECOVERY",
           "layer": "P",
-          "points": 4.0,
-          "possible_points": 4.0,
+          "points": 4,
+          "possible_points": 4,
           "cases_passed": 3,
           "cases_total": 3,
           "safety_violation": false
         }
       ],
       "rank_key": [
-        50.0,
+        50,
         27,
         -8083.993312597275
       ],
@@ -228,11 +241,11 @@
     {
       "task_id": "T09",
       "legacy_task_id": "T09",
-      "functional_total": 40.0,
+      "functional_total": 40,
       "full_functional_pass": false,
-      "ppa_score": 0.0,
-      "time_score": 0.0,
-      "display_score": 40.0,
+      "ppa_score": 0,
+      "time_score": 0,
+      "display_score": 40,
       "grade_phase": "regraded-current-t09-policy",
       "elapsed_seconds": 6677,
       "delivery_qualified": true,
@@ -240,7 +253,7 @@
       "ppa_rank_bucket": 0,
       "candidate_delivery_error_count": 0,
       "candidate_delivery_penalty": 0,
-      "display_score_before_candidate_penalty": 40.0,
+      "display_score_before_candidate_penalty": 40,
       "score_status": "scored",
       "scoring_policy": "t09_group_cycles10_v1",
       "cycle_cases_passed": 10,
@@ -258,17 +271,17 @@
       "legacy_task_id": "T10",
       "functional_total": 41.66666666666666,
       "full_functional_pass": false,
-      "ppa_score": 0.0,
-      "time_score": 0.0,
+      "ppa_score": 0,
+      "time_score": 0,
       "display_score": 41.66666666666666,
       "grade_phase": "pre_release_behavior_scored_structure_pending",
       "elapsed_seconds": 12771
     }
   ],
-  "weighted_display_score": 58.93537672737926,
-  "weighted_display_possible": 105.0,
-  "covered_task_weight": 1.0,
-  "covered_display_possible": 105.0,
+  "weighted_display_score": 58.15348852505128,
+  "weighted_display_possible": 105,
+  "covered_task_weight": 1,
+  "covered_display_possible": 105,
   "weighted_contributions": {
     "T01": 2.264772771698538,
     "T02": 2.6750164399506304,
@@ -276,9 +289,9 @@
     "T04": 4.088084814599576,
     "T05": 5.350507884647274,
     "T06": 2.5,
-    "T07": 8.970204987042996,
+    "T07": 8.188316784715019,
     "T08": 9.272636004872314,
-    "T09": 8.0,
+    "T09": 8,
     "T10": 10.416666666666664
   },
   "suite_id": "ic-delivery-rtl-v0.3",
@@ -296,14 +309,14 @@
     "T10": 0.25
   },
   "ranking_eligible": false,
-  "result_revision_date": "2026-10-09",
+  "result_revision_date": "2026-10-21",
   "functional_score_sum": 456.66666666666663,
   "functional_score_possible": 500,
-  "ppa_score_sum_for_available_tasks": 217.83739363455027,
+  "ppa_score_sum_for_available_tasks": 210.01851161127047,
   "time_score_sum_for_available_tasks": 18.088985196705217,
-  "display_score_subtotal_with_unscored_components_omitted": 692.5930454979222,
-  "weighted_display_score_with_unscored_components_omitted": 58.93537672737926,
-  "weighted_display_score_possible": 105.0,
+  "display_score_subtotal_with_unscored_components_omitted": 684.7741634746424,
+  "weighted_display_score_with_unscored_components_omitted": 58.15348852505128,
+  "weighted_display_score_possible": 105,
   "weighted_task_contributions": {
     "T01": 2.264772771698538,
     "T02": 2.6750164399506304,
@@ -311,9 +324,9 @@
     "T04": 4.088084814599576,
     "T05": 5.350507884647274,
     "T06": 2.5,
-    "T07": 8.970204987042996,
+    "T07": 8.188316784715019,
     "T08": 9.272636004872314,
-    "T09": 8.0,
+    "T09": 8,
     "T10": 10.416666666666664
   },
   "complete_display_score_task_count": 10,
@@ -344,7 +357,8 @@
     "Suite-wide release qualification is pending: T10 reference PPA and the common tool-image freeze. See pending_components for model-specific unscored components."
   ],
   "task_scoring_policies": {
-    "T09": "t09_group_cycles10_v1"
+    "T09": "t09_group_cycles10_v1",
+    "T07": "functional50-ppa50-setup-frequency-power4-hold-continuous-drc-half-delivery-v6"
   },
   "task_freeze_receipts": {
     "T08": {
@@ -359,5 +373,6 @@
       "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
       "scope": "current grading contract"
     }
-  }
+  },
+  "ppa_formula_audit": "results/ppa-formula-audit-20261021.json"
 }

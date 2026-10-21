@@ -1,0 +1,2629 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-21",
+  "scope": "Audit all published historical PPA scores against current formula; no RTL/EDA rerun or retroactive compile-budget enforcement.",
+  "scoring_policy": "functional50-ppa50-setup-frequency-power4-hold-continuous-drc-half-delivery-v6",
+  "input_fingerprints": {
+    "evaluator/score_run.py": {
+      "path": "evaluator/score_run.py",
+      "bytes": 17850,
+      "sha256": "d60b963224cb257e623471b06f60f9cdb505a74341774128849d6ef98046bece"
+    },
+    "evaluator/score_rules.json": {
+      "path": "evaluator/score_rules.json",
+      "bytes": 10546,
+      "sha256": "88c6dd70fbb7d76b220e76fc3017b905de16b6169bde027a457f7e33f33362e3"
+    },
+    "benchmark/ppa-baselines.json": {
+      "path": "benchmark/ppa-baselines.json",
+      "bytes": 44874,
+      "sha256": "02a1092799aa9392a213e7d4816ec8120a81f7fc8a58dd9a86c2ac78f47ab388"
+    }
+  },
+  "models": {
+    "gpt-6-astra": {
+      "tasks": [
+        {
+          "task_id": "T01",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 38.238449827830074,
+            "time_score": 0,
+            "display_score": 88.23844982783007
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt6astra_20261003/grading/T02/report.json",
+            "bytes": 4761,
+            "sha256": "0d0ba2df63c8b81aaa44f5149b4d844152e7cc2863e3207a4e3a60f4fada022c"
+          },
+          "source_task_id": "T02",
+          "candidate_source_sha256": "28a965bf9a0085af735fc56f124154d363d0cf40d278fb3f9949ebd5f563eed6",
+          "measurement_inputs": {
+            "area_um2": 61.2652,
+            "delay_ns": 0.7057619999999999,
+            "energy_per_op_pj": 0.305790134529148,
+            "setup_worst_slack_ns": 0.294238,
+            "hold_worst_slack_ns": 0.07983710000000001,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1801,
+          "time_limit_seconds": 1800,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 38.238449827830074,
+            "time_score": 0,
+            "display_score": 88.23844982783007
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T02",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 34.38062007255389,
+            "time_score": 3.5,
+            "display_score": 87.88062007255388
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/ppa_policy_v2_20261004/gpt-6-astra/T03/ppa/measurement.json",
+            "bytes": 2489,
+            "sha256": "e741c0f88d071e267b3b056f92e1cd286aba3864f3ffafa425ec0a11ef3c8278"
+          },
+          "source_task_id": "T03",
+          "candidate_source_sha256": "21727f4f49f9cae00dc695d2e37d1231544f7570e63e746def97f52b84a83b85",
+          "measurement_inputs": {
+            "area_um2": 424.293,
+            "delay_ns": 0.9644248,
+            "energy_per_op_pj": 2.375065326633166,
+            "setup_worst_slack_ns": 0.035339100000000005,
+            "hold_worst_slack_ns": 0.104018,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1080,
+          "time_limit_seconds": 3600,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 34.38062007255389,
+            "time_score": 3.5,
+            "display_score": 87.88062007255388
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T03",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 37.1367201945673,
+            "time_score": 3.9416666666666664,
+            "display_score": 91.07838686123397
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt6astra_noskills_from_t04_v6_20261003/grading/T04/report.json",
+            "bytes": 4737,
+            "sha256": "a20f3981e7bbadd0339e2b076b4dcea66e84e8221d7d696ff44f7d0660252b40"
+          },
+          "source_task_id": "T04",
+          "candidate_source_sha256": "7bb46ce9fd48c50ff3078ed7d4213bba9e74071eab96e2d3daa0019838290445",
+          "measurement_inputs": {
+            "area_um2": 88.3548,
+            "delay_ns": 0.751259,
+            "energy_per_op_pj": 0.41216830601092896,
+            "setup_worst_slack_ns": 0.248385,
+            "hold_worst_slack_ns": 0.0942008,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1143,
+          "time_limit_seconds": 5400,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 37.1367201945673,
+            "time_score": 3.9416666666666664,
+            "display_score": 91.07838686123397
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T04",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 43.31507052070609,
+            "time_score": 3.9555555555555557,
+            "display_score": 97.27062607626164
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt6astra_noskills_from_t04_v6_20261003/grading/T05/report.json",
+            "bytes": 4811,
+            "sha256": "4aa6caf003bfddb68d2fa81f19c85d5e29252586418b0bc1332ebf3b324dfc8d"
+          },
+          "source_task_id": "T05",
+          "candidate_source_sha256": "2f4c786866f3a8758c5e0f62ad2b8ef700bbb9f710a59bfc828ba8e809019943",
+          "measurement_inputs": {
+            "area_um2": 62.7815,
+            "delay_ns": 0.9101024999999999,
+            "energy_per_op_pj": 0.16319999999999998,
+            "setup_worst_slack_ns": 0.08989749999999999,
+            "hold_worst_slack_ns": 0.130858,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1128,
+          "time_limit_seconds": 5400,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 43.31507052070609,
+            "time_score": 3.9555555555555557,
+            "display_score": 97.27062607626164
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T05",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 35.57429715697841,
+            "time_score": 4.149305555555555,
+            "display_score": 89.72360271253397
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt6astra_noskills_from_t04_v6_20261003/grading/T06/report.json",
+            "bytes": 5163,
+            "sha256": "fafce23e21504f4969d92d1ef4efced76345208f874839822faf6d0a9c230013"
+          },
+          "source_task_id": "T06",
+          "candidate_source_sha256": "f6f6ee1c16f3ebbb7572fdc4b50e1f001152c653c6e00d8314b24a647176bd74",
+          "measurement_inputs": {
+            "area_um2": 444.471,
+            "delay_ns": 0.814698,
+            "energy_per_op_pj": 2.3284630245658477,
+            "setup_worst_slack_ns": 0.184877,
+            "hold_worst_slack_ns": 0.0666294,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1225,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 35.57429715697841,
+            "time_score": 4.149305555555555,
+            "display_score": 89.72360271253397
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T06",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 40.864403555635285,
+            "time_score": 3.9187499999999997,
+            "display_score": 94.78315355563528
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt6astra_noskills_from_t04_v6_20261003/grading/T07/report.json",
+            "bytes": 4975,
+            "sha256": "96a5ba04a4980765c84286e63dfc4d7c3fe0bc2add8cb9e9c6c4186d4968170b"
+          },
+          "source_task_id": "T07",
+          "candidate_source_sha256": "6cec746b44383b8b229d5cbf7c05043c39ae97fcf357ce018761670a2a4ba6a4",
+          "measurement_inputs": {
+            "area_um2": 119.206,
+            "delay_ns": 0.704576,
+            "energy_per_op_pj": 6.876988235294117,
+            "setup_worst_slack_ns": 0.29542399999999996,
+            "hold_worst_slack_ns": 0.08090739999999999,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1557,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 40.864403555635285,
+            "time_score": 3.9187499999999997,
+            "display_score": 94.78315355563528
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T07",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 39.771842455559835,
+            "time_score": 3.7222222222222223,
+            "display_score": 93.49406467778206
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/ppa_policy_v2_20261004/gpt-6-astra/T08/ppa/measurement.json",
+            "bytes": 2575,
+            "sha256": "c6c31edcbb44bd3047820e20f7ffbafe8524db138c2c42f74cddfff63345c9a4"
+          },
+          "source_task_id": "T08",
+          "candidate_source_sha256": "8366f6a4f1c64397af0df3528bb480b507cfecb5f4b7b63016e16e8a3f4f096a",
+          "measurement_inputs": {
+            "area_um2": 1886.96,
+            "delay_ns": 0.9987814700000001,
+            "energy_per_op_pj": 77.03753086419752,
+            "setup_worst_slack_ns": -0.00371991,
+            "hold_worst_slack_ns": 0.0383791,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1840,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 39.771842455559835,
+            "time_score": 3.7222222222222223,
+            "display_score": 93.49406467778206
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T08",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 34.96884580364956,
+            "time_score": 2.9217545686496624,
+            "display_score": 87.89060037229922
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/t08_gpt_astra_sol_20261009_153507/gpt-6-astra/ppa_grading/measurement.json",
+            "bytes": 5489,
+            "sha256": "be5a5c9cd6d59106c3ee4a5c9152f4067d733df89ab8624f49fdd6697614b69f"
+          },
+          "source_task_id": "T08",
+          "candidate_source_sha256": "12e6bcdffed9c190bbddcb694cdabd8f108bc8966a6dbb3e9f08c703bfde2214",
+          "measurement_inputs": {
+            "area_um2": 20058.604,
+            "delay_ns": 0.841568,
+            "energy_per_op_pj": 21.094957867783986,
+            "setup_worst_slack_ns": 0.150174,
+            "hold_worst_slack_ns": 0.0362339,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 2992.6734211444855,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 34.96884580364956,
+            "time_score": 2.9217545686496624,
+            "display_score": 87.89060037229922
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T09",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 6.9349106738178135,
+            "time_score": 3.574305555555556,
+            "display_score": 60.509216229373365
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/ppa_policy_v2_20261004/gpt-6-astra/T09_full_regrade_v2/report.json",
+            "bytes": 5233,
+            "sha256": "b566b42c115b26f72c7f3c3d613d93f3eefb0ffbcdabcb27a9dcac14ae2b6722"
+          },
+          "source_task_id": "T09",
+          "candidate_source_sha256": "13b06c0c27666ef84ad56f1b6946dedb8cb579f5c93a31cb547a7bc7cd38c158",
+          "measurement_inputs": {
+            "area_um2": 2204.34,
+            "delay_ns": 1.459792,
+            "energy_per_op_pj": 18.92656887755102,
+            "setup_worst_slack_ns": -0.461716,
+            "hold_worst_slack_ns": 0.0439019,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 2053,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 6.9349106738178135,
+            "time_score": 3.574305555555556,
+            "display_score": 60.509216229373365
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T10",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 0.42120490549116124,
+            "time_score": 3.4125,
+            "display_score": 53.83370490549116
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "results/gpt-6-astra/T10-ppa40.json",
+            "bytes": 10502,
+            "sha256": "5ea838764db32eb6d680c755d90171a2406c3c467aa71f49d6cc60c431259c8e"
+          },
+          "source_task_id": "T10",
+          "candidate_source_sha256": "ed1ddf4dc54565e35a3341aef87a3d139769b142388b246bf6472eb2609c7aa0",
+          "measurement_inputs": {
+            "area_um2": 11960.2,
+            "delay_ns": 3.0492163089999997,
+            "energy_per_op_pj": 205.07330820331,
+            "setup_worst_slack_ns": -2.049923584,
+            "hold_worst_slack_ns": 0.040228931,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 0.9987851957411766,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 4572,
+          "time_limit_seconds": 14400,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 0.42120490549116124,
+            "time_score": 3.4125,
+            "display_score": 53.83370490549116
+          },
+          "changed_components": []
+        }
+      ]
+    },
+    "gpt-6.1-sol": {
+      "tasks": [
+        {
+          "task_id": "T01",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 36.32586666307794,
+            "time_score": 0,
+            "display_score": 86.32586666307793
+          },
+          "elapsed_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt61sol_20261003/grading_corrected/T02_final_power/report.json",
+            "bytes": 4436,
+            "sha256": "d92b4b122a60cd4d6d4a86143620b3029ca271daea7dab5d65970c85c0425e3e"
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt61sol_20261003/grading_corrected/T02_final_power/measurement.json",
+            "bytes": 2633,
+            "sha256": "c01f442cb9e5224a2707723f74df55df02dfd5aa14e7cadab913389c9598d1c2"
+          },
+          "source_task_id": "T02",
+          "candidate_source_sha256": "5f0046e1cdbcda04302c1ff5d9bf5c307671a28a2b35629a3b40da007c338674",
+          "measurement_inputs": {
+            "area_um2": 66.0766,
+            "delay_ns": 0.757694,
+            "energy_per_op_pj": 0.305790134529148,
+            "setup_worst_slack_ns": 0.24192,
+            "hold_worst_slack_ns": 0.0821325,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1862,
+          "time_limit_seconds": 1800,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 36.32586666307794,
+            "time_score": 0,
+            "display_score": 86.32586666307793
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T02",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 34.26310804606005,
+            "time_score": 2.9388888888888887,
+            "display_score": 87.20199693494892
+          },
+          "elapsed_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt61sol_20261003/grading_corrected/T03_final_power/report.json",
+            "bytes": 4797,
+            "sha256": "159e19face19ed17e34f49d6dc1899698e36aa147da8ee3041b0f38c90ef1ac9"
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt61sol_20261003/grading_corrected/T03_final_power/measurement.json",
+            "bytes": 2550,
+            "sha256": "b17a585d95ffbb76d725cf87d070ecbf405118c9831634fa9b5b9cf696cbcfe3"
+          },
+          "source_task_id": "T03",
+          "candidate_source_sha256": "c6bd4614a28b88d4aa36dee2e745f9f1395ec7bcd26b66cf296b89aa54ad0fee",
+          "measurement_inputs": {
+            "area_um2": 422.412,
+            "delay_ns": 0.9356303,
+            "energy_per_op_pj": 2.5017354773869345,
+            "setup_worst_slack_ns": 0.06436700000000001,
+            "hold_worst_slack_ns": 0.104074,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1484,
+          "time_limit_seconds": 3600,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 34.26310804606005,
+            "time_score": 2.9388888888888887,
+            "display_score": 87.20199693494892
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T03",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 37.04958108804104,
+            "time_score": 4.127777777777778,
+            "display_score": 91.17735886581882
+          },
+          "elapsed_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt61sol_20261003/grading_corrected/T04_final_power/report.json",
+            "bytes": 4346,
+            "sha256": "a4db850cfa5e7de796913783bfea3cb5d12485d8b0732ac935c79e172c2a4b14"
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt61sol_20261003/grading_corrected/T04_final_power/measurement.json",
+            "bytes": 2530,
+            "sha256": "8f8788e885984f73bbff27bb20150206f263fbb14858661660e9b3703c2fedde"
+          },
+          "source_task_id": "T04",
+          "candidate_source_sha256": "9e76e02f7cd8f257a3174a873d017e9a10a127883ec65fa30c20cfa59ab385e5",
+          "measurement_inputs": {
+            "area_um2": 85.4534,
+            "delay_ns": 0.820445,
+            "energy_per_op_pj": 0.3897234972677596,
+            "setup_worst_slack_ns": 0.178619,
+            "hold_worst_slack_ns": 0.0964435,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 942,
+          "time_limit_seconds": 5400,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 37.04958108804104,
+            "time_score": 4.127777777777778,
+            "display_score": 91.17735886581882
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T04",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 33.59798055425909,
+            "time_score": 3.3055555555555554,
+            "display_score": 86.90353610981465
+          },
+          "elapsed_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt61sol_20261003/grading_corrected/T05_final_power/report.json",
+            "bytes": 4251,
+            "sha256": "777a081d419683cdde04bd52ef87c8f477f52d12e8003028cf34c266e1ea224c"
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt61sol_20261003/grading_corrected/T05_final_power/measurement.json",
+            "bytes": 2424,
+            "sha256": "33795d8b8e7280b0440454dbe5fb4294ace29ec8ac76ea9f754535ad8d24b6af"
+          },
+          "source_task_id": "T05",
+          "candidate_source_sha256": "81c7e7b38d383ad1508d5459effd8512375f4e66d95a640250719b6cc9cbb215",
+          "measurement_inputs": {
+            "area_um2": 77.0699,
+            "delay_ns": 0.9740606,
+            "energy_per_op_pj": 0.2768,
+            "setup_worst_slack_ns": 0.023164,
+            "hold_worst_slack_ns": 0.144,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1830,
+          "time_limit_seconds": 5400,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 33.59798055425909,
+            "time_score": 3.3055555555555554,
+            "display_score": 86.90353610981465
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T05",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 35.18610245337002,
+            "time_score": 3.7416666666666663,
+            "display_score": 88.92776912003667
+          },
+          "elapsed_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt61sol_20261003/grading_corrected/T06_final_power/report.json",
+            "bytes": 4757,
+            "sha256": "987de4ff0d108ab4142b6703d69e6ae16de8dc7e9e8ad3b249e42e3b0fb2c830"
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt61sol_20261003/grading_corrected/T06_final_power/measurement.json",
+            "bytes": 2711,
+            "sha256": "2835d933df64644f8637c6aebba7db645e4b16cb82d09034db5509bbb4053ab3"
+          },
+          "source_task_id": "T06",
+          "candidate_source_sha256": "145ca91564cd8452cc3c8151714b284a59e76c0b3490ee21c5a3462096b46116",
+          "measurement_inputs": {
+            "area_um2": 431.014,
+            "delay_ns": 0.885733,
+            "energy_per_op_pj": 2.2707714316189462,
+            "setup_worst_slack_ns": 0.114047,
+            "hold_worst_slack_ns": 0.0676184,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1812,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 35.18610245337002,
+            "time_score": 3.7416666666666663,
+            "display_score": 88.92776912003667
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T06",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 39.62920859196614,
+            "time_score": 4.067361111111111,
+            "display_score": 93.69656970307726
+          },
+          "elapsed_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt61sol_20261003/grading_corrected/T07_final_power/report.json",
+            "bytes": 4460,
+            "sha256": "ec0def672aa9fe2421efe55a269f213682f991452de360f6bdd4a4c82076a028"
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt61sol_20261003/grading_corrected/T07_final_power/measurement.json",
+            "bytes": 2446,
+            "sha256": "cae66a96a8d015eb401e174aeb1356bd90b600152f6825963a9239f5d009fd26"
+          },
+          "source_task_id": "T07",
+          "candidate_source_sha256": "ddf42d99d3d0c85d5a41b0d0cfc40f4f51b22fe329f3bad4c5de480180a58ab7",
+          "measurement_inputs": {
+            "area_um2": 128.829,
+            "delay_ns": 0.708329,
+            "energy_per_op_pj": 6.915193725490196,
+            "setup_worst_slack_ns": 0.291671,
+            "hold_worst_slack_ns": 0.0832503,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1343,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 39.62920859196614,
+            "time_score": 4.067361111111111,
+            "display_score": 93.69656970307726
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T07",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 38.96540714092822,
+            "time_score": 4.15625,
+            "display_score": 93.12165714092822
+          },
+          "elapsed_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt61sol_20261003/grading_corrected/T08_final_power/report.json",
+            "bytes": 4551,
+            "sha256": "007a2c4f8e8a683607ac2a57e7e15940ac6bd764ef868cc145ce26e465915afa"
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt61sol_20261003/grading_corrected/T08_final_power/measurement.json",
+            "bytes": 2515,
+            "sha256": "57dd57ee1b74867319829534cb8b3d51480507547b337bbf63426a9529598774"
+          },
+          "source_task_id": "T08",
+          "candidate_source_sha256": "3eb7bebac08d5dfebd8a7d68d46f93eb8f242910f551604fa3a8839c32222bd6",
+          "measurement_inputs": {
+            "area_um2": 2027.86,
+            "delay_ns": 0.9862839,
+            "energy_per_op_pj": 80.86302469135802,
+            "setup_worst_slack_ns": 0.0107394,
+            "hold_worst_slack_ns": 0.0487055,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1215,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 38.96540714092822,
+            "time_score": 4.15625,
+            "display_score": 93.12165714092822
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T08",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 34.72348553239831,
+            "time_score": 2.411684903005759,
+            "display_score": 87.13517043540408
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/t08_gpt61sol_20261009_1759/gpt-6.1-sol/ppa_grading/measurement.json",
+            "bytes": 5528,
+            "sha256": "5787bcf215e0634d702d7ee0fce7a7bd8dfff956c92bb773d8a10690d5593427"
+          },
+          "source_task_id": "T08",
+          "candidate_source_sha256": "01b21ccf8530cf68d9604334d5c673b4a2322a34496c32d51bc728744117b04c",
+          "measurement_inputs": {
+            "area_um2": 20062.543999999998,
+            "delay_ns": 0.8530070000000001,
+            "energy_per_op_pj": 21.2535665735568,
+            "setup_worst_slack_ns": 0.13836299999999999,
+            "hold_worst_slack_ns": 0.0122033,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 3727.173739671707,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 34.72348553239831,
+            "time_score": 2.411684903005759,
+            "display_score": 87.13517043540408
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T09",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 5.5140623767533805,
+            "time_score": 3.6902777777777778,
+            "display_score": 59.20434015453116
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt61sol_20261003/regrade/T09_workload_fix_v7/measurement.json",
+            "bytes": 2573,
+            "sha256": "a3f0c4b7f75a14630cd2d8041574a86e63834967e53cc8227d48436ad066a836"
+          },
+          "source_task_id": "T09",
+          "candidate_source_sha256": "c4f1585a1f06a25badd6a7541b81c8e77785856dddb0883e2c08d19ff84f3323",
+          "measurement_inputs": {
+            "area_um2": 2015.35,
+            "delay_ns": 1.5512380000000001,
+            "energy_per_op_pj": 18.731422193877552,
+            "setup_worst_slack_ns": -0.553067,
+            "hold_worst_slack_ns": 0.057630299999999995,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1886,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 5.5140623767533805,
+            "time_score": 3.6902777777777778,
+            "display_score": 59.20434015453116
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T10",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 0.28064719755745904,
+            "time_score": 3.4475694444444445,
+            "display_score": 53.728216642001904
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "results/gpt-6.1-sol/T10-ppa40.json",
+            "bytes": 10503,
+            "sha256": "5f01df4436f1c746345518d37b3d6af6f8d54b4cc6128133ca784f543e80c7f1"
+          },
+          "source_task_id": "T10",
+          "candidate_source_sha256": "ba346787bb260a418a9309d533d41c60db61714728e3c0d4ed01a58cc2785054",
+          "measurement_inputs": {
+            "area_um2": 13856.7,
+            "delay_ns": 3.331650391,
+            "energy_per_op_pj": 279.41601381534,
+            "setup_worst_slack_ns": -2.349699951,
+            "hold_worst_slack_ns": 0.050890514000000005,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 0.9988098995658721,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 4471,
+          "time_limit_seconds": 14400,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 0.28064719755745904,
+            "time_score": 3.4475694444444445,
+            "display_score": 53.728216642001904
+          },
+          "changed_components": []
+        }
+      ]
+    },
+    "gpt-6-sol": {
+      "tasks": [
+        {
+          "task_id": "T01",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 34.82319201763296,
+            "time_score": 2.1555555555555554,
+            "display_score": 86.97874757318851
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt6sol_rerun_20261003/grading/T02/report.json",
+            "bytes": 4753,
+            "sha256": "aa8a7a03f971a5b41e970ae9806dfcef09e42093662a22068b15c696e5d26473"
+          },
+          "source_task_id": "T02",
+          "candidate_source_sha256": "92125d8baa6936e64f09e6442eb5d9ca9ad8d57387cd1e79b9fc4854f33e18aa",
+          "measurement_inputs": {
+            "area_um2": 68.0886,
+            "delay_ns": 0.7937719999999999,
+            "energy_per_op_pj": 0.3219695067264574,
+            "setup_worst_slack_ns": 0.2048,
+            "hold_worst_slack_ns": 0.0805961,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1024,
+          "time_limit_seconds": 1800,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 34.82319201763296,
+            "time_score": 2.1555555555555554,
+            "display_score": 86.97874757318851
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T02",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 36.12863555692493,
+            "time_score": 3.570833333333333,
+            "display_score": 89.69946889025826
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/ppa_policy_v2_20261004/gpt-6-sol/T03/ppa/measurement.json",
+            "bytes": 2496,
+            "sha256": "8aad18574002fca381b6cb9222c778f5d1fa8488c2cd03b8d0b1153dc7b2391a"
+          },
+          "source_task_id": "T03",
+          "candidate_source_sha256": "e31972e325035371497681c54fce1172b7352bfe0d8550ce8dcb622a7b0ba2a8",
+          "measurement_inputs": {
+            "area_um2": 386.647,
+            "delay_ns": 0.9291367,
+            "energy_per_op_pj": 2.3433977889447233,
+            "setup_worst_slack_ns": 0.0658609,
+            "hold_worst_slack_ns": 0.10229300000000001,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1029,
+          "time_limit_seconds": 3600,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 36.12863555692493,
+            "time_score": 3.570833333333333,
+            "display_score": 89.69946889025826
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T03",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 36.17092630669509,
+            "time_score": 3.6277777777777773,
+            "display_score": 89.79870408447287
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt6sol_noskills_from_t04_v6_20261003/grading/T04/report.json",
+            "bytes": 4736,
+            "sha256": "5524827e6336b664b4ce122c5fb2324d662931d4c5c8b92ef0a3efe9c995d31a"
+          },
+          "source_task_id": "T04",
+          "candidate_source_sha256": "1588b42d830a3f3f32cbf3620a413fe306ecd64187b14dee7558143116245b57",
+          "measurement_inputs": {
+            "area_um2": 88.5006,
+            "delay_ns": 0.8155950000000001,
+            "energy_per_op_pj": 0.40808743169398903,
+            "setup_worst_slack_ns": 0.183681,
+            "hold_worst_slack_ns": 0.110854,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1482,
+          "time_limit_seconds": 5400,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 36.17092630669509,
+            "time_score": 3.6277777777777773,
+            "display_score": 89.79870408447287
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T04",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 37.24837484382614,
+            "time_score": 3.871296296296296,
+            "display_score": 91.11967114012243
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt6sol_noskills_from_t04_v6_20261003/grading/T05/report.json",
+            "bytes": 4663,
+            "sha256": "ffcb8b526b6fa888dc145c43e8e48d609ea1992c4fb29400bd1026a5af9f9509"
+          },
+          "source_task_id": "T05",
+          "candidate_source_sha256": "833e9c713d0e9594593bad018610c110233a6c7ae5760bc67aec9949272e6da2",
+          "measurement_inputs": {
+            "area_um2": 79.2715,
+            "delay_ns": 0.9650288,
+            "energy_per_op_pj": 0.192,
+            "setup_worst_slack_ns": 0.0349711,
+            "hold_worst_slack_ns": 0.111197,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1219,
+          "time_limit_seconds": 5400,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 37.24837484382614,
+            "time_score": 3.871296296296296,
+            "display_score": 91.11967114012243
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T05",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 35.82111876916353,
+            "time_score": 4.300694444444445,
+            "display_score": 90.12181321360798
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt6sol_noskills_from_t04_v6_20261003/grading/T06/report.json",
+            "bytes": 5142,
+            "sha256": "ea69f2f522fb10c8cb748332fcb2d3fd4fd40d30e712bdc45481ac30748a445c"
+          },
+          "source_task_id": "T06",
+          "candidate_source_sha256": "f78aa12099e36001fb134d4a413e98d9dc6bdfa8b1feb27e603c4963bb7f8bf0",
+          "measurement_inputs": {
+            "area_um2": 438.173,
+            "delay_ns": 0.84666,
+            "energy_per_op_pj": 2.2120398733375555,
+            "setup_worst_slack_ns": 0.153202,
+            "hold_worst_slack_ns": 0.0664752,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1007,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 35.82111876916353,
+            "time_score": 4.300694444444445,
+            "display_score": 90.12181321360798
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T06",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 42.4354079727977,
+            "time_score": 3.7875000000000005,
+            "display_score": 96.22290797279769
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt6sol_noskills_from_t04_v6_20261003/grading/T07/report.json",
+            "bytes": 4935,
+            "sha256": "9126e8db3c849dd9b6213f87424cc54e77c3b90687512ca753f645251bebaeeb"
+          },
+          "source_task_id": "T07",
+          "candidate_source_sha256": "e87b7a6d5c92da600b144a994af41a67722f4257c3f7424070af20b3475594c7",
+          "measurement_inputs": {
+            "area_um2": 116.917,
+            "delay_ns": 0.631462,
+            "energy_per_op_pj": 7.0489129411764715,
+            "setup_worst_slack_ns": 0.36853800000000003,
+            "hold_worst_slack_ns": 0.085013,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1746,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 42.4354079727977,
+            "time_score": 3.7875000000000005,
+            "display_score": 96.22290797279769
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T07",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 34.37277741992453,
+            "time_score": 4.067361111111111,
+            "display_score": 88.44013853103564
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/ppa_policy_v2_20261004/gpt-6-sol/T08/ppa/measurement.json",
+            "bytes": 2550,
+            "sha256": "1d46d029e172d3254de09f7f662e3770a2861d565b888f0518bcb4742ec4853e"
+          },
+          "source_task_id": "T08",
+          "candidate_source_sha256": "4463d913746392b8df60d201df40d39db95d58c86fc0162057f986cc85eda217",
+          "measurement_inputs": {
+            "area_um2": 2144.83,
+            "delay_ns": 1.0218056,
+            "energy_per_op_pj": 77.05975384615382,
+            "setup_worst_slack_ns": -0.0273294,
+            "hold_worst_slack_ns": 0.0477274,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1343,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 34.37277741992453,
+            "time_score": 4.067361111111111,
+            "display_score": 88.44013853103564
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T08",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 33.575857165944335,
+            "time_score": 0.6303819128208688,
+            "display_score": 84.20623907876521
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/t08_gpt_astra_sol_20261009_153507/gpt-6-sol/ppa_grading/measurement.json",
+            "bytes": 5496,
+            "sha256": "66ae8effe31064460d20b4910476dd302e8110a33d8bcefe499231a29aadd860"
+          },
+          "source_task_id": "T08",
+          "candidate_source_sha256": "ded2b67b9dc2d9bbb926b623d72b4e2b6f7f74adc770eb0f7badb5ac808b4352",
+          "measurement_inputs": {
+            "area_um2": 20071.314,
+            "delay_ns": 0.9446146,
+            "energy_per_op_pj": 21.094957867783986,
+            "setup_worst_slack_ns": 0.0538839,
+            "hold_worst_slack_ns": 0.0120307,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 6292.250045537949,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 33.575857165944335,
+            "time_score": 0.6303819128208688,
+            "display_score": 84.20623907876521
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T09",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 2.7094215159826365,
+            "time_score": 3.541666666666666,
+            "display_score": 56.2510881826493
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/ppa_policy_v2_20261004/gpt-6-sol/T09_full_regrade_v2/report.json",
+            "bytes": 5220,
+            "sha256": "e5ae87864b97d2e45efce7a726655a3ce9e4ea4c7eab8b47d4ca0f9b09b32c01"
+          },
+          "source_task_id": "T09",
+          "candidate_source_sha256": "286a219fb1e7b963039e1d0619700856db45eb9b90025d1239987a781f44e3cf",
+          "measurement_inputs": {
+            "area_um2": 2099.61,
+            "delay_ns": 1.828443,
+            "energy_per_op_pj": 16.888163265306126,
+            "setup_worst_slack_ns": -0.836153,
+            "hold_worst_slack_ns": 0.0561331,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 2100,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 2.7094215159826365,
+            "time_score": 3.541666666666666,
+            "display_score": 56.2510881826493
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T10",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 50
+          },
+          "status": "preserved_explicit_user_adjudication",
+          "adjudication_evidence": {
+            "path": "/home/reefshark/research/agent_os/ic_bcmk/results/gpt-6-sol/T10-ppa40.json",
+            "bytes": 7396,
+            "sha256": "e43d95cd90ed586328f38ae36cda05554a16e539e0f1261c9bf014023a00e556"
+          },
+          "reason": "Explicit historical user-directed compile stop, not OOM or retroactive automatic deadline.",
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 50
+          },
+          "changed_components": []
+        }
+      ]
+    },
+    "kimi-k3": {
+      "tasks": [
+        {
+          "task_id": "T01",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 24.77853683439572,
+            "time_score": 0.7138888888888889,
+            "display_score": 75.49242572328461
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k3_256k_20261004/grading/T02/report.json",
+            "bytes": 4894,
+            "sha256": "0fe6b7a82a0ca3292e3e8b2cce0a3d857f703ee4dec47175a66469ceae3a3a68"
+          },
+          "source_task_id": "T02",
+          "candidate_source_sha256": "fbb7806beb16f06f0e68da8e3219698fb2b886eb4d0953961ed8f3d64a20e9e2",
+          "measurement_inputs": {
+            "area_um2": 119.921,
+            "delay_ns": 0.9002811000000001,
+            "energy_per_op_pj": 0.44655067264573983,
+            "setup_worst_slack_ns": 0.0970105,
+            "hold_worst_slack_ns": 0.0813345,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1543,
+          "time_limit_seconds": 1800,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 24.77853683439572,
+            "time_score": 0.7138888888888889,
+            "display_score": 75.49242572328461
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T02",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 35.20471466502102,
+            "time_score": 3.9625,
+            "display_score": 89.16721466502102
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k3_256k_20261004/grading/T03/report.json",
+            "bytes": 5227,
+            "sha256": "b55f5ae19a978d8595d3a5a428cd00bdd8575d5fbe32c20bab87fbf69f1631c9"
+          },
+          "source_task_id": "T03",
+          "candidate_source_sha256": "5dafd93d6775a6f7f372ae193fae7eb5ceef21838a590c9fbc450b87b508bba0",
+          "measurement_inputs": {
+            "area_um2": 403.297,
+            "delay_ns": 0.9648015,
+            "energy_per_op_pj": 2.3275640201005023,
+            "setup_worst_slack_ns": 0.0317859,
+            "hold_worst_slack_ns": 0.103457,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 747,
+          "time_limit_seconds": 3600,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 35.20471466502102,
+            "time_score": 3.9625,
+            "display_score": 89.16721466502102
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T03",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 36.56737855761365,
+            "time_score": 3.390740740740741,
+            "display_score": 89.95811929835439
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k3_256k_20261004/grading/T04/report.json",
+            "bytes": 4833,
+            "sha256": "bc5ecfa32f6a452f346a6383d8734bd4d982045ebde5ec2013734a6d84b40161"
+          },
+          "source_task_id": "T04",
+          "candidate_source_sha256": "7ed6eef8c65d78b668e8d65dab87d1528337bdec04e684a6c229ac0995d742be",
+          "measurement_inputs": {
+            "area_um2": 86.751,
+            "delay_ns": 0.8206169999999999,
+            "energy_per_op_pj": 0.3999256830601092,
+            "setup_worst_slack_ns": 0.17938300000000001,
+            "hold_worst_slack_ns": 0.10642,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1738,
+          "time_limit_seconds": 5400,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 36.56737855761365,
+            "time_score": 3.390740740740741,
+            "display_score": 89.95811929835439
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T04",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 14.682895058141074,
+            "time_score": 3.4518518518518517,
+            "display_score": 68.13474690999293
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k3_256k_20261004/grading/T05/report.json",
+            "bytes": 4815,
+            "sha256": "d944ed5981b89b4fef0efc3740a3eea85055d6ba6765a24f47481c5fb828223d"
+          },
+          "source_task_id": "T05",
+          "candidate_source_sha256": "47d47beed55fd9bea6cc42aff88087363bcbe6495379b40fe39469db7a20b01d",
+          "measurement_inputs": {
+            "area_um2": 145.217,
+            "delay_ns": 1.0886154,
+            "energy_per_op_pj": 0.5855999999999999,
+            "setup_worst_slack_ns": -0.0893524,
+            "hold_worst_slack_ns": 0.0844004,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1672,
+          "time_limit_seconds": 5400,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 14.682895058141074,
+            "time_score": 3.4518518518518517,
+            "display_score": 68.13474690999293
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T05",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 36.16610363301013,
+            "time_score": 3.0090277777777774,
+            "display_score": 89.1751314107879
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k3_256k_20261004/regrade/T06_cdc_scopeinfo_fix_20261005/ppa/measurement.json",
+            "bytes": 2805,
+            "sha256": "1008115afed0e00f7cfdeb3edaef6d1eadbff68ac6f9d93f9ce1e748caf5e4d0"
+          },
+          "source_task_id": "T06",
+          "candidate_source_sha256": "2dbc76e52c2e33472f520868e7b3112c0c254f69ad9d534242f7f1847639214f",
+          "measurement_inputs": {
+            "area_um2": 427.631,
+            "delay_ns": 0.8735729999999999,
+            "energy_per_op_pj": 2.125209160361321,
+            "setup_worst_slack_ns": 0.124502,
+            "hold_worst_slack_ns": 0.0670458,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 2867,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 36.16610363301013,
+            "time_score": 3.0090277777777774,
+            "display_score": 89.1751314107879
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T06",
+          "before": {
+            "functional_total": 25,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 25
+          },
+          "status": "preserved_functional_gate_zero",
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 25,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 25
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T07",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 36.649966537096624,
+            "time_score": 3.052083333333333,
+            "display_score": 89.70204987042995
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k3_256k_20261004/grading/T08/ppa/measurement.json",
+            "bytes": 2464,
+            "sha256": "be08397f0add199748d5458d65cd1693e21b0547c186289bfb98e0335370d1ac"
+          },
+          "source_task_id": "T08",
+          "candidate_source_sha256": "81e2dbe3355a860c51bf002138dddc2ad9c0388725bf009d11d6fd5811371c79",
+          "measurement_inputs": {
+            "area_um2": 2389.75,
+            "delay_ns": 1.0617735,
+            "energy_per_op_pj": 75.13926153846153,
+            "setup_worst_slack_ns": -0.0618255,
+            "hold_worst_slack_ns": 0.0619137,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 2805,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 28.831084513816844,
+            "time_score": 3.052083333333333,
+            "display_score": 81.88316784715018
+          },
+          "changed_components": [
+            "ppa_score",
+            "display_score"
+          ],
+          "legacy_formula_reproduced": {
+            "scorer_path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k3_256k_20261004/frozen/ic_bcmk/evaluator/score_run.py",
+            "scorer_sha256": "992fed35e243acc6cdac590fc3cd804af841f9b902151c982cf80db814544cc6",
+            "reference_path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k3_256k_20261004/frozen/ic_bcmk/benchmark/ppa-baselines.json",
+            "ppa_score": 36.649966537096624,
+            "missing_factor": "setup fourth-power penalty",
+            "setup_factor": 0.7866605958462306
+          }
+        },
+        {
+          "task_id": "T08",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 33.78779834927204,
+            "time_score": 0.5088926041126252,
+            "display_score": 84.29669095338467
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_t08_ppa_60m_20261008/kimi-k3-256k/ppa_grading/measurement.json",
+            "bytes": 5500,
+            "sha256": "8ab20cb761dc3833f95da5e1a6db2bd89bd70a3855b30e542e53fce9cee0a812"
+          },
+          "source_task_id": "T08",
+          "candidate_source_sha256": "58e8f881da4bc6765f2c28406847286f7b2b9e748710bb0b8d21670ad0d101b4",
+          "measurement_inputs": {
+            "area_um2": 20090.604,
+            "delay_ns": 0.9268928,
+            "energy_per_op_pj": 21.094957867783986,
+            "setup_worst_slack_ns": 0.07078430000000001,
+            "hold_worst_slack_ns": 0.009182880000000001,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 8083.993312597275,
+          "time_limit_seconds": 9000,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 33.78779834927204,
+            "time_score": 0.5088926041126252,
+            "display_score": 84.29669095338467
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T09",
+          "before": {
+            "functional_total": 40,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 40
+          },
+          "status": "preserved_functional_gate_zero",
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 40,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 40
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T10",
+          "before": {
+            "functional_total": 41.66666666666666,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 41.66666666666666
+          },
+          "status": "preserved_functional_gate_zero",
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 41.66666666666666,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 41.66666666666666
+          },
+          "changed_components": []
+        }
+      ]
+    },
+    "deepseek-flash": {
+      "tasks": [
+        {
+          "task_id": "T01",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 30.092562123316892,
+            "time_score": 2.7722222222222226,
+            "display_score": 82.86478434553912
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_deepseek_flash_20261004/retained/reports/original/T02/report.json",
+            "bytes": 4934,
+            "sha256": "a8a14934cbfbf89abb1a0aac20e0b56b2b714e39888ff340285fd5f37922fef3"
+          },
+          "source_task_id": "T02",
+          "candidate_source_sha256": "ffacdae1e160e13b692137fcc4ed34693f7ffb2b573997c15af1b23ce8b8ada9",
+          "measurement_inputs": {
+            "area_um2": 87.5237,
+            "delay_ns": 0.786911,
+            "energy_per_op_pj": 0.39477668161434976,
+            "setup_worst_slack_ns": 0.211844,
+            "hold_worst_slack_ns": 0.0829145,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 802,
+          "time_limit_seconds": 1800,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 30.092562123316892,
+            "time_score": 2.7722222222222226,
+            "display_score": 82.86478434553912
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T02",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 35.18961399241222,
+            "time_score": 3.8763888888888887,
+            "display_score": 89.0660028813011
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_deepseek_flash_20261004/retained/reports/original/T03/report.json",
+            "bytes": 5330,
+            "sha256": "27c2a7f2d901e3fea3bde68763af6b8fdbb0952b2b7a43e0a9aa6f04939db9e5"
+          },
+          "source_task_id": "T03",
+          "candidate_source_sha256": "17b5673b6b5ea520b404fcb2457c61fa1c64b483fee3f7775af1c3ac20d70b90",
+          "measurement_inputs": {
+            "area_um2": 407.467,
+            "delay_ns": 0.9617093999999999,
+            "energy_per_op_pj": 2.3117302512562814,
+            "setup_worst_slack_ns": 0.0380757,
+            "hold_worst_slack_ns": 0.104048,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 809,
+          "time_limit_seconds": 3600,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 35.18961399241222,
+            "time_score": 3.8763888888888887,
+            "display_score": 89.0660028813011
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T03",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 36.38216835132033,
+            "time_score": 4.502777777777778,
+            "display_score": 90.88494612909811
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_deepseek_flash_20261004/retained/reports/original/T04/report.json",
+            "bytes": 4917,
+            "sha256": "4e1cf99ee60b927001d008aa4ab828b3259ba09c5e24a78ecc0a6a3027184a48"
+          },
+          "source_task_id": "T04",
+          "candidate_source_sha256": "4e496a81c5b80d5e55ebb11df85d16b8c0f00d020d69f2cec94d70ac337efe7f",
+          "measurement_inputs": {
+            "area_um2": 92.2622,
+            "delay_ns": 0.7727470000000001,
+            "energy_per_op_pj": 0.4060469945355192,
+            "setup_worst_slack_ns": 0.22725299999999998,
+            "hold_worst_slack_ns": 0.0959702,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 537,
+          "time_limit_seconds": 5400,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 36.38216835132033,
+            "time_score": 4.502777777777778,
+            "display_score": 90.88494612909811
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T04",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 13.167992150376875,
+            "time_score": 4.45925925925926,
+            "display_score": 62.62725140963613
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_deepseek_flash_20261004/retained/reports/current_policy_20261005/T05/report.json",
+            "bytes": 5002,
+            "sha256": "2ef91df86c151685412f48917761b99c389cb02dbf8802089609c475a3b79f77"
+          },
+          "source_task_id": "T05",
+          "candidate_source_sha256": "600fd5c72f055563ed9c7e33efcd2fa4e83bca7a8c936a2609f8411c5703fd0e",
+          "measurement_inputs": {
+            "area_um2": 100.85,
+            "delay_ns": 1.1858309999999999,
+            "energy_per_op_pj": 0.37599999999999995,
+            "setup_worst_slack_ns": -0.185842,
+            "hold_worst_slack_ns": 0.100968,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 584,
+          "time_limit_seconds": 5400,
+          "candidate_delivery_error_count": 1,
+          "candidate_delivery_penalty": 5,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 13.167992150376875,
+            "time_score": 4.45925925925926,
+            "display_score": 62.62725140963613
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T05",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 35.71872052631373,
+            "time_score": 4.277083333333334,
+            "display_score": 89.99580385964707
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_deepseek_flash_20261004/retained/reports/original/T06/report.json",
+            "bytes": 5272,
+            "sha256": "8bb8e47055a16de6055cf6415550e143d8336785fc31f5272e438e4970f70b1a"
+          },
+          "source_task_id": "T06",
+          "candidate_source_sha256": "1ba46f5bafb7e629c075d1a88a9190d0a7596256e09abb71a3e37025b14863a2",
+          "measurement_inputs": {
+            "area_um2": 426.917,
+            "delay_ns": 0.891043,
+            "energy_per_op_pj": 2.168877841738609,
+            "setup_worst_slack_ns": 0.108627,
+            "hold_worst_slack_ns": 0.0669465,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1041,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 35.71872052631373,
+            "time_score": 4.277083333333334,
+            "display_score": 89.99580385964707
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T06",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 38.84647644284196,
+            "time_score": 4.081944444444444,
+            "display_score": 92.9284208872864
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_deepseek_flash_20261004/retained/reports/current_policy_20261005/T07/report.json",
+            "bytes": 5036,
+            "sha256": "029be5447e81191664db23564b6834c621faf528ff11702979c87ef9ad5d7849"
+          },
+          "source_task_id": "T07",
+          "candidate_source_sha256": "3a9592e810b269f5e05bf986d5cb37926eb7bf20e0e3162e4aeca3ef83fb63b6",
+          "measurement_inputs": {
+            "area_um2": 121.976,
+            "delay_ns": 0.777304,
+            "energy_per_op_pj": 7.06801568627451,
+            "setup_worst_slack_ns": 0.222696,
+            "hold_worst_slack_ns": 0.08091849999999999,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 1322,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 38.84647644284196,
+            "time_score": 4.081944444444444,
+            "display_score": 92.9284208872864
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T07",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 38.1844493592612,
+            "time_score": 4.317361111111111,
+            "display_score": 92.50181047037232
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_deepseek_flash_20261004/retained/reports/original/T08/report.json",
+            "bytes": 5116,
+            "sha256": "b99b0cdb0a0fc66debc90b87de7421d0dbe587673a73b8e029e3578cfc4b64e8"
+          },
+          "source_task_id": "T08",
+          "candidate_source_sha256": "d953f0e1aa56e34e59ad27148c89ef0160f2940ed009a59eb53081734b3681d0",
+          "measurement_inputs": {
+            "area_um2": 2213.89,
+            "delay_ns": 0.9741951,
+            "energy_per_op_pj": 79.22030769230768,
+            "setup_worst_slack_ns": 0.0189011,
+            "hold_worst_slack_ns": 0.0456457,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 983,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 38.1844493592612,
+            "time_score": 4.317361111111111,
+            "display_score": 92.50181047037232
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T08",
+          "before": {
+            "functional_total": 46.83333333333333,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 46.83333333333333
+          },
+          "status": "preserved_functional_gate_zero",
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 46.83333333333333,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 46.83333333333333
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T09",
+          "before": {
+            "functional_total": 44.93333333333333,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 44.93333333333333
+          },
+          "status": "preserved_functional_gate_zero",
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 44.93333333333333,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 44.93333333333333
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T10",
+          "before": {
+            "functional_total": 0,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 0
+          },
+          "status": "preserved_functional_gate_zero",
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 0,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 0
+          },
+          "changed_components": []
+        }
+      ]
+    },
+    "glm-5.3-flash": {
+      "tasks": [
+        {
+          "task_id": "T01",
+          "before": {
+            "functional_total": 0,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 0
+          },
+          "status": "preserved_functional_gate_zero",
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 0,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 0
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T02",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 35.21963752999886,
+            "time_score": 1.4874999999999998,
+            "display_score": 81.70713752999886
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_glm_5_3_flash_20261005/grading/T03/report.json",
+            "bytes": 7511,
+            "sha256": "5b306e23000eb0d673bf027bd2498787c63add245488f74d6b44c45350ceda1f"
+          },
+          "source_task_id": "T03",
+          "candidate_source_sha256": "f3eae9025b2be8fe2418125dd8921d936603e291d6c3fc98c36a96edb58115a0",
+          "measurement_inputs": {
+            "area_um2": 405.032,
+            "delay_ns": 0.9651365,
+            "energy_per_op_pj": 2.3117302512562814,
+            "setup_worst_slack_ns": 0.0315007,
+            "hold_worst_slack_ns": 0.104135,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 2529,
+          "time_limit_seconds": 3600,
+          "candidate_delivery_error_count": 1,
+          "candidate_delivery_penalty": 5,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 35.21963752999886,
+            "time_score": 1.4874999999999998,
+            "display_score": 81.70713752999886
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T03",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 36.38468987198948,
+            "time_score": 0.6518518518518518,
+            "display_score": 87.03654172384132
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_glm_5_3_flash_20261005/grading/T04/report.json",
+            "bytes": 4976,
+            "sha256": "58bbaeff56140df39da7b98821af91019c2132ff9d3d9835591b041544a57a13"
+          },
+          "source_task_id": "T04",
+          "candidate_source_sha256": "159a358621db2bb5780859257355db932065b90728d26c7dafbb81743351b34d",
+          "measurement_inputs": {
+            "area_um2": 88.7922,
+            "delay_ns": 0.806261,
+            "energy_per_op_pj": 0.4040065573770491,
+            "setup_worst_slack_ns": 0.193343,
+            "hold_worst_slack_ns": 0.101727,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 4696,
+          "time_limit_seconds": 5400,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 36.38468987198948,
+            "time_score": 0.6518518518518518,
+            "display_score": 87.03654172384132
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T04",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 13.25455414982516,
+            "time_score": 1.535185185185185,
+            "display_score": 64.78973933501035
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_glm_5_3_flash_20261005/grading/T05/report.json",
+            "bytes": 4957,
+            "sha256": "eb567cd2fdd7583727bb2ea776cc598d9bb42e14c18b00d40efb46b580efe5d1"
+          },
+          "source_task_id": "T05",
+          "candidate_source_sha256": "4e34f80bef676827f0d713c4e4122e905e091aeef334742a9e92d5d41db0cec4",
+          "measurement_inputs": {
+            "area_um2": 98.3129,
+            "delay_ns": 1.188827,
+            "energy_per_op_pj": 0.3536,
+            "setup_worst_slack_ns": -0.19175899999999999,
+            "hold_worst_slack_ns": 0.0978501,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 3742,
+          "time_limit_seconds": 5400,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 13.25455414982516,
+            "time_score": 1.535185185185185,
+            "display_score": 64.78973933501035
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T05",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 35.544608308727746,
+            "time_score": 2.6743055555555557,
+            "display_score": 88.21891386428331
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_glm_5_3_flash_20261005/grading/T06/report.json",
+            "bytes": 5385,
+            "sha256": "0e904ee598c4c5971bba25569207af1ebf0902c3c6e8e63d2108b0363914d3ce"
+          },
+          "source_task_id": "T06",
+          "candidate_source_sha256": "76e70a6511c6c997d988c75f505397728856e02fde71e1a6ca05f6b7bbb099c6",
+          "measurement_inputs": {
+            "area_um2": 429.76,
+            "delay_ns": 0.887393,
+            "energy_per_op_pj": 2.197990295990134,
+            "setup_worst_slack_ns": 0.104765,
+            "hold_worst_slack_ns": 0.0671292,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 3349,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 35.544608308727746,
+            "time_score": 2.6743055555555557,
+            "display_score": 88.21891386428331
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T06",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 37.177166526509694,
+            "time_score": 0.4180555555555554,
+            "display_score": 87.59522208206525
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_glm_5_3_flash_20261005/grading/T07/report.json",
+            "bytes": 5196,
+            "sha256": "e510953fafc4b69483972f0bff9356691574a6a65efcff5c3523daa7293e9bb8"
+          },
+          "source_task_id": "T07",
+          "candidate_source_sha256": "f863195e0a971b94992069b8d8ebe595753841450395a0209d95c1b54a14c50e",
+          "measurement_inputs": {
+            "area_um2": 136.615,
+            "delay_ns": 0.704367,
+            "energy_per_op_pj": 8.04225568627451,
+            "setup_worst_slack_ns": 0.29563,
+            "hold_worst_slack_ns": 0.0887071,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 6598,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 37.177166526509694,
+            "time_score": 0.4180555555555554,
+            "display_score": 87.59522208206525
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T07",
+          "before": {
+            "functional_total": 50,
+            "ppa_score": 24.220281169819998,
+            "time_score": 1.348611111111111,
+            "display_score": 75.56889228093111
+          },
+          "status": "measured_formula_recomputed",
+          "measurement_evidence": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_glm_5_3_flash_20261005/grading/T08/report.json",
+            "bytes": 5118,
+            "sha256": "b7fe083f5dfac1b72205191b06398a026ecf9270d609bb64db43b34b4e815054"
+          },
+          "source_task_id": "T08",
+          "candidate_source_sha256": "d5a9aa9dd88e93b6c9ca2fe01774fa3fa1a25abb2fc253d8c73d0576bf3dea93",
+          "measurement_inputs": {
+            "area_um2": 2571.84,
+            "delay_ns": 1.0956002,
+            "energy_per_op_pj": 76.33956923076921,
+            "setup_worst_slack_ns": -0.0976784,
+            "hold_worst_slack_ns": 0.0462234,
+            "drc_violations": 0,
+            "routed": true,
+            "annotation_fraction": 1,
+            "parameter_set": {
+              "period_ps": 1000
+            }
+          },
+          "normalized_provenance_valid": true,
+          "layout_seeds": [
+            11,
+            29,
+            47
+          ],
+          "elapsed_seconds": 5258,
+          "time_limit_seconds": 7200,
+          "candidate_delivery_error_count": 0,
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 50,
+            "ppa_score": 24.220281169819998,
+            "time_score": 1.348611111111111,
+            "display_score": 75.56889228093111
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T08",
+          "before": {
+            "functional_total": 44,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 44
+          },
+          "status": "preserved_functional_gate_zero",
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 44,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 44
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T09",
+          "before": {
+            "functional_total": 22,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 17
+          },
+          "status": "preserved_functional_gate_zero",
+          "candidate_delivery_penalty": 5,
+          "expected": {
+            "functional_total": 22,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 17
+          },
+          "changed_components": []
+        },
+        {
+          "task_id": "T10",
+          "before": {
+            "functional_total": 0,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 0
+          },
+          "status": "preserved_functional_gate_zero",
+          "candidate_delivery_penalty": 0,
+          "expected": {
+            "functional_total": 0,
+            "ppa_score": 0,
+            "time_score": 0,
+            "display_score": 0
+          },
+          "changed_components": []
+        }
+      ]
+    }
+  },
+  "task_count": 60,
+  "measured_task_count": 49,
+  "functional_gate_zero_count": 10,
+  "explicit_adjudication_zero_count": 1,
+  "changed_task_count": 1,
+  "changes": [
+    {
+      "model": "kimi-k3",
+      "task_id": "T07",
+      "changed_components": [
+        "ppa_score",
+        "display_score"
+      ],
+      "before": {
+        "functional_total": 50,
+        "ppa_score": 36.649966537096624,
+        "time_score": 3.052083333333333,
+        "display_score": 89.70204987042995
+      },
+      "after": {
+        "functional_total": 50,
+        "ppa_score": 28.831084513816844,
+        "time_score": 3.052083333333333,
+        "display_score": 81.88316784715018
+      }
+    }
+  ],
+  "correction_applied": true
+}

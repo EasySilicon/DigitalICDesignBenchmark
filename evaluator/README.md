@@ -10,7 +10,7 @@
 一个种子用于优化；setup/hold/DRC 全通过后，再用
 `--qualify-from /path/to/seed11/aggregate.json` 复用 seed11 并追加 29/47。
 三域均为 1 GHz，宏为固定 lambdapdk `fakeram7_tdp_4096x32`；不修改
-原 RTL，不缩减容量，不把未映射存储悄悄当作成功的 SRAM 流程。
+原 RTL，保持存储容量，并要求完成显式 SRAM 映射。
 标准单元 WC 与 SRAM TT 的混合时序模型、完整宏面积、逐实例非零动态
 功耗及宏引脚连接都留有审计证据。DRC 限于布线及引脚接入，非宏内部
 DRC/LVS。只有三种子 setup/hold/DRC 全满足且重新回归通过，才冻结参考。
@@ -72,13 +72,26 @@ python3 evaluator/check_act4_sail.py \
   --output /tmp/act4_sail_results.json
 ```
 
-统一正式评分入口还运行总线等待、运行中复位、取指至退休延时与自动时序组合门禁；参考 CPU 的原始 F/P 权重为 75/75，归一化功能分为 50/50。当前 T09 参考的功能、周期与三种子 1 GHz PPA 资格已重新冻结；套题正式发布仍需统一工具镜像与整套证据审核。
+统一正式评分入口还运行总线等待、运行中复位、取指至退休延时与自动时序组合门禁；参考 CPU 的原始功能成绩为 75/75，归一化功能分为 50/50。当前 T09 参考的功能、周期与三种子 1 GHz PPA 资格已重新冻结；套题正式发布仍需统一工具镜像与整套证据审核。
 
-`score_rules.json` 将默认 F=60/P=15 原始权重逐一映射到验收组；T09 单独采用 F=48/P=27，为周期组保留归一化 10 分，再按 `50/75` 归一为 50 分功能分；PPA 为 50 分，时间为 5 分，显示总分上限为 105。套题显示分按难度权重作非归一化加权：T01/T02 各 0.03，T03--T05 各 0.06，T06/T07 各 0.10，T08 为 0.11，T09 为 0.20，T10 为 0.25；缺失分量不计入且不重新放大其余权重。`score_run.py` 将评测方生成的组内通过数、严重安全缺陷、PPA 三元组和完成时间转成分层分数。它**不调用**公开冒烟测试来制造正式分数。输入须包含 `task_id`、`groups`、`delivery_qualified`、`elapsed_seconds`、`time_limit_seconds`，可含 `ppa_measurement`、`ppa_reference` 和由评测方裁定的 `candidate_delivery_error_count`。每个候选原因导致、在干净交付环境中令入口无法完成的独立根因从显示总分固定扣 5 分；同一根因的重复执行只算一次，工具或评测基础设施故障不处罚。该处罚不再把有效的 PPA/时间分整块清零。每个验收组必须有 `cases_passed`、`cases_total`，安全缺陷另标 `safety_violation`。缺少应有验收组直接报错，不推断为通过；所有组全过得子项满分，无安全缺陷且各组通过比例的等权平均至少一半得半分，其余得零分。正式分组执行器随仓库公开，但从参赛工作区隔离；T10 独立参考的功能回归已通过，单 PE 三种子物理与正式活动功耗基线已完成；历史候选仍需逐份实测。
+`score_rules.json` 将默认 F=60/P=15 原始权重逐一映射到验收组；T09 单独采用 F=48/P=27，为周期组保留归一化 10 分，再按 `50/75` 归一为 50 分功能分；PPA 为 50 分，时间为 5 分，显示总分上限为 105。套题显示分按难度权重作非归一化加权：T01/T02 各 0.03，T03--T05 各 0.06，T06/T07 各 0.10，T08 为 0.11，T09 为 0.20，T10 为 0.25；缺失分量不计入且不重新放大其余权重。`score_run.py` 将评测方生成的组内通过数、严重安全缺陷、PPA 三元组和完成时间转成分层分数。它**不调用**公开冒烟测试来制造正式分数。输入须包含 `task_id`、`groups`、`delivery_qualified`、`elapsed_seconds`、`time_limit_seconds`，可含 `ppa_measurement`、`ppa_reference` 和由评测方裁定的 `candidate_delivery_error_count`。每个候选原因导致、在干净交付环境中令入口无法完成的独立根因从显示总分固定扣 5 分；同一根因的重复执行只算一次，工具或评测基础设施故障不处罚。该处罚不再把有效的 PPA/时间分整块清零。每个验收组必须有 `cases_passed`、`cases_total`，安全缺陷另标 `safety_violation`。缺少应有验收组直接报错，不推断为通过；所有组全过得子项满分，无安全缺陷且各组通过比例的等权平均至少一半得半分，其余得零分。正式分组执行器随仓库公开，但从参赛工作区隔离；T10 参考已通过功能回归及单 PE 三种子物理与活动功耗资格验证。
 
 候选完成布线后，setup 违例除进入实测关键路径延迟外，再按最差 seed 的 `D_worst=T_target+max(0,-setup_slack)` 乘 `(T_target/D_worst)^4`，使实际最高频率越偏离目标，得分越快但连续地下降；负 hold slack 的绝对值仍加入评分用等效延迟。DRC 不把 PPA 直接清零：任一布线种子存在 DRC 时，最终 PPA 分统一乘 0.5。参考基线自身仍必须满足 setup/hold 且 DRC 为零；无法完成合法布线、缺少受约束路径或缺少有效活动功耗时才记 PPA=0。
 
-`ppa_aggregate.py` 是公开的三种子 PPA 记录聚合入口。它校验布局与功耗记录来自同一路由结果、固定工艺参数、活动标注、工作负载哈希以及种子 `{11,29,47}`，并保留 setup、hold 和 DRC 原始测量供 `score_run.py` 连续评分。全仓库唯一的权威参考基线是 [`benchmark/ppa-baselines.json`](../benchmark/ppa-baselines.json)；评测脚本不得维护另一份基线副本。
+`ppa_aggregate.py` 是公开的三种子 PPA 记录聚合入口。它校验布局与功耗记录来自同一路由结果、固定工艺参数、活动标注、工作负载哈希以及种子 `{11,29,47}`，并保留 setup、hold 和 DRC 原始测量供评分。全仓库唯一的权威参考基线是 [`benchmark/ppa-baselines.json`](../benchmark/ppa-baselines.json)；评测脚本不得维护另一份基线副本。
+
+**所有题目的功耗编译时限：** 新候选统一通过 `power_probe_with_budget.py`、
+`aggregate_with_power_budget.py`、`score_with_power_budget.py` 收集功耗、聚合记录和评分，T10 专用候选入口使用同一实现。
+每个布局种子的完整功耗仿真编译共用 1,200 秒墙钟预算，包括 Verilator、C++、
+链接和 SAIF 运行库构建；任一种子超时则该题 PPA/耗时加分为 0，功能分保留。
+超时会终止进程树并保留日志和 `power_compile.json`；普通编译错误、工具缺失及
+无效证据仍需归因，不自动判超时。独立功能测试的时限不变。
+详见[统一规则与入口参数](../benchmark/power-compile-policy.md)。旧冻结脚本仅用于
+复现历史基线，其字节、工作负载哈希和历史成绩不因新增时限而改写。
+T09 功能验收与 PPA 一并计分时使用 `check_t09_with_power_budget.py`，另通过可重复的
+`--power-compile-record` 传入编译记录。两套 T10 候选调度器都会在超时后跳过
+该提交剩余功耗种子。当前评分和发布默认要求编译记录，只有显式 `--legacy-replay`
+才允许核验政策生效前的旧测量。成绩重算工具校验并保留编译时限记录。
 
 `t10_structure_check.py` 是 T10 的公开结构验收入口。它在 Yosys 展开网表上检查固定流接口、256 个 PE、16×16 横纵寄存链和累加反馈；检查支持显式层次及 Yosys 保留层次后产生的递归实例，不要求把 256 个 PE 全部直接实例化在顶层。回归入口：
 
@@ -89,7 +102,7 @@ PYTHONPATH=evaluator python3 -m unittest \
 
 带日期的 `t*_pilot_*.json` 是历史试跑证据，其中的旧时限和旧分数单位按实际运行原样保留，不是当前配置。当前时限只以 [`benchmark/manifest.yaml`](../benchmark/manifest.yaml) 和各题 `task.yaml` 为准。
 
-T10 的[任务包内公开数值 oracle](../benchmark/tasks/T10/public/matmul_oracle.py)定义精确格式解码、MX scale 和数值误差界，可供参赛者复核题意；`tb_T10.sv` 是固定流接口的 248 块持续吞吐公开冒烟，并额外检查一个背压块。`score_run.py` 在 T10 隐藏验收和 PPA 参考值校准完成前会拒绝为 T10 输出正式分数；试评入口对持续吞吐失败的提交将 PPA 与时间分置零。
+T10 的[任务包内公开数值 oracle](../benchmark/tasks/T10/public/matmul_oracle.py)定义精确格式解码、MX scale 和数值误差界，可供参赛者复核题意；`tb_T10.sv` 是固定流接口的 248 块持续吞吐公开冒烟，并额外检查一个背压块。T10 的 PPA 计分要求功能、结构与持续吞吐全通过，并具备合格的三种子测量记录。
 
 `delivery_check.py` 是交付入口的可执行检查：确认 `rtl/files.f`、`verif/`、`README.md`、可执行 `run.sh`，同一 `BENCH_SEED` 连续运行两次并校验 `results.json` 的测试行和版本字段。T09 另需评测方提供正反两个 ELF，检查 `--elf` 的文件哈希、`tohost`、超时字段与退出码。它只检查自带验证入口的交付形式，**不将其 PASS 当作 DUT 正确性**；PPA 探索记录与变异检出率仍需独立审计。
 
@@ -108,9 +121,9 @@ T06 的独立功能入口为 `python3 evaluator/t06_check.py /path/to/submission
 
 T07 的独立功能入口为 `python3 evaluator/t07_check.py /path/to/submission`，汇总 `AC-38` 至 `AC-43`，覆盖读写命中、干净/脏替换、写分配、全部字节使能、双侧背压、复位和命中时延；`--reference` 回归评测方参考 RTL。`python3 evaluator/t07_mutation_check.py` 确定性生成并验证十六个可综合缺陷变异体。三种子 1 GHz 参考基线、冻结 hash 和资格结果见 `t07_qualification.json`。
 
-T09 的独立功能入口为 `python3 evaluator/t09_check.py /path/to/submission --elapsed-seconds SECONDS`。它运行 45 个 ACT4、108 个定向、100 个差分随机、80 个总线等待、4 个运行中复位、4 个题卡专项异常和 64 条取指至退休延时检查，再交给统一评分器汇总。冻结 ELF、汇编源和压缩提交 oracle 位于 `t09_data/`，可用 `python3 evaluator/verify_t09_artifacts.py` 校验清单、SHA-256、压缩 JSONL 和事件数；其中 `programs/random/diff_mem_seed035_v0.elf` 与 `programs/delivery_bad_tohost.elf` 可作为 `delivery_check.py T09` 的公开正反探针。`python3 evaluator/t09_mutation_check.py` 在临时目录生成并验证二十一个可综合缺陷变异体。当前参考 RTL 的归一化功能分为 50/50，新增周期检查 22/22 通过；2026-10-09 重新冻结的资格记录见 `t09_qualification.json`。T09 的三种子 ASAP7 WC 1 GHz 参考物理基线已完成，全部 setup/hold/DRC 通过；最薄的 seed 47 setup 裕量为 +9.008 ps，详见 `benchmark/ppa-baselines.json`。
+T09 的独立功能入口为 `python3 evaluator/check_t09_with_power_budget.py /path/to/submission --elapsed-seconds SECONDS`。它运行 45 个 ACT4、108 个定向、100 个差分随机、80 个总线等待、4 个运行中复位、4 个题卡专项异常和 64 条取指至退休延时检查，再交给统一评分器汇总。冻结 ELF、汇编源和压缩提交 oracle 位于 `t09_data/`，可用 `python3 evaluator/verify_t09_artifacts.py` 校验清单、SHA-256、压缩 JSONL 和事件数；其中 `programs/random/diff_mem_seed035_v0.elf` 与 `programs/delivery_bad_tohost.elf` 可作为 `delivery_check.py T09` 的公开正反探针。`python3 evaluator/t09_mutation_check.py` 在临时目录生成并验证二十一个可综合缺陷变异体。当前参考 RTL 的归一化功能分为 50/50，新增周期检查 22/22 通过；2026-10-09 重新冻结的资格记录见 `t09_qualification.json`。T09 的三种子 ASAP7 WC 1 GHz 参考物理基线已完成，全部 setup/hold/DRC 通过；最薄的 seed 47 setup 裕量为 +9.008 ps，详见 `benchmark/ppa-baselines.json`。
 
-2026-10-09 新增 `port_timing_v1`：`python3 evaluator/t09_timing_check.py --submission /path/to/submission --output timing.json` 运行 22 项固定端口周期检查，现以 `t09_group_cycles10_v1` 单独接入 `CPU-PIPE-CYCLES` 组：22/22 得 10 分，11–21/22 得 5 分，0–10/22 得 0 分。原有组按原比例缩放至合计 40 分；周期失败不再合并进 LAT/HAZ，功能分上限仍为 50。它检查连续 ADDI 的逐条四拍延时与 IPC=1、ALU 前递零额外气泡、load-use 最多一拍额外气泡，并给无控制流短程序设置总周期预算，防止共同插入的气泡被相关/无相关差值抵消。三种 ready/response 时序均由评测方固定；分支/JAL/JALR 罚拍仅记录，无新硬门槛。具体规则见 `benchmark/tasks/T09/acceptance.md`。旧参考初测 6/22；完成前递、访存/取指恢复和组合加法器优化后，当前参考 22/22 全过，已重新冻结 RTL 与三种子 PPA 基线，证据见 `t09_timing_qualification.json` 和 `fixtures/t09_cpu_20261009_cycles10/`。历史候选评分未自动改写。此处的新增吞吐预算是明确的规则补充，不追溯冒充旧题面约束。
+`port_timing_v1` 通过 `t09_timing_check.py` 运行 22 项固定端口周期检查，在 `t09_group_cycles10_v1` 中组成独立的 `CPU-PIPE-CYCLES` 组：22 项全过得 10 分，通过 11–21 项得 5 分，通过 0–10 项得 0 分，其余验收组共 40 分。检查涵盖独立 ADDI 的四拍延时和 IPC=1、ALU 前递、load-use 气泡及直线程序退休跨度预算，使用三种固定 ready/response 时序。分支/JAL/JALR 罚拍作为诊断记录。具体规则见 `benchmark/tasks/T09/acceptance.md`；参考资格见 `t09_timing_qualification.json` 和 `fixtures/t09_cpu_20261009_cycles10/`。
 
 参考重新冻结入口为 `python3 evaluator/t09_reference_freeze.py --measurement /path/to/three_seed_measurement.json --evidence-dir evaluator/fixtures/NEW_T09_EVIDENCE`。它重新汇总三种子，逐一核对实际 RTL、1 GHz SDC、最终报告和功耗 workload，并重新运行全部功能、22 项周期与 21 个变异体；任一种子 setup/hold/DRC 不过、证据不全或源代码不一致都会拒绝。证据目录须为新目录，PPA 基线最后原子更新，不自动重算历史候选成绩。
 
@@ -123,10 +136,8 @@ T08 使用 `python3 -m evaluator.t08_check /path/to/submission --output function
 旧 T11 标签仅保留在历史原始证据内；当前题号是 T08。唯一评分基线仍是
 `benchmark/ppa-baselines.json`，不使用私有基线副本。
 
-六个模型的 T09 已通过 `regrade_t09_archive.py` 完成显式复评，当前权威成绩是
-`results/<model>/summary.json`。
-T08/T09 冻结清单由 `python3 benchmark/freeze_tasks.py` 只读校验，
-规范校验也自动拒绝哈希或评分契约漂移。历史预算、答卷和扣分不改写。
+正式成绩位于 `results/<model>/summary.json`。T08/T09 冻结清单通过
+`python3 benchmark/freeze_tasks.py` 校验；原始答卷、预算与测量记录保持归档。
 
 ## T05 双级同步结构检查实现
 
@@ -150,4 +161,4 @@ python3 -m unittest evaluator.test_cpu_latency_check -v
 
 合成轨迹回归已覆盖正常、早一拍、晚一拍、漏提交、重复取指和重复退休。T09 公开 RTL 测试连接一周期指令存储器检查这一延时；正式评分入口另用自己的 ELF 装载器、数据总线、Sail 提交差分、精确异常测试和自动时序评分。Agent 自带的 `run.sh`/UT 输出不能直接作为这个 trace 的评分输入。
 
-T08/T09 task-level freeze (2026-10-09): [T08 receipt](../benchmark/tasks/T08/FREEZE.json), [T09 receipt](../benchmark/tasks/T09/FREEZE.json). Run `python3 benchmark/freeze_tasks.py` from the repository root to verify specification, RTL, judge, scoring, baseline and portable evidence hashes. All six T09 archives have been regraded, and all six T08 answers have been scored. Host-only receipts are excluded from candidate packages. T10 single-PE three-seed PPA is complete; suite-wide tool-image, fairness, and release checks remain pending.
+冻结清单：[T08](../benchmark/tasks/T08/FREEZE.json)、[T09](../benchmark/tasks/T09/FREEZE.json)。T10 单 PE 参考测量见[后端说明](t10_backend/v1/README.md)。

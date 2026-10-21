@@ -17,6 +17,8 @@ import subprocess
 from t10_candidate_physical import REPO, TRIALS, artifact, sha, write_new_or_same, active_records
 from ppa_aggregate import source_hash
 from score_run import expected_ppa_parameters, ppa_provenance_valid, score_run
+from power_compile_budget import POLICY_ID, LIMIT_SECONDS
+from score_with_power_budget import score_run as budget_score_run
 
 BACKEND=REPO/'evaluator/t10_backend/v1'
 
@@ -75,6 +77,16 @@ def seed_record(model_dir,seed,orfs,reference,*,cached_only=False):
     if completed['exit_code'] or completed['inputs_sha256']!=sha(input_path):
         raise ValueError('candidate physical completion is invalid')
     check_artifacts(completed['artifacts']);check_artifacts(power)
+    compile_evidence=power.get('power_compile_record')
+    if compile_evidence:
+        compile_record=json.loads(Path(compile_evidence['path']).read_text())
+        elapsed=compile_record.get('elapsed_seconds')
+        if (compile_record.get('status')!='completed' or compile_record.get('policy_id')!=POLICY_ID
+                or compile_record.get('limit_seconds')!=LIMIT_SECONDS or compile_record.get('task_id')!='T10'
+                or compile_record.get('candidate_source_sha256')!=inputs['source_sha256']
+                or compile_record.get('layout_seed')!=seed or type(elapsed) not in (int,float)
+                or not math.isfinite(elapsed) or not 0<=elapsed<=LIMIT_SECONDS):
+            raise ValueError('invalid completed power compile budget record')
     if power['physical_inputs']!=completed['artifacts'] or power['source_sha256']!=inputs['source_sha256'] or \
             power['layout_seed']!=seed or power['measurement_scope']!='single_pe' or \
             power['numerical_oracle_passed'] is not True or power['protocol_and_latency_passed'] is not True or \
@@ -113,13 +125,16 @@ def seed_record(model_dir,seed,orfs,reference,*,cached_only=False):
         drc_violations=drc_count(raw_drc.read_text()),energy_per_op_pj=power['energy_j_per_block']*1e12,
         power_w=power['total_power_w'],average_power_mw=power['total_power_w']*1000,ops=200,
         annotation_fraction=power['activity_annotation_fraction'],timing_record=artifact(out/'timing.json'),
-        route_drc_report=artifact(raw_drc),area_metrics=artifact(metrics_path),power_record=artifact(power_path))
+        route_drc_report=artifact(raw_drc),area_metrics=artifact(metrics_path),power_record=artifact(power_path),
+        **({'power_compile_record':compile_evidence} if compile_evidence else {}))
 
 
-def grade(model,work,trials,orfs,*,cached_only=False):
+def grade(model,work,trials,orfs,*,cached_only=False,legacy_replay=False):
     model_dir=work/model
     reference=json.loads((REPO/'benchmark/ppa-baselines.json').read_text())['tasks']['T10']
     rows=[seed_record(model_dir,s,orfs,reference,cached_only=cached_only) for s in (11,29,47)]
+    if not legacy_replay and not all('power_compile_record' in row for row in rows):
+        raise ValueError('current candidate requires three power compile budget records; use --legacy-replay only for historical measurements')
     measurement=dict(task_id='T10',measurement_scope='single_pe',measurement_status='three_seed_single_pe',
         source_sha256=source_hash(model_dir/'submission'),workload_id=reference['workload_id'],
         workload_sha256=reference['workload_sha256'],workload_parameters=workload_parameters(model_dir,reference),
@@ -127,6 +142,9 @@ def grade(model,work,trials,orfs,*,cached_only=False):
         **{key:statistics.median(r[key] for r in rows) for key in ('area_um2','delay_ns','energy_per_op_pj','average_power_mw')},
         setup_worst_slack_ns=min(r['setup_worst_slack_ns'] for r in rows),hold_worst_slack_ns=min(r['hold_worst_slack_ns'] for r in rows),
         drc_violations=max(r['drc_violations'] for r in rows),annotation_fraction=min(r['annotation_fraction'] for r in rows))
+    if any('power_compile_record' in row for row in rows):
+        if not all('power_compile_record' in row for row in rows):raise ValueError('mixed legacy/current power compile evidence')
+        measurement['power_compile_policy']=POLICY_ID
     if not ppa_provenance_valid('T10',measurement,reference):raise ValueError('invalid candidate measurement provenance')
     original=trials/TRIALS[model]
     if source_hash(original/'workspaces/T10')!=measurement['source_sha256']:raise ValueError('original candidate source changed')
@@ -147,7 +165,13 @@ def grade(model,work,trials,orfs,*,cached_only=False):
     payload=dict(task_id='T10',groups=groups,delivery_qualified=delivery['delivery_qualified'],elapsed_seconds=elapsed,
         time_limit_seconds=14400,sustained_throughput_passed=True,ppa_reference=reference,ppa_measurement=measurement,
         candidate_delivery_error_count=public.get('candidate_delivery_error_count',0))
-    scored=score_run(payload)
+    if measurement.get('power_compile_policy'):
+        compile_records=[json.loads(Path(row['power_compile_record']['path']).read_text()) for row in rows]
+        measurement['power_compile_records']=compile_records
+        payload.update(candidate_source_sha256=measurement['source_sha256'],power_compile_records=compile_records)
+        scored=budget_score_run(payload)
+    else:
+        scored=score_run(payload)
     if not scored['ppa_eligible']:raise ValueError('measured record was rejected by the official scorer')
     return dict(model=model,measurement=measurement,score=scored,elapsed_seconds=elapsed,
         grading_resource_policy=rows[0].get('resource_policy'),
@@ -158,8 +182,9 @@ if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--work',type=Path,required=True);p.add_argument('--trials-root',type=Path,required=True)
     p.add_argument('--orfs',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
+    p.add_argument('--legacy-replay',action='store_true',help='reproduce preserved pre-policy measurements, never use for new candidates')
     a=p.parse_args()
     if a.output.exists():raise ValueError('output exists; do not overwrite an audited report')
-    reports=[grade(m,a.work.resolve(),a.trials_root.resolve(),a.orfs.resolve()) for m in TRIALS]
+    reports=[grade(m,a.work.resolve(),a.trials_root.resolve(),a.orfs.resolve(),legacy_replay=a.legacy_replay) for m in TRIALS]
     a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(reports,indent=2)+'\n')
     for report in reports:print(report['model'],report['score']['ppa_score'])

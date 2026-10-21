@@ -10,9 +10,10 @@ logs/
 # Local-only T10 reference-RTL iteration notes; release criteria live in tasks/T10/acceptance.md.
 benchmark/npu-quality-gates.md
 
-# Publish summaries and explicitly verified T10 remeasurement records only.
+# Publish summaries and explicitly verified task measurements/corrections only.
 /results/*/*
 !/results/*/summary.json
+!/results/kimi-k3/T07.json
 !/results/gpt-6-astra/T10.json
 !/results/gpt-6-astra/T10-ppa40.json
 !/results/gpt-6.1-sol/T10.json

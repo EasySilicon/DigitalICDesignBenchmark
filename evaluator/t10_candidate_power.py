@@ -21,6 +21,7 @@ from public_check import sources_from_filelist
 from ppa_aggregate import source_hash
 from ppa_power_probe import instrument_testbench, check_t10_workload, useful_operations
 from make_t10_power_vectors import create
+from power_compile_budget import CompileBudget, PowerCompileTimeout, TIMEOUT_EXIT_CODE
 
 BACKEND=REPO/'evaluator/t10_backend/v1'
 sys.path.insert(0,str(BACKEND))
@@ -42,7 +43,7 @@ def run(command,log,cwd):
     return time.monotonic()-started
 
 
-def run_unoptimized_periphery(command,log,cwd):
+def run_unoptimized_periphery(command,log,cwd,*,execute=None):
     """Bound frontend optimization cost for a large mapped shell.
 
     Only the unmeasured parent changes optimization level; its actual mapped
@@ -58,7 +59,7 @@ def run_unoptimized_periphery(command,log,cwd):
         if '--top-module-encoded npu_systolic_matmul_16x16' not in arguments:
             raise ValueError('frontend argument file does not name the unmeasured parent')
         if '-O0' not in arguments.split():expected.write_text(arguments+'\n-O0\n')
-    return run(command,log,cwd)
+    return (execute or run)(command,log,cwd)
 
 
 def validate_paths(shell,pe):
@@ -185,9 +186,14 @@ def measure(model_dir,seed,orfs):
         '--trace-max-width','262144','--output-split','10000','--output-split-cfuncs','10000',
         '-Wno-fatal','-Wno-SPECIFYIGN','-j','4','--top-module',top,'--Mdir',str(out/'build'),
         str(out/'tb_power.sv'),*map(str,sources),*map(str,libraries)]
-    staged_build(command,sources,out/'tb_power.sv',out,
-        run_unoptimized_periphery if large_shell_frontend else run,REPO)
-    executable,writer=window_build(out,top,run,REPO)
+    resource.setrlimit(resource.RLIMIT_AS,(resource.RLIM_INFINITY,resource.RLIM_INFINITY))
+    with CompileBudget(out,inputs['source_sha256'],seed) as budget:
+        def compile_run(command,log,cwd):
+            if large_shell_frontend:
+                return run_unoptimized_periphery(command,log,cwd,execute=budget.run)
+            return budget.run(command,log,cwd)
+        staged_build(command,sources,out/'tb_power.sv',out,compile_run,REPO)
+        executable,writer=window_build(out,top,budget.run,REPO)
     run([str(executable),f'+POWER_VCD={out/"activity.saif"}',f'+VECTORS={vectors}','+CASE_COUNT=200'],out/'simulation.log',REPO)
     simulation=(out/'simulation.log').read_text()
     check_t10_workload(simulation,vectors,200)
@@ -226,6 +232,7 @@ def measure(model_dir,seed,orfs):
             if large_shell_frontend else 'default Verilator model optimization',
         connectivity=artifact(connectivity),merge_audit=artifact(out/'merge_audit.json'),
         staged_build_manifest=artifact(out/'staged_build_manifest.json'),simulation_log=artifact(out/'simulation.log'),
+        power_compile_record=artifact(out/'power_compile.json'),
         raw_activity=artifact(out/'activity.saif'),averaged_activity=artifact(out/'average.saif'),
         workload_manifest=artifact(vectors/'manifest.json'),power_report=artifact(out/'power.log'),
         simulation_cell_models=[dict(original=artifact(source),instrumented=artifact(target))
@@ -239,4 +246,8 @@ if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--model-dir',type=Path,required=True);p.add_argument('--seed',type=int,choices=(11,29,47),required=True)
     p.add_argument('--orfs',type=Path,required=True)
-    a=p.parse_args();measure(a.model_dir.resolve(),a.seed,a.orfs.resolve())
+    a=p.parse_args()
+    try:measure(a.model_dir.resolve(),a.seed,a.orfs.resolve())
+    except PowerCompileTimeout as error:
+        print(str(error),file=sys.stderr,flush=True)
+        raise SystemExit(TIMEOUT_EXIT_CODE)

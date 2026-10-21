@@ -19,6 +19,21 @@ def measured():
 
 
 class PublishTest(unittest.TestCase):
+    def test_automatic_compile_timeout_has_its_own_policy_not_manual_or_oom(self):
+        report=measured();report.pop('measurement')
+        report.update(candidate_source_sha256='unchanged',queue_status=M.TIMEOUT_STATUS,
+            adjudication='power compilation exceeded 1200 seconds',measurement_completed=False,
+            failing_seed=11,power_compile_timeout_record=dict(policy_id='power-compile-wall-1200s-v1',
+                status='timeout',task_id='T10',layout_seed=11,candidate_source_sha256='unchanged',
+                limit_seconds=1200,elapsed_seconds=1201,process_group_terminated=True))
+        report['score'].update(ppa_score=0,time_score=0,display_score=50,display_score_before_candidate_penalty=50)
+        task=task_record(dict(candidate_sha256='unchanged',functional_total=50),report,{},'date')
+        self.assertEqual(task['functional_total'],50)
+        self.assertEqual(task['ppa_score'],0);self.assertEqual(task['time_score'],0)
+        self.assertIn('power-compile-wall-1200s-v1',task['scoring_policy'])
+        self.assertNotIn('resource_failure_adjudication',task)
+        self.assertNotIn('explicit-user',task['scoring_policy'])
+
     def test_user_compile_stop_is_explicit_and_not_mislabeled_as_oom(self):
         report=measured();report.pop('measurement')
         report.update(candidate_source_sha256='unchanged',queue_status=M.COMPILE_STOP_ZERO,

@@ -61,10 +61,10 @@ The intended outcome is evidence of **model capability boundaries, reliable deli
 
 The main suite, `ic-delivery-rtl-v0.3`, contains **ten tasks, T01–T10**. T01–T09 have frozen task specifications, acceptance collateral, and three-seed 1 GHz PPA baselines. T10's V1.0 single-PE reference has also completed physical closure and activity-based power measurement for seeds 11/29/47. All ten reference baselines are available; the unified tool image, fairness checks across equivalent RTL implementations, and suite-wide release checks remain pending. The full suite therefore remains in the pre-release `design_only` stage.
 
-| Scope | Available | Pending |
+| Scope | Available | Status |
 | --- | --- | --- |
 | T01–T09 | Frozen task specifications and acceptance collateral, public smoke tests, reference RTL, defect mutants, and frozen three-seed 1 GHz PPA baselines | Complete |
-| T10 | Continuous-stream matrix evaluation, exact numerical oracle, reset/backpressure/throughput tests, PE mesh checks, and the single-PE three-seed 1 GHz PPA baseline with activity-based power | Reference and historical scores resolved; GPT-6-Sol PPA/time adjudicated 0 after the user directed a stop to excessive compilation |
+| T10 | Continuous-stream matrix evaluation, exact numerical oracle, reset/backpressure/throughput tests, PE mesh checks, and the single-PE three-seed 1 GHz PPA baseline with activity-based power | Complete |
 
 The latest public T10 evaluator package replay passed **2,752 matrix blocks, a separate reset probe, 256-PE structural checks, and all 14 input phases without bubbles**. See [T10_PACKAGE_VERIFICATION.json](evaluator/T10_PACKAGE_VERIFICATION.json). See the [three-seed implementation and measurement notes](evaluator/t10_backend/v1/README.md) for timing, complete DRC/connectivity checks, and activity-based power. Each full gate-level DUT passed 200 blocks, 51,200 output checks, and protocol checks. The single-PE median reference is **60,298.3 µm², 0.944853668 ns, and 837.441929552 pJ/block**, not the cost of the full NPU.
 
@@ -93,22 +93,30 @@ See the [full coverage mapping and scope limits](benchmark/README.md#领域与�
 
 ## Evaluated models and results
 
-The following values come from the [2026-10-21 per-task evaluation results](results/model-score-comparison.md). Models were evaluated with broadly consistent time budgets and Skill settings. Results use a common scoring policy to compare functional correctness, PPA and completion efficiency. Subtotals include scored components only; unmeasured components are explicitly marked.
+The following values come from the [2026-10-21 per-task evaluation results](results/model-score-comparison.md). All **60 model/task results are resolved**, with no `null` functional, PPA, or time components. Models used broadly consistent time budgets and Skill settings. Column headers identify the coding framework and version used during the actual trials, checked against the original run records.
 
-| Model | Fully functional / evaluated tasks | Weighted display subtotal /105 | Result files |
-| --- | ---: | ---: | --- |
-| GPT-6-Astra | 10/10 | 76.02 | [summary.json](results/gpt-6-astra/summary.json) |
-| GPT-6.1-Sol | 10/10 | 74.77 | [summary.json](results/gpt-6.1-sol/summary.json) |
-| GPT-6-Sol | 10/10 | 73.04 | [summary.json](results/gpt-6-sol/summary.json) |
-| Kimi K3 | 7/10 | 58.94 | [summary.json](results/kimi-k3/summary.json) |
-| DeepSeek Flash | 7/10 | 52.45 | [summary.json](results/deepseek-flash/summary.json) |
-| GLM-5.3-Flash | 6/10 | 41.41 | [summary.json](results/glm-5.3-flash/summary.json) |
+Each cell is the task's display score **out of 105, including delivery deductions**, rounded to two decimal places. Weighted totals use unrounded task scores and fixed weights, not a simple average.
 
-All six models have completed scoring for the new T08. DeepSeek and GLM did not pass its full-functional gate, so their T08 PPA and time scores are 0. All three GPT T10 scores are now resolved: Astra and GPT-6.1-Sol completed three-seed measurements, with PPA scores of 0.421205/50 and 0.280647/50 respectively. GPT-6-Sol's full gate-level simulation compiler produced no result after more than four hours; the user explicitly directed that evaluation be stopped and PPA/time scored 0, retaining its 50 functional points. This is an individual user adjudication, not OOM or a completed three-seed power measurement. **`null` means unavailable or unresolved; `0` means an explicit zero-score determination.** Missing components do not rescale the remaining task weights. Reconciled reruns and penalties for GLM and other runs are explained in the per-task results.
+| Task | Weight | GPT-6-Astra<br>Codex CLI 0.160.0 | GPT-6.1-Sol<br>Codex CLI 0.160.0 | GPT-6-Sol<br>Codex CLI 0.160.0 | Kimi K3<br>Kimi CLI 2.1.1 | DeepSeek Flash<br>Claude Code 2.1.183 | GLM-5.3-Flash<br>Claude Code 2.1.183 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| T01 | 3% | 88.24 | 86.33 | 86.98 | 75.49 | 82.86 | 0.00 |
+| T02 | 3% | 87.88 | 87.20 | 89.70 | 89.17 | 89.07 | 81.71 |
+| T03 | 6% | 91.08 | 91.18 | 89.80 | 89.96 | 90.88 | 87.04 |
+| T04 | 6% | 97.27 | 86.90 | 91.12 | 68.13 | 62.63 | 64.79 |
+| T05 | 6% | 89.72 | 88.93 | 90.12 | 89.18 | 90.00 | 88.22 |
+| T06 | 10% | 94.78 | 93.70 | 96.22 | 25.00 | 92.93 | 87.60 |
+| T07 | 10% | 93.49 | 93.12 | 88.44 | 81.88 | 92.50 | 75.57 |
+| T08 | 11% | 87.89 | 87.14 | 84.21 | 84.30 | 46.83 | 44.00 |
+| T09 | 20% | 60.51 | 59.20 | 56.25 | 40.00 | 44.93 | 17.00 |
+| T10 | 25% | 53.83 | 53.73 | 50.00 | 41.67 | 0.00 | 0.00 |
+| **Weighted total /105** | **100%** | **76.02** | **74.77** | **73.04** | **58.15** | **52.45** | **41.41** |
+| **Fully functional tasks** | — | **10/10** | **10/10** | **10/10** | **7/10** | **7/10** | **6/10** |
 
-This T10 candidate remeasurement uses the user-authorized **40 GiB RAM limit, swap allowed, and serial execution**; it does not establish compliance with the suite's default 32 GiB limit. The reference uses custom internal hard macros, while historical candidates use flat single-PE implementations. The effect of this flow difference has not been isolated in a same-flow comparison. These historical pilot scores are not an official ranking, and score differences cannot be attributed entirely to model capability.
+Tasks below full functionality receive zero PPA and time points. GPT-6-Sol T10 retains 50 functional points and zero PPA/time points under its historical power-compilation termination adjudication. See the [model results](results/model-score-comparison.md) for component scores and zero-score categories.
 
-See the [archive policy](results/README.md) and [result schema](results/result.schema.json) for result classes, fields, and ranking eligibility. Check `scoring_policy`, specification revision, actual time budget, and tools before comparing them.
+Run conditions: T10 candidate remeasurement used **40 GiB RAM, swap allowed, and serial execution**, rather than the default 32 GiB limit. Kimi T08 used a cumulative historical development budget of 150 minutes. T10 reference and candidate implementations differ in internal macros and physical flow; a same-flow comparison is not available. These historical pilot results are not an official ranking.
+
+Details: [per-task score-loss analysis](results/model-score-comparison.md#各模型逐题失分原因), [PPA formula audit](results/model-score-comparison.md#ppa-公式审计2026-10-21), [archive policy](results/README.md), and [result schema](results/result.schema.json).
 
 ## Environment setup
 
@@ -244,15 +252,56 @@ The current configuration is [score_rules.json](evaluator/score_rules.json). [pp
 
 | Metric | Display maximum | Conditions and interpretation |
 | --- | ---: | --- |
-| Functionality | 50 | Task-card F=60/P=15 are raw weights scaled by `50/75`; P covers boundaries, protocols, structure, and specified performance |
+| Functionality | 50 | Raw weights are normally F=60/P=15, but T09 uses F=48/P=27; all are scaled by `50/75`. P covers protocols, boundaries, structure, and required performance; it is part of functionality, not PPA |
 | PPA | 50 | Requires full functionality and valid measurement provenance; area/delay/energy are normalized to a frozen reference scoring 35/50 |
-| Completion time | 5 | Requires full functionality and valid PPA; `5 × (1 − t/T_max)`, clipped to 0–5 |
+| Completion time | 5 | Requires all 50 functional points and a strictly positive PPA score; `5 × (1 − t/T_max)`, clipped to 0–5 |
 
-Per-task ordering compares **functional score, PPA bucket, then completion time**. Suite ordering first compares the number of fully functional tasks and functional score sum, then PPA, then normalized time. The 105-point display and weighted subtotal do not replace layered ordering.
+#### Functionality: score each item, not the overall test pass rate
 
-Common physical targets are **ASAP7, 1 GHz (1,000 ps)**, layout seeds `{11,29,47}`, and at least 95% activity annotation. Qualified reference baselines have met setup/hold with zero DRC. Routed candidates receive continuous setup/hold penalties and a 0.5 multiplier if any seed has DRC violations; negative WNS does not automatically zero PPA. Candidate failures to complete legal routing or obtain valid activity measurements are adjudicated separately. See the [PPA measurement/scoring specification](benchmark/README.md#ppa-测量与评分).
+For a typical scoring item, compute the pass rate of each acceptance group and take their unweighted mean. All groups passing earns full points; a mean of at least one half earns half points; anything lower earns zero. A safety violation or any failure in an item-designated critical group overrides this and zeros that item. Other passing tests cannot compensate. Missing required groups or malformed records are scoring-input errors, not assumed passes.
 
-`ppa_probe.py` collects physical probes, `ppa_power_probe.py` collects gate-level activity power, and `ppa_aggregate.py` combines three-seed records. `score_run.py` consumes **evaluator-generated** groups and measurements, rather than candidate score claims. Unqualified/missing baselines remain pending; tool/evaluator faults are fixed and regraded on frozen submissions; adjudicated candidate failures score zero. Fatal candidate-caused handoff errors deduct five display points per distinct root cause while retaining verified component scores.
+- T08 awards each item's points in proportion to passing scenarios, rather than using the half-point tier. A scenario counts as passing only if it passes all three functional seeds.
+- T09 assigns 10 functional points to its separate 22-case cycle group: 22 passes earn 10 points, 11–21 earn 5, and 0–10 earn zero. All other items together contribute 40 points.
+- T10 additionally requires the complete 256-PE design to pass structural and sustained-throughput acceptance. Failure zeros the corresponding systolic-array item. Single-PE PPA measurement does not relax full-design functional requirements.
+
+**Only 50/50 counts as full functionality. Otherwise, PPA and time points are zero, while earned functional points are retained.**
+
+#### PPA: three-seed measurements, reference normalization, and physical penalties
+
+Common targets are **ASAP7, 1 GHz (1,000 ps)**, layout seeds `{11,29,47}`, and at least 95% valid activity annotation in every seed. T01–T09 measure the complete DUT; T10 V1.0 measures one PE, not the complete NPU's cost. Power workloads must still pass self-checks; T10 must also cover full-DUT activity and account for internal PE macros.
+
+Take separate medians across the three seeds for area `A`, routed critical-path delay `D`, and energy per useful operation `E`. Use the worst setup and hold slacks `S` and `H`, and the largest DRC count. Do not select the best run. The reference tuple is `A_ref`, `D_ref`, `E_ref`; a task uses the same measurement scope, constraints, and workload for reference and candidate. The following matches the [current scorer](evaluator/score_run.py); all time quantities are in ns:
+
+```text
+T       = 1 ns
+R(x)    = min(2, max(0, x))
+D_eff   = D + max(0, -H)
+D_setup = T + max(0, -S)
+P_base  = min(50, 35 × R(A_ref/A)^0.35
+                    × R(D_ref/D_eff)^0.35
+                    × R(E_ref/E)^0.30)
+PPA     = P_base × (T/D_setup)^4 × (0.5 if any DRC, otherwise 1)
+```
+
+Area, delay, and energy have weights of **35%, 35%, and 30%**. All three ratios are clipped to `[0,2]`. The reference earns 35/50; improvements can raise the score to 50. Hold violations continuously increase `D_eff`. Setup violations already affect critical-path delay and additionally incur a fourth-power penalty based on the worst seed's frequency ratio. For example, a worst setup slack of −1 ns produces an extra factor of `1/16`. Any DRC violation in any seed halves the final score once, not once per violation. **Negative timing slack does not automatically zero PPA.**
+
+Candidate failures to complete legal routing or obtain valid activity measurements require attribution. A qualified baseline or measurement that is not yet available is recorded as `null`, not a candidate-failure zero. Tool/evaluator faults are repaired and regraded on frozen submissions without penalizing candidates. See the [measurement details](benchmark/README.md#ppa-测量与评分) for physical parameters and useful-operation definitions; this formula and the scorer define current scoring.
+
+#### Time, delivery deductions, and ordering
+
+Time points require 50 functional points and a strictly positive PPA score. `t` is development wall-clock time from task release to the final submitted snapshot, including inference, self-tests, PPA exploration, and retries, but excluding post-submission evaluator queues and hidden acceptance. `T_max` is the task's development limit. A zero PPA score also means zero time points.
+
+Each evaluator-confirmed, candidate-caused fatal handoff error deducts **5 points per distinct root cause**. Repeated occurrences of the same cause count once. The deduction affects only the display total, retaining verified functional, PPA, and time components: `display = max(0, functionality + PPA + time − 5 × distinct errors)`, with a maximum of 105.
+
+Per-task ordering compares **functional score, PPA bucket, then completion time**, not the display total. The current bucket width is 1.25 points: `bucket = min(40, floor(PPA/1.25 + 0.5))`. Within a bucket, earlier completion wins only when PPA is positive. Suite ordering compares the number of fully functional tasks, then the functional score sum, then the sum of PPA buckets for fully functional tasks, then their summed `t/T_max` (lower is better). Task-weighted display scores are supplementary; missing components do not rescale the remaining weights.
+
+#### Power-simulation compilation: 20 cumulative minutes per seed
+
+New T01–T10 candidates share one **1,200-second wall-clock budget per layout seed** across the complete power-simulation build: hierarchical planning, Verilator code generation for every module, C++ compilation, linking, and SAIF runtime builds. The budget cannot restart for each module or command. **A timeout in any seed zeros the entire task's PPA and time points, retaining functional points and existing delivery deductions.** Expiry terminates the compiler process tree, retains logs and compile receipts, and stops the remaining seeds' power flow for that submission.
+
+This is not a 20-minute limit on synthesis, place-and-route, or the entire power flow. Workload simulation, power analysis, and independent functional tests are outside this compile budget. Missing tools, ordinary build errors, missing receipts, and failed validation are not automatically classified as compile timeouts; they require separate attribution. The rule does not retroactively rewrite historical scores. See the [common compile-limit policy and current entries](benchmark/power-compile-policy.md).
+
+Evaluation tools consume **evaluator-generated** group results and measurements, never candidate score claims. New candidates use `power_probe_with_budget.py`, `aggregate_with_power_budget.py`, and `score_with_power_budget.py`; the dedicated T10 flow enforces the same rule. Frozen entries such as `ppa_power_probe.py` and `score_run.py` remain available for historical baseline reproduction.
 
 ## Repository guide
 
@@ -266,10 +315,10 @@ Common physical targets are **ASAP7, 1 GHz (1,000 ps)**, layout seeds `{11,29,47
 | [env/](env/README.en.md) | Installation, dependency discovery and compatibility patches |
 | [vendor/](vendor/README.en.md) | ASAP7 platform, provenance, licenses and hashes |
 
-Task behavior follows each `task.md`; public smoke tests are examples. Historical pilots do not override current specifications or scoring policy. `main` holds shared specifications, evaluators, and the [v15 manual-repair and DRC-checking scripts](evaluator/t10_backend/README.md). `systolic_burnish` preserves the remaining historical T10 backend experiments and reference macro builds.
+Task behavior follows each `task.md`; public smoke tests are examples. See the [evaluator guide](evaluator/README.en.md) and [T10 backend guide](evaluator/t10_backend/v1/README.md) for acceptance tools and the reference physical flow.
 
 ## License and provenance
 
 Repository-owned code/documentation use [Apache-2.0](LICENSE). ACT4, ASAP7, and experimental starter RTL retain their own licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Locked revisions and sources are in [sources.lock.yaml](benchmark/sources.lock.yaml). The benchmark assesses digital RTL delivery and relative PPA on a public predictive process; it does not claim fabrication signoff or formal RISC-V/Ethernet certification.
 
-T08/T09 task-level freeze (2026-10-09): [T08 receipt](benchmark/tasks/T08/FREEZE.json), [T09 receipt](benchmark/tasks/T09/FREEZE.json). Run `python3 benchmark/freeze_tasks.py` from the repository root to verify specification, RTL, judge, scoring, baseline and portable evidence hashes. All six T09 archives have been regraded, and all six T08 answers have been scored. Host-only receipts are excluded from candidate packages. The T10 single-PE three-seed reference is complete; suite-wide tool-image, fairness, and release checks remain pending.
+Verify frozen materials with `python3 benchmark/freeze_tasks.py`. Inventories: [T08](benchmark/tasks/T08/FREEZE.json), [T09](benchmark/tasks/T09/FREEZE.json).
