@@ -76,8 +76,8 @@ class TaskIdMigrationTest(unittest.TestCase):
                 jsonschema.validate(row, {**schema, "required": [
                     "task_id", "functional_total", "ppa_score", "time_score", "display_score"]})
             # T08 was completed after the task-ID migration. Preserve those
-            # measured results; missing T10 candidate measurements stay null
-            # even after the reference baseline becomes available.
+            # measured results. A reference baseline alone must not turn an
+            # unmeasured T10 candidate into a scored result.
             t08=summary["tasks"][7]
             self.assertEqual(t08["score_status"],"scored")
             expected={"deepseek-flash":281/6,"glm-5.3-flash":44}.get(model,50)
@@ -88,8 +88,54 @@ class TaskIdMigrationTest(unittest.TestCase):
                 self.assertEqual(t08["ppa_score"],0)
                 self.assertEqual(t08["time_score"],0)
             if model.startswith("gpt-"):
-                self.assertIsNone(summary["tasks"][9]["ppa_score"])
-                self.assertIsNone(summary["tasks"][9]["time_score"])
+                t10 = summary["tasks"][9]
+                if t10["ppa_score"] is None:
+                    self.assertIsNone(t10["time_score"])
+                    self.assertIn("T10", summary["pending_components"])
+                else:
+                    # Completed scores must be backed by the archived report,
+                    # not just a changed summary or the reference measurement.
+                    task = json.loads((folder / "T10.json").read_text())
+                    receipt = task["t10_ppa_remeasurement"]["report"]
+                    report_path = ROOT / receipt["path"]
+                    self.assertEqual(report_path, folder / "T10-ppa40.json")
+                    raw = report_path.read_bytes()
+                    self.assertEqual(len(raw), receipt["bytes"])
+                    self.assertEqual(hashlib.sha256(raw).hexdigest(), receipt["sha256"])
+                    report = json.loads(raw)
+                    self.assertEqual(report["model"], model)
+                    for key in ("functional_total", "ppa_score", "time_score", "display_score"):
+                        self.assertEqual(t10[key], task[key])
+                        self.assertEqual(t10[key], report["score"][key])
+                    self.assertFalse(task["ranking_eligible"])
+                    self.assertIsNotNone(t10["time_score"])
+                    self.assertNotIn("T10", summary["pending_components"])
+                    policy = task["t10_ppa_remeasurement"]["resource_policy"]
+                    self.assertEqual(policy["memory_max_bytes"], 40 * 1024**3)
+                    self.assertEqual(policy["memory_swap_max"], "max")
+                    self.assertEqual(policy["concurrency"], 1)
+                    if "measurement" in report:
+                        measurement = report["measurement"]
+                        self.assertEqual(task["ppa_measurement"], measurement)
+                        self.assertEqual(measurement["source_sha256"], task["candidate_sha256"])
+                        self.assertEqual([row["layout_seed"] for row in measurement["per_seed"]], [11, 29, 47])
+                        from evaluator.score_run import ppa_provenance_valid
+                        reference = json.loads((ROOT / "benchmark/ppa-baselines.json").read_text())["tasks"]["T10"]
+                        self.assertTrue(ppa_provenance_valid("T10", measurement, reference))
+                    else:
+                        self.assertEqual(t10["ppa_score"], 0)
+                        self.assertEqual(t10["time_score"], 0)
+                        self.assertFalse(report["measurement_completed"])
+                        if report["queue_status"] == "user_adjudicated_compile_stop_zero":
+                            decision = report["user_decision_record"]
+                            self.assertEqual(model, "gpt-6-sol")
+                            self.assertEqual(decision["user_decision"], "那就应该判它0分")
+                            self.assertEqual(decision["candidate_source_sha256"], task["candidate_sha256"])
+                            self.assertEqual(decision["resource_policy"], policy)
+                            self.assertIn("explicit-user-compile-stop-zero", task["scoring_policy"])
+                            self.assertIn("not OOM", report["adjudication"])
+                        else:
+                            self.assertIn("confirmed 40 GiB OOM", report["adjudication"])
 
     def test_mac_candidate_package_excludes_freeze_and_reference(self):
         from benchmark.prepare_trial import prepare

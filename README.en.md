@@ -64,7 +64,7 @@ The main suite, `ic-delivery-rtl-v0.3`, contains **ten tasks, T01–T10**. T01�
 | Scope | Available | Pending |
 | --- | --- | --- |
 | T01–T09 | Frozen task specifications and acceptance collateral, public smoke tests, reference RTL, defect mutants, and frozen three-seed 1 GHz PPA baselines | Complete |
-| T10 | Continuous-stream matrix evaluation, exact numerical oracle, reset/backpressure/throughput tests, PE mesh checks, and the single-PE three-seed 1 GHz PPA baseline with activity-based power | Reference complete; archived candidates still require individual PPA/time evaluation |
+| T10 | Continuous-stream matrix evaluation, exact numerical oracle, reset/backpressure/throughput tests, PE mesh checks, and the single-PE three-seed 1 GHz PPA baseline with activity-based power | Reference and historical scores resolved; GPT-6-Sol PPA/time adjudicated 0 after the user directed a stop to excessive compilation |
 
 The latest public T10 evaluator package replay passed **2,752 matrix blocks, a separate reset probe, 256-PE structural checks, and all 14 input phases without bubbles**. See [T10_PACKAGE_VERIFICATION.json](evaluator/T10_PACKAGE_VERIFICATION.json). See the [three-seed implementation and measurement notes](evaluator/t10_backend/v1/README.md) for timing, complete DRC/connectivity checks, and activity-based power. Each full gate-level DUT passed 200 blocks, 51,200 output checks, and protocol checks. The single-PE median reference is **60,298.3 µm², 0.944853668 ns, and 837.441929552 pJ/block**, not the cost of the full NPU.
 
@@ -93,18 +93,20 @@ See the [full coverage mapping and scope limits](benchmark/README.md#领域与�
 
 ## Evaluated models and results
 
-The following values come from the [2026-10-10 per-task evaluation results](results/model-score-comparison.md). Models were evaluated with broadly consistent time budgets and Skill settings. Results use a common scoring policy to compare functional correctness, PPA and completion efficiency. Subtotals include scored components only; unmeasured components are explicitly marked.
+The following values come from the [2026-10-21 per-task evaluation results](results/model-score-comparison.md). Models were evaluated with broadly consistent time budgets and Skill settings. Results use a common scoring policy to compare functional correctness, PPA and completion efficiency. Subtotals include scored components only; unmeasured components are explicitly marked.
 
 | Model | Fully functional / evaluated tasks | Weighted display subtotal /105 | Result files |
 | --- | ---: | ---: | --- |
-| GPT-6-Astra | 10/10 | 75.07 | [summary.json](results/gpt-6-astra/summary.json) |
-| GPT-6.1-Sol | 10/10 | 73.83 | [summary.json](results/gpt-6.1-sol/summary.json) |
+| GPT-6-Astra | 10/10 | 76.02 | [summary.json](results/gpt-6-astra/summary.json) |
+| GPT-6.1-Sol | 10/10 | 74.77 | [summary.json](results/gpt-6.1-sol/summary.json) |
 | GPT-6-Sol | 10/10 | 73.04 | [summary.json](results/gpt-6-sol/summary.json) |
 | Kimi K3 | 7/10 | 58.94 | [summary.json](results/kimi-k3/summary.json) |
 | DeepSeek Flash | 7/10 | 52.45 | [summary.json](results/deepseek-flash/summary.json) |
 | GLM-5.3-Flash | 6/10 | 41.41 | [summary.json](results/glm-5.3-flash/summary.json) |
 
-All six models have completed scoring for the new T08. DeepSeek and GLM did not pass its full-functional gate, so their T08 PPA and time scores are 0. The three GPT models' T10 currently contributes only 50 functional points; its PPA and time components remain pending. The totals therefore include only scored components. **`null` means unavailable or unresolved; `0` means adjudicated failure.** Missing components do not rescale the remaining task weights. Reconciled reruns and penalties for GLM and other runs are explained in the snapshot.
+All six models have completed scoring for the new T08. DeepSeek and GLM did not pass its full-functional gate, so their T08 PPA and time scores are 0. All three GPT T10 scores are now resolved: Astra and GPT-6.1-Sol completed three-seed measurements, with PPA scores of 0.421205/50 and 0.280647/50 respectively. GPT-6-Sol's full gate-level simulation compiler produced no result after more than four hours; the user explicitly directed that evaluation be stopped and PPA/time scored 0, retaining its 50 functional points. This is an individual user adjudication, not OOM or a completed three-seed power measurement. **`null` means unavailable or unresolved; `0` means an explicit zero-score determination.** Missing components do not rescale the remaining task weights. Reconciled reruns and penalties for GLM and other runs are explained in the per-task results.
+
+This T10 candidate remeasurement uses the user-authorized **40 GiB RAM limit, swap allowed, and serial execution**; it does not establish compliance with the suite's default 32 GiB limit. The reference uses custom internal hard macros, while historical candidates use flat single-PE implementations. The effect of this flow difference has not been isolated in a same-flow comparison. These historical pilot scores are not an official ranking, and score differences cannot be attributed entirely to model capability.
 
 See the [archive policy](results/README.md) and [result schema](results/result.schema.json) for result classes, fields, and ranking eligibility. Check `scoring_policy`, specification revision, actual time budget, and tools before comparing them.
 

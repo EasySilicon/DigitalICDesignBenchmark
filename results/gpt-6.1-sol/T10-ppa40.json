@@ -1,0 +1,294 @@
+{
+  "model": "gpt-6.1-sol",
+  "measurement": {
+    "task_id": "T10",
+    "measurement_scope": "single_pe",
+    "measurement_status": "three_seed_single_pe",
+    "source_sha256": "ba346787bb260a418a9309d533d41c60db61714728e3c0d4ed01a58cc2785054",
+    "workload_id": "T10-power-v1",
+    "workload_sha256": "455db278312d5d8c30ee706216f5f446bca7f36aed42273bd172010c8f98cc2a",
+    "workload_parameters": {
+      "seed": 20260925,
+      "case_count": 200,
+      "vectors_sha256": "454d5945b8cd47513d77b453548c195226c73549f08bfb307fba137e0136a29a"
+    },
+    "parameter_set": {
+      "platform": "ASAP7_7p5t_RVT_NLDM",
+      "period_ps": 1000,
+      "corner": "WC",
+      "utilization": 24,
+      "density": 0.24,
+      "seeds": [
+        11,
+        29,
+        47
+      ],
+      "signal_routing_layers": "M2-M7",
+      "clock_routing_layers": "M6-M7"
+    },
+    "routed": true,
+    "per_seed": [
+      {
+        "layout_seed": 11,
+        "measurement_scope": "single_pe",
+        "area_um2": 13860.2,
+        "resource_policy": {
+          "memory_max_bytes": 42949672960,
+          "memory_swap_max": "max",
+          "max_address_space": "unlimited",
+          "concurrency": 1,
+          "cpu_threads": 4,
+          "user_authorized_oom_ppa_zero": true,
+          "note": "40 GiB diagnostic remeasurement, not a claim of 32 GiB compliance"
+        },
+        "delay_ns": 3.331650391,
+        "setup_worst_slack_ns": -2.331650391,
+        "hold_worst_slack_ns": 0.051219555,
+        "drc_violations": 0,
+        "energy_per_op_pj": 279.46268267112004,
+        "power_w": 0.03355095536,
+        "average_power_mw": 33.55095536,
+        "ops": 200,
+        "annotation_fraction": 0.9988100042425936,
+        "timing_record": {
+          "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6.1-sol/seed11/scoring_verification/timing.json",
+          "bytes": 2516,
+          "sha256": "a85ae0ecaa0a69f92dc8f267898b77cc65ca45952237311239265cb34f1963ba"
+        },
+        "route_drc_report": {
+          "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/reports/asap7/npu_pe/ic_t10_candidate_gpt_6_1_sol_ba346787bb_s11/5_route_drc.rpt",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "area_metrics": {
+          "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/logs/asap7/npu_pe/ic_t10_candidate_gpt_6_1_sol_ba346787bb_s11/6_report.json",
+          "bytes": 3687,
+          "sha256": "1abe34ca0920740526f55788c38ece782143e3ff1786562a6b27fc451cc53211"
+        },
+        "power_record": {
+          "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6.1-sol/activity_seed11/power.json",
+          "bytes": 8812,
+          "sha256": "263d4766d9d480a2f3ff69e90de38503a8f3e4dc4943b98171290614e04e08c8"
+        }
+      },
+      {
+        "layout_seed": 29,
+        "measurement_scope": "single_pe",
+        "area_um2": 13856.7,
+        "resource_policy": {
+          "memory_max_bytes": 42949672960,
+          "memory_swap_max": "max",
+          "max_address_space": "unlimited",
+          "concurrency": 1,
+          "cpu_threads": 4,
+          "user_authorized_oom_ppa_zero": true,
+          "note": "40 GiB diagnostic remeasurement, not a claim of 32 GiB compliance"
+        },
+        "delay_ns": 3.305526367,
+        "setup_worst_slack_ns": -2.305526367,
+        "hold_worst_slack_ns": 0.050890514000000005,
+        "drc_violations": 0,
+        "energy_per_op_pj": 279.38153968074,
+        "power_w": 0.03354121372,
+        "average_power_mw": 33.541213719999995,
+        "ops": 200,
+        "annotation_fraction": 0.9988099118817363,
+        "timing_record": {
+          "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6.1-sol/seed29/scoring_verification/timing.json",
+          "bytes": 2516,
+          "sha256": "6ec4b1d021c18ff12e5382fe186c5d5cb70117c8e71fcb0cda7655ac1136d228"
+        },
+        "route_drc_report": {
+          "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/reports/asap7/npu_pe/ic_t10_candidate_gpt_6_1_sol_ba346787bb_s29/5_route_drc.rpt",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "area_metrics": {
+          "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/logs/asap7/npu_pe/ic_t10_candidate_gpt_6_1_sol_ba346787bb_s29/6_report.json",
+          "bytes": 3689,
+          "sha256": "7db108600d35b625655de4f73a686c0b3581b3533e130e147d6b376db4d59b9d"
+        },
+        "power_record": {
+          "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6.1-sol/activity_seed29/power.json",
+          "bytes": 8809,
+          "sha256": "106e172e50f6d04a79b49285acb42ec6059b165ae387b2dac13d044bf38bf75e"
+        }
+      },
+      {
+        "layout_seed": 47,
+        "measurement_scope": "single_pe",
+        "area_um2": 13856.6,
+        "resource_policy": {
+          "memory_max_bytes": 42949672960,
+          "memory_swap_max": "max",
+          "max_address_space": "unlimited",
+          "concurrency": 1,
+          "cpu_threads": 4,
+          "user_authorized_oom_ppa_zero": true,
+          "note": "40 GiB diagnostic remeasurement, not a claim of 32 GiB compliance"
+        },
+        "delay_ns": 3.349699951,
+        "setup_worst_slack_ns": -2.349699951,
+        "hold_worst_slack_ns": 0.055011662,
+        "drc_violations": 0,
+        "energy_per_op_pj": 279.41601381534,
+        "power_w": 0.03354535252,
+        "average_power_mw": 33.54535252,
+        "ops": 200,
+        "annotation_fraction": 0.9988098995658721,
+        "timing_record": {
+          "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6.1-sol/seed47/scoring_verification/timing.json",
+          "bytes": 2516,
+          "sha256": "5a60740d1b0ee48908c59b2f5a84c61b82e7f31f1d98913f9f9885cfd166fd72"
+        },
+        "route_drc_report": {
+          "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/reports/asap7/npu_pe/ic_t10_candidate_gpt_6_1_sol_ba346787bb_s47/5_route_drc.rpt",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "area_metrics": {
+          "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/logs/asap7/npu_pe/ic_t10_candidate_gpt_6_1_sol_ba346787bb_s47/6_report.json",
+          "bytes": 3687,
+          "sha256": "166ccd72a3449659303e8d6bc234c42334d01662e0a7761a758872453284fd65"
+        },
+        "power_record": {
+          "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6.1-sol/activity_seed47/power.json",
+          "bytes": 8812,
+          "sha256": "88b59d0eb3e99a11d0cab2164a64595af06e3f3ab481eff256fe06cd3a56f7c7"
+        }
+      }
+    ],
+    "area_um2": 13856.7,
+    "delay_ns": 3.331650391,
+    "energy_per_op_pj": 279.41601381534,
+    "average_power_mw": 33.54535252,
+    "setup_worst_slack_ns": -2.349699951,
+    "hold_worst_slack_ns": 0.050890514000000005,
+    "drc_violations": 0,
+    "annotation_fraction": 0.9988098995658721
+  },
+  "score": {
+    "task_id": "T10",
+    "functional_basic": 40.0,
+    "functional_edges": 10.0,
+    "functional_total": 50.0,
+    "full_functional_pass": true,
+    "delivery_qualified": true,
+    "ppa_eligible": true,
+    "ppa_score": 0.28064719755745904,
+    "ppa_rank_bucket": 0,
+    "time_score": 3.4475694444444445,
+    "candidate_delivery_error_count": 0,
+    "candidate_delivery_penalty": 0,
+    "display_score_before_candidate_penalty": 53.728216642001904,
+    "display_score": 53.728216642001904,
+    "score_items": [
+      {
+        "id": "F_INT",
+        "layer": "F",
+        "points": 6.666666666666666,
+        "possible_points": 6.666666666666666,
+        "cases_passed": 128,
+        "cases_total": 128,
+        "safety_violation": false
+      },
+      {
+        "id": "F_FP16_BF16",
+        "layer": "F",
+        "points": 6.666666666666666,
+        "possible_points": 6.666666666666666,
+        "cases_passed": 128,
+        "cases_total": 128,
+        "safety_violation": false
+      },
+      {
+        "id": "F_FP8",
+        "layer": "F",
+        "points": 6.666666666666666,
+        "possible_points": 6.666666666666666,
+        "cases_passed": 128,
+        "cases_total": 128,
+        "safety_violation": false
+      },
+      {
+        "id": "F_FP4",
+        "layer": "F",
+        "points": 6.666666666666666,
+        "possible_points": 6.666666666666666,
+        "cases_passed": 64,
+        "cases_total": 64,
+        "safety_violation": false
+      },
+      {
+        "id": "F_MXFP8",
+        "layer": "F",
+        "points": 6.666666666666666,
+        "possible_points": 6.666666666666666,
+        "cases_passed": 128,
+        "cases_total": 128,
+        "safety_violation": false
+      },
+      {
+        "id": "F_MXFP4",
+        "layer": "F",
+        "points": 6.666666666666666,
+        "possible_points": 6.666666666666666,
+        "cases_passed": 96,
+        "cases_total": 96,
+        "safety_violation": false
+      },
+      {
+        "id": "P_PROTOCOL",
+        "layer": "P",
+        "points": 3.333333333333333,
+        "possible_points": 3.333333333333333,
+        "cases_passed": 337,
+        "cases_total": 337,
+        "safety_violation": false
+      },
+      {
+        "id": "P_SYSTOLIC",
+        "layer": "P",
+        "points": 3.333333333333333,
+        "possible_points": 3.333333333333333,
+        "cases_passed": 1616,
+        "cases_total": 1616,
+        "safety_violation": false
+      },
+      {
+        "id": "P_CORNER",
+        "layer": "P",
+        "points": 3.333333333333333,
+        "possible_points": 3.333333333333333,
+        "cases_passed": 128,
+        "cases_total": 128,
+        "safety_violation": false
+      }
+    ],
+    "rank_key": [
+      50.0,
+      0,
+      -4471.0
+    ]
+  },
+  "elapsed_seconds": 4471.0,
+  "grading_resource_policy": {
+    "memory_max_bytes": 42949672960,
+    "memory_swap_max": "max",
+    "max_address_space": "unlimited",
+    "concurrency": 1,
+    "cpu_threads": 4,
+    "user_authorized_oom_ppa_zero": true,
+    "note": "40 GiB diagnostic remeasurement, not a claim of 32 GiB compliance"
+  },
+  "original_functional_record": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt61sol_20261003/grading/T10/functional.json",
+    "bytes": 5648,
+    "sha256": "f7f261570c8d40ad450c953dba5ed40668858fac7b927092cec2535f6c1ad312"
+  },
+  "structure": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6.1-sol/structure.json",
+    "bytes": 540,
+    "sha256": "cc58a2c2b86506e15f172f59834e473595aaf8e926f27246bd7a369ffddc7579"
+  }
+}

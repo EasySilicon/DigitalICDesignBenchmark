@@ -64,7 +64,7 @@ Agent 必须自行完成 RTL、验证环境、缺陷修复和 PPA 优化。评�
 | 范围 | 已具备的能力 | 尚待完成 |
 | --- | --- | --- |
 | T01–T09 | 冻结的题卡与验收、公开冒烟、参考 RTL、缺陷变异体，以及冻结的三种子 1 GHz PPA 基线 | 已完成 |
-| T10 | 持续流多精度矩阵验收、精确数值 oracle、复位/背压/吞吐检查、自动 PE 网格检查，以及单 PE 三种子 1 GHz PPA 基线与正式活动功耗 | 参考基线已完成；历史候选的 PPA 与时间分仍需逐份实测 |
+| T10 | 持续流多精度矩阵验收、精确数值 oracle、复位/背压/吞吐检查、自动 PE 网格检查，以及单 PE 三种子 1 GHz PPA 基线与正式活动功耗 | 参考基线与历史候选成绩已补齐；GPT-6-Sol 经用户确认终止长时间编译，PPA 与时间分判 0 |
 
 T10 最近一次公开验收包复测通过 **2,752 个矩阵块、独立复位探针、256-PE 结构检查和 14 个无输入气泡阶段**，记录见 [T10_PACKAGE_VERIFICATION.json](evaluator/T10_PACKAGE_VERIFICATION.json)。三种子单 PE 的时序、完整 DRC/连通检查和正式功耗见[实现与测量说明](evaluator/t10_backend/v1/README.md)；每组完整门级 DUT 均通过 200 块、51,200 个输出点及协议检查。单 PE 的中位参考值为 **60,298.3 µm²、0.944853668 ns、837.441929552 pJ/块**，不代表整个 NPU 的成本。
 
@@ -91,18 +91,20 @@ T10 计算 `16×64` 与 `64×16` 矩阵乘法，A/B **各每拍输入 1024 bit**
 
 ## 已测模型与结果
 
-下表来自 [2026-10-10 逐题评测结果](results/model-score-comparison.md)。各模型采用基本一致的时间预算与 Skill 设置，结果按统一评分规则汇总，用于比较功能正确性、PPA 和完成效率。表中小计仅包含已评分分项，尚未测量的部分明确标注。
+下表来自 [2026-10-21 逐题评测结果](results/model-score-comparison.md)。各模型采用基本一致的时间预算与 Skill 设置，结果按统一评分规则汇总，用于比较功能正确性、PPA 和完成效率。表中小计仅包含已评分分项，尚未测量的部分明确标注。
 
 | 模型 | 功能全通过 / 已验收题数 | 已评分部分的加权显示分 /105 | 结果文件 |
 | --- | ---: | ---: | --- |
-| GPT-6-Astra | 10/10 | 75.07 | [summary.json](results/gpt-6-astra/summary.json) |
-| GPT-6.1-Sol | 10/10 | 73.83 | [summary.json](results/gpt-6.1-sol/summary.json) |
+| GPT-6-Astra | 10/10 | 76.02 | [summary.json](results/gpt-6-astra/summary.json) |
+| GPT-6.1-Sol | 10/10 | 74.77 | [summary.json](results/gpt-6.1-sol/summary.json) |
 | GPT-6-Sol | 10/10 | 73.04 | [summary.json](results/gpt-6-sol/summary.json) |
 | Kimi K3 | 7/10 | 58.94 | [summary.json](results/kimi-k3/summary.json) |
 | DeepSeek Flash | 7/10 | 52.45 | [summary.json](results/deepseek-flash/summary.json) |
 | GLM-5.3-Flash | 6/10 | 41.41 | [summary.json](results/glm-5.3-flash/summary.json) |
 
-六个模型的新 T08 均已完成评分；DeepSeek 和 GLM 未通过完整功能门槛，T08 的 PPA/时间判 0。三个 GPT 模型的 T10 当前只计功能 50 分，PPA/时间为待评项。因此表中总分是已评分部分的小计。**`null` 表示尚无测量结论，`0` 表示已判失败**，两者不能混用。缺失分项不计入小计，也不重新放大其余题目的权重。GLM 等运行的合并重评和罚分调整以快照中的逐项说明为准。
+六个模型的新 T08 均已完成评分；DeepSeek 和 GLM 未通过完整功能门槛，T08 的 PPA/时间判 0。三个 GPT 的 T10 成绩也已补齐：Astra 与 GPT-6.1-Sol 完成三种子实测，PPA 分别为 0.421205/50、0.280647/50；GPT-6-Sol 的完整门级仿真编译持续四个多小时未产出结果，经用户确认停止，PPA/时间判 0，保留功能 50 分。这是单独确认的终止判定，不是 OOM，也不代表三种子正式功耗测量已完成。**`null` 表示尚无测量结论，`0` 表示已有明确的判零结论**，两者不能混用。缺失分项不计入小计，也不重新放大其余题目的权重。GLM 等运行的合并重评和罚分调整以逐项说明为准。
+
+这轮 T10 候选重测经用户指定，按 **40 GiB 实际内存上限、允许交换、串行运行**执行，不代表通过套件默认的 32 GiB 限制。参考采用定制内部硬宏，历史候选采用展平的单 PE 实现，流程差异仍待同流程对照复核；这些历史试跑成绩不构成正式排名，不能把分差全部归因于模型能力。
 
 结果分类、字段和可排名条件见 [结果归档说明](results/README.md) 与 [结果 schema](results/result.schema.json)。比较前须核对 `scoring_policy`、题面版本、实际时限和工具配置。
 

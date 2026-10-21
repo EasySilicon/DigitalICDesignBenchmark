@@ -4,18 +4,20 @@
   "suite_id": "ic-delivery-rtl-v0.3",
   "model": "gpt-6-sol",
   "trial_kind": "pre_release_pilot",
-  "result_revision_date": "2026-10-10",
+  "result_revision_date": "2026-10-21",
   "benchmark_base_commit": "87ad1a4",
   "scoring_policy": "functional50-ppa50-setup-frequency-power4-hold-continuous-drc-half-delivery-v6",
   "ranking_eligible": false,
   "ranking_ineligible_reasons": [
-    "Suite-wide release qualification is pending: T10 reference PPA and the common tool-image freeze. See pending_components for model-specific unscored components."
+    "Historical pilots; common tool-image and suite release qualification remain pending.",
+    "T10 used the user-authorized serial 40 GiB policy with swap, not the default 32 GiB policy.",
+    "T10 reference uses custom internal hard macros; historical candidates use flat PE implementations."
   ],
   "task_count": 10,
   "full_functional_task_count": 10,
   "functional_score_sum": 500.0,
   "functional_score_possible": 500,
-  "complete_display_score_task_count": 9,
+  "complete_display_score_task_count": 10,
   "ppa_score_sum_for_available_tasks": 293.2857115688918,
   "time_score_sum_for_available_tasks": 29.553067098006053,
   "display_score_subtotal_with_unscored_components_omitted": 822.838778666898,
@@ -242,12 +244,38 @@
     {
       "task_id": "T10",
       "functional_total": 50.0,
-      "ppa_score": null,
-      "time_score": null,
+      "ppa_score": 0.0,
+      "time_score": 0.0,
       "display_score": 50.0,
-      "score_status": "function_scored_ppa_not_available",
+      "score_status": "scored",
       "legacy_task_id": "T10",
-      "full_functional_pass": true
+      "full_functional_pass": true,
+      "delivery_qualified": true,
+      "candidate_sha256": "4155e763ad17cf13687eda9aa27ca437e03a88a7558a42902013b45a8c2632ce",
+      "ppa_eligible": false,
+      "ppa_rank_bucket": 0,
+      "candidate_delivery_error_count": 0,
+      "candidate_delivery_penalty": 0,
+      "display_score_before_candidate_penalty": 50.0,
+      "scoring_policy": "functional50-ppa50-setup-frequency-power4-hold-continuous-drc-half-delivery-v6+explicit-user-compile-stop-zero",
+      "elapsed_seconds": 4441.0,
+      "t10_ppa_remeasurement": {
+        "report": {
+          "path": "results/gpt-6-sol/T10-ppa40.json",
+          "bytes": 7396,
+          "sha256": "e43d95cd90ed586328f38ae36cda05554a16e539e0f1261c9bf014023a00e556"
+        },
+        "resource_policy": {
+          "memory_max_bytes": 42949672960,
+          "memory_swap_max": "max",
+          "max_address_space": "unlimited",
+          "concurrency": 1,
+          "cpu_threads": 4,
+          "user_authorized_oom_ppa_zero": true,
+          "note": "40 GiB diagnostic remeasurement, not a claim of 32 GiB compliance"
+        },
+        "note": "User-authorized serial 40 GiB remeasurement with swap; not 32 GiB compliance."
+      }
     }
   ],
   "task_weights": {
@@ -280,12 +308,7 @@
   "covered_display_possible": 105.0,
   "evaluated_task_count": 10,
   "pending_functional_tasks": [],
-  "pending_components": {
-    "T10": [
-      "ppa_score",
-      "time_score"
-    ]
-  },
+  "pending_components": {},
   "task_id_migration": {
     "from_suite": "ic-delivery-rtl-v0.2",
     "to_suite": "ic-delivery-rtl-v0.3",
@@ -308,7 +331,8 @@
     "legacy_result_snapshots": "backed up outside repository"
   },
   "task_scoring_policies": {
-    "T09": "t09_group_cycles10_v1"
+    "T09": "t09_group_cycles10_v1",
+    "T10": "functional50-ppa50-setup-frequency-power4-hold-continuous-drc-half-delivery-v6+explicit-user-compile-stop-zero"
   },
   "task_freeze_receipts": {
     "T08": {
@@ -342,6 +366,6 @@
     "T09": 11.250217636529861,
     "T10": 12.5
   },
-  "totals_complete": false,
+  "totals_complete": true,
   "completed_tasks": 10
 }

@@ -15,8 +15,8 @@
     "T10": 0.25
   },
   "functional_score_sum": 500.0,
-  "ppa_score_sum_for_available_tasks": 295.25480244685417,
-  "weighted_display_score_with_unscored_components_omitted": 73.83391521688225,
+  "ppa_score_sum_for_available_tasks": 295.53544964441164,
+  "weighted_display_score_with_unscored_components_omitted": 74.76596937738272,
   "weighted_display_score_possible": 105.0,
   "tasks": [
     {
@@ -235,10 +235,37 @@
       "task_id": "T10",
       "legacy_task_id": "T10",
       "functional_total": 50.0,
-      "ppa_score": null,
-      "time_score": null,
-      "display_score": 50.0,
-      "full_functional_pass": true
+      "ppa_score": 0.28064719755745904,
+      "time_score": 3.4475694444444445,
+      "display_score": 53.728216642001904,
+      "full_functional_pass": true,
+      "delivery_qualified": true,
+      "candidate_sha256": "ba346787bb260a418a9309d533d41c60db61714728e3c0d4ed01a58cc2785054",
+      "ppa_eligible": true,
+      "ppa_rank_bucket": 0,
+      "candidate_delivery_error_count": 0,
+      "candidate_delivery_penalty": 0,
+      "display_score_before_candidate_penalty": 53.728216642001904,
+      "score_status": "scored",
+      "scoring_policy": "functional50-ppa50-setup-frequency-power4-hold-continuous-drc-half-delivery-v6",
+      "elapsed_seconds": 4471.0,
+      "t10_ppa_remeasurement": {
+        "report": {
+          "path": "results/gpt-6.1-sol/T10-ppa40.json",
+          "bytes": 10503,
+          "sha256": "5f01df4436f1c746345518d37b3d6af6f8d54b4cc6128133ca784f543e80c7f1"
+        },
+        "resource_policy": {
+          "memory_max_bytes": 42949672960,
+          "memory_swap_max": "max",
+          "max_address_space": "unlimited",
+          "concurrency": 1,
+          "cpu_threads": 4,
+          "user_authorized_oom_ppa_zero": true,
+          "note": "40 GiB diagnostic remeasurement, not a claim of 32 GiB compliance"
+        },
+        "note": "User-authorized serial 40 GiB remeasurement with swap; not 32 GiB compliance."
+      }
     }
   ],
   "weighted_task_contributions": {
@@ -251,33 +278,23 @@
     "T07": 9.312165714092822,
     "T08": 9.584868747894449,
     "T09": 11.840868030906233,
-    "T10": 12.5
+    "T10": 13.432054160500476
   },
-  "remaining_unscored_component": {
-    "T10": [
-      "ppa_score",
-      "time_score"
-    ]
-  },
+  "remaining_unscored_component": {},
   "suite_id": "ic-delivery-rtl-v0.3",
   "task_count": 10,
   "ranking_eligible": false,
-  "result_revision_date": "2026-10-10",
+  "result_revision_date": "2026-10-21",
   "full_functional_task_count": 10,
   "functional_score_possible": 500,
-  "time_score_sum_for_available_tasks": 28.439462680783535,
-  "display_score_subtotal_with_unscored_components_omitted": 823.6942651276377,
+  "time_score_sum_for_available_tasks": 31.887032125227982,
+  "display_score_subtotal_with_unscored_components_omitted": 827.4224817696396,
   "covered_task_weight": 1.0,
   "covered_display_possible": 105.0,
-  "complete_display_score_task_count": 9,
+  "complete_display_score_task_count": 10,
   "evaluated_task_count": 10,
   "pending_functional_tasks": [],
-  "pending_components": {
-    "T10": [
-      "ppa_score",
-      "time_score"
-    ]
-  },
+  "pending_components": {},
   "task_id_migration": {
     "from_suite": "ic-delivery-rtl-v0.2",
     "to_suite": "ic-delivery-rtl-v0.3",
@@ -300,10 +317,13 @@
     "legacy_result_snapshots": "backed up outside repository"
   },
   "ranking_ineligible_reasons": [
-    "Suite-wide release qualification is pending: T10 reference PPA and the common tool-image freeze. See pending_components for model-specific unscored components."
+    "Historical pilots; common tool-image and suite release qualification remain pending.",
+    "T10 used the user-authorized serial 40 GiB policy with swap, not the default 32 GiB policy.",
+    "T10 reference uses custom internal hard macros; historical candidates use flat PE implementations."
   ],
   "task_scoring_policies": {
-    "T09": "t09_group_cycles10_v1"
+    "T09": "t09_group_cycles10_v1",
+    "T10": "functional50-ppa50-setup-frequency-power4-hold-continuous-drc-half-delivery-v6"
   },
   "task_freeze_receipts": {
     "T08": {
@@ -320,10 +340,10 @@
     }
   },
   "functional_total_sum": 500.0,
-  "ppa_score_sum": 295.25480244685417,
-  "time_score_sum": 28.439462680783535,
-  "display_score_sum": 823.6942651276377,
-  "weighted_display_score": 73.83391521688225,
+  "ppa_score_sum": 295.53544964441164,
+  "time_score_sum": 31.887032125227982,
+  "display_score_sum": 827.4224817696396,
+  "weighted_display_score": 74.76596937738272,
   "weighted_display_possible": 105.0,
   "weighted_contributions": {
     "T01": 2.5897759998923378,
@@ -335,8 +355,8 @@
     "T07": 9.312165714092822,
     "T08": 9.584868747894449,
     "T09": 11.840868030906233,
-    "T10": 12.5
+    "T10": 13.432054160500476
   },
-  "totals_complete": false,
+  "totals_complete": true,
   "completed_tasks": 10
 }

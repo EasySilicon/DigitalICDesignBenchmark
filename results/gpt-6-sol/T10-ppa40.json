@@ -1,0 +1,208 @@
+{
+  "model": "gpt-6-sol",
+  "score": {
+    "task_id": "T10",
+    "functional_basic": 40.0,
+    "functional_edges": 10.0,
+    "functional_total": 50.0,
+    "full_functional_pass": true,
+    "delivery_qualified": true,
+    "ppa_eligible": false,
+    "ppa_score": 0.0,
+    "ppa_rank_bucket": 0,
+    "time_score": 0.0,
+    "candidate_delivery_error_count": 0,
+    "candidate_delivery_penalty": 0,
+    "display_score_before_candidate_penalty": 50.0,
+    "display_score": 50.0,
+    "score_items": [
+      {
+        "id": "F_INT",
+        "layer": "F",
+        "points": 6.666666666666666,
+        "possible_points": 6.666666666666666,
+        "cases_passed": 128,
+        "cases_total": 128,
+        "safety_violation": false
+      },
+      {
+        "id": "F_FP16_BF16",
+        "layer": "F",
+        "points": 6.666666666666666,
+        "possible_points": 6.666666666666666,
+        "cases_passed": 128,
+        "cases_total": 128,
+        "safety_violation": false
+      },
+      {
+        "id": "F_FP8",
+        "layer": "F",
+        "points": 6.666666666666666,
+        "possible_points": 6.666666666666666,
+        "cases_passed": 128,
+        "cases_total": 128,
+        "safety_violation": false
+      },
+      {
+        "id": "F_FP4",
+        "layer": "F",
+        "points": 6.666666666666666,
+        "possible_points": 6.666666666666666,
+        "cases_passed": 64,
+        "cases_total": 64,
+        "safety_violation": false
+      },
+      {
+        "id": "F_MXFP8",
+        "layer": "F",
+        "points": 6.666666666666666,
+        "possible_points": 6.666666666666666,
+        "cases_passed": 128,
+        "cases_total": 128,
+        "safety_violation": false
+      },
+      {
+        "id": "F_MXFP4",
+        "layer": "F",
+        "points": 6.666666666666666,
+        "possible_points": 6.666666666666666,
+        "cases_passed": 96,
+        "cases_total": 96,
+        "safety_violation": false
+      },
+      {
+        "id": "P_PROTOCOL",
+        "layer": "P",
+        "points": 3.333333333333333,
+        "possible_points": 3.333333333333333,
+        "cases_passed": 337,
+        "cases_total": 337,
+        "safety_violation": false
+      },
+      {
+        "id": "P_SYSTOLIC",
+        "layer": "P",
+        "points": 3.333333333333333,
+        "possible_points": 3.333333333333333,
+        "cases_passed": 1616,
+        "cases_total": 1616,
+        "safety_violation": false
+      },
+      {
+        "id": "P_CORNER",
+        "layer": "P",
+        "points": 3.333333333333333,
+        "possible_points": 3.333333333333333,
+        "cases_passed": 128,
+        "cases_total": 128,
+        "safety_violation": false
+      }
+    ],
+    "rank_key": [
+      50.0,
+      0,
+      0
+    ]
+  },
+  "elapsed_seconds": 4441.0,
+  "original_functional_record": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt6sol_noskills_from_t04_v6_20261003/grading/T10/functional.json",
+    "bytes": 5672,
+    "sha256": "ae5886008d881b5c4047d77e2ba126c3eb40f0ccfba4f98f64d9a356ea090016"
+  },
+  "candidate_source_sha256": "4155e763ad17cf13687eda9aa27ca437e03a88a7558a42902013b45a8c2632ce",
+  "grading_resource_policy": {
+    "memory_max_bytes": 42949672960,
+    "memory_swap_max": "max",
+    "max_address_space": "unlimited",
+    "concurrency": 1,
+    "cpu_threads": 4,
+    "user_authorized_oom_ppa_zero": true,
+    "note": "40 GiB diagnostic remeasurement, not a claim of 32 GiB compliance"
+  },
+  "adjudication": "User explicitly adjudicated zero after excessive compiler runtime; not OOM and not a suite-wide automatic timeout.",
+  "user_decision": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6-sol/user_compile_stop40/decision.json",
+    "bytes": 3128,
+    "sha256": "97c58473bc4aacbe89cfd0c72b257d10c9a309454e4fbbda8ad015a0ce959b47"
+  },
+  "user_decision_record": {
+    "kind": "user_adjudicated_compile_stop_zero",
+    "model": "gpt-6-sol",
+    "layout_seed": 11,
+    "user_decision": "那就应该判它0分",
+    "candidate_source_sha256": "4155e763ad17cf13687eda9aa27ca437e03a88a7558a42902013b45a8c2632ce",
+    "resource_policy": {
+      "memory_max_bytes": 42949672960,
+      "memory_swap_max": "max",
+      "max_address_space": "unlimited",
+      "concurrency": 1,
+      "cpu_threads": 4,
+      "user_authorized_oom_ppa_zero": true,
+      "note": "40 GiB diagnostic remeasurement, not a claim of 32 GiB compliance"
+    },
+    "ppa_score": 0,
+    "time_score": 0,
+    "measurement_completed": false,
+    "unit": "t10-40-power-gpt-6-sol-s11-area1-front0.scope",
+    "compiler_pid": 655585,
+    "compiler_start_ticks": "277789731",
+    "observed_compiler_wall_seconds": 16924.709999999963,
+    "requested_utc": "2026-10-21T00:45:01.530556+00:00",
+    "resources": {
+      "memory.max": "42949672960",
+      "memory.swap.max": "max",
+      "memory.current": "23788400640",
+      "memory.peak": "25194029056",
+      "memory.swap.current": "221917184",
+      "memory.swap.peak": "221917184"
+    },
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "reason": "User explicitly adjudicated zero after excessive compiler runtime; not OOM and not a suite-wide automatic timeout.",
+    "preserved_inputs": {
+      "activity40.log": {
+        "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6-sol/user_compile_stop40/activity40.log",
+        "bytes": 539,
+        "sha256": "270605c47d263396fbe433a8455c74b645b13254a9f3cfee13c818152db02445"
+      },
+      "activity_runtime40.json": {
+        "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6-sol/user_compile_stop40/activity_runtime40.json",
+        "bytes": 865,
+        "sha256": "3ba519b221e39b194bad44286c56a0d0ee978c755c7d6cef837712cf68f04250"
+      },
+      "Vnpu_systolic_matmul_16x16__hierMkArgs.f": {
+        "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6-sol/user_compile_stop40/Vnpu_systolic_matmul_16x16__hierMkArgs.f",
+        "bytes": 1522,
+        "sha256": "47a08fbeba51ccc085733ecf36f1c5c6d2b78d3fbd05f583ccd52acbc8dd393c"
+      },
+      "t10_ppa_scores40.json": {
+        "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6-sol/user_compile_stop40/t10_ppa_scores40.json",
+        "bytes": 5844,
+        "sha256": "a0c3b3b147102849dba9df273c5717a561c8ef3b9756c2e6bfda782bb10cc455"
+      }
+    },
+    "request": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6-sol/user_compile_stop40/request.json",
+      "bytes": 2405,
+      "sha256": "eb79a583e60ba8cc30d1b204110907b12a9ac68f8abdd1616a2551c3afd468e0"
+    },
+    "terminal_runtime": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6-sol/seed11/activity_runtime40.json",
+      "bytes": 967,
+      "sha256": "fcd9458cbac68cf431bcb840b0df33cbe0357d28c7a21a5ae5381d5082e8b21e"
+    },
+    "queue_after_stop": {
+      "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6-sol/user_compile_stop40/queue_after_stop.json",
+      "bytes": 6198,
+      "sha256": "d70bf69bbd12a216ab26ba038566c15b801208675cdc92e493be834a184435e9"
+    }
+  },
+  "measurement_completed": false,
+  "failing_seed": 11,
+  "runtime": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6-sol/seed11/activity_runtime40.json",
+    "bytes": 967,
+    "sha256": "fcd9458cbac68cf431bcb840b0df33cbe0357d28c7a21a5ae5381d5082e8b21e"
+  },
+  "queue_status": "user_adjudicated_compile_stop_zero"
+}
