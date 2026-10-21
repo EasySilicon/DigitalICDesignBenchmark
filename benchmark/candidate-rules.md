@@ -12,6 +12,11 @@ No Skills are supplied: do not discover, load, create as guidance, or install
 Skills. Direct web-search/fetch tools are disabled. Normal local commands remain
 available. Use one model session; do not delegate work to other model Agents.
 
+## Resources
+
+The suite allocation is 16 vCPU, 40 GiB RAM and 100 GiB writable disk.
+The RAM ceiling limits actual memory, not virtual address space.
+
 ## Deliverables
 
 - rtl/: synthesizable .sv/.v design sources, preserving the specified top ports.

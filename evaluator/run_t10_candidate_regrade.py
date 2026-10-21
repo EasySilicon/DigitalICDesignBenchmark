@@ -75,7 +75,7 @@ def main():
                 print('ACTIVITY/POWER',model,seed,flush=True)
                 command=['systemd-run','--user','--scope',
                     f'--unit=t10-power-{model.replace(".","_")}-s{seed}',
-                    '-p','MemoryMax=32G','-p','MemorySwapMax=0','-p','CPUQuota=400%',
+                    '-p','MemoryMax=40G','-p','MemorySwapMax=0','-p','CPUQuota=400%',
                     'python3','-u',str(REPO/'evaluator/t10_candidate_power.py'),
                     '--model-dir',str(root),'--seed',str(seed),'--orfs',str(a.orfs.resolve())]
                 timeout=run_power(command,root,seed)

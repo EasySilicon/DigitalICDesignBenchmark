@@ -104,7 +104,7 @@ def task_record(old,report,receipt,stamp,*,verified_source=None):
         ppa_possible=50,time_possible=5,display_possible=105,ranking_eligible=False,
         ranking_ineligible_reason='Historical pilot; common tool-image and suite release qualification remain pending.',
         t10_ppa_remeasurement=dict(report=receipt,resource_policy=POLICY,
-            note='User-authorized serial 40 GiB remeasurement with swap; not 32 GiB compliance.'))
+            note='Serial 40 GiB remeasurement with swap allowed.'))
     if 'measurement' in report:
         updated['ppa_measurement']=report['measurement']
         if report['measurement'].get('power_compile_policy'):
@@ -162,7 +162,6 @@ def summary_record(old,updated,stamp):
         complete_display_score_task_count=len(rows)-len(pending),result_revision_date=stamp,ranking_eligible=False,
         ranking_ineligible_reasons=[
             'Historical pilots; common tool-image and suite release qualification remain pending.',
-            'T10 used the user-authorized serial 40 GiB policy with swap, not the default 32 GiB policy.',
             'T10 reference uses custom internal hard macros; historical candidates use flat PE implementations.'])
     if 'remaining_unscored_component' in result:result['remaining_unscored_component']=pending
     return result

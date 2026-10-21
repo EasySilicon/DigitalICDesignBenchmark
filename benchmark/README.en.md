@@ -20,6 +20,9 @@ It also supports controlled experiments on whether external harnesses such as Sk
 | T09 | RV32I five-stage pipelined CPU | 2 h |
 | T10 | 16×16 streaming multi-precision systolic-array matrix multiplication | 4 h |
 
+The suite allocation is **16 vCPU, 40 GiB RAM and 100 GiB writable disk**.
+The RAM ceiling limits actual memory, not virtual address space.
+
 ## Entry points
 
 - [Task packages](tasks/): frozen task cards, task-specific acceptance plans, public artifacts, and machine-readable metadata.

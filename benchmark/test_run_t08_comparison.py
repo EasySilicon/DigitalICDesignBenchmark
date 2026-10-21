@@ -51,6 +51,8 @@ class T08RunnerTest(unittest.TestCase):
     def test_commands_keep_sessions_and_avoid_budget_stops(self):
         for agent in ('kimi', 'claude'):
             cmd = command(Path('/host/trial'), agent, 'test-container', 'abc-session')
+            self.assertEqual(cmd[cmd.index('--memory') + 1], '40g')
+            self.assertEqual(cmd[cmd.index('--memory-swap') + 1], '40g')
             shell = cmd[-1]
             self.assertIn('7200s', shell)
             self.assertIn('/tmp/start_trial', shell)

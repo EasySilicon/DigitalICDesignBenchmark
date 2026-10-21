@@ -245,6 +245,7 @@ def contracts(task: str, root: Path = ROOT) -> dict:
     shared_rules["task_weight"] = rules["task_weights"][task]
     shared_rules["task_raw_allocation"] = rules.get("task_raw_allocations", {}).get(task, {"F": 60, "P": 15})
     return {"suite_id": manifest["suite_id"], "task_metadata": row,
+            "hardware_limit": manifest["hardware_limit"],
             "suite_score": manifest["score"], "score_policy": shared_rules,
             "score_items": rules["tasks"][task], "ppa_baseline_sha256": digest(baseline),
             "source_lock_ppa": {k: v for k, v in sources["ppa"].items()
@@ -255,7 +256,8 @@ def contracts(task: str, root: Path = ROOT) -> dict:
 
 def build(task: str, root: Path = ROOT) -> dict:
     return {"schema_version": 1, "task_id": task, "status": "frozen",
-            "publication_date": "2026-10-09", "scope": "task-level; not a suite-wide release",
+            "publication_date": "2026-10-09", "resource_policy_revision": "2026-10-21",
+            "scope": "task-level; not a suite-wide release",
             "baseline_authority": f"benchmark/ppa-baselines.json#tasks.{task}",
             "reference_source_sha256": source_hash(root / f"evaluator/reference/{task}"),
             "contracts": contracts(task, root),

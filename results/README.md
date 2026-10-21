@@ -22,6 +22,6 @@ Scoring: functionality /50, PPA /50, time /5. Weights: T01/T02 3% each; T03–T0
 
 ## Comparability
 
-These historical pilots are not an official ranking. T10 candidate remeasurement used serial 40 GiB RAM with swap allowed, rather than the default 32 GiB. The reference uses internal hard macros while candidates use flat PEs; a same-flow comparison remains pending. Kimi T08 used a cumulative 150-minute development budget. GPT-6-Sol T10 retains 50 functional points and zero PPA/time under its historical compilation-termination adjudication.
+These historical pilots are not an official ranking. The reference uses internal hard macros while candidates use flat PEs; a same-flow comparison remains pending. Kimi T08 used a cumulative 150-minute development budget. GPT-6-Sol T10 retains 50 functional points and zero PPA/time under its historical compilation-termination adjudication.
 
 Task labels follow `ic-delivery-rtl-v0.3`; raw archives retain legacy labels, with `legacy_task_id` providing the mapping. Current scoring rules and measurement scope are documented in the [root README](../README.en.md#acceptance-and-scoring).

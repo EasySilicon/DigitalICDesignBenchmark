@@ -3,6 +3,7 @@
   "task_id": "T09",
   "status": "frozen",
   "publication_date": "2026-10-09",
+  "resource_policy_revision": "2026-10-21",
   "scope": "task-level; not a suite-wide release",
   "baseline_authority": "benchmark/ppa-baselines.json#tasks.T09",
   "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
@@ -31,6 +32,12 @@
         3.2,
         15
       ]
+    },
+    "hardware_limit": {
+      "vcpu": 16,
+      "ram_gib": 40,
+      "disk_gib": 100,
+      "gpu": false
     },
     "suite_score": {
       "functional_raw_basic_weight": 60,
@@ -195,9 +202,9 @@
     }
   },
   "artifact_sha256": {
-    "benchmark/README.en.md": "2857a7959b4e06a2f0e7a6796f08cb92fc3fa3dc1542df26a176d2dd26013daf",
-    "benchmark/README.md": "b831f65dd75d6bc325bacb230f8dc61b1b619fc214614ad9febefac0826d2fff",
-    "benchmark/candidate-rules.md": "b64e61e9777f2d67a9caf41ffae9764b20db70da29d1a7910a9c220c1a96fa01",
+    "benchmark/README.en.md": "46b22058dfaafd2518020b929e5d1f614cb53f7cfea7444593e95cafe93c9c44",
+    "benchmark/README.md": "38131fe50eda555e0c22c815639ca78c964ee744339493653d0fdc0d57013d66",
+    "benchmark/candidate-rules.md": "f31e49c79a7578a7efffbdb92c90ee298a4c43a99ce90c1fdb48efcfa6054ea2",
     "benchmark/cpu/act4/README.md": "16e43794acde77eee1221002ae674326fe364561c0b7a5975f7b138d78dde1e9",
     "benchmark/cpu/act4/link.ld": "f60c333f6c91625b2bd263a590c0ddf387a961e0c684f8e4980562b191f56bed",
     "benchmark/cpu/act4/rvmodel_macros.h": "7f7422cb4fd909c1c0a70c9f1f7e9b1fd899d050a3db210217d423a7cb933a24",
@@ -205,7 +212,7 @@
     "benchmark/cpu/act4/test_config.yaml": "89bdb87f0489ce5cbb5559272ccfe962ac47be729c8f7bdee3e6ce34b4e866a8",
     "benchmark/cpu/act4/udb.yaml": "665f7248e24afce4e513181fe01c83cf0b084d0ab92f3d00660cd1eacc481ba9",
     "benchmark/eda_time.py": "d4bc2b8ecd6ff7889004a3859921722a737bedd00e3b8ee93abc77d6c56953ce",
-    "benchmark/freeze_tasks.py": "fc7703be017d41f26072aa21fdf8de7d57f92b08c2f83e60406bcebbfb7b1eb8",
+    "benchmark/freeze_tasks.py": "0ade487a3f461286051cbb830e6096b00c2d63916680ce94d30350bd9145e955",
     "benchmark/prepare_trial.py": "f25fc9d7e53aacdfde05abb90dcf6e3e7ee137a2c6ca3c823ea7a0b3df6581a7",
     "benchmark/report.schema.json": "53df65eaa6850f57a26a0566a1dff347f65d0c1966826198256fa1c561069932",
     "benchmark/tasks/T09/README.en.md": "7e0676bf4bcf8e283374684ee74ae6bc930d6ee39f362628b412e75ed26a16f6",
@@ -213,7 +220,7 @@
     "benchmark/tasks/T09/acceptance.md": "b7841cf3f2d3fe1b2c1f9324bd313fdb647ec1b5cec0d986fd5ab8a47b370e50",
     "benchmark/tasks/T09/public/tb.sv": "058f7d46c174d485757e0b7b5501cdf9c550119aa642032bf519fe6d72fb8cbd",
     "benchmark/tasks/T09/public/tb_cpu_elf.sv": "581914e6f3f67558c4027a0d66e6c95519181922fc446c8795c4e833e746faa6",
-    "benchmark/tasks/T09/task.md": "1021e4b88446ed12c7b6a3cc6f46847f16a44c70a47660fff24f5f91ca778958",
+    "benchmark/tasks/T09/task.md": "cea48f30aae8fe04c443aefcf626eb1d6005b65bcab593635fa3c5c7ac631c19",
     "benchmark/tasks/T09/task.yaml": "797b2a4228bec7482471f466378f76afc1ef61a2b0a294b5a92bd9f7c6014b65",
     "benchmark/tasks/T10/public/matmul_oracle.py": "880a56317f3b54ea6b9f563ad2e6272d54e2332986bfd09780b25aa0a3aa57e7",
     "env/asap7_seq_sim.v": "905e012fb94843990aefc5383f5222dd910d3fa2ece809ec5b6ceeca2603930e",

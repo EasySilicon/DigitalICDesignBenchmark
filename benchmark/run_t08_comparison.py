@@ -131,8 +131,8 @@ def command(root: Path, agent: str, container: str, session: str,
         raise ValueError('select the exact supported Codex model')
     selected_claude = claude_model(model) if agent == 'claude' else None
     cmd = ['docker', 'run', '--name', container, '--network', 'host',
-           '--user', '1000:1000', '--cpus', '16', '--memory', '32g',
-           '--memory-swap', '32g', '--pids-limit', '4096',
+           '--user', '1000:1000', '--cpus', '16', '--memory', '40g',
+           '--memory-swap', '40g', '--pids-limit', '4096',
            '--security-opt', 'no-new-privileges', '--read-only']
     for key in ('HTTP_PROXY', 'HTTPS_PROXY', 'ALL_PROXY', 'http_proxy',
                 'https_proxy', 'all_proxy', 'NO_PROXY', 'no_proxy'):
@@ -311,7 +311,7 @@ def grade(root: Path, elapsed: float, exit_code: int) -> dict:
     frozen = root / 'frozen_judge'
     env = {**os.environ, 'PYTHONPATH': str(frozen), 'PATH': TOOL_PATH,
            'PYTHONDONTWRITEBYTECODE': '1'}
-    cmd = ['systemd-run', '--user', '--scope', '--quiet', '-p', 'MemoryMax=16G',
+    cmd = ['systemd-run', '--user', '--scope', '--quiet', '-p', 'MemoryMax=40G',
            '-p', 'MemorySwapMax=0', sys.executable, '-m', 'evaluator.t08_check',
            str(root / 'workspace'), '--output', str(grading / 'functional.json')]
     with (grading / 'functional_driver.log').open('w') as log:
@@ -332,7 +332,7 @@ def grade(root: Path, elapsed: float, exit_code: int) -> dict:
     try:
         with (grading / 'yosys.log').open('w') as log:
             result = subprocess.run(['systemd-run', '--user', '--scope', '--quiet',
-                '-p', 'MemoryMax=16G', '-p', 'MemorySwapMax=0',
+                '-p', 'MemoryMax=40G', '-p', 'MemorySwapMax=0',
                 'yosys', '-Q', '-p', script], env=env, stdout=log,
                 stderr=subprocess.STDOUT, timeout=300)
         report['synthesis'] = {'passed': result.returncode == 0, 'exit_code': result.returncode,
@@ -345,7 +345,7 @@ def grade(root: Path, elapsed: float, exit_code: int) -> dict:
     if (frozen / 'evaluator/t08_stress_check.py').is_file():
         stress_path = grading / 'concurrency.json'
         stress_cmd = ['systemd-run', '--user', '--scope', '--quiet',
-            '-p', 'MemoryMax=16G', '-p', 'MemorySwapMax=0',
+            '-p', 'MemoryMax=40G', '-p', 'MemorySwapMax=0',
             sys.executable, '-m', 'evaluator.t08_stress_check',
             str(root / 'workspace'), '--output', str(stress_path)]
         try:
@@ -445,7 +445,7 @@ def run(root: Path, resume: bool = False) -> None:
     session = resume_session or str(uuid.uuid4())
     container = 'ic-bcmk-t08-' + root.name.replace('.', '-') + '-' + uuid.uuid4().hex[:8]
     manifest.update(container=container, session_id=session if resume_session or manifest['agent'] == 'claude' else None,
-                    resource_limits={'memory_gib': 32, 'cpus': 16}, launched_utc=utc())
+                    resource_limits={'memory_gib': 40, 'cpus': 16}, launched_utc=utc())
     cmd = command(root, manifest['agent'], container, session,
                   seconds=seconds, gate=gate, resume_session=resume_session,
                   model=manifest['model'])

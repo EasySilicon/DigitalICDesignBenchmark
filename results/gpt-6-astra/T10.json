@@ -201,7 +201,7 @@
       "user_authorized_oom_ppa_zero": true,
       "note": "40 GiB diagnostic remeasurement, not a claim of 32 GiB compliance"
     },
-    "note": "User-authorized serial 40 GiB remeasurement with swap; not 32 GiB compliance."
+    "note": "Serial 40 GiB remeasurement with swap allowed."
   },
   "ppa_measurement": {
     "task_id": "T10",

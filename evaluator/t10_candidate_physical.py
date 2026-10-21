@@ -5,7 +5,6 @@ This is the physical phase only. A completed flow still requires connectivity,
 native geometry, extracted timing, and full-DUT activity/power qualification.
 """
 import argparse
-from concurrent.futures import ThreadPoolExecutor
 import fcntl
 import hashlib
 import json
@@ -78,7 +77,7 @@ def active_records(directory):
     return directory/'inputs.json',directory/'baseline.json'
 
 
-def run_seed(item,seed,work,orfs,target,*,memory_gib=32,allow_swap=False,prepare_only=False):
+def run_seed(item,seed,work,orfs,target,*,memory_gib=40,allow_swap=False,prepare_only=False):
     model=item['model'];pe=item['pe'];directory=work/model/f'seed{seed}'
     directory.mkdir(parents=True,exist_ok=True)
     with (directory/'run.lock').open('a') as lock:
@@ -132,17 +131,18 @@ def run_seed(item,seed,work,orfs,target,*,memory_gib=32,allow_swap=False,prepare
             *(['route','do-finish'] if target=='baseline' else [target])]
         if prepare_only:
             return dict(command=command,inputs=inputs,input_path=str(input_path),marker=str(marker))
-        if memory_gib==40:raise ValueError('40 GiB attempts must use the monitored serial coordinator')
+        if memory_gib==40 and target=='baseline':
+            raise ValueError('40 GiB baseline attempts must use the monitored serial coordinator')
         env=dict(os.environ,MALLOC_ARENA_MAX='2');started=time.time()
         print('START',model,seed,target,flush=True)
-        with (directory/f'{target}.log').open('x') as log:
+        with (directory/f'{target}{suffix}.log').open('x') as log:
             result=subprocess.run(command,env=env,stdout=log,stderr=subprocess.STDOUT,check=False)
         result_dir=orfs/'flow/results/asap7'/pe/variant
         paths=([result_dir/f'6_final.{ext}' for ext in ('odb','spef','sdc','v')] if target=='baseline' else
                [result_dir/'1_2_yosys.v'])
         record=dict(status='physical_flow_completed_not_qualified' if result.returncode==0 else 'failed_pending_attribution',
             model=model,layout_seed=seed,exit_code=result.returncode,elapsed_seconds=time.time()-started,
-            inputs_sha256=sha(directory/'inputs.json'),artifacts={p.name:artifact(p) for p in paths if p.is_file()})
+            inputs_sha256=sha(input_path),artifacts={p.name:artifact(p) for p in paths if p.is_file()})
         if result.returncode==0 and len(record['artifacts'])!=len(paths):raise ValueError('flow returned without complete outputs')
         marker.write_text(json.dumps(record,indent=2)+'\n')
         print('FINISH',model,seed,record['status'],flush=True)
@@ -156,11 +156,21 @@ def main():
     p.add_argument('--seeds',type=int,choices=(11,29,47),nargs='+',default=[11,29,47])
     p.add_argument('--target',choices=('synth','baseline'),default='baseline')
     a=p.parse_args();work=a.work.resolve();orfs=a.orfs.resolve()
-    # At most two 32-GiB flows; leave host memory available to other workloads.
+    # Current 40-GiB flows run serially; 32-GiB inputs remain historical records.
     items=[prepare(m,a.trials_root.resolve(),work) for m in a.models]
-    with ThreadPoolExecutor(max_workers=2) as pool:
-        futures=[pool.submit(run_seed,item,seed,work,orfs,a.target) for seed in a.seeds for item in items]
-        rows=[future.result() for future in futures]
+    rows=[]
+    for seed in a.seeds:
+        for item in items:
+            if a.target=='baseline':
+                from run_t10_candidate_40g import completed_physical, physical
+                directory=work/item['model']/f'seed{seed}'
+                if completed_physical(directory):
+                    row=json.loads((directory/'baseline40.json').read_text())
+                else:
+                    row,_=physical(item,seed,work,orfs)
+            else:
+                row=run_seed(item,seed,work,orfs,a.target)
+            rows.append(row)
     (work/f'{a.target}_summary.json').write_text(json.dumps(rows,indent=2)+'\n')
 
 

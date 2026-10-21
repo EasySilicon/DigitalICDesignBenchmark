@@ -233,7 +233,7 @@
       },
       "benchmark_freeze": {
         "receipt": "benchmark/tasks/T08/FREEZE.json",
-        "receipt_sha256": "fb6e63b38913ad9884010139373120dbc30424eab849760ad910995adf0f5e2b",
+        "receipt_sha256": "8fffda25816418ca2b5cb30e2a2fc934d757da9a59acdd183dfed69de3ec38a3",
         "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
         "scope": "current grading contract"
       }
@@ -260,7 +260,7 @@
       "cycle_cases_total": 22,
       "benchmark_freeze": {
         "receipt": "benchmark/tasks/T09/FREEZE.json",
-        "receipt_sha256": "9b1883e37cae0ef229f1686bca0fa011e0e6a72f3e27cecb16dfa272194b79f2",
+        "receipt_sha256": "d2a023c1bea7c4cbd2364dce5218bd6bdcfcfafcde4486d3309f5f06affc3901",
         "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
         "scope": "current grading contract"
       },
@@ -363,13 +363,13 @@
   "task_freeze_receipts": {
     "T08": {
       "receipt": "benchmark/tasks/T08/FREEZE.json",
-      "receipt_sha256": "fb6e63b38913ad9884010139373120dbc30424eab849760ad910995adf0f5e2b",
+      "receipt_sha256": "8fffda25816418ca2b5cb30e2a2fc934d757da9a59acdd183dfed69de3ec38a3",
       "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
       "scope": "current grading contract"
     },
     "T09": {
       "receipt": "benchmark/tasks/T09/FREEZE.json",
-      "receipt_sha256": "9b1883e37cae0ef229f1686bca0fa011e0e6a72f3e27cecb16dfa272194b79f2",
+      "receipt_sha256": "d2a023c1bea7c4cbd2364dce5218bd6bdcfcfafcde4486d3309f5f06affc3901",
       "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
       "scope": "current grading contract"
     }

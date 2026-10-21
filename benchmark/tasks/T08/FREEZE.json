@@ -3,6 +3,7 @@
   "task_id": "T08",
   "status": "frozen",
   "publication_date": "2026-10-09",
+  "resource_policy_revision": "2026-10-21",
   "scope": "task-level; not a suite-wide release",
   "baseline_authority": "benchmark/ppa-baselines.json#tasks.T08",
   "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
@@ -30,6 +31,12 @@
         9,
         6
       ]
+    },
+    "hardware_limit": {
+      "vcpu": 16,
+      "ram_gib": 40,
+      "disk_gib": 100,
+      "gpu": false
     },
     "suite_score": {
       "functional_raw_basic_weight": 60,
@@ -167,14 +174,14 @@
     "source_lock_riscv": null
   },
   "artifact_sha256": {
-    "benchmark/README.en.md": "2857a7959b4e06a2f0e7a6796f08cb92fc3fa3dc1542df26a176d2dd26013daf",
-    "benchmark/README.md": "b831f65dd75d6bc325bacb230f8dc61b1b619fc214614ad9febefac0826d2fff",
-    "benchmark/candidate-rules.md": "b64e61e9777f2d67a9caf41ffae9764b20db70da29d1a7910a9c220c1a96fa01",
+    "benchmark/README.en.md": "46b22058dfaafd2518020b929e5d1f614cb53f7cfea7444593e95cafe93c9c44",
+    "benchmark/README.md": "38131fe50eda555e0c22c815639ca78c964ee744339493653d0fdc0d57013d66",
+    "benchmark/candidate-rules.md": "f31e49c79a7578a7efffbdb92c90ee298a4c43a99ce90c1fdb48efcfa6054ea2",
     "benchmark/eda_time.py": "d4bc2b8ecd6ff7889004a3859921722a737bedd00e3b8ee93abc77d6c56953ce",
-    "benchmark/freeze_tasks.py": "fc7703be017d41f26072aa21fdf8de7d57f92b08c2f83e60406bcebbfb7b1eb8",
+    "benchmark/freeze_tasks.py": "0ade487a3f461286051cbb830e6096b00c2d63916680ce94d30350bd9145e955",
     "benchmark/prepare_trial.py": "f25fc9d7e53aacdfde05abb90dcf6e3e7ee137a2c6ca3c823ea7a0b3df6581a7",
     "benchmark/report.schema.json": "53df65eaa6850f57a26a0566a1dff347f65d0c1966826198256fa1c561069932",
-    "benchmark/tasks/T08/AUTHOR_GUIDE.md": "38a06b742df382e870ecca0dc2e10a8696ca432cc3099ccfa8a0b0da68615c1f",
+    "benchmark/tasks/T08/AUTHOR_GUIDE.md": "edaad5a6616d91de3e2db42a52ea71c20534196c5788c2f4dd0e54bf35cae2ca",
     "benchmark/tasks/T08/PPA_FREEZE.json": "d92938298b1c8084beec057658bbf733010a3864e620e8fdfc379f42f211c9e2",
     "benchmark/tasks/T08/PROVENANCE.md": "885bbabe6c4ee5244b230ebfaeae26937e8b3a4d70ff29a6ea523eb97ce26856",
     "benchmark/tasks/T08/README.en.md": "7ab148cc040f2d01e5acbbbfea8fe90b2efe5837b12aa9e5bdb003ac690d8abf",

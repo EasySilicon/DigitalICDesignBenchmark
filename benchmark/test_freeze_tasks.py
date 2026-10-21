@@ -16,6 +16,7 @@ class FreezeTasksTest(unittest.TestCase):
         for task in freeze.TASKS:
             receipt = freeze.verify(task)
             self.assertEqual(receipt["status"], "frozen")
+            self.assertEqual(receipt["contracts"]["hardware_limit"]["ram_gib"], 40)
             for name in (f"benchmark/tasks/{task}/task.md", f"benchmark/tasks/{task}/acceptance.md",
                          f"benchmark/tasks/{task}/task.yaml", f"evaluator/{task.lower()}_check.py",
                          "evaluator/score_run.py", "benchmark/prepare_trial.py"):

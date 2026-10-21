@@ -95,7 +95,7 @@ T10 计算 `16×64` 与 `64×16` 矩阵乘法，A/B **各每拍输入 1024 bit**
 
 每格为单题显示总分，**满分 105，已计入交付扣分**，保留两位小数。加权总分用未舍入的逐题成绩乘以固定权重后求和，不是简单平均。
 
-| 题目 | 权重 | GPT-6-Astra<br>Codex CLI 0.160.0 | GPT-6.1-Sol<br>Codex CLI 0.160.0 | GPT-6-Sol<br>Codex CLI 0.160.0 | Kimi K3<br>Kimi CLI 2.1.1 | DeepSeek Flash<br>Claude Code 2.1.183 | GLM-5.3-Flash<br>Claude Code 2.1.183 |
+| 题目 | 权重 | GPT-6-Astra<br><sub>Codex CLI 0.160.0</sub> | GPT-6.1-Sol<br><sub>Codex CLI 0.160.0</sub> | GPT-6-Sol<br><sub>Codex CLI 0.160.0</sub> | Kimi K3<br><sub>Kimi CLI 2.1.1</sub> | DeepSeek V4.1 Flash<br><sub>Claude Code 2.1.183</sub> | GLM-5.3-Flash<br><sub>Claude Code 2.1.183</sub> |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | T01 | 3% | 88.24 | 86.33 | 86.98 | 75.49 | 82.86 | 0.00 |
 | T02 | 3% | 87.88 | 87.20 | 89.70 | 89.17 | 89.07 | 81.71 |
@@ -112,7 +112,7 @@ T10 计算 `16×64` 与 `64×16` 矩阵乘法，A/B **各每拍输入 1024 bit**
 
 功能未全通过的题目，PPA 和时间分均为 0；GPT-6-Sol T10 按历史功耗编译终止判定保留功能 50 分、PPA 与时间分 0 分。判零类别和分项成绩见[模型结果说明](results/model-score-comparison.md)。
 
-运行条件：T10 候选重测采用 **40 GiB 实际内存、允许交换、串行运行**，不同于套件默认的 32 GiB；Kimi T08 使用累计 150 分钟的历史开发预算。T10 参考与候选的内部宏及物理实现流程不同，尚缺同流程对照。因此，这些结果为历史试跑成绩，不构成正式排名。
+运行条件：Kimi T08 使用累计 150 分钟的历史开发预算。T10 参考与候选的内部宏及物理实现流程不同，尚缺同流程对照。因此，这些结果为历史试跑成绩，不构成正式排名。
 
 详细资料：[逐题失分原因](results/model-score-comparison.md#各模型逐题失分原因)、[PPA 公式审计](results/model-score-comparison.md#ppa-公式审计2026-10-21)、[结果归档说明](results/README.md)及[结果 schema](results/result.schema.json)。
 
@@ -146,7 +146,7 @@ python3 env/check_env.py --profile ppa \
   --orfs-root third_party/OpenROAD-flow-scripts --verify-platform-hashes
 ```
 
-默认评测资源为 **16 vCPU、32 GiB RAM、100 GiB 可写盘**，模型 token 与开发时限见 [manifest.yaml](benchmark/manifest.yaml)。大型仿真/物理构建建议把 `TMPDIR` 和 ORFS 工作树放到有足够空间的数据盘；依赖自检通过后仍需运行实际参考冒烟，确认版本兼容。
+默认评测资源为 **16 vCPU、40 GiB RAM、100 GiB 可写盘**，模型 token 与开发时限见 [manifest.yaml](benchmark/manifest.yaml)。大型仿真/物理构建建议把 `TMPDIR` 和 ORFS 工作树放到有足够空间的数据盘；依赖自检通过后仍需运行实际参考冒烟，确认版本兼容。
 
 ## 推荐测试方式
 

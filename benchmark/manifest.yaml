@@ -5,7 +5,7 @@ status: design_only
 replicates_per_task: 5
 hardware_limit:
   vcpu: 16
-  ram_gib: 32
+  ram_gib: 40
   disk_gib: 100
   gpu: false
 score:

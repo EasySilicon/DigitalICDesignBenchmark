@@ -97,7 +97,7 @@ The following values come from the [2026-10-21 per-task evaluation results](resu
 
 Each cell is the task's display score **out of 105, including delivery deductions**, rounded to two decimal places. Weighted totals use unrounded task scores and fixed weights, not a simple average.
 
-| Task | Weight | GPT-6-Astra<br>Codex CLI 0.160.0 | GPT-6.1-Sol<br>Codex CLI 0.160.0 | GPT-6-Sol<br>Codex CLI 0.160.0 | Kimi K3<br>Kimi CLI 2.1.1 | DeepSeek Flash<br>Claude Code 2.1.183 | GLM-5.3-Flash<br>Claude Code 2.1.183 |
+| Task | Weight | GPT-6-Astra<br><sub>Codex CLI 0.160.0</sub> | GPT-6.1-Sol<br><sub>Codex CLI 0.160.0</sub> | GPT-6-Sol<br><sub>Codex CLI 0.160.0</sub> | Kimi K3<br><sub>Kimi CLI 2.1.1</sub> | DeepSeek V4.1 Flash<br><sub>Claude Code 2.1.183</sub> | GLM-5.3-Flash<br><sub>Claude Code 2.1.183</sub> |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | T01 | 3% | 88.24 | 86.33 | 86.98 | 75.49 | 82.86 | 0.00 |
 | T02 | 3% | 87.88 | 87.20 | 89.70 | 89.17 | 89.07 | 81.71 |
@@ -114,7 +114,7 @@ Each cell is the task's display score **out of 105, including delivery deduction
 
 Tasks below full functionality receive zero PPA and time points. GPT-6-Sol T10 retains 50 functional points and zero PPA/time points under its historical power-compilation termination adjudication. See the [model results](results/model-score-comparison.md) for component scores and zero-score categories.
 
-Run conditions: T10 candidate remeasurement used **40 GiB RAM, swap allowed, and serial execution**, rather than the default 32 GiB limit. Kimi T08 used a cumulative historical development budget of 150 minutes. T10 reference and candidate implementations differ in internal macros and physical flow; a same-flow comparison is not available. These historical pilot results are not an official ranking.
+Run conditions: Kimi T08 used a cumulative historical development budget of 150 minutes. T10 reference and candidate implementations differ in internal macros and physical flow; a same-flow comparison is not available. These historical pilot results are not an official ranking.
 
 Details: [per-task score-loss analysis](results/model-score-comparison.md#各模型逐题失分原因), [PPA formula audit](results/model-score-comparison.md#ppa-公式审计2026-10-21), [archive policy](results/README.md), and [result schema](results/result.schema.json).
 
@@ -148,7 +148,7 @@ python3 env/check_env.py --profile ppa \
   --orfs-root third_party/OpenROAD-flow-scripts --verify-platform-hashes
 ```
 
-The default evaluation allocation is **16 vCPU, 32 GiB RAM, and 100 GiB writable disk**. Model token caps and time limits are in [manifest.yaml](benchmark/manifest.yaml). Put `TMPDIR` and the ORFS work tree on a sufficiently large data disk for large simulations/physical builds. Dependency discovery alone does not establish compatibility; run a reference smoke test too.
+The default evaluation allocation is **16 vCPU, 40 GiB RAM, and 100 GiB writable disk**. Model token caps and time limits are in [manifest.yaml](benchmark/manifest.yaml). Put `TMPDIR` and the ORFS work tree on a sufficiently large data disk for large simulations/physical builds. Dependency discovery alone does not establish compatibility; run a reference smoke test too.
 
 ## Recommended testing workflows
 

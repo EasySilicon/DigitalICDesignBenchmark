@@ -80,7 +80,7 @@ def setup(root):
         "aggregate_token_cap":None,"token_stop_enabled":False,"session_persistence":True,
         "skills":"disabled; empty read-only mount; no host discovery/plugins/apps",
         "web_search":"disabled","container":NAME,"prepared_utc":utc(),
-        "tool_image":"ubuntu:24.04","resource_limits":{"memory_gib":32,"cpus":16},
+        "tool_image":"ubuntu:24.04","resource_limits":{"memory_gib":40,"cpus":16},
         "judge_scope":"host only, frozen, not mounted",
         "eda_method":"host /proc sampled at 0.1 seconds, union wall time"})
     write(root/"status.json",{"status":"prepared","model":MODEL,"task":"T08"})
@@ -90,7 +90,7 @@ def command(root, *, session_id=None, seconds=LIMIT, container_name=NAME,
             gate="start_trial"):
     work=root/"workspace"
     cmd=["docker","run","--name",container_name,"--network","host","--user","1000:1000",
-         "--cpus","16","--memory","32g","--memory-swap","32g","--pids-limit","4096",
+         "--cpus","16","--memory","40g","--memory-swap","40g","--pids-limit","4096",
          "--security-opt","no-new-privileges","--read-only"]
     for key in ("HTTP_PROXY","HTTPS_PROXY","ALL_PROXY","http_proxy","https_proxy",
                 "all_proxy","NO_PROXY","no_proxy"):

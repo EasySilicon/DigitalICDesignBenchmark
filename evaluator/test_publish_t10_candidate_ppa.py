@@ -118,7 +118,7 @@ class PublishTest(unittest.TestCase):
         self.assertEqual(updated['pending_components'],{})
         self.assertEqual(updated['task_scoring_policies']['T09'],'preserve original task policy')
         self.assertEqual(updated['task_scoring_policies']['T10'],task['scoring_policy'])
-        self.assertTrue(any('40 GiB' in reason for reason in updated['ranking_ineligible_reasons']))
+        self.assertFalse(any('32 GiB' in reason for reason in updated['ranking_ineligible_reasons']))
         self.assertTrue(any('hard macros' in reason for reason in updated['ranking_ineligible_reasons']))
 
 

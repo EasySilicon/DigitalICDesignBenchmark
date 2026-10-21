@@ -163,7 +163,7 @@ python3 -m benchmark.prepare_t08_comparison /path/to/new/glm-v3-trial \
 2026-10-07 按用户明确要求，旧 GLM T08 已移入主机私有回收目录，可恢复；
 Kimi 的旧试验不动。旧版作者验证哈希仍是当时的历史证据，不是当前模型成绩。
 
-两者独立 tmux / Docker，按之前每容器 32 GiB、16 CPU 的限制运行。主机
+两者独立 tmux / Docker，按每容器 40 GiB、16 CPU 的统一限制运行。主机
 内存不足时等待，不改变考生时钟。先附加 100 ms EDA 监控，再释放 gate
 并写 TRIAL_CLOCK.json 的开始/截止时间；总预算 7,200 秒。
 编译、仿真、EDA 的重叠进程按忙碌区间并集计时，不把父子进程重复相加。
