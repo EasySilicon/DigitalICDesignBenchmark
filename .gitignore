@@ -7,6 +7,8 @@ third_party/
 work/
 reports/
 logs/
+# Locally generated model-evaluation articles are not release artifacts.
+/articles/
 # Local-only T10 reference-RTL iteration notes; release criteria live in tasks/T10/acceptance.md.
 benchmark/npu-quality-gates.md
 
