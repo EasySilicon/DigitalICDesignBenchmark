@@ -72,7 +72,7 @@ def summarize(delivery: dict, functional: dict) -> dict:
 
 def grade(submission: Path, output: Path, seed: int) -> dict:
     output.mkdir(parents=True, exist_ok=True)
-    delivery = check_delivery("T10", submission, seed, 600, None, None)
+    delivery = check_delivery("T10", submission, seed, 600)
     (output / "delivery.json").write_text(json.dumps(delivery, indent=2) + "\n")
     functional = run(submission, seed, output / "functional_artifacts")
     (output / "functional.json").write_text(json.dumps(functional, indent=2) + "\n")

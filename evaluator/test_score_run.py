@@ -365,6 +365,19 @@ class ScoreRunTest(unittest.TestCase):
         self.assertEqual(item["points"], 0)
         self.assertTrue(item["safety_violation"])
 
+    def test_t10_retains_proportional_non_systolic_diagnostics(self):
+        groups = {group: {"cases_passed": 1, "cases_total": 1}
+                  for item in self.rules["tasks"]["T10"] for group in item["groups"]}
+        groups["MM-F4"] = {"cases_passed": 61, "cases_total": 64}
+        groups["MM-MX4"] = {"cases_passed": 95, "cases_total": 96}
+        scored = score_run(dict(self.payload, task_id="T10", groups=groups,
+                                sustained_throughput_passed=False), self.rules)
+        self.assertAlmostEqual(scored["functional_basic"],
+                               (10 + 10 + 10 + 10 * 61 / 64 + 10 + 10 * 95 / 96) * 2 / 3)
+        self.assertAlmostEqual(scored["functional_edges"], 20 / 3)
+        self.assertEqual(next(item for item in scored["score_items"]
+                              if item["id"] == "P_SYSTOLIC")["points"], 0)
+
     def test_t10_qualified_baseline_enables_official_ppa_and_time(self):
         groups = {group: {"cases_passed": 1, "cases_total": 1}
                   for item in self.rules["tasks"]["T10"] for group in item["groups"]}

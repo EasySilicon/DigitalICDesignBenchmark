@@ -12,7 +12,7 @@ Physical-design and Verilator builds can produce large temporary files. Point `T
 | --- | --- | --- |
 | Specification checks | Python 3.10+, PyYAML, jsonschema | Schema and source-lock validation |
 | RTL preflight | Verilator, Yosys, C++ compiler, Python/cocotb | Compilation, simulation, and synthesis checks |
-| ASAP7 PPA | Yosys, OpenROAD, GNU make, ORFS, vendored ASAP7 | Mapping, place/route, RC, timing, and power reports |
+| ASAP7 PPA | Yosys with a working slang frontend, OpenROAD, GNU make, ORFS, vendored ASAP7 | Mapping, place/route, RC, timing, and power reports |
 | CPU evaluation | RV32 bare-metal GCC/objdump, Sail 0.14.1, ACT4, uv, Ruby, Bundler | ELF generation and architectural reference traces |
 
 From the repository root:

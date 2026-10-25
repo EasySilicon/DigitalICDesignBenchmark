@@ -8,6 +8,19 @@ from benchmark.prepare_trial import prepare
 
 
 class PrepareTrialIsolationTest(unittest.TestCase):
+    def test_all_tasks_record_tokens_without_a_token_budget(self) -> None:
+        for task in (f"T{i:02d}" for i in range(1, 11)):
+            with self.subTest(task=task):
+                destination = self.prepare(task)
+                prompt = (destination / "PROMPT.md").read_text()
+                self.assertIn("no token hard limit", prompt)
+                self.assertNotIn("aggregate input-plus-output budget", prompt)
+                metadata = (destination / f"benchmark/tasks/{task}/task.yaml").read_text()
+                self.assertNotIn("same_model_token_cap", metadata)
+                rules = (destination / "benchmark/README.md").read_text()
+                self.assertIn("capped at 10 points per task", rules)
+                self.assertIn("two or more missing", rules)
+
     def prepare(self, task: str) -> Path:
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
@@ -53,6 +66,12 @@ class PrepareTrialIsolationTest(unittest.TestCase):
         self.assertFalse((destination / "evaluator/t09_timing_qualification.json").exists())
         self.assertFalse((destination / "evaluator/reference").exists())
         self.assertFalse((destination / "benchmark/tasks/T09/FREEZE.json").exists())
+        prompt = (destination / "PROMPT.md").read_text()
+        rules = (destination / "benchmark/README.md").read_text()
+        for text in (prompt, rules):
+            self.assertNotIn("run.sh --elf", text)
+            self.assertNotIn("elf_sha256", text)
+        self.assertTrue((destination / "evaluator/cpu_elf_check.py").is_file())
 
     def test_t10_keeps_its_public_oracle_and_validation_contract(self) -> None:
         destination = self.prepare("T10")

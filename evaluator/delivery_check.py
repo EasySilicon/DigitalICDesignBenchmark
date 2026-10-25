@@ -4,19 +4,19 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import math
 import os
-import secrets
 import shutil
 import subprocess
 import tempfile
 from pathlib import Path
 
 if __package__:
+    from .delivery_policy import assessment
     from .public_check import sources_from_filelist
 else:
+    from delivery_policy import assessment
     from public_check import sources_from_filelist
 
 
@@ -98,63 +98,90 @@ def check_normal(result: dict) -> list[tuple[str, bool, int]]:
     return rows
 
 
-def check_elf_result(result: dict, elf: Path, expected_success: bool, code: int) -> None:
-    digest = hashlib.sha256(elf.read_bytes()).hexdigest()
-    if result.get("elf_sha256") != digest:
-        raise ValueError("ELF result SHA-256 mismatch")
-    tohost = result.get("tohost")
-    timed_out = result.get("timed_out")
-    if type(tohost) is not int or not isinstance(timed_out, bool):
-        raise ValueError("ELF result needs integer tohost and boolean timed_out")
-    if expected_success:
-        if code != 0 or tohost != 1 or timed_out:
-            raise ValueError("positive ELF did not report successful tohost=1")
-    elif code == 0 or tohost == 1 or not isinstance(result.get("failure_reason"), str) \
-            or not result["failure_reason"].strip():
-        raise ValueError("negative ELF was not rejected with a reason")
+def inspect_contract(submission: Path) -> dict:
+    """Inventory every required handoff item before attempting execution.
+
+    A missing directory counts once; its absent children are not extra missing
+    items. Runtime findings still require attribution before they cost points.
+    """
+    missing, errors = [], []
+    def error(root, detail, attribution="candidate"):
+        errors.append(dict(root_cause=root, detail=detail, attribution=attribution))
+    rtl = submission / "rtl"
+    if not rtl.is_dir() or not any(p.is_file() for p in rtl.rglob("*")):
+        missing.append("rtl/")
+    elif not (rtl / "files.f").is_file():
+        missing.append("rtl/files.f")
+    else:
+        try:
+            sources_from_filelist(submission)
+        except ValueError as exc:
+            error("rtl_filelist", str(exc))
+        except FileNotFoundError as exc:
+            error("rtl_filelist", str(exc))
+        except OSError as exc:
+            error("rtl_filelist", str(exc), "pending")
+    run_sh = submission / "run.sh"
+    if not run_sh.is_file():
+        missing.append("run.sh")
+    elif not os.access(run_sh, os.X_OK):
+        error("run_sh_executable", "run.sh is not executable")
+    verif = submission / "verif"
+    if not verif.is_dir() or not any(p.is_file() for p in verif.rglob("*")):
+        missing.append("verif/")
+    readme = submission / "README.md"
+    if not readme.is_file():
+        missing.append("README.md")
+    elif not readme.read_text().strip():
+        error("readme_content", "README.md is empty")
+    result = submission / "results.json"
+    if not result.is_file():
+        missing.append("results.json")
+    else:
+        try:
+            check_normal(read_result(result))
+        except (ValueError, json.JSONDecodeError) as exc:
+            error("results_format", str(exc))
+    return assessment(missing, errors)
 
 
-def check(task: str, submission: Path, seed: int, timeout: int,
-          good_elf: Path | None = None, bad_elf: Path | None = None) -> dict:
+def check(task: str, submission: Path, seed: int, timeout: int) -> dict:
     submission = submission.resolve(strict=True)
-    findings = []
+    report = inspect_contract(submission)
+    rows = []
+    root = "self_check_execution"
+    attribution = "pending"
     try:
-        sources_from_filelist(submission)
         run_sh = submission / "run.sh"
         if not run_sh.is_file() or not os.access(run_sh, os.X_OK):
-            raise ValueError("run.sh missing or not executable")
-        verif = submission / "verif"
-        if not verif.is_dir() or not any(path.is_file() for path in verif.rglob("*")):
-            raise ValueError("verif/ missing or empty")
-        readme = submission / "README.md"
-        if not readme.is_file() or not readme.read_text().strip():
-            raise ValueError("README.md missing or empty")
+            return delivery_report(task, report, rows)
         with tempfile.TemporaryDirectory(prefix=f"ic_bcmk_delivery_{task}_") as directory:
             staged = Path(directory) / "submission"
             stage_submission(submission, staged)
-            rows = []
             for index in range(2):
+                root, attribution = "self_check_execution", "pending"
                 code, result, output = run_entry(staged, [], seed, timeout)
                 if code != 0:
                     raise ValueError(
                         f"self-check run {index + 1} exited {code}; output tail:\n{output}")
+                root, attribution = "results_format", "candidate"
                 rows.append(check_normal(result))
             if rows[0] != rows[1]:
+                root = "self_check_determinism"
                 raise ValueError("same-seed self-check results changed")
-            if task == "T09":
-                if good_elf is None or bad_elf is None:
-                    raise ValueError("T09 requires evaluator-owned positive and negative ELF probes")
-                for source, expected_success in ((good_elf, True), (bad_elf, False)):
-                    elf = Path(directory) / f"program_{secrets.token_hex(8)}.elf"
-                    shutil.copyfile(source, elf)
-                    code, result, _ = run_entry(staged, ["--elf", str(elf)],
-                                                seed, timeout)
-                    check_elf_result(result, elf, expected_success, code)
     except (OSError, ValueError, json.JSONDecodeError, subprocess.TimeoutExpired) as exc:
-        findings.append(str(exc))
+        if not any(e["root_cause"] == root for e in report["errors"]):
+            report["errors"].append(dict(root_cause=root, detail=str(exc), attribution=attribution))
+    return delivery_report(task, report, rows)
+
+
+def delivery_report(task, report, rows):
+    findings = [f"Missing deliverable: {name}" for name in report["missing_deliverables"]]
+    findings += [e["detail"] for e in report["errors"]]
     return {"task_id": task, "delivery_qualified": not findings,
-            "self_check_tests": len(rows[0]) if "rows" in locals() and rows else 0,
+            "self_check_tests": len(rows[0]) if rows else 0,
             "findings": findings,
+            "delivery_assessment": report,
             "note": "self-check validity only; RTL function is independently scored"}
 
 
@@ -164,11 +191,8 @@ def main() -> int:
     parser.add_argument("submission", type=Path)
     parser.add_argument("--seed", type=int, default=20260925)
     parser.add_argument("--timeout", type=int, default=600)
-    parser.add_argument("--good-elf", type=Path)
-    parser.add_argument("--bad-elf", type=Path)
     args = parser.parse_args()
-    result = check(args.task, args.submission, args.seed, args.timeout,
-                   args.good_elf, args.bad_elf)
+    result = check(args.task, args.submission, args.seed, args.timeout)
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if result["delivery_qualified"] else 1
 

@@ -20,8 +20,12 @@ from pathlib import Path
 
 if __package__:
     from .public_check import ROOT, sources_from_filelist
+    from .ppa_aggregate import source_hash
+    from .physical_budget import run as physical_run
 else:
     from public_check import ROOT, sources_from_filelist
+    from ppa_aggregate import source_hash
+    from physical_budget import run as physical_run
 
 DESIGNS = {
     "T01": ("serdes_rx_comma_aligner", "", ("clk",)),
@@ -235,8 +239,9 @@ def main() -> int:
                f"YOSYS_EXE={yosys}", f"OPENROAD_EXE={openroad}",
                f"logs/asap7/{top}/{variant}/6_report.log"]
     with (output / "make.log").open("w") as log:
-        outcome = subprocess.run(command, stdout=log, stderr=subprocess.STDOUT,
-                                 check=False)
+        outcome = physical_run(command, stdout=log, stderr=subprocess.STDOUT,
+                               task=args.task, source=source_hash(args.submission),
+                               seed=args.seed, record_path=output/'physical_budget.json')
     result = {"task": args.task, "variant": variant, "exit_code": outcome.returncode,
               "elapsed_seconds": round(time.monotonic() - start, 3),
               "period_ps": args.period_ps,
@@ -274,7 +279,7 @@ def main() -> int:
             result["area_accounting"] = "standard-cell area plus full placed macro footprint"
     (output / "result.json").write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result, indent=2))
-    return 0 if outcome.returncode == 0 and report.is_file() else 1
+    return 124 if outcome.returncode == 124 else 0 if outcome.returncode == 0 and report.is_file() else 1
 
 
 if __name__ == "__main__":

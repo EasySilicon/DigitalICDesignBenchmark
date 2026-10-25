@@ -12,6 +12,6 @@
 
 **复位与进展**：`rst_n` 为异步低有效，至少保持两个时钟周期。复位期间 `in_ready=0`、`out_valid=0`；复位清除全部 FIFO、route/VC allocation、输出保持和仲裁状态，复位前在途 packet 全部丢弃，释放后不得出现旧 flit。合法有限输入停止后，若所有 `out_ready` 最终持续为 1，则所有已接受且未被复位丢弃的 packet 必须在有限时间内完整到达；持续可发送的竞争者不得永久饥饿。
 
-**资源与时限**：仅允许 9 个同型五端口 router、12 组相邻节点双向链路、每个物理输入每 VC 四项 64-bit flit buffer，以及有限 route、reservation、仲裁和输出保持状态。边界上不存在的方向不得收发。开发资源为 16 vCPU、40 GiB RAM、100 GiB 可写盘；开发时限 2 小时，同模型 token 上限 120 万。正式 PPA 目标为 ASAP7/WC、1.0 GHz。
+**资源与时限**：仅允许 9 个同型五端口 router、12 组相邻节点双向链路、每个物理输入每 VC 四项 64-bit flit buffer，以及有限 route、reservation、仲裁和输出保持状态。边界上不存在的方向不得收发。开发资源为 16 vCPU、40 GiB RAM、100 GiB 可写盘；开发时限 2 小时。正式 PPA 目标为 ASAP7/WC、1.0 GHz。
 
 **验收原始权重**（75 点按比例归一为功能 50 分）：F=60：九节点 XY 路由与 72 个有向源宿组合 12；多 flit packet 完整性 12；输入 VC FIFO 与 packet 内顺序 9；wormhole 输出预留 10；多输入热点公平仲裁 9；双 VC 独立进展 8。P=15：端到端 backpressure/信用守恒 7；tail/head 资源边界 3；运行中复位与无旧 flit 5。隐藏验收使用独立端到端 scoreboard，不依赖候选内部信号名。

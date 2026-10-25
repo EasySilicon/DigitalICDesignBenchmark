@@ -17,6 +17,8 @@ class FreezeTasksTest(unittest.TestCase):
             receipt = freeze.verify(task)
             self.assertEqual(receipt["status"], "frozen")
             self.assertEqual(receipt["contracts"]["hardware_limit"]["ram_gib"], 40)
+            self.assertEqual(receipt["contracts"]["token_usage_policy"], "record_only")
+            self.assertNotIn("same_model_token_cap", receipt["contracts"]["task_metadata"])
             for name in (f"benchmark/tasks/{task}/task.md", f"benchmark/tasks/{task}/acceptance.md",
                          f"benchmark/tasks/{task}/task.yaml", f"evaluator/{task.lower()}_check.py",
                          "evaluator/score_run.py", "benchmark/prepare_trial.py"):

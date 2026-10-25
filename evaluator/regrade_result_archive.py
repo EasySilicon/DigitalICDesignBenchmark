@@ -24,6 +24,13 @@ def regrade_record(record: dict, rules: dict, baselines: dict) -> dict:
         record['scoring_policy'] = POLICY + '+' + POLICY_ID
         return record
     measurement = record.get("ppa_measurement")
+    if isinstance(measurement,dict) and measurement.get('measurement_status')=='physical_timeout_retained_results':
+        from physical_budget import partial_provenance_valid
+        if not partial_provenance_valid(record['task_id'],measurement,
+                baselines.get('tasks',{}).get(record['task_id'],{}),
+                record.get('physical_records',measurement.get('physical_records',[])),
+                measurement.get('source_sha256')):
+            raise ValueError('invalid retained physical measurement')
     if isinstance(measurement, dict) and record.get("ppa_eligible"):
         reference = baselines.get("tasks", {}).get(record["task_id"])
         if isinstance(reference, dict):

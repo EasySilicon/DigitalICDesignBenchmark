@@ -128,10 +128,16 @@ def file_inventory(task: str, root: Path = ROOT) -> list[str]:
     for directory in directories:
         paths.update((root / directory).rglob("*"))
     names = ["benchmark/candidate-rules.md", "benchmark/prepare_trial.py",
+             "benchmark/public_eda.py", "benchmark/candidate_ppa.py",
              "benchmark/README.md", "benchmark/README.en.md",
              "benchmark/report.schema.json", "results/result.schema.json",
              "benchmark/eda_time.py", "benchmark/freeze_tasks.py",
              "evaluator/public_check.py", "evaluator/delivery_check.py",
+             "benchmark/delivery-policy.md", "evaluator/delivery_policy.py",
+             "evaluator/slang_frontend.py", "evaluator/yosys_slang.py", "evaluator/route_with_slang.py",
+             "benchmark/physical-runtime-policy.md", "evaluator/physical_budget.py",
+             "evaluator/physical_grading.py", "evaluator/aggregate_with_power_budget.py",
+             "evaluator/score_with_power_budget.py", "evaluator/power_compile_budget.py",
              "evaluator/score_run.py", "evaluator/ppa_aggregate.py",
              "evaluator/ppa_probe.py", "evaluator/ppa_power_probe.py",
              "env/asap7_seq_sim.v", "env/requirements-spec.txt",
@@ -177,7 +183,7 @@ def contracts(task: str, root: Path = ROOT) -> dict:
     metadata = yaml.safe_load((root / f"benchmark/tasks/{task}/task.yaml").read_text())
     if row.get("status") != "frozen" or metadata.get("status") != "frozen":
         raise ValueError(f"{task} status is not frozen")
-    for key in ("title", "time_limit_minutes", "same_model_token_cap", "f_points", "p_points",
+    for key in ("title", "time_limit_minutes", "f_points", "p_points",
                 "spec_revision", "judge_revision"):
         if row.get(key) != metadata.get(key):
             raise ValueError(f"{task} manifest/task metadata mismatch: {key}")
@@ -246,6 +252,7 @@ def contracts(task: str, root: Path = ROOT) -> dict:
     shared_rules["task_raw_allocation"] = rules.get("task_raw_allocations", {}).get(task, {"F": 60, "P": 15})
     return {"suite_id": manifest["suite_id"], "task_metadata": row,
             "hardware_limit": manifest["hardware_limit"],
+            "token_usage_policy": manifest["token_usage_policy"],
             "suite_score": manifest["score"], "score_policy": shared_rules,
             "score_items": rules["tasks"][task], "ppa_baseline_sha256": digest(baseline),
             "source_lock_ppa": {k: v for k, v in sources["ppa"].items()

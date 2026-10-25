@@ -157,7 +157,7 @@ class T08SpecTest(unittest.TestCase):
         self.assertIn("spec_revision: 3.0-frame-transactions", metadata)
         self.assertIn("starter_revision: 3.0-coalesced-commit-regression", metadata)
         self.assertIn("time_limit_minutes: 120", metadata)
-        self.assertIn("same_model_token_cap: null", metadata)
+        self.assertNotIn("same_model_token_cap", metadata)
         self.assertIn("ppa_policy_revision: 2.0-lambdapdk-tdp-1ghz", metadata)
         self.assertIn("ppa_timing_corners: mixed_WC_standard_cells_TT_SRAM", metadata)
         self.assertIn("ppa_memory_model: lambdapdk_fakeram7_tdp_4096x32", metadata)

@@ -62,6 +62,8 @@ class PowerCompileBudgetTest(unittest.TestCase):
                 power_compile_records=[record(task,s,'completed',1200)|{'candidate_source_sha256':source} for s in (11,29,47)])
             with self.subTest(task=task):
                 self.assertEqual(score_run(payload),frozen_score_run(payload)|{
+                    'delivery_penalty_policy':'delivery-contract-cap10-v1',
+                    'delivery_penalty_status':'adjudicated',
                     'power_compile_policy':POLICY_ID,'candidate_source_sha256':source,
                     'power_compile_records':payload['power_compile_records']})
 

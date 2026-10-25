@@ -1,5 +1,7 @@
 # Digital IC Design Benchmark for Agents
 
+Evaluator physical runs for T01–T10 have a **60-minute limit per layout seed**, from synthesis through final reports. On timeout, retain artifacts and score the valid completed seeds with measured power; with no valid measurements, PPA and time points are zero. See the [physical runtime policy](physical-runtime-policy.md).
+
 [中文](README.md)
 
 This benchmark evaluates whether widely used frontier models, working through coding agents, can handle real digital IC development and delivery tasks. Capabilities include long-context comprehension, logic and microarchitecture design, timing-window and CDC analysis, verification convergence, debugging and feature integration, timing closure, physical implementation and PPA optimization, and reproducible engineering handoff.
@@ -22,6 +24,7 @@ It also supports controlled experiments on whether external harnesses such as Sk
 
 The suite allocation is **16 vCPU, 40 GiB RAM and 100 GiB writable disk**.
 The RAM ceiling limits actual memory, not virtual address space.
+Token usage is recorded only: there is no token budget or token-triggered termination.
 
 ## Entry points
 
@@ -33,6 +36,8 @@ The RAM ceiling limits actual memory, not virtual address space.
 - [Environment setup](../env/README.en.md) and the vendored [ASAP7 platform](../vendor/README.en.md).
 
 Run `python3 benchmark/validate_spec.py` for a local consistency check. Create a task-only public workspace with `python3 benchmark/prepare_trial.py T03 /path/to/empty/T03`. Each evaluation run starts in a new conversation and an empty workspace with the same task material, model configuration, tool environment, and timing boundary.
+
+T09 follows the same self-test delivery contract as the other tasks. The evaluator independently loads ELF programs, drives the CPU bus and captures execution traces for ACT4 and differential checks.
 
 
 
@@ -46,7 +51,7 @@ Preserve the frozen submission, command, tool version, stage logs, exit status/s
 - A reviewed candidate-caused resource-limit failure during Yosys frontend processing, synthesis, or structural netlist generation, or failure to complete the common physical flow, receives PPA=0 and time=0. Preserve verified functional points; this does not itself prove incorrect functionality or semantic unsynthesizability.
 - Evaluator defects, missing tools/dependencies, host reboots, unrelated process kills, and unexplained timeouts/OOM leave affected components `null`/pending. Correct the infrastructure and re-evaluate the unchanged submission without candidate penalties.
 - An unavailable or unqualified PPA baseline leaves PPA/time pending, except that an independently adjudicated candidate PPA failure is explicitly zero.
-- Candidate-caused fatal self-test handoff failures deduct 5 display points per distinct root cause. A synthesis resource-limit failure alone does not incur this additional handoff penalty.
+- Delivery-contract deductions are capped at 10 points per task: one missing deliverable or one candidate-caused execution error costs 5 points; two or more missing deliverables, or two distinct delivery errors, cost 10. Repeated failures of one root cause count once. Infrastructure faults incur no deduction, and earned component scores remain intact. A synthesis resource-limit failure alone incurs no additional delivery deduction. See the [delivery policy](delivery-policy.md#delivery-contract-deductions).
 
 Keep functional and synthesis/structural results separately. An incomplete structural check must not be treated as a pass; unmeasured functional components remain pending. Zero means an adjudicated failure, whereas `null` means no conclusion. Freeze and calibrate per-task/per-stage tool budgets and resource-failure rules before official evaluation, using the reference and alternative equivalent RTL styles. Diagnostic budget extensions are not changes to official budgets. Do not rewrite or optimize candidate RTL. Version scoring-relevant evaluator corrections and regrade all affected frozen submissions.
 

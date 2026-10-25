@@ -233,7 +233,7 @@ def run(root, resume=False):
                             if item.get("type")=="event_msg" and item.get("payload",{}).get("type")=="token_count":
                                 usage=item["payload"].get("info",{}).get("total_token_usage",{})
                                 reported=max(reported,int(usage.get("total_tokens",0)))
-                        write(root/"token_budget.json",{"reported_total_tokens":reported,
+                        write(root/"token_usage.json",{"reported_total_tokens":reported,
                               "cap":None,"stop_enabled":False,"timestamp_utc":utc()})
                     except (OSError,ValueError,TypeError): pass
         threading.Thread(target=usage_watch,daemon=True).start()

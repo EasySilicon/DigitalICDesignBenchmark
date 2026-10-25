@@ -3,6 +3,7 @@ project_name: Digital IC Design Benchmark for Agents
 suite_id: ic-delivery-rtl-v0.3
 status: design_only
 replicates_per_task: 5
+token_usage_policy: record_only
 hardware_limit:
   vcpu: 16
   ram_gib: 40
@@ -18,6 +19,8 @@ score:
   completion_time: 5
   setup_violation_exponent: 4
   candidate_delivery_error_penalty: 5
+  candidate_delivery_max_penalty: 10
+  delivery_penalty_policy: delivery-contract-cap10-v1
   task_weights:
     T01: 0.03
     T02: 0.03
@@ -40,6 +43,9 @@ score:
   - normalized_completion_time_sum_ascending
   ppa_rank_resolution_points: 1.25
 ppa_measurement:
+  physical_runtime_policy: physical-wall-3600s-retain-results-v1
+  physical_seed_limit_seconds: 3600
+  physical_timeout_scoring: retain_valid_completed_seeds_or_zero
   layout_seeds:
   - 11
   - 29
@@ -78,7 +84,6 @@ tasks:
   title: serdes_rx_comma_aligner
   origin: original
   time_limit_minutes: 30
-  same_model_token_cap: 80000
   f_points:
   - 25
   - 15
@@ -91,7 +96,6 @@ tasks:
   title: synchronous_fifo
   origin: original
   time_limit_minutes: 60
-  same_model_token_cap: 80000
   f_points:
   - 25
   - 15
@@ -106,7 +110,6 @@ tasks:
   title: apb4_timer
   origin: original
   time_limit_minutes: 90
-  same_model_token_cap: 120000
   f_points:
   - 20
   - 20
@@ -119,7 +122,6 @@ tasks:
   title: round_robin_stream_arbiter
   origin: original
   time_limit_minutes: 90
-  same_model_token_cap: 160000
   f_points:
   - 20
   - 20
@@ -132,7 +134,6 @@ tasks:
   title: asynchronous_fifo
   origin: original
   time_limit_minutes: 120
-  same_model_token_cap: 240000
   f_points:
   - 25
   - 15
@@ -146,7 +147,6 @@ tasks:
   title: axi4lite_to_apb4_bridge
   origin: original
   time_limit_minutes: 120
-  same_model_token_cap: 320000
   f_points:
   - 20
   - 20
@@ -160,7 +160,6 @@ tasks:
   title: direct_mapped_writeback_cache
   origin: original
   time_limit_minutes: 120
-  same_model_token_cap: 480000
   f_points:
   - 15
   - 15
@@ -178,7 +177,6 @@ tasks:
   level_hypothesis: 8
   origin: MIT-licensed brownfield fixture plus original specification
   time_limit_minutes: 120
-  same_model_token_cap: null
   f_points:
   - 12
   - 12
@@ -197,7 +195,6 @@ tasks:
   title: rv32i_five_stage_cpu
   origin: original
   time_limit_minutes: 120
-  same_model_token_cap: 1200000
   f_points:
   - 20
   - 12
@@ -213,7 +210,6 @@ tasks:
   title: mixed_precision_systolic_matmul_16x16_stream
   origin: original
   time_limit_minutes: 240
-  same_model_token_cap: 2000000
   f_points:
   - 10
   - 10

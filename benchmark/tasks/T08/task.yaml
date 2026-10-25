@@ -7,7 +7,6 @@ judge_revision: 3.1-boundary-crosses
 level_hypothesis: 8
 origin: MIT-licensed brownfield fixture plus original specification
 time_limit_minutes: 120
-same_model_token_cap: null
 functional_max: 50
 ppa_status: qualified_1ghz
 ppa_policy_revision: 2.0-lambdapdk-tdp-1ghz

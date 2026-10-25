@@ -16,7 +16,7 @@ from pathlib import Path
 from t10_common import EVALUATOR_ROOT
 from runner_t10 import (Case, GROUP_COUNTS, ONE, WIDTH, generate_cases,
                         pack_rows, parse_output, write_vectors)
-from t10_structure_check import inspect as inspect_structure
+from t10_structure_with_slang import inspect as inspect_structure
 from t10_fast_oracle import check_output_fast
 
 
@@ -153,10 +153,12 @@ def run(submission: Path, seed: int = 20260925,
                                   check=False)
         if output_dir is not None:
             (output_dir / "simulation.log").write_text(executed.stdout + executed.stderr)
-        # Streaming timing and backpressure are required for every case, not
-        # only for the historical MM-SYSTOLIC group.
+        # Preserve arithmetic, protocol, and corner-case diagnostics in their
+        # own published groups.  The MM-SYSTOLIC group still requires timing
+        # and structure in parse_output(), while sustained throughput remains
+        # a separate PPA/time eligibility gate below.
         groups, failures = parse_output(executed.stdout, cases, structure,
-                                        require_timing=True,
+                                        require_timing=False,
                                         numeric_checker=check_output_fast)
         stream_line = next((line for line in executed.stdout.splitlines()
                             if line.startswith("MM_STREAM ")), "")

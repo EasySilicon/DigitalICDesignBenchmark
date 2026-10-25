@@ -12,7 +12,7 @@
 | --- | --- | --- |
 | 规范检查 | Python ≥3.10、PyYAML、jsonschema | [requirements-spec.txt](requirements-spec.txt) 锁定了本地已验证版本；现在可用 |
 | RTL 功能预检 | Verilator、Yosys、C++ 编译器、Python/cocotb | 编译/仿真及综合合法性；UVM/SVA 语法须在锁定镜像内按实际测试做冒烟验证；评测器尚未实现 |
-| ASAP7 PPA | Yosys ≥0.58、OpenROAD、GNU make、ORFS 流程脚本、[仓库内 ASAP7 平台](../vendor/README.md) | 映射、放置、时钟树、布线、RC 与 OpenROAD 自身的时序/功耗报告；不单独安装另一套 STA 工具；T01–T09 参数已校准，T08/T09 已冻结；统一镜像 digest 待发布 |
+| ASAP7 PPA | Yosys ≥0.58（须有可用的 slang 前端）、OpenROAD、GNU make、ORFS 流程脚本、[仓库内 ASAP7 平台](../vendor/README.md) | 映射、放置、时钟树、布线、RC 与 OpenROAD 自身的时序/功耗报告；不单独安装另一套 STA 工具；T01–T09 参数已校准，T08/T09 已冻结；统一镜像 digest 待发布 |
 | CPU 验收 | RV32 bare-metal GCC ≥15/objdump、Sail RISC-V 0.14.1、ACT4 锁定修订及 uv ≥0.11.33、Ruby ≥3.4.10、Bundler ≥4.0.21 | 编译 ELF、生成适用 ACT4 与参考轨迹；`check_env.py --profile cpu` 检查这些命令，I/Zicsr 配置与生成 ELF 已提供，完整 CPU 功能、22 项周期检查与三种子 1 GHz 参考已冻结 |
 | 可选 | KLayout、波形查看器、综合可视化工具 | 调试或 GDS/DRC；研究 PPA 不要求完整 GDS/LVS；采用 OpenROAD 布线 DRC，候选违例触发 0.5 倍罚因子 |
 

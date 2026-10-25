@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import shutil
+import sys
 from pathlib import Path
 
 import yaml
@@ -63,7 +64,10 @@ def copy_public_task_materials(task: str, destination: Path) -> None:
         shutil.copytree(ROOT / "benchmark/cpu/act4", benchmark / "cpu/act4")
 
 
-def prepare(task: str, destination: Path, *, time_limit_minutes: int | None = None) -> dict:
+def prepare(task: str, destination: Path, *, time_limit_minutes: int | None = None,
+            orfs_root: Path | None = None) -> dict:
+    if orfs_root is not None and task not in ('T08', 'T09', 'T10'):
+        raise ValueError('The public EDA kit currently supports T08, T09 and T10')
     manifest = yaml.safe_load((ROOT / "benchmark/manifest.yaml").read_text())
     row = next((item for item in manifest["tasks"] if item["id"] == task), None)
     if row is None:
@@ -118,21 +122,12 @@ def prepare(task: str, destination: Path, *, time_limit_minutes: int | None = No
     else:
         (destination / "rtl").mkdir()
     (destination / "verif").mkdir()
-    elf_instruction = (
-        " For T09, implement the required `run.sh --elf` mode and use the "
-        "copied public ELF tools to exercise it." if task == "T09" else ""
-    )
-    token_cap = row.get("same_model_token_cap")
-    token_instruction = (
-        f"and an aggregate input-plus-output budget of {token_cap} model tokens."
-        if token_cap is not None else
-        "with token usage recorded but no token hard limit."
-    )
+    token_instruction = "with token usage recorded but no token hard limit."
     prompt = f"""You are the sole candidate Agent for benchmark task {task}. This is a fresh conversation and an independent working directory. You have {row['time_limit_minutes']} minutes of wall clock time {token_instruction} Use only public materials copied into this directory and installed local tools. Do not inspect other repositories or directories for benchmark reference RTL, hidden tests, answers, or scoring code.
 
 Read `benchmark/tasks/{task}/task.md`, `benchmark/tasks/{task}/acceptance.md`, and the shared task rules, acceptance rules, and full verification/delivery contract in `benchmark/README.md`. Deliver synthesizable RTL in `rtl/`, `rtl/files.f`, a self-checking verification environment in `verif/`, an executable `run.sh`, and `README.md` documenting tests, limitations, design choices, and a PPA optimization comparison with measured results or attempted tool commands. Correctness has priority over PPA, and PPA over completion time.
 
-Build your own independent scoreboard, directed edge cases, and randomized checks appropriate to the task. The copied public evaluator is a smoke test only. Run `python3 evaluator/public_check.py {task} .` and your own checks. Make `run.sh` deterministic under `BENCH_SEED` and write `results.json` in the required contract format.{elf_instruction}
+Build your own independent scoreboard, directed edge cases, and randomized checks appropriate to the task. The copied public evaluator is a smoke test only. Run `python3 evaluator/public_check.py {task} .` and your own checks. Make `run.sh` deterministic under `BENCH_SEED` and write `results.json` in the required contract format.
 
 Finish by summarizing your deliverables, exact test results, and known limitations. Do not claim a formal benchmark score; the evaluator will score it separately.
 """
@@ -158,6 +153,15 @@ Your compilation/simulation/EDA wall time is recorded separately from total
 elapsed time; host preparation and independent grading are excluded.
 """
     (destination / "PROMPT.md").write_text(prompt)
+    if orfs_root is not None:
+        if not __package__:
+            sys.path.insert(0, str(ROOT))
+        if task in ('T09', 'T10'):
+            from benchmark.public_eda import prepare_public_eda
+            prepare_public_eda(destination.parent, orfs_root, task)
+        elif task == 'T08':
+            from benchmark.prepare_t08_comparison import prepare_public_eda
+            prepare_public_eda(destination.parent, orfs_root)
     return {"task": task, "destination": str(destination),
             "time_limit_minutes": row["time_limit_minutes"]}
 
@@ -166,8 +170,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("task", choices=[f"T{i:02d}" for i in range(1, 11)])
     parser.add_argument("destination", type=Path)
+    parser.add_argument("--orfs-root", type=Path, help="supply the public T08/T09/T10 EDA kit")
     args = parser.parse_args()
-    print(prepare(args.task, args.destination))
+    print(prepare(args.task, args.destination, orfs_root=args.orfs_root))
     return 0
 
 

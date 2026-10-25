@@ -19,14 +19,143 @@
     "score_status",
     "ranking_eligible"
   ],
+  "dependentRequired": {"physical_policy": ["physical_records"]},
   "properties": {
+    "physical_policy": {
+      "const": "physical-wall-3600s-retain-results-v1"
+    },
+    "physical_records": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "policy_id",
+          "limit_seconds",
+          "task_id",
+          "candidate_source_sha256",
+          "layout_seed",
+          "elapsed_seconds",
+          "status"
+        ],
+        "properties": {
+          "policy_id": {
+            "const": "physical-wall-3600s-retain-results-v1"
+          },
+          "limit_seconds": {
+            "const": 3600
+          },
+          "layout_seed": {
+            "enum": [
+              11,
+              29,
+              47
+            ]
+          },
+          "elapsed_seconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "status": {
+            "enum": [
+              "completed",
+              "timeout"
+            ]
+          },
+          "process_group_terminated": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "physical_timed_out_seeds": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          11,
+          29,
+          47
+        ]
+      }
+    },
+    "ppa_status": {
+      "type": "string"
+    },
+    "candidate_source_sha256": {
+      "type": "string"
+    },
     "schema_version": {"const": 3},
     "model": {"type": "string", "minLength": 1},
     "task_id": {"pattern": "^T(0[1-9]|10)$"},
     "trial_kind": {"enum": ["official", "pre_release_pilot", "diagnostic"]},
     "delivery_qualified": {"type": ["boolean", "null"]},
+    "delivery_penalty_policy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "delivery_penalty_status": {
+      "enum": [
+        "adjudicated",
+        "pending"
+      ]
+    },
+    "delivery_penalty_pending_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "delivery_assessment": {
+      "type": "object",
+      "required": [
+        "missing_deliverables",
+        "errors"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "missing_deliverables": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "rtl/",
+              "rtl/files.f",
+              "verif/",
+              "run.sh",
+              "results.json",
+              "README.md"
+            ]
+          }
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "root_cause",
+              "attribution"
+            ],
+            "properties": {
+              "root_cause": {
+                "type": "string",
+                "minLength": 1
+              },
+              "attribution": {
+                "enum": [
+                  "candidate",
+                  "infrastructure",
+                  "pending"
+                ]
+              },
+              "detail": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
     "candidate_delivery_error_count": {"type": "integer", "minimum": 0},
-    "candidate_delivery_penalty": {"type": "number", "minimum": 0},
+    "candidate_delivery_penalty": {"type": ["number", "null"], "minimum": 0},
     "display_score_before_candidate_penalty": {"type": "number", "minimum": 0, "maximum": 105},
     "candidate_delivery_error_details": {
       "type": "array",
@@ -59,6 +188,69 @@
     }
   },
   "allOf": [
+    {
+      "if": {
+        "required": [
+          "delivery_penalty_policy"
+        ],
+        "properties": {
+          "delivery_penalty_policy": {
+            "const": "delivery-contract-cap10-v1"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "delivery_penalty_status",
+          "candidate_delivery_penalty"
+        ],
+        "properties": {
+          "candidate_delivery_penalty": {
+            "enum": [
+              0,
+              5,
+              10,
+              null
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "delivery_penalty_status": {
+                  "const": "pending"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "delivery_penalty_pending_reason"
+              ],
+              "properties": {
+                "candidate_delivery_penalty": {
+                  "type": "null"
+                },
+                "display_score": {
+                  "type": "null"
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "candidate_delivery_penalty": {
+                  "enum": [
+                    0,
+                    5,
+                    10
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
     {
       "if": {"properties": {"trial_kind": {"const": "official"}}, "required": ["trial_kind"]},
       "then": {"properties": {"delivery_qualified": {"type": "boolean"}, "functional_total": {"type": "number"}, "full_functional_pass": {"type": "boolean"}, "display_score": {"type": "number"}}}

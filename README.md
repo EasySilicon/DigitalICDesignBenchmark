@@ -47,7 +47,7 @@ Agent 必须自行完成 RTL、验证环境、缺陷修复和 PPA 优化。评�
 
 5. **统一 PPA 测量范围与条件。** 参考基线与候选采用一致的工艺、约束、活动负载和测量流程。T01–T09 测量完整 DUT；V1.0 的 T10 测量单 PE 的面积、布线后延时和能耗，完整 256-PE 设计仍须通过功能、结构与吞吐验收。单 PE 结果不代表整个 NPU 的成本。测量范围与发布条件见各题 PPA 契约。
 
-6. **外部 harness 的收益必须通过受控对比验证。** Skill、编排策略和即时质量门禁应作为明确的实验变量。多 Agent 系统的所有内部角色共享时间、token、费用和计算资源预算，推理、验证和 PPA 迭代都计入开发时间。同模型控制轨道用于分析 harness 的影响；产品轨道用于比较模型与系统的实际使用效果。多次独立运行、通过率、耗时和成本共同构成证据，模型配置与预算差异必须随结果记录。
+6. **外部 harness 的收益必须通过受控对比验证。** Skill、编排策略和即时质量门禁应作为明确的实验变量。多 Agent 系统的所有内部角色共享时间、费用和计算资源预算，token 用量仅作统计，推理、验证和 PPA 迭代都计入开发时间。同模型控制轨道用于分析 harness 的影响；产品轨道用于比较模型与系统的实际使用效果。多次独立运行、通过率、耗时和成本共同构成证据，模型配置与预算差异必须随结果记录。
 
 7. **用领域覆盖和工程耦合构造难度。** 题目涵盖状态控制、参数化、协议、CDC、缓存、流水线与空间阵列；难度来自边界条件、并发状态、数值语义和跨模块约束。通过不同规模的任务观察系统在哪些课题上可靠、在哪些课题上失效，再用试运行数据校准难度与预算。题量保持精简，使整套实验能够反复运行。
 
@@ -95,7 +95,9 @@ T10 计算 `16×64` 与 `64×16` 矩阵乘法，A/B **各每拍输入 1024 bit**
 
 每格为单题显示总分，**满分 105，已计入交付扣分**，保留两位小数。加权总分用未舍入的逐题成绩乘以固定权重后求和，不是简单平均。
 
-| 题目 | 权重 | GPT-6-Astra<br><sub>Codex CLI 0.160.0</sub> | GPT-6.1-Sol<br><sub>Codex CLI 0.160.0</sub> | GPT-6-Sol<br><sub>Codex CLI 0.160.0</sub> | Kimi K3<br><sub>Kimi CLI 2.1.1</sub> | DeepSeek V4.1 Flash<br><sub>Claude Code 2.1.183</sub> | GLM-5.3-Flash<br><sub>Claude Code 2.1.183</sub> |
+模型名括号内为思考强度；`default` 表示未显式指定，沿用默认设置。不同框架的档位不代表同等推理预算。
+
+| 题目 | 权重 | GPT-6-Astra(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6.1-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | Kimi K3(max)<br><sub>Kimi CLI 2.1.1</sub> | DeepSeek V4.1 Flash(default)<br><sub>Claude Code 2.1.183</sub> | GLM-5.3-Flash(default)<br><sub>Claude Code 2.1.183</sub> |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | T01 | 3% | 88.24 | 86.33 | 86.98 | 75.49 | 82.86 | 0.00 |
 | T02 | 3% | 87.88 | 87.20 | 89.70 | 89.17 | 89.07 | 81.71 |
@@ -112,7 +114,7 @@ T10 计算 `16×64` 与 `64×16` 矩阵乘法，A/B **各每拍输入 1024 bit**
 
 功能未全通过的题目，PPA 和时间分均为 0；GPT-6-Sol T10 按历史功耗编译终止判定保留功能 50 分、PPA 与时间分 0 分。判零类别和分项成绩见[模型结果说明](results/model-score-comparison.md)。
 
-运行条件：Kimi T08 使用累计 150 分钟的历史开发预算。T10 参考与候选的内部宏及物理实现流程不同，尚缺同流程对照。因此，这些结果为历史试跑成绩，不构成正式排名。
+运行条件：Kimi T08 使用累计 150 分钟的历史开发预算。T10 参考与候选的内部宏及物理实现流程不同，尚缺同流程对照。
 
 详细资料：[逐题失分原因](results/model-score-comparison.md#各模型逐题失分原因)、[PPA 公式审计](results/model-score-comparison.md#ppa-公式审计2026-10-21)、[结果归档说明](results/README.md)及[结果 schema](results/result.schema.json)。
 
@@ -124,7 +126,7 @@ T10 计算 `16×64` 与 `64×16` 矩阵乘法，A/B **各每拍输入 1024 bit**
 | --- | --- |
 | 规范与报告校验 | Python ≥3.10、PyYAML、jsonschema |
 | RTL 编译、仿真与结构检查 | Verilator、Yosys、C++ 编译器、make；部分独立验收器还调用 Icarus Verilog 的 `iverilog`/`vvp` |
-| PPA | Yosys、OpenROAD、OpenROAD-flow-scripts（ORFS）、仓库内 ASAP7；时序/功耗由 OpenROAD 流程报告 |
+| PPA | Yosys（须带可用的 slang 前端）、OpenROAD、OpenROAD-flow-scripts（ORFS）、仓库内 ASAP7；时序/功耗由 OpenROAD 流程报告 |
 | CPU 测试生成与参考校验 | RISC-V 裸机工具链、Sail、锁定的 ACT4/riscv-arch-test；仓库也提供已生成 ELF |
 | Agent 自带验证 | 可选 SystemVerilog/UVM、SVA、cocotb 或 C++；所用语法须在实际工具版本验证 |
 
@@ -146,7 +148,7 @@ python3 env/check_env.py --profile ppa \
   --orfs-root third_party/OpenROAD-flow-scripts --verify-platform-hashes
 ```
 
-默认评测资源为 **16 vCPU、40 GiB RAM、100 GiB 可写盘**，模型 token 与开发时限见 [manifest.yaml](benchmark/manifest.yaml)。大型仿真/物理构建建议把 `TMPDIR` 和 ORFS 工作树放到有足够空间的数据盘；依赖自检通过后仍需运行实际参考冒烟，确认版本兼容。
+token 用量只记录、不设上限，也不作为终止条件。默认评测资源为 **16 vCPU、40 GiB RAM、100 GiB 可写盘**，各题开发时限见 [manifest.yaml](benchmark/manifest.yaml)。大型仿真/物理构建建议把 `TMPDIR` 和 ORFS 工作树放到有足够空间的数据盘；依赖自检通过后仍需运行实际参考冒烟，确认版本兼容。
 
 ## 推荐测试方式
 
@@ -179,7 +181,7 @@ python3 evaluator/runner_t10_stream.py /path/to/npu \
   --output-dir work/T10-acceptance
 ```
 
-T09 的交付检查还包括 `run.sh --elf` 能力；逐指令 trace 由评测方平台采集，Agent 无需编写 trace 文件生成器。更多入口见 [评测器说明](evaluator/README.md) 和 [T10 验收包说明](evaluator/T10_EVALUATION.md)。
+T09 的 ELF 装载与逐指令执行记录均由评测方独立采集。更多入口见 [评测器说明](evaluator/README.md) 和 [T10 验收包说明](evaluator/T10_EVALUATION.md)。
 
 ### 方式二：单题 Agent 试做
 
@@ -188,6 +190,8 @@ T09 的交付检查还包括 `run.sh --elf` 能力；逐指令 trace 由评测�
 ```bash
 python3 benchmark/prepare_trial.py T03 work/trials/my-system/run-01/T03
 ```
+
+T08、T09、T10 还应通过 `--orfs-root /path/to/OpenROAD-flow-scripts` 配发公开 EDA 工具包，使模型能在开发时自行综合、布局布线并查看时序反馈。T09 测完整 CPU，T10 测模型自己的单 PE；工具包包含 ASAP7 工艺资料与物理约束，不含参考 RTL 或隐藏验收。容器须挂载准备器生成的 `public_eda/`：T08 挂到 `/opt/t08_eda`，T09/T10 挂到 `/opt/benchmark_eda`，均为只读。使用说明会写入 `PROMPT.md` 和 T09/T10 的 `EDA_TOOLS.md`；EDA 迭代仍计入原定开发时限。
 
 1. 在生成目录启动一个新 Agent 会话，将 `PROMPT.md` 作为任务输入；该目录只提供题面、公开冒烟和必要的公开材料。
 2. 记录任务发放时刻，运行至 Agent 提交最终快照或题目截止；保留模型配置、token、成本、日志和最终文件 hash。
@@ -202,17 +206,20 @@ python3 benchmark/prepare_trial.py T03 work/trials/my-system/run-01/T03
 
 ```bash
 for task in T01 T02 T03 T04 T05 T06 T07 T08 T09 T10; do
-  python3 benchmark/prepare_trial.py "$task" "work/trials/my-system/run-01/$task"
+  case "$task" in
+    T08|T09|T10) python3 benchmark/prepare_trial.py "$task" "work/trials/my-system/run-01/$task/workspace" --orfs-root /path/to/OpenROAD-flow-scripts ;;
+    *) python3 benchmark/prepare_trial.py "$task" "work/trials/my-system/run-01/$task/workspace" ;;
+  esac
 done
 ```
 
 随后由你的 Agent CLI/API 或系统 runner 逐题消费 `PROMPT.md`，每题使用新会话和独立产物。仓库提供材料准备、验收和评分工具；模型调用、容器启动、计时及日志收集需由实验 runner 对接。
 
 - **产品轨道**：比较各系统的原生模型与工程能力，冻结费用、时限和计算资源。
-- **同模型控制轨道**：使用相同模型快照、采样配置、API 与总 token 预算，比较编排和工程流程。
+- **同模型控制轨道**：使用相同模型快照、采样配置、API 与开发时限，比较编排和工程流程。
 - **重复运行**：主套件配置为每题至少 5 次独立试做，固定相同的验收种子，报告逐题通过率、中位数、耗时和成本，不只挑最好的一次。
 
-当前准备器生成的是单 Agent 试跑 prompt。测试多 Agent 系统时，评测方须预先冻结并配置相应的协作、模型和 Skill 策略；所有内部角色共享同一题的时间、token 和计算资源预算。产品轨道与控制轨道分别报告，不能混成同一个榜单。完整实验规则见 [评测与评分方法](benchmark/README.md#评测与评分方法)。
+当前准备器生成的是单 Agent 试跑 prompt。测试多 Agent 系统时，评测方须预先冻结并配置相应的协作、模型和 Skill 策略；所有内部角色共享同一题的时间和计算资源预算，token 用量只记录、不设上限。产品轨道与控制轨道分别报告，不能混成同一个榜单。完整实验规则见 [评测与评分方法](benchmark/README.md#评测与评分方法)。
 
 ## 如何验收与评分
 
@@ -236,7 +243,7 @@ submission/
 
 | 环节 | 检查内容 | 判定依据 |
 | --- | --- | --- |
-| 交付检查 | 文件、接口、自检入口、可重复运行、T09 ELF 加载、PPA 探索记录 | 提交契约；自带 UT 的运行结果不作为 RTL 正确性 oracle |
+| 交付检查 | 文件、接口、自检入口、可重复运行、PPA 探索记录 | 提交契约；自带 UT 的运行结果不作为 RTL 正确性 oracle |
 | 独立功能验收 | 定向边界、固定种子随机流、协议/复位/延时、CPU 架构与提交差分、NPU 精确数值 | 评测方 testbench 和独立行为模型，通过固定 DUT 端口观察 |
 | 自动结构检查 | T05 双级同步链，T10 PE 邻接网格、局部累加和资源边界 | Yosys 网表规则；T09 通过取指至退休延时、相关与冲刷检查可观察流水线行为 |
 | 验收器质量校准 | 正确参考必须通过，已知缺陷变异体应被检出 | 参考回归与缺陷注入；候选自带 UT 的变异检出率另作诊断 |
@@ -289,9 +296,13 @@ PPA分   = P_base × (T/D_setup)^4 × (有 DRC 则 0.5，否则 1)
 
 时间分只在功能为 50 分且 PPA 得分大于 0 时启用。`t` 是从题目发放到最终提交快照的开发墙钟时间，包含推理、自测、PPA 探索和重试，不包含提交后的评测排队与隐藏验收；`T_max` 是该题开发时限。PPA 为 0 时，时间分也为 0。
 
-每个经评测方确认的、由候选自身造成的致命交付错误，按独立根因扣 **5 分**；同一根因重复触发只扣一次。扣分只作用于显示总分，不抹掉已验证的功能、PPA 和时间分：`显示分 = max(0, 功能分 + PPA分 + 时间分 − 5 × 独立错误数)`，满分 105。
+交付物不符合契约时额外扣分，**每题最多扣 10 分**：单项交付物缺失或一处候选自身造成的运行错误扣 **5 分**；缺少两项及以上交付物，或出现两个不同的交付错误，扣 **10 分**。同一根因重复触发只计一次，基础设施故障不扣分。功能、PPA 和时间分分别保留：`显示分 = max(0, 功能分 + PPA分 + 时间分 − 交付扣分)`，满分 105。详见[交付扣分规则](benchmark/delivery-policy.md)。
 
 单题按 **功能分、PPA 分档、完成时间**依次排序，而不是直接比较显示总分。当前 PPA 档宽为 1.25 分，档号为 `min(40, floor(PPA分/1.25 + 0.5))`；同档且 PPA 得分大于 0 时，较早完成者优先。套题先比较功能全通过题数，再比较功能总分，再比较全通过题的 PPA 档号总和，最后比较这些题的 `t/T_max` 总和（越小越好）。按任务权重计算的显示分只用于展示；缺失分项不重新放大其余权重。
+
+#### 物理评估：每种子最多 60 分钟
+
+T01–T10 每个布局种子的综合、布局布线、寄生提取和最终报告共用 **3,600 秒墙钟时限**，不按阶段重新计时。超时终止该种子的工具进程并保留已有结果，继续其余种子。判分使用已完成物理实现并取得有效正式功耗的种子：PPA 三项取有效种子的中位数，时序裕量和 DRC 仍取最差值；没有任何有效结果时，PPA 分和时间分计 0，功能分与交付扣分保留。中间报告不能代替完整测量。功耗仿真编译另按下述 20 分钟规则执行。详见[物理评估时限与超时判分](benchmark/physical-runtime-policy.md)。
 
 #### 功耗仿真编译：每种子累计最多 20 分钟
 
@@ -307,7 +318,7 @@ T01–T10 的新候选统一执行：每个布局种子的功耗仿真编译共�
 | --- | --- |
 | [benchmark/README.md](benchmark/README.md) | 跨题规则、资源、完整验收/计分/PPA/覆盖与发布要求 |
 | [benchmark/tasks/](benchmark/tasks/) | 每题 `task.md`、`acceptance.md`、`task.yaml` 和 `public/` |
-| [benchmark/manifest.yaml](benchmark/manifest.yaml) | 套件任务、时限、token、资源与评分配置 |
+| [benchmark/manifest.yaml](benchmark/manifest.yaml) | 套件任务、时限、资源、用量统计策略与评分配置 |
 | [evaluator/](evaluator/README.md) | 公开冒烟、独立验收、结构检查、交付检查和评分工具 |
 | [results/](results/README.md) | 模型试跑说明、逐题成绩与机器可读归档 |
 | [env/](env/README.md) | 依赖安装、自检与工具兼容补丁 |

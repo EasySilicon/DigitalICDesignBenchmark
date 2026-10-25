@@ -1,5 +1,7 @@
 # Public executable examples for independent port-level checking
 
+Current T01–T10 physical evaluations share a **60-minute wall-clock limit per seed**. A timeout retains artifacts and does not discard other completed seeds. Score valid completed measurements; with none available, PPA and time points are zero. See the [physical runtime policy](../benchmark/physical-runtime-policy.md).
+
 [中文](README.md)
 
 ## T08 SRAM physical qualification
@@ -63,7 +65,7 @@ Compilation and simulation run in an isolated temporary directory. Failures retu
 
 Raw functional weights are normally F=60/P=15; T09 uses F=48/P=27, including a separate ten-point normalized cycle group. Scaling by `50/75` yields 50 functional points. PPA contributes 50 and completion time 5, for a maximum display score of 105. Fixed task weights are T01/T02 3% each, T03–T05 6% each, T06/T07 10% each, T08 11%, T09 20%, and T10 25%. Missing components do not rescale the remaining weights.
 
-PPA requires full functionality and valid measurement provenance; time points additionally require a positive PPA score. Each distinct candidate-caused fatal handoff error deducts five display points. Repeated occurrences of one cause count once; tool/evaluator faults do not count. Deductions preserve verified component scores. Full scoring details are in the [root README](../README.en.md#scores-and-ordering).
+PPA requires full functionality and valid measurement provenance; time points additionally require a positive PPA score. Current scoring uses `score_with_power_budget.py` and the checker's `delivery_assessment`. Delivery deductions are capped at ten points per task: one missing deliverable or one candidate-caused execution error costs five points; two or more missing deliverables, or two distinct delivery errors, cost ten. Repeated occurrences of one root cause count once; tool/evaluator faults do not count. Deductions preserve verified component scores. See the [delivery policy](../benchmark/delivery-policy.md#delivery-contract-deductions); `score_run.py` retains historical rules for replay. Full scoring details are in the [root README](../README.en.md#scores-and-ordering).
 
 After routing, a setup miss is represented by the measured critical-path delay and additionally multiplies the score by `(T_target/D_worst)^4`, where `D_worst=T_target+max(0,-setup_slack)` uses the worst routed seed. Lower achieved frequency therefore produces a stronger but continuous penalty. Negative hold slack remains added to the effective delay. DRC is a separate physical-validity penalty: any routed seed with a DRC violation halves the final PPA score. A reference baseline must still pass setup, hold, and DRC; PPA is zero only when legal routing, a constrained timing path, or valid activity-based power is unavailable.
 
@@ -77,9 +79,11 @@ points, logs, and any existing delivery penalty. Simulation and physical design
 are outside this compile budget; missing tools and ordinary build errors are
 not classified as timeouts. See the [common policy](../benchmark/power-compile-policy.md).
 
-Current candidates use `power_probe_with_budget.py`,
-`aggregate_with_power_budget.py`, and `score_with_power_budget.py` for collection,
-aggregation, and scoring. T08 and both T10 candidate coordinators enforce the
+Current candidates use `route_with_slang.py` for physical evaluation,
+`power_probe_with_budget.py` for power collection, `aggregate_with_power_budget.py`
+for aggregation, and `score_with_power_budget.py` for scoring. Yosys must provide
+`read_slang`, either builtin or as a plugin; missing frontend support is an
+evaluator configuration fault. T08 and both T10 candidate coordinators enforce the
 same policy. The integrated T09 entry is `check_t09_with_power_budget.py`, with
 repeatable `--power-compile-record` arguments. Receipts are retained in current
 score records for validation during archive regrading.
@@ -116,7 +120,7 @@ T06's independent functional entry point is `python3 evaluator/t06_check.py /pat
 
 T07's independent functional entry point is `python3 evaluator/t07_check.py /path/to/submission`. It aggregates groups `AC-38` through `AC-43`, covering read/write hits, clean and dirty replacement, write allocation, every byte strobe, backpressure on both interfaces, reset, and hit latency; `--reference` runs the evaluator-owned reference RTL. `python3 evaluator/t07_mutation_check.py` deterministically builds and qualifies sixteen synthesizable fault variants. The three-seed 1 GHz reference baseline, frozen hashes, and qualification results are in `t07_qualification.json`.
 
-T09's independent functional entry point is `python3 evaluator/check_t09_with_power_budget.py /path/to/submission --elapsed-seconds SECONDS`. It runs 45 ACT4 programs, 108 directed programs, 100 differential-random programs, 80 memory-wait runs, four live-reset cases, four task-specific exception cases, and the 64-instruction fetch-to-retire latency check before invoking the common scorer. Frozen ELF files, assembly sources, and compressed commit oracles are under `t09_data/`; `python3 evaluator/verify_t09_artifacts.py` checks their manifests, SHA-256 digests, compressed JSONL, and event counts. `programs/random/diff_mem_seed035_v0.elf` and `programs/delivery_bad_tohost.elf` are the public positive and negative probes for `delivery_check.py T09`. `python3 evaluator/t09_mutation_check.py` builds and checks twenty-one synthesizable fault variants in a temporary directory. The current reference RTL scores 50/50 normalized functional points and passes all 22 cycle checks; its 2026-10-09 requalification hashes and evidence are in `t09_qualification.json`. The three-seed ASAP7 WC 1 GHz T09 reference baseline is complete, with setup, hold, and DRC passing in all seeds; the smallest setup margin is +9.008 ps in seed 47. See `benchmark/ppa-baselines.json`.
+T09's independent functional entry point is `python3 evaluator/check_t09_with_power_budget.py /path/to/submission --elapsed-seconds SECONDS`. It runs 45 ACT4 programs, 108 directed programs, 100 differential-random programs, 80 memory-wait runs, four live-reset cases, four task-specific exception cases, and the 64-instruction fetch-to-retire latency check before invoking the common scorer. Frozen ELF files, assembly sources, and compressed commit oracles are under `t09_data/`; `python3 evaluator/verify_t09_artifacts.py` checks their manifests, SHA-256 digests, compressed JSONL, and event counts. `python3 evaluator/t09_mutation_check.py` builds and checks twenty-one synthesizable fault variants in a temporary directory. The current reference RTL scores 50/50 normalized functional points and passes all 22 cycle checks; its 2026-10-09 requalification hashes and evidence are in `t09_qualification.json`. The three-seed ASAP7 WC 1 GHz T09 reference baseline is complete, with setup, hold, and DRC passing in all seeds; the smallest setup margin is +9.008 ps in seed 47. See `benchmark/ppa-baselines.json`.
 
 `port_timing_v1` runs 22 fixed-port cycle checks through `t09_timing_check.py`. Under `t09_group_cycles10_v1`, the independent `CPU-PIPE-CYCLES` group earns 10 points for 22 passes, 5 for 11–21, and zero for 0–10; other groups contribute 40 functional points. Checks cover four-cycle independent-ADDI latency and IPC=1, ALU forwarding, load-use bubbles, and straight-line retirement-span budgets using three fixed ready/response profiles. Branch/JAL/JALR penalties are diagnostic. Rules: `benchmark/tasks/T09/acceptance.md`; qualification: `t09_timing_qualification.json` and `fixtures/t09_cpu_20261009_cycles10/`.
 

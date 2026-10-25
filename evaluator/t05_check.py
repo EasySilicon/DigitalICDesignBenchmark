@@ -13,6 +13,7 @@ from pathlib import Path
 
 from cdc_2ff_check import inspect
 from public_check import ROOT, sources_from_filelist
+from slang_frontend import yosys_command
 
 
 PARAMETERS = ((8, 8), (8, 16), (32, 8), (32, 16))
@@ -27,8 +28,9 @@ def structural_check(submission: Path, sources: list[Path], width: int,
     script = temporary / f"elaborate_w{width}_d{depth}.ys"
     source_words = " ".join(str(path) for path in sources)
     script.write_text(
-        f"read_verilog -sv -I{(submission / 'rtl').resolve()} {source_words}\n"
-        f"chparam -set WIDTH {width} -set DEPTH {depth} asynchronous_fifo\n"
+        f"read_slang --compat=vcs -D SYNTHESIS --ignore-assertions --keep-hierarchy "
+        f"--top asynchronous_fifo -GWIDTH={width} -GDEPTH={depth} "
+        f"-I{(submission / 'rtl').resolve()} {source_words}\n"
         "hierarchy -check -top asynchronous_fifo\n"
         # Flatten before the generic graph inspection so synchronizer stages
         # are visible as destination-domain flops rather than opaque module
@@ -37,7 +39,7 @@ def structural_check(submission: Path, sources: list[Path], width: int,
         "proc\nflatten\nopt\nmemory_dff\nopt_clean\n"
         f"write_json {netlist}\n"
     )
-    outcome = subprocess.run(["yosys", "-q", "-s", str(script)], text=True,
+    outcome = subprocess.run([*yosys_command(), "-q", "-s", str(script)], text=True,
                              capture_output=True, timeout=180, check=False)
     if outcome.returncode:
         raise RuntimeError(f"Yosys structural elaboration failed for WIDTH={width} "

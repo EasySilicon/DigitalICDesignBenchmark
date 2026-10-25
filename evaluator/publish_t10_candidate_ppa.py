@@ -13,6 +13,7 @@ from t10_candidate_physical import REPO, TRIALS, artifact, prepare
 from grade_t10_candidate_ppa import grade
 from run_t10_candidate_40g import POLICY, save
 from score_run import load_rules, score_run, weighted_suite_score
+from score_with_power_budget import score_run as current_score_run
 from adjudicate_t10_compile_stop import STATUS as COMPILE_STOP_ZERO, validate_decision
 from power_compile_budget import TIMEOUT_STATUS, TIMEOUT_EXIT_CODE, validate_timeout
 
@@ -77,7 +78,13 @@ def verified_report(model,state,work,trials,orfs,*,allow_cached=False,legacy_rep
     payload=dict(task_id='T10',groups=original.get('functional_groups',functional['groups']),delivery_qualified=delivery['delivery_qualified'],
         elapsed_seconds=elapsed,time_limit_seconds=original['time_limit_seconds'],
         sustained_throughput_passed=True,candidate_delivery_error_count=original.get('candidate_delivery_error_count',0))
-    scored=score_run(payload)
+    if not legacy_replay:
+        if 'delivery_assessment' not in delivery:
+            raise ValueError('current grading requires a complete delivery assessment; historical replay requires --legacy-replay')
+        payload['delivery_assessment']=delivery['delivery_assessment']
+        if compile_record:
+            payload.update(candidate_source_sha256=item['source_sha256'],power_compile_records=[compile_record])
+    scored=score_run(payload) if legacy_replay else current_score_run(payload)
     if scored['functional_total']!=50 or scored['ppa_score']!=0:raise ValueError('unexpected resource-zero score')
     return dict(model=model,score=scored,elapsed_seconds=elapsed,
         original_functional_record=artifact(functional_path),
@@ -91,6 +98,8 @@ def verified_report(model,state,work,trials,orfs,*,allow_cached=False,legacy_rep
 
 
 def task_record(old,report,receipt,stamp,*,verified_source=None):
+    if report['score'].get('display_score') is None:
+        raise ValueError('delivery deduction must be adjudicated before score publication')
     source=report.get('candidate_source_sha256',report.get('measurement',{}).get('source_sha256'))
     previous_source=old.get('candidate_sha256')
     if not source or (previous_source is None and verified_source!=source) or \
@@ -122,6 +131,8 @@ def task_record(old,report,receipt,stamp,*,verified_source=None):
                            ppa_status=TIMEOUT_STATUS,candidate_source_sha256=source,
                            power_compile_records=[report['power_compile_timeout_record']])
     else:updated['resource_failure_adjudication']=report['adjudication']
+    if report['score'].get('delivery_penalty_policy'):
+        updated['scoring_policy']+='+'+report['score']['delivery_penalty_policy']
     if 'functional_groups' not in updated and 'original_functional_record' in report:
         evidence=report['original_functional_record'];path=Path(evidence['path'])
         if artifact(path)!=evidence:raise ValueError('original functional record changed')
@@ -136,6 +147,8 @@ def summary_record(old,updated,stamp):
         'ppa_eligible','ppa_score','ppa_rank_bucket','time_score',
         'display_score','candidate_delivery_error_count','candidate_delivery_penalty',
         'display_score_before_candidate_penalty','score_status','scoring_policy','elapsed_seconds','t10_ppa_remeasurement')}
+    fields.update({key:updated[key] for key in ('delivery_penalty_policy',
+        'delivery_penalty_status','delivery_assessment') if key in updated})
     rows=result['tasks']
     if sum(row['task_id']=='T10' for row in rows)!=1:raise ValueError('summary must contain exactly one T10')
     for row in rows:

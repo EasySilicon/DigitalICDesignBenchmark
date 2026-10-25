@@ -152,7 +152,8 @@ def command(root: Path, agent: str, container: str, session: str,
     # Optional, sanitized technology/tool kit: never mount the ORFS worktree,
     # which may contain reference netlists and other trials' artifacts.
     if (root / 'public_eda').is_dir():
-        cmd += ['-v', f'{root / "public_eda"}:/opt/t08_eda:ro']
+        mount = '/opt/benchmark_eda' if (root / 'public_eda/task.json').is_file() else '/opt/t08_eda'
+        cmd += ['-v', f'{root / "public_eda"}:{mount}:ro']
     config = {'kimi': '.kimi-code', 'claude': '.claude', 'codex': '.codex'}[agent]
     cmd += ['-v', f'{root / "workspace"}:/workspace',
             '-v', f'{root / "agent_home"}:/home/benchmark',

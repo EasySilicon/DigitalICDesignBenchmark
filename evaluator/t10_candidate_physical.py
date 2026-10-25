@@ -16,7 +16,8 @@ import time
 
 from public_check import sources_from_filelist
 from ppa_aggregate import source_hash
-from t10_structure_check import inspect
+from t10_structure_with_slang import inspect
+from physical_budget import run as physical_run, timed_out as physical_timed_out
 
 REPO=Path(__file__).resolve().parents[1]
 TRIALS={
@@ -136,7 +137,8 @@ def run_seed(item,seed,work,orfs,target,*,memory_gib=40,allow_swap=False,prepare
         env=dict(os.environ,MALLOC_ARENA_MAX='2');started=time.time()
         print('START',model,seed,target,flush=True)
         with (directory/f'{target}{suffix}.log').open('x') as log:
-            result=subprocess.run(command,env=env,stdout=log,stderr=subprocess.STDOUT,check=False)
+            result=physical_run(command,env=env,stdout=log,stderr=subprocess.STDOUT,
+                task='T10',source=item['source_sha256'],seed=seed,record_path=directory/'physical_budget.json')
         result_dir=orfs/'flow/results/asap7'/pe/variant
         paths=([result_dir/f'6_final.{ext}' for ext in ('odb','spef','sdc','v')] if target=='baseline' else
                [result_dir/'1_2_yosys.v'])
@@ -162,9 +164,12 @@ def main():
     for seed in a.seeds:
         for item in items:
             if a.target=='baseline':
-                from run_t10_candidate_40g import completed_physical, physical
+                from run_t10_candidate_40g import completed_physical
+                from t10_physical_with_slang import physical
                 directory=work/item['model']/f'seed{seed}'
-                if completed_physical(directory):
+                if physical_timed_out(directory):
+                    row=json.loads((directory/'baseline40.json').read_text())
+                elif completed_physical(directory):
                     row=json.loads((directory/'baseline40.json').read_text())
                 else:
                     row,_=physical(item,seed,work,orfs)

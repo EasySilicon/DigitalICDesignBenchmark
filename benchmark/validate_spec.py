@@ -24,6 +24,13 @@ def fail(message: str) -> None:
 
 def validate_local() -> tuple[dict, dict]:
     manifest = yaml.safe_load((ROOT / "manifest.yaml").read_text())
+    if manifest.get("token_usage_policy") != "record_only":
+        fail("token usage must be recorded without imposing a token budget")
+    physical = manifest.get('ppa_measurement', {})
+    if (physical.get('physical_seed_limit_seconds') != 3600 or
+            physical.get('physical_runtime_policy') != 'physical-wall-3600s-retain-results-v1' or
+            physical.get('physical_timeout_scoring') != 'retain_valid_completed_seeds_or_zero'):
+        fail('physical evaluation must retain results under the 3600-second per-seed policy')
     sources = yaml.safe_load((ROOT / "sources.lock.yaml").read_text())
     readme = (ROOT / "README.md").read_text()
 
@@ -54,7 +61,10 @@ def validate_local() -> tuple[dict, dict]:
             scores["functional"] != 50 or scores["ppa"] != 50:
         fail("score allocation differs from normalized function 50 + PPA 50")
     if scores.get("candidate_delivery_error_penalty") != 5:
-        fail("each candidate-caused fatal delivery error must deduct 5 display points")
+        fail("a single delivery-contract violation must deduct 5 display points")
+    if scores.get("candidate_delivery_max_penalty") != 10 or \
+            scores.get("delivery_penalty_policy") != "delivery-contract-cap10-v1":
+        fail("delivery-contract deductions must use the current policy and a 10-point cap")
     if scores.get("setup_violation_exponent") != 4:
         fail("setup violations must use the frozen fourth-power frequency penalty")
     if scores.get("task_raw_allocations") != {"T09": {"F": 48, "P": 27}}:
@@ -180,7 +190,7 @@ def validate_local() -> tuple[dict, dict]:
         if f"| {task_id} |" not in readme:
             fail(f"missing overview row: {task_id}")
         for key in ("id", "title", "level_hypothesis", "origin",
-                    "time_limit_minutes", "same_model_token_cap"):
+                    "time_limit_minutes"):
             if task_metadata.get(key) != row[key]:
                 fail(f"task metadata differs from manifest: {task_id}/{key}")
         allocation = scores["task_raw_allocations"].get(task_id, {
@@ -193,7 +203,9 @@ def validate_local() -> tuple[dict, dict]:
             fail(f"task-local scoring weights differ from manifest: {task_id}")
         if row["level_hypothesis"] != index:
             fail(f"level hypothesis/order differs: {task_id}")
-        if row["time_limit_minutes"] <= 0 or (row["same_model_token_cap"] is not None and row["same_model_token_cap"] <= 0):
+        if "same_model_token_cap" in row or "same_model_token_cap" in task_metadata:
+            fail(f"token budgets are not part of the benchmark: {task_id}")
+        if row["time_limit_minutes"] <= 0:
             fail(f"invalid resource budget: {task_id}")
 
     if manifest["status"] != "design_only":

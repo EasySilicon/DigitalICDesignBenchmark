@@ -24,7 +24,7 @@ class CandidatePhysicalTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp);item=self.fixture(root)
             with patch.object(M.subprocess,'check_output',return_value='locked-version\n'), \
-                 patch.object(M.subprocess,'run',return_value=subprocess.CompletedProcess([],1)) as run:
+                 patch.object(M,'physical_run',return_value=subprocess.CompletedProcess([],1)) as run:
                 result=M.run_seed(item,11,root/'work',root/'orfs','baseline',memory_gib=32)
             self.assertEqual(result['status'],'failed_pending_attribution')
             self.assertNotIn('ppa_score',result)
@@ -51,11 +51,11 @@ class CandidatePhysicalTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp);item=self.fixture(root);work=root/'work';orfs=root/'orfs'
             with patch.object(M.subprocess,'check_output',return_value='locked-version\n'), \
-                 patch.object(M.subprocess,'run',return_value=subprocess.CompletedProcess([],1)):
+                 patch.object(M,'physical_run',return_value=subprocess.CompletedProcess([],1)):
                 M.run_seed(item,11,work,orfs,'baseline',memory_gib=32)
             directory=work/'gpt-6-sol/seed11';old=(directory/'inputs.json').read_bytes()
             with patch.object(M.subprocess,'check_output',return_value='locked-version\n'), \
-                 patch.object(M.subprocess,'run') as execute:
+                 patch.object(M,'physical_run') as execute:
                 new=M.run_seed(item,11,work,orfs,'baseline',memory_gib=40,allow_swap=True,prepare_only=True)
             execute.assert_not_called()
             self.assertEqual((directory/'inputs.json').read_bytes(),old)
@@ -83,7 +83,7 @@ class CandidatePhysicalTest(unittest.TestCase):
                  patch.object(M,'prepare',return_value={'model':'gpt-6-sol'}), \
                  patch.object(M,'run_seed') as legacy, \
                  patch('run_t10_candidate_40g.completed_physical',return_value=False), \
-                 patch('run_t10_candidate_40g.physical',return_value=({'exit_code':0},{})) as monitored:
+                 patch('t10_physical_with_slang.physical',return_value=({'exit_code':0},{})) as monitored:
                 M.main()
             legacy.assert_not_called()
             self.assertEqual([call.args[1] for call in monitored.call_args_list],[11,29])

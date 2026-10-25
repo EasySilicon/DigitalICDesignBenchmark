@@ -47,7 +47,7 @@ The suite follows these principles:
 
 5. **Use consistent PPA scope and conditions.** References and candidates use the same process data, constraints, activity workloads, and measurement flows. T01–T09 measure the complete DUT. For V1.0, T10 measures one PE's area, routed delay, and energy, while the complete 256-PE DUT must still pass functional, structural, and throughput checks. Single-PE results do not represent the complete NPU's cost. Each task's PPA contract defines its scope and release requirements.
 
-6. **Evaluate external harnesses through controlled comparisons.** Skills, orchestration strategies, and immediate quality gates are explicit experimental variables. All roles in a multi-agent system share time, token, monetary, and compute budgets, including reasoning, verification, and PPA iterations. The same-model control track studies harness effects; the product track measures practical model and system performance. Independent repetitions, pass rates, time, and cost provide evidence, with model settings and budget differences recorded alongside results.
+6. **Evaluate external harnesses through controlled comparisons.** Skills, orchestration strategies, and immediate quality gates are explicit experimental variables. All roles in a multi-agent system share time, monetary, and compute budgets; token usage is recorded without a cap, including reasoning, verification, and PPA iterations. The same-model control track studies harness effects; the product track measures practical model and system performance. Independent repetitions, pass rates, time, and cost provide evidence, with model settings and budget differences recorded alongside results.
 
 7. **Build difficulty through domain coverage and engineering interactions.** Tasks cover state control, parameterization, protocols, CDC, caches, pipelines, and spatial arrays. Boundaries, concurrent state, numerical semantics, and constraints across modules create difficulty. Different task scales reveal where systems are reliable and where they fail; pilot data calibrate difficulty and budgets. A compact suite makes repeated experiments practical.
 
@@ -97,7 +97,9 @@ The following values come from the [2026-10-21 per-task evaluation results](resu
 
 Each cell is the task's display score **out of 105, including delivery deductions**, rounded to two decimal places. Weighted totals use unrounded task scores and fixed weights, not a simple average.
 
-| Task | Weight | GPT-6-Astra<br><sub>Codex CLI 0.160.0</sub> | GPT-6.1-Sol<br><sub>Codex CLI 0.160.0</sub> | GPT-6-Sol<br><sub>Codex CLI 0.160.0</sub> | Kimi K3<br><sub>Kimi CLI 2.1.1</sub> | DeepSeek V4.1 Flash<br><sub>Claude Code 2.1.183</sub> | GLM-5.3-Flash<br><sub>Claude Code 2.1.183</sub> |
+Parentheses after model names indicate reasoning effort; `default` means no explicit setting was supplied. Effort levels across frameworks do not imply equal reasoning budgets.
+
+| Task | Weight | GPT-6-Astra(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6.1-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | Kimi K3(max)<br><sub>Kimi CLI 2.1.1</sub> | DeepSeek V4.1 Flash(default)<br><sub>Claude Code 2.1.183</sub> | GLM-5.3-Flash(default)<br><sub>Claude Code 2.1.183</sub> |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | T01 | 3% | 88.24 | 86.33 | 86.98 | 75.49 | 82.86 | 0.00 |
 | T02 | 3% | 87.88 | 87.20 | 89.70 | 89.17 | 89.07 | 81.71 |
@@ -114,7 +116,7 @@ Each cell is the task's display score **out of 105, including delivery deduction
 
 Tasks below full functionality receive zero PPA and time points. GPT-6-Sol T10 retains 50 functional points and zero PPA/time points under its historical power-compilation termination adjudication. See the [model results](results/model-score-comparison.md) for component scores and zero-score categories.
 
-Run conditions: Kimi T08 used a cumulative historical development budget of 150 minutes. T10 reference and candidate implementations differ in internal macros and physical flow; a same-flow comparison is not available. These historical pilot results are not an official ranking.
+Run conditions: Kimi T08 used a cumulative historical development budget of 150 minutes. T10 reference and candidate implementations differ in internal macros and physical flow; a same-flow comparison is not available.
 
 Details: [per-task score-loss analysis](results/model-score-comparison.md#各模型逐题失分原因), [PPA formula audit](results/model-score-comparison.md#ppa-公式审计2026-10-21), [archive policy](results/README.md), and [result schema](results/result.schema.json).
 
@@ -126,7 +128,7 @@ Functional and physical evaluation use open tools and **require no commercial ED
 | --- | --- |
 | Specification/report validation | Python ≥3.10, PyYAML, jsonschema |
 | RTL compilation, simulation and structure | Verilator, Yosys, C++ compiler, make; some independent evaluators also use Icarus Verilog `iverilog`/`vvp` |
-| PPA | Yosys, OpenROAD, OpenROAD-flow-scripts (ORFS), included ASAP7; timing/power reports come from the OpenROAD flow |
+| PPA | Yosys with a working slang frontend, OpenROAD, OpenROAD-flow-scripts (ORFS), included ASAP7; timing/power reports come from the OpenROAD flow |
 | CPU test generation/reference checking | RISC-V bare-metal tools, Sail, locked ACT4/riscv-arch-test; generated ELF artifacts are also provided |
 | Candidate verification | Optional SystemVerilog/UVM, SVA, cocotb or C++; validate the syntax used against the actual installed tools |
 
@@ -148,7 +150,7 @@ python3 env/check_env.py --profile ppa \
   --orfs-root third_party/OpenROAD-flow-scripts --verify-platform-hashes
 ```
 
-The default evaluation allocation is **16 vCPU, 40 GiB RAM, and 100 GiB writable disk**. Model token caps and time limits are in [manifest.yaml](benchmark/manifest.yaml). Put `TMPDIR` and the ORFS work tree on a sufficiently large data disk for large simulations/physical builds. Dependency discovery alone does not establish compatibility; run a reference smoke test too.
+The default evaluation allocation is **16 vCPU, 40 GiB RAM, and 100 GiB writable disk**. Token usage is recorded without a cap and never triggers termination. Task time limits are in [manifest.yaml](benchmark/manifest.yaml). Put `TMPDIR` and the ORFS work tree on a sufficiently large data disk for large simulations/physical builds. Dependency discovery alone does not establish compatibility; run a reference smoke test too.
 
 ## Recommended testing workflows
 
@@ -181,7 +183,7 @@ python3 evaluator/runner_t10_stream.py /path/to/npu \
   --output-dir work/T10-acceptance
 ```
 
-T09 delivery also requires `run.sh --elf`. The evaluator captures instruction traces; candidates do not need to implement a trace-file generator. See the [evaluator guide](evaluator/README.md) and [T10 package guide](evaluator/T10_EVALUATION.md) for detailed entry points.
+The evaluator independently loads T09 ELF programs and captures instruction traces. See the [evaluator guide](evaluator/README.md) and [T10 package guide](evaluator/T10_EVALUATION.md) for detailed entry points.
 
 ### Workflow 2: Run one task with an agent
 
@@ -190,6 +192,8 @@ Useful for trying one model/coding agent or integrating a system. Prepare an **e
 ```bash
 python3 benchmark/prepare_trial.py T03 work/trials/my-system/run-01/T03
 ```
+
+For T08, T09 and T10, also pass `--orfs-root /path/to/OpenROAD-flow-scripts` to supply the public EDA kit for synthesis, place-and-route and timing feedback during development. T09 measures the full CPU; T10 measures the candidate's own single PE. The kit includes ASAP7 views and physical constraints, without reference RTL or hidden tests. Mount the generated `public_eda/` read-only at `/opt/t08_eda` for T08 or `/opt/benchmark_eda` for T09/T10. Instructions are appended to `PROMPT.md` and, for T09/T10, `EDA_TOOLS.md`. EDA iterations count toward the original task deadline.
 
 1. Start a fresh agent session in the generated directory and supply `PROMPT.md`. It contains only the selected public task material, smoke test, and required public assets.
 2. Record task release time; run until final submission or the deadline. Preserve model settings, tokens, cost, logs, and final artifact hashes.
@@ -204,17 +208,20 @@ Useful for model comparisons, multi-agent experiments, and system version regres
 
 ```bash
 for task in T01 T02 T03 T04 T05 T06 T07 T08 T09 T10; do
-  python3 benchmark/prepare_trial.py "$task" "work/trials/my-system/run-01/$task"
+  case "$task" in
+    T08|T09|T10) python3 benchmark/prepare_trial.py "$task" "work/trials/my-system/run-01/$task/workspace" --orfs-root /path/to/OpenROAD-flow-scripts ;;
+    *) python3 benchmark/prepare_trial.py "$task" "work/trials/my-system/run-01/$task/workspace" ;;
+  esac
 done
 ```
 
 Your agent CLI/API or system runner then consumes each `PROMPT.md` in a new session with independent outputs. The repository provides preparation, acceptance, and scoring tools; the experimental runner must integrate model calls, container startup, clocks, and logging.
 
 - **Product track:** compare native models and engineering systems with fixed monetary, time, and compute budgets.
-- **Same-model control track:** use identical model snapshots, sampling settings, API, and aggregate token caps to study orchestration/workflow effects.
+- **Same-model control track:** use identical model snapshots, sampling settings, API, and development time limits to study orchestration/workflow effects.
 - **Replicates:** the main suite specifies at least five independent attempts per task with common fixed evaluation seeds. Report per-task pass rates, medians, time, and cost rather than only the best attempt.
 
-The current preparer generates a single-agent pilot prompt. For multi-agent experiments, evaluators must configure and freeze the corresponding collaboration, model, and Skill policy before the run. All roles share the task's aggregate time, token, and compute budget. Keep product and control tracks separate. See the [full experimental methodology](benchmark/README.md#评测与评分方法).
+The current preparer generates a single-agent pilot prompt. For multi-agent experiments, evaluators must configure and freeze the corresponding collaboration, model, and Skill policy before the run. All roles share the task's aggregate time and compute budget; token usage is recorded without a cap. Keep product and control tracks separate. See the [full experimental methodology](benchmark/README.md#评测与评分方法).
 
 ## Acceptance and scoring
 
@@ -238,7 +245,7 @@ submission/
 
 | Stage | What is checked | Evidence |
 | --- | --- | --- |
-| Delivery | Files/interfaces, runnable reproducible self-tests, T09 ELF loading, PPA exploration notes | Submission contract; candidate UT results are not the RTL correctness oracle |
+| Delivery | Files/interfaces, runnable reproducible self-tests, PPA exploration notes | Submission contract; candidate UT results are not the RTL correctness oracle |
 | Independent functionality | Directed boundaries, seeded streams, protocol/reset/latency, CPU architectural/commit differences, exact NPU arithmetic | Evaluator-owned testbenches and behavioral models observe fixed DUT ports |
 | Automatic structure | T05 synchronizer chains; T10 PE neighbors, local accumulation and resource limits | Yosys netlist rules; T09 observes pipeline timing using fetch-to-retire latency, dependencies and flushes |
 | Evaluator calibration | Correct references pass; known defect mutants are detected | Reference regressions and fault injection; candidate UT mutation detection is a separate diagnostic |
@@ -291,9 +298,13 @@ Candidate failures to complete legal routing or obtain valid activity measuremen
 
 Time points require 50 functional points and a strictly positive PPA score. `t` is development wall-clock time from task release to the final submitted snapshot, including inference, self-tests, PPA exploration, and retries, but excluding post-submission evaluator queues and hidden acceptance. `T_max` is the task's development limit. A zero PPA score also means zero time points.
 
-Each evaluator-confirmed, candidate-caused fatal handoff error deducts **5 points per distinct root cause**. Repeated occurrences of the same cause count once. The deduction affects only the display total, retaining verified functional, PPA, and time components: `display = max(0, functionality + PPA + time − 5 × distinct errors)`, with a maximum of 105.
+Delivery-contract violations incur an additional deduction, **capped at 10 points per task**: deduct **5 points** for one missing deliverable or one candidate-caused execution error; deduct **10 points** for two or more missing deliverables, or two distinct delivery errors. Repeated occurrences of one root cause count once; infrastructure faults incur no deduction. Verified functional, PPA, and time components remain intact: `display = max(0, functionality + PPA + time − delivery deduction)`, with a maximum of 105. See the [delivery policy](benchmark/delivery-policy.md#delivery-contract-deductions).
 
 Per-task ordering compares **functional score, PPA bucket, then completion time**, not the display total. The current bucket width is 1.25 points: `bucket = min(40, floor(PPA/1.25 + 0.5))`. Within a bucket, earlier completion wins only when PPA is positive. Suite ordering compares the number of fully functional tasks, then the functional score sum, then the sum of PPA buckets for fully functional tasks, then their summed `t/T_max` (lower is better). Task-weighted display scores are supplementary; missing components do not rescale the remaining weights.
+
+#### Physical evaluation: 60 minutes per layout seed
+
+For T01–T10, synthesis, placement, clock-tree synthesis, routing, extraction, and final reports share a **3,600-second wall-clock limit per layout seed**. The clock does not restart between stages. On timeout, terminate that seed's tool processes, retain its artifacts, and continue the other seeds. Score the valid completed seeds with measured activity-based power: take median area, delay, and energy, and retain worst-case timing slack and DRC counts. If no valid complete measurement is available, PPA and time points are zero; functional points and delivery deductions remain. Intermediate reports do not replace complete measurements. The separate 20-minute power-compilation rule below still applies. See the [physical runtime policy](benchmark/physical-runtime-policy.md).
 
 #### Power-simulation compilation: 20 cumulative minutes per seed
 
@@ -309,7 +320,7 @@ Evaluation tools consume **evaluator-generated** group results and measurements,
 | --- | --- |
 | [benchmark/README.md](benchmark/README.md) | Normative shared rules, resources, full acceptance/scoring/PPA, coverage and release gates |
 | [benchmark/tasks/](benchmark/tasks/) | Per-task `task.md`, `acceptance.md`, `task.yaml` and `public/` |
-| [benchmark/manifest.yaml](benchmark/manifest.yaml) | Task set, time/token/resource budgets and score configuration |
+| [benchmark/manifest.yaml](benchmark/manifest.yaml) | Task set, time/resource limits and token-usage recording policy and score configuration |
 | [evaluator/](evaluator/README.md) | Smoke tests, independent acceptance, structural/delivery checks and scoring |
 | [results/](results/README.md) | Model pilot notes, per-task scores and machine-readable archives |
 | [env/](env/README.en.md) | Installation, dependency discovery and compatibility patches |

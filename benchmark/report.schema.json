@@ -12,6 +12,137 @@
     "full_functional_pass", "delivery_qualified", "ppa_eligible", "ppa_measurements",
     "ppa_score", "ppa_rank_bucket", "time_score", "display_score", "test_groups"
   ],
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "delivery_penalty_policy"
+        ],
+        "dependentRequired": {"physical_policy": ["physical_records"]},
+  "properties": {
+    "physical_policy": {
+      "const": "physical-wall-3600s-retain-results-v1"
+    },
+    "physical_records": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "policy_id",
+          "limit_seconds",
+          "task_id",
+          "candidate_source_sha256",
+          "layout_seed",
+          "elapsed_seconds",
+          "status"
+        ],
+        "properties": {
+          "policy_id": {
+            "const": "physical-wall-3600s-retain-results-v1"
+          },
+          "limit_seconds": {
+            "const": 3600
+          },
+          "layout_seed": {
+            "enum": [
+              11,
+              29,
+              47
+            ]
+          },
+          "elapsed_seconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "status": {
+            "enum": [
+              "completed",
+              "timeout"
+            ]
+          },
+          "process_group_terminated": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "physical_timed_out_seeds": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          11,
+          29,
+          47
+        ]
+      }
+    },
+    "ppa_status": {
+      "type": "string"
+    },
+    "candidate_source_sha256": {
+      "type": "string"
+    },
+          "delivery_penalty_policy": {
+            "const": "delivery-contract-cap10-v1"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "delivery_penalty_status",
+          "candidate_delivery_penalty"
+        ],
+        "properties": {
+          "candidate_delivery_penalty": {
+            "enum": [
+              0,
+              5,
+              10,
+              null
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "delivery_penalty_status": {
+                  "const": "pending"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "delivery_penalty_pending_reason"
+              ],
+              "properties": {
+                "candidate_delivery_penalty": {
+                  "type": "null"
+                },
+                "display_score": {
+                  "type": "null"
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "candidate_delivery_penalty": {
+                  "enum": [
+                    0,
+                    5,
+                    10
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
   "properties": {
     "suite_id": {"const": "ic-delivery-rtl-v0.3"},
     "run_id": {"type": "string", "minLength": 1},
@@ -35,8 +166,71 @@
     "full_functional_pass": {"type": "boolean"},
     "delivery_qualified": {"type": "boolean"},
     "delivery_notes": {"type": "array", "items": {"type": "string"}},
+    "delivery_penalty_policy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "delivery_penalty_status": {
+      "enum": [
+        "adjudicated",
+        "pending"
+      ]
+    },
+    "delivery_penalty_pending_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "delivery_assessment": {
+      "type": "object",
+      "required": [
+        "missing_deliverables",
+        "errors"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "missing_deliverables": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "rtl/",
+              "rtl/files.f",
+              "verif/",
+              "run.sh",
+              "results.json",
+              "README.md"
+            ]
+          }
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "root_cause",
+              "attribution"
+            ],
+            "properties": {
+              "root_cause": {
+                "type": "string",
+                "minLength": 1
+              },
+              "attribution": {
+                "enum": [
+                  "candidate",
+                  "infrastructure",
+                  "pending"
+                ]
+              },
+              "detail": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
     "candidate_delivery_error_count": {"type": "integer", "minimum": 0},
-    "candidate_delivery_penalty": {"type": "number", "minimum": 0},
+    "candidate_delivery_penalty": {"type": ["number", "null"], "minimum": 0},
     "display_score_before_candidate_penalty": {"type": "number", "minimum": 0, "maximum": 105},
     "candidate_delivery_error_details": {
       "type": "array",
@@ -63,7 +257,7 @@
     "ppa_score": {"type": "number", "minimum": 0, "maximum": 50},
     "ppa_rank_bucket": {"type": "integer", "minimum": 0, "maximum": 40},
     "time_score": {"type": "number", "minimum": 0, "maximum": 5},
-    "display_score": {"type": "number", "minimum": 0, "maximum": 105},
+    "display_score": {"type": ["number", "null"], "minimum": 0, "maximum": 105},
     "test_groups": {
       "type": "array",
       "items": {

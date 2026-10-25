@@ -66,8 +66,16 @@ def apply_to_scored_record(record, *, require_complete=False):
     source = record.get('candidate_source_sha256') or record.get('candidate_sha256') or record.get('source_sha256') or measurement.get('source_sha256')
     if measurement and measurement.get('source_sha256') != source:
         raise ValueError('power compilation and PPA candidate source differ')
+    physical_records=record.get('physical_records',measurement.get('physical_records',[]))
+    physical_timeouts=set()
+    if physical_records:
+        from physical_budget import validate_records as validate_physical
+        power_timeout=validate_records(records,source,record['task_id'])
+        physical_timeouts=validate_physical(physical_records,source,record['task_id'],complete=not power_timeout)
     timed_out = validate_records(records, source, record['task_id'],
-                                 require_complete=require_complete or marked or bool(records))
+                                 require_complete=(require_complete or marked or bool(records)) and not physical_timeouts)
+    if physical_timeouts and not timed_out and {r['layout_seed'] for r in records} != {11,29,47}-physical_timeouts:
+        raise ValueError('retained physical seeds lack matching power compile evidence')
     if record.get('ppa_status') == TIMEOUT_STATUS and not timed_out:
         raise ValueError('timeout zero requires a matching timeout receipt')
     result = dict(record, power_compile_policy=POLICY_ID, power_compile_records=records)

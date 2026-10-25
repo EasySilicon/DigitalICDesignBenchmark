@@ -1,5 +1,7 @@
 # Candidate rules and delivery contract
 
+评测方物理实现每个布局种子限时 60 分钟，超时后按已有有效完整测量判分；无有效结果则 PPA 分和时间分计零。该时限不替代模型的任务开发时限，详见[物理评估规则](physical-runtime-policy.md)。
+
 This workspace contains one assigned task only. Read its task.md and
 acceptance.md completely. They define the fixed top-level ports, legal inputs,
 reset/clock behavior, resource constraints, time budget and scoring status.
@@ -16,6 +18,8 @@ available. Use one model session; do not delegate work to other model Agents.
 
 The suite allocation is 16 vCPU, 40 GiB RAM and 100 GiB writable disk.
 The RAM ceiling limits actual memory, not virtual address space.
+Token usage is recorded only. There is no token budget, and cumulative token
+usage must not terminate a run.
 
 ## Deliverables
 
@@ -52,6 +56,8 @@ interruption does not silently grant a fresh task budget.
 
 Functional points come from independent host-side checks, not self-reported
 results.json. Functional correctness and synthesizability are distinct checks.
+For T09, the evaluator independently loads ELF programs and captures execution
+traces. The candidate follows the generic self-test delivery contract above.
 Do not claim an official benchmark score. If the task says its physical PPA
 baseline is pending, report honest synthesis/EDA attempts, not fabricated PPA
 points. EDA timing includes compilation and simulation; overlapping parent,
@@ -60,6 +66,10 @@ child and parallel processes are combined as busy wall-time intervals.
 Infrastructure faults are investigated separately from candidate failures.
 Syntax, functional or synthesis failures attributable to the delivered RTL
 are candidate failures; a missing tool or evaluator defect is not. Independent
-functional groups retain their earned points. Candidate-caused fatal self-test
-handoff failures are recorded by distinct root cause, not by repeated retries;
-where a display score is enabled, each adjudicated root cause deducts 5 points.
+functional groups retain their earned points. Delivery-contract violations incur
+an additional deduction capped at 10 points per task: one missing deliverable or
+one candidate-caused execution error costs 5 points; two or more missing
+deliverables, or two distinct delivery errors, cost 10 points.
+Repeated failures or downstream symptoms of one root cause count once.
+Infrastructure faults incur no deduction. Earned functional, PPA and time
+components remain intact; the display total is floored at zero.

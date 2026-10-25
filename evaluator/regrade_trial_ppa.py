@@ -71,7 +71,13 @@ def main() -> int:
                            candidate_source_sha256=checked.get('candidate_source_sha256') or measurement['source_sha256'])
                 rows.append(row)
                 continue
-            if measurement.get("measurement_status") != "three_seed":
+            retained=measurement.get('measurement_status')=='physical_timeout_retained_results'
+            if retained:
+                from physical_budget import partial_provenance_valid
+                if not partial_provenance_valid(task,measurement,baselines['tasks'][task],
+                        measurement.get('physical_records',[]),measurement.get('source_sha256')):
+                    raise ValueError('invalid retained physical measurement')
+            if measurement.get("measurement_status") != "three_seed" and not retained:
                 row.update({"status": "invalid_measurement", "ppa_score": None})
             else:
                 score = ppa_score(

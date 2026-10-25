@@ -3,7 +3,6 @@ title: axi4lite_to_apb4_bridge
 level_hypothesis: 6
 origin: original
 time_limit_minutes: 120
-same_model_token_cap: 320000
 f_points:
 - 20
 - 20

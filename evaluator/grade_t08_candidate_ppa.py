@@ -25,7 +25,9 @@ from t11_sram import prepare, contract, sha256, validated_mapping
 from score_run import weighted_suite_score, load_rules
 from score_with_power_budget import score_run
 from power_compile_budget import TIMEOUT_EXIT_CODE, validate_timeout
-from delivery_check import read_result, check_normal
+import physical_budget
+from physical_grading import read_receipt
+from delivery_check import read_result, check_normal, inspect_contract
 from benchmark.run_t08_comparison import command, TOOL_PATH
 
 
@@ -80,8 +82,8 @@ def publish(repo: Path, model: str, record: dict, trial: Path):
         summary.update(weighted_display_score_with_unscored_components_omitted=weighted['weighted_display_score'],
                        weighted_task_contributions=weighted['weighted_contributions'])
         summary['pending_components'] = {row['task_id']: [key for key in
-            ('functional_total', 'ppa_score', 'time_score') if row.get(key) is None] for row in rows
-            if any(row.get(key) is None for key in ('functional_total', 'ppa_score', 'time_score'))}
+            ('functional_total', 'ppa_score', 'time_score', 'display_score') if row.get(key) is None] for row in rows
+            if any(row.get(key) is None for key in ('functional_total', 'ppa_score', 'time_score', 'display_score'))}
         summary['complete_display_score_task_count'] = len(rows) - len(summary['pending_components'])
         summary['totals_complete'] = not summary['pending_components']
         summary['pending_functional_tasks'] = [row['task_id'] for row in rows
@@ -116,6 +118,7 @@ def publish(repo: Path, model: str, record: dict, trial: Path):
 
 
 def delivery(trial: Path, output: Path):
+    assessment = inspect_contract(trial / 'workspace')
     sandbox = output / 'delivery_sandbox'
     workspace = sandbox / 'workspace'
     workspace.mkdir(parents=True)
@@ -131,12 +134,14 @@ def delivery(trial: Path, output: Path):
         elif entry.is_file() or entry.is_symlink():
             shutil.copy2(entry, workspace / entry.name, follow_symlinks=False)
     findings, tests = [], []
+    execution_started = False
     try:
         if not os.access(workspace / 'run.sh', os.X_OK):
             raise ValueError('run.sh missing or not executable')
         if not (workspace / 'README.md').is_file() or not (workspace / 'verif').is_dir():
             raise ValueError('README.md or verif/ missing')
         for index in (1, 2):
+            execution_started = True
             name = 'ic-bcmk-t08-delivery-' + str(os.getpid()) + '-' + str(index)
             cmd = command(sandbox, 'kimi', name, '', shell='BENCH_SEED=20261007 timeout --signal=INT --kill-after=10s 600s ./run.sh')
             try:
@@ -155,7 +160,14 @@ def delivery(trial: Path, output: Path):
             raise ValueError('same-seed self-check results changed')
     except (ValueError, OSError, subprocess.TimeoutExpired) as error:
         findings.append(str(error))
+        if execution_started:
+            assessment['errors'].append(dict(root_cause='self_check_execution',
+                detail=str(error), attribution='pending'))
+    findings = list(dict.fromkeys(
+        ['Missing deliverable: ' + item for item in assessment['missing_deliverables']] +
+        [error['detail'] for error in assessment['errors']] + findings))
     report = {'delivery_qualified': not findings, 'findings': findings,
+              'delivery_assessment': assessment,
               'self_check_tests': len(tests[0]) if tests else 0, 'execution': 'isolated Docker; not host'}
     write(output / 'delivery.json', report)
     return report
@@ -219,6 +231,8 @@ def run(trial: Path, orfs: Path, repo: Path):
                    'delivery_qualified': delivery_report['delivery_qualified'],
                    'candidate_delivery_error_count': 0,
                    'candidate_source_sha256': source_digest, 'power_compile_records': []}
+        if 'delivery_assessment' in delivery_report:
+            payload['delivery_assessment'] = delivery_report['delivery_assessment']
         measurement = None
         if functional.get('full_functional_pass'):
             execute('power_environment_preflight', [sys.executable, str(ROOT / 'evaluator/t08_power_probe.py'), '--help'])
@@ -240,6 +254,7 @@ def run(trial: Path, orfs: Path, repo: Path):
                 'evidence_sha256': {'evidence/' + name: sha256(mapped / 'evidence' / name) for name in names}})
             validated_mapping(submission, mapped)
             pairs = []
+            physical_records = []
             update('waiting_for_grading_lock')
             with Path('/mnt/ubu_3T/ic_bcmk_trials/grade.lock').open('a') as lock:
                 fcntl.flock(lock, fcntl.LOCK_EX)
@@ -249,8 +264,17 @@ def run(trial: Path, orfs: Path, repo: Path):
                         update(f'waiting_for_50GiB_seed{seed}')
                         time.sleep(30)
                     route, power = output / f'seed{seed}/route', output / f'seed{seed}/power'
-                    execute(f'seed{seed}_route', [sys.executable, str(ROOT / 'evaluator/ppa_probe.py'), 'T08', str(submission),
-                        '--orfs-root', str(orfs), '--output-dir', str(route), '--seed', str(seed), '--t08-sram-mapping', str(mapped)])
+                    try:
+                        execute(f'seed{seed}_route', [sys.executable, str(ROOT / 'evaluator/route_with_slang.py'), 'T08', str(submission),
+                            '--orfs-root', str(orfs), '--output-dir', str(route), '--seed', str(seed), '--t08-sram-mapping', str(mapped)],timeout=None)
+                    except subprocess.CalledProcessError as error:
+                        if error.returncode != 124:
+                            raise
+                        if read_receipt(route/'physical_budget.json','T08',source_digest,seed)['status']!='timeout':
+                            raise
+                    physical_records.append(read_receipt(route/'physical_budget.json','T08',source_digest,seed))
+                    if physical_records[-1]['status']=='timeout':
+                        continue
                     route_record = json.loads((route / 'result.json').read_text())
                     try:
                         execute(f'seed{seed}_power', [sys.executable, str(ROOT / 'evaluator/power_probe_with_budget.py'),
@@ -267,8 +291,9 @@ def run(trial: Path, orfs: Path, repo: Path):
                     pairs.append((route / 'result.json', power / 'result.json'))
                     state['completed_seeds'].append(seed)
                     update(f'seed{seed}_complete')
-            if not any(r['status']=='timeout' for r in payload['power_compile_records']):
-                measurement = aggregate('T08', submission, pairs, (11, 29, 47))
+            payload.update(physical_policy=physical_budget.POLICY_ID,physical_records=physical_records)
+            if pairs and not any(r['status']=='timeout' for r in payload['power_compile_records']):
+                measurement = aggregate('T08', submission, pairs, (11, 29, 47),physical_records=physical_records)
                 write(output / 'measurement.json', measurement)
                 baseline = json.loads((ROOT / 'benchmark/ppa-baselines.json').read_text())['tasks']['T08']
                 payload.update(ppa_measurement=measurement, ppa_reference=baseline)
@@ -279,11 +304,12 @@ def run(trial: Path, orfs: Path, repo: Path):
                          power_compile_records=payload['power_compile_records'])
         if measurement is not None and not score['ppa_eligible']:
             raise RuntimeError('PPA provenance mismatch; do not publish fake zero score')
+        score_status = 'delivery_attribution_pending' if score['delivery_penalty_status'] == 'pending' else 'scored'
         score.update(model=manifest['model'], legacy_task_id='T11', suite_id='ic-delivery-rtl-v0.3',
             elapsed_seconds=payload['elapsed_seconds'], time_limit_seconds=payload['time_limit_seconds'],
             trial_kind='pre_release_pilot', ranking_eligible=False,
-            score_status='scored' if delivery_report['delivery_qualified'] else 'delivery_attribution_pending',
-            grade_phase='scored' if delivery_report['delivery_qualified'] else 'delivery_attribution_pending',
+            score_status=score_status,
+            grade_phase=score_status,
             judge_revision=functional.get('judge_revision'), source_sha256=source_digest,
             ppa_measurement_file=str(output / 'measurement.json') if measurement else None,
             trial_directory=str(trial), eda=functional.get('eda'))
@@ -296,13 +322,13 @@ def run(trial: Path, orfs: Path, repo: Path):
             score.update(previous_trial=manifest['previous_trial'],
                          additional_phase_elapsed_seconds=functional['elapsed_seconds'])
         write(output / 'score.json', score)
-        # Fatal delivery findings need evaluator attribution before any fixed -5
-        # deduction. Preserve numeric independent RTL/PPA results, no invention.
+        # Unattributed runtime faults keep the display total pending while
+        # independently verified component scores remain available.
         publish(repo, model, score, trial)
         write(trial / 'final_score.json', score)
         write(trial / 'status.json', {'status': 'scored', 'functional_total': score['functional_total'],
                                     'ppa_score': score['ppa_score'], 'display_score': score['display_score']})
-        update('complete', status='scored' if delivery_report['delivery_qualified'] else 'delivery_attribution_pending')
+        update('complete', status=score_status)
     except BaseException as error:
         update('incomplete_pending_attribution', status='grading_incomplete', error=str(error))
         raise

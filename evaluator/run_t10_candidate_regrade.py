@@ -17,6 +17,7 @@ from grade_t10_candidate_ppa import grade
 from ppa_aggregate import source_hash
 from power_compile_budget import TIMEOUT_EXIT_CODE, TIMEOUT_STATUS, validate_timeout
 from t10_candidate_physical import artifact
+from physical_budget import timed_out as physical_timed_out
 
 
 def save(path,value):
@@ -68,9 +69,11 @@ def main():
         try:
             root=work/model
             for seed in (11,29,47):
+                if physical_timed_out(root/f'seed{seed}'):continue
                 physical=json.loads((root/f'seed{seed}/baseline.json').read_text())
                 if physical['exit_code']!=0:raise ValueError(f'seed {seed}: physical failure needs attribution')
             for seed in (11,29,47):
+                if physical_timed_out(root/f'seed{seed}'):continue
                 record.update(status='activity_and_power_running',layout_seed=seed);save(output,status)
                 print('ACTIVITY/POWER',model,seed,flush=True)
                 command=['systemd-run','--user','--scope',

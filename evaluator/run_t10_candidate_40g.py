@@ -15,6 +15,7 @@ import shutil
 import subprocess
 import time
 import traceback
+from physical_budget import LIMIT_SECONDS as PHYSICAL_SECONDS, receipt as physical_receipt, stop_scope, timed_out as physical_timed_out
 
 from t10_candidate_physical import REPO, TRIALS, prepare, run_seed, sha, artifact, write_new_or_same
 from grade_t10_candidate_ppa import grade
@@ -70,9 +71,13 @@ def sample(cgroup):
     return row
 
 
-def monitor(unit,record_path,process=None):
+def monitor(unit,record_path,process=None,*,physical_identity=None,physical_started_utc=None):
+    already_elapsed=max(0.,(dt.datetime.now(dt.timezone.utc)-dt.datetime.fromisoformat(physical_started_utc)).total_seconds()) if physical_started_utc else 0.
+    physical_started=time.monotonic()-already_elapsed
+    physical_timeout=False
     runtime=dict(policy=POLICY,unit=unit,started_utc=dt.datetime.now(dt.timezone.utc).isoformat(),samples=0,
                  peak_memory_bytes=0,peak_swap_bytes=0,confirmed=False)
+    if physical_started_utc:runtime['started_utc']=physical_started_utc
     while True:
         props=properties(unit);cgroup=props.get('ControlGroup')
         if cgroup:
@@ -86,9 +91,25 @@ def monitor(unit,record_path,process=None):
         if process is not None:
             if process.poll() is not None:break
         elif props.get('ActiveState') not in ('active','activating'):break
+        if physical_identity is not None and time.monotonic()-physical_started >= PHYSICAL_SECONDS:
+            stop_scope(unit)
+            if process is not None:
+                try:process.wait(timeout=5)
+                except subprocess.TimeoutExpired:process.kill();process.wait()
+            physical_timeout=True
+            break
         time.sleep(2)
     runtime.update(ended_utc=dt.datetime.now(dt.timezone.utc).isoformat(),systemd_result=properties(unit).get('Result','unloaded'))
     if process is not None:runtime['exit_code']=process.wait()
+    if physical_identity is not None:
+        task,source,seed=physical_identity
+        elapsed=time.monotonic()-physical_started
+        physical_timeout=physical_timeout or elapsed > PHYSICAL_SECONDS
+        status='timeout' if physical_timeout else 'completed' if runtime.get('exit_code',0)==0 else 'error'
+        save(record_path.parent/'physical_budget.json',physical_receipt(task,source,seed,elapsed,status,
+             started_utc=runtime['started_utc'],ended_utc=runtime['ended_utc'],
+             process_group_terminated=physical_timeout))
+        if physical_timeout:runtime.update(exit_code=124,physical_timeout=True)
     save(record_path,runtime)
     return runtime
 
@@ -126,13 +147,15 @@ def physical(item,seed,work,orfs,adopt=None):
         if (directory/'inputs.json').exists():transition['original_inputs']=artifact(directory/'inputs.json')
         transition_path=directory/('monitor_handoff40.json' if (directory/'runtime40.json').exists() else 'transition40.json')
         write_new_or_same(transition_path,json.dumps(transition,indent=2)+'\n')
-        runtime=monitor(unit,directory/'runtime40.json')
+        prior=json.loads((directory/'runtime40.json').read_text()) if (directory/'runtime40.json').exists() else {}
+        runtime=monitor(unit,directory/'runtime40.json',physical_identity=('T10',item['source_sha256'],seed),
+                        physical_started_utc=prior.get('started_utc'))
     else:
         assert_serial()
         unit=next(arg.split('=',1)[1] for arg in command if arg.startswith('--unit='))
         with (directory/'baseline40.log').open('x') as log:
             process=subprocess.Popen(command,stdout=log,stderr=subprocess.STDOUT,env=os.environ|{'MALLOC_ARENA_MAX':'2'})
-            runtime=monitor(unit,directory/'runtime40.json',process)
+            runtime=monitor(unit,directory/'runtime40.json',process,physical_identity=('T10',item['source_sha256'],seed))
     result_dir=orfs/'flow/results/asap7'/inputs['pe_module']/inputs['variant']
     paths=[result_dir/f'6_final.{ext}' for ext in ('odb','spef','sdc','v')]
     complete=all(path.is_file() for path in paths)
@@ -309,7 +332,7 @@ def main():
                 for model in TRIALS:
                     if state['models'][model]['ppa_score'] is None:
                         for seed in (11,29,47):
-                            if not completed_physical(work/model/f'seed{seed}'):
+                            if not physical_timed_out(work/model/f'seed{seed}') and not completed_physical(work/model/f'seed{seed}'):
                                 raise ValueError('idle power resume requires all physical outputs')
             else:
                 current=state['models'][a.adopt_model]
@@ -359,10 +382,12 @@ def main():
             try:
                 item=prepare(model,a.trials_root.resolve(),work)
                 for seed in (11,29,47):
+                    if physical_timed_out(work/model/f'seed{seed}'):continue
                     if a.resume and completed_physical(work/model/f'seed{seed}'):continue
                     row.update(status='physical_running',layout_seed=seed);save(output,state)
                     adopt=(a.adopt_pid,a.adopt_unit) if model==a.adopt_model and seed==a.adopt_seed and a.adopt_pid else None
                     record,runtime=physical(item,seed,work,orfs,adopt)
+                    if physical_timed_out(work/model/f'seed{seed}'):continue
                     if record['exit_code']:
                         if runtime['confirmed'] and runtime['systemd_result']=='oom-kill':
                             row.update(status='user_adjudicated_40g_oom_zero',ppa_score=0,time_score=0,
@@ -372,6 +397,7 @@ def main():
                         raise RuntimeError('40 GiB flow failed without confirmed OOM; review infrastructure before scoring')
                 if row['ppa_score']==0:save(output,state);continue
                 for seed in (11,29,47):
+                    if physical_timed_out(work/model/f'seed{seed}'):continue
                     row.update(status='activity_power_running',layout_seed=seed);save(output,state)
                     assert_serial()
                     unit=f't10-40-power-{model.replace(".","_")}-s{seed}-area1'+('-front0' if a.retry_peripheral_frontend else '')

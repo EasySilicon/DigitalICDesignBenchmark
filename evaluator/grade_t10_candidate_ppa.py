@@ -18,6 +18,7 @@ from t10_candidate_physical import REPO, TRIALS, artifact, sha, write_new_or_sam
 from ppa_aggregate import source_hash
 from score_run import expected_ppa_parameters, ppa_provenance_valid, score_run
 from power_compile_budget import POLICY_ID, LIMIT_SECONDS
+import physical_budget
 from score_with_power_budget import score_run as budget_score_run
 
 BACKEND=REPO/'evaluator/t10_backend/v1'
@@ -132,22 +133,32 @@ def seed_record(model_dir,seed,orfs,reference,*,cached_only=False):
 def grade(model,work,trials,orfs,*,cached_only=False,legacy_replay=False):
     model_dir=work/model
     reference=json.loads((REPO/'benchmark/ppa-baselines.json').read_text())['tasks']['T10']
-    rows=[seed_record(model_dir,s,orfs,reference,cached_only=cached_only) for s in (11,29,47)]
+    physical_records=[json.loads(p.read_text()) for p in sorted(model_dir.glob('seed*/physical_budget.json'))]
+    source=source_hash(model_dir/'submission') if physical_records else None
+    timeouts=physical_budget.validate_records(physical_records,source,'T10') if physical_records else set()
+    seeds=[s for s in (11,29,47) if s not in timeouts]
+    rows=[seed_record(model_dir,s,orfs,reference,cached_only=cached_only) for s in seeds]
     if not legacy_replay and not all('power_compile_record' in row for row in rows):
         raise ValueError('current candidate requires three power compile budget records; use --legacy-replay only for historical measurements')
-    measurement=dict(task_id='T10',measurement_scope='single_pe',measurement_status='three_seed_single_pe',
-        source_sha256=source_hash(model_dir/'submission'),workload_id=reference['workload_id'],
-        workload_sha256=reference['workload_sha256'],workload_parameters=workload_parameters(model_dir,reference),
-        parameter_set=expected_ppa_parameters('T10'),routed=True,per_seed=rows,
-        **{key:statistics.median(r[key] for r in rows) for key in ('area_um2','delay_ns','energy_per_op_pj','average_power_mw')},
-        setup_worst_slack_ns=min(r['setup_worst_slack_ns'] for r in rows),hold_worst_slack_ns=min(r['hold_worst_slack_ns'] for r in rows),
-        drc_violations=max(r['drc_violations'] for r in rows),annotation_fraction=min(r['annotation_fraction'] for r in rows))
+    source=source or source_hash(model_dir/'submission')
+    measurement=None
+    if rows:
+        measurement=dict(task_id='T10',measurement_scope='single_pe',measurement_status='three_seed_single_pe',
+            source_sha256=source_hash(model_dir/'submission'),workload_id=reference['workload_id'],
+            workload_sha256=reference['workload_sha256'],workload_parameters=workload_parameters(model_dir,reference),
+            parameter_set=expected_ppa_parameters('T10'),routed=True,per_seed=rows,
+            **{key:statistics.median(r[key] for r in rows) for key in ('area_um2','delay_ns','energy_per_op_pj','average_power_mw')},
+            setup_worst_slack_ns=min(r['setup_worst_slack_ns'] for r in rows),hold_worst_slack_ns=min(r['hold_worst_slack_ns'] for r in rows),
+            drc_violations=max(r['drc_violations'] for r in rows),annotation_fraction=min(r['annotation_fraction'] for r in rows))
     if any('power_compile_record' in row for row in rows):
         if not all('power_compile_record' in row for row in rows):raise ValueError('mixed legacy/current power compile evidence')
         measurement['power_compile_policy']=POLICY_ID
-    if not ppa_provenance_valid('T10',measurement,reference):raise ValueError('invalid candidate measurement provenance')
+    if measurement is not None:
+        if physical_records:measurement=physical_budget.attach(measurement,physical_records)
+        valid=physical_budget.partial_provenance_valid('T10',measurement,reference,physical_records,source) if timeouts else ppa_provenance_valid('T10',measurement,reference)
+        if not valid:raise ValueError('invalid candidate measurement provenance')
     original=trials/TRIALS[model]
-    if source_hash(original/'workspaces/T10')!=measurement['source_sha256']:raise ValueError('original candidate source changed')
+    if source_hash(original/'workspaces/T10')!=source:raise ValueError('original candidate source changed')
     public=json.loads((REPO/f'results/{model}/T10.json').read_text())
     functional=json.loads((original/'grading/T10/functional.json').read_text())
     # Astra's original structural checker did not support retained wrappers;
@@ -155,7 +166,7 @@ def grade(model,work,trials,orfs,*,cached_only=False,legacy_replay=False):
     groups=public.get('functional_groups',functional['groups'])
     if public.get('functional_total')!=50:raise ValueError('candidate not functionally qualified')
     structure=json.loads((model_dir/'structure.json').read_text())
-    if not structure['passed'] or structure['candidate_source_sha256']!=measurement['source_sha256']:
+    if not structure['passed'] or structure['candidate_source_sha256']!=source:
         raise ValueError('candidate structure not qualified')
     if functional.get('stream_line')!='MM_STREAM input_bubble_phases=00000000000000 finished=2752':
         raise ValueError('missing full continuous-stream acceptance')
@@ -165,16 +176,25 @@ def grade(model,work,trials,orfs,*,cached_only=False,legacy_replay=False):
     payload=dict(task_id='T10',groups=groups,delivery_qualified=delivery['delivery_qualified'],elapsed_seconds=elapsed,
         time_limit_seconds=14400,sustained_throughput_passed=True,ppa_reference=reference,ppa_measurement=measurement,
         candidate_delivery_error_count=public.get('candidate_delivery_error_count',0))
-    if measurement.get('power_compile_policy'):
+    if not legacy_replay:
+        if 'delivery_assessment' not in delivery:
+            raise ValueError('current grading requires a complete delivery assessment; historical replay requires --legacy-replay')
+        payload['delivery_assessment']=delivery['delivery_assessment']
+    if physical_records:
+        payload.update(candidate_source_sha256=source,physical_records=physical_records)
+    if measurement is None:
+        payload.pop('ppa_measurement');payload.pop('ppa_reference')
+        scored=budget_score_run(payload)
+    elif measurement.get('power_compile_policy'):
         compile_records=[json.loads(Path(row['power_compile_record']['path']).read_text()) for row in rows]
         measurement['power_compile_records']=compile_records
         payload.update(candidate_source_sha256=measurement['source_sha256'],power_compile_records=compile_records)
-        scored=budget_score_run(payload)
+        scored=score_run(payload) if legacy_replay else budget_score_run(payload)
     else:
         scored=score_run(payload)
-    if not scored['ppa_eligible']:raise ValueError('measured record was rejected by the official scorer')
+    if measurement is not None and not scored['ppa_eligible']:raise ValueError('measured record was rejected by the official scorer')
     return dict(model=model,measurement=measurement,score=scored,elapsed_seconds=elapsed,
-        grading_resource_policy=rows[0].get('resource_policy'),
+        grading_resource_policy=rows[0].get('resource_policy') if rows else None,
         original_functional_record=artifact(original/'grading/T10/functional.json'),structure=artifact(model_dir/'structure.json'))
 
 

@@ -3,7 +3,6 @@ title: direct_mapped_writeback_cache
 level_hypothesis: 7
 origin: original
 time_limit_minutes: 120
-same_model_token_cap: 480000
 f_points:
 - 15
 - 15

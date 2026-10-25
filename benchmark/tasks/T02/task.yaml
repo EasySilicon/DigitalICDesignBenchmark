@@ -3,7 +3,6 @@ title: synchronous_fifo
 level_hypothesis: 2
 origin: original
 time_limit_minutes: 60
-same_model_token_cap: 80000
 f_points:
 - 25
 - 15
