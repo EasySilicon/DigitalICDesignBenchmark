@@ -4,13 +4,13 @@ level_hypothesis: 10
 origin: original
 time_limit_minutes: 240
 f_points:
-- 10
-- 10
-- 10
-- 10
-- 10
-- 10
+- 6
+- 6
+- 6
+- 6
+- 6
+- 6
+- 6
+- 8
 p_points:
-- 5
-- 5
-- 5
+- 25

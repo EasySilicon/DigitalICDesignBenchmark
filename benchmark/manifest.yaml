@@ -14,6 +14,7 @@ score:
   functional_raw_edge_weight: 15
   task_raw_allocations:
     T09: {F: 48, P: 27}
+    T10: {F: 50, P: 25}
   functional: 50
   ppa: 50
   completion_time: 5
@@ -211,13 +212,13 @@ tasks:
   origin: original
   time_limit_minutes: 240
   f_points:
-  - 10
-  - 10
-  - 10
-  - 10
-  - 10
-  - 10
+  - 6
+  - 6
+  - 6
+  - 6
+  - 6
+  - 6
+  - 6
+  - 8
   p_points:
-  - 5
-  - 5
-  - 5
+  - 25

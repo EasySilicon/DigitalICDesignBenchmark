@@ -2,7 +2,7 @@
   "schema_version": 3,
   "functional_raw_total": 75,
   "functional_total": 50,
-  "task_raw_allocations": {"T09": {"F": 48, "P": 27}},
+  "task_raw_allocations": {"T09": {"F": 48, "P": 27}, "T10": {"F": 50, "P": 25}},
   "ppa_points": 50,
   "ppa_reference_points": 35,
   "setup_violation_exponent": 4,
@@ -524,7 +524,7 @@
       {
         "id": "F_INT",
         "layer": "F",
-        "points": 10,
+        "points": 6,
         "groups": [
           "MM-INT"
         ],
@@ -533,7 +533,7 @@
       {
         "id": "F_FP16_BF16",
         "layer": "F",
-        "points": 10,
+        "points": 6,
         "groups": [
           "MM-F16"
         ],
@@ -542,7 +542,7 @@
       {
         "id": "F_FP8",
         "layer": "F",
-        "points": 10,
+        "points": 6,
         "groups": [
           "MM-F8"
         ],
@@ -551,7 +551,7 @@
       {
         "id": "F_FP4",
         "layer": "F",
-        "points": 10,
+        "points": 6,
         "groups": [
           "MM-F4"
         ],
@@ -560,7 +560,7 @@
       {
         "id": "F_MXFP8",
         "layer": "F",
-        "points": 10,
+        "points": 6,
         "groups": [
           "MM-MX8"
         ],
@@ -569,7 +569,7 @@
       {
         "id": "F_MXFP4",
         "layer": "F",
-        "points": 10,
+        "points": 6,
         "groups": [
           "MM-MX4"
         ],
@@ -577,8 +577,8 @@
       },
       {
         "id": "P_PROTOCOL",
-        "layer": "P",
-        "points": 5,
+        "layer": "F",
+        "points": 6,
         "groups": [
           "MM-PROTO"
         ],
@@ -587,7 +587,7 @@
       {
         "id": "P_SYSTOLIC",
         "layer": "P",
-        "points": 5,
+        "points": 25,
         "groups": [
           "MM-SYSTOLIC"
         ],
@@ -598,8 +598,8 @@
       },
       {
         "id": "P_CORNER",
-        "layer": "P",
-        "points": 5,
+        "layer": "F",
+        "points": 8,
         "groups": [
           "MM-CORNER"
         ],

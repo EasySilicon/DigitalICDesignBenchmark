@@ -110,6 +110,13 @@ class ScoreRunTest(unittest.TestCase):
         self.assertEqual(scored["display_score_before_candidate_penalty"], 87.5)
         self.assertEqual(scored["display_score"], 82.5)
 
+    def test_candidate_delivery_penalty_is_capped_at_ten(self):
+        payload = copy.deepcopy(self.payload)
+        payload.update({"delivery_qualified": False, "candidate_delivery_error_count": 3})
+        scored = score_run(payload, self.rules)
+        self.assertEqual(scored["candidate_delivery_penalty"], 10)
+        self.assertEqual(scored["display_score"], 40)
+
     def test_candidate_delivery_error_count_is_validated(self):
         for value in (-1, 1.5, True, "1"):
             with self.subTest(value=value), self.assertRaisesRegex(
@@ -359,7 +366,7 @@ class ScoreRunTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "sustained_throughput_passed"):
             score_run(payload, self.rules)
         scored = score_run(dict(payload, sustained_throughput_passed=False), self.rules)
-        self.assertAlmostEqual(scored["functional_total"], 70 * 2 / 3)
+        self.assertAlmostEqual(scored["functional_total"], 50 * 2 / 3)
         self.assertFalse(scored["full_functional_pass"])
         item = next(row for row in scored["score_items"] if row["id"] == "P_SYSTOLIC")
         self.assertEqual(item["points"], 0)
@@ -373,8 +380,8 @@ class ScoreRunTest(unittest.TestCase):
         scored = score_run(dict(self.payload, task_id="T10", groups=groups,
                                 sustained_throughput_passed=False), self.rules)
         self.assertAlmostEqual(scored["functional_basic"],
-                               (10 + 10 + 10 + 10 * 61 / 64 + 10 + 10 * 95 / 96) * 2 / 3)
-        self.assertAlmostEqual(scored["functional_edges"], 20 / 3)
+                               (6 + 6 + 6 + 6 * 61 / 64 + 6 + 6 * 95 / 96 + 6 + 8) * 2 / 3)
+        self.assertEqual(scored["functional_edges"], 0)
         self.assertEqual(next(item for item in scored["score_items"]
                               if item["id"] == "P_SYSTOLIC")["points"], 0)
 

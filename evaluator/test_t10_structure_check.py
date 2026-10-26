@@ -74,6 +74,14 @@ class MeshStructureCheckTest(unittest.TestCase):
         }}
         self.assertIn(1, _registered_forward_d_cone(pe, [4], {1}))
 
+    def test_slang_async_load_register_is_accepted_as_a_forward_stage(self) -> None:
+        pe = {"cells": {
+            "forward_ff": {"type": "$aldff",
+                           "connections": {"D": [1], "Q": [2]},
+                           "port_directions": {"D": "input", "Q": "output"}},
+        }}
+        self.assertIn(1, _registered_forward_d_cone(pe, [2], {1}))
+
     def test_registered_forward_with_input_bypass_is_rejected(self) -> None:
         pe = {"cells": {
             "forward_ff": {"type": "$dff",

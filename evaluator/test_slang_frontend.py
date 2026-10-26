@@ -82,6 +82,27 @@ class FrontendTests(unittest.TestCase):
             self.assertIn('read_slang --keep-hierarchy --top ',native.call_args.args[0][-1])
         self.assertIs(structure.frozen.subprocess.run,original)
 
+    def test_structure_stages_one_module_per_file_for_stable_pe_identity(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            leaf=root/'pe.sv';tile=root/'tile.sv';top=root/'top.sv'
+            leaf.write_text('module pe; endmodule\n')
+            tile.write_text('module tile; pe p(); endmodule\n')
+            top.write_text('module top; tile t(); endmodule\n')
+            script=(f'read_verilog -sv {leaf} {tile} {top}; hierarchy -top top')
+            staged=structure._staged_slang_reads(script)
+        self.assertIsNotNone(staged)
+        self.assertIn(f'read_slang --top pe --compat=vcs -D SYNTHESIS --ignore-assertions {leaf}',staged)
+        self.assertIn(f'read_slang --keep-hierarchy --top tile',staged)
+        self.assertIn(f'read_slang --keep-hierarchy --top top',staged)
+
+    def test_structure_keeps_monolithic_fallback_for_ambiguous_source_layout(self):
+        with tempfile.TemporaryDirectory() as temp:
+            source=Path(temp)/'both.sv'
+            source.write_text('module a; endmodule\nmodule b; endmodule\n')
+            self.assertIsNone(structure._staged_slang_reads(
+                f'read_verilog -sv {source}; hierarchy -top b'))
+
     def test_structure_keeps_successful_existing_elaboration(self):
         def inspect(submission):
             structure.frozen.subprocess.run(['yosys','-p','read_verilog -sv dut.sv; hierarchy -top top'])

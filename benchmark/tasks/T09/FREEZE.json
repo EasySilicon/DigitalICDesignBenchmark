@@ -46,6 +46,10 @@
         "T09": {
           "F": 48,
           "P": 27
+        },
+        "T10": {
+          "F": 50,
+          "P": 25
         }
       },
       "functional": 50,
@@ -205,7 +209,7 @@
   },
   "artifact_sha256": {
     "benchmark/README.en.md": "30e93c30328decd5733f7cb8e1be2bfdb36294342602429c791a7000d2f4415e",
-    "benchmark/README.md": "e0c2d1131e7dd12e7a110dc88b4968bca3e766908bdd7b1650c6a9c1a7fffa80",
+    "benchmark/README.md": "66a162bcbe44f62efff229ca07bdb0b5bae2ea24fdbff3200d7aaa230fb5e524",
     "benchmark/candidate-rules.md": "1935223311a592de9423ea009cf0cb94bc63d2fce853d4f0367b384b2f1eef47",
     "benchmark/candidate_ppa.py": "acd476bf75cf630480829982fc05daa95449b3c5bcb2c3d1822d8cc79e49138c",
     "benchmark/cpu/act4/README.md": "16e43794acde77eee1221002ae674326fe364561c0b7a5975f7b138d78dde1e9",
@@ -335,7 +339,7 @@
     "evaluator/reference/T09/rtl/ref.sv": "e7d93ba595d9ebb3fcec4a93f230226fb3c737d2f579bd339082439fc0302e6d",
     "evaluator/route_with_slang.py": "19bb8061448a95988031ae2aa2b6c07abc27a99ac33adcfb72481a79f309b0bd",
     "evaluator/sail_commit.py": "1693336e4870514b05cc7742590bcc77a567d6415977be87569d7bc8db9cf10d",
-    "evaluator/score_run.py": "d60b963224cb257e623471b06f60f9cdb505a74341774128849d6ef98046bece",
+    "evaluator/score_run.py": "3f6ea47e9478c2c6b382674f4e55f08acbdd75baf9ccef53da9f09f6ca8ba566",
     "evaluator/score_with_power_budget.py": "d1e980be298cd2d03636951ec725a4829b8e04a671a3e314002df2cd55b17174",
     "evaluator/slang_frontend.py": "9cfd11610cd46e657c9ca9b72f57956f181d7ee99c64cff2b435afb14bfc66b4",
     "evaluator/t09_check.py": "e1e750a08f2de0c9974d5d3590c6143e7f09353746627b2d1ba3f3bb4d80af33",

@@ -21,8 +21,9 @@ def load_rules() -> dict:
     rules = json.loads(RULES_PATH.read_text())
     if set(rules["tasks"]) != {f"T{i:02d}" for i in range(1, 11)}:
         raise ValueError("score rules must cover T01-T10")
-    if rules.get("task_raw_allocations") != {"T09": {"F": 48, "P": 27}}:
-        raise ValueError("T09 must reserve 10 normalized points for cycle checks")
+    if rules.get("task_raw_allocations") != {"T09": {"F": 48, "P": 27},
+                                               "T10": {"F": 50, "P": 25}}:
+        raise ValueError("T09/T10 task-specific functional allocations differ from policy")
     for task, items in rules["tasks"].items():
         allocation = rules["task_raw_allocations"].get(task, {"F": 60, "P": 15})
         for layer, required in allocation.items():
@@ -307,7 +308,9 @@ def score_run(payload: dict, rules: dict | None = None) -> dict:
     bucket = min(round(rules["ppa_points"] / width),
                  math.floor(ppa / width + 0.5)) if ppa_valid else 0
     score_before_penalty = functional + ppa + time
-    candidate_penalty = candidate_errors * rules["candidate_delivery_error_penalty"]
+    # The delivery contract is a 0/5/10 rule: two or more independent
+    # candidate-caused delivery defects have the same capped deduction.
+    candidate_penalty = min(10, candidate_errors * rules["candidate_delivery_error_penalty"])
     display_score = max(0.0, score_before_penalty - candidate_penalty)
     return {"task_id": task, "functional_basic": basic, "functional_edges": edge,
             "functional_total": functional, "full_functional_pass": full,

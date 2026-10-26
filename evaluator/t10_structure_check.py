@@ -13,7 +13,10 @@ from pathlib import Path
 from public_check import sources_from_filelist
 
 TOP = "npu_systolic_matmul_16x16"
-FLOP_TYPES = {"$dff", "$adff", "$sdff", "$dffe", "$adffe", "$sdffe"}
+# Slang lowers an ``always_ff`` with an asynchronous reset and an implicit
+# hold path to $aldff.  It is still a state element for link, accumulator, and
+# state-budget analysis, just as the equivalent $adffe form is.
+FLOP_TYPES = {"$dff", "$adff", "$aldff", "$sdff", "$dffe", "$adffe", "$sdffe"}
 # The original controller/result-storage allowance is 262144 bits.  A shell
 # registered 16x16 mesh needs exactly 240 horizontal and 240 vertical links,
 # each carrying one 64-bit operand and one 28-bit token.

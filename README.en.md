@@ -93,26 +93,26 @@ See the [full coverage mapping and scope limits](benchmark/README.md#领域与�
 
 ## Evaluated models and results
 
-The following values come from the [2026-10-21 per-task evaluation results](results/model-score-comparison.md). All **60 model/task results are resolved**, with no `null` functional, PPA, or time components. Models used broadly consistent time budgets and Skill settings. Column headers identify the coding framework and version used during the actual trials, checked against the original run records.
+The following values come from the [2026-10-25 per-task evaluation results](results/model-score-comparison.md). All **60 model/task results are resolved**, with no `null` functional, PPA, or time components. Column headers identify the coding framework and version used during the actual trials; model settings and Skill policy are defined by each run's original record.
 
 Each cell is the task's display score **out of 105, including delivery deductions**, rounded to two decimal places. Weighted totals use unrounded task scores and fixed weights, not a simple average.
 
 Parentheses after model names indicate reasoning effort; `default` means no explicit setting was supplied. Effort levels across frameworks do not imply equal reasoning budgets.
 
-| Task | Weight | GPT-6-Astra(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6.1-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | Kimi K3(max)<br><sub>Kimi CLI 2.1.1</sub> | DeepSeek V4.1 Flash(default)<br><sub>Claude Code 2.1.183</sub> | GLM-5.3-Flash(default)<br><sub>Claude Code 2.1.183</sub> |
+| Task | Weight | GPT-6-Astra(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6.1-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | Kimi K3(max)<br><sub>Kimi CLI 2.1.1</sub> | DeepSeek V4.1 Flash(default)<br><sub>Claude Code 2.1.183</sub> | GLM-5.3-Flash(max)<br><sub>ZCode CLI 0.17.0</sub> |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| T01 | 3% | 88.24 | 86.33 | 86.98 | 75.49 | 82.86 | 0.00 |
-| T02 | 3% | 87.88 | 87.20 | 89.70 | 89.17 | 89.07 | 81.71 |
-| T03 | 6% | 91.08 | 91.18 | 89.80 | 89.96 | 90.88 | 87.04 |
-| T04 | 6% | 97.27 | 86.90 | 91.12 | 68.13 | 62.63 | 64.79 |
-| T05 | 6% | 89.72 | 88.93 | 90.12 | 89.18 | 90.00 | 88.22 |
-| T06 | 10% | 94.78 | 93.70 | 96.22 | 25.00 | 92.93 | 87.60 |
-| T07 | 10% | 93.49 | 93.12 | 88.44 | 81.88 | 92.50 | 75.57 |
-| T08 | 11% | 87.89 | 87.14 | 84.21 | 84.30 | 46.83 | 44.00 |
-| T09 | 20% | 60.51 | 59.20 | 56.25 | 40.00 | 44.93 | 17.00 |
-| T10 | 25% | 53.83 | 53.73 | 50.00 | 41.67 | 0.00 | 0.00 |
-| **Weighted total /105** | **100%** | **76.02** | **74.77** | **73.04** | **58.15** | **52.45** | **41.41** |
-| **Fully functional tasks** | — | **10/10** | **10/10** | **10/10** | **7/10** | **7/10** | **6/10** |
+| T01 | 3% | 88.24 | 86.33 | 86.98 | 75.49 | 82.86 | 63.93 |
+| T02 | 3% | 87.88 | 87.20 | 89.70 | 89.17 | 89.07 | 87.10 |
+| T03 | 6% | 91.08 | 91.18 | 89.80 | 89.96 | 90.88 | 87.87 |
+| T04 | 6% | 97.27 | 86.90 | 91.12 | 68.13 | 62.63 | 69.14 |
+| T05 | 6% | 89.72 | 88.93 | 90.12 | 89.18 | 90.00 | 39.00 |
+| T06 | 10% | 94.78 | 93.70 | 96.22 | 25.00 | 92.93 | 82.15 |
+| T07 | 10% | 93.49 | 93.12 | 88.44 | 81.88 | 92.50 | 88.69 |
+| T08 | 11% | 87.89 | 87.14 | 84.21 | 84.30 | 46.83 | 85.87 |
+| T09 | 20% | 60.51 | 59.20 | 56.25 | 40.00 | 44.93 | 13.67 |
+| T10 | 25% | 53.83 | 53.73 | 50.00 | 32.29 | 0.00 | 0.00 |
+| **Weighted total /105** | **100%** | **76.02** | **74.77** | **73.04** | **55.80** | **52.45** | **45.55** |
+| **Fully functional tasks** | — | **10/10** | **10/10** | **10/10** | **7/10** | **7/10** | **7/10** |
 
 Tasks below full functionality receive zero PPA and time points. GPT-6-Sol T10 retains 50 functional points and zero PPA/time points under its historical power-compilation termination adjudication. See the [model results](results/model-score-comparison.md) for component scores and zero-score categories.
 
@@ -259,7 +259,7 @@ The current configuration is [score_rules.json](evaluator/score_rules.json). [pp
 
 | Metric | Display maximum | Conditions and interpretation |
 | --- | ---: | --- |
-| Functionality | 50 | Raw weights are normally F=60/P=15, but T09 uses F=48/P=27; all are scaled by `50/75`. P covers protocols, boundaries, structure, and required performance; it is part of functionality, not PPA |
+| Functionality | 50 | Raw weights are normally F=60/P=15; T09 uses F=48/P=27 and T10 uses F=50/P=25; all are scaled by `50/75`. T10 places protocol and numerical-boundary checks in F, and sustained throughput, latency, and systolic structure in P; P remains functionality, not PPA |
 | PPA | 50 | Requires full functionality and valid measurement provenance; area/delay/energy are normalized to a frozen reference scoring 35/50 |
 | Completion time | 5 | Requires all 50 functional points and a strictly positive PPA score; `5 × (1 − t/T_max)`, clipped to 0–5 |
 

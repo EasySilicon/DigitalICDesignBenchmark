@@ -11,8 +11,8 @@
     },
     "evaluator/score_rules.json": {
       "path": "evaluator/score_rules.json",
-      "bytes": 10546,
-      "sha256": "88c6dd70fbb7d76b220e76fc3017b905de16b6169bde027a457f7e33f33362e3"
+    "bytes": 10825,
+    "sha256": "abe904582c34e73a83ef96abec662a8a0872e8145b781691682192b9210caf42"
     },
     "benchmark/ppa-baselines.json": {
       "path": "benchmark/ppa-baselines.json",

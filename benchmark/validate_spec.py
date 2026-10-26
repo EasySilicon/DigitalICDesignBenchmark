@@ -67,8 +67,9 @@ def validate_local() -> tuple[dict, dict]:
         fail("delivery-contract deductions must use the current policy and a 10-point cap")
     if scores.get("setup_violation_exponent") != 4:
         fail("setup violations must use the frozen fourth-power frequency penalty")
-    if scores.get("task_raw_allocations") != {"T09": {"F": 48, "P": 27}}:
-        fail("T09 must reserve 10 normalized points for the cycle group")
+    if scores.get("task_raw_allocations") != {"T09": {"F": 48, "P": 27},
+                                               "T10": {"F": 50, "P": 25}}:
+        fail("T09/T10 task-specific functional allocations differ from policy")
     expected_weights = {
         "T01": 0.03, "T02": 0.03, "T03": 0.06, "T04": 0.06, "T05": 0.06,
         "T06": 0.10, "T07": 0.10, "T08": 0.11, "T09": 0.20, "T10": 0.25,
