@@ -12,21 +12,23 @@ else:
 
 _READ_VERILOG = re.compile(
     r"read_verilog -sv (?P<sources>.*?)(?=; hierarchy -top )")
+_HIERARCHY_TOP = re.compile(
+    r";\s*hierarchy\s+-top\s+(?P<top>[A-Za-z_][A-Za-z0-9_$]*)\b")
 _MODULE = re.compile(r"^\s*module\s+(?:automatic\s+)?([A-Za-z_][A-Za-z0-9_$]*)\b",
                      re.MULTILINE)
 
 
 def _staged_slang_reads(script: str) -> str | None:
-    """Keep source-level PE identities when Slang can load one module per file.
+    """Keep source-level PE identities by loading leaves before their parents.
 
     Slang's monolithic ``--keep-hierarchy`` elaboration specializes a generated
     leaf once for every hierarchical path.  That is correct elaboration, but
     it hides the fact that 256 generated instances came from one PE module.
     Loading a leaf file before its parent makes the already-loaded leaf an
     external module during parent elaboration, preserving its common identity
-    for the structural checker.  Restrict this path to the unambiguous,
-    conventional one-module-per-file layout; all other layouts retain the
-    conservative monolithic fallback below.
+    for the structural checker.  A final top-level source may also contain
+    local helper modules, provided the requested hierarchy top is explicit;
+    other ambiguous layouts retain the conservative monolithic fallback.
     """
     match = _READ_VERILOG.search(script)
     if match is None:
@@ -34,11 +36,25 @@ def _staged_slang_reads(script: str) -> str | None:
     try:
         sources = [Path(source) for source in shlex.split(match.group("sources"))]
         modules = []
-        for source in sources:
+        top_match = _HIERARCHY_TOP.search(script)
+        if top_match is None:
+            return None
+        hierarchy_top = top_match.group("top")
+        for index, source in enumerate(sources):
             names = _MODULE.findall(source.read_text())
-            if len(names) != 1:
+            if len(names) == 1:
+                stage_top = names[0]
+            elif index == len(sources) - 1 and len(sources) > 1 and \
+                    hierarchy_top in names:
+                # A conventional top-level source often contains a small
+                # helper module beside the actual top.  Rejecting that layout
+                # forces Slang to specialize a large generated PE once per
+                # hierarchical path, turning a seconds-long structural read
+                # into a many-minute, multi-gigabyte elaboration.
+                stage_top = hierarchy_top
+            else:
                 return None
-            modules.append((names[0], source))
+            modules.append((stage_top, source))
     except (OSError, ValueError):
         return None
     if len({name for name, _ in modules}) != len(modules):

@@ -11,8 +11,22 @@ import time
 
 LIMIT_SECONDS = 3600
 POLICY_ID = 'physical-wall-3600s-retain-results-v1'
+T10_LIMIT_SECONDS = 7200
+T10_POLICY_ID = 'physical-wall-7200s-retain-results-v1'
 SEEDS = (11, 29, 47)
 TIMEOUT_EXIT_CODE = 124
+
+
+def limit_seconds(task):
+    return T10_LIMIT_SECONDS if task == 'T10' else LIMIT_SECONDS
+
+
+def policy_id(task):
+    return T10_POLICY_ID if task == 'T10' else POLICY_ID
+
+
+def is_policy(value, task):
+    return value == policy_id(task)
 
 
 def save(path, value):
@@ -24,7 +38,7 @@ def save(path, value):
 
 
 def receipt(task, source, seed, elapsed, status, **fields):
-    result = dict(policy_id=POLICY_ID, limit_seconds=LIMIT_SECONDS, task_id=task,
+    result = dict(policy_id=policy_id(task), limit_seconds=limit_seconds(task), task_id=task,
                 candidate_source_sha256=source, layout_seed=seed,
                 elapsed_seconds=elapsed, status=status)
     result.update(fields)
@@ -42,8 +56,11 @@ def stop_scope(unit):
             raise RuntimeError('failed to terminate physical scope '+unit)
 
 
-def run(command, *, task, source, seed, record_path, seconds=LIMIT_SECONDS, **options):
+def run(command, *, task, source, seed, record_path, seconds=None, **options):
     """Run a complete synthesis-to-final-report command in its own session."""
+    standard_seconds = limit_seconds(task)
+    if seconds is None:
+        seconds = standard_seconds
     if not math.isfinite(seconds) or seconds <= 0:
         raise ValueError('invalid physical deadline')
     started = time.monotonic()
@@ -76,13 +93,15 @@ def run(command, *, task, source, seed, record_path, seconds=LIMIT_SECONDS, **op
         save(record_path, receipt(task, source, seed, time.monotonic()-started, status,
              started_utc=started_utc, ended_utc=dt.datetime.now(dt.timezone.utc).isoformat(),
              process_group_terminated=status == 'timeout',
-             **({'limit_seconds': seconds} if seconds != LIMIT_SECONDS else {})))
+             **({'limit_seconds': seconds} if seconds != standard_seconds else {})))
     return subprocess.CompletedProcess(command, code)
 
 
 def validate_records(records, source, task, *, complete=True):
     if not isinstance(records, list):
         raise ValueError('physical records must be a list')
+    expected_policy = policy_id(task)
+    expected_limit = limit_seconds(task)
     seen = set()
     for row in records:
         if not isinstance(row,dict):
@@ -90,16 +109,16 @@ def validate_records(records, source, task, *, complete=True):
         seed = row.get('layout_seed')
         elapsed = row.get('elapsed_seconds')
         if (type(seed) is not int or seed not in SEEDS or seed in seen
-                or row.get('policy_id') != POLICY_ID or row.get('limit_seconds') != LIMIT_SECONDS
+                or row.get('policy_id') != expected_policy or row.get('limit_seconds') != expected_limit
                 or row.get('task_id') != task or not source
                 or row.get('candidate_source_sha256') != source
                 or type(elapsed) not in (int, float) or not math.isfinite(elapsed) or elapsed < 0
                 or row.get('status') not in ('completed', 'timeout')):
             raise ValueError('invalid physical deadline receipt')
-        if row['status'] == 'timeout' and (elapsed < LIMIT_SECONDS or
+        if row['status'] == 'timeout' and (elapsed < expected_limit or
                 row.get('process_group_terminated') is not True):
             raise ValueError('unconfirmed physical timeout')
-        if row['status'] == 'completed' and elapsed > LIMIT_SECONDS:
+        if row['status'] == 'completed' and elapsed > expected_limit:
             raise ValueError('physical result completed after its deadline')
         seen.add(seed)
     if complete and seen != set(SEEDS):
@@ -108,7 +127,7 @@ def validate_records(records, source, task, *, complete=True):
 
 
 def attach(measurement, records):
-    result = dict(measurement, physical_policy=POLICY_ID, physical_records=records)
+    result = dict(measurement, physical_policy=policy_id(measurement['task_id']), physical_records=records)
     if any(r['status'] == 'timeout' for r in records):
         result['measurement_status'] = 'physical_timeout_retained_results'
     return result
@@ -132,7 +151,7 @@ def partial_provenance_valid(task, measurement, reference, records, source):
     timeouts = validate_records(records, source, task)
     if not timeouts or not ppa_provenance_valid(task, reference, reference):
         return False
-    if (measurement.get('physical_policy') != POLICY_ID or
+    if (measurement.get('physical_policy') != policy_id(task) or
             measurement.get('physical_records') != records or
             measurement.get('measurement_status') != 'physical_timeout_retained_results' or
             measurement.get('source_sha256') != source or measurement.get('task_id') != task or
@@ -173,7 +192,7 @@ def score_retained(payload, result, rules):
     records = payload.get('physical_records', [])
     source = payload.get('candidate_source_sha256')
     timeouts = validate_records(records, source, task)
-    result.update(physical_policy=POLICY_ID, physical_records=records,
+    result.update(physical_policy=policy_id(task), physical_records=records,
                   physical_timed_out_seeds=sorted(timeouts),candidate_source_sha256=source)
     measurement = payload.get('ppa_measurement')
     if not timeouts:

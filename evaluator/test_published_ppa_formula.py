@@ -27,11 +27,14 @@ class PublishedPPAFormulaTest(unittest.TestCase):
             self.assertEqual(len(raw), evidence['bytes'])
             self.assertEqual(hashlib.sha256(raw).hexdigest(), evidence['sha256'])
 
-    def test_all_sixty_published_scores_match_the_audit_and_current_formula(self):
+    def test_non_superseded_published_scores_match_the_audit_and_current_formula(self):
         counts = dict(measured_formula_recomputed=0, preserved_functional_gate_zero=0,
                       preserved_explicit_user_adjudication=0)
         changes = []
+        superseded = set(self.audit.get('superseded_models', {}))
         for model, evidence in self.audit['models'].items():
+            if model in superseded:
+                continue
             summary = json.loads((ROOT/'results'/model/'summary.json').read_text())
             rows = {row['task_id']:row for row in summary['tasks']}
             self.assertEqual(set(rows), {f'T{i:02d}' for i in range(1,11)})
@@ -42,8 +45,9 @@ class PublishedPPAFormulaTest(unittest.TestCase):
                 with self.subTest(model=model, task=task):
                     for key, value in item['expected'].items():
                         self.assertAlmostEqual(row[key], value, places=9)
-                    self.assertEqual(item['before']['functional_total'], row['functional_total'])
-                    self.assertEqual(item['before']['time_score'], row['time_score'])
+                    for component in ('functional_total', 'time_score'):
+                        if component not in item['changed_components']:
+                            self.assertEqual(item['before'][component], row[component])
                     if item['status'] == 'measured_formula_recomputed':
                         self.assertEqual(row['functional_total'], 50)
                         self.assertTrue(item['normalized_provenance_valid'])
@@ -76,8 +80,8 @@ class PublishedPPAFormulaTest(unittest.TestCase):
                 total = math.fsum(row[component] for row in rows.values())
                 for alias in aliases:
                     self.assertAlmostEqual(summary[alias], total, places=9)
-        self.assertEqual(list(counts.values()), [49,10,1])
-        self.assertEqual(changes, [('kimi-k3','T07')])
+        self.assertEqual(list(counts.values()), [43,6,1])
+        self.assertEqual(changes, [('kimi-k3','T07'), ('kimi-k3','T10')])
 
     def test_kimi_correction_exactly_identifies_the_missing_setup_factor(self):
         item = next(row for row in self.audit['models']['kimi-k3']['tasks'] if row['task_id']=='T07')

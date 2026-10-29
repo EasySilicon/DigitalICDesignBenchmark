@@ -23,7 +23,7 @@ def aggregate(task, submission, pairs, expected_seeds=SEEDS, *, physical_records
                     measurement_status=TIMEOUT_STATUS, power_compile_policy=POLICY_ID,
                     power_compile_records=records)
     if not expected_seeds:
-        return dict(task_id=task,source_sha256=source,physical_policy=physical_budget.POLICY_ID,
+        return dict(task_id=task,source_sha256=source,physical_policy=physical_budget.policy_id(task),
                     physical_records=physical_records,measurement_status='physical_timeout_no_results')
     result = frozen_aggregate(task, submission, pairs, expected_seeds)
     if physical_records:

@@ -22,7 +22,8 @@ class T08PilotResumeTest(unittest.TestCase):
     def test_initial_run_is_not_resume(self):
         cmd=command(Path('/trial'))
         self.assertEqual(cmd[cmd.index('--memory')+1], '40g')
-        self.assertEqual(cmd[cmd.index('--memory-swap')+1], '40g')
+        self.assertEqual(cmd[cmd.index('--memory-swap')+1], '-1')
+        self.assertNotIn('--pids-limit', cmd)
         shell=command(Path("/trial"))[-1]
         self.assertIn("7200s",shell)
         self.assertIn("/workspace/PROMPT.md",shell)

@@ -5,7 +5,7 @@
 ## 固定执行环境
 
 - ISA：RV32I、Zicsr、题目所列 M-mode CSR/异常/MRET；无压缩、乘除、浮点、原子、MMU 和异步中断。实际 `misa`、UDB、Sail 配置必须一致。锁定的 ACT4 配置和制品见 [`benchmark/cpu/act4/`](../../cpu/act4/) 与[制品清单](../../../evaluator/act4_elfs/MANIFEST.json)。
-- 复位入口 `0x8000_0000`；指令与数据镜像为 256 KiB。`0x8003_F000` 是 testbench 截获的 32-bit `tohost` 写寄存器；写 1 PASS，写其他非零值 FAIL。所有程序必须在有限步数内向此地址写结果，或由测试器根据退休轨迹判定；超时为 FAIL。锁定 ACT4 的 45 个 RV32I/Zicsr ELF 中最大装载结束偏移为 `0x342c0`；外部存储器不计入核面积。
+- `rst_n` 是异步低有效复位：拉低后不等 `clk` 上升沿即冲刷流水线和总线有效状态，并进入复位入口 `0x8000_0000`；释放本身不退休指令，随后从第一个 `clk` 上升沿恢复。指令与数据镜像为 256 KiB。`0x8003_F000` 是 testbench 截获的 32-bit `tohost` 写寄存器；写 1 PASS，写其他非零值 FAIL。所有程序必须在有限步数内向此地址写结果，或由测试器根据退休轨迹判定；超时为 FAIL。锁定 ACT4 的 45 个 RV32I/Zicsr ELF 中最大装载结束偏移为 `0x342c0`；外部存储器不计入核面积。
 - `rvmodel_macros.h` 把 ACT4 的 PASS/FAIL 宏转换为 `tohost` 写；`link.ld` 把代码、数据、栈和异常向量放在镜像内，预留 `tohost`。ACT4 还需 UDB、Sail 与框架配置。框架生成 ELF 后，由同一个 ELF 加载器为 DUT 和参考模型建立等价的存储器初始状态。RISC-V 工具链、ACT4、Sail 和 ISA 手册修订均从[sources.lock.yaml](../../sources.lock.yaml)与正式镜像锁定。
 - `tohost` 是环境终止机制，不是 ISA 指令；CPU 不能识别测试名、PC 值或终止地址并跳过正常执行。程序或数据访问测试内存边界时，由数据响应错误建模；测试器不得从不存在的硬件功能推断通过。
 

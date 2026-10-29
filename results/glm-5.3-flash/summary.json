@@ -1,4 +1,5 @@
 {
+  "suite_id": "ic-delivery-rtl-v0.3",
   "suite": "ic-delivery-rtl-v0.3",
   "agent": "zcode-cli",
   "model": "glm-5.3-flash",
@@ -13,26 +14,145 @@
   "ppa_score_sum": 214.51169863989276,
   "time_score_sum": 10.231886757965441,
   "display_score_sum": 617.4102520645248,
-  "task_weights": {"T01": 0.03, "T02": 0.03, "T03": 0.06, "T04": 0.06, "T05": 0.06, "T06": 0.1, "T07": 0.1, "T08": 0.11, "T09": 0.2, "T10": 0.25},
+  "task_weights": {
+    "T01": 0.03,
+    "T02": 0.03,
+    "T03": 0.06,
+    "T04": 0.06,
+    "T05": 0.06,
+    "T06": 0.1,
+    "T07": 0.1,
+    "T08": 0.11,
+    "T09": 0.2,
+    "T10": 0.25
+  },
   "weighted_display_score": 45.55443981318163,
+  "weighted_display_score_with_unscored_components_omitted": 45.55443981318163,
   "weighted_display_possible": 105.0,
   "ranking_eligible": false,
-  "ranking_ineligible_reasons": ["Historical pre-release pilot; not an official benchmark ranking."],
-  "source_trial": {"id": "zcode_glm53_flash_20261024_bscfd5ox", "run_manifest_sha256": "0871601abfdbb82fde61d664c28aa904b44b4cb2e096c9494b619de16bc2fb15"},
+  "ranking_ineligible_reasons": [
+    "Historical pre-release pilot; not an official benchmark ranking."
+  ],
+  "source_trial": {
+    "id": "zcode_glm53_flash_20261024_bscfd5ox",
+    "run_manifest_sha256": "0871601abfdbb82fde61d664c28aa904b44b4cb2e096c9494b619de16bc2fb15"
+  },
   "task_freeze_receipts": {
-    "T08": {"receipt": "benchmark/tasks/T08/FREEZE.json", "receipt_sha256": "f6cde403e8328cbd840fc705d439813c6e156728f423e5d70d8883e0c8618cc1", "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad", "scope": "current grading contract"},
-    "T09": {"receipt": "benchmark/tasks/T09/FREEZE.json", "receipt_sha256": "b5da68238916bd955ee971973b00aa7077b953ab4304e4798b20a687c063d428", "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb", "scope": "current grading contract"}
+    "T08": {
+      "receipt": "benchmark/tasks/T08/FREEZE.json",
+      "receipt_sha256": "3c4366dae7b2ff59b396bf0430ca1879d1ead7cd70be96bc3ebb941bf58d4580",
+      "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
+      "scope": "current grading contract"
+    },
+    "T09": {
+      "receipt": "benchmark/tasks/T09/FREEZE.json",
+      "receipt_sha256": "69a90fdd33184b152f93a8f8753370d55e243fc145480e9c21b87b74c53363c5",
+      "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
+      "scope": "current grading contract"
+    }
   },
   "tasks": [
-    {"task_id":"T01","functional_total":50.0,"ppa_score":23.926561821230834,"time_score":0.0,"candidate_delivery_penalty":10,"display_score":63.926561821230834,"score_status":"scored"},
-    {"task_id":"T02","functional_total":50.0,"ppa_score":34.75087501492428,"time_score":2.3475286821524306,"candidate_delivery_penalty":0,"display_score":87.0984036970767,"score_status":"scored"},
-    {"task_id":"T03","functional_total":50.0,"ppa_score":36.14619780486346,"time_score":1.724458900866685,"candidate_delivery_penalty":0,"display_score":87.87065670573014,"score_status":"scored"},
-    {"task_id":"T04","functional_total":50.0,"ppa_score":16.655463337603354,"time_score":2.4797878753255915,"candidate_delivery_penalty":0,"display_score":69.13525121292895,"score_status":"scored"},
-    {"task_id":"T05","functional_total":39.0,"ppa_score":0.0,"time_score":0.0,"candidate_delivery_penalty":0,"display_score":39.0,"score_status":"scored"},
-    {"task_id":"T06","functional_total":50.0,"ppa_score":30.24469310645925,"time_score":1.9080354251795346,"candidate_delivery_penalty":0,"display_score":82.15272853163879,"score_status":"scored"},
-    {"task_id":"T07","functional_total":50.0,"ppa_score":38.57376939519354,"time_score":0.11302972502178599,"candidate_delivery_penalty":0,"display_score":88.68679912021533,"score_status":"scored"},
-    {"task_id":"T08","functional_total":50.0,"ppa_score":34.214138159618024,"time_score":1.6590461494194138,"candidate_delivery_penalty":0,"display_score":85.87318430903743,"score_status":"scored","benchmark_freeze":{"receipt":"benchmark/tasks/T08/FREEZE.json","receipt_sha256":"f6cde403e8328cbd840fc705d439813c6e156728f423e5d70d8883e0c8618cc1","reference_source_sha256":"3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad","scope":"current grading contract"}},
-    {"task_id":"T09","functional_total":23.666666666666664,"ppa_score":0.0,"time_score":0.0,"candidate_delivery_penalty":10,"display_score":13.666666666666664,"score_status":"scored","benchmark_freeze":{"receipt":"benchmark/tasks/T09/FREEZE.json","receipt_sha256":"b5da68238916bd955ee971973b00aa7077b953ab4304e4798b20a687c063d428","reference_source_sha256":"b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb","scope":"current grading contract"}},
-    {"task_id":"T10","functional_total":0.0625,"ppa_score":0.0,"time_score":0.0,"candidate_delivery_penalty":10,"display_score":0.0,"score_status":"scored_candidate_failure"}
+    {
+      "task_id": "T01",
+      "functional_total": 50.0,
+      "ppa_score": 23.926561821230834,
+      "time_score": 0.0,
+      "candidate_delivery_penalty": 10,
+      "display_score": 63.926561821230834,
+      "score_status": "scored"
+    },
+    {
+      "task_id": "T02",
+      "functional_total": 50.0,
+      "ppa_score": 34.75087501492428,
+      "time_score": 2.3475286821524306,
+      "candidate_delivery_penalty": 0,
+      "display_score": 87.0984036970767,
+      "score_status": "scored"
+    },
+    {
+      "task_id": "T03",
+      "functional_total": 50.0,
+      "ppa_score": 36.14619780486346,
+      "time_score": 1.724458900866685,
+      "candidate_delivery_penalty": 0,
+      "display_score": 87.87065670573014,
+      "score_status": "scored"
+    },
+    {
+      "task_id": "T04",
+      "functional_total": 50.0,
+      "ppa_score": 16.655463337603354,
+      "time_score": 2.4797878753255915,
+      "candidate_delivery_penalty": 0,
+      "display_score": 69.13525121292895,
+      "score_status": "scored"
+    },
+    {
+      "task_id": "T05",
+      "functional_total": 39.0,
+      "ppa_score": 0.0,
+      "time_score": 0.0,
+      "candidate_delivery_penalty": 0,
+      "display_score": 39.0,
+      "score_status": "scored"
+    },
+    {
+      "task_id": "T06",
+      "functional_total": 50.0,
+      "ppa_score": 30.24469310645925,
+      "time_score": 1.9080354251795346,
+      "candidate_delivery_penalty": 0,
+      "display_score": 82.15272853163879,
+      "score_status": "scored"
+    },
+    {
+      "task_id": "T07",
+      "functional_total": 50.0,
+      "ppa_score": 38.57376939519354,
+      "time_score": 0.11302972502178599,
+      "candidate_delivery_penalty": 0,
+      "display_score": 88.68679912021533,
+      "score_status": "scored"
+    },
+    {
+      "task_id": "T08",
+      "functional_total": 50.0,
+      "ppa_score": 34.214138159618024,
+      "time_score": 1.6590461494194138,
+      "candidate_delivery_penalty": 0,
+      "display_score": 85.87318430903743,
+      "score_status": "scored",
+      "benchmark_freeze": {
+        "receipt": "benchmark/tasks/T08/FREEZE.json",
+        "receipt_sha256": "3c4366dae7b2ff59b396bf0430ca1879d1ead7cd70be96bc3ebb941bf58d4580",
+        "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
+        "scope": "current grading contract"
+      }
+    },
+    {
+      "task_id": "T09",
+      "functional_total": 23.666666666666664,
+      "ppa_score": 0.0,
+      "time_score": 0.0,
+      "candidate_delivery_penalty": 10,
+      "display_score": 13.666666666666664,
+      "score_status": "scored",
+      "benchmark_freeze": {
+        "receipt": "benchmark/tasks/T09/FREEZE.json",
+        "receipt_sha256": "69a90fdd33184b152f93a8f8753370d55e243fc145480e9c21b87b74c53363c5",
+        "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
+        "scope": "current grading contract"
+      }
+    },
+    {
+      "task_id": "T10",
+      "functional_total": 0.0625,
+      "ppa_score": 0.0,
+      "time_score": 0.0,
+      "candidate_delivery_penalty": 10,
+      "display_score": 0.0,
+      "score_status": "scored_candidate_failure"
+    }
   ]
 }

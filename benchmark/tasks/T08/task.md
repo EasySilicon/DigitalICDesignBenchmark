@@ -279,7 +279,13 @@ Carry terminal metadata through the same CDC path as its frame data.
 
 ### 4.2 Reset stimulus
 
-logic_rst, tx_rst and rx_rst are active high.
+logic_rst, tx_rst and rx_rst are asynchronous and active high in their
+respective logic_clk, tx_clk and rx_clk domains. Asserting any of these resets
+takes effect without waiting for a clock edge. Deassertion does not itself
+advance normal state; each domain resumes normal operation on its next rising
+clock edge. This is equivalent to sequential reset behavior written as
+`always @(posedge domain_clk or posedge domain_rst)`; it is not a synchronous
+active-high reset contract.
 The environment asserts all three as a coordinated reset.
 Assertion lasts at least eight cycles of the slowest active clock.
 Each reset is released on its own domain's falling edge.

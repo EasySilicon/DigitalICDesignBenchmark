@@ -29,8 +29,14 @@ def validate_local() -> tuple[dict, dict]:
     physical = manifest.get('ppa_measurement', {})
     if (physical.get('physical_seed_limit_seconds') != 3600 or
             physical.get('physical_runtime_policy') != 'physical-wall-3600s-retain-results-v1' or
+            physical.get('task_overrides') != {
+                'T10': {
+                    'physical_runtime_policy': 'physical-wall-7200s-retain-results-v1',
+                    'physical_seed_limit_seconds': 7200,
+                }
+            } or
             physical.get('physical_timeout_scoring') != 'retain_valid_completed_seeds_or_zero'):
-        fail('physical evaluation must retain results under the 3600-second per-seed policy')
+        fail('physical evaluation must retain results under the 3600-second default and 7200-second T10 policies')
     sources = yaml.safe_load((ROOT / "sources.lock.yaml").read_text())
     readme = (ROOT / "README.md").read_text()
 
@@ -53,6 +59,19 @@ def validate_local() -> tuple[dict, dict]:
         fail("task time limits differ from the frozen v0.3 schedule")
     if sum(row["time_limit_minutes"] for row in task_rows) != 1110:
         fail("ten-task time budget must total 18 hours 30 minutes")
+
+    reset_contracts = {
+        "T01": ("`rst_n` 为异步低有效", "无须等待 `clk` 上升沿"),
+        "T02": ("`rst_n` 为异步低有效", "无须等待 `clk` 上升沿"),
+        "T03": ("`rst_n` 为异步低有效", "无须等待 `clk` 上升沿"),
+        "T04": ("`rst_n` 为异步低有效", "无须等待 `clk` 上升沿"),
+        "T05": ("`wr_rst_n` 是该域的异步低有效复位", "`rd_rst_n` 是该域的异步低有效复位"),
+        "T06": ("`rst_n` 为异步低有效", "无须等待 `clk` 上升沿"),
+        "T07": ("`rst_n` 为异步低有效", "无须等待 `clk` 上升沿"),
+        "T08": ("asynchronous and active high", "without waiting for a clock edge"),
+        "T09": ("`rst_n` 为异步低有效", "无须等待 `clk` 上升沿"),
+        "T10": ("`rst_n` 为异步低有效", "无须等待 `clk` 上升沿"),
+    }
 
     scores = manifest["score"]
     if sum(scores[key] for key in ("functional", "ppa", "completion_time")) != 105:
@@ -186,6 +205,9 @@ def validate_local() -> tuple[dict, dict]:
         task_metadata = yaml.safe_load((task_dir / "task.yaml").read_text())
         if not task_doc.is_file() or not task_doc.read_text().startswith(f"# {task_id} ·"):
             fail(f"missing task-local task card: {task_id}")
+        task_text = task_doc.read_text()
+        if any(phrase not in task_text for phrase in reset_contracts[task_id]):
+            fail(f"task card does not state its reset contract explicitly: {task_id}")
         if not acceptance_doc.is_file() or not acceptance_doc.read_text().startswith(f"# {task_id}"):
             fail(f"missing task-local acceptance plan: {task_id}")
         if f"| {task_id} |" not in readme:

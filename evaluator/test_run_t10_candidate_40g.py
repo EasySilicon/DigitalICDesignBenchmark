@@ -101,12 +101,57 @@ class Serial40Test(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'terminal physical failure'):
                 M.completed_physical(root)
 
+    def test_timeout_recovery_refuses_an_active_scope(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            (root/'runtime40.json').write_text(json.dumps(dict(policy=M.POLICY,confirmed=True,unit='scope')))
+            with patch.object(M,'properties',return_value=dict(ActiveState='active')), \
+                 self.assertRaisesRegex(ValueError,'retired'):
+                M.recover_retired_timeout(root,model='m',source='s',seed=29,
+                    elapsed_seconds=3600,ended_utc='now')
+
     def test_refuses_a_second_candidate_eda_scope(self):
         output='ic_t10_candidate_other-baseline.scope loaded active running make\n'
         with patch.object(M.subprocess,'check_output',return_value=output):
             with self.assertRaisesRegex(RuntimeError,'refusing parallel'):
                 M.assert_serial()
             M.assert_serial('ic_t10_candidate_other-baseline.scope')
+
+    def test_waits_for_finished_scope_to_retire_before_next_seed(self):
+        states=[dict(ActiveState='deactivating'),dict(ActiveState='inactive')]
+        with patch.object(M,'properties',side_effect=states), patch.object(M.time,'sleep') as sleep:
+            M.wait_scope_inactive('candidate-baseline40')
+        sleep.assert_called_once_with(.2)
+
+    def test_nonstandard_deadline_requires_authorization(self):
+        with tempfile.TemporaryDirectory() as temp:
+            with self.assertRaisesRegex(ValueError,'authorization'):
+                M.monitor('scope',Path(temp)/'runtime.json',Mock(),physical_limit_seconds=3600)
+
+    def test_t10_standard_deadline_is_two_hours(self):
+        self.assertEqual(M.PHYSICAL_SECONDS,7200)
+
+    def test_authorized_completion_continuation_has_no_deadline(self):
+        with tempfile.TemporaryDirectory() as temp:
+            with patch.object(M,'properties',return_value=dict(Result='success',ActiveState='inactive')), \
+                 patch.object(M,'wait_scope_inactive'):
+                M.monitor('scope',Path(temp)/'runtime.json',Mock(poll=lambda:0,wait=lambda:0),
+                    physical_identity=('T10','source',47),physical_limit_seconds=None,
+                    limit_authorization={'authority':'benchmark_owner'})
+            receipt=json.loads((Path(temp)/'physical_budget.json').read_text())
+            self.assertEqual(receipt['policy_id'],'physical-completion-continuation-v1')
+            self.assertIsNone(receipt['limit_seconds'])
+            self.assertEqual(receipt['status'],'completed')
+
+    def test_resumed_monitor_counts_prior_active_runtime(self):
+        with tempfile.TemporaryDirectory() as temp:
+            with patch.object(M,'properties',return_value=dict(Result='success',ActiveState='inactive')), \
+                 patch.object(M,'wait_scope_inactive'), patch.object(M.time,'monotonic',side_effect=[1000,1005]):
+                result=M.monitor('scope',Path(temp)/'runtime.json',Mock(poll=lambda:0,wait=lambda:0),
+                    physical_identity=('T10','source',29),physical_elapsed_seconds=1200)
+            receipt=json.loads((Path(temp)/'physical_budget.json').read_text())
+            self.assertEqual(receipt['elapsed_seconds'],1205)
+            self.assertEqual(result['exit_code'],0)
 
     def test_monitor_retains_ram_and_swap_peaks_and_actual_policy_confirmation(self):
         values={'memory.max':str(40*1024**3),'memory.swap.max':'max','memory.current':'123',

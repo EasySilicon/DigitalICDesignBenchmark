@@ -2,6 +2,8 @@
 
 **设计需求**：单时钟顺序 FIFO，参数 `WIDTH` 与 `DEPTH`。端口：`clk,rst_n`；输入 `in_valid,in_data[WIDTH-1:0]`，输出 `in_ready`；输出 `out_valid,out_data[WIDTH-1:0]`，输入 `out_ready`。`DEPTH` 至少支持 3、8、16，`WIDTH` 至少支持 8、32。复位后空。存储容量恰为 `DEPTH` 项；写入按接受顺序读取。空时输入即使与 `out_ready` 同时出现，本周期 `out_valid=0`，新数据最早下一周期可读；无 fall-through。满时若同周期成功弹出，允许成功写入。`out_data` 在 `out_valid=0` 时不验收。
 
+**时钟与复位**：FIFO 的正常顺序状态仅在 `clk` 上升沿更新。`rst_n` 为异步低有效；拉低后无须等待 `clk` 上升沿，就必须把 FIFO 置为空并立即使 `out_valid=0`。释放 `rst_n` 本身不接受事务或推进指针，正常握手从随后第一个 `clk` 上升沿开始。
+
 **环境假设**：输入方遵守 ready/valid 保持规则；`rst_n` 可在运行中异步拉低。成功写入定义为 `in_valid && in_ready`，成功读取定义为 `out_valid && out_ready`。输出载荷在阻塞期间稳定。
 
 **资源边界**：不得超出 `DEPTH × WIDTH` 数据存储加有限指针/计数控制状态；不得借仿真队列实现 RTL。允许寄存器阵列或推断 RAM，禁止锁存器。

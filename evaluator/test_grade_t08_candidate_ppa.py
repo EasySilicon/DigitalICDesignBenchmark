@@ -11,7 +11,8 @@ from score_run import load_rules
 
 class T08CandidateGradingTest(unittest.TestCase):
     def test_fresh_trial_uses_exact_model_and_original_budget(self):
-        for name in ('gpt-6-astra', 'gpt-6-sol', 'gpt-6.1-sol', 'deepseek-flash', 'glm-5.3-flash'):
+        for name in ('gpt-6-astra', 'gpt-6-sol', 'gpt-6.1-sol', 'gpt-5.6-sol',
+                     'deepseek-flash', 'glm-5.3-flash'):
             manifest = {'model': name, 'time_limit_seconds': 7200}
             self.assertEqual(result_model(manifest), name)
             self.assertEqual(candidate_clock(manifest, {'elapsed_seconds': 2992.5}), (2992.5, 7200))
@@ -59,6 +60,8 @@ class T08CandidateGradingTest(unittest.TestCase):
             root = Path(temporary)
             results = root / 'repo/results/gpt-6-astra'
             results.mkdir(parents=True)
+            table = root / 'repo/results/model-score-comparison.md'
+            table.write_text('| T08 | 11% | preserved |\n')
             original = {'tasks': [
                 {'task_id': 'T01', 'functional_total': 50, 'full_functional_pass': True,
                  'ppa_score': 30, 'time_score': 2, 'display_score': 82},
@@ -75,6 +78,7 @@ class T08CandidateGradingTest(unittest.TestCase):
                               'attached_utc': 'private-attachment', 'active_calls': [],
                               'note': 'workflow bookkeeping'}}
             publish(root / 'repo', 'gpt-6-astra', record, trial)
+            self.assertEqual(table.read_text(), '| T08 | 11% | preserved |\n')
             summary = json.loads((results / 'summary.json').read_text())
             self.assertEqual(summary['tasks'][0], original['tasks'][0])
             row = summary['tasks'][1]

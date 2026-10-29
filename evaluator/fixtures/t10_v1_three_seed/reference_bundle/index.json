@@ -2712,8 +2712,8 @@
     },
     {
       "original_path": "/home/reefshark/research/agent_os/ic_bcmk/evaluator/score_run.py",
-      "bytes": 17850,
-      "sha256": "d60b963224cb257e623471b06f60f9cdb505a74341774128849d6ef98046bece",
+      "bytes": 18084,
+      "sha256": "3f6ea47e9478c2c6b382674f4e55f08acbdd75baf9ccef53da9f09f6ca8ba566",
       "path": "evaluator/score_run.py"
     },
     {
@@ -3216,8 +3216,8 @@
     },
     {
       "original_path": "/home/reefshark/research/agent_os/ic_bcmk/evaluator/t10_structure_check.py",
-      "bytes": 26217,
-      "sha256": "a7fecc1c40b821db48406f364986758829486e48d41132fe88b5c5e35e1ac9b1",
+      "bytes": 26445,
+      "sha256": "f88778c22ef2cb6a36a5c16d1c3d94c456414b245c14de8833cfbad6391be744",
       "path": "evaluator/t10_structure_check.py"
     },
     {

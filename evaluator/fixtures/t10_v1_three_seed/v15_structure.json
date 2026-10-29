@@ -24,7 +24,7 @@
   "method": "yosys_netlist",
   "rtl_sha256": "576afc80af06e936089fd8f841fbcc4f555cee254bfa1922f701296e1d092b8e",
   "filelist_sha256": "8ffa4b5e1bdbead2fd7a99dccfb169562cf0e1f7dfecaa3d7bd1426dd03c441a",
-  "checker_sha256": "a7fecc1c40b821db48406f364986758829486e48d41132fe88b5c5e35e1ac9b1",
+  "checker_sha256": "f88778c22ef2cb6a36a5c16d1c3d94c456414b245c14de8833cfbad6391be744",
   "original_report_sha256": "e47f50733b11f5dfdd81edc9c49214863d60baef80dd17f42a6f1b681517559a",
   "yosys": "Yosys 0.69+150 (git sha1 0d3483f04-dirty, Release, Clang /usr/bin/clang++ 21.1.8)"
 }

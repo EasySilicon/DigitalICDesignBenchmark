@@ -96,6 +96,21 @@ class FrontendTests(unittest.TestCase):
         self.assertIn(f'read_slang --keep-hierarchy --top tile',staged)
         self.assertIn(f'read_slang --keep-hierarchy --top top',staged)
 
+    def test_structure_stages_top_file_with_local_helper_module(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            leaf=root/'pe.sv';tile=root/'tile.sv';top=root/'top.sv'
+            leaf.write_text('module pe; endmodule\n')
+            tile.write_text('module tile; pe p(); endmodule\n')
+            top.write_text('module delay; endmodule\n'
+                           'module top; tile t(); delay d(); endmodule\n')
+            script=(f'read_verilog -sv {leaf} {tile} {top}; hierarchy -top top')
+            staged=structure._staged_slang_reads(script)
+        self.assertIsNotNone(staged)
+        self.assertIn(f'read_slang --top pe',staged)
+        self.assertIn(f'read_slang --keep-hierarchy --top tile',staged)
+        self.assertIn(f'read_slang --keep-hierarchy --top top',staged)
+
     def test_structure_keeps_monolithic_fallback_for_ambiguous_source_layout(self):
         with tempfile.TemporaryDirectory() as temp:
             source=Path(temp)/'both.sv'

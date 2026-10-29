@@ -1,0 +1,44 @@
+schema_version: 1
+
+# Trial and private authentication state must both be outside the repository.
+trial_root: /mnt/benchmark-trials/kimi-k31-pro-max-run01
+repo_root: /path/to/ic_bcmk
+orfs_root: /opt/OpenROAD-flow-scripts
+private_root: /mnt/benchmark-private
+image: ubuntu:24.04
+
+# Omit task_order to use manifest order. A subset is useful for preflight only.
+task_order: [T01, T02, T03, T04, T05, T06, T07, T08, T09, T10]
+tool_path: /opt/agent/bin:/opt/oss-cad-suite/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+readonly_mounts:
+  - {source: /usr, target: /usr}
+  - {source: /bin, target: /bin}
+  - {source: /lib, target: /lib}
+  - {source: /lib64, target: /lib64}
+  - {source: /etc/passwd, target: /etc/passwd}
+  - {source: /etc/group, target: /etc/group}
+  - {source: /etc/ssl, target: /etc/ssl}
+  - {source: /opt/oss-cad-suite, target: /opt/oss-cad-suite}
+
+agent:
+  adapter: kimi
+  model: k3.1-pro
+  model_alias: kimi-code/k3.1-pro
+  reasoning_effort: max
+  binary: /home/user/.kimi-code/bin/kimi
+  profile: /home/user/.kimi-code
+  skills:
+    builtin: true
+    user: false
+    external: false
+  tools:
+    web: false
+    multi_agent: false
+    allowed: [Read, Write, Edit, Grep, Glob, Bash, TaskList, TaskOutput, TaskStop, WaitFor, TodoList, Skill]
+  options: {}
+
+# This host-only adapter may be maintained privately while grading policy is
+# being frozen. It must write {grading}/report.json and never enter the candidate container.
+grader:
+  command: [python3, /path/to/site-grade.py, --task, "{task_id}", --submission, "{submission}", --output, "{grading}", --repo, "{frozen_repo}", --elapsed, "{elapsed_seconds}"]
+  lock: /mnt/benchmark-trials/physical-grade.lock

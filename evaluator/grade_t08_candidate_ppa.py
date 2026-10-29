@@ -93,29 +93,6 @@ def publish(repo: Path, model: str, record: dict, trial: Path):
         if 'remaining_unscored_component' in summary:
             summary['remaining_unscored_component'] = summary['pending_components']
         write(path, summary)
-    table = repo / 'results/model-score-comparison.md'
-    if table.exists():
-        models = ('gpt-6-astra', 'gpt-6.1-sol', 'gpt-6-sol', 'kimi-k3', 'deepseek-flash', 'glm-5.3-flash')
-        data = [json.loads((repo / 'results' / name / 'summary.json').read_text()) for name in models]
-        weights = load_rules()['task_weights']
-        lines = []
-        for line in table.read_text().splitlines():
-            task = line.split('|')[1].strip() if line.startswith('| T') else None
-            if task in weights:
-                values = []
-                for summary in data:
-                    row = next(row for row in summary['tasks'] if row['task_id'] == task)
-                    value = row.get('display_score')
-                    pending = any(row.get(key) is None for key in ('ppa_score', 'time_score'))
-                    values.append('未测' if value is None else f'{value:.2f}' + ('¹' if pending else ''))
-                line = f'| {task} | {weights[task]:.2f} | ' + ' | '.join(values) + ' |'
-            elif line.startswith('| **已评分加权小计'):
-                line = '| **已评分加权小计 /105** | **1.00** | ' + ' | '.join(f'{s.get("weighted_display_score", s["weighted_display_score_with_unscored_components_omitted"]):.2f}' for s in data) + ' |'
-            elif line.startswith('| 已评分直接加总'):
-                line = '| 已评分直接加总 /1050 | — | ' + ' | '.join(f'{s.get("display_score_sum", s["display_score_subtotal_with_unscored_components_omitted"]):.2f}' for s in data) + ' |'
-            lines.append(line)
-        table.write_text('\n'.join(lines) + '\n')
-
 
 def delivery(trial: Path, output: Path):
     assessment = inspect_contract(trial / 'workspace')
@@ -177,7 +154,7 @@ def result_model(manifest: dict) -> str:
     name = manifest['model']
     if name == 'kimi-code/k3-256k':
         return 'kimi-k3'
-    if name not in {'gpt-6-astra', 'gpt-6-sol', 'gpt-6.1-sol',
+    if name not in {'gpt-6-astra', 'gpt-6-sol', 'gpt-6.1-sol', 'gpt-5.6-sol',
                     'glm-5.3-flash', 'deepseek-flash'}:
         raise ValueError(f'unknown result model: {name}')
     return name

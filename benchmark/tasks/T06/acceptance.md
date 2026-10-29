@@ -7,6 +7,6 @@
 | AC-34 | 合法成功、PSLVERR、未对齐、越界分别映射 OKAY/SLVERR/DECERR；错误时无错误 APB 副作用 | F 响应 |
 | AC-35 | AW 先 W、W 先 AW、同拍到达，夹杂 AR；服务顺序遵循轮询且不饥饿 | P 通道并发 |
 | AC-36 | APB PREADY 延迟 0–15 拍，BREADY/RREADY 任意阻塞；所有等待期间载荷保持 | P 背压 |
-| AC-37 | 在 AW 单独缓存、APB SETUP/ACCESS、响应阻塞中分别复位；释放后无幽灵事务 | P 复位 |
+| AC-37 | 在 AW 单独缓存、APB SETUP/ACCESS、响应阻塞中异步拉低 `rst_n`；不等时钟沿即撤销有效状态，释放后无幽灵事务 | P 复位 |
 
 APB 从设备模型按 `PSEL && PENABLE && PREADY` 接受一笔，记录完整事务；AXI 主模型独立驱动五个通道。变异体包含假定 AW/W 同拍、SETUP 即提交、PSTRB 错映、响应被背压覆盖、PSLVERR 丢失。

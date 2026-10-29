@@ -90,7 +90,7 @@ def command(root, *, session_id=None, seconds=LIMIT, container_name=NAME,
             gate="start_trial"):
     work=root/"workspace"
     cmd=["docker","run","--name",container_name,"--network","host","--user","1000:1000",
-         "--cpus","16","--memory","40g","--memory-swap","40g","--pids-limit","4096",
+         "--cpus","16","--memory","40g","--memory-swap","-1",
          "--security-opt","no-new-privileges","--read-only"]
     for key in ("HTTP_PROXY","HTTPS_PROXY","ALL_PROXY","http_proxy","https_proxy",
                 "all_proxy","NO_PROXY","no_proxy"):

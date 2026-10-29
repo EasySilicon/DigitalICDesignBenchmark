@@ -6,18 +6,18 @@
   "input_fingerprints": {
     "evaluator/score_run.py": {
       "path": "evaluator/score_run.py",
-      "bytes": 17850,
-      "sha256": "d60b963224cb257e623471b06f60f9cdb505a74341774128849d6ef98046bece"
+      "bytes": 18084,
+      "sha256": "3f6ea47e9478c2c6b382674f4e55f08acbdd75baf9ccef53da9f09f6ca8ba566"
     },
     "evaluator/score_rules.json": {
       "path": "evaluator/score_rules.json",
-    "bytes": 10825,
-    "sha256": "abe904582c34e73a83ef96abec662a8a0872e8145b781691682192b9210caf42"
+    "bytes": 10847,
+    "sha256": "757af42346f0462c8d4a4959255ee75a926f69a7524aa9d851b4cb1378fecc02"
     },
     "benchmark/ppa-baselines.json": {
       "path": "benchmark/ppa-baselines.json",
       "bytes": 44874,
-      "sha256": "02a1092799aa9392a213e7d4816ec8120a81f7fc8a58dd9a86c2ac78f47ab388"
+      "sha256": "fad32a454f5e8a91fd65f203f9ef32fc666d7703135315e48074dbeb3ff940cb"
     }
   },
   "models": {
@@ -1843,12 +1843,15 @@
           "status": "preserved_functional_gate_zero",
           "candidate_delivery_penalty": 0,
           "expected": {
-            "functional_total": 41.66666666666666,
+            "functional_total": 32.28585558852474,
             "ppa_score": 0,
             "time_score": 0,
-            "display_score": 41.66666666666666
+            "display_score": 32.28585558852474
           },
-          "changed_components": []
+          "changed_components": [
+            "functional_total",
+            "display_score"
+          ]
         }
       ]
     },
@@ -2238,369 +2241,11 @@
           "changed_components": []
         }
       ]
-    },
-    "glm-5.3-flash": {
-      "tasks": [
-        {
-          "task_id": "T01",
-          "before": {
-            "functional_total": 0,
-            "ppa_score": 0,
-            "time_score": 0,
-            "display_score": 0
-          },
-          "status": "preserved_functional_gate_zero",
-          "candidate_delivery_penalty": 0,
-          "expected": {
-            "functional_total": 0,
-            "ppa_score": 0,
-            "time_score": 0,
-            "display_score": 0
-          },
-          "changed_components": []
-        },
-        {
-          "task_id": "T02",
-          "before": {
-            "functional_total": 50,
-            "ppa_score": 35.21963752999886,
-            "time_score": 1.4874999999999998,
-            "display_score": 81.70713752999886
-          },
-          "status": "measured_formula_recomputed",
-          "measurement_evidence": {
-            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_glm_5_3_flash_20261005/grading/T03/report.json",
-            "bytes": 7511,
-            "sha256": "5b306e23000eb0d673bf027bd2498787c63add245488f74d6b44c45350ceda1f"
-          },
-          "source_task_id": "T03",
-          "candidate_source_sha256": "f3eae9025b2be8fe2418125dd8921d936603e291d6c3fc98c36a96edb58115a0",
-          "measurement_inputs": {
-            "area_um2": 405.032,
-            "delay_ns": 0.9651365,
-            "energy_per_op_pj": 2.3117302512562814,
-            "setup_worst_slack_ns": 0.0315007,
-            "hold_worst_slack_ns": 0.104135,
-            "drc_violations": 0,
-            "routed": true,
-            "annotation_fraction": 1,
-            "parameter_set": {
-              "period_ps": 1000
-            }
-          },
-          "normalized_provenance_valid": true,
-          "layout_seeds": [
-            11,
-            29,
-            47
-          ],
-          "elapsed_seconds": 2529,
-          "time_limit_seconds": 3600,
-          "candidate_delivery_error_count": 1,
-          "candidate_delivery_penalty": 5,
-          "expected": {
-            "functional_total": 50,
-            "ppa_score": 35.21963752999886,
-            "time_score": 1.4874999999999998,
-            "display_score": 81.70713752999886
-          },
-          "changed_components": []
-        },
-        {
-          "task_id": "T03",
-          "before": {
-            "functional_total": 50,
-            "ppa_score": 36.38468987198948,
-            "time_score": 0.6518518518518518,
-            "display_score": 87.03654172384132
-          },
-          "status": "measured_formula_recomputed",
-          "measurement_evidence": {
-            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_glm_5_3_flash_20261005/grading/T04/report.json",
-            "bytes": 4976,
-            "sha256": "58bbaeff56140df39da7b98821af91019c2132ff9d3d9835591b041544a57a13"
-          },
-          "source_task_id": "T04",
-          "candidate_source_sha256": "159a358621db2bb5780859257355db932065b90728d26c7dafbb81743351b34d",
-          "measurement_inputs": {
-            "area_um2": 88.7922,
-            "delay_ns": 0.806261,
-            "energy_per_op_pj": 0.4040065573770491,
-            "setup_worst_slack_ns": 0.193343,
-            "hold_worst_slack_ns": 0.101727,
-            "drc_violations": 0,
-            "routed": true,
-            "annotation_fraction": 1,
-            "parameter_set": {
-              "period_ps": 1000
-            }
-          },
-          "normalized_provenance_valid": true,
-          "layout_seeds": [
-            11,
-            29,
-            47
-          ],
-          "elapsed_seconds": 4696,
-          "time_limit_seconds": 5400,
-          "candidate_delivery_error_count": 0,
-          "candidate_delivery_penalty": 0,
-          "expected": {
-            "functional_total": 50,
-            "ppa_score": 36.38468987198948,
-            "time_score": 0.6518518518518518,
-            "display_score": 87.03654172384132
-          },
-          "changed_components": []
-        },
-        {
-          "task_id": "T04",
-          "before": {
-            "functional_total": 50,
-            "ppa_score": 13.25455414982516,
-            "time_score": 1.535185185185185,
-            "display_score": 64.78973933501035
-          },
-          "status": "measured_formula_recomputed",
-          "measurement_evidence": {
-            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_glm_5_3_flash_20261005/grading/T05/report.json",
-            "bytes": 4957,
-            "sha256": "eb567cd2fdd7583727bb2ea776cc598d9bb42e14c18b00d40efb46b580efe5d1"
-          },
-          "source_task_id": "T05",
-          "candidate_source_sha256": "4e34f80bef676827f0d713c4e4122e905e091aeef334742a9e92d5d41db0cec4",
-          "measurement_inputs": {
-            "area_um2": 98.3129,
-            "delay_ns": 1.188827,
-            "energy_per_op_pj": 0.3536,
-            "setup_worst_slack_ns": -0.19175899999999999,
-            "hold_worst_slack_ns": 0.0978501,
-            "drc_violations": 0,
-            "routed": true,
-            "annotation_fraction": 1,
-            "parameter_set": {
-              "period_ps": 1000
-            }
-          },
-          "normalized_provenance_valid": true,
-          "layout_seeds": [
-            11,
-            29,
-            47
-          ],
-          "elapsed_seconds": 3742,
-          "time_limit_seconds": 5400,
-          "candidate_delivery_error_count": 0,
-          "candidate_delivery_penalty": 0,
-          "expected": {
-            "functional_total": 50,
-            "ppa_score": 13.25455414982516,
-            "time_score": 1.535185185185185,
-            "display_score": 64.78973933501035
-          },
-          "changed_components": []
-        },
-        {
-          "task_id": "T05",
-          "before": {
-            "functional_total": 50,
-            "ppa_score": 35.544608308727746,
-            "time_score": 2.6743055555555557,
-            "display_score": 88.21891386428331
-          },
-          "status": "measured_formula_recomputed",
-          "measurement_evidence": {
-            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_glm_5_3_flash_20261005/grading/T06/report.json",
-            "bytes": 5385,
-            "sha256": "0e904ee598c4c5971bba25569207af1ebf0902c3c6e8e63d2108b0363914d3ce"
-          },
-          "source_task_id": "T06",
-          "candidate_source_sha256": "76e70a6511c6c997d988c75f505397728856e02fde71e1a6ca05f6b7bbb099c6",
-          "measurement_inputs": {
-            "area_um2": 429.76,
-            "delay_ns": 0.887393,
-            "energy_per_op_pj": 2.197990295990134,
-            "setup_worst_slack_ns": 0.104765,
-            "hold_worst_slack_ns": 0.0671292,
-            "drc_violations": 0,
-            "routed": true,
-            "annotation_fraction": 1,
-            "parameter_set": {
-              "period_ps": 1000
-            }
-          },
-          "normalized_provenance_valid": true,
-          "layout_seeds": [
-            11,
-            29,
-            47
-          ],
-          "elapsed_seconds": 3349,
-          "time_limit_seconds": 7200,
-          "candidate_delivery_error_count": 0,
-          "candidate_delivery_penalty": 0,
-          "expected": {
-            "functional_total": 50,
-            "ppa_score": 35.544608308727746,
-            "time_score": 2.6743055555555557,
-            "display_score": 88.21891386428331
-          },
-          "changed_components": []
-        },
-        {
-          "task_id": "T06",
-          "before": {
-            "functional_total": 50,
-            "ppa_score": 37.177166526509694,
-            "time_score": 0.4180555555555554,
-            "display_score": 87.59522208206525
-          },
-          "status": "measured_formula_recomputed",
-          "measurement_evidence": {
-            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_glm_5_3_flash_20261005/grading/T07/report.json",
-            "bytes": 5196,
-            "sha256": "e510953fafc4b69483972f0bff9356691574a6a65efcff5c3523daa7293e9bb8"
-          },
-          "source_task_id": "T07",
-          "candidate_source_sha256": "f863195e0a971b94992069b8d8ebe595753841450395a0209d95c1b54a14c50e",
-          "measurement_inputs": {
-            "area_um2": 136.615,
-            "delay_ns": 0.704367,
-            "energy_per_op_pj": 8.04225568627451,
-            "setup_worst_slack_ns": 0.29563,
-            "hold_worst_slack_ns": 0.0887071,
-            "drc_violations": 0,
-            "routed": true,
-            "annotation_fraction": 1,
-            "parameter_set": {
-              "period_ps": 1000
-            }
-          },
-          "normalized_provenance_valid": true,
-          "layout_seeds": [
-            11,
-            29,
-            47
-          ],
-          "elapsed_seconds": 6598,
-          "time_limit_seconds": 7200,
-          "candidate_delivery_error_count": 0,
-          "candidate_delivery_penalty": 0,
-          "expected": {
-            "functional_total": 50,
-            "ppa_score": 37.177166526509694,
-            "time_score": 0.4180555555555554,
-            "display_score": 87.59522208206525
-          },
-          "changed_components": []
-        },
-        {
-          "task_id": "T07",
-          "before": {
-            "functional_total": 50,
-            "ppa_score": 24.220281169819998,
-            "time_score": 1.348611111111111,
-            "display_score": 75.56889228093111
-          },
-          "status": "measured_formula_recomputed",
-          "measurement_evidence": {
-            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_glm_5_3_flash_20261005/grading/T08/report.json",
-            "bytes": 5118,
-            "sha256": "b7fe083f5dfac1b72205191b06398a026ecf9270d609bb64db43b34b4e815054"
-          },
-          "source_task_id": "T08",
-          "candidate_source_sha256": "d5a9aa9dd88e93b6c9ca2fe01774fa3fa1a25abb2fc253d8c73d0576bf3dea93",
-          "measurement_inputs": {
-            "area_um2": 2571.84,
-            "delay_ns": 1.0956002,
-            "energy_per_op_pj": 76.33956923076921,
-            "setup_worst_slack_ns": -0.0976784,
-            "hold_worst_slack_ns": 0.0462234,
-            "drc_violations": 0,
-            "routed": true,
-            "annotation_fraction": 1,
-            "parameter_set": {
-              "period_ps": 1000
-            }
-          },
-          "normalized_provenance_valid": true,
-          "layout_seeds": [
-            11,
-            29,
-            47
-          ],
-          "elapsed_seconds": 5258,
-          "time_limit_seconds": 7200,
-          "candidate_delivery_error_count": 0,
-          "candidate_delivery_penalty": 0,
-          "expected": {
-            "functional_total": 50,
-            "ppa_score": 24.220281169819998,
-            "time_score": 1.348611111111111,
-            "display_score": 75.56889228093111
-          },
-          "changed_components": []
-        },
-        {
-          "task_id": "T08",
-          "before": {
-            "functional_total": 44,
-            "ppa_score": 0,
-            "time_score": 0,
-            "display_score": 44
-          },
-          "status": "preserved_functional_gate_zero",
-          "candidate_delivery_penalty": 0,
-          "expected": {
-            "functional_total": 44,
-            "ppa_score": 0,
-            "time_score": 0,
-            "display_score": 44
-          },
-          "changed_components": []
-        },
-        {
-          "task_id": "T09",
-          "before": {
-            "functional_total": 22,
-            "ppa_score": 0,
-            "time_score": 0,
-            "display_score": 17
-          },
-          "status": "preserved_functional_gate_zero",
-          "candidate_delivery_penalty": 5,
-          "expected": {
-            "functional_total": 22,
-            "ppa_score": 0,
-            "time_score": 0,
-            "display_score": 17
-          },
-          "changed_components": []
-        },
-        {
-          "task_id": "T10",
-          "before": {
-            "functional_total": 0,
-            "ppa_score": 0,
-            "time_score": 0,
-            "display_score": 0
-          },
-          "status": "preserved_functional_gate_zero",
-          "candidate_delivery_penalty": 0,
-          "expected": {
-            "functional_total": 0,
-            "ppa_score": 0,
-            "time_score": 0,
-            "display_score": 0
-          },
-          "changed_components": []
-        }
-      ]
     }
   },
-  "task_count": 60,
-  "measured_task_count": 49,
-  "functional_gate_zero_count": 10,
+  "task_count": 50,
+  "measured_task_count": 43,
+  "functional_gate_zero_count": 6,
   "explicit_adjudication_zero_count": 1,
   "changed_task_count": 1,
   "changes": [

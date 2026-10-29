@@ -78,7 +78,7 @@ class FreezeTasksTest(unittest.TestCase):
                 self.assertFalse((target / "evaluator/fixtures").exists())
                 self.assertEqual([p.name for p in (target / "benchmark/tasks").iterdir()], [task])
 
-    def test_all_six_model_records_bind_to_receipts_without_changing_scores(self):
+    def test_all_nine_model_records_bind_to_receipts_without_changing_scores(self):
         schema = freeze.read("results/result.schema.json")
         count = 0
         for path in (freeze.ROOT / "results").glob("*/summary.json"):
@@ -93,7 +93,7 @@ class FreezeTasksTest(unittest.TestCase):
                 if row.get("functional_total") is not None:
                     self.assertGreaterEqual(row["functional_total"], 0)
                     self.assertLessEqual(row["functional_total"], 50)
-        self.assertEqual(count, 6)
+        self.assertEqual(count, 9)
 
     def test_kimi_final_summary_preserves_scores_and_elapsed_time(self):
         record = next(row for row in freeze.read("results/kimi-k3/summary.json")["tasks"]

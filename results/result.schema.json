@@ -22,7 +22,10 @@
   "dependentRequired": {"physical_policy": ["physical_records"]},
   "properties": {
     "physical_policy": {
-      "const": "physical-wall-3600s-retain-results-v1"
+      "enum": [
+        "physical-wall-3600s-retain-results-v1",
+        "physical-wall-7200s-retain-results-v1"
+      ]
     },
     "physical_records": {
       "type": "array",
@@ -41,10 +44,16 @@
         ],
         "properties": {
           "policy_id": {
-            "const": "physical-wall-3600s-retain-results-v1"
+            "enum": [
+              "physical-wall-3600s-retain-results-v1",
+              "physical-wall-7200s-retain-results-v1"
+            ]
           },
           "limit_seconds": {
-            "const": 3600
+            "enum": [3600, 7200]
+          },
+          "task_id": {
+            "pattern": "^T(0[1-9]|10)$"
           },
           "layout_seed": {
             "enum": [
@@ -66,7 +75,26 @@
           "process_group_terminated": {
             "type": "boolean"
           }
-        }
+        },
+        "allOf": [
+          {
+            "if": {"properties": {"policy_id": {"const": "physical-wall-3600s-retain-results-v1"}}},
+            "then": {"properties": {"limit_seconds": {"const": 3600}}}
+          },
+          {
+            "if": {"properties": {"policy_id": {"const": "physical-wall-7200s-retain-results-v1"}}},
+            "then": {"properties": {"limit_seconds": {"const": 7200}}}
+          },
+          {
+            "if": {"properties": {"task_id": {"pattern": "^T0[1-9]$"}}, "required": ["task_id"]},
+            "then": {
+              "properties": {
+                "policy_id": {"const": "physical-wall-3600s-retain-results-v1"},
+                "limit_seconds": {"const": 3600}
+              }
+            }
+          }
+        ]
       }
     },
     "physical_timed_out_seeds": {

@@ -132,7 +132,7 @@ def command(root: Path, agent: str, container: str, session: str,
     selected_claude = claude_model(model) if agent == 'claude' else None
     cmd = ['docker', 'run', '--name', container, '--network', 'host',
            '--user', '1000:1000', '--cpus', '16', '--memory', '40g',
-           '--memory-swap', '40g', '--pids-limit', '4096',
+           '--memory-swap', '-1',
            '--security-opt', 'no-new-privileges', '--read-only']
     for key in ('HTTP_PROXY', 'HTTPS_PROXY', 'ALL_PROXY', 'http_proxy',
                 'https_proxy', 'all_proxy', 'NO_PROXY', 'no_proxy'):
@@ -140,8 +140,6 @@ def command(root: Path, agent: str, container: str, session: str,
     cmd += ['-e', 'HOME=/home/benchmark', '-e', f'PATH={TOOL_PATH}',
             '-e', 'LANG=C.UTF-8', '-e', 'LC_ALL=C.UTF-8', '-e', 'CI=1',
             '-e', 'CCACHE_DIR=/tmp/ccache']
-    if agent == 'claude':
-        cmd += ['-e', 'CLAUDE_CODE_MAX_OUTPUT_TOKENS=128000']
     if agent == 'codex':
         cmd += ['-e', 'CODEX_HOME=/home/benchmark/.codex']
     for source in ('/usr', '/bin', '/lib', '/lib64', '/etc/passwd',

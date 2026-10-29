@@ -1026,7 +1026,7 @@
       "evidence_record": "evaluator/fixtures/t10_v1_three_seed/reference_bundle/reports/2cb6f27d91ff0f46e1f27b3d8b82055683366c495cd09bca4b8e31c53fde154f_evidence.json",
       "evidence_record_sha256": "2cb6f27d91ff0f46e1f27b3d8b82055683366c495cd09bca4b8e31c53fde154f",
       "report_index": "evaluator/fixtures/t10_v1_three_seed/reference_bundle/index.json",
-      "report_index_sha256": "d465b36be13762a3cd9612606c2ceae8dbc2e2e432983f37fb456ece75401887"
+      "report_index_sha256": "cca8afdb5f6273f51d4065d8fea69cf8eeb56caecc1f18bfd73d252b6345f607"
     }
   }
 }

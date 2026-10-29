@@ -93,28 +93,28 @@ See the [full coverage mapping and scope limits](benchmark/README.md#领域与�
 
 ## Evaluated models and results
 
-The following values come from the [2026-10-25 per-task evaluation results](results/model-score-comparison.md). All **60 model/task results are resolved**, with no `null` functional, PPA, or time components. Column headers identify the coding framework and version used during the actual trials; model settings and Skill policy are defined by each run's original record.
+The following values come from the [per-task evaluation results](results/model-score-comparison.md). All **90 model/task results are resolved**, with no `null` functional, PPA, or time components. Column headers identify the coding framework and version used during the actual trials; model settings and Skill policy are defined by each run's original record.
 
 Each cell is the task's display score **out of 105, including delivery deductions**, rounded to two decimal places. Weighted totals use unrounded task scores and fixed weights, not a simple average.
 
 Parentheses after model names indicate reasoning effort; `default` means no explicit setting was supplied. Effort levels across frameworks do not imply equal reasoning budgets.
 
-| Task | Weight | GPT-6-Astra(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6.1-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | Kimi K3(max)<br><sub>Kimi CLI 2.1.1</sub> | DeepSeek V4.1 Flash(default)<br><sub>Claude Code 2.1.183</sub> | GLM-5.3-Flash(max)<br><sub>ZCode CLI 0.17.0</sub> |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| T01 | 3% | 88.24 | 86.33 | 86.98 | 75.49 | 82.86 | 63.93 |
-| T02 | 3% | 87.88 | 87.20 | 89.70 | 89.17 | 89.07 | 87.10 |
-| T03 | 6% | 91.08 | 91.18 | 89.80 | 89.96 | 90.88 | 87.87 |
-| T04 | 6% | 97.27 | 86.90 | 91.12 | 68.13 | 62.63 | 69.14 |
-| T05 | 6% | 89.72 | 88.93 | 90.12 | 89.18 | 90.00 | 39.00 |
-| T06 | 10% | 94.78 | 93.70 | 96.22 | 25.00 | 92.93 | 82.15 |
-| T07 | 10% | 93.49 | 93.12 | 88.44 | 81.88 | 92.50 | 88.69 |
-| T08 | 11% | 87.89 | 87.14 | 84.21 | 84.30 | 46.83 | 85.87 |
-| T09 | 20% | 60.51 | 59.20 | 56.25 | 40.00 | 44.93 | 13.67 |
-| T10 | 25% | 53.83 | 53.73 | 50.00 | 32.29 | 0.00 | 0.00 |
-| **Weighted total /105** | **100%** | **76.02** | **74.77** | **73.04** | **55.80** | **52.45** | **45.55** |
-| **Fully functional tasks** | — | **10/10** | **10/10** | **10/10** | **7/10** | **7/10** | **7/10** |
+| Task | Weight | GPT-6-Astra(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6.1-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-5.6-Sol(high)<br><sub>Codex CLI 0.162.1</sub> | Kimi K3.1 Pro(max)<br><sub>Kimi CLI 2.3.1</sub> | Kimi K3(max)<br><sub>Kimi CLI 2.1.1</sub> | DeepSeek V4.1 Flash(default)<br><sub>Claude Code 2.1.183</sub> | GLM-5.3-Flash(max)<br><sub>ZCode CLI 0.17.0</sub> | GLM-5.3(default)<br><sub>ZCode CLI 0.17.0</sub> |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| T01 | 3% | 88.24 | 86.33 | 86.98 | 87.20 | 52.48 | 75.49 | 82.86 | 63.93 | 64.96 |
+| T02 | 3% | 87.88 | 87.20 | 89.70 | 88.65 | 87.02 | 89.17 | 89.07 | 87.10 | 89.28 |
+| T03 | 6% | 91.08 | 91.18 | 89.80 | 89.62 | 90.01 | 89.96 | 90.88 | 87.87 | 89.28 |
+| T04 | 6% | 97.27 | 86.90 | 91.12 | 67.05 | 75.57 | 68.13 | 62.63 | 69.14 | 66.46 |
+| T05 | 6% | 89.72 | 88.93 | 90.12 | 90.35 | 89.22 | 89.18 | 90.00 | 39.00 | 89.15 |
+| T06 | 10% | 94.78 | 93.70 | 96.22 | 90.76 | 93.00 | 25.00 | 92.93 | 82.15 | 94.61 |
+| T07 | 10% | 93.49 | 93.12 | 88.44 | 83.35 | 88.89 | 81.88 | 92.50 | 88.69 | 88.39 |
+| T08 | 11% | 87.89 | 87.14 | 84.21 | 85.83 | 85.03 | 84.30 | 46.83 | 85.87 | 45.00 |
+| T09 | 20% | 60.51 | 59.20 | 56.25 | 87.43 | 75.31 | 40.00 | 44.93 | 13.67 | 59.03 |
+| T10 | 25% | 53.83 | 53.73 | 50.00 | 33.27 | 50.00 | 32.29 | 0.00 | 0.00 | 50.00 |
+| **Weighted total /105** | **100%** | **76.02** | **74.77** | **73.04** | **72.75** | **74.58** | **55.80** | **52.45** | **45.55** | **66.88** |
+| **Fully functional tasks** | — | **10/10** | **10/10** | **10/10** | **9/10** | **10/10** | **7/10** | **7/10** | **7/10** | **9/10** |
 
-Tasks below full functionality receive zero PPA and time points. GPT-6-Sol T10 retains 50 functional points and zero PPA/time points under its historical power-compilation termination adjudication. See the [model results](results/model-score-comparison.md) for component scores and zero-score categories.
+Tasks below full functionality receive zero PPA and time points. GPT-6-Sol T10 retains 50 functional points and zero PPA/time points under its historical power-compilation termination adjudication. Kimi K3.1 Pro(max) T10 passed all functional checks, but no seed completed physical implementation and formal power measurement within its adjudicated runtime limit, so its PPA and time scores are also zero. See the [model results](results/model-score-comparison.md) for component scores and zero-score categories.
 
 Run conditions: Kimi T08 used a cumulative historical development budget of 150 minutes. T10 reference and candidate implementations differ in internal macros and physical flow; a same-flow comparison is not available.
 
@@ -202,6 +202,29 @@ For T08, T09 and T10, also pass `--orfs-root /path/to/OpenROAD-flow-scripts` to 
 
 Use containers or equivalent access boundaries for formal comparisons so candidates cannot read host reference RTL, independent tests, or other submissions. Source may be public while excluded from candidate workspaces; creating a new directory alone does not enforce isolation.
 
+The following is one T03 example. `benchmark-tools:locked` is a pre-frozen image containing the Agent CLI and the open-source toolchain. Host egress policy for `benchmark-model-api` must allow only the declared model API. Keep credentials in the task-local runtime directory; never place them in a submission snapshot or result archive.
+
+```bash
+trial="$PWD/work/trials/my-system/run-01/T03"
+workspace="$trial/workspace"
+runtime="$trial/runtime"
+
+python3 benchmark/prepare_trial.py T03 "$workspace"
+mkdir -p "$runtime"/{agent-home,tmp,empty-skills}
+
+docker run --rm --read-only \
+  --user "$(id -u):$(id -g)" --cpus 16 --memory 40g --memory-swap -1 \
+  --network benchmark-model-api \
+  -v "$workspace:/workspace" \
+  -v "$runtime/agent-home:/home/benchmark" \
+  -v "$runtime/tmp:/tmp" \
+  -v "$runtime/empty-skills:/empty-skills:ro" \
+  -w /workspace benchmark-tools:locked \
+  sh -lc 'agent-cli --new-session --skills-dir /empty-skills -p "$(cat PROMPT.md)"'
+```
+
+The container mounts only this task's workspace, temporary directory, and task-local Agent configuration. Do not mount the repository root, other trials, graders, reference RTL, prior sessions, or a shared Agent home. Before launch, the same image can check `test ! -e /grader`, `test ! -e /reference-rtl`, and that `/workspace/benchmark/tasks` contains only `T03`. A formal runner should also record container mounts, image digest, model/reasoning settings, and a fresh session ID, and reject any extra mount or resumed session.
+
 ### Workflow 3: Repeated suite comparisons or automated experiments
 
 Useful for model comparisons, multi-agent experiments, and system version regression. Generate the task workspaces:
@@ -215,7 +238,7 @@ for task in T01 T02 T03 T04 T05 T06 T07 T08 T09 T10; do
 done
 ```
 
-Your agent CLI/API or system runner then consumes each `PROMPT.md` in a new session with independent outputs. The repository provides preparation, acceptance, and scoring tools; the experimental runner must integrate model calls, container startup, clocks, and logging.
+The repository's [generic experiment runner](benchmark/runner/README.en.md) can then consume each `PROMPT.md`. Its adapters support Kimi CLI, Codex CLI, Claude Code, and ZCode CLI while sharing one implementation for container isolation, clocks, logs, recovery, and an independent grading queue. A site supplies only its credential source and host-grading command. Every task uses a fresh session and independent artifacts; manifest resources apply, and token usage is recorded without a cap.
 
 - **Product track:** compare native models and engineering systems with fixed monetary, time, and compute budgets.
 - **Same-model control track:** use identical model snapshots, sampling settings, API, and development time limits to study orchestration/workflow effects.
@@ -302,9 +325,9 @@ Delivery-contract violations incur an additional deduction, **capped at 10 point
 
 Per-task ordering compares **functional score, PPA bucket, then completion time**, not the display total. The current bucket width is 1.25 points: `bucket = min(40, floor(PPA/1.25 + 0.5))`. Within a bucket, earlier completion wins only when PPA is positive. Suite ordering compares the number of fully functional tasks, then the functional score sum, then the sum of PPA buckets for fully functional tasks, then their summed `t/T_max` (lower is better). Task-weighted display scores are supplementary; missing components do not rescale the remaining weights.
 
-#### Physical evaluation: 60 minutes per layout seed
+#### Physical evaluation: 60 minutes per T01–T09 seed, 120 minutes per T10 seed
 
-For T01–T10, synthesis, placement, clock-tree synthesis, routing, extraction, and final reports share a **3,600-second wall-clock limit per layout seed**. The clock does not restart between stages. On timeout, terminate that seed's tool processes, retain its artifacts, and continue the other seeds. Score the valid completed seeds with measured activity-based power: take median area, delay, and energy, and retain worst-case timing slack and DRC counts. If no valid complete measurement is available, PPA and time points are zero; functional points and delivery deductions remain. Intermediate reports do not replace complete measurements. The separate 20-minute power-compilation rule below still applies. See the [physical runtime policy](benchmark/physical-runtime-policy.md).
+For T01–T09, synthesis, placement, clock-tree synthesis, routing, extraction, and final reports share a **3,600-second wall-clock limit per layout seed**; T10's single-PE flow uses **7,200 seconds**. The clock does not restart between stages. On timeout, terminate that seed's tool processes, retain its artifacts, and continue the other seeds. Score the valid completed seeds with measured activity-based power: take median area, delay, and energy, and retain worst-case timing slack and DRC counts. If no valid complete measurement is available, PPA and time points are zero; functional points and delivery deductions remain. Intermediate reports do not replace complete measurements. Only T10's physical-implementation deadline changes; its 40 GiB memory limit, model-development deadline, and the separate 20-minute power-compilation rule remain unchanged. See the [physical runtime policy](benchmark/physical-runtime-policy.md).
 
 #### Power-simulation compilation: 20 cumulative minutes per seed
 

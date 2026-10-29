@@ -20,7 +20,7 @@ class PhysicalBudgetTest(unittest.TestCase):
         rules=load_rules()
         baseline=json.loads((Path(__file__).resolve().parents[1]/'benchmark/ppa-baselines.json').read_text())['tasks'][task]
         source='a'*64
-        physical=[policy.receipt(task,source,s,100 if s in completed else 3600,
+        physical=[policy.receipt(task,source,s,100 if s in completed else policy.limit_seconds(task),
                     'completed' if s in completed else 'timeout',process_group_terminated=s not in completed)
                   for s in policy.SEEDS]
         power=[dict(policy_id=POWER_POLICY,limit_seconds=1200,task_id=task,
@@ -54,6 +54,25 @@ class PhysicalBudgetTest(unittest.TestCase):
                     self.assertGreater(result['ppa_score'],0)
                     self.assertGreater(result['time_score'],0)
                     self.assertEqual(result['functional_total'],50)
+
+    def test_t10_alone_has_a_two_hour_physical_deadline(self):
+        t01=policy.receipt('T01','source',11,3600,'timeout',process_group_terminated=True)
+        t10=policy.receipt('T10','source',11,7200,'timeout',process_group_terminated=True)
+        self.assertEqual((t01['policy_id'],t01['limit_seconds']),
+                         ('physical-wall-3600s-retain-results-v1',3600))
+        self.assertEqual((t10['policy_id'],t10['limit_seconds']),
+                         ('physical-wall-7200s-retain-results-v1',7200))
+        policy.validate_records([t01],'source','T01',complete=False)
+        policy.validate_records([t10],'source','T10',complete=False)
+        with self.assertRaisesRegex(ValueError,'invalid physical deadline receipt'):
+            policy.validate_records([t10],'source','T01',complete=False)
+
+    def test_t10_completion_between_one_and_two_hours_is_valid(self):
+        row=policy.receipt('T10','source',47,5400,'completed')
+        self.assertEqual(policy.validate_records([row],'source','T10',complete=False),set())
+        row['elapsed_seconds']=7201
+        with self.assertRaisesRegex(ValueError,'completed after its deadline'):
+            policy.validate_records([row],'source','T10',complete=False)
 
     def test_no_results_is_zero_without_erasing_function_or_delivery(self):
         p=self.payload(completed=());p['candidate_delivery_error_count']=1
@@ -145,7 +164,10 @@ class PhysicalBudgetTest(unittest.TestCase):
         import run_t10_candidate_40g as native
         with tempfile.TemporaryDirectory() as d:
             process=Mock();process.poll.return_value=None;process.wait.return_value=-9
-            with patch.object(native,'PHYSICAL_SECONDS',.01),patch.object(native,'properties',return_value={'ActiveState':'active'}),patch.object(native,'stop_scope') as kill:
+            with patch.object(native,'PHYSICAL_SECONDS',.01), \
+                 patch.object(native,'properties',return_value={'ActiveState':'active'}), \
+                 patch.object(native,'stop_scope') as kill, \
+                 patch.object(native,'wait_scope_inactive'):
                 result=native.monitor('test.scope',Path(d)/'runtime.json',process,
                                       physical_identity=('T10','source',11))
             kill.assert_called_once_with('test.scope')

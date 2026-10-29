@@ -1,0 +1,55 @@
+{
+  "suite": "ic-delivery-rtl-v0.3",
+  "model": "kimi-k3.1-pro",
+  "framework": "Kimi CLI",
+  "framework_version": "2.3.1",
+  "reasoning_effort": "high",
+  "trial_kind": "pre_release_pilot",
+  "status": "scored",
+  "completed_tasks": 10,
+  "full_functional_task_count": 9,
+  "weighted_display_score": 68.86753602230345,
+  "weighted_display_possible": 105.0,
+  "ranking_eligible": false,
+  "ranking_ineligible_reasons": [
+    "Historical pre-release pilot; not an official benchmark ranking."
+  ],
+  "source_trial": {
+    "id": "kimi_k31_pro_high_20261024_ua3g59yf",
+    "run_manifest_sha256": "54dd48ffe90ce383b039279f06ae2bcd2e6949a7ae34fe124a7b20c2baa99863",
+    "original_summary_sha256": "6dcdb0818d017fda03694b1d1f057025257bec7b81b461e47ae6ee235553774a"
+  },
+  "tasks": [
+    {"task_id": "T01", "functional_total": 50.0, "ppa_score": 0.05532651613342986, "time_score": 3.7423316227065193, "display_score": 53.79765813883995},
+    {"task_id": "T02", "functional_total": 50.0, "ppa_score": 34.915719852208646, "time_score": 4.025481942296028, "display_score": 88.94120179450466},
+    {"task_id": "T03", "functional_total": 50.0, "ppa_score": 34.62753801623737, "time_score": 4.355748543915925, "display_score": 88.98328656015329},
+    {"task_id": "T04", "functional_total": 50.0, "ppa_score": 34.451358049307395, "time_score": 3.932892685024827, "display_score": 88.38425073433223},
+    {"task_id": "T05", "functional_total": 50.0, "ppa_score": 35.37357392736211, "time_score": 4.3177570864558215, "display_score": 89.69133101381794},
+    {"task_id": "T06", "functional_total": 50.0, "ppa_score": 34.23121528023611, "time_score": 4.259143355654346, "display_score": 88.49035863589046},
+    {"task_id": "T07", "functional_total": 50.0, "ppa_score": 34.097431916750075, "time_score": 4.411131573551231, "display_score": 88.50856349030131},
+    {"task_id": "T08", "functional_total": 50.0, "ppa_score": 33.62691851046129, "time_score": 2.435878962609503, "display_score": 86.06279747307079},
+    {"task_id": "T09", "functional_total": 50.0, "ppa_score": 13.855950852905544, "time_score": 1.7390317695008384, "display_score": 65.59498262240638},
+    {
+      "task_id": "T10",
+      "functional_basic": 33.104166666666664,
+      "functional_edges": 0.0,
+      "functional_total": 33.104166666666664,
+      "ppa_score": 0.0,
+      "time_score": 0.0,
+      "display_score": 33.104166666666664,
+      "score_status": "scored",
+      "systolic_evidence": {
+        "cases_passed": 1024,
+        "cases_total": 1616,
+        "structure_qualified": true,
+        "sustained_throughput_passed": false,
+        "awarded_points": 0.0,
+        "reason": "The 25-point raw P item is critical: any sustained-throughput, latency, or systolic-structure failure yields zero for that item."
+      },
+      "regrade_evidence": {
+        "score_input_sha256": "a6710f7c38547b4fce6f8576f231d239bd45956a689e4546549670cc5819213a",
+        "policy": "t10-f50-p25-protocol6-boundary8-systolic25-v1"
+      }
+    }
+  ]
+}

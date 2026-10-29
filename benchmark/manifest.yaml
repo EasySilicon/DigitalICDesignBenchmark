@@ -46,6 +46,10 @@ score:
 ppa_measurement:
   physical_runtime_policy: physical-wall-3600s-retain-results-v1
   physical_seed_limit_seconds: 3600
+  task_overrides:
+    T10:
+      physical_runtime_policy: physical-wall-7200s-retain-results-v1
+      physical_seed_limit_seconds: 7200
   physical_timeout_scoring: retain_valid_completed_seeds_or_zero
   layout_seeds:
   - 11

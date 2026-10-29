@@ -52,7 +52,8 @@ class T08RunnerTest(unittest.TestCase):
         for agent in ('kimi', 'claude'):
             cmd = command(Path('/host/trial'), agent, 'test-container', 'abc-session')
             self.assertEqual(cmd[cmd.index('--memory') + 1], '40g')
-            self.assertEqual(cmd[cmd.index('--memory-swap') + 1], '40g')
+            self.assertEqual(cmd[cmd.index('--memory-swap') + 1], '-1')
+            self.assertNotIn('--pids-limit', cmd)
             shell = cmd[-1]
             self.assertIn('7200s', shell)
             self.assertIn('/tmp/start_trial', shell)
@@ -66,7 +67,7 @@ class T08RunnerTest(unittest.TestCase):
         claude = command(Path('/host/trial'), 'claude', 'test-container', 'abc-session')
         self.assertIn('--session-id abc-session', claude[-1])
         self.assertIn('Skill,WebSearch,WebFetch', claude[-1])
-        self.assertIn('CLAUDE_CODE_MAX_OUTPUT_TOKENS=128000', claude)
+        self.assertNotIn('CLAUDE_CODE_MAX_OUTPUT_TOKENS=128000', claude)
         kimi = command(Path('/host/trial'), 'kimi', 'test-container', '')
         self.assertNotIn('--auto', kimi[-1])
 

@@ -1,6 +1,6 @@
 # Digital IC Design Benchmark for Agents
 
-Evaluator physical runs for T01–T10 have a **60-minute limit per layout seed**, from synthesis through final reports. On timeout, retain artifacts and score the valid completed seeds with measured power; with no valid measurements, PPA and time points are zero. See the [physical runtime policy](physical-runtime-policy.md).
+Evaluator physical runs have a **60-minute limit per layout seed for T01–T09 and a 120-minute limit for T10**, from synthesis through final reports. On timeout, retain artifacts and score the valid completed seeds with measured power; with no valid measurements, PPA and time points are zero. See the [physical runtime policy](physical-runtime-policy.md).
 
 [中文](README.md)
 
@@ -26,6 +26,14 @@ The suite allocation is **16 vCPU, 40 GiB RAM and 100 GiB writable disk**.
 The RAM ceiling limits actual memory, not virtual address space.
 Token usage is recorded only: there is no token budget or token-triggered termination.
 
+Every task card states its clock and reset behavior explicitly. T01–T07, T09
+and T10 use rising-edge sequential operation with asynchronous active-low
+reset inputs ending in `_n`; required reset effects occur without waiting for
+a clock edge. T05 has separate local resets for its write and read domains.
+T08 instead inherits three per-domain asynchronous active-high resets,
+`logic_rst`, `tx_rst` and `rx_rst`. A task card may exempt unobservable payload
+storage when reset validity state prevents stale data from being observed.
+
 ## Entry points
 
 - [Task packages](tasks/): frozen task cards, task-specific acceptance plans, public artifacts, and machine-readable metadata.
@@ -36,6 +44,8 @@ Token usage is recorded only: there is no token budget or token-triggered termin
 - [Environment setup](../env/README.en.md) and the vendored [ASAP7 platform](../vendor/README.en.md).
 
 Run `python3 benchmark/validate_spec.py` for a local consistency check. Create a task-only public workspace with `python3 benchmark/prepare_trial.py T03 /path/to/empty/T03`. Each evaluation run starts in a new conversation and an empty workspace with the same task material, model configuration, tool environment, and timing boundary.
+
+Use the repository's [generic experiment runner](runner/README.en.md) for a formal full-suite comparison. It adapts Kimi CLI, Codex CLI, Claude Code, and ZCode CLI to one candidate-development pipeline and one independent serial host-grading queue. Time and resource policy comes only from the manifest; local configuration cannot introduce token, turn, or monetary limits. `runner.example.yaml` is the credential-free local configuration template.
 
 T09 follows the same self-test delivery contract as the other tasks. The evaluator independently loads ELF programs, drives the CPU bus and captures execution traces for ACT4 and differential checks.
 

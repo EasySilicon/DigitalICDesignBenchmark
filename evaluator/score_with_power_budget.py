@@ -28,8 +28,9 @@ def score_run(payload, rules=None):
         raise ValueError('power compilation and PPA candidate source differ')
     marked=payload.get('power_compile_policy')==POLICY_ID or POLICY_ID in payload.get('scoring_policy','')
     physical_records=payload.get('physical_records',(measurement or {}).get('physical_records',[]))
-    if (payload.get('physical_policy')==physical_budget.POLICY_ID or
-            (measurement or {}).get('physical_policy')==physical_budget.POLICY_ID) and not physical_records:
+    expected_physical_policy=physical_budget.policy_id(task)
+    if (payload.get('physical_policy')==expected_physical_policy or
+            (measurement or {}).get('physical_policy')==expected_physical_policy) and not physical_records:
         raise ValueError('physical deadline policy requires terminal receipts')
     power_timeout=validate_records(records,source,task)
     physical_timeouts=physical_budget.validate_records(physical_records,source,task,complete=not power_timeout) if physical_records else set()
@@ -56,7 +57,7 @@ def score_run(payload, rules=None):
         if not timed_out:
             result=physical_budget.score_retained(dict(payload,physical_records=physical_records,candidate_source_sha256=source),result,rules or load_rules())
         else:
-            result.update(physical_policy=physical_budget.POLICY_ID,physical_records=copy.deepcopy(physical_records))
+            result.update(physical_policy=expected_physical_policy,physical_records=copy.deepcopy(physical_records))
     if records:
         result.update(power_compile_policy=POLICY_ID,
                       candidate_source_sha256=source,power_compile_records=copy.deepcopy(records))

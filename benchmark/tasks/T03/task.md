@@ -2,6 +2,8 @@
 
 **设计需求**：32-bit APB4 从设备。端口：`clk,rst_n`、`PSEL,PENABLE,PWRITE,PADDR[11:0],PWDATA[31:0],PSTRB[3:0],PPROT[2:0]`；`PRDATA[31:0],PREADY,PSLVERR,irq`。本外设不做访问权限区分，合法 `PPROT` 值的功能相同。只接受 4 字节对齐地址，寄存器偏移如下。`PREADY` 在 `PSEL && PENABLE` 的 access 阶段为 1，其余为 0；一笔写入只在该阶段的成功上升沿生效。`PSLVERR` 仅在 access 阶段对无效地址或未对齐地址为 1；对合法地址的保留位写入被忽略。有效读的 `PRDATA` 是该沿前的寄存器值；无效读返回 0。
 
+**时钟与复位**：正常寄存器和计数状态仅在 `clk` 上升沿更新。`rst_n` 为异步低有效；拉低后无须等待 `clk` 上升沿，就必须把 `CTRL`、`LOAD`、`COUNT` 和 `pending` 清零，并立即使 `irq=0`。释放 `rst_n` 本身不计数、不提交 APB 事务，正常运行从随后第一个 `clk` 上升沿开始。
+
 | 偏移 | 名称 | 行为 |
 | --- | --- | --- |
 | `0x000` | CTRL | RW，bit0 `enable`，bit1 `auto_reload`，bit2 `irq_enable`，其余读 0 |

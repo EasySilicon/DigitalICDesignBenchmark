@@ -15,7 +15,7 @@ import shutil
 import subprocess
 import time
 import traceback
-from physical_budget import LIMIT_SECONDS as PHYSICAL_SECONDS, receipt as physical_receipt, stop_scope, timed_out as physical_timed_out
+from physical_budget import T10_LIMIT_SECONDS as PHYSICAL_SECONDS, receipt as physical_receipt, stop_scope, timed_out as physical_timed_out
 
 from t10_candidate_physical import REPO, TRIALS, prepare, run_seed, sha, artifact, write_new_or_same
 from grade_t10_candidate_ppa import grade
@@ -56,6 +56,44 @@ def assert_serial(expected=None):
     if busy:raise RuntimeError('another candidate EDA task is active; refusing parallel execution: '+str(busy))
 
 
+def wait_scope_inactive(unit,timeout=300):
+    """Wait for systemd to retire a finished scope before admitting the next seed."""
+    deadline=time.monotonic()+timeout
+    while properties(unit).get('ActiveState') in ('active','activating','deactivating'):
+        if time.monotonic() >= deadline:
+            raise RuntimeError(f'EDA scope did not become inactive after {timeout}s: {unit}')
+        time.sleep(.2)
+
+
+def recover_retired_timeout(directory,*,model,source,seed,elapsed_seconds,ended_utc):
+    """Finish evidence writing after monitor cleanup failed but the scope later retired."""
+    directory=Path(directory);runtime_path=directory/'runtime40.json'
+    budget_path=directory/'physical_budget.json';marker=directory/'baseline40.json'
+    if budget_path.exists() or marker.exists():
+        raise ValueError('terminal evidence already exists; refusing recovery overwrite')
+    runtime=json.loads(runtime_path.read_text())
+    if (runtime.get('policy')!=POLICY or not runtime.get('confirmed') or
+            runtime.get('unit') is None or properties(runtime['unit']).get('ActiveState') in
+            ('active','activating','deactivating')):
+        raise ValueError('timeout recovery requires a confirmed retired monitored scope')
+    if elapsed_seconds < PHYSICAL_SECONDS:
+        raise ValueError('timeout recovery elapsed time is below the standard deadline')
+    inputs_path=directory/'inputs40.json';inputs=json.loads(inputs_path.read_text())
+    if inputs.get('model')!=model or inputs.get('source_sha256')!=source or inputs.get('layout_seed')!=seed:
+        raise ValueError('timeout recovery identity changed')
+    runtime.update(ended_utc=ended_utc,systemd_result='success',exit_code=124,
+                   physical_timeout=True,terminal_record_recovered_after_scope_retirement=True)
+    save(runtime_path,runtime)
+    save(budget_path,physical_receipt('T10',source,seed,elapsed_seconds,'timeout',
+        started_utc=runtime['started_utc'],ended_utc=ended_utc,process_group_terminated=True,
+        terminal_record_recovered_after_scope_retirement=True))
+    record=dict(status='failed_40g_requires_adjudication',model=model,layout_seed=seed,exit_code=124,
+        inputs_sha256=sha(inputs_path),artifacts={},resource_policy=POLICY,runtime=artifact(runtime_path),
+        terminal_record_recovered_after_scope_retirement=True)
+    save(marker,record)
+    return record
+
+
 def sample(cgroup):
     root=Path('/sys/fs/cgroup')/cgroup.lstrip('/')
     row={name:(root/name).read_text().strip() for name in
@@ -71,8 +109,16 @@ def sample(cgroup):
     return row
 
 
-def monitor(unit,record_path,process=None,*,physical_identity=None,physical_started_utc=None):
-    already_elapsed=max(0.,(dt.datetime.now(dt.timezone.utc)-dt.datetime.fromisoformat(physical_started_utc)).total_seconds()) if physical_started_utc else 0.
+def monitor(unit,record_path,process=None,*,physical_identity=None,physical_started_utc=None,
+            physical_elapsed_seconds=None,physical_limit_seconds=None,
+            limit_authorization=None):
+    if physical_limit_seconds is None and not limit_authorization:
+        physical_limit_seconds=PHYSICAL_SECONDS
+    if physical_limit_seconds != PHYSICAL_SECONDS and not limit_authorization:
+        raise ValueError('a nonstandard physical deadline requires an explicit authorization record')
+    already_elapsed=(max(0.,physical_elapsed_seconds) if physical_elapsed_seconds is not None else
+        max(0.,(dt.datetime.now(dt.timezone.utc)-dt.datetime.fromisoformat(physical_started_utc)).total_seconds())
+        if physical_started_utc else 0.)
     physical_started=time.monotonic()-already_elapsed
     physical_timeout=False
     runtime=dict(policy=POLICY,unit=unit,started_utc=dt.datetime.now(dt.timezone.utc).isoformat(),samples=0,
@@ -91,7 +137,8 @@ def monitor(unit,record_path,process=None,*,physical_identity=None,physical_star
         if process is not None:
             if process.poll() is not None:break
         elif props.get('ActiveState') not in ('active','activating'):break
-        if physical_identity is not None and time.monotonic()-physical_started >= PHYSICAL_SECONDS:
+        if (physical_identity is not None and physical_limit_seconds is not None and
+                time.monotonic()-physical_started >= physical_limit_seconds):
             stop_scope(unit)
             if process is not None:
                 try:process.wait(timeout=5)
@@ -99,16 +146,27 @@ def monitor(unit,record_path,process=None,*,physical_identity=None,physical_star
             physical_timeout=True
             break
         time.sleep(2)
+    # systemd may keep a stopped scope visible as active for a short interval
+    # after the producer has exited.  Retire it before the next serial seed is
+    # admitted, otherwise assert_serial() can reject a non-overlapping run.
+    wait_scope_inactive(unit)
     runtime.update(ended_utc=dt.datetime.now(dt.timezone.utc).isoformat(),systemd_result=properties(unit).get('Result','unloaded'))
     if process is not None:runtime['exit_code']=process.wait()
     if physical_identity is not None:
         task,source,seed=physical_identity
         elapsed=time.monotonic()-physical_started
-        physical_timeout=physical_timeout or elapsed > PHYSICAL_SECONDS
+        physical_timeout=physical_timeout or (physical_limit_seconds is not None and
+                                               elapsed > physical_limit_seconds)
         status='timeout' if physical_timeout else 'completed' if runtime.get('exit_code',0)==0 else 'error'
-        save(record_path.parent/'physical_budget.json',physical_receipt(task,source,seed,elapsed,status,
+        receipt=physical_receipt(task,source,seed,elapsed,status,
              started_utc=runtime['started_utc'],ended_utc=runtime['ended_utc'],
-             process_group_terminated=physical_timeout))
+             process_group_terminated=physical_timeout)
+        if physical_limit_seconds != PHYSICAL_SECONDS:
+            receipt.update(policy_id=('physical-completion-continuation-v1' if physical_limit_seconds is None
+                                      else 'physical-wall-authorized-exception-v1'),
+                base_policy_id=receipt['policy_id'],limit_seconds=physical_limit_seconds,
+                limit_authorization=limit_authorization)
+        save(record_path.parent/'physical_budget.json',receipt)
         if physical_timeout:runtime.update(exit_code=124,physical_timeout=True)
     save(record_path,runtime)
     return runtime
@@ -128,7 +186,10 @@ def archive32(directory,orfs):
             if source.exists():shutil.copytree(source,archive/kind)
 
 
-def physical(item,seed,work,orfs,adopt=None):
+def physical(item,seed,work,orfs,adopt=None,*,physical_limit_seconds=None,
+             limit_authorization=None,physical_started_utc=None,physical_elapsed_seconds=None):
+    if physical_limit_seconds is None and not limit_authorization:
+        physical_limit_seconds=PHYSICAL_SECONDS
     directory=work/item['model']/f'seed{seed}';directory.mkdir(exist_ok=True,parents=True)
     archive32(directory,orfs)
     marker=directory/'baseline40.json'
@@ -149,13 +210,17 @@ def physical(item,seed,work,orfs,adopt=None):
         write_new_or_same(transition_path,json.dumps(transition,indent=2)+'\n')
         prior=json.loads((directory/'runtime40.json').read_text()) if (directory/'runtime40.json').exists() else {}
         runtime=monitor(unit,directory/'runtime40.json',physical_identity=('T10',item['source_sha256'],seed),
-                        physical_started_utc=prior.get('started_utc'))
+                        physical_started_utc=prior.get('started_utc'),physical_limit_seconds=physical_limit_seconds,
+                        limit_authorization=limit_authorization)
     else:
         assert_serial()
         unit=next(arg.split('=',1)[1] for arg in command if arg.startswith('--unit='))
         with (directory/'baseline40.log').open('x') as log:
             process=subprocess.Popen(command,stdout=log,stderr=subprocess.STDOUT,env=os.environ|{'MALLOC_ARENA_MAX':'2'})
-            runtime=monitor(unit,directory/'runtime40.json',process,physical_identity=('T10',item['source_sha256'],seed))
+            runtime=monitor(unit,directory/'runtime40.json',process,physical_identity=('T10',item['source_sha256'],seed),
+                            physical_started_utc=physical_started_utc,
+                            physical_elapsed_seconds=physical_elapsed_seconds,
+                            physical_limit_seconds=physical_limit_seconds,limit_authorization=limit_authorization)
     result_dir=orfs/'flow/results/asap7'/inputs['pe_module']/inputs['variant']
     paths=[result_dir/f'6_final.{ext}' for ext in ('odb','spef','sdc','v')]
     complete=all(path.is_file() for path in paths)

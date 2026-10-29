@@ -60,17 +60,18 @@ class TaskIdMigrationTest(unittest.TestCase):
                 normalized = normalized.replace('"ppa_status":"pending_frozen_reference"', '"ppa_status":"candidate_measurement_pending"')
             self.assertEqual(normalized, (ROOT / relative).read_text(), relative)
 
-    def test_six_models_have_consistent_summaries_and_nullable_not_run_records(self):
+    def test_nine_models_have_consistent_summaries_and_nullable_not_run_records(self):
         from evaluator.score_run import weighted_suite_score
         schema = json.loads((ROOT / "results/result.schema.json").read_text())
-        models = ("gpt-6-astra", "gpt-6-sol", "gpt-6.1-sol", "kimi-k3", "deepseek-flash", "glm-5.3-flash")
+        models = ("gpt-6-astra", "gpt-6-sol", "gpt-6.1-sol", "gpt-5.6-sol",
+                  "kimi-k3.1-pro", "kimi-k3", "deepseek-flash", "glm-5.3-flash", "glm-5.3")
         for model in models:
             folder = ROOT / "results" / model
             summary = json.loads((folder / "summary.json").read_text())
             self.assertEqual(summary["suite_id"], "ic-delivery-rtl-v0.3")
             self.assertEqual([row["task_id"] for row in summary["tasks"]], [f"T{i:02d}" for i in range(1, 11)])
             score = weighted_suite_score({row["task_id"]:row["display_score"] for row in summary["tasks"]})
-            self.assertAlmostEqual(score["weighted_display_score"], summary["weighted_display_score_with_unscored_components_omitted"])
+            self.assertAlmostEqual(score["weighted_display_score"], summary["weighted_display_score"])
             for row in summary["tasks"]:
                 # Public checkout contains final summaries, never raw model archives.
                 jsonschema.validate(row, {**schema, "required": [
@@ -80,14 +81,29 @@ class TaskIdMigrationTest(unittest.TestCase):
             # unmeasured T10 candidate into a scored result.
             t08=summary["tasks"][7]
             self.assertEqual(t08["score_status"],"scored")
-            expected={"deepseek-flash":281/6,"glm-5.3-flash":44}.get(model,50)
+            expected={"deepseek-flash":281/6, "glm-5.3":45}.get(model,50)
             self.assertAlmostEqual(t08["functional_total"],expected)
             for key in ("ppa_score","time_score","display_score"):
                 self.assertIsNotNone(t08[key])
             if expected<50:
                 self.assertEqual(t08["ppa_score"],0)
                 self.assertEqual(t08["time_score"],0)
-            if model.startswith("gpt-"):
+            if model == "gpt-5.6-sol":
+                t10 = summary["tasks"][9]
+                self.assertLess(t10["functional_total"], 50)
+                self.assertEqual(t10["ppa_score"], 0)
+                self.assertEqual(t10["time_score"], 0)
+                self.assertIn("source_score_input_sha256", t10)
+                self.assertFalse(t10["ranking_eligible"])
+            elif model == "kimi-k3.1-pro":
+                t10 = summary["tasks"][9]
+                self.assertEqual(t10["functional_total"], 50)
+                self.assertEqual(t10["ppa_score"], 0)
+                self.assertEqual(t10["time_score"], 0)
+                self.assertEqual(t10["physical_timed_out_seeds"], [11, 29, 47])
+                self.assertEqual(t10["valid_physical_seed_count"], 0)
+                self.assertFalse(t10["ranking_eligible"])
+            elif model.startswith("gpt-"):
                 t10 = summary["tasks"][9]
                 if t10["ppa_score"] is None:
                     self.assertIsNone(t10["time_score"])

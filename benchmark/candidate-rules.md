@@ -1,11 +1,28 @@
 # Candidate rules and delivery contract
 
-评测方物理实现每个布局种子限时 60 分钟，超时后按已有有效完整测量判分；无有效结果则 PPA 分和时间分计零。该时限不替代模型的任务开发时限，详见[物理评估规则](physical-runtime-policy.md)。
+评测方物理实现每个布局种子限时：T01–T09 为 60 分钟，T10 为 120 分钟。超时后按已有有效完整测量判分；无有效结果则 PPA 分和时间分计零。该时限不替代模型的任务开发时限，详见[物理评估规则](physical-runtime-policy.md)。
 
 This workspace contains one assigned task only. Read its task.md and
 acceptance.md completely. They define the fixed top-level ports, legal inputs,
 reset/clock behavior, resource constraints, time budget and scoring status.
 Task-specific requirements override this generic delivery contract.
+
+## Clock and reset
+
+For T01–T07, T09 and T10, sequential behavior is triggered by the rising edge
+of the task clock, and every reset input whose name ends in `_n` is
+asynchronous and active low. Required reset effects take place when reset is
+asserted, without waiting for a clock edge. Deasserting reset does not itself
+advance normal state; normal operation resumes on the next rising edge of the
+relevant clock. T05 has separate `wr_rst_n` and `rd_rst_n` resets local to its
+write and read domains, as detailed in its task card. A task may leave
+unobservable payload storage unreset when its validity state prevents stale
+data from becoming observable.
+
+T08 overrides that convention. Its inherited MAC interface uses separate
+asynchronous, active-high `logic_rst`, `tx_rst` and `rx_rst` inputs. Their
+coordinated assertion and per-domain release behavior are defined in the T08
+task card.
 
 Use only the supplied public task material and installed local tools. Do not
 inspect other tasks, previous submissions, host repositories, reference RTL,

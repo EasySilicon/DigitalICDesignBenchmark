@@ -8,6 +8,29 @@ from benchmark.prepare_trial import prepare
 
 
 class PrepareTrialIsolationTest(unittest.TestCase):
+    def test_every_candidate_task_states_its_reset_contract_explicitly(self) -> None:
+        expected = {
+            "T01": ("`rst_n` 为异步低有效", "无须等待 `clk` 上升沿"),
+            "T02": ("`rst_n` 为异步低有效", "无须等待 `clk` 上升沿"),
+            "T03": ("`rst_n` 为异步低有效", "无须等待 `clk` 上升沿"),
+            "T04": ("`rst_n` 为异步低有效", "无须等待 `clk` 上升沿"),
+            "T05": ("`wr_rst_n` 是该域的异步低有效复位", "`rd_rst_n` 是该域的异步低有效复位"),
+            "T06": ("`rst_n` 为异步低有效", "无须等待 `clk` 上升沿"),
+            "T07": ("`rst_n` 为异步低有效", "无须等待 `clk` 上升沿"),
+            "T08": ("asynchronous and active high", "without waiting for a clock edge"),
+            "T09": ("`rst_n` 为异步低有效", "无须等待 `clk` 上升沿"),
+            "T10": ("`rst_n` 为异步低有效", "无须等待 `clk` 上升沿"),
+        }
+        for task, phrases in expected.items():
+            with self.subTest(task=task):
+                destination = self.prepare(task)
+                task_card = (destination / f"benchmark/tasks/{task}/task.md").read_text()
+                for phrase in phrases:
+                    self.assertIn(phrase, task_card)
+                rules = (destination / "benchmark/README.md").read_text()
+                self.assertIn("asynchronous and active low", rules)
+                self.assertIn("T08 overrides that convention", rules)
+
     def test_all_tasks_record_tokens_without_a_token_budget(self) -> None:
         for task in (f"T{i:02d}" for i in range(1, 11)):
             with self.subTest(task=task):

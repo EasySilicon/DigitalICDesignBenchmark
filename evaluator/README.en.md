@@ -1,6 +1,6 @@
 # Public executable examples for independent port-level checking
 
-Current T01–T10 physical evaluations share a **60-minute wall-clock limit per seed**. A timeout retains artifacts and does not discard other completed seeds. Score valid completed measurements; with none available, PPA and time points are zero. See the [physical runtime policy](../benchmark/physical-runtime-policy.md).
+Current physical evaluations use a **60-minute wall-clock limit per seed for T01–T09 and 120 minutes for T10**. A timeout retains artifacts and does not discard other completed seeds. Score valid completed measurements; with none available, PPA and time points are zero. See the [physical runtime policy](../benchmark/physical-runtime-policy.md).
 
 [中文](README.md)
 

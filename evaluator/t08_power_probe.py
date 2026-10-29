@@ -19,6 +19,49 @@ CLOCKS = ("logic_clk", "tx_clk", "rx_clk")
 EXPECTED_OPS = 4296
 
 
+def sanitize_openroad_vcd_identifiers(path: Path) -> dict[str, str]:
+    """Remap legal VCD identifiers that OpenROAD mistakes for timestamps.
+
+    Verilator may assign an identifier such as ``#j`` to any traced variable.
+    That is legal VCD, but OpenROAD 26Q2 interprets the identifier token in a
+    real/vector value change as a ``#<time>`` record and throws ``stoll``.
+    Preserve every declaration and value while replacing only identifier codes
+    beginning with ``#``. Signal names, scopes, timestamps and activity remain
+    unchanged.
+    """
+    text = path.read_text()
+    declaration = re.compile(r"^(\s*\$var\s+\S+\s+\S+\s+)(\S+)(.*)$", re.M)
+    identifiers = {match.group(2) for match in declaration.finditer(text)}
+    unsafe = sorted(identifier for identifier in identifiers if identifier.startswith("#"))
+    mapping: dict[str, str] = {}
+    for index, identifier in enumerate(unsafe):
+        replacement = f"ORVCD{index}"
+        while replacement in identifiers:
+            index += 1
+            replacement = f"ORVCD{index}"
+        mapping[identifier] = replacement
+        identifiers.add(replacement)
+    if not mapping:
+        return mapping
+
+    def rewrite_declaration(match: re.Match[str]) -> str:
+        return match.group(1) + mapping.get(match.group(2), match.group(2)) + match.group(3)
+
+    rewritten = declaration.sub(rewrite_declaration, text)
+    for identifier, replacement in mapping.items():
+        escaped = re.escape(identifier)
+        # Scalar changes concatenate the value and identifier; vector, real
+        # and string changes separate them with whitespace.
+        rewritten = re.sub(rf"^([01xXzZ]){escaped}(\s*)$",
+                           rf"\1{replacement}\2", rewritten, flags=re.M)
+        rewritten = re.sub(rf"^([bBrRsS]\S+\s+){escaped}(\s*)$",
+                           rf"\1{replacement}\2", rewritten, flags=re.M)
+    temporary = path.with_name(path.name + ".openroad-tmp")
+    temporary.write_text(rewritten)
+    temporary.replace(path)
+    return mapping
+
+
 def checked_macro_power(report: str, expected_count: int) -> list[dict]:
     rows = re.findall(r"^T08_SRAM_POWER name=(\S+) internal=(\S+) switching=(\S+) leakage=(\S+) total=(\S+)$", report, re.M)
     if len(rows) != expected_count or len({row[0] for row in rows}) != expected_count:
@@ -106,6 +149,7 @@ def run(result_dir: Path, output: Path, seed: int, *, sram_route: Path | None = 
     (output / "simulation.log").write_text(log)
     if executed.returncode:
         raise RuntimeError("T08 gate workload failed self-check; see simulation.log")
+    identifier_remaps = sanitize_openroad_vcd_identifiers(vcd)
     operations = checked_operations(log)
     duration, periods = activity_window(vcd)
     libraries = sorted(path for path in LIBERTY.glob("asap7sc7p5t_*RVT_TT_nldm_*.lib*")
@@ -151,6 +195,7 @@ def run(result_dir: Path, output: Path, seed: int, *, sram_route: Path | None = 
                                     "tx_frames": 3, "rx_frames": 5, "policy_drops": 1},
             "seed": seed, "ops": operations, "vcd_window_seconds": duration,
             "vcd_clock_period_ps": periods, "activity_annotation": annotation,
+            "vcd_identifier_remaps": identifier_remaps,
             "power_w": {"internal": internal, "switching": switching,
                         "leakage": leakage, "total": power},
             "energy_j_per_op": power * duration / operations,
