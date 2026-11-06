@@ -2081,5 +2081,14 @@
     "mma_passed_rtl": 11,
     "unit_tests": 477,
     "unit_tests_skipped": 2
+  },
+  "followup_resolution": {
+    "receipt": "evaluator/fixtures/t10_structure_resolution_20261106.json",
+    "receipt_sha256": "354f082174e3a3bc59389ee588c9ef4962ae0ecc50c137ad6701db9622a5b2eb",
+    "outcomes": {
+      "packed_operand_port_check": "fixed; GPT-5.6 now passes structure",
+      "legacy_async_write": "confirmed RTL event-model rejection with executable reproduction"
+    },
+    "original_measurements_retained": true
   }
 }

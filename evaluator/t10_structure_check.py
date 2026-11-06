@@ -310,6 +310,131 @@ def _control_cone(module: dict) -> set:
     return set().union(*(_cone(module, bits) for bits in targets))
 
 
+def _operand_origins(module: dict, targets: list[int]) -> dict[int, int]:
+    """Trace top-level operand bits through packet wiring and skew registers.
+
+    Masks identify external A/B bit origins, not signal names inside a PE.
+    Registers, muxes and bitwise cells preserve bit positions. Other cells
+    conservatively depend on every input bit, so arithmetic cannot make an
+    unproved packet slice appear to be an independent operand bit. Solve the
+    graph to a fixed point: cutting register feedback during recursive DFS
+    could otherwise miss a data dependency.
+    """
+    sources = module["ports"]["a_data"]["bits"] + module["ports"]["b_data"]["bits"]
+    origins = {bit: 1 << index for index, bit in enumerate(sources)}
+    drivers = {}
+    ambiguous = set()
+    for cell in module["cells"].values():
+        for port, direction in cell["port_directions"].items():
+            if direction != "output":
+                continue
+            for index, bit in enumerate(cell["connections"][port]):
+                if not isinstance(bit, int):
+                    continue
+                if bit in drivers:
+                    ambiguous.add(bit)
+                drivers[bit] = (cell, index)
+
+    def at(cell, port, index):
+        bits = cell["connections"].get(port, [])
+        if index < len(bits):
+            return [bits[index]]
+        signed = cell.get("parameters", {}).get(port + "_SIGNED", "0")
+        signed = int(signed, 2) if isinstance(signed, str) else signed
+        return bits[-1:] if signed else []
+
+    def dependencies(bit):
+        if bit in ambiguous:
+            raise ValueError("packed operand injection has multiple drivers")
+        driven = drivers.get(bit)
+        if driven is None or bit in origins:
+            return []
+        cell, index = driven
+        kind, conn = cell["type"], cell["connections"]
+        if not kind.startswith("$"):
+            # Retained PE outputs are a boundary, never a source of fresh
+            # external operands at the beginning of a mesh row/column.
+            return []
+        if kind in FLOP_TYPES:
+            return (at(cell, "D", index) + at(cell, "AD", index) +
+                    [b for p, direction in cell["port_directions"].items()
+                     if direction == "input" and p not in {"D", "AD"}
+                     for b in conn[p]])
+        if kind in {"$mux", "$pmux"}:
+            width = len(conn["A"])
+            return (at(cell, "A", index) +
+                    [conn["B"][i] for i in range(index, len(conn["B"]), width)] +
+                    conn["S"])
+        if kind in {"$pos", "$not", "$and", "$or", "$xor", "$xnor"}:
+            return at(cell, "A", index) + at(cell, "B", index)
+        return [b for p, direction in cell["port_directions"].items()
+                if direction == "input" for b in conn[p]]
+
+    successors = defaultdict(set)
+    pending, visited = list(targets), set()
+    while pending:
+        bit = pending.pop()
+        if not isinstance(bit, int) or bit in visited:
+            continue
+        visited.add(bit)
+        for source in dependencies(bit):
+            if isinstance(source, int):
+                successors[source].add(bit)
+                pending.append(source)
+    todo = deque(bit for bit in origins if bit in visited)
+    queued = set(todo)
+    while todo:
+        bit = todo.popleft()
+        queued.remove(bit)
+        for target in successors[bit]:
+            updated = origins.get(target, 0) | origins[bit]
+            if updated != origins.get(target, 0):
+                origins[target] = updated
+                if target not in queued:
+                    todo.append(target)
+                    queued.add(target)
+    return {bit: origins.get(bit, 0) for bit in targets}
+
+
+def _packet_payloads(top: dict, pe: dict, connections: list[dict]) -> tuple[dict[str, list[int]], dict[str, str]]:
+    """Identify 64 operand positions without assuming packet width or offset."""
+    links = tuple((None, port, [[i] for i in range(len(connections))])
+                  for port, data in pe["ports"].items()
+                  if data["direction"] == "input" and len(data["bits"]) >= 64)
+    targets = [bit for _, port, paths in links for path in paths
+               for bit in connections[path[0]][port]]
+    origins = _operand_origins(top, targets)
+    masks = {"a_data": (1 << 1024) - 1,
+             "b_data": ((1 << 1024) - 1) << 1024}
+    payloads, axes = {}, {}
+    for _, port, paths in links:
+        boundary = [[origins[bit] for bit in connections[path[0]][port]]
+                    for path in paths]
+        hypotheses = []
+        for source, mask in masks.items():
+            groups = defaultdict(list)
+            for row in boundary:
+                positions = tuple(i for i, roots in enumerate(row)
+                                  if roots and roots & (roots - 1) == 0 and roots & mask)
+                if len(positions) == 64 and len({row[i] for i in positions}) == 64:
+                    groups[positions].append(row)
+            # Exactly 64 distinct bits per row and all 1024 source bits across
+            # the sixteen boundaries. Metadata cannot replace a lost payload
+            # bit, and repeating a row or a bit cannot satisfy this proof.
+            for positions, rows in groups.items():
+                if len(rows) == 16 and len({row[i] for row in rows for i in positions}) == 1024:
+                    hypotheses.append((list(positions), source))
+        if len(hypotheses) != 1:
+            continue
+        payloads[port], axes[port] = hypotheses[0]
+    return payloads, axes
+
+
+def _link_payload(pe: dict, output_port: str, positions: list[int]) -> list[int]:
+    # A PE may strip sideband metadata from the operand output entirely.
+    return list(range(64)) if len(pe["ports"][output_port]["bits"]) == 64 else positions
+
+
 def inspect_netlist(design: dict) -> dict:
     modules = design["modules"]
     top = modules[TOP]
@@ -329,9 +454,9 @@ def inspect_netlist(design: dict) -> dict:
             continue
         pe = modules[kind]
         ins = [port for port, data in pe["ports"].items()
-               if data["direction"] == "input" and len(data["bits"]) == 64]
+               if data["direction"] == "input" and len(data["bits"]) >= 64]
         outs = [port for port, data in pe["ports"].items()
-                if data["direction"] == "output" and len(data["bits"]) == 64]
+                if data["direction"] == "output" and len(data["bits"]) >= 64]
         if len(ins) >= 2 and len(outs) >= 3:
             candidates.append((kind, instances, pe, ins, outs))
     if len(candidates) != 1:
@@ -344,15 +469,30 @@ def inspect_netlist(design: dict) -> dict:
                      for bit in port["bits"] if isinstance(bit, int)}
     control_bits = _control_cone(pe)
     pe_data_inputs = pe_input_bits - control_bits
+    payloads = {port: list(range(64)) for port in ins}
+    axes = {}
+    packed = any(len(pe["ports"][port]["bits"]) != 64 for port in ins)
+    if packed:
+        try:
+            payloads, axes = _packet_payloads(top, pe, connections)
+        except ValueError as exc:
+            return {"passed": False, "reason": str(exc), "pe_module": kind}
+        ins = [port for port in ins if port in payloads]
+        pe_data_inputs = {pe["ports"][port]["bits"][i]
+                         for port in ins for i in payloads[port]}
     meshes = []
     for output_port in outs:
         for input_port in ins:
-            receivers = {tuple(conn[input_port]): index
+            positions = payloads[input_port]
+            output_positions = _link_payload(pe, output_port, positions)
+            if max(output_positions) >= len(pe["ports"][output_port]["bits"]):
+                continue
+            receivers = {tuple(conn[input_port][i] for i in positions): index
                          for index, conn in enumerate(connections)}
-            edges = {index: receivers[tuple(conn[output_port])]
+            edges = {index: receivers[tuple(conn[output_port][i] for i in output_positions)]
                      for index, conn in enumerate(connections)
-                     if tuple(conn[output_port]) in receivers and
-                     receivers[tuple(conn[output_port])] != index}
+                     if tuple(conn[output_port][i] for i in output_positions) in receivers and
+                     receivers[tuple(conn[output_port][i] for i in output_positions)] != index}
             paths = _paths(edges)
             if paths is not None:
                 meshes.append((output_port, input_port, paths))
@@ -368,7 +508,23 @@ def inspect_netlist(design: dict) -> dict:
     if len(matching) == 1:
         first, second = matching[0]
     else:
-        shell_meshes = _shell_registered_meshes(top, connections, ins, pe)
+        shell_meshes = []
+        for port in ins:
+            # Check the operand wires themselves. Sideband tokens may use a
+            # different path, including shared controls; they must not be
+            # mistaken for mandatory registered operand bits.
+            positions = payloads[port]
+            projected_ports = {name: dict(data) for name, data in pe["ports"].items()}
+            projected = [dict(conn) for conn in connections]
+            for name in [port, *outs]:
+                selected = positions if name == port else _link_payload(pe, name, positions)
+                if max(selected) >= len(pe["ports"][name]["bits"]):
+                    continue
+                projected_ports[name]["bits"] = [pe["ports"][name]["bits"][i] for i in selected]
+                for original, conn in zip(connections, projected):
+                    conn[name] = [original[name][i] for i in selected]
+            shell_meshes.extend(_shell_registered_meshes(
+                top, projected, [port], {"ports": projected_ports}))
         shell_matching = []
         for i, first_shell in enumerate(shell_meshes):
             for second_shell in shell_meshes[i + 1:]:
@@ -377,23 +533,33 @@ def inspect_netlist(design: dict) -> dict:
                     shell_matching.append((first_shell, second_shell))
         if len(shell_matching) != 1:
             return {"passed": False,
-                    "reason": "two orthogonal 16x16 registered PE links absent",
+                    "reason": "two orthogonal 16x16 registered PE links absent" +
+                              ("; packed operand injection must prove 64 distinct A/B bits"
+                               if packed else ""),
                     "pe_module": kind, "mesh_candidates": len(meshes),
                     "shell_mesh_candidates": len(shell_meshes)}
         shell_first, shell_second = shell_matching[0]
         paired = []
         used_outputs = set()
         for input_port, paths in (shell_first, shell_second):
+            other_operand_bits = {pe["ports"][other]["bits"][i]
+                                  for other, _ in (shell_first, shell_second)
+                                  if other != input_port for i in payloads[other]}
             output_candidates = []
             for output_port in outs:
-                sources = _cone(pe, pe["ports"][output_port]["bits"])
+                selected = _link_payload(pe, output_port, payloads[input_port])
+                if max(selected) >= len(pe["ports"][output_port]["bits"]):
+                    continue
+                bits = [pe["ports"][output_port]["bits"][i] for i in selected]
+                sources = _cone(pe, bits)
                 data_sources = sources & pe_data_inputs
                 registered_sources = _registered_forward_d_cone(
-                    pe, pe["ports"][output_port]["bits"], pe_data_inputs)
-                input_set = set(pe["ports"][input_port]["bits"])
+                    pe, bits, pe_data_inputs)
+                input_set = {pe["ports"][input_port]["bits"][i] for i in payloads[input_port]}
                 if data_sources == input_set or \
                         (registered_sources is not None and
-                         input_set.issubset(registered_sources)):
+                         input_set.issubset(registered_sources) and
+                         not other_operand_bits & registered_sources):
                     output_candidates.append(output_port)
             if len(output_candidates) != 1 or output_candidates[0] in used_outputs:
                 return {"passed": False,
@@ -405,7 +571,13 @@ def inspect_netlist(design: dict) -> dict:
         first, second = paired
         link_placement = "tile_shell"
     forwarding = (first, second)
-    sum_ports = [port for port in outs if port not in (first[0], second[0])]
+    payloads = {port: payloads[port] for _, port, _ in forwarding}
+    axes = {port: axes[port] for port in payloads if port in axes}
+    if packed and set(axes.values()) != {"a_data", "b_data"}:
+        return {"passed": False, "reason": "packed PE links must carry independent A and B operands",
+                "pe_module": kind}
+    sum_ports = [port for port in outs if port not in (first[0], second[0]) and
+                 len(pe["ports"][port]["bits"]) == 64]
     if len(sum_ports) != 1:
         reasons.append("expected one local 64-bit accumulator output")
     else:
@@ -416,7 +588,8 @@ def inspect_netlist(design: dict) -> dict:
             reasons.append("local accumulator output is not registered")
         else:
             for port in (first[1], second[1]):
-                if not set(pe["ports"][port]["bits"]).issubset(influence):
+                data_bits = {pe["ports"][port]["bits"][i] for i in payloads[port]}
+                if not data_bits.issubset(influence):
                     reasons.append(f"{port} does not feed local accumulator")
             if not _feedback_on_result_path(pe, sum_bits, modules):
                 reasons.append("local accumulator lacks feedback")
@@ -433,21 +606,23 @@ def inspect_netlist(design: dict) -> dict:
                    for conn in connections):
                 reasons.append("at least one PE accumulator does not reach output")
     for output_port, input_port, _ in forwarding:
+        input_set = {pe["ports"][input_port]["bits"][i] for i in payloads[input_port]}
+        output_bits = [pe["ports"][output_port]["bits"][i]
+                       for i in _link_payload(pe, output_port, payloads[input_port])]
         if link_placement == "tile_shell":
-            sources = _cone(pe, pe["ports"][output_port]["bits"])
+            sources = _cone(pe, output_bits)
             registered_sources = _registered_forward_d_cone(
-                pe, pe["ports"][output_port]["bits"], pe_data_inputs)
-            input_set = set(pe["ports"][input_port]["bits"])
+                pe, output_bits, pe_data_inputs)
             if sources & pe_data_inputs != input_set and not \
                     (registered_sources is not None and
                      input_set.issubset(registered_sources)):
                 reasons.append(f"{input_port} does not exclusively feed {output_port}")
         else:
             sources = _registered_forward_d_cone(
-                pe, pe["ports"][output_port]["bits"], pe_data_inputs)
+                pe, output_bits, pe_data_inputs)
             if sources is None:
                 reasons.append(f"{output_port} forwarding output is not registered")
-            elif not set(pe["ports"][input_port]["bits"]).issubset(sources):
+            elif not input_set.issubset(sources):
                 reasons.append(f"{input_port} does not feed {output_port}")
     top_state = _non_pe_state_bits(modules, TOP, kind)
     if top_state > MAX_NON_PE_STATE_BITS:
@@ -458,6 +633,8 @@ def inspect_netlist(design: dict) -> dict:
             "mesh_paths": [len(first[2]), len(second[2])],
             "link_register_placement": link_placement,
             "top_state_bits": top_state,
+            "operand_payload_positions": payloads,
+            "packed_operand_sources": axes,
             "checked_links": [(first[0], first[1]), (second[0], second[1])]}
 
 
@@ -465,9 +642,9 @@ def _pe_interface_candidates(modules: dict) -> list[str]:
     """Return modules with the minimum externally observable PE interface."""
     candidates = []
     for kind, body in modules.items():
-        ins = sum(data["direction"] == "input" and len(data["bits"]) == 64
+        ins = sum(data["direction"] == "input" and len(data["bits"]) >= 64
                   for data in body.get("ports", {}).values())
-        outs = sum(data["direction"] == "output" and len(data["bits"]) == 64
+        outs = sum(data["direction"] == "output" and len(data["bits"]) >= 64
                    for data in body.get("ports", {}).values())
         if ins >= 2 and outs >= 3:
             candidates.append(kind)

@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from t10_structure_check import (_cone, _control_cone, _registered_d_cone,
+from t10_structure_check import (_cone, _control_cone, _operand_origins, _registered_d_cone,
                                  _registered_forward_d_cone,
                                  _reachable_instances,
                                  _shell_registered_meshes, inspect)
@@ -15,6 +15,164 @@ FIXTURE = Path(__file__).parent / "fixtures/t10_mesh_good"
 
 
 class MeshStructureCheckTest(unittest.TestCase):
+    @staticmethod
+    def _packet_fixture(positions, defect=None):
+        width = 83
+        payload = {position: index for index, position in enumerate(positions)}
+        metadata = {position: index for index, position in enumerate(
+            i for i in range(width) if i not in payload)}
+        def unpack(port):
+            bits = [f"{port}[{i}]" for i in reversed(positions)]
+            if defect == "missing_accumulator_bit" and port == "left_data":
+                bits[-1] = "1'b0"
+            return "{" + ",".join(bits) + "}"
+        pe = f'''module mesh_cell (
+ input wire clk, rst_n,
+ input wire [{width-1}:0] left_data, top_data,
+ output reg [{width-1}:0] right_data, bottom_data,
+ output reg [63:0] local_sum);
+ wire [63:0] x = {unpack('left_data')};
+ wire [63:0] y = {unpack('top_data')};
+ always @(posedge clk or negedge rst_n)
+  if (!rst_n) begin right_data <= 0; bottom_data <= 0; local_sum <= 0; end
+  else begin right_data <= left_data; bottom_data <= top_data;
+   local_sum <= local_sum + x*y; end
+endmodule
+'''
+        if defect == "unregistered_forward":
+            pe = pe.replace("right_data <= 0;", "").replace("right_data <= left_data;", "")
+            pe = pe.replace("endmodule", "always @* right_data = left_data;\nendmodule")
+        if defect == "metadata_gated_forward":
+            control = min(metadata)
+            pe = pe.replace("right_data <=", "forward_q <=")
+            pe = pe.replace("endmodule", f'''reg [{width-1}:0] forward_q;
+ always @* right_data = left_data[{control}] ? forward_q : 0;
+endmodule''')
+        if defect == "shell_registers":
+            for output, source in (("right_data", "left_data"), ("bottom_data", "top_data")):
+                pe = pe.replace(f"{output} <= 0;", "").replace(f"{output} <= {source};", "")
+                pe = pe.replace("endmodule", f"always @* {output} = {source};\nendmodule")
+        top = "module npu_systolic_matmul_16x16" + (FIXTURE / "rtl/mesh.sv").read_text().split(
+            "module npu_systolic_matmul_16x16", 1)[1]
+        for name in ("a_link", "b_link", "a_in, b_in"):
+            top = top.replace("wire [63:0] " + name, f"wire [{width-1}:0] " + name)
+        def inject(axis, row, neighbor=False):
+            fields = []
+            for position in reversed(range(width)):
+                if position in payload:
+                    bit = payload[position]
+                    if defect == "missing_injection_bit" and axis == "a" and bit == 0:
+                        value = "1'b0"
+                    else:
+                        if defect == "duplicate_injection_bit" and axis == "a" and bit == 0:
+                            bit = 1
+                        index = "0" if defect == "duplicate_row" and axis == "a" else row
+                        source = "a" if defect == "same_operand_axes" else axis
+                        value = f"{source}_data[{index}*64+{bit}]"
+                    if neighbor:
+                        index = "r][c-1" if axis == "a" else "r-1][c"
+                        value = f"{axis}_link[{index}][{position}]"
+                else:
+                    bit = metadata[position]
+                    value = f"mode[{bit}]" if bit < 4 else f"in_block_id[{bit-4}]"
+                    if defect == "metadata_gated_forward" and bit == 0:
+                        value = "in_valid"
+                fields.append(value)
+            return "{" + ",".join(fields) + "}"
+        for axis, condition, row in (("a", "c", "r"), ("b", "r", "c")):
+            old = f"if ({condition} == 0) assign {axis}_in = {axis}_data[{row}*64 +: 64];"
+            new = f'''if ({condition} == 0) begin
+ reg [{width-1}:0] skew;
+ always @(posedge clk or negedge rst_n)
+  if (!rst_n) skew <= 0;
+  else if (in_valid) skew <= {inject(axis, row)};
+ assign {axis}_in = skew;
+ end'''
+            assert old in top
+            top = top.replace(old, new)
+            if defect == "metadata_shortcut":
+                neighbor = "a_link[r][c-1]" if axis == "a" else "b_link[r-1][c]"
+                top = top.replace(f"assign {axis}_in = {neighbor};",
+                                  f"assign {axis}_in = {inject(axis, row, neighbor=True)};")
+        if defect == "shell_registers":
+            top = top.replace("mesh_cell cell_i (", f'''wire [{width-1}:0] forwarded_a, forwarded_b;
+ reg [{width-1}:0] shell_a, shell_b;
+ always @(posedge clk or negedge rst_n)
+  if (!rst_n) begin shell_a <= 0; shell_b <= 0; end
+  else begin shell_a <= forwarded_a; shell_b <= forwarded_b; end
+ assign a_link[r][c] = shell_a;
+ assign b_link[r][c] = shell_b;
+ mesh_cell cell_i (''')
+            top = top.replace(".right_data(a_link[r][c])", ".right_data(forwarded_a)")
+            top = top.replace(".bottom_data(b_link[r][c])", ".bottom_data(forwarded_b)")
+        return pe + top
+
+    def _check_packet(self, positions, defect=None):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp); (root / "rtl").mkdir()
+            (root / "rtl/files.f").write_text("mesh.sv\n")
+            (root / "rtl/mesh.sv").write_text(self._packet_fixture(positions, defect))
+            return inspect(root)
+
+    def test_packed_payload_offset_and_interleaving_are_inferred(self):
+        for positions in (list(range(64)), list(range(11, 75)),
+                          [i + i // 4 for i in range(64)]):
+            with self.subTest(positions=positions):
+                result = self._check_packet(positions)
+                self.assertTrue(result["passed"], result)
+                self.assertEqual(set(result["packed_operand_sources"].values()), {"a_data", "b_data"})
+                self.assertTrue(all(p == positions for p in result["operand_payload_positions"].values()))
+
+    def test_packet_metadata_cannot_replace_missing_or_duplicated_operand_bits(self):
+        for defect in ("missing_injection_bit", "duplicate_injection_bit",
+                       "duplicate_row", "same_operand_axes"):
+            with self.subTest(defect=defect):
+                result = self._check_packet(list(range(11, 75)), defect)
+                self.assertFalse(result["passed"], result)
+                self.assertIn("operand", result["reason"])
+
+    def test_packed_operand_links_may_be_registered_in_tile_shell(self):
+        result = self._check_packet(list(range(11, 75)), "shell_registers")
+        self.assertTrue(result["passed"], result)
+        self.assertEqual(result["link_register_placement"], "tile_shell")
+
+    def test_packet_metadata_need_not_follow_registered_operand_mesh(self):
+        result = self._check_packet(list(range(11, 75)), "metadata_shortcut")
+        self.assertTrue(result["passed"], result)
+
+    def test_packet_metadata_may_gate_an_already_registered_operand(self):
+        result = self._check_packet(list(range(11, 75)), "metadata_gated_forward")
+        self.assertTrue(result["passed"], result)
+
+    def test_packed_forwarding_still_requires_a_register(self):
+        result = self._check_packet(list(range(64)), "unregistered_forward")
+        self.assertFalse(result["passed"], result)
+        self.assertIn("not registered", result["reason"])
+
+    def test_every_packed_operand_bit_must_reach_accumulator(self):
+        result = self._check_packet(list(range(64)), "missing_accumulator_bit")
+        self.assertFalse(result["passed"], result)
+        self.assertIn("does not feed local accumulator", result["reason"])
+
+    def test_operand_provenance_reaches_fixed_point_through_feedback(self):
+        module = {"ports": {"a_data": {"bits": [1]}, "b_data": {"bits": [2]}},
+                  "cells": {
+                      "hold": {"type": "$mux", "connections": {
+                          "A": [10], "B": [1], "S": [99], "Y": [11]},
+                          "port_directions": {"A": "input", "B": "input", "S": "input", "Y": "output"}},
+                      "ff": {"type": "$dff", "connections": {"D": [11], "Q": [10]},
+                             "port_directions": {"D": "input", "Q": "output"}},
+                      "next": {"type": "$dff", "connections": {"D": [10], "Q": [12]},
+                               "port_directions": {"D": "input", "Q": "output"}}}}
+        self.assertEqual(_operand_origins(module, [10, 12]), {10: 1, 12: 1})
+
+    def test_arithmetic_is_not_mistaken_for_independent_packet_wiring(self):
+        module = {"ports": {"a_data": {"bits": [1]}, "b_data": {"bits": [2]}},
+                  "cells": {"add": {"type": "$add", "connections": {
+                      "A": [1], "B": [2], "Y": [10, 11]},
+                      "port_directions": {"A": "input", "B": "input", "Y": "output"}}}}
+        self.assertEqual(_operand_origins(module, [10, 11]), {10: 3, 11: 3})
+
     def test_shared_register_controls_are_traced_once(self) -> None:
         module = {"cells": {
             "reset_gate": {
