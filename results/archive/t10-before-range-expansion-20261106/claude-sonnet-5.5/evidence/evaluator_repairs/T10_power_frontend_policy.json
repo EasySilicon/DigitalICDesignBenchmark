@@ -1,0 +1,14 @@
+{
+  "id": "t10_power_shell_slang_20261104",
+  "reason": "peripheral shell used native Verilog parser for valid SV unpacked array ports",
+  "source_unchanged": true,
+  "completed_routes_reused": true,
+  "power_frontend_sha256": "215666f4655c5467e9daedcf0d3e9db99053c463f3884abe4cbf4e0ee8b0ca38",
+  "policy": {
+    "memory_gib": 40,
+    "swap": "unlimited",
+    "cpu_threads": 4,
+    "power_compile_limit_seconds": 1200
+  },
+  "tests_passed": 9
+}

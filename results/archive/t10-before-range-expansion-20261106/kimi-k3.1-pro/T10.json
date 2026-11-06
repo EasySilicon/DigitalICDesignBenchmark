@@ -1,0 +1,209 @@
+{
+  "schema_version": 3,
+  "model": "k3.1-pro",
+  "suite_id": "ic-delivery-rtl-v0.3",
+  "task_id": "T10",
+  "trial_kind": "pre_release_pilot",
+  "evaluation_framework": "Kimi CLI",
+  "framework_version": "2.3.1",
+  "reasoning_effort": "max",
+  "delivery_qualified": true,
+  "delivery_penalty_policy": "delivery-contract-cap10-v1",
+  "delivery_penalty_status": "adjudicated",
+  "delivery_assessment": {
+    "missing_deliverables": [],
+    "errors": []
+  },
+  "candidate_delivery_error_count": 0,
+  "candidate_delivery_penalty": 0,
+  "time_limit_seconds": 14400,
+  "elapsed_seconds": 14229.46845626831,
+  "functional_possible": 50,
+  "functional_total": 50.0,
+  "full_functional_pass": true,
+  "ppa_possible": 50,
+  "ppa_eligible": false,
+  "ppa_score": 0.0,
+  "time_possible": 5,
+  "time_score": 0.0,
+  "display_possible": 105,
+  "display_score_before_candidate_penalty": 50.0,
+  "display_score": 50.0,
+  "score_status": "scored",
+  "ranking_eligible": false,
+  "ranking_ineligible_reason": "Independent pre-release pilot; not an official benchmark ranking.",
+  "candidate_source_sha256": "b1a5d7a1e878c665c6720496d4f237a7203aeedeb603ffb6aa3a7710ae97a520",
+  "source_report_sha256": "2445893c3603964ae77e55b410688275d0cb53744c32d301c61b76849c5f211b",
+  "source_score_input_sha256": "ca5025cce0488f22943128958f910718483a174cf359cf94fd467dee4a64dc4d",
+  "grading_policy_receipt": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k31_pro_max_20261026/grading_policy_20261024_slang/receipt.json",
+    "sha256": "cf55876f9a21a86d0f3cc4ca7491df76a45752a39375806eab196a0cc56a5809"
+  },
+  "score_adjudication": "No valid completed physical seed; PPA and time points are zero while full functional credit is retained.",
+  "physical_timed_out_seeds": [
+    11,
+    29,
+    47
+  ],
+  "valid_physical_seed_count": 0,
+  "seed_47_authorized_limit_seconds": 7200,
+  "functional_basic": 33.333333333333336,
+  "functional_edges": 16.666666666666664,
+  "score_items": [
+    {
+      "id": "F_INT",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 128,
+      "cases_total": 128,
+      "safety_violation": false
+    },
+    {
+      "id": "F_FP16_BF16",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 144,
+      "cases_total": 144,
+      "safety_violation": false
+    },
+    {
+      "id": "F_FP8",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 128,
+      "cases_total": 128,
+      "safety_violation": false
+    },
+    {
+      "id": "F_FP4",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 64,
+      "cases_total": 64,
+      "safety_violation": false
+    },
+    {
+      "id": "F_MXFP8",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 160,
+      "cases_total": 160,
+      "safety_violation": false
+    },
+    {
+      "id": "F_MXFP4",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 112,
+      "cases_total": 112,
+      "safety_violation": false
+    },
+    {
+      "id": "P_PROTOCOL",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 337,
+      "cases_total": 337,
+      "safety_violation": false
+    },
+    {
+      "id": "P_SYSTOLIC",
+      "layer": "P",
+      "points": 16.666666666666664,
+      "possible_points": 16.666666666666664,
+      "cases_passed": 1616,
+      "cases_total": 1616,
+      "safety_violation": false
+    },
+    {
+      "id": "P_CORNER",
+      "layer": "F",
+      "points": 5.333333333333333,
+      "possible_points": 5.333333333333333,
+      "cases_passed": 128,
+      "cases_total": 128,
+      "safety_violation": false
+    }
+  ],
+  "functional_groups": {
+    "MM-INT": {
+      "cases_passed": 128,
+      "cases_total": 128
+    },
+    "MM-F16": {
+      "cases_passed": 144,
+      "cases_total": 144
+    },
+    "MM-F8": {
+      "cases_passed": 128,
+      "cases_total": 128
+    },
+    "MM-F4": {
+      "cases_passed": 64,
+      "cases_total": 64
+    },
+    "MM-MX8": {
+      "cases_passed": 160,
+      "cases_total": 160
+    },
+    "MM-MX4": {
+      "cases_passed": 112,
+      "cases_total": 112
+    },
+    "MM-PROTO": {
+      "cases_passed": 337,
+      "cases_total": 337
+    },
+    "MM-SYSTOLIC": {
+      "cases_passed": 1616,
+      "cases_total": 1616
+    },
+    "MM-CORNER": {
+      "cases_passed": 128,
+      "cases_total": 128
+    }
+  },
+  "functional_retest": {
+    "policy_id": "t10-cancel-range-v1",
+    "seed": 11,
+    "report": {
+      "path": "results/t10-functional-retest-20261105.json",
+      "sha256": "e4b9f3453c06b60b88ce84de44da0106329bb965d92e2956b6dee85e5f51f2a7",
+      "bytes": 42324
+    },
+    "functional_report": {
+      "path": "results/kimi-k3.1-pro/functional-retest-20261105/functional.json",
+      "sha256": "91be3a5fc73ada3fa3e296efb1af3096b8f65a685348ec224b14a1f2b2befe9b",
+      "bytes": 6189
+    },
+    "functional_score": {
+      "path": "results/kimi-k3.1-pro/functional-retest-20261105/functional_score.json",
+      "sha256": "affa44d9cb6fc387642c7f4a80cee2ccdce635c6451a68e392685ce3abda04bb",
+      "bytes": 1998
+    },
+    "supplemental_report": {
+      "path": "results/kimi-k3.1-pro/functional-retest-20261105/supplemental_cases.json",
+      "sha256": "98e73ee227b247fe6c289566cf569d9b91a7e4a6159b00463a2e3ff689dbcb8a",
+      "bytes": 10284
+    },
+    "group_additions": {
+      "MM-F16": 16,
+      "MM-MX8": 32,
+      "MM-MX4": 16
+    },
+    "group_weights_unchanged": true,
+    "ppa_remeasured": false,
+    "previous_summary": {
+      "path": "results/archive/t10-before-cancel-range-20261105/kimi-k3.1-pro/summary.json",
+      "sha256": "b480137862d9c4c84f9cb780e246ca7a7c1c50d0d5bacfe57200e658e3706d9c",
+      "bytes": 20828
+    }
+  }
+}

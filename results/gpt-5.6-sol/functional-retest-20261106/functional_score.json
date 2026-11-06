@@ -1,0 +1,90 @@
+{
+  "task_id": "T10",
+  "functional_basic": 32.38608847153319,
+  "functional_edges": 0.0,
+  "functional_total": 32.38608847153319,
+  "score_items": [
+    {
+      "id": "F_INT",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 128,
+      "cases_total": 128,
+      "safety_violation": false
+    },
+    {
+      "id": "F_FP16_BF16",
+      "layer": "F",
+      "points": 3.710843373493976,
+      "possible_points": 4.0,
+      "cases_passed": 154,
+      "cases_total": 166,
+      "safety_violation": false
+    },
+    {
+      "id": "F_FP8",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 128,
+      "cases_total": 128,
+      "safety_violation": false
+    },
+    {
+      "id": "F_FP4",
+      "layer": "F",
+      "points": 3.9375,
+      "possible_points": 4.0,
+      "cases_passed": 63,
+      "cases_total": 64,
+      "safety_violation": false
+    },
+    {
+      "id": "F_MXFP8",
+      "layer": "F",
+      "points": 3.5294117647058822,
+      "possible_points": 4.0,
+      "cases_passed": 180,
+      "cases_total": 204,
+      "safety_violation": false
+    },
+    {
+      "id": "F_MXFP4",
+      "layer": "F",
+      "points": 3.875,
+      "possible_points": 4.0,
+      "cases_passed": 124,
+      "cases_total": 128,
+      "safety_violation": false
+    },
+    {
+      "id": "P_PROTOCOL",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 337,
+      "cases_total": 337,
+      "safety_violation": false
+    },
+    {
+      "id": "P_SYSTOLIC",
+      "layer": "P",
+      "points": 0.0,
+      "possible_points": 16.666666666666664,
+      "cases_passed": 1280,
+      "cases_total": 1616,
+      "safety_violation": true
+    },
+    {
+      "id": "P_CORNER",
+      "layer": "F",
+      "points": 5.333333333333333,
+      "possible_points": 5.333333333333333,
+      "cases_passed": 128,
+      "cases_total": 128,
+      "safety_violation": false
+    }
+  ],
+  "full_functional_pass": false
+}

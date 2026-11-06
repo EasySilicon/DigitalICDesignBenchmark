@@ -1,0 +1,7 @@
+{
+  "policy": "current-frozen-repository",
+  "template_source_sha256": "6ececca08a3802b4bb75db363c25a63f99b2a4c845b46194d2efd04871ca4e70",
+  "grader_sha256": "75e49a628f37b5e1ed8e5768132596da544e5391a1634541a4c6457d13c3e3a6",
+  "frozen_repository": "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/frozen/ic_bcmk",
+  "note": "Host-only adapter; no old submissions/results imported; candidate scripts execute in a network-disabled container."
+}

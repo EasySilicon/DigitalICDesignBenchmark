@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 from ppa_aggregate import aggregate as frozen_aggregate, source_hash, SEEDS
-from power_compile_budget import POLICY_ID, TIMEOUT_STATUS, validate_records
+from power_compile_budget import POLICY_ID, TIMEOUT_STATUS, validate_records, records_policy
 import physical_budget
 
 
@@ -20,7 +20,7 @@ def aggregate(task, submission, pairs, expected_seeds=SEEDS, *, physical_records
         raise ValueError('compile receipts do not match the selected seeds')
     if timeout:
         return dict(task_id=task, source_sha256=source,
-                    measurement_status=TIMEOUT_STATUS, power_compile_policy=POLICY_ID,
+                    measurement_status=TIMEOUT_STATUS, power_compile_policy=records_policy(records),
                     power_compile_records=records)
     if not expected_seeds:
         return dict(task_id=task,source_sha256=source,physical_policy=physical_budget.policy_id(task),
@@ -34,7 +34,7 @@ def aggregate(task, submission, pairs, expected_seeds=SEEDS, *, physical_records
         power = Path(row['power_record'])
         if json.loads((power.parent/'power_compile.json').read_text()) != record:
             raise ValueError('power compile receipt belongs to another routed seed')
-    return dict(result, power_compile_policy=POLICY_ID, power_compile_records=records)
+    return dict(result, power_compile_policy=records_policy(records), power_compile_records=records)
 
 
 def main():

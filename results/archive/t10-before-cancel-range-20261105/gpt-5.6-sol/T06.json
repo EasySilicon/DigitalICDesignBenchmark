@@ -1,0 +1,42 @@
+{
+  "schema_version": 3,
+  "model": "gpt-5.6-sol",
+  "suite_id": "ic-delivery-rtl-v0.3",
+  "task_id": "T06",
+  "trial_kind": "pre_release_pilot",
+  "evaluation_framework": "Codex CLI",
+  "framework_version": "0.162.1",
+  "reasoning_effort": "high",
+  "delivery_qualified": true,
+  "delivery_penalty_policy": "delivery-contract-cap10-v1",
+  "delivery_penalty_status": "adjudicated",
+  "delivery_assessment": {
+    "missing_deliverables": [],
+    "errors": []
+  },
+  "candidate_delivery_error_count": 0,
+  "candidate_delivery_penalty": 0,
+  "time_limit_seconds": 7200,
+  "elapsed_seconds": 438.40273880958557,
+  "functional_possible": 50,
+  "functional_total": 50.0,
+  "full_functional_pass": true,
+  "ppa_possible": 50,
+  "ppa_eligible": true,
+  "ppa_score": 36.06652481614637,
+  "time_possible": 5,
+  "time_score": 4.695553653604454,
+  "display_possible": 105,
+  "display_score_before_candidate_penalty": 90.76207846975082,
+  "display_score": 90.76207846975082,
+  "score_status": "scored",
+  "ranking_eligible": false,
+  "ranking_ineligible_reason": "Independent pre-release pilot; not an official benchmark ranking.",
+  "candidate_source_sha256": "f5e6f5bb76bcd538f33e60d317f7451e6389437091ff4743b7d896cb2102e1d8",
+  "source_report_sha256": "eebea0c27f7f12cd9c42d5f1fd9332a7f12f613d7747f39b4b230d7a80a75b51",
+  "source_score_input_sha256": "00e6b9aa8d3ee499b2e07ecd24791f8f1ee51f5066a6937b8faee93e7d5ea47e",
+  "grading_policy_receipt": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt56sol_reverse_20261025_EZpY3q/grading_policy_current/receipt.json",
+    "sha256": "5cdeb4aded6b13213d313cf8cf0f2f3ea537d397f1b58071623d5f922d05b426"
+  }
+}

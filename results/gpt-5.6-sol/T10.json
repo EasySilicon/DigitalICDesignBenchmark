@@ -1,0 +1,201 @@
+{
+  "schema_version": 3,
+  "model": "gpt-5.6-sol",
+  "suite_id": "ic-delivery-rtl-v0.3",
+  "task_id": "T10",
+  "trial_kind": "pre_release_pilot",
+  "evaluation_framework": "Codex CLI",
+  "framework_version": "0.162.1",
+  "reasoning_effort": "high",
+  "delivery_qualified": true,
+  "delivery_penalty_policy": "delivery-contract-cap10-v1",
+  "delivery_penalty_status": "adjudicated",
+  "delivery_assessment": {
+    "missing_deliverables": [],
+    "errors": []
+  },
+  "candidate_delivery_error_count": 0,
+  "candidate_delivery_penalty": 0,
+  "time_limit_seconds": 14400,
+  "elapsed_seconds": 7501.524755239487,
+  "functional_possible": 50,
+  "functional_total": 32.38608847153319,
+  "full_functional_pass": false,
+  "ppa_possible": 50,
+  "ppa_eligible": false,
+  "ppa_score": 0.0,
+  "time_possible": 5,
+  "time_score": 0.0,
+  "display_possible": 105,
+  "display_score_before_candidate_penalty": 32.38608847153319,
+  "display_score": 32.38608847153319,
+  "score_status": "scored",
+  "ranking_eligible": false,
+  "ranking_ineligible_reason": "Independent pre-release pilot; not an official benchmark ranking.",
+  "candidate_source_sha256": "d73a792b9eae6034191b991695696f1cd2b362c3a364c8e819018afb28726b12",
+  "source_report_sha256": "495583e7d1d3830f5cd0c546b938766638c878f9c76de345f5b8877c7f6267a2",
+  "source_score_input_sha256": "d696f4fc19cae686e7656f10589e01a7e546dbdfb6bec721a66346016916a464",
+  "grading_policy_receipt": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt56sol_reverse_20261025_EZpY3q/grading_policy_20261026_vcd_fix/receipt.json",
+    "sha256": "43f2f7338577cf5f365ec3ba383a49168400d161668b07365aa6f39f32aad35f"
+  },
+  "functional_basic": 32.38608847153319,
+  "functional_edges": 0.0,
+  "score_items": [
+    {
+      "id": "F_INT",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 128,
+      "cases_total": 128,
+      "safety_violation": false
+    },
+    {
+      "id": "F_FP16_BF16",
+      "layer": "F",
+      "points": 3.710843373493976,
+      "possible_points": 4.0,
+      "cases_passed": 154,
+      "cases_total": 166,
+      "safety_violation": false
+    },
+    {
+      "id": "F_FP8",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 128,
+      "cases_total": 128,
+      "safety_violation": false
+    },
+    {
+      "id": "F_FP4",
+      "layer": "F",
+      "points": 3.9375,
+      "possible_points": 4.0,
+      "cases_passed": 63,
+      "cases_total": 64,
+      "safety_violation": false
+    },
+    {
+      "id": "F_MXFP8",
+      "layer": "F",
+      "points": 3.5294117647058822,
+      "possible_points": 4.0,
+      "cases_passed": 180,
+      "cases_total": 204,
+      "safety_violation": false
+    },
+    {
+      "id": "F_MXFP4",
+      "layer": "F",
+      "points": 3.875,
+      "possible_points": 4.0,
+      "cases_passed": 124,
+      "cases_total": 128,
+      "safety_violation": false
+    },
+    {
+      "id": "P_PROTOCOL",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 337,
+      "cases_total": 337,
+      "safety_violation": false
+    },
+    {
+      "id": "P_SYSTOLIC",
+      "layer": "P",
+      "points": 0.0,
+      "possible_points": 16.666666666666664,
+      "cases_passed": 1280,
+      "cases_total": 1616,
+      "safety_violation": true
+    },
+    {
+      "id": "P_CORNER",
+      "layer": "F",
+      "points": 5.333333333333333,
+      "possible_points": 5.333333333333333,
+      "cases_passed": 128,
+      "cases_total": 128,
+      "safety_violation": false
+    }
+  ],
+  "functional_groups": {
+    "MM-INT": {
+      "cases_passed": 128,
+      "cases_total": 128
+    },
+    "MM-F16": {
+      "cases_passed": 154,
+      "cases_total": 166
+    },
+    "MM-F8": {
+      "cases_passed": 128,
+      "cases_total": 128
+    },
+    "MM-F4": {
+      "cases_passed": 63,
+      "cases_total": 64
+    },
+    "MM-MX8": {
+      "cases_passed": 180,
+      "cases_total": 204
+    },
+    "MM-MX4": {
+      "cases_passed": 124,
+      "cases_total": 128
+    },
+    "MM-PROTO": {
+      "cases_passed": 337,
+      "cases_total": 337
+    },
+    "MM-SYSTOLIC": {
+      "cases_passed": 1280,
+      "cases_total": 1616
+    },
+    "MM-CORNER": {
+      "cases_passed": 128,
+      "cases_total": 128
+    }
+  },
+  "functional_retest": {
+    "policy_id": "t10-strict-range-v1",
+    "numerical_profile": "exact-dot-v1",
+    "seed": 11,
+    "report": {
+      "path": "results/t10-strict-functional-retest-20261106.json",
+      "sha256": "3c15d0da5b8d05890fc8c80a3c40a8b05529c3eac92b0debe3eba60ea46b241f",
+      "bytes": 15107
+    },
+    "functional_report": {
+      "path": "results/gpt-5.6-sol/functional-retest-20261106/functional.json",
+      "sha256": "65edb4dd6d60f60a212b1cf8e483e5920cc25d4c7cc398efc5cc7a42aa3dd8a3",
+      "bytes": 14857
+    },
+    "functional_score": {
+      "path": "results/gpt-5.6-sol/functional-retest-20261106/functional_score.json",
+      "sha256": "b1e36c1e6d62eb05d8658cca7767acc65834e2b67224d52f88fb1a8bdea9022d",
+      "bytes": 1997
+    },
+    "trace_attestation": {
+      "path": "results/gpt-5.6-sol/functional-retest-20261106/trace_attestation.json",
+      "sha256": "3198bcc8daf73b5b93c3c82f3ecc2ce8abebd98fdf81978368a0f931c72f51a7",
+      "bytes": 7519
+    },
+    "previous_summary": {
+      "path": "results/archive/t10-before-range-expansion-20261106/gpt-5.6-sol/summary.json",
+      "sha256": "b9bf6ed2add0ff48c9311868f4f7a0f32677a8ee10563fb79780679c0c4730a5",
+      "bytes": 26837
+    },
+    "ppa_remeasured": false,
+    "group_weights_unchanged": true
+  },
+  "previous_score_recalculation": {
+    "reason": "apply current T10 raw allocation 36+6+8+25 and normalize 75 to 50",
+    "source_score_input": "grading/T10/score_input.json"
+  }
+}

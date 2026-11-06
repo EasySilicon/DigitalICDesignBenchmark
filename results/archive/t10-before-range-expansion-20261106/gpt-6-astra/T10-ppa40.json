@@ -1,0 +1,294 @@
+{
+  "model": "gpt-6-astra",
+  "measurement": {
+    "task_id": "T10",
+    "measurement_scope": "single_pe",
+    "measurement_status": "three_seed_single_pe",
+    "source_sha256": "ed1ddf4dc54565e35a3341aef87a3d139769b142388b246bf6472eb2609c7aa0",
+    "workload_id": "T10-power-v1",
+    "workload_sha256": "455db278312d5d8c30ee706216f5f446bca7f36aed42273bd172010c8f98cc2a",
+    "workload_parameters": {
+      "seed": 20260925,
+      "case_count": 200,
+      "vectors_sha256": "454d5945b8cd47513d77b453548c195226c73549f08bfb307fba137e0136a29a"
+    },
+    "parameter_set": {
+      "platform": "ASAP7_7p5t_RVT_NLDM",
+      "period_ps": 1000,
+      "corner": "WC",
+      "utilization": 24,
+      "density": 0.24,
+      "seeds": [
+        11,
+        29,
+        47
+      ],
+      "signal_routing_layers": "M2-M7",
+      "clock_routing_layers": "M6-M7"
+    },
+    "routed": true,
+    "per_seed": [
+      {
+        "layout_seed": 11,
+        "measurement_scope": "single_pe",
+        "area_um2": 11965.7,
+        "resource_policy": {
+          "memory_max_bytes": 42949672960,
+          "memory_swap_max": "max",
+          "max_address_space": "unlimited",
+          "concurrency": 1,
+          "cpu_threads": 4,
+          "user_authorized_oom_ppa_zero": true,
+          "note": "40 GiB diagnostic remeasurement, not a claim of 32 GiB compliance"
+        },
+        "delay_ns": 3.049923584,
+        "setup_worst_slack_ns": -2.049923584,
+        "hold_worst_slack_ns": 0.042228859,
+        "drc_violations": 0,
+        "energy_per_op_pj": 205.14434135711,
+        "power_w": 0.02371747978,
+        "average_power_mw": 23.71747978,
+        "ops": 200,
+        "annotation_fraction": 0.9987854227371199,
+        "timing_record": {
+          "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6-astra/seed11/scoring_verification/timing.json",
+          "bytes": 2516,
+          "sha256": "be074300a61d79ecee1c03c80460e6ed9a4d9d1240a099564135f55da32f5f95"
+        },
+        "route_drc_report": {
+          "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/reports/asap7/mm_pe/ic_t10_candidate_gpt_6_astra_ed1ddf4dc5_s11/5_route_drc.rpt",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "area_metrics": {
+          "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/logs/asap7/mm_pe/ic_t10_candidate_gpt_6_astra_ed1ddf4dc5_s11/6_report.json",
+          "bytes": 3690,
+          "sha256": "193f619e6e564e04e1344da97577863d62830007e64350dbdd3b7cb31a822544"
+        },
+        "power_record": {
+          "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6-astra/activity_seed11/power.json",
+          "bytes": 8805,
+          "sha256": "a6e1f3b5989ff770198544f6be97318d516539747872f06e81ca03883264fb84"
+        }
+      },
+      {
+        "layout_seed": 29,
+        "measurement_scope": "single_pe",
+        "area_um2": 11960.2,
+        "resource_policy": {
+          "memory_max_bytes": 42949672960,
+          "memory_swap_max": "max",
+          "max_address_space": "unlimited",
+          "concurrency": 1,
+          "cpu_threads": 4,
+          "user_authorized_oom_ppa_zero": true,
+          "note": "40 GiB diagnostic remeasurement, not a claim of 32 GiB compliance"
+        },
+        "delay_ns": 3.045978271,
+        "setup_worst_slack_ns": -2.045978271,
+        "hold_worst_slack_ns": 0.041037811,
+        "drc_violations": 0,
+        "energy_per_op_pj": 205.07330820331,
+        "power_w": 0.02370926738,
+        "average_power_mw": 23.70926738,
+        "ops": 200,
+        "annotation_fraction": 0.9987852099309088,
+        "timing_record": {
+          "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6-astra/seed29/scoring_verification/timing.json",
+          "bytes": 2518,
+          "sha256": "637ca17a1e6857df4e2b3f8dd24703fedee3e5097da82d96462ceb6b21ffd15e"
+        },
+        "route_drc_report": {
+          "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/reports/asap7/mm_pe/ic_t10_candidate_gpt_6_astra_ed1ddf4dc5_s29/5_route_drc.rpt",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "area_metrics": {
+          "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/logs/asap7/mm_pe/ic_t10_candidate_gpt_6_astra_ed1ddf4dc5_s29/6_report.json",
+          "bytes": 3692,
+          "sha256": "e2c27ac4c24225ca0cf7582e6d86591149b55bfcb806ac2af776f395055994dc"
+        },
+        "power_record": {
+          "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6-astra/activity_seed29/power.json",
+          "bytes": 8805,
+          "sha256": "7e649e972a89b65c42a97134d7a263f8199da65e159b6a61206d026a4a4f16da"
+        }
+      },
+      {
+        "layout_seed": 47,
+        "measurement_scope": "single_pe",
+        "area_um2": 11959.8,
+        "resource_policy": {
+          "memory_max_bytes": 42949672960,
+          "memory_swap_max": "max",
+          "max_address_space": "unlimited",
+          "concurrency": 1,
+          "cpu_threads": 4,
+          "user_authorized_oom_ppa_zero": true,
+          "note": "40 GiB diagnostic remeasurement, not a claim of 32 GiB compliance"
+        },
+        "delay_ns": 3.0492163089999997,
+        "setup_worst_slack_ns": -2.0492163089999997,
+        "hold_worst_slack_ns": 0.040228931,
+        "drc_violations": 0,
+        "energy_per_op_pj": 204.96349596770497,
+        "power_w": 0.02369657159,
+        "average_power_mw": 23.69657159,
+        "ops": 200,
+        "annotation_fraction": 0.9987851957411766,
+        "timing_record": {
+          "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6-astra/seed47/scoring_verification/timing.json",
+          "bytes": 2518,
+          "sha256": "d442521b89979db5944cca381036b6866dc3c8d70dd023127fe63874d5b4ea76"
+        },
+        "route_drc_report": {
+          "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/reports/asap7/mm_pe/ic_t10_candidate_gpt_6_astra_ed1ddf4dc5_s47/5_route_drc.rpt",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "area_metrics": {
+          "path": "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/logs/asap7/mm_pe/ic_t10_candidate_gpt_6_astra_ed1ddf4dc5_s47/6_report.json",
+          "bytes": 3682,
+          "sha256": "390507e13ce85164b2d6956e324780b00daf5e422ab2d8bf81c431e0805c4f7e"
+        },
+        "power_record": {
+          "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6-astra/activity_seed47/power.json",
+          "bytes": 8808,
+          "sha256": "b34777df50409d25e49a2b6514478c2e4bf1032c86b06707c72907d066ab838e"
+        }
+      }
+    ],
+    "area_um2": 11960.2,
+    "delay_ns": 3.0492163089999997,
+    "energy_per_op_pj": 205.07330820331,
+    "average_power_mw": 23.70926738,
+    "setup_worst_slack_ns": -2.049923584,
+    "hold_worst_slack_ns": 0.040228931,
+    "drc_violations": 0,
+    "annotation_fraction": 0.9987851957411766
+  },
+  "score": {
+    "task_id": "T10",
+    "functional_basic": 40.0,
+    "functional_edges": 10.0,
+    "functional_total": 50.0,
+    "full_functional_pass": true,
+    "delivery_qualified": true,
+    "ppa_eligible": true,
+    "ppa_score": 0.42120490549116124,
+    "ppa_rank_bucket": 0,
+    "time_score": 3.4125,
+    "candidate_delivery_error_count": 0,
+    "candidate_delivery_penalty": 0,
+    "display_score_before_candidate_penalty": 53.83370490549116,
+    "display_score": 53.83370490549116,
+    "score_items": [
+      {
+        "id": "F_INT",
+        "layer": "F",
+        "points": 6.666666666666666,
+        "possible_points": 6.666666666666666,
+        "cases_passed": 128,
+        "cases_total": 128,
+        "safety_violation": false
+      },
+      {
+        "id": "F_FP16_BF16",
+        "layer": "F",
+        "points": 6.666666666666666,
+        "possible_points": 6.666666666666666,
+        "cases_passed": 128,
+        "cases_total": 128,
+        "safety_violation": false
+      },
+      {
+        "id": "F_FP8",
+        "layer": "F",
+        "points": 6.666666666666666,
+        "possible_points": 6.666666666666666,
+        "cases_passed": 128,
+        "cases_total": 128,
+        "safety_violation": false
+      },
+      {
+        "id": "F_FP4",
+        "layer": "F",
+        "points": 6.666666666666666,
+        "possible_points": 6.666666666666666,
+        "cases_passed": 64,
+        "cases_total": 64,
+        "safety_violation": false
+      },
+      {
+        "id": "F_MXFP8",
+        "layer": "F",
+        "points": 6.666666666666666,
+        "possible_points": 6.666666666666666,
+        "cases_passed": 128,
+        "cases_total": 128,
+        "safety_violation": false
+      },
+      {
+        "id": "F_MXFP4",
+        "layer": "F",
+        "points": 6.666666666666666,
+        "possible_points": 6.666666666666666,
+        "cases_passed": 96,
+        "cases_total": 96,
+        "safety_violation": false
+      },
+      {
+        "id": "P_PROTOCOL",
+        "layer": "P",
+        "points": 3.333333333333333,
+        "possible_points": 3.333333333333333,
+        "cases_passed": 337,
+        "cases_total": 337,
+        "safety_violation": false
+      },
+      {
+        "id": "P_SYSTOLIC",
+        "layer": "P",
+        "points": 3.333333333333333,
+        "possible_points": 3.333333333333333,
+        "cases_passed": 1616,
+        "cases_total": 1616,
+        "safety_violation": false
+      },
+      {
+        "id": "P_CORNER",
+        "layer": "P",
+        "points": 3.333333333333333,
+        "possible_points": 3.333333333333333,
+        "cases_passed": 128,
+        "cases_total": 128,
+        "safety_violation": false
+      }
+    ],
+    "rank_key": [
+      50.0,
+      0,
+      -4572.0
+    ]
+  },
+  "elapsed_seconds": 4572.0,
+  "grading_resource_policy": {
+    "memory_max_bytes": 42949672960,
+    "memory_swap_max": "max",
+    "max_address_space": "unlimited",
+    "concurrency": 1,
+    "cpu_threads": 4,
+    "user_authorized_oom_ppa_zero": true,
+    "note": "40 GiB diagnostic remeasurement, not a claim of 32 GiB compliance"
+  },
+  "original_functional_record": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/gpt6astra_noskills_from_t04_v6_20261003/grading/T10/functional.json",
+    "bytes": 13756,
+    "sha256": "b8fb11df552b04994751c4938792b6f69d0badb5854c19142b2ed352923c303d"
+  },
+  "structure": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_candidates_v1_20261020/gpt-6-astra/structure.json",
+    "bytes": 575,
+    "sha256": "4e12e100a0633a95bb4791ea34fb97038062a498a515d6647351647f0d49d649"
+  }
+}

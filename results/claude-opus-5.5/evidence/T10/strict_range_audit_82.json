@@ -1,0 +1,5243 @@
+{
+  "candidate_source_sha256": "1c2ad671e5de500a3848d9b541350798d7030d3c0b200273b00d18246ff71359",
+  "scope": "additional full-DUT numerical audit; no scoring changes",
+  "cases": 82,
+  "passed_cases": 46,
+  "failed_cases": 36,
+  "independent_oracles_agree": true,
+  "all_protocol_and_timing_pass": true,
+  "original_scores_unchanged": true,
+  "wall_seconds": 32.66613599797711,
+  "results": [
+    {
+      "index": 0,
+      "case_id": "opus-numeric-review-v1.m3.within_pair_cancel_then_residual.positive",
+      "mode": 3,
+      "pattern": "within_pair_cancel_then_residual",
+      "sign": 1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": 1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": -1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x6000",
+          "b_hex": "0x6000",
+          "sign": 1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "3213876088517980551085285314150008958898259485995312743448576",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "000000007f800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 1,
+      "case_id": "opus-numeric-review-v1.m3.small_between_huge.positive",
+      "mode": 3,
+      "pattern": "small_between_huge",
+      "sign": 1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": 1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x6000",
+          "b_hex": "0x6000",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": -1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "3213876088517980551085285314150008958898259485995312743448576",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected +inf",
+        "C[0][1]: got 0, expected +inf"
+      ]
+    },
+    {
+      "index": 2,
+      "case_id": "opus-numeric-review-v1.m3.small_before_huge.positive",
+      "mode": 3,
+      "pattern": "small_before_huge",
+      "sign": 1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x6000",
+          "b_hex": "0x6000",
+          "sign": 1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": -1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "3213876088517980551085285314150008958898259485995312743448576",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected +inf",
+        "C[0][1]: got 0, expected +inf"
+      ]
+    },
+    {
+      "index": 3,
+      "case_id": "opus-numeric-review-v1.m3.small_with_second_huge.positive",
+      "mode": 3,
+      "pattern": "small_with_second_huge",
+      "sign": 1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": -1
+        },
+        {
+          "k": 12,
+          "a_hex": "0x6000",
+          "b_hex": "0x6000",
+          "sign": 1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "3213876088517980551085285314150008958898259485995312743448576",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected +inf",
+        "C[0][1]: got 0, expected +inf"
+      ]
+    },
+    {
+      "index": 4,
+      "case_id": "opus-numeric-review-v1.m3.same_beat_mixed_cancel.positive",
+      "mode": 3,
+      "pattern": "same_beat_mixed_cancel",
+      "sign": 1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": 1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x6000",
+          "b_hex": "0x6000",
+          "sign": 1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": -1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "3213876088517980551085285314150008958898259485995312743448576",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected +inf",
+        "C[0][1]: got 0, expected +inf"
+      ]
+    },
+    {
+      "index": 5,
+      "case_id": "opus-numeric-review-v1.m3.exact_zero.positive",
+      "mode": 3,
+      "pattern": "exact_zero",
+      "sign": 1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": -1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "0",
+      "absolute_dot": "3213876088517980551083924184682325205044405987565585670602752",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 6,
+      "case_id": "opus-numeric-review-v1.m3.no_cancel.positive",
+      "mode": 3,
+      "pattern": "no_cancel",
+      "sign": 1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": 1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x6000",
+          "b_hex": "0x6000",
+          "sign": 1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1606938044258990275543323221808846356376056492212519908147200",
+      "absolute_dot": "1606938044258990275543323221808846356376056492212519908147200",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "000000007f800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 7,
+      "case_id": "opus-numeric-review-v1.m3.finite_residual.positive",
+      "mode": 3,
+      "pattern": "finite_residual",
+      "sign": 1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": 1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x3f80",
+          "b_hex": "0x3f80",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": -1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "1",
+      "absolute_dot": "3213876088517980551083924184682325205044405987565585670602753",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 8,
+      "case_id": "opus-numeric-review-v1.m3.within_pair_cancel_then_residual.negative",
+      "mode": 3,
+      "pattern": "within_pair_cancel_then_residual",
+      "sign": -1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": 1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": -1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x6000",
+          "b_hex": "0x6000",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "3213876088517980551085285314150008958898259485995312743448576",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "00000000ff800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 9,
+      "case_id": "opus-numeric-review-v1.m3.small_between_huge.negative",
+      "mode": 3,
+      "pattern": "small_between_huge",
+      "sign": -1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": 1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x6000",
+          "b_hex": "0x6000",
+          "sign": -1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "3213876088517980551085285314150008958898259485995312743448576",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected -inf",
+        "C[0][1]: got 0, expected -inf"
+      ]
+    },
+    {
+      "index": 10,
+      "case_id": "opus-numeric-review-v1.m3.small_before_huge.negative",
+      "mode": 3,
+      "pattern": "small_before_huge",
+      "sign": -1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x6000",
+          "b_hex": "0x6000",
+          "sign": -1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "3213876088517980551085285314150008958898259485995312743448576",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected -inf",
+        "C[0][1]: got 0, expected -inf"
+      ]
+    },
+    {
+      "index": 11,
+      "case_id": "opus-numeric-review-v1.m3.small_with_second_huge.negative",
+      "mode": 3,
+      "pattern": "small_with_second_huge",
+      "sign": -1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": -1
+        },
+        {
+          "k": 12,
+          "a_hex": "0x6000",
+          "b_hex": "0x6000",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "3213876088517980551085285314150008958898259485995312743448576",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected -inf",
+        "C[0][1]: got 0, expected -inf"
+      ]
+    },
+    {
+      "index": 12,
+      "case_id": "opus-numeric-review-v1.m3.same_beat_mixed_cancel.negative",
+      "mode": 3,
+      "pattern": "same_beat_mixed_cancel",
+      "sign": -1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": 1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x6000",
+          "b_hex": "0x6000",
+          "sign": -1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "3213876088517980551085285314150008958898259485995312743448576",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected -inf",
+        "C[0][1]: got 0, expected -inf"
+      ]
+    },
+    {
+      "index": 13,
+      "case_id": "opus-numeric-review-v1.m3.exact_zero.negative",
+      "mode": 3,
+      "pattern": "exact_zero",
+      "sign": -1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": -1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": 1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "0",
+      "absolute_dot": "3213876088517980551083924184682325205044405987565585670602752",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 14,
+      "case_id": "opus-numeric-review-v1.m3.no_cancel.negative",
+      "mode": 3,
+      "pattern": "no_cancel",
+      "sign": -1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": -1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x6000",
+          "b_hex": "0x6000",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1606938044258990275543323221808846356376056492212519908147200",
+      "absolute_dot": "1606938044258990275543323221808846356376056492212519908147200",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "00000000ff800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 15,
+      "case_id": "opus-numeric-review-v1.m3.finite_residual.negative",
+      "mode": 3,
+      "pattern": "finite_residual",
+      "sign": -1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": 1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x3f80",
+          "b_hex": "0x3f80",
+          "sign": -1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x7180",
+          "b_hex": "0x7180",
+          "sign": -1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "-1",
+      "absolute_dot": "3213876088517980551083924184682325205044405987565585670602753",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 16,
+      "case_id": "opus-numeric-review-v1.m7.within_pair_cancel_then_residual.positive",
+      "mode": 7,
+      "pattern": "within_pair_cancel_then_residual",
+      "sign": 1,
+      "scale_byte": 201,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": -1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "143227160459789615451644867460049234356008462057472",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "000000007f800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 17,
+      "case_id": "opus-numeric-review-v1.m7.small_between_huge.positive",
+      "mode": 7,
+      "pattern": "small_between_huge",
+      "sign": 1,
+      "scale_byte": 201,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": -1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "143227160459789615451644867460049234356008462057472",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected +inf",
+        "C[0][1]: got 0, expected +inf"
+      ]
+    },
+    {
+      "index": 18,
+      "case_id": "opus-numeric-review-v1.m7.small_before_huge.positive",
+      "mode": 7,
+      "pattern": "small_before_huge",
+      "sign": 1,
+      "scale_byte": 201,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": -1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "143227160459789615451644867460049234356008462057472",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected +inf",
+        "C[0][1]: got 0, expected +inf"
+      ]
+    },
+    {
+      "index": 19,
+      "case_id": "opus-numeric-review-v1.m7.small_with_second_huge.positive",
+      "mode": 7,
+      "pattern": "small_with_second_huge",
+      "sign": 1,
+      "scale_byte": 201,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": -1
+        },
+        {
+          "k": 24,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "143227160459789615451644867460049234356008462057472",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected +inf",
+        "C[0][1]: got 0, expected +inf"
+      ]
+    },
+    {
+      "index": 20,
+      "case_id": "opus-numeric-review-v1.m7.same_beat_mixed_cancel.positive",
+      "mode": 7,
+      "pattern": "same_beat_mixed_cancel",
+      "sign": 1,
+      "scale_byte": 201,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": 1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": -1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "143227160459789615451644867460049234356008462057472",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected +inf",
+        "C[0][1]: got 0, expected +inf"
+      ]
+    },
+    {
+      "index": 21,
+      "case_id": "opus-numeric-review-v1.m7.exact_zero.positive",
+      "mode": 7,
+      "pattern": "exact_zero",
+      "sign": 1,
+      "scale_byte": 201,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": -1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "0",
+      "absolute_dot": "143227160458428485983961113606195735926281389211648",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 22,
+      "case_id": "opus-numeric-review-v1.m7.no_cancel.positive",
+      "mode": 7,
+      "pattern": "no_cancel",
+      "sign": 1,
+      "scale_byte": 201,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "71613580230575372459664310656951366392867767451648",
+      "absolute_dot": "71613580230575372459664310656951366392867767451648",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "000000007f800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 23,
+      "case_id": "opus-numeric-review-v1.m7.finite_residual.positive",
+      "mode": 7,
+      "pattern": "finite_residual",
+      "sign": 1,
+      "scale_byte": 136,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": -1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "1",
+      "absolute_dot": "105226698753",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 24,
+      "case_id": "opus-numeric-review-v1.m7.within_pair_cancel_then_residual.negative",
+      "mode": 7,
+      "pattern": "within_pair_cancel_then_residual",
+      "sign": -1,
+      "scale_byte": 201,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": -1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "143227160459789615451644867460049234356008462057472",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "00000000ff800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 25,
+      "case_id": "opus-numeric-review-v1.m7.small_between_huge.negative",
+      "mode": 7,
+      "pattern": "small_between_huge",
+      "sign": -1,
+      "scale_byte": 201,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "143227160459789615451644867460049234356008462057472",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected -inf",
+        "C[0][1]: got 0, expected -inf"
+      ]
+    },
+    {
+      "index": 26,
+      "case_id": "opus-numeric-review-v1.m7.small_before_huge.negative",
+      "mode": 7,
+      "pattern": "small_before_huge",
+      "sign": -1,
+      "scale_byte": 201,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "143227160459789615451644867460049234356008462057472",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected -inf",
+        "C[0][1]: got 0, expected -inf"
+      ]
+    },
+    {
+      "index": 27,
+      "case_id": "opus-numeric-review-v1.m7.small_with_second_huge.negative",
+      "mode": 7,
+      "pattern": "small_with_second_huge",
+      "sign": -1,
+      "scale_byte": 201,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": -1
+        },
+        {
+          "k": 24,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "143227160459789615451644867460049234356008462057472",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected -inf",
+        "C[0][1]: got 0, expected -inf"
+      ]
+    },
+    {
+      "index": 28,
+      "case_id": "opus-numeric-review-v1.m7.same_beat_mixed_cancel.negative",
+      "mode": 7,
+      "pattern": "same_beat_mixed_cancel",
+      "sign": -1,
+      "scale_byte": 201,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": 1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "143227160459789615451644867460049234356008462057472",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected -inf",
+        "C[0][1]: got 0, expected -inf"
+      ]
+    },
+    {
+      "index": 29,
+      "case_id": "opus-numeric-review-v1.m7.exact_zero.negative",
+      "mode": 7,
+      "pattern": "exact_zero",
+      "sign": -1,
+      "scale_byte": 201,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": -1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": 1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "0",
+      "absolute_dot": "143227160458428485983961113606195735926281389211648",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 30,
+      "case_id": "opus-numeric-review-v1.m7.no_cancel.negative",
+      "mode": 7,
+      "pattern": "no_cancel",
+      "sign": -1,
+      "scale_byte": 201,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": -1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-71613580230575372459664310656951366392867767451648",
+      "absolute_dot": "71613580230575372459664310656951366392867767451648",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "00000000ff800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 31,
+      "case_id": "opus-numeric-review-v1.m7.finite_residual.negative",
+      "mode": 7,
+      "pattern": "finite_residual",
+      "sign": -1,
+      "scale_byte": 136,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7e",
+          "b_hex": "0x7e",
+          "sign": -1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "-1",
+      "absolute_dot": "105226698753",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 32,
+      "case_id": "opus-numeric-review-v1.m8.within_pair_cancel_then_residual.positive",
+      "mode": 8,
+      "pattern": "within_pair_cancel_then_residual",
+      "sign": 1,
+      "scale_byte": 208,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": -1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "38447248129243419679855339684830710652480425527069284237312",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "000000007f800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 33,
+      "case_id": "opus-numeric-review-v1.m8.small_between_huge.positive",
+      "mode": 8,
+      "pattern": "small_between_huge",
+      "sign": 1,
+      "scale_byte": 208,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": -1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "38447248129243419679855339684830710652480425527069284237312",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected +inf",
+        "C[0][1]: got 0, expected +inf"
+      ]
+    },
+    {
+      "index": 34,
+      "case_id": "opus-numeric-review-v1.m8.small_before_huge.positive",
+      "mode": 8,
+      "pattern": "small_before_huge",
+      "sign": 1,
+      "scale_byte": 208,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": -1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "38447248129243419679855339684830710652480425527069284237312",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected +inf",
+        "C[0][1]: got 0, expected +inf"
+      ]
+    },
+    {
+      "index": 35,
+      "case_id": "opus-numeric-review-v1.m8.small_with_second_huge.positive",
+      "mode": 8,
+      "pattern": "small_with_second_huge",
+      "sign": 1,
+      "scale_byte": 208,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": -1
+        },
+        {
+          "k": 24,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "38447248129243419679855339684830710652480425527069284237312",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected +inf",
+        "C[0][1]: got 0, expected +inf"
+      ]
+    },
+    {
+      "index": 36,
+      "case_id": "opus-numeric-review-v1.m8.same_beat_mixed_cancel.positive",
+      "mode": 8,
+      "pattern": "same_beat_mixed_cancel",
+      "sign": 1,
+      "scale_byte": 208,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": 1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": -1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "38447248129243419679855339684830710652480425527069284237312",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected +inf",
+        "C[0][1]: got 0, expected +inf"
+      ]
+    },
+    {
+      "index": 37,
+      "case_id": "opus-numeric-review-v1.m8.exact_zero.positive",
+      "mode": 8,
+      "pattern": "exact_zero",
+      "sign": 1,
+      "scale_byte": 208,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": -1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "0",
+      "absolute_dot": "38447248129243419678494210217146956798626927097342211391488",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 38,
+      "case_id": "opus-numeric-review-v1.m8.no_cancel.positive",
+      "mode": 8,
+      "pattern": "no_cancel",
+      "sign": 1,
+      "scale_byte": 208,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "19223624064621709840608234576257232253166961978398178541568",
+      "absolute_dot": "19223624064621709840608234576257232253166961978398178541568",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "000000007f800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 39,
+      "case_id": "opus-numeric-review-v1.m8.finite_residual.positive",
+      "mode": 8,
+      "pattern": "finite_residual",
+      "sign": 1,
+      "scale_byte": 143,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": -1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "1",
+      "absolute_dot": "28246576862867750913",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 40,
+      "case_id": "opus-numeric-review-v1.m8.within_pair_cancel_then_residual.negative",
+      "mode": 8,
+      "pattern": "within_pair_cancel_then_residual",
+      "sign": -1,
+      "scale_byte": 208,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": -1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "38447248129243419679855339684830710652480425527069284237312",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "00000000ff800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 41,
+      "case_id": "opus-numeric-review-v1.m8.small_between_huge.negative",
+      "mode": 8,
+      "pattern": "small_between_huge",
+      "sign": -1,
+      "scale_byte": 208,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "38447248129243419679855339684830710652480425527069284237312",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected -inf",
+        "C[0][1]: got 0, expected -inf"
+      ]
+    },
+    {
+      "index": 42,
+      "case_id": "opus-numeric-review-v1.m8.small_before_huge.negative",
+      "mode": 8,
+      "pattern": "small_before_huge",
+      "sign": -1,
+      "scale_byte": 208,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "38447248129243419679855339684830710652480425527069284237312",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected -inf",
+        "C[0][1]: got 0, expected -inf"
+      ]
+    },
+    {
+      "index": 43,
+      "case_id": "opus-numeric-review-v1.m8.small_with_second_huge.negative",
+      "mode": 8,
+      "pattern": "small_with_second_huge",
+      "sign": -1,
+      "scale_byte": 208,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": -1
+        },
+        {
+          "k": 24,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "38447248129243419679855339684830710652480425527069284237312",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected -inf",
+        "C[0][1]: got 0, expected -inf"
+      ]
+    },
+    {
+      "index": 44,
+      "case_id": "opus-numeric-review-v1.m8.same_beat_mixed_cancel.negative",
+      "mode": 8,
+      "pattern": "same_beat_mixed_cancel",
+      "sign": -1,
+      "scale_byte": 208,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": 1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "38447248129243419679855339684830710652480425527069284237312",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 0, expected -inf",
+        "C[0][1]: got 0, expected -inf"
+      ]
+    },
+    {
+      "index": 45,
+      "case_id": "opus-numeric-review-v1.m8.exact_zero.negative",
+      "mode": 8,
+      "pattern": "exact_zero",
+      "sign": -1,
+      "scale_byte": 208,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": -1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": 1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "0",
+      "absolute_dot": "38447248129243419678494210217146956798626927097342211391488",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 46,
+      "case_id": "opus-numeric-review-v1.m8.no_cancel.negative",
+      "mode": 8,
+      "pattern": "no_cancel",
+      "sign": -1,
+      "scale_byte": 208,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": -1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-19223624064621709840608234576257232253166961978398178541568",
+      "absolute_dot": "19223624064621709840608234576257232253166961978398178541568",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "00000000ff800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 47,
+      "case_id": "opus-numeric-review-v1.m8.finite_residual.negative",
+      "mode": 8,
+      "pattern": "finite_residual",
+      "sign": -1,
+      "scale_byte": 143,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7b",
+          "b_hex": "0x7b",
+          "sign": -1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "-1",
+      "absolute_dot": "28246576862867750913",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 48,
+      "case_id": "opus-numeric-review-v1.m9.within_pair_cancel_then_residual.positive",
+      "mode": 9,
+      "pattern": "within_pair_cancel_then_residual",
+      "sign": 1,
+      "scale_byte": 193,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": -1
+        },
+        {
+          "k": 32,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "393366416160604863763661046191124052443136",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "000000007f800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 49,
+      "case_id": "opus-numeric-review-v1.m9.small_between_huge.positive",
+      "mode": 9,
+      "pattern": "small_between_huge",
+      "sign": 1,
+      "scale_byte": 193,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        },
+        {
+          "k": 32,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": -1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "393366416160604863763661046191124052443136",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "000000007f800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 50,
+      "case_id": "opus-numeric-review-v1.m9.small_before_huge.positive",
+      "mode": 9,
+      "pattern": "small_before_huge",
+      "sign": 1,
+      "scale_byte": 193,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": 1
+        },
+        {
+          "k": 32,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": -1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "393366416160604863763661046191124052443136",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "000000007f800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 51,
+      "case_id": "opus-numeric-review-v1.m9.small_with_second_huge.positive",
+      "mode": 9,
+      "pattern": "small_with_second_huge",
+      "sign": 1,
+      "scale_byte": 193,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": 1
+        },
+        {
+          "k": 32,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": -1
+        },
+        {
+          "k": 48,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "393366416160604863763661046191124052443136",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "000000007f800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 52,
+      "case_id": "opus-numeric-review-v1.m9.same_beat_mixed_cancel.positive",
+      "mode": 9,
+      "pattern": "same_beat_mixed_cancel",
+      "sign": 1,
+      "scale_byte": 193,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": 1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": -1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "1361129467683753853853498429727072845824",
+      "absolute_dot": "393366416160604863763661046191124052443136",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "000000007f800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 53,
+      "case_id": "opus-numeric-review-v1.m9.exact_zero.positive",
+      "mode": 9,
+      "pattern": "exact_zero",
+      "sign": 1,
+      "scale_byte": 193,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": 1
+        },
+        {
+          "k": 32,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": -1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "0",
+      "absolute_dot": "392005286692921109909807547761396979597312",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 54,
+      "case_id": "opus-numeric-review-v1.m9.no_cancel.positive",
+      "mode": 9,
+      "pattern": "no_cancel",
+      "sign": 1,
+      "scale_byte": 193,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "197363772814144308808757272310425562644480",
+      "absolute_dot": "197363772814144308808757272310425562644480",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "000000007f800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 55,
+      "case_id": "opus-numeric-review-v1.m9.finite_residual.positive",
+      "mode": 9,
+      "pattern": "finite_residual",
+      "sign": 1,
+      "scale_byte": 128,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        },
+        {
+          "k": 32,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": -1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "1",
+      "absolute_dot": "289",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "000000003f800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 56,
+      "case_id": "opus-numeric-review-v1.m9.within_pair_cancel_then_residual.negative",
+      "mode": 9,
+      "pattern": "within_pair_cancel_then_residual",
+      "sign": -1,
+      "scale_byte": 193,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": -1
+        },
+        {
+          "k": 32,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "393366416160604863763661046191124052443136",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "00000000ff800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 57,
+      "case_id": "opus-numeric-review-v1.m9.small_between_huge.negative",
+      "mode": 9,
+      "pattern": "small_between_huge",
+      "sign": -1,
+      "scale_byte": 193,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        },
+        {
+          "k": 32,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "393366416160604863763661046191124052443136",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "00000000ff800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 58,
+      "case_id": "opus-numeric-review-v1.m9.small_before_huge.negative",
+      "mode": 9,
+      "pattern": "small_before_huge",
+      "sign": -1,
+      "scale_byte": 193,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": 1
+        },
+        {
+          "k": 32,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "393366416160604863763661046191124052443136",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "00000000ff800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 59,
+      "case_id": "opus-numeric-review-v1.m9.small_with_second_huge.negative",
+      "mode": 9,
+      "pattern": "small_with_second_huge",
+      "sign": -1,
+      "scale_byte": 193,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": 1
+        },
+        {
+          "k": 32,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": -1
+        },
+        {
+          "k": 48,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "393366416160604863763661046191124052443136",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "00000000ff800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 60,
+      "case_id": "opus-numeric-review-v1.m9.same_beat_mixed_cancel.negative",
+      "mode": 9,
+      "pattern": "same_beat_mixed_cancel",
+      "sign": -1,
+      "scale_byte": 193,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": 1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-1361129467683753853853498429727072845824",
+      "absolute_dot": "393366416160604863763661046191124052443136",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "00000000ff800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 61,
+      "case_id": "opus-numeric-review-v1.m9.exact_zero.negative",
+      "mode": 9,
+      "pattern": "exact_zero",
+      "sign": -1,
+      "scale_byte": 193,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": -1
+        },
+        {
+          "k": 32,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": 1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "0",
+      "absolute_dot": "392005286692921109909807547761396979597312",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "0000000000000000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 62,
+      "case_id": "opus-numeric-review-v1.m9.no_cancel.negative",
+      "mode": 9,
+      "pattern": "no_cancel",
+      "sign": -1,
+      "scale_byte": 193,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": -1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-197363772814144308808757272310425562644480",
+      "absolute_dot": "197363772814144308808757272310425562644480",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "00000000ff800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 63,
+      "case_id": "opus-numeric-review-v1.m9.finite_residual.negative",
+      "mode": 9,
+      "pattern": "finite_residual",
+      "sign": -1,
+      "scale_byte": 128,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        },
+        {
+          "k": 32,
+          "a_hex": "0x7",
+          "b_hex": "0x7",
+          "sign": -1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "-1",
+      "absolute_dot": "289",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "00000000bf800000",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 64,
+      "case_id": "opus-numeric-review-v1.m3.max_exact.positive",
+      "mode": 3,
+      "pattern": "max_exact",
+      "sign": 1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7f7f",
+          "b_hex": "0x3f80",
+          "sign": 1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x7b7f",
+          "b_hex": "0x3f80",
+          "sign": 1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x777f",
+          "b_hex": "0x3f80",
+          "sign": 1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "340282346638528859811704183484516925440",
+      "absolute_dot": "340282346638528859811704183484516925440",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "000000007f7fffff",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 65,
+      "case_id": "opus-numeric-review-v1.m3.max_plus_tiny_same_beat.positive",
+      "mode": 3,
+      "pattern": "max_plus_tiny_same_beat",
+      "sign": 1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7f7f",
+          "b_hex": "0x3f80",
+          "sign": 1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x7b7f",
+          "b_hex": "0x3f80",
+          "sign": 1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x777f",
+          "b_hex": "0x3f80",
+          "sign": 1
+        },
+        {
+          "k": 3,
+          "a_hex": "0x3f80",
+          "b_hex": "0x3f80",
+          "sign": 1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "340282346638528859811704183484516925441",
+      "absolute_dot": "340282346638528859811704183484516925441",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "000000007f7fffff",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 340282346638528859811704183484516925440, expected +inf",
+        "C[0][1]: got 340282346638528859811704183484516925440, expected +inf"
+      ]
+    },
+    {
+      "index": 66,
+      "case_id": "opus-numeric-review-v1.m3.max_plus_tiny_late.positive",
+      "mode": 3,
+      "pattern": "max_plus_tiny_late",
+      "sign": 1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7f7f",
+          "b_hex": "0x3f80",
+          "sign": 1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x7b7f",
+          "b_hex": "0x3f80",
+          "sign": 1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x777f",
+          "b_hex": "0x3f80",
+          "sign": 1
+        },
+        {
+          "k": 63,
+          "a_hex": "0x3f80",
+          "b_hex": "0x3f80",
+          "sign": 1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "340282346638528859811704183484516925441",
+      "absolute_dot": "340282346638528859811704183484516925441",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "000000007f7fffff",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 340282346638528859811704183484516925440, expected +inf",
+        "C[0][1]: got 340282346638528859811704183484516925440, expected +inf"
+      ]
+    },
+    {
+      "index": 67,
+      "case_id": "opus-numeric-review-v1.m3.max_exact.negative",
+      "mode": 3,
+      "pattern": "max_exact",
+      "sign": -1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7f7f",
+          "b_hex": "0x3f80",
+          "sign": -1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x7b7f",
+          "b_hex": "0x3f80",
+          "sign": -1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x777f",
+          "b_hex": "0x3f80",
+          "sign": -1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "-340282346638528859811704183484516925440",
+      "absolute_dot": "340282346638528859811704183484516925440",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "00000000ff7fffff",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 68,
+      "case_id": "opus-numeric-review-v1.m3.max_plus_tiny_same_beat.negative",
+      "mode": 3,
+      "pattern": "max_plus_tiny_same_beat",
+      "sign": -1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7f7f",
+          "b_hex": "0x3f80",
+          "sign": -1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x7b7f",
+          "b_hex": "0x3f80",
+          "sign": -1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x777f",
+          "b_hex": "0x3f80",
+          "sign": -1
+        },
+        {
+          "k": 3,
+          "a_hex": "0x3f80",
+          "b_hex": "0x3f80",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-340282346638528859811704183484516925441",
+      "absolute_dot": "340282346638528859811704183484516925441",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "00000000ff7fffff",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got -340282346638528859811704183484516925440, expected -inf",
+        "C[0][1]: got -340282346638528859811704183484516925440, expected -inf"
+      ]
+    },
+    {
+      "index": 69,
+      "case_id": "opus-numeric-review-v1.m3.max_plus_tiny_late.negative",
+      "mode": 3,
+      "pattern": "max_plus_tiny_late",
+      "sign": -1,
+      "scale_byte": 0,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x7f7f",
+          "b_hex": "0x3f80",
+          "sign": -1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x7b7f",
+          "b_hex": "0x3f80",
+          "sign": -1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x777f",
+          "b_hex": "0x3f80",
+          "sign": -1
+        },
+        {
+          "k": 63,
+          "a_hex": "0x3f80",
+          "b_hex": "0x3f80",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-340282346638528859811704183484516925441",
+      "absolute_dot": "340282346638528859811704183484516925441",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "00000000ff7fffff",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got -340282346638528859811704183484516925440, expected -inf",
+        "C[0][1]: got -340282346638528859811704183484516925440, expected -inf"
+      ]
+    },
+    {
+      "index": 70,
+      "case_id": "opus-numeric-review-v1.m7.max_exact.positive",
+      "mode": 7,
+      "pattern": "max_exact",
+      "sign": 1,
+      "scale_byte": 183,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x70",
+          "b_hex": "0x78",
+          "sign": 1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x70",
+          "b_hex": "0x70",
+          "sign": 1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x68",
+          "b_hex": "0x70",
+          "sign": 1
+        },
+        {
+          "k": 3,
+          "a_hex": "0x68",
+          "b_hex": "0x68",
+          "sign": 1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x60",
+          "b_hex": "0x68",
+          "sign": 1
+        },
+        {
+          "k": 5,
+          "a_hex": "0x60",
+          "b_hex": "0x60",
+          "sign": 1
+        },
+        {
+          "k": 6,
+          "a_hex": "0x58",
+          "b_hex": "0x60",
+          "sign": 1
+        },
+        {
+          "k": 7,
+          "a_hex": "0x58",
+          "b_hex": "0x58",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x50",
+          "b_hex": "0x58",
+          "sign": 1
+        },
+        {
+          "k": 9,
+          "a_hex": "0x50",
+          "b_hex": "0x50",
+          "sign": 1
+        },
+        {
+          "k": 10,
+          "a_hex": "0x48",
+          "b_hex": "0x50",
+          "sign": 1
+        },
+        {
+          "k": 11,
+          "a_hex": "0x48",
+          "b_hex": "0x48",
+          "sign": 1
+        },
+        {
+          "k": 12,
+          "a_hex": "0x40",
+          "b_hex": "0x48",
+          "sign": 1
+        },
+        {
+          "k": 13,
+          "a_hex": "0x40",
+          "b_hex": "0x40",
+          "sign": 1
+        },
+        {
+          "k": 14,
+          "a_hex": "0x38",
+          "b_hex": "0x40",
+          "sign": 1
+        },
+        {
+          "k": 15,
+          "a_hex": "0x38",
+          "b_hex": "0x38",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x30",
+          "b_hex": "0x38",
+          "sign": 1
+        },
+        {
+          "k": 17,
+          "a_hex": "0x30",
+          "b_hex": "0x30",
+          "sign": 1
+        },
+        {
+          "k": 18,
+          "a_hex": "0x28",
+          "b_hex": "0x30",
+          "sign": 1
+        },
+        {
+          "k": 19,
+          "a_hex": "0x28",
+          "b_hex": "0x28",
+          "sign": 1
+        },
+        {
+          "k": 20,
+          "a_hex": "0x20",
+          "b_hex": "0x28",
+          "sign": 1
+        },
+        {
+          "k": 21,
+          "a_hex": "0x20",
+          "b_hex": "0x20",
+          "sign": 1
+        },
+        {
+          "k": 22,
+          "a_hex": "0x18",
+          "b_hex": "0x20",
+          "sign": 1
+        },
+        {
+          "k": 23,
+          "a_hex": "0x18",
+          "b_hex": "0x18",
+          "sign": 1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "340282346638528859811704183484516925440",
+      "absolute_dot": "340282346638528859811704183484516925440",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "000000007f7fffff",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 71,
+      "case_id": "opus-numeric-review-v1.m7.max_plus_tiny_same_beat.positive",
+      "mode": 7,
+      "pattern": "max_plus_tiny_same_beat",
+      "sign": 1,
+      "scale_byte": 183,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x70",
+          "b_hex": "0x78",
+          "sign": 1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x70",
+          "b_hex": "0x70",
+          "sign": 1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x68",
+          "b_hex": "0x70",
+          "sign": 1
+        },
+        {
+          "k": 3,
+          "a_hex": "0x68",
+          "b_hex": "0x68",
+          "sign": 1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x60",
+          "b_hex": "0x68",
+          "sign": 1
+        },
+        {
+          "k": 5,
+          "a_hex": "0x60",
+          "b_hex": "0x60",
+          "sign": 1
+        },
+        {
+          "k": 6,
+          "a_hex": "0x58",
+          "b_hex": "0x60",
+          "sign": 1
+        },
+        {
+          "k": 7,
+          "a_hex": "0x58",
+          "b_hex": "0x58",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x50",
+          "b_hex": "0x58",
+          "sign": 1
+        },
+        {
+          "k": 9,
+          "a_hex": "0x50",
+          "b_hex": "0x50",
+          "sign": 1
+        },
+        {
+          "k": 10,
+          "a_hex": "0x48",
+          "b_hex": "0x50",
+          "sign": 1
+        },
+        {
+          "k": 11,
+          "a_hex": "0x48",
+          "b_hex": "0x48",
+          "sign": 1
+        },
+        {
+          "k": 12,
+          "a_hex": "0x40",
+          "b_hex": "0x48",
+          "sign": 1
+        },
+        {
+          "k": 13,
+          "a_hex": "0x40",
+          "b_hex": "0x40",
+          "sign": 1
+        },
+        {
+          "k": 14,
+          "a_hex": "0x38",
+          "b_hex": "0x40",
+          "sign": 1
+        },
+        {
+          "k": 15,
+          "a_hex": "0x38",
+          "b_hex": "0x38",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x30",
+          "b_hex": "0x38",
+          "sign": 1
+        },
+        {
+          "k": 17,
+          "a_hex": "0x30",
+          "b_hex": "0x30",
+          "sign": 1
+        },
+        {
+          "k": 18,
+          "a_hex": "0x28",
+          "b_hex": "0x30",
+          "sign": 1
+        },
+        {
+          "k": 19,
+          "a_hex": "0x28",
+          "b_hex": "0x28",
+          "sign": 1
+        },
+        {
+          "k": 20,
+          "a_hex": "0x20",
+          "b_hex": "0x28",
+          "sign": 1
+        },
+        {
+          "k": 21,
+          "a_hex": "0x20",
+          "b_hex": "0x20",
+          "sign": 1
+        },
+        {
+          "k": 22,
+          "a_hex": "0x18",
+          "b_hex": "0x20",
+          "sign": 1
+        },
+        {
+          "k": 23,
+          "a_hex": "0x18",
+          "b_hex": "0x18",
+          "sign": 1
+        },
+        {
+          "k": 24,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "340282346658335900440270267882902913024",
+      "absolute_dot": "340282346658335900440270267882902913024",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "000000007f7fffff",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 340282346638528859811704183484516925440, expected +inf",
+        "C[0][1]: got 340282346638528859811704183484516925440, expected +inf"
+      ]
+    },
+    {
+      "index": 72,
+      "case_id": "opus-numeric-review-v1.m7.max_plus_tiny_late.positive",
+      "mode": 7,
+      "pattern": "max_plus_tiny_late",
+      "sign": 1,
+      "scale_byte": 183,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x70",
+          "b_hex": "0x78",
+          "sign": 1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x70",
+          "b_hex": "0x70",
+          "sign": 1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x68",
+          "b_hex": "0x70",
+          "sign": 1
+        },
+        {
+          "k": 3,
+          "a_hex": "0x68",
+          "b_hex": "0x68",
+          "sign": 1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x60",
+          "b_hex": "0x68",
+          "sign": 1
+        },
+        {
+          "k": 5,
+          "a_hex": "0x60",
+          "b_hex": "0x60",
+          "sign": 1
+        },
+        {
+          "k": 6,
+          "a_hex": "0x58",
+          "b_hex": "0x60",
+          "sign": 1
+        },
+        {
+          "k": 7,
+          "a_hex": "0x58",
+          "b_hex": "0x58",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x50",
+          "b_hex": "0x58",
+          "sign": 1
+        },
+        {
+          "k": 9,
+          "a_hex": "0x50",
+          "b_hex": "0x50",
+          "sign": 1
+        },
+        {
+          "k": 10,
+          "a_hex": "0x48",
+          "b_hex": "0x50",
+          "sign": 1
+        },
+        {
+          "k": 11,
+          "a_hex": "0x48",
+          "b_hex": "0x48",
+          "sign": 1
+        },
+        {
+          "k": 12,
+          "a_hex": "0x40",
+          "b_hex": "0x48",
+          "sign": 1
+        },
+        {
+          "k": 13,
+          "a_hex": "0x40",
+          "b_hex": "0x40",
+          "sign": 1
+        },
+        {
+          "k": 14,
+          "a_hex": "0x38",
+          "b_hex": "0x40",
+          "sign": 1
+        },
+        {
+          "k": 15,
+          "a_hex": "0x38",
+          "b_hex": "0x38",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x30",
+          "b_hex": "0x38",
+          "sign": 1
+        },
+        {
+          "k": 17,
+          "a_hex": "0x30",
+          "b_hex": "0x30",
+          "sign": 1
+        },
+        {
+          "k": 18,
+          "a_hex": "0x28",
+          "b_hex": "0x30",
+          "sign": 1
+        },
+        {
+          "k": 19,
+          "a_hex": "0x28",
+          "b_hex": "0x28",
+          "sign": 1
+        },
+        {
+          "k": 20,
+          "a_hex": "0x20",
+          "b_hex": "0x28",
+          "sign": 1
+        },
+        {
+          "k": 21,
+          "a_hex": "0x20",
+          "b_hex": "0x20",
+          "sign": 1
+        },
+        {
+          "k": 22,
+          "a_hex": "0x18",
+          "b_hex": "0x20",
+          "sign": 1
+        },
+        {
+          "k": 23,
+          "a_hex": "0x18",
+          "b_hex": "0x18",
+          "sign": 1
+        },
+        {
+          "k": 63,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "340282346658335900440270267882902913024",
+      "absolute_dot": "340282346658335900440270267882902913024",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "000000007f7fffff",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 340282346638528859811704183484516925440, expected +inf",
+        "C[0][1]: got 340282346638528859811704183484516925440, expected +inf"
+      ]
+    },
+    {
+      "index": 73,
+      "case_id": "opus-numeric-review-v1.m7.max_exact.negative",
+      "mode": 7,
+      "pattern": "max_exact",
+      "sign": -1,
+      "scale_byte": 183,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x70",
+          "b_hex": "0x78",
+          "sign": -1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x70",
+          "b_hex": "0x70",
+          "sign": -1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x68",
+          "b_hex": "0x70",
+          "sign": -1
+        },
+        {
+          "k": 3,
+          "a_hex": "0x68",
+          "b_hex": "0x68",
+          "sign": -1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x60",
+          "b_hex": "0x68",
+          "sign": -1
+        },
+        {
+          "k": 5,
+          "a_hex": "0x60",
+          "b_hex": "0x60",
+          "sign": -1
+        },
+        {
+          "k": 6,
+          "a_hex": "0x58",
+          "b_hex": "0x60",
+          "sign": -1
+        },
+        {
+          "k": 7,
+          "a_hex": "0x58",
+          "b_hex": "0x58",
+          "sign": -1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x50",
+          "b_hex": "0x58",
+          "sign": -1
+        },
+        {
+          "k": 9,
+          "a_hex": "0x50",
+          "b_hex": "0x50",
+          "sign": -1
+        },
+        {
+          "k": 10,
+          "a_hex": "0x48",
+          "b_hex": "0x50",
+          "sign": -1
+        },
+        {
+          "k": 11,
+          "a_hex": "0x48",
+          "b_hex": "0x48",
+          "sign": -1
+        },
+        {
+          "k": 12,
+          "a_hex": "0x40",
+          "b_hex": "0x48",
+          "sign": -1
+        },
+        {
+          "k": 13,
+          "a_hex": "0x40",
+          "b_hex": "0x40",
+          "sign": -1
+        },
+        {
+          "k": 14,
+          "a_hex": "0x38",
+          "b_hex": "0x40",
+          "sign": -1
+        },
+        {
+          "k": 15,
+          "a_hex": "0x38",
+          "b_hex": "0x38",
+          "sign": -1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x30",
+          "b_hex": "0x38",
+          "sign": -1
+        },
+        {
+          "k": 17,
+          "a_hex": "0x30",
+          "b_hex": "0x30",
+          "sign": -1
+        },
+        {
+          "k": 18,
+          "a_hex": "0x28",
+          "b_hex": "0x30",
+          "sign": -1
+        },
+        {
+          "k": 19,
+          "a_hex": "0x28",
+          "b_hex": "0x28",
+          "sign": -1
+        },
+        {
+          "k": 20,
+          "a_hex": "0x20",
+          "b_hex": "0x28",
+          "sign": -1
+        },
+        {
+          "k": 21,
+          "a_hex": "0x20",
+          "b_hex": "0x20",
+          "sign": -1
+        },
+        {
+          "k": 22,
+          "a_hex": "0x18",
+          "b_hex": "0x20",
+          "sign": -1
+        },
+        {
+          "k": 23,
+          "a_hex": "0x18",
+          "b_hex": "0x18",
+          "sign": -1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "-340282346638528859811704183484516925440",
+      "absolute_dot": "340282346638528859811704183484516925440",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "00000000ff7fffff",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 74,
+      "case_id": "opus-numeric-review-v1.m7.max_plus_tiny_same_beat.negative",
+      "mode": 7,
+      "pattern": "max_plus_tiny_same_beat",
+      "sign": -1,
+      "scale_byte": 183,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x70",
+          "b_hex": "0x78",
+          "sign": -1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x70",
+          "b_hex": "0x70",
+          "sign": -1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x68",
+          "b_hex": "0x70",
+          "sign": -1
+        },
+        {
+          "k": 3,
+          "a_hex": "0x68",
+          "b_hex": "0x68",
+          "sign": -1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x60",
+          "b_hex": "0x68",
+          "sign": -1
+        },
+        {
+          "k": 5,
+          "a_hex": "0x60",
+          "b_hex": "0x60",
+          "sign": -1
+        },
+        {
+          "k": 6,
+          "a_hex": "0x58",
+          "b_hex": "0x60",
+          "sign": -1
+        },
+        {
+          "k": 7,
+          "a_hex": "0x58",
+          "b_hex": "0x58",
+          "sign": -1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x50",
+          "b_hex": "0x58",
+          "sign": -1
+        },
+        {
+          "k": 9,
+          "a_hex": "0x50",
+          "b_hex": "0x50",
+          "sign": -1
+        },
+        {
+          "k": 10,
+          "a_hex": "0x48",
+          "b_hex": "0x50",
+          "sign": -1
+        },
+        {
+          "k": 11,
+          "a_hex": "0x48",
+          "b_hex": "0x48",
+          "sign": -1
+        },
+        {
+          "k": 12,
+          "a_hex": "0x40",
+          "b_hex": "0x48",
+          "sign": -1
+        },
+        {
+          "k": 13,
+          "a_hex": "0x40",
+          "b_hex": "0x40",
+          "sign": -1
+        },
+        {
+          "k": 14,
+          "a_hex": "0x38",
+          "b_hex": "0x40",
+          "sign": -1
+        },
+        {
+          "k": 15,
+          "a_hex": "0x38",
+          "b_hex": "0x38",
+          "sign": -1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x30",
+          "b_hex": "0x38",
+          "sign": -1
+        },
+        {
+          "k": 17,
+          "a_hex": "0x30",
+          "b_hex": "0x30",
+          "sign": -1
+        },
+        {
+          "k": 18,
+          "a_hex": "0x28",
+          "b_hex": "0x30",
+          "sign": -1
+        },
+        {
+          "k": 19,
+          "a_hex": "0x28",
+          "b_hex": "0x28",
+          "sign": -1
+        },
+        {
+          "k": 20,
+          "a_hex": "0x20",
+          "b_hex": "0x28",
+          "sign": -1
+        },
+        {
+          "k": 21,
+          "a_hex": "0x20",
+          "b_hex": "0x20",
+          "sign": -1
+        },
+        {
+          "k": 22,
+          "a_hex": "0x18",
+          "b_hex": "0x20",
+          "sign": -1
+        },
+        {
+          "k": 23,
+          "a_hex": "0x18",
+          "b_hex": "0x18",
+          "sign": -1
+        },
+        {
+          "k": 24,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-340282346658335900440270267882902913024",
+      "absolute_dot": "340282346658335900440270267882902913024",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "00000000ff7fffff",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got -340282346638528859811704183484516925440, expected -inf",
+        "C[0][1]: got -340282346638528859811704183484516925440, expected -inf"
+      ]
+    },
+    {
+      "index": 75,
+      "case_id": "opus-numeric-review-v1.m7.max_plus_tiny_late.negative",
+      "mode": 7,
+      "pattern": "max_plus_tiny_late",
+      "sign": -1,
+      "scale_byte": 183,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x70",
+          "b_hex": "0x78",
+          "sign": -1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x70",
+          "b_hex": "0x70",
+          "sign": -1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x68",
+          "b_hex": "0x70",
+          "sign": -1
+        },
+        {
+          "k": 3,
+          "a_hex": "0x68",
+          "b_hex": "0x68",
+          "sign": -1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x60",
+          "b_hex": "0x68",
+          "sign": -1
+        },
+        {
+          "k": 5,
+          "a_hex": "0x60",
+          "b_hex": "0x60",
+          "sign": -1
+        },
+        {
+          "k": 6,
+          "a_hex": "0x58",
+          "b_hex": "0x60",
+          "sign": -1
+        },
+        {
+          "k": 7,
+          "a_hex": "0x58",
+          "b_hex": "0x58",
+          "sign": -1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x50",
+          "b_hex": "0x58",
+          "sign": -1
+        },
+        {
+          "k": 9,
+          "a_hex": "0x50",
+          "b_hex": "0x50",
+          "sign": -1
+        },
+        {
+          "k": 10,
+          "a_hex": "0x48",
+          "b_hex": "0x50",
+          "sign": -1
+        },
+        {
+          "k": 11,
+          "a_hex": "0x48",
+          "b_hex": "0x48",
+          "sign": -1
+        },
+        {
+          "k": 12,
+          "a_hex": "0x40",
+          "b_hex": "0x48",
+          "sign": -1
+        },
+        {
+          "k": 13,
+          "a_hex": "0x40",
+          "b_hex": "0x40",
+          "sign": -1
+        },
+        {
+          "k": 14,
+          "a_hex": "0x38",
+          "b_hex": "0x40",
+          "sign": -1
+        },
+        {
+          "k": 15,
+          "a_hex": "0x38",
+          "b_hex": "0x38",
+          "sign": -1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x30",
+          "b_hex": "0x38",
+          "sign": -1
+        },
+        {
+          "k": 17,
+          "a_hex": "0x30",
+          "b_hex": "0x30",
+          "sign": -1
+        },
+        {
+          "k": 18,
+          "a_hex": "0x28",
+          "b_hex": "0x30",
+          "sign": -1
+        },
+        {
+          "k": 19,
+          "a_hex": "0x28",
+          "b_hex": "0x28",
+          "sign": -1
+        },
+        {
+          "k": 20,
+          "a_hex": "0x20",
+          "b_hex": "0x28",
+          "sign": -1
+        },
+        {
+          "k": 21,
+          "a_hex": "0x20",
+          "b_hex": "0x20",
+          "sign": -1
+        },
+        {
+          "k": 22,
+          "a_hex": "0x18",
+          "b_hex": "0x20",
+          "sign": -1
+        },
+        {
+          "k": 23,
+          "a_hex": "0x18",
+          "b_hex": "0x18",
+          "sign": -1
+        },
+        {
+          "k": 63,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-340282346658335900440270267882902913024",
+      "absolute_dot": "340282346658335900440270267882902913024",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "00000000ff7fffff",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got -340282346638528859811704183484516925440, expected -inf",
+        "C[0][1]: got -340282346638528859811704183484516925440, expected -inf"
+      ]
+    },
+    {
+      "index": 76,
+      "case_id": "opus-numeric-review-v1.m8.max_exact.positive",
+      "mode": 8,
+      "pattern": "max_exact",
+      "sign": 1,
+      "scale_byte": 183,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x58",
+          "b_hex": "0x5c",
+          "sign": 1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x58",
+          "b_hex": "0x58",
+          "sign": 1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x54",
+          "b_hex": "0x58",
+          "sign": 1
+        },
+        {
+          "k": 3,
+          "a_hex": "0x54",
+          "b_hex": "0x54",
+          "sign": 1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x50",
+          "b_hex": "0x54",
+          "sign": 1
+        },
+        {
+          "k": 5,
+          "a_hex": "0x50",
+          "b_hex": "0x50",
+          "sign": 1
+        },
+        {
+          "k": 6,
+          "a_hex": "0x4c",
+          "b_hex": "0x50",
+          "sign": 1
+        },
+        {
+          "k": 7,
+          "a_hex": "0x4c",
+          "b_hex": "0x4c",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x48",
+          "b_hex": "0x4c",
+          "sign": 1
+        },
+        {
+          "k": 9,
+          "a_hex": "0x48",
+          "b_hex": "0x48",
+          "sign": 1
+        },
+        {
+          "k": 10,
+          "a_hex": "0x44",
+          "b_hex": "0x48",
+          "sign": 1
+        },
+        {
+          "k": 11,
+          "a_hex": "0x44",
+          "b_hex": "0x44",
+          "sign": 1
+        },
+        {
+          "k": 12,
+          "a_hex": "0x40",
+          "b_hex": "0x44",
+          "sign": 1
+        },
+        {
+          "k": 13,
+          "a_hex": "0x40",
+          "b_hex": "0x40",
+          "sign": 1
+        },
+        {
+          "k": 14,
+          "a_hex": "0x3c",
+          "b_hex": "0x40",
+          "sign": 1
+        },
+        {
+          "k": 15,
+          "a_hex": "0x3c",
+          "b_hex": "0x3c",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x38",
+          "b_hex": "0x3c",
+          "sign": 1
+        },
+        {
+          "k": 17,
+          "a_hex": "0x38",
+          "b_hex": "0x38",
+          "sign": 1
+        },
+        {
+          "k": 18,
+          "a_hex": "0x34",
+          "b_hex": "0x38",
+          "sign": 1
+        },
+        {
+          "k": 19,
+          "a_hex": "0x34",
+          "b_hex": "0x34",
+          "sign": 1
+        },
+        {
+          "k": 20,
+          "a_hex": "0x30",
+          "b_hex": "0x34",
+          "sign": 1
+        },
+        {
+          "k": 21,
+          "a_hex": "0x30",
+          "b_hex": "0x30",
+          "sign": 1
+        },
+        {
+          "k": 22,
+          "a_hex": "0x2c",
+          "b_hex": "0x30",
+          "sign": 1
+        },
+        {
+          "k": 23,
+          "a_hex": "0x2c",
+          "b_hex": "0x2c",
+          "sign": 1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "340282346638528859811704183484516925440",
+      "absolute_dot": "340282346638528859811704183484516925440",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "000000007f7fffff",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 77,
+      "case_id": "opus-numeric-review-v1.m8.max_plus_tiny_same_beat.positive",
+      "mode": 8,
+      "pattern": "max_plus_tiny_same_beat",
+      "sign": 1,
+      "scale_byte": 183,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x58",
+          "b_hex": "0x5c",
+          "sign": 1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x58",
+          "b_hex": "0x58",
+          "sign": 1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x54",
+          "b_hex": "0x58",
+          "sign": 1
+        },
+        {
+          "k": 3,
+          "a_hex": "0x54",
+          "b_hex": "0x54",
+          "sign": 1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x50",
+          "b_hex": "0x54",
+          "sign": 1
+        },
+        {
+          "k": 5,
+          "a_hex": "0x50",
+          "b_hex": "0x50",
+          "sign": 1
+        },
+        {
+          "k": 6,
+          "a_hex": "0x4c",
+          "b_hex": "0x50",
+          "sign": 1
+        },
+        {
+          "k": 7,
+          "a_hex": "0x4c",
+          "b_hex": "0x4c",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x48",
+          "b_hex": "0x4c",
+          "sign": 1
+        },
+        {
+          "k": 9,
+          "a_hex": "0x48",
+          "b_hex": "0x48",
+          "sign": 1
+        },
+        {
+          "k": 10,
+          "a_hex": "0x44",
+          "b_hex": "0x48",
+          "sign": 1
+        },
+        {
+          "k": 11,
+          "a_hex": "0x44",
+          "b_hex": "0x44",
+          "sign": 1
+        },
+        {
+          "k": 12,
+          "a_hex": "0x40",
+          "b_hex": "0x44",
+          "sign": 1
+        },
+        {
+          "k": 13,
+          "a_hex": "0x40",
+          "b_hex": "0x40",
+          "sign": 1
+        },
+        {
+          "k": 14,
+          "a_hex": "0x3c",
+          "b_hex": "0x40",
+          "sign": 1
+        },
+        {
+          "k": 15,
+          "a_hex": "0x3c",
+          "b_hex": "0x3c",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x38",
+          "b_hex": "0x3c",
+          "sign": 1
+        },
+        {
+          "k": 17,
+          "a_hex": "0x38",
+          "b_hex": "0x38",
+          "sign": 1
+        },
+        {
+          "k": 18,
+          "a_hex": "0x34",
+          "b_hex": "0x38",
+          "sign": 1
+        },
+        {
+          "k": 19,
+          "a_hex": "0x34",
+          "b_hex": "0x34",
+          "sign": 1
+        },
+        {
+          "k": 20,
+          "a_hex": "0x30",
+          "b_hex": "0x34",
+          "sign": 1
+        },
+        {
+          "k": 21,
+          "a_hex": "0x30",
+          "b_hex": "0x30",
+          "sign": 1
+        },
+        {
+          "k": 22,
+          "a_hex": "0x2c",
+          "b_hex": "0x30",
+          "sign": 1
+        },
+        {
+          "k": 23,
+          "a_hex": "0x2c",
+          "b_hex": "0x2c",
+          "sign": 1
+        },
+        {
+          "k": 24,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "340282346638530068737523798113691631616",
+      "absolute_dot": "340282346638530068737523798113691631616",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "000000007f7fffff",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 340282346638528859811704183484516925440, expected +inf",
+        "C[0][1]: got 340282346638528859811704183484516925440, expected +inf"
+      ]
+    },
+    {
+      "index": 78,
+      "case_id": "opus-numeric-review-v1.m8.max_plus_tiny_late.positive",
+      "mode": 8,
+      "pattern": "max_plus_tiny_late",
+      "sign": 1,
+      "scale_byte": 183,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x58",
+          "b_hex": "0x5c",
+          "sign": 1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x58",
+          "b_hex": "0x58",
+          "sign": 1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x54",
+          "b_hex": "0x58",
+          "sign": 1
+        },
+        {
+          "k": 3,
+          "a_hex": "0x54",
+          "b_hex": "0x54",
+          "sign": 1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x50",
+          "b_hex": "0x54",
+          "sign": 1
+        },
+        {
+          "k": 5,
+          "a_hex": "0x50",
+          "b_hex": "0x50",
+          "sign": 1
+        },
+        {
+          "k": 6,
+          "a_hex": "0x4c",
+          "b_hex": "0x50",
+          "sign": 1
+        },
+        {
+          "k": 7,
+          "a_hex": "0x4c",
+          "b_hex": "0x4c",
+          "sign": 1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x48",
+          "b_hex": "0x4c",
+          "sign": 1
+        },
+        {
+          "k": 9,
+          "a_hex": "0x48",
+          "b_hex": "0x48",
+          "sign": 1
+        },
+        {
+          "k": 10,
+          "a_hex": "0x44",
+          "b_hex": "0x48",
+          "sign": 1
+        },
+        {
+          "k": 11,
+          "a_hex": "0x44",
+          "b_hex": "0x44",
+          "sign": 1
+        },
+        {
+          "k": 12,
+          "a_hex": "0x40",
+          "b_hex": "0x44",
+          "sign": 1
+        },
+        {
+          "k": 13,
+          "a_hex": "0x40",
+          "b_hex": "0x40",
+          "sign": 1
+        },
+        {
+          "k": 14,
+          "a_hex": "0x3c",
+          "b_hex": "0x40",
+          "sign": 1
+        },
+        {
+          "k": 15,
+          "a_hex": "0x3c",
+          "b_hex": "0x3c",
+          "sign": 1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x38",
+          "b_hex": "0x3c",
+          "sign": 1
+        },
+        {
+          "k": 17,
+          "a_hex": "0x38",
+          "b_hex": "0x38",
+          "sign": 1
+        },
+        {
+          "k": 18,
+          "a_hex": "0x34",
+          "b_hex": "0x38",
+          "sign": 1
+        },
+        {
+          "k": 19,
+          "a_hex": "0x34",
+          "b_hex": "0x34",
+          "sign": 1
+        },
+        {
+          "k": 20,
+          "a_hex": "0x30",
+          "b_hex": "0x34",
+          "sign": 1
+        },
+        {
+          "k": 21,
+          "a_hex": "0x30",
+          "b_hex": "0x30",
+          "sign": 1
+        },
+        {
+          "k": 22,
+          "a_hex": "0x2c",
+          "b_hex": "0x30",
+          "sign": 1
+        },
+        {
+          "k": 23,
+          "a_hex": "0x2c",
+          "b_hex": "0x2c",
+          "sign": 1
+        },
+        {
+          "k": 63,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": 1
+        }
+      ],
+      "expected_class": "+inf",
+      "exact_dot": "340282346638530068737523798113691631616",
+      "absolute_dot": "340282346638530068737523798113691631616",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "000000007f7fffff",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got 340282346638528859811704183484516925440, expected +inf",
+        "C[0][1]: got 340282346638528859811704183484516925440, expected +inf"
+      ]
+    },
+    {
+      "index": 79,
+      "case_id": "opus-numeric-review-v1.m8.max_exact.negative",
+      "mode": 8,
+      "pattern": "max_exact",
+      "sign": -1,
+      "scale_byte": 183,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x58",
+          "b_hex": "0x5c",
+          "sign": -1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x58",
+          "b_hex": "0x58",
+          "sign": -1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x54",
+          "b_hex": "0x58",
+          "sign": -1
+        },
+        {
+          "k": 3,
+          "a_hex": "0x54",
+          "b_hex": "0x54",
+          "sign": -1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x50",
+          "b_hex": "0x54",
+          "sign": -1
+        },
+        {
+          "k": 5,
+          "a_hex": "0x50",
+          "b_hex": "0x50",
+          "sign": -1
+        },
+        {
+          "k": 6,
+          "a_hex": "0x4c",
+          "b_hex": "0x50",
+          "sign": -1
+        },
+        {
+          "k": 7,
+          "a_hex": "0x4c",
+          "b_hex": "0x4c",
+          "sign": -1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x48",
+          "b_hex": "0x4c",
+          "sign": -1
+        },
+        {
+          "k": 9,
+          "a_hex": "0x48",
+          "b_hex": "0x48",
+          "sign": -1
+        },
+        {
+          "k": 10,
+          "a_hex": "0x44",
+          "b_hex": "0x48",
+          "sign": -1
+        },
+        {
+          "k": 11,
+          "a_hex": "0x44",
+          "b_hex": "0x44",
+          "sign": -1
+        },
+        {
+          "k": 12,
+          "a_hex": "0x40",
+          "b_hex": "0x44",
+          "sign": -1
+        },
+        {
+          "k": 13,
+          "a_hex": "0x40",
+          "b_hex": "0x40",
+          "sign": -1
+        },
+        {
+          "k": 14,
+          "a_hex": "0x3c",
+          "b_hex": "0x40",
+          "sign": -1
+        },
+        {
+          "k": 15,
+          "a_hex": "0x3c",
+          "b_hex": "0x3c",
+          "sign": -1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x38",
+          "b_hex": "0x3c",
+          "sign": -1
+        },
+        {
+          "k": 17,
+          "a_hex": "0x38",
+          "b_hex": "0x38",
+          "sign": -1
+        },
+        {
+          "k": 18,
+          "a_hex": "0x34",
+          "b_hex": "0x38",
+          "sign": -1
+        },
+        {
+          "k": 19,
+          "a_hex": "0x34",
+          "b_hex": "0x34",
+          "sign": -1
+        },
+        {
+          "k": 20,
+          "a_hex": "0x30",
+          "b_hex": "0x34",
+          "sign": -1
+        },
+        {
+          "k": 21,
+          "a_hex": "0x30",
+          "b_hex": "0x30",
+          "sign": -1
+        },
+        {
+          "k": 22,
+          "a_hex": "0x2c",
+          "b_hex": "0x30",
+          "sign": -1
+        },
+        {
+          "k": 23,
+          "a_hex": "0x2c",
+          "b_hex": "0x2c",
+          "sign": -1
+        }
+      ],
+      "expected_class": "finite",
+      "exact_dot": "-340282346638528859811704183484516925440",
+      "absolute_dot": "340282346638528859811704183484516925440",
+      "passed": true,
+      "failed_lanes": 0,
+      "observed_first_lane": "00000000ff7fffff",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [],
+      "exact_errors": []
+    },
+    {
+      "index": 80,
+      "case_id": "opus-numeric-review-v1.m8.max_plus_tiny_same_beat.negative",
+      "mode": 8,
+      "pattern": "max_plus_tiny_same_beat",
+      "sign": -1,
+      "scale_byte": 183,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x58",
+          "b_hex": "0x5c",
+          "sign": -1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x58",
+          "b_hex": "0x58",
+          "sign": -1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x54",
+          "b_hex": "0x58",
+          "sign": -1
+        },
+        {
+          "k": 3,
+          "a_hex": "0x54",
+          "b_hex": "0x54",
+          "sign": -1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x50",
+          "b_hex": "0x54",
+          "sign": -1
+        },
+        {
+          "k": 5,
+          "a_hex": "0x50",
+          "b_hex": "0x50",
+          "sign": -1
+        },
+        {
+          "k": 6,
+          "a_hex": "0x4c",
+          "b_hex": "0x50",
+          "sign": -1
+        },
+        {
+          "k": 7,
+          "a_hex": "0x4c",
+          "b_hex": "0x4c",
+          "sign": -1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x48",
+          "b_hex": "0x4c",
+          "sign": -1
+        },
+        {
+          "k": 9,
+          "a_hex": "0x48",
+          "b_hex": "0x48",
+          "sign": -1
+        },
+        {
+          "k": 10,
+          "a_hex": "0x44",
+          "b_hex": "0x48",
+          "sign": -1
+        },
+        {
+          "k": 11,
+          "a_hex": "0x44",
+          "b_hex": "0x44",
+          "sign": -1
+        },
+        {
+          "k": 12,
+          "a_hex": "0x40",
+          "b_hex": "0x44",
+          "sign": -1
+        },
+        {
+          "k": 13,
+          "a_hex": "0x40",
+          "b_hex": "0x40",
+          "sign": -1
+        },
+        {
+          "k": 14,
+          "a_hex": "0x3c",
+          "b_hex": "0x40",
+          "sign": -1
+        },
+        {
+          "k": 15,
+          "a_hex": "0x3c",
+          "b_hex": "0x3c",
+          "sign": -1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x38",
+          "b_hex": "0x3c",
+          "sign": -1
+        },
+        {
+          "k": 17,
+          "a_hex": "0x38",
+          "b_hex": "0x38",
+          "sign": -1
+        },
+        {
+          "k": 18,
+          "a_hex": "0x34",
+          "b_hex": "0x38",
+          "sign": -1
+        },
+        {
+          "k": 19,
+          "a_hex": "0x34",
+          "b_hex": "0x34",
+          "sign": -1
+        },
+        {
+          "k": 20,
+          "a_hex": "0x30",
+          "b_hex": "0x34",
+          "sign": -1
+        },
+        {
+          "k": 21,
+          "a_hex": "0x30",
+          "b_hex": "0x30",
+          "sign": -1
+        },
+        {
+          "k": 22,
+          "a_hex": "0x2c",
+          "b_hex": "0x30",
+          "sign": -1
+        },
+        {
+          "k": 23,
+          "a_hex": "0x2c",
+          "b_hex": "0x2c",
+          "sign": -1
+        },
+        {
+          "k": 24,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-340282346638530068737523798113691631616",
+      "absolute_dot": "340282346638530068737523798113691631616",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "00000000ff7fffff",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got -340282346638528859811704183484516925440, expected -inf",
+        "C[0][1]: got -340282346638528859811704183484516925440, expected -inf"
+      ]
+    },
+    {
+      "index": 81,
+      "case_id": "opus-numeric-review-v1.m8.max_plus_tiny_late.negative",
+      "mode": 8,
+      "pattern": "max_plus_tiny_late",
+      "sign": -1,
+      "scale_byte": 183,
+      "terms": [
+        {
+          "k": 0,
+          "a_hex": "0x58",
+          "b_hex": "0x5c",
+          "sign": -1
+        },
+        {
+          "k": 1,
+          "a_hex": "0x58",
+          "b_hex": "0x58",
+          "sign": -1
+        },
+        {
+          "k": 2,
+          "a_hex": "0x54",
+          "b_hex": "0x58",
+          "sign": -1
+        },
+        {
+          "k": 3,
+          "a_hex": "0x54",
+          "b_hex": "0x54",
+          "sign": -1
+        },
+        {
+          "k": 4,
+          "a_hex": "0x50",
+          "b_hex": "0x54",
+          "sign": -1
+        },
+        {
+          "k": 5,
+          "a_hex": "0x50",
+          "b_hex": "0x50",
+          "sign": -1
+        },
+        {
+          "k": 6,
+          "a_hex": "0x4c",
+          "b_hex": "0x50",
+          "sign": -1
+        },
+        {
+          "k": 7,
+          "a_hex": "0x4c",
+          "b_hex": "0x4c",
+          "sign": -1
+        },
+        {
+          "k": 8,
+          "a_hex": "0x48",
+          "b_hex": "0x4c",
+          "sign": -1
+        },
+        {
+          "k": 9,
+          "a_hex": "0x48",
+          "b_hex": "0x48",
+          "sign": -1
+        },
+        {
+          "k": 10,
+          "a_hex": "0x44",
+          "b_hex": "0x48",
+          "sign": -1
+        },
+        {
+          "k": 11,
+          "a_hex": "0x44",
+          "b_hex": "0x44",
+          "sign": -1
+        },
+        {
+          "k": 12,
+          "a_hex": "0x40",
+          "b_hex": "0x44",
+          "sign": -1
+        },
+        {
+          "k": 13,
+          "a_hex": "0x40",
+          "b_hex": "0x40",
+          "sign": -1
+        },
+        {
+          "k": 14,
+          "a_hex": "0x3c",
+          "b_hex": "0x40",
+          "sign": -1
+        },
+        {
+          "k": 15,
+          "a_hex": "0x3c",
+          "b_hex": "0x3c",
+          "sign": -1
+        },
+        {
+          "k": 16,
+          "a_hex": "0x38",
+          "b_hex": "0x3c",
+          "sign": -1
+        },
+        {
+          "k": 17,
+          "a_hex": "0x38",
+          "b_hex": "0x38",
+          "sign": -1
+        },
+        {
+          "k": 18,
+          "a_hex": "0x34",
+          "b_hex": "0x38",
+          "sign": -1
+        },
+        {
+          "k": 19,
+          "a_hex": "0x34",
+          "b_hex": "0x34",
+          "sign": -1
+        },
+        {
+          "k": 20,
+          "a_hex": "0x30",
+          "b_hex": "0x34",
+          "sign": -1
+        },
+        {
+          "k": 21,
+          "a_hex": "0x30",
+          "b_hex": "0x30",
+          "sign": -1
+        },
+        {
+          "k": 22,
+          "a_hex": "0x2c",
+          "b_hex": "0x30",
+          "sign": -1
+        },
+        {
+          "k": 23,
+          "a_hex": "0x2c",
+          "b_hex": "0x2c",
+          "sign": -1
+        },
+        {
+          "k": 63,
+          "a_hex": "0x1",
+          "b_hex": "0x1",
+          "sign": -1
+        }
+      ],
+      "expected_class": "-inf",
+      "exact_dot": "-340282346638530068737523798113691631616",
+      "absolute_dot": "340282346638530068737523798113691631616",
+      "passed": false,
+      "failed_lanes": 256,
+      "observed_first_lane": "00000000ff7fffff",
+      "independent_oracles_agree": true,
+      "protocol": {
+        "protocol": true,
+        "timing": true,
+        "output": true,
+        "rows": 16
+      },
+      "fast_errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf"
+      ],
+      "exact_errors": [
+        "C[0][0]: got -340282346638528859811704183484516925440, expected -inf",
+        "C[0][1]: got -340282346638528859811704183484516925440, expected -inf"
+      ]
+    }
+  ]
+}

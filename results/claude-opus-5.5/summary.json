@@ -1,0 +1,3433 @@
+{
+  "schema_version": 3,
+  "suite_id": "ic-delivery-rtl-v0.3",
+  "agent": "claude-code",
+  "model": "claude-opus-5-5",
+  "framework": "Claude Code",
+  "framework_version": "2.1.317",
+  "reasoning_effort": "high",
+  "task_language": "en",
+  "trial_kind": "pre_release_pilot",
+  "status": "scored",
+  "completed_tasks": 10,
+  "full_functional_task_count": 9,
+  "functional_total_sum": 499.24025513819987,
+  "ppa_score_sum": 320.34297110585436,
+  "time_score_sum": 30.23632535641944,
+  "display_score_sum": 844.8195516004737,
+  "ranking_eligible": false,
+  "tasks": [
+    {
+      "task_id": "T01",
+      "functional_basic": 40.0,
+      "functional_edges": 10.0,
+      "functional_total": 50.0,
+      "full_functional_pass": true,
+      "delivery_qualified": true,
+      "ppa_eligible": true,
+      "ppa_score": 37.02340926640233,
+      "ppa_rank_bucket": 30,
+      "time_score": 1.9904920538266502,
+      "candidate_delivery_error_count": 0,
+      "candidate_delivery_penalty": 0,
+      "display_score_before_candidate_penalty": 89.01390132022898,
+      "display_score": 89.01390132022898,
+      "score_items": [
+        {
+          "id": "F_TRAIN",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 20,
+          "cases_total": 20,
+          "safety_violation": false
+        },
+        {
+          "id": "F_REASSEMBLE",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 8,
+          "cases_total": 8,
+          "safety_violation": false
+        },
+        {
+          "id": "F_PHASE",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 10,
+          "cases_total": 10,
+          "safety_violation": false
+        },
+        {
+          "id": "P_RELOCK",
+          "layer": "P",
+          "points": 6.666666666666666,
+          "possible_points": 6.666666666666666,
+          "cases_passed": 8,
+          "cases_total": 8,
+          "safety_violation": false
+        },
+        {
+          "id": "P_RESET",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 6,
+          "cases_total": 6,
+          "safety_violation": false
+        }
+      ],
+      "rank_key": [
+        50.0,
+        30,
+        -1083.422860622406
+      ],
+      "physical_policy": "physical-wall-3600s-retain-results-v1",
+      "physical_records": [
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T01",
+          "candidate_source_sha256": "cebfdaf0dc0a21a5f09a736b487eb270c96bab7395b3a98191bb3440f28ec966",
+          "layout_seed": 11,
+          "elapsed_seconds": 52.41185724083334,
+          "status": "completed",
+          "started_utc": "2026-11-04T04:01:15.970495+00:00",
+          "ended_utc": "2026-11-04T04:02:08.382361+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T01",
+          "candidate_source_sha256": "cebfdaf0dc0a21a5f09a736b487eb270c96bab7395b3a98191bb3440f28ec966",
+          "layout_seed": 29,
+          "elapsed_seconds": 48.745349007193,
+          "status": "completed",
+          "started_utc": "2026-11-04T04:02:13.805807+00:00",
+          "ended_utc": "2026-11-04T04:03:02.551156+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T01",
+          "candidate_source_sha256": "cebfdaf0dc0a21a5f09a736b487eb270c96bab7395b3a98191bb3440f28ec966",
+          "layout_seed": 47,
+          "elapsed_seconds": 47.694353165104985,
+          "status": "completed",
+          "started_utc": "2026-11-04T04:03:05.876570+00:00",
+          "ended_utc": "2026-11-04T04:03:53.570923+00:00",
+          "process_group_terminated": false
+        }
+      ],
+      "physical_timed_out_seeds": [],
+      "candidate_source_sha256": "cebfdaf0dc0a21a5f09a736b487eb270c96bab7395b3a98191bb3440f28ec966",
+      "power_compile_policy": "power-compile-wall-1200s-v1",
+      "power_compile_records": [
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T01",
+          "candidate_source_sha256": "cebfdaf0dc0a21a5f09a736b487eb270c96bab7395b3a98191bb3440f28ec966",
+          "layout_seed": 11,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "t01_hidden_tb",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T01/seed11/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T01/seed11/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/serdes_rx_comma_aligner/ic_probe_t01_wc_p1000_u10_d0.6_s11_e27bc793bf/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T01/seed11/power/power_compile_command_0000.log",
+              "process_group": 2009897,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T01/seed11/power/power_compile_command_0000.log",
+                "bytes": 6716,
+                "sha256": "fb72a41f438b14f92b200d95b1917a0d50b444e002235ef3b6a88f0c73e80a6d"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T04:02:08.435060+00:00",
+          "status": "completed",
+          "elapsed_seconds": 4.376566252205521,
+          "ended_utc": "2026-11-04T04:02:12.811632+00:00"
+        },
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T01",
+          "candidate_source_sha256": "cebfdaf0dc0a21a5f09a736b487eb270c96bab7395b3a98191bb3440f28ec966",
+          "layout_seed": 29,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "t01_hidden_tb",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T01/seed29/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T01/seed29/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/serdes_rx_comma_aligner/ic_probe_t01_wc_p1000_u10_d0.6_s29_f1b8977f8a/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T01/seed29/power/power_compile_command_0000.log",
+              "process_group": 2011883,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T01/seed29/power/power_compile_command_0000.log",
+                "bytes": 6716,
+                "sha256": "ffe3c1432dcc9c0608c091a768af41e546f246300f42e79cb624f2c08f889571"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T04:03:02.578626+00:00",
+          "status": "completed",
+          "elapsed_seconds": 2.417646727990359,
+          "ended_utc": "2026-11-04T04:03:04.996273+00:00"
+        },
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T01",
+          "candidate_source_sha256": "cebfdaf0dc0a21a5f09a736b487eb270c96bab7395b3a98191bb3440f28ec966",
+          "layout_seed": 47,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "t01_hidden_tb",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T01/seed47/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T01/seed47/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/serdes_rx_comma_aligner/ic_probe_t01_wc_p1000_u10_d0.6_s47_90bd453a6b/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T01/seed47/power/power_compile_command_0000.log",
+              "process_group": 2013919,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T01/seed47/power/power_compile_command_0000.log",
+                "bytes": 6716,
+                "sha256": "30974cb7c3e0a0cb1add5a789fe12cf8386ac4c2d8ae6b4ac6c1c4bd653f9218"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T04:03:53.598844+00:00",
+          "status": "completed",
+          "elapsed_seconds": 2.417541643138975,
+          "ended_utc": "2026-11-04T04:03:56.016387+00:00"
+        }
+      ],
+      "delivery_assessment": {
+        "missing_deliverables": [],
+        "errors": []
+      },
+      "delivery_penalty_policy": "delivery-contract-cap10-v1",
+      "delivery_penalty_status": "adjudicated",
+      "model": "claude-opus-5-5",
+      "status": "scored",
+      "elapsed_seconds": 1083.422860622406,
+      "delivery_attribution_pending": false,
+      "delivery_seed_policy": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/delivery_prime_policy/policy.json",
+        "sha256": "306dbca39bef73cd37b705889cfe3b0e8bd50ac84d60a781a169aa13e82bc3b9"
+      },
+      "delivery_replay_seeds": [
+        11,
+        29,
+        47
+      ],
+      "grading_policy_receipt": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading_receipt.json",
+        "sha256": "9069f853f9e4462a2f02ff8adea9e69fa2e0703bcade483dd71229c3c5e7bd0e"
+      },
+      "schema_version": 3,
+      "suite_id": "ic-delivery-rtl-v0.3",
+      "framework": "Claude Code",
+      "framework_version": "2.1.317",
+      "reasoning_effort": "high",
+      "task_language": "en",
+      "trial_kind": "pre_release_pilot",
+      "ranking_eligible": false,
+      "ranking_ineligible_reason": "Independent pilot; not an official benchmark ranking.",
+      "functional_possible": 50,
+      "ppa_possible": 50,
+      "time_possible": 5,
+      "display_possible": 105,
+      "time_limit_seconds": 1800,
+      "score_status": "scored",
+      "source_report_sha256": "ea6822017a93bacb859d610063c9a6a53f13b1f716ddcf0f90286eea217bd7ee",
+      "source_score_input_sha256": "1c9d273c6e71eab4c37747a4ab4c29d92d6eb4378bbfc8009cab873e675165c5",
+      "archive_evidence": {
+        "report.json": {
+          "archive_path": "evidence/T01/report.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T01/report.json",
+          "bytes": 11404,
+          "sha256": "ea6822017a93bacb859d610063c9a6a53f13b1f716ddcf0f90286eea217bd7ee"
+        },
+        "score_input.json": {
+          "archive_path": "evidence/T01/score_input.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T01/score_input.json",
+          "bytes": 25233,
+          "sha256": "1c9d273c6e71eab4c37747a4ab4c29d92d6eb4378bbfc8009cab873e675165c5"
+        },
+        "functional.json": {
+          "archive_path": "evidence/T01/functional.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T01/functional.json",
+          "bytes": 582,
+          "sha256": "8aac107302caa68e08e2b04dc500bd54b9c198599182668ab83acd251a47a061"
+        },
+        "delivery.json": {
+          "archive_path": "evidence/T01/delivery.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T01/delivery.json",
+          "bytes": 1531,
+          "sha256": "7390a55cf6090199d64ca8fcd849d50238daa52bfdb17bbbd0bd00872cb73d64"
+        }
+      }
+    },
+    {
+      "task_id": "T02",
+      "functional_basic": 40.0,
+      "functional_edges": 10.0,
+      "functional_total": 50.0,
+      "full_functional_pass": true,
+      "delivery_qualified": true,
+      "ppa_eligible": true,
+      "ppa_score": 34.368069107957254,
+      "ppa_rank_bucket": 27,
+      "time_score": 4.261976712610986,
+      "candidate_delivery_error_count": 0,
+      "candidate_delivery_penalty": 0,
+      "display_score_before_candidate_penalty": 88.63004582056824,
+      "display_score": 88.63004582056824,
+      "score_items": [
+        {
+          "id": "F_ORDER",
+          "layer": "F",
+          "points": 16.666666666666664,
+          "possible_points": 16.666666666666664,
+          "cases_passed": 215407,
+          "cases_total": 215407,
+          "safety_violation": false
+        },
+        {
+          "id": "F_CAPACITY",
+          "layer": "F",
+          "points": 10.0,
+          "possible_points": 10.0,
+          "cases_passed": 221033,
+          "cases_total": 221033,
+          "safety_violation": false
+        },
+        {
+          "id": "F_SIMULTANEOUS",
+          "layer": "F",
+          "points": 6.666666666666666,
+          "possible_points": 6.666666666666666,
+          "cases_passed": 432,
+          "cases_total": 432,
+          "safety_violation": false
+        },
+        {
+          "id": "F_PARAMETERS",
+          "layer": "F",
+          "points": 6.666666666666666,
+          "possible_points": 6.666666666666666,
+          "cases_passed": 12,
+          "cases_total": 12,
+          "safety_violation": false
+        },
+        {
+          "id": "P_RESET",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 48,
+          "cases_total": 48,
+          "safety_violation": false
+        },
+        {
+          "id": "P_STALL",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 80463,
+          "cases_total": 80463,
+          "safety_violation": false
+        },
+        {
+          "id": "P_WRAP",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 6,
+          "cases_total": 6,
+          "safety_violation": false
+        }
+      ],
+      "rank_key": [
+        50.0,
+        27,
+        -531.3767669200897
+      ],
+      "physical_policy": "physical-wall-3600s-retain-results-v1",
+      "physical_records": [
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T02",
+          "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+          "layout_seed": 11,
+          "elapsed_seconds": 184.4897808022797,
+          "status": "completed",
+          "started_utc": "2026-11-04T04:21:50.786751+00:00",
+          "ended_utc": "2026-11-04T04:24:55.276526+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T02",
+          "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+          "layout_seed": 29,
+          "elapsed_seconds": 170.98866763617843,
+          "status": "completed",
+          "started_utc": "2026-11-04T04:25:05.926921+00:00",
+          "ended_utc": "2026-11-04T04:27:56.915587+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T02",
+          "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+          "layout_seed": 47,
+          "elapsed_seconds": 163.07643943512812,
+          "status": "completed",
+          "started_utc": "2026-11-04T04:28:02.633230+00:00",
+          "ended_utc": "2026-11-04T04:30:45.709665+00:00",
+          "process_group_terminated": false
+        }
+      ],
+      "physical_timed_out_seeds": [],
+      "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+      "power_compile_policy": "power-compile-wall-1200s-v1",
+      "power_compile_records": [
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T02",
+          "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+          "layout_seed": 11,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_hidden_T02",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed11/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "-GWIDTH=32",
+                "-GDEPTH=16",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed11/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/synchronous_fifo/ic_probe_t02_wc_p1000_u10_d0.6_s11_50ced78297/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed11/power/power_compile_command_0000.log",
+              "process_group": 2059350,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed11/power/power_compile_command_0000.log",
+                "bytes": 27587,
+                "sha256": "619c6996007e4c8a03313efcccab4033cc7336839de24b5eac1cbac1c4398bed"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T04:24:55.309623+00:00",
+          "status": "completed",
+          "elapsed_seconds": 8.629689696244895,
+          "ended_utc": "2026-11-04T04:25:03.939312+00:00"
+        },
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T02",
+          "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+          "layout_seed": 29,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_hidden_T02",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed29/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "-GWIDTH=32",
+                "-GDEPTH=16",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed29/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/synchronous_fifo/ic_probe_t02_wc_p1000_u10_d0.6_s29_a602933554/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed29/power/power_compile_command_0000.log",
+              "process_group": 2062067,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed29/power/power_compile_command_0000.log",
+                "bytes": 27587,
+                "sha256": "bdfc966d1c84ea2bd78bb0945c2a4ae8b6959bf674c4ded0edba4283f0e126b9"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T04:27:56.948320+00:00",
+          "status": "completed",
+          "elapsed_seconds": 3.670752859208733,
+          "ended_utc": "2026-11-04T04:28:00.619071+00:00"
+        },
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T02",
+          "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+          "layout_seed": 47,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_hidden_T02",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed47/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "-GWIDTH=32",
+                "-GDEPTH=16",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed47/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/synchronous_fifo/ic_probe_t02_wc_p1000_u10_d0.6_s47_c2649d873b/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed47/power/power_compile_command_0000.log",
+              "process_group": 2064630,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed47/power/power_compile_command_0000.log",
+                "bytes": 27587,
+                "sha256": "9942de3ed727f6d13c82d9de5e91ff36db03d973655324c688e07fad3390f28d"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T04:30:45.746488+00:00",
+          "status": "completed",
+          "elapsed_seconds": 3.7709067268297076,
+          "ended_utc": "2026-11-04T04:30:49.517394+00:00"
+        }
+      ],
+      "delivery_assessment": {
+        "missing_deliverables": [],
+        "errors": []
+      },
+      "delivery_penalty_policy": "delivery-contract-cap10-v1",
+      "delivery_penalty_status": "adjudicated",
+      "model": "claude-opus-5-5",
+      "status": "scored",
+      "elapsed_seconds": 531.3767669200897,
+      "delivery_attribution_pending": false,
+      "delivery_seed_policy": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/delivery_prime_policy/policy.json",
+        "sha256": "306dbca39bef73cd37b705889cfe3b0e8bd50ac84d60a781a169aa13e82bc3b9"
+      },
+      "delivery_replay_seeds": [
+        11,
+        29,
+        47
+      ],
+      "grading_policy_receipt": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading_receipt.json",
+        "sha256": "9069f853f9e4462a2f02ff8adea9e69fa2e0703bcade483dd71229c3c5e7bd0e"
+      },
+      "schema_version": 3,
+      "suite_id": "ic-delivery-rtl-v0.3",
+      "framework": "Claude Code",
+      "framework_version": "2.1.317",
+      "reasoning_effort": "high",
+      "task_language": "en",
+      "trial_kind": "pre_release_pilot",
+      "ranking_eligible": false,
+      "ranking_ineligible_reason": "Independent pilot; not an official benchmark ranking.",
+      "functional_possible": 50,
+      "ppa_possible": 50,
+      "time_possible": 5,
+      "display_possible": 105,
+      "time_limit_seconds": 3600,
+      "score_status": "scored",
+      "source_report_sha256": "749a3124a4065293bf75ae0f81ba8feef23b582542002203d03088ff8179d690",
+      "source_score_input_sha256": "50e5db434603ab1c9658429561c6df941800e95999a0989296a3fa1ca3fa1fef",
+      "archive_evidence": {
+        "report.json": {
+          "archive_path": "evidence/T02/report.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/report.json",
+          "bytes": 11988,
+          "sha256": "749a3124a4065293bf75ae0f81ba8feef23b582542002203d03088ff8179d690"
+        },
+        "score_input.json": {
+          "archive_path": "evidence/T02/score_input.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/score_input.json",
+          "bytes": 25548,
+          "sha256": "50e5db434603ab1c9658429561c6df941800e95999a0989296a3fa1ca3fa1fef"
+        },
+        "functional.json": {
+          "archive_path": "evidence/T02/functional.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/functional.json",
+          "bytes": 818,
+          "sha256": "54a38527cbcceba94cb43d0562de59e0e5241836699338b22b7009e1a00242ba"
+        },
+        "delivery.json": {
+          "archive_path": "evidence/T02/delivery.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/delivery.json",
+          "bytes": 1535,
+          "sha256": "a93c397f671a9a3c3b1523206f88cf81257fef7a4eca5eb91fc9d98288785e05"
+        }
+      }
+    },
+    {
+      "task_id": "T03",
+      "functional_basic": 40.0,
+      "functional_edges": 10.0,
+      "functional_total": 50.0,
+      "full_functional_pass": true,
+      "delivery_qualified": true,
+      "ppa_eligible": true,
+      "ppa_score": 35.58108957474053,
+      "ppa_rank_bucket": 28,
+      "time_score": 3.8238739550113676,
+      "candidate_delivery_error_count": 0,
+      "candidate_delivery_penalty": 0,
+      "display_score_before_candidate_penalty": 89.4049635297519,
+      "display_score": 89.4049635297519,
+      "score_items": [
+        {
+          "id": "F_REGISTERS",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 493,
+          "cases_total": 493,
+          "safety_violation": false
+        },
+        {
+          "id": "F_COUNT",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 185,
+          "cases_total": 185,
+          "safety_violation": false
+        },
+        {
+          "id": "F_IRQ",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 5417,
+          "cases_total": 5417,
+          "safety_violation": false
+        },
+        {
+          "id": "P_APB",
+          "layer": "P",
+          "points": 6.666666666666666,
+          "possible_points": 6.666666666666666,
+          "cases_passed": 2608,
+          "cases_total": 2608,
+          "safety_violation": false
+        },
+        {
+          "id": "P_BOUNDARY",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 2616,
+          "cases_total": 2616,
+          "safety_violation": false
+        }
+      ],
+      "rank_key": [
+        50.0,
+        28,
+        -1270.2161285877228
+      ],
+      "physical_policy": "physical-wall-3600s-retain-results-v1",
+      "physical_records": [
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T03",
+          "candidate_source_sha256": "0342f024356cfa36f792fe518dbde5f4ed8695964b12247ed2d8fd2301e4b8da",
+          "layout_seed": 11,
+          "elapsed_seconds": 57.77229083515704,
+          "status": "completed",
+          "started_utc": "2026-11-04T04:38:06.041127+00:00",
+          "ended_utc": "2026-11-04T04:39:03.813415+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T03",
+          "candidate_source_sha256": "0342f024356cfa36f792fe518dbde5f4ed8695964b12247ed2d8fd2301e4b8da",
+          "layout_seed": 29,
+          "elapsed_seconds": 57.72065810393542,
+          "status": "completed",
+          "started_utc": "2026-11-04T04:39:12.725613+00:00",
+          "ended_utc": "2026-11-04T04:40:10.446268+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T03",
+          "candidate_source_sha256": "0342f024356cfa36f792fe518dbde5f4ed8695964b12247ed2d8fd2301e4b8da",
+          "layout_seed": 47,
+          "elapsed_seconds": 52.80259062629193,
+          "status": "completed",
+          "started_utc": "2026-11-04T04:40:16.709670+00:00",
+          "ended_utc": "2026-11-04T04:41:09.512258+00:00",
+          "process_group_terminated": false
+        }
+      ],
+      "physical_timed_out_seeds": [],
+      "candidate_source_sha256": "0342f024356cfa36f792fe518dbde5f4ed8695964b12247ed2d8fd2301e4b8da",
+      "power_compile_policy": "power-compile-wall-1200s-v1",
+      "power_compile_records": [
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T03",
+          "candidate_source_sha256": "0342f024356cfa36f792fe518dbde5f4ed8695964b12247ed2d8fd2301e4b8da",
+          "layout_seed": 11,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_hidden_T03",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T03/seed11/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T03/seed11/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/apb4_timer/ic_probe_t03_wc_p1000_u10_d0.6_s11_b224ecef00/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T03/seed11/power/power_compile_command_0000.log",
+              "process_group": 2081036,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T03/seed11/power/power_compile_command_0000.log",
+                "bytes": 20075,
+                "sha256": "f9cae55e16026e943620844da3b1c473a6a72ce18d166c447ecbd9d5c67a00a6"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T04:39:03.845927+00:00",
+          "status": "completed",
+          "elapsed_seconds": 7.778218626976013,
+          "ended_utc": "2026-11-04T04:39:11.624145+00:00"
+        },
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T03",
+          "candidate_source_sha256": "0342f024356cfa36f792fe518dbde5f4ed8695964b12247ed2d8fd2301e4b8da",
+          "layout_seed": 29,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_hidden_T03",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T03/seed29/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T03/seed29/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/apb4_timer/ic_probe_t03_wc_p1000_u10_d0.6_s29_2dcd7d0a5b/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T03/seed29/power/power_compile_command_0000.log",
+              "process_group": 2083449,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T03/seed29/power/power_compile_command_0000.log",
+                "bytes": 20075,
+                "sha256": "aad43157b93f5159456df4746b60ee11aa31e1aadd4f2b8e20d81a137f4ff0ac"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T04:40:10.479831+00:00",
+          "status": "completed",
+          "elapsed_seconds": 5.223408321850002,
+          "ended_utc": "2026-11-04T04:40:15.703237+00:00"
+        },
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T03",
+          "candidate_source_sha256": "0342f024356cfa36f792fe518dbde5f4ed8695964b12247ed2d8fd2301e4b8da",
+          "layout_seed": 47,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_hidden_T03",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T03/seed47/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T03/seed47/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/apb4_timer/ic_probe_t03_wc_p1000_u10_d0.6_s47_309aec46fc/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T03/seed47/power/power_compile_command_0000.log",
+              "process_group": 2085559,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T03/seed47/power/power_compile_command_0000.log",
+                "bytes": 20075,
+                "sha256": "005808d04f3478a79088b31be2127df626c3ee39614c3f7fdc1f370f7c3369e8"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T04:41:09.541077+00:00",
+          "status": "completed",
+          "elapsed_seconds": 5.172956628724933,
+          "ended_utc": "2026-11-04T04:41:14.714033+00:00"
+        }
+      ],
+      "delivery_assessment": {
+        "missing_deliverables": [],
+        "errors": []
+      },
+      "delivery_penalty_policy": "delivery-contract-cap10-v1",
+      "delivery_penalty_status": "adjudicated",
+      "model": "claude-opus-5-5",
+      "status": "scored",
+      "elapsed_seconds": 1270.2161285877228,
+      "delivery_attribution_pending": false,
+      "delivery_seed_policy": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/delivery_prime_policy/policy.json",
+        "sha256": "306dbca39bef73cd37b705889cfe3b0e8bd50ac84d60a781a169aa13e82bc3b9"
+      },
+      "delivery_replay_seeds": [
+        11,
+        29,
+        47
+      ],
+      "grading_policy_receipt": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading_receipt.json",
+        "sha256": "9069f853f9e4462a2f02ff8adea9e69fa2e0703bcade483dd71229c3c5e7bd0e"
+      },
+      "schema_version": 3,
+      "suite_id": "ic-delivery-rtl-v0.3",
+      "framework": "Claude Code",
+      "framework_version": "2.1.317",
+      "reasoning_effort": "high",
+      "task_language": "en",
+      "trial_kind": "pre_release_pilot",
+      "ranking_eligible": false,
+      "ranking_ineligible_reason": "Independent pilot; not an official benchmark ranking.",
+      "functional_possible": 50,
+      "ppa_possible": 50,
+      "time_possible": 5,
+      "display_possible": 105,
+      "time_limit_seconds": 5400,
+      "score_status": "scored",
+      "source_report_sha256": "5c572e5d8b69ff61101c056728a84a69df980a0fc952016c8a54a16402472bcb",
+      "source_score_input_sha256": "2f34b8d68c596ec351f6ce310200852ab8bc37116f1d142de548b5d8ace9aa15",
+      "archive_evidence": {
+        "report.json": {
+          "archive_path": "evidence/T03/report.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T03/report.json",
+          "bytes": 11388,
+          "sha256": "5c572e5d8b69ff61101c056728a84a69df980a0fc952016c8a54a16402472bcb"
+        },
+        "score_input.json": {
+          "archive_path": "evidence/T03/score_input.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T03/score_input.json",
+          "bytes": 24898,
+          "sha256": "2f34b8d68c596ec351f6ce310200852ab8bc37116f1d142de548b5d8ace9aa15"
+        },
+        "functional.json": {
+          "archive_path": "evidence/T03/functional.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T03/functional.json",
+          "bytes": 602,
+          "sha256": "1b87d319845d556ca277e4fb039994b75dbae99f934fd18931e34e895c964c03"
+        },
+        "delivery.json": {
+          "archive_path": "evidence/T03/delivery.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T03/delivery.json",
+          "bytes": 1535,
+          "sha256": "96ece1b1d7269c57af18785cac86dc4851e8f50cd214239e63fc9b9d9bd68bac"
+        }
+      }
+    },
+    {
+      "task_id": "T04",
+      "functional_basic": 40.0,
+      "functional_edges": 10.0,
+      "functional_total": 50.0,
+      "full_functional_pass": true,
+      "delivery_qualified": true,
+      "ppa_eligible": true,
+      "ppa_score": 37.98426551998491,
+      "ppa_rank_bucket": 30,
+      "time_score": 3.9640918197455233,
+      "candidate_delivery_error_count": 0,
+      "candidate_delivery_penalty": 0,
+      "display_score_before_candidate_penalty": 91.94835733973044,
+      "display_score": 91.94835733973044,
+      "score_items": [
+        {
+          "id": "F_SELECT",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 81636,
+          "cases_total": 81636,
+          "safety_violation": false
+        },
+        {
+          "id": "F_ROTATE",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 81632,
+          "cases_total": 81632,
+          "safety_violation": false
+        },
+        {
+          "id": "F_DATA",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 163249,
+          "cases_total": 163249,
+          "safety_violation": false
+        },
+        {
+          "id": "P_STALL",
+          "layer": "P",
+          "points": 6.666666666666666,
+          "possible_points": 6.666666666666666,
+          "cases_passed": 29916,
+          "cases_total": 29916,
+          "safety_violation": false
+        },
+        {
+          "id": "P_FAIR",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 960,
+          "cases_total": 960,
+          "safety_violation": false
+        }
+      ],
+      "rank_key": [
+        50.0,
+        30,
+        -1118.7808346748352
+      ],
+      "physical_policy": "physical-wall-3600s-retain-results-v1",
+      "physical_records": [
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T04",
+          "candidate_source_sha256": "3fd351500c96e580f93ef53d5e8725ddc953347aad9d9f02d7914367b1e329bc",
+          "layout_seed": 11,
+          "elapsed_seconds": 33.36860196571797,
+          "status": "completed",
+          "started_utc": "2026-11-04T09:41:32.495807+00:00",
+          "ended_utc": "2026-11-04T09:42:05.864409+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T04",
+          "candidate_source_sha256": "3fd351500c96e580f93ef53d5e8725ddc953347aad9d9f02d7914367b1e329bc",
+          "layout_seed": 29,
+          "elapsed_seconds": 33.824197904672474,
+          "status": "completed",
+          "started_utc": "2026-11-04T09:42:11.472448+00:00",
+          "ended_utc": "2026-11-04T09:42:45.296647+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T04",
+          "candidate_source_sha256": "3fd351500c96e580f93ef53d5e8725ddc953347aad9d9f02d7914367b1e329bc",
+          "layout_seed": 47,
+          "elapsed_seconds": 33.51797257689759,
+          "status": "completed",
+          "started_utc": "2026-11-04T09:42:48.314176+00:00",
+          "ended_utc": "2026-11-04T09:43:21.832149+00:00",
+          "process_group_terminated": false
+        }
+      ],
+      "physical_timed_out_seeds": [],
+      "candidate_source_sha256": "3fd351500c96e580f93ef53d5e8725ddc953347aad9d9f02d7914367b1e329bc",
+      "power_compile_policy": "power-compile-wall-1200s-v1",
+      "power_compile_records": [
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T04",
+          "candidate_source_sha256": "3fd351500c96e580f93ef53d5e8725ddc953347aad9d9f02d7914367b1e329bc",
+          "layout_seed": 11,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_hidden_T04",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed11/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "-GN=8",
+                "-GWIDTH=32",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed11/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/round_robin_stream_arbiter/ic_probe_t04_wc_p1000_u10_d0.6_s11_5ed097e9aa/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed11/power/power_compile_command_0000.log",
+              "process_group": 2409546,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed11/power/power_compile_command_0000.log",
+                "bytes": 13898,
+                "sha256": "9f4b5feadea9753a9b3beec5a3e4136c79a023a5441c0c3b742fb8a05fbc1c1f"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T09:42:05.892996+00:00",
+          "status": "completed",
+          "elapsed_seconds": 4.02086978405714,
+          "ended_utc": "2026-11-04T09:42:09.913867+00:00"
+        },
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T04",
+          "candidate_source_sha256": "3fd351500c96e580f93ef53d5e8725ddc953347aad9d9f02d7914367b1e329bc",
+          "layout_seed": 29,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_hidden_T04",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed29/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "-GN=8",
+                "-GWIDTH=32",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed29/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/round_robin_stream_arbiter/ic_probe_t04_wc_p1000_u10_d0.6_s29_1015d547af/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed29/power/power_compile_command_0000.log",
+              "process_group": 2411582,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed29/power/power_compile_command_0000.log",
+                "bytes": 13898,
+                "sha256": "1b160f71b78d64cd5ec5ad618d0f9019f375c619251211037d268810b270355a"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T09:42:45.323428+00:00",
+          "status": "completed",
+          "elapsed_seconds": 1.4163492801599205,
+          "ended_utc": "2026-11-04T09:42:46.739778+00:00"
+        },
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T04",
+          "candidate_source_sha256": "3fd351500c96e580f93ef53d5e8725ddc953347aad9d9f02d7914367b1e329bc",
+          "layout_seed": 47,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_hidden_T04",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed47/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "-GN=8",
+                "-GWIDTH=32",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed47/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/round_robin_stream_arbiter/ic_probe_t04_wc_p1000_u10_d0.6_s47_6cd241cdc4/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed47/power/power_compile_command_0000.log",
+              "process_group": 2413535,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed47/power/power_compile_command_0000.log",
+                "bytes": 13898,
+                "sha256": "3383d47ef2984b166cce1f382f5c238c3cc020750bbfdca8783270936ffcb475"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T09:43:21.859859+00:00",
+          "status": "completed",
+          "elapsed_seconds": 1.516651565209031,
+          "ended_utc": "2026-11-04T09:43:23.376511+00:00"
+        }
+      ],
+      "delivery_assessment": {
+        "missing_deliverables": [],
+        "errors": []
+      },
+      "delivery_penalty_policy": "delivery-contract-cap10-v1",
+      "delivery_penalty_status": "adjudicated",
+      "model": "claude-opus-5-5",
+      "status": "scored",
+      "elapsed_seconds": 1118.7808346748352,
+      "delivery_attribution_pending": false,
+      "delivery_seed_policy": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/delivery_prime_policy/policy.json",
+        "sha256": "306dbca39bef73cd37b705889cfe3b0e8bd50ac84d60a781a169aa13e82bc3b9"
+      },
+      "delivery_replay_seeds": [
+        11,
+        29,
+        47
+      ],
+      "grading_policy_receipt": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading_receipt.json",
+        "sha256": "9069f853f9e4462a2f02ff8adea9e69fa2e0703bcade483dd71229c3c5e7bd0e"
+      },
+      "frontend_evaluator_repair": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/evaluation_repairs/T04_frontend_policy.json",
+        "sha256": "52c11721dd5a52aea9b1cc757a4973f5212f4f64aad726e73992eb158c9ae9d8"
+      },
+      "schema_version": 3,
+      "suite_id": "ic-delivery-rtl-v0.3",
+      "framework": "Claude Code",
+      "framework_version": "2.1.317",
+      "reasoning_effort": "high",
+      "task_language": "en",
+      "trial_kind": "pre_release_pilot",
+      "ranking_eligible": false,
+      "ranking_ineligible_reason": "Independent pilot; not an official benchmark ranking.",
+      "functional_possible": 50,
+      "ppa_possible": 50,
+      "time_possible": 5,
+      "display_possible": 105,
+      "time_limit_seconds": 5400,
+      "score_status": "scored",
+      "source_report_sha256": "052c980c51172bb3beabfcf7bb618f871bdf3f864c94998115b3c52c50e6a655",
+      "source_score_input_sha256": "097b7dea003251b184186120fd7c216e5a1a0e97be9e196df7ce2ea11a5264f7",
+      "archive_evidence": {
+        "report.json": {
+          "archive_path": "evidence/T04/report.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/report.json",
+          "bytes": 11820,
+          "sha256": "052c980c51172bb3beabfcf7bb618f871bdf3f864c94998115b3c52c50e6a655"
+        },
+        "score_input.json": {
+          "archive_path": "evidence/T04/score_input.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/score_input.json",
+          "bytes": 25283,
+          "sha256": "097b7dea003251b184186120fd7c216e5a1a0e97be9e196df7ce2ea11a5264f7"
+        },
+        "functional.json": {
+          "archive_path": "evidence/T04/functional.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/functional.json",
+          "bytes": 941,
+          "sha256": "4eb23fc2f10d2de85414966acccf3f06ba2f1e94f9ae3eff9aaa7a02d2c6ad50"
+        },
+        "delivery.json": {
+          "archive_path": "evidence/T04/delivery.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/delivery.json",
+          "bytes": 1535,
+          "sha256": "0eb1d924ba02a3badded7d52bd5b9591c043adb98756751f2642161beff070f9"
+        }
+      }
+    },
+    {
+      "task_id": "T05",
+      "functional_basic": 40.0,
+      "functional_edges": 10.0,
+      "functional_total": 50.0,
+      "full_functional_pass": true,
+      "delivery_qualified": true,
+      "ppa_eligible": true,
+      "ppa_score": 36.30641190467485,
+      "ppa_rank_bucket": 29,
+      "time_score": 3.702898735470242,
+      "candidate_delivery_error_count": 0,
+      "candidate_delivery_penalty": 0,
+      "display_score_before_candidate_penalty": 90.0093106401451,
+      "display_score": 90.0093106401451,
+      "score_items": [
+        {
+          "id": "F_ORDER",
+          "layer": "F",
+          "points": 16.666666666666664,
+          "possible_points": 16.666666666666664,
+          "cases_passed": 400024,
+          "cases_total": 400024,
+          "safety_violation": false
+        },
+        {
+          "id": "F_SAFETY",
+          "layer": "F",
+          "points": 10.0,
+          "possible_points": 10.0,
+          "cases_passed": 1188306,
+          "cases_total": 1188306,
+          "safety_violation": false
+        },
+        {
+          "id": "F_CLOCKS",
+          "layer": "F",
+          "points": 6.666666666666666,
+          "possible_points": 6.666666666666666,
+          "cases_passed": 16,
+          "cases_total": 16,
+          "safety_violation": false
+        },
+        {
+          "id": "F_PARAMETERS",
+          "layer": "F",
+          "points": 6.666666666666666,
+          "possible_points": 6.666666666666666,
+          "cases_passed": 8,
+          "cases_total": 8,
+          "safety_violation": false
+        },
+        {
+          "id": "P_RESET",
+          "layer": "P",
+          "points": 4.666666666666666,
+          "possible_points": 4.666666666666666,
+          "cases_passed": 16,
+          "cases_total": 16,
+          "safety_violation": false
+        },
+        {
+          "id": "P_CDC",
+          "layer": "P",
+          "points": 5.333333333333333,
+          "possible_points": 5.333333333333333,
+          "cases_passed": 4,
+          "cases_total": 4,
+          "safety_violation": false
+        }
+      ],
+      "rank_key": [
+        50.0,
+        29,
+        -1867.8258209228516
+      ],
+      "physical_policy": "physical-wall-3600s-retain-results-v1",
+      "physical_records": [
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T05",
+          "candidate_source_sha256": "ecb09112e0dd654e3eb0ef6bdd291f7eb3d1438e1cb0fc89cf8afcec531e718c",
+          "layout_seed": 11,
+          "elapsed_seconds": 114.89647604292259,
+          "status": "completed",
+          "started_utc": "2026-11-04T06:24:41.853164+00:00",
+          "ended_utc": "2026-11-04T06:26:36.749641+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T05",
+          "candidate_source_sha256": "ecb09112e0dd654e3eb0ef6bdd291f7eb3d1438e1cb0fc89cf8afcec531e718c",
+          "layout_seed": 29,
+          "elapsed_seconds": 116.9191288142465,
+          "status": "completed",
+          "started_utc": "2026-11-04T06:26:47.128590+00:00",
+          "ended_utc": "2026-11-04T06:28:44.047719+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T05",
+          "candidate_source_sha256": "ecb09112e0dd654e3eb0ef6bdd291f7eb3d1438e1cb0fc89cf8afcec531e718c",
+          "layout_seed": 47,
+          "elapsed_seconds": 109.9487001937814,
+          "status": "completed",
+          "started_utc": "2026-11-04T06:28:50.392115+00:00",
+          "ended_utc": "2026-11-04T06:30:40.340815+00:00",
+          "process_group_terminated": false
+        }
+      ],
+      "physical_timed_out_seeds": [],
+      "candidate_source_sha256": "ecb09112e0dd654e3eb0ef6bdd291f7eb3d1438e1cb0fc89cf8afcec531e718c",
+      "power_compile_policy": "power-compile-wall-1200s-v1",
+      "power_compile_records": [
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T05",
+          "candidate_source_sha256": "ecb09112e0dd654e3eb0ef6bdd291f7eb3d1438e1cb0fc89cf8afcec531e718c",
+          "layout_seed": 11,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_hidden_T05",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T05/seed11/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "-GWIDTH=32",
+                "-GDEPTH=16",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T05/seed11/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/asynchronous_fifo/ic_probe_t05_wc_p1000_rd1000_u10_d0.6_s11_7017a82b16/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T05/seed11/power/power_compile_command_0000.log",
+              "process_group": 2253130,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T05/seed11/power/power_compile_command_0000.log",
+                "bytes": 30381,
+                "sha256": "df518224bfc018f2b6f5d711e3f1b8eba74172169182b6d289d088ae1c8068b3"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T06:26:36.790413+00:00",
+          "status": "completed",
+          "elapsed_seconds": 6.675888907164335,
+          "ended_utc": "2026-11-04T06:26:43.466303+00:00"
+        },
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T05",
+          "candidate_source_sha256": "ecb09112e0dd654e3eb0ef6bdd291f7eb3d1438e1cb0fc89cf8afcec531e718c",
+          "layout_seed": 29,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_hidden_T05",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T05/seed29/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "-GWIDTH=32",
+                "-GDEPTH=16",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T05/seed29/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/asynchronous_fifo/ic_probe_t05_wc_p1000_rd1000_u10_d0.6_s29_69a16a801e/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T05/seed29/power/power_compile_command_0000.log",
+              "process_group": 2255941,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T05/seed29/power/power_compile_command_0000.log",
+                "bytes": 30381,
+                "sha256": "fad89e9f2dfd0523ba155dcdce912f36bac6434ba88be0b1928d4f79ee4e005a"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T06:28:44.075885+00:00",
+          "status": "completed",
+          "elapsed_seconds": 2.918279274366796,
+          "ended_utc": "2026-11-04T06:28:46.994167+00:00"
+        },
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T05",
+          "candidate_source_sha256": "ecb09112e0dd654e3eb0ef6bdd291f7eb3d1438e1cb0fc89cf8afcec531e718c",
+          "layout_seed": 47,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_hidden_T05",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T05/seed47/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "-GWIDTH=32",
+                "-GDEPTH=16",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T05/seed47/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/asynchronous_fifo/ic_probe_t05_wc_p1000_rd1000_u10_d0.6_s47_204799cf2d/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T05/seed47/power/power_compile_command_0000.log",
+              "process_group": 2258381,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T05/seed47/power/power_compile_command_0000.log",
+                "bytes": 30381,
+                "sha256": "f13fcac39c6ee4c61cc03989e3eb83263eedc238897465386b89885f86172d11"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T06:30:40.370234+00:00",
+          "status": "completed",
+          "elapsed_seconds": 3.068562156986445,
+          "ended_utc": "2026-11-04T06:30:43.438797+00:00"
+        }
+      ],
+      "delivery_assessment": {
+        "missing_deliverables": [],
+        "errors": []
+      },
+      "delivery_penalty_policy": "delivery-contract-cap10-v1",
+      "delivery_penalty_status": "adjudicated",
+      "model": "claude-opus-5-5",
+      "status": "scored",
+      "elapsed_seconds": 1867.8258209228516,
+      "delivery_attribution_pending": false,
+      "delivery_seed_policy": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/delivery_prime_policy/policy.json",
+        "sha256": "306dbca39bef73cd37b705889cfe3b0e8bd50ac84d60a781a169aa13e82bc3b9"
+      },
+      "delivery_replay_seeds": [
+        11,
+        29,
+        47
+      ],
+      "grading_policy_receipt": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading_receipt.json",
+        "sha256": "9069f853f9e4462a2f02ff8adea9e69fa2e0703bcade483dd71229c3c5e7bd0e"
+      },
+      "schema_version": 3,
+      "suite_id": "ic-delivery-rtl-v0.3",
+      "framework": "Claude Code",
+      "framework_version": "2.1.317",
+      "reasoning_effort": "high",
+      "task_language": "en",
+      "trial_kind": "pre_release_pilot",
+      "ranking_eligible": false,
+      "ranking_ineligible_reason": "Independent pilot; not an official benchmark ranking.",
+      "functional_possible": 50,
+      "ppa_possible": 50,
+      "time_possible": 5,
+      "display_possible": 105,
+      "time_limit_seconds": 7200,
+      "score_status": "scored",
+      "source_report_sha256": "c51d50d9e8ec189308fa632ea7608642d34358eddaf2566e82b3e66509a6450f",
+      "source_score_input_sha256": "1994e48a5858c0e60abfaaefdbd36e48e41d01ac61240f1f5d2c13774b68d7bb",
+      "archive_evidence": {
+        "report.json": {
+          "archive_path": "evidence/T05/report.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T05/report.json",
+          "bytes": 11774,
+          "sha256": "c51d50d9e8ec189308fa632ea7608642d34358eddaf2566e82b3e66509a6450f"
+        },
+        "score_input.json": {
+          "archive_path": "evidence/T05/score_input.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T05/score_input.json",
+          "bytes": 25854,
+          "sha256": "1994e48a5858c0e60abfaaefdbd36e48e41d01ac61240f1f5d2c13774b68d7bb"
+        },
+        "functional.json": {
+          "archive_path": "evidence/T05/functional.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T05/functional.json",
+          "bytes": 2071,
+          "sha256": "4d9b8a434a0399e68c1109a8fd75021e87a52ac960143cb305785849e1dad1d6"
+        },
+        "delivery.json": {
+          "archive_path": "evidence/T05/delivery.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T05/delivery.json",
+          "bytes": 1535,
+          "sha256": "494bd976933e505a191c9e7040e089a3486b167dded419cd23abc03b252387d4"
+        }
+      }
+    },
+    {
+      "task_id": "T06",
+      "functional_basic": 40.0,
+      "functional_edges": 10.0,
+      "functional_total": 50.0,
+      "full_functional_pass": true,
+      "delivery_qualified": true,
+      "ppa_eligible": true,
+      "ppa_score": 43.72389711606172,
+      "ppa_rank_bucket": 35,
+      "time_score": 3.340072287950251,
+      "candidate_delivery_error_count": 0,
+      "candidate_delivery_penalty": 0,
+      "display_score_before_candidate_penalty": 97.06396940401197,
+      "display_score": 97.06396940401197,
+      "score_items": [
+        {
+          "id": "F_WRITE",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 340,
+          "cases_total": 340,
+          "safety_violation": false
+        },
+        {
+          "id": "F_READ",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 189,
+          "cases_total": 189,
+          "safety_violation": false
+        },
+        {
+          "id": "F_RESP",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 484,
+          "cases_total": 484,
+          "safety_violation": false
+        },
+        {
+          "id": "P_CONCURRENT",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 452,
+          "cases_total": 452,
+          "safety_violation": false
+        },
+        {
+          "id": "P_STALL",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 5954,
+          "cases_total": 5954,
+          "safety_violation": false
+        },
+        {
+          "id": "P_RESET",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 57,
+          "cases_total": 57,
+          "safety_violation": false
+        }
+      ],
+      "rank_key": [
+        50.0,
+        35,
+        -2390.295905351639
+      ],
+      "physical_policy": "physical-wall-3600s-retain-results-v1",
+      "physical_records": [
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T06",
+          "candidate_source_sha256": "5c214f694e066233c17c21b515bbab7d6f65f5f7e3d63401fe762ab718c0db34",
+          "layout_seed": 11,
+          "elapsed_seconds": 47.00222017290071,
+          "status": "completed",
+          "started_utc": "2026-11-04T07:33:34.220045+00:00",
+          "ended_utc": "2026-11-04T07:34:21.222260+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T06",
+          "candidate_source_sha256": "5c214f694e066233c17c21b515bbab7d6f65f5f7e3d63401fe762ab718c0db34",
+          "layout_seed": 29,
+          "elapsed_seconds": 47.560367051977664,
+          "status": "completed",
+          "started_utc": "2026-11-04T07:34:32.052927+00:00",
+          "ended_utc": "2026-11-04T07:35:19.613293+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T06",
+          "candidate_source_sha256": "5c214f694e066233c17c21b515bbab7d6f65f5f7e3d63401fe762ab718c0db34",
+          "layout_seed": 47,
+          "elapsed_seconds": 76.19271308509633,
+          "status": "completed",
+          "started_utc": "2026-11-04T07:35:29.088452+00:00",
+          "ended_utc": "2026-11-04T07:36:45.281163+00:00",
+          "process_group_terminated": false
+        }
+      ],
+      "physical_timed_out_seeds": [],
+      "candidate_source_sha256": "5c214f694e066233c17c21b515bbab7d6f65f5f7e3d63401fe762ab718c0db34",
+      "power_compile_policy": "power-compile-wall-1200s-v1",
+      "power_compile_records": [
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T06",
+          "candidate_source_sha256": "5c214f694e066233c17c21b515bbab7d6f65f5f7e3d63401fe762ab718c0db34",
+          "layout_seed": 11,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_hidden_T06",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed11/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed11/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/axi4lite_to_apb4_bridge/ic_probe_t06_wc_p1000_u10_d0.6_s11_187b75dd34/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed11/power/power_compile_command_0000.log",
+              "process_group": 2341474,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed11/power/power_compile_command_0000.log",
+                "bytes": 23078,
+                "sha256": "5b6f08f96f79d4dda97fb1b3cb0bcbf9bf5164bb61f6c3ebbfa0c9897a7acb76"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T07:34:21.254145+00:00",
+          "status": "completed",
+          "elapsed_seconds": 9.782458810601383,
+          "ended_utc": "2026-11-04T07:34:31.036605+00:00"
+        },
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T06",
+          "candidate_source_sha256": "5c214f694e066233c17c21b515bbab7d6f65f5f7e3d63401fe762ab718c0db34",
+          "layout_seed": 29,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_hidden_T06",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed29/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed29/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/axi4lite_to_apb4_bridge/ic_probe_t06_wc_p1000_u10_d0.6_s29_acf5f3b1e6/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed29/power/power_compile_command_0000.log",
+              "process_group": 2344800,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed29/power/power_compile_command_0000.log",
+                "bytes": 23078,
+                "sha256": "a3ec0414ea44b554b3b189fe0290e8272f2380ab25b8bf916740c1a98648a8dd"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T07:35:19.645828+00:00",
+          "status": "completed",
+          "elapsed_seconds": 8.382125569973141,
+          "ended_utc": "2026-11-04T07:35:28.027954+00:00"
+        },
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T06",
+          "candidate_source_sha256": "5c214f694e066233c17c21b515bbab7d6f65f5f7e3d63401fe762ab718c0db34",
+          "layout_seed": 47,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_hidden_T06",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed47/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed47/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/axi4lite_to_apb4_bridge/ic_probe_t06_wc_p1000_u10_d0.6_s47_9292a846d8/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed47/power/power_compile_command_0000.log",
+              "process_group": 2611993,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed47/power/power_compile_command_0000.log",
+                "bytes": 23078,
+                "sha256": "2ba88d87e6b8deaaa243c734a451c135aef839bbdf613eb36f08bac37e86a739"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T13:26:53.345690+00:00",
+          "status": "completed",
+          "elapsed_seconds": 8.930770134087652,
+          "ended_utc": "2026-11-04T13:27:02.276459+00:00"
+        }
+      ],
+      "delivery_assessment": {
+        "missing_deliverables": [],
+        "errors": []
+      },
+      "delivery_penalty_policy": "delivery-contract-cap10-v1",
+      "delivery_penalty_status": "adjudicated",
+      "model": "claude-opus-5-5",
+      "status": "scored",
+      "elapsed_seconds": 2390.295905351639,
+      "delivery_attribution_pending": false,
+      "delivery_seed_policy": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/delivery_prime_policy/policy.json",
+        "sha256": "306dbca39bef73cd37b705889cfe3b0e8bd50ac84d60a781a169aa13e82bc3b9"
+      },
+      "delivery_replay_seeds": [
+        11,
+        29,
+        47
+      ],
+      "grading_policy_receipt": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading_receipt.json",
+        "sha256": "9069f853f9e4462a2f02ff8adea9e69fa2e0703bcade483dd71229c3c5e7bd0e"
+      },
+      "priority_recovery_receipt": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/evaluation_repairs/T06_recovery/request.json",
+        "sha256": "6b2a8de610c11d26d6ad8ff8640ea563ae4509f0f68e154345b695a52140244f"
+      },
+      "schema_version": 3,
+      "suite_id": "ic-delivery-rtl-v0.3",
+      "framework": "Claude Code",
+      "framework_version": "2.1.317",
+      "reasoning_effort": "high",
+      "task_language": "en",
+      "trial_kind": "pre_release_pilot",
+      "ranking_eligible": false,
+      "ranking_ineligible_reason": "Independent pilot; not an official benchmark ranking.",
+      "functional_possible": 50,
+      "ppa_possible": 50,
+      "time_possible": 5,
+      "display_possible": 105,
+      "time_limit_seconds": 7200,
+      "score_status": "scored",
+      "source_report_sha256": "d485ac5062125befb2679a5619ead46d1500c7980f6acb7c64a3afe45642c8eb",
+      "source_score_input_sha256": "fd5173fe79acc42acfd83e93897d4bc9301b7f72322a34749597af6dd185a3c7",
+      "archive_evidence": {
+        "report.json": {
+          "archive_path": "evidence/T06/report.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/report.json",
+          "bytes": 11873,
+          "sha256": "d485ac5062125befb2679a5619ead46d1500c7980f6acb7c64a3afe45642c8eb"
+        },
+        "score_input.json": {
+          "archive_path": "evidence/T06/score_input.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/score_input.json",
+          "bytes": 25074,
+          "sha256": "fd5173fe79acc42acfd83e93897d4bc9301b7f72322a34749597af6dd185a3c7"
+        },
+        "functional.json": {
+          "archive_path": "evidence/T06/functional.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/functional.json",
+          "bytes": 703,
+          "sha256": "70593c56acf39753a1c3bf22f2ef6d9d3b5b638d90f0f2efff816de43103acdc"
+        },
+        "delivery.json": {
+          "archive_path": "evidence/T06/delivery.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/delivery.json",
+          "bytes": 1535,
+          "sha256": "d1e87b709d5df130ae35f3b989383d5d7c8e08b98f47af9853b72d04bbe44d4a"
+        }
+      }
+    },
+    {
+      "task_id": "T07",
+      "functional_basic": 40.0,
+      "functional_edges": 10.0,
+      "functional_total": 50.0,
+      "full_functional_pass": true,
+      "delivery_qualified": false,
+      "ppa_eligible": true,
+      "ppa_score": 22.19789115901662,
+      "ppa_rank_bucket": 18,
+      "time_score": 4.072767635020945,
+      "candidate_delivery_error_count": 1,
+      "candidate_delivery_penalty": 5,
+      "display_score_before_candidate_penalty": 76.27065879403756,
+      "display_score": 71.27065879403756,
+      "score_items": [
+        {
+          "id": "F_HIT",
+          "layer": "F",
+          "points": 10.0,
+          "possible_points": 10.0,
+          "cases_passed": 133,
+          "cases_total": 133,
+          "safety_violation": false
+        },
+        {
+          "id": "F_CLEAN_MISS",
+          "layer": "F",
+          "points": 10.0,
+          "possible_points": 10.0,
+          "cases_passed": 1656,
+          "cases_total": 1656,
+          "safety_violation": false
+        },
+        {
+          "id": "F_DIRTY_EVICT",
+          "layer": "F",
+          "points": 10.0,
+          "possible_points": 10.0,
+          "cases_passed": 1140,
+          "cases_total": 1140,
+          "safety_violation": false
+        },
+        {
+          "id": "F_PARTIAL",
+          "layer": "F",
+          "points": 10.0,
+          "possible_points": 10.0,
+          "cases_passed": 16620,
+          "cases_total": 16620,
+          "safety_violation": false
+        },
+        {
+          "id": "P_STALL",
+          "layer": "P",
+          "points": 6.666666666666666,
+          "possible_points": 6.666666666666666,
+          "cases_passed": 7713,
+          "cases_total": 7713,
+          "safety_violation": false
+        },
+        {
+          "id": "P_RESET_LATENCY",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 92,
+          "cases_total": 92,
+          "safety_violation": false
+        }
+      ],
+      "rank_key": [
+        50.0,
+        18,
+        -1335.2146055698395
+      ],
+      "physical_policy": "physical-wall-3600s-retain-results-v1",
+      "physical_records": [
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T07",
+          "candidate_source_sha256": "11a828933a218c1923f666d57d28b9e10d228908aaa64614cfacaf1a558517bd",
+          "layout_seed": 11,
+          "elapsed_seconds": 1219.2949854680337,
+          "status": "completed",
+          "started_utc": "2026-11-04T09:52:24.813108+00:00",
+          "ended_utc": "2026-11-04T10:12:44.108092+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T07",
+          "candidate_source_sha256": "11a828933a218c1923f666d57d28b9e10d228908aaa64614cfacaf1a558517bd",
+          "layout_seed": 29,
+          "elapsed_seconds": 1091.3250986761414,
+          "status": "completed",
+          "started_utc": "2026-11-04T10:13:32.321799+00:00",
+          "ended_utc": "2026-11-04T10:31:43.646896+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T07",
+          "candidate_source_sha256": "11a828933a218c1923f666d57d28b9e10d228908aaa64614cfacaf1a558517bd",
+          "layout_seed": 47,
+          "elapsed_seconds": 1050.6373612647876,
+          "status": "completed",
+          "started_utc": "2026-11-04T10:32:29.788824+00:00",
+          "ended_utc": "2026-11-04T10:50:00.426183+00:00",
+          "process_group_terminated": false
+        }
+      ],
+      "physical_timed_out_seeds": [],
+      "candidate_source_sha256": "11a828933a218c1923f666d57d28b9e10d228908aaa64614cfacaf1a558517bd",
+      "power_compile_policy": "power-compile-wall-1200s-v1",
+      "power_compile_records": [
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T07",
+          "candidate_source_sha256": "11a828933a218c1923f666d57d28b9e10d228908aaa64614cfacaf1a558517bd",
+          "layout_seed": 11,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_hidden_T07",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T07/seed11/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T07/seed11/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/direct_mapped_writeback_cache/ic_probe_t07_wc_p1000_u10_d0.6_s11_0d35b0a72d/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T07/seed11/power/power_compile_command_0000.log",
+              "process_group": 2430469,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T07/seed11/power/power_compile_command_0000.log",
+                "bytes": 102883,
+                "sha256": "ebe6db8376b09b58c0107cde78da3434116c397d9db40929e17298bb3d7aa039"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T10:12:44.138360+00:00",
+          "status": "completed",
+          "elapsed_seconds": 40.63918975694105,
+          "ended_utc": "2026-11-04T10:13:24.777550+00:00"
+        },
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T07",
+          "candidate_source_sha256": "11a828933a218c1923f666d57d28b9e10d228908aaa64614cfacaf1a558517bd",
+          "layout_seed": 29,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_hidden_T07",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T07/seed29/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T07/seed29/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/direct_mapped_writeback_cache/ic_probe_t07_wc_p1000_u10_d0.6_s29_81b0b1f0bc/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T07/seed29/power/power_compile_command_0000.log",
+              "process_group": 2436767,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T07/seed29/power/power_compile_command_0000.log",
+                "bytes": 102157,
+                "sha256": "082298796d0faec03cec8ab2f1e66376eeb310960fa3d4fe3e85ae0f30be9b68"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T10:31:43.676403+00:00",
+          "status": "completed",
+          "elapsed_seconds": 38.63234508410096,
+          "ended_utc": "2026-11-04T10:32:22.308749+00:00"
+        },
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T07",
+          "candidate_source_sha256": "11a828933a218c1923f666d57d28b9e10d228908aaa64614cfacaf1a558517bd",
+          "layout_seed": 47,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_hidden_T07",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T07/seed47/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T07/seed47/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/direct_mapped_writeback_cache/ic_probe_t07_wc_p1000_u10_d0.6_s47_e4ec58561d/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T07/seed47/power/power_compile_command_0000.log",
+              "process_group": 2446063,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T07/seed47/power/power_compile_command_0000.log",
+                "bytes": 103609,
+                "sha256": "ea845f5d39b6c6eb89066eb3cd7d6bb804464f31f7cd20b2299d23aec01d7e56"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T10:50:00.454970+00:00",
+          "status": "completed",
+          "elapsed_seconds": 41.24523642286658,
+          "ended_utc": "2026-11-04T10:50:41.700206+00:00"
+        }
+      ],
+      "delivery_assessment": {
+        "missing_deliverables": [],
+        "errors": [
+          {
+            "root_cause": "self_check_determinism",
+            "detail": "same-seed self-check results changed",
+            "attribution": "candidate",
+            "affected_seeds": [
+              11,
+              29,
+              47
+            ]
+          }
+        ]
+      },
+      "delivery_penalty_policy": "delivery-contract-cap10-v1",
+      "delivery_penalty_status": "adjudicated",
+      "model": "claude-opus-5-5",
+      "status": "scored",
+      "elapsed_seconds": 1335.2146055698395,
+      "delivery_attribution_pending": false,
+      "delivery_seed_policy": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/delivery_prime_policy/policy.json",
+        "sha256": "306dbca39bef73cd37b705889cfe3b0e8bd50ac84d60a781a169aa13e82bc3b9"
+      },
+      "delivery_replay_seeds": [
+        11,
+        29,
+        47
+      ],
+      "grading_policy_receipt": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading_receipt.json",
+        "sha256": "9069f853f9e4462a2f02ff8adea9e69fa2e0703bcade483dd71229c3c5e7bd0e"
+      },
+      "schema_version": 3,
+      "suite_id": "ic-delivery-rtl-v0.3",
+      "framework": "Claude Code",
+      "framework_version": "2.1.317",
+      "reasoning_effort": "high",
+      "task_language": "en",
+      "trial_kind": "pre_release_pilot",
+      "ranking_eligible": false,
+      "ranking_ineligible_reason": "Independent pilot; not an official benchmark ranking.",
+      "functional_possible": 50,
+      "ppa_possible": 50,
+      "time_possible": 5,
+      "display_possible": 105,
+      "time_limit_seconds": 7200,
+      "score_status": "scored",
+      "source_report_sha256": "db03197983e132b743e29ad14926d3bda1ed55cb60454a62d949a839d94aed26",
+      "source_score_input_sha256": "8d2760e9910c14764b6ee9e97cfb392f181c2e913620562bdc7073b541d3c7f0",
+      "archive_evidence": {
+        "report.json": {
+          "archive_path": "evidence/T07/report.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T07/report.json",
+          "bytes": 11823,
+          "sha256": "db03197983e132b743e29ad14926d3bda1ed55cb60454a62d949a839d94aed26"
+        },
+        "score_input.json": {
+          "archive_path": "evidence/T07/score_input.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T07/score_input.json",
+          "bytes": 25393,
+          "sha256": "8d2760e9910c14764b6ee9e97cfb392f181c2e913620562bdc7073b541d3c7f0"
+        },
+        "functional.json": {
+          "archive_path": "evidence/T07/functional.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T07/functional.json",
+          "bytes": 711,
+          "sha256": "81c7b13368c3aa6399c8eead8105c6946a204f8cc4ef2861be041f157012ee1b"
+        },
+        "delivery.json": {
+          "archive_path": "evidence/T07/delivery.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T07/delivery.json",
+          "bytes": 2547,
+          "sha256": "1782fa9b4c6439ae3e4e3c6d12bc3886d368cd3d970d422180571a6ab5e21330"
+        }
+      }
+    },
+    {
+      "task_id": "T08",
+      "functional_basic": 40.0,
+      "functional_edges": 10.0,
+      "functional_total": 50.0,
+      "full_functional_pass": true,
+      "delivery_qualified": true,
+      "ppa_eligible": true,
+      "ppa_score": 34.37006057337506,
+      "ppa_rank_bucket": 27,
+      "time_score": 2.9008646481566958,
+      "candidate_delivery_error_count": 0,
+      "candidate_delivery_penalty": 0,
+      "display_score_before_candidate_penalty": 87.27092522153177,
+      "display_score": 87.27092522153177,
+      "score_items": [
+        {
+          "id": "TX_REGRESSION",
+          "layer": "F",
+          "points": 8.0,
+          "possible_points": 8.0,
+          "cases_passed": 4,
+          "cases_total": 4,
+          "safety_violation": false
+        },
+        {
+          "id": "RX_REGRESSION",
+          "layer": "F",
+          "points": 8.0,
+          "possible_points": 8.0,
+          "cases_passed": 5,
+          "cases_total": 5,
+          "safety_violation": false
+        },
+        {
+          "id": "FRAME_TAIL_REPAIR",
+          "layer": "F",
+          "points": 10.0,
+          "possible_points": 10.0,
+          "cases_passed": 5,
+          "cases_total": 5,
+          "safety_violation": false
+        },
+        {
+          "id": "VLAN_ADMISSION",
+          "layer": "F",
+          "points": 10.0,
+          "possible_points": 10.0,
+          "cases_passed": 6,
+          "cases_total": 6,
+          "safety_violation": false
+        },
+        {
+          "id": "CONFIG_SNAPSHOT",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 8,
+          "cases_total": 8,
+          "safety_violation": false
+        },
+        {
+          "id": "METADATA_HEADERS",
+          "layer": "P",
+          "points": 6.0,
+          "possible_points": 6.0,
+          "cases_passed": 6,
+          "cases_total": 6,
+          "safety_violation": false
+        },
+        {
+          "id": "RESET_RECOVERY",
+          "layer": "P",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 3,
+          "cases_total": 3,
+          "safety_violation": false
+        }
+      ],
+      "rank_key": [
+        50.0,
+        27,
+        -3022.754906654358
+      ],
+      "physical_policy": "physical-wall-3600s-retain-results-v1",
+      "physical_records": [
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T08",
+          "candidate_source_sha256": "d65cea574fd90480263c0d0f3d4c524beaae8355759f9ab69827ffc95e07808a",
+          "layout_seed": 11,
+          "elapsed_seconds": 1394.335004732944,
+          "status": "completed",
+          "started_utc": "2026-11-04T11:59:00.806609+00:00",
+          "ended_utc": "2026-11-04T12:22:15.141609+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T08",
+          "candidate_source_sha256": "d65cea574fd90480263c0d0f3d4c524beaae8355759f9ab69827ffc95e07808a",
+          "layout_seed": 29,
+          "elapsed_seconds": 813.8087687348016,
+          "status": "completed",
+          "started_utc": "2026-11-04T12:22:33.655462+00:00",
+          "ended_utc": "2026-11-04T12:36:07.464229+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T08",
+          "candidate_source_sha256": "d65cea574fd90480263c0d0f3d4c524beaae8355759f9ab69827ffc95e07808a",
+          "layout_seed": 47,
+          "elapsed_seconds": 780.3985958262347,
+          "status": "completed",
+          "started_utc": "2026-11-04T12:36:20.185117+00:00",
+          "ended_utc": "2026-11-04T12:49:20.583714+00:00",
+          "process_group_terminated": false
+        }
+      ],
+      "physical_timed_out_seeds": [],
+      "candidate_source_sha256": "d65cea574fd90480263c0d0f3d4c524beaae8355759f9ab69827ffc95e07808a",
+      "power_compile_policy": "power-compile-wall-1200s-v1",
+      "power_compile_records": [
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T08",
+          "candidate_source_sha256": "d65cea574fd90480263c0d0f3d4c524beaae8355759f9ab69827ffc95e07808a",
+          "layout_seed": 11,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--assert",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_t08_power",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T08/seed11/power/build",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/evaluator/fixtures/t11_mac/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/mac_1g_repair/ic_probe_t08_wc_p1000_u10_d0.6_s11_5f5ce1161d/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/lambdapdk_fakeram7/sim/fakeram7_tdp_4096x32.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T08/seed11/power/power_compile_command_0000.log",
+              "process_group": 2557292,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T08/seed11/power/power_compile_command_0000.log",
+                "bytes": 43946,
+                "sha256": "0b684bbeb956f3bd22a08dec8640b704dbd8fd8cdbde6b3dd39d14e641551450"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T12:22:16.656994+00:00",
+          "status": "completed",
+          "elapsed_seconds": 7.827238032128662,
+          "ended_utc": "2026-11-04T12:22:24.484232+00:00"
+        },
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T08",
+          "candidate_source_sha256": "d65cea574fd90480263c0d0f3d4c524beaae8355759f9ab69827ffc95e07808a",
+          "layout_seed": 29,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--assert",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_t08_power",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T08/seed29/power/build",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/evaluator/fixtures/t11_mac/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/mac_1g_repair/ic_probe_t08_wc_p1000_u10_d0.6_s29_867fe9d1c0/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/lambdapdk_fakeram7/sim/fakeram7_tdp_4096x32.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T08/seed29/power/power_compile_command_0000.log",
+              "process_group": 2567886,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T08/seed29/power/power_compile_command_0000.log",
+                "bytes": 43946,
+                "sha256": "10948504f1452ea6a02cb0aae13ecba0e1d1539dee751f29af4a3ebec19f79e0"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T12:36:08.959362+00:00",
+          "status": "completed",
+          "elapsed_seconds": 2.2176244468428195,
+          "ended_utc": "2026-11-04T12:36:11.176987+00:00"
+        },
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T08",
+          "candidate_source_sha256": "d65cea574fd90480263c0d0f3d4c524beaae8355759f9ab69827ffc95e07808a",
+          "layout_seed": 47,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--assert",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_t08_power",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T08/seed47/power/build",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/evaluator/fixtures/t11_mac/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/mac_1g_repair/ic_probe_t08_wc_p1000_u10_d0.6_s47_0c74baf56f/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/lambdapdk_fakeram7/sim/fakeram7_tdp_4096x32.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T08/seed47/power/power_compile_command_0000.log",
+              "process_group": 2577851,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T08/seed47/power/power_compile_command_0000.log",
+                "bytes": 43946,
+                "sha256": "c59d0257918e58ace88714834bdd710e814c9a6a63e5e8b3d74f65f642a00907"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T12:49:22.091066+00:00",
+          "status": "completed",
+          "elapsed_seconds": 2.1672354340553284,
+          "ended_utc": "2026-11-04T12:49:24.258304+00:00"
+        }
+      ],
+      "delivery_assessment": {
+        "missing_deliverables": [],
+        "errors": []
+      },
+      "delivery_penalty_policy": "delivery-contract-cap10-v1",
+      "delivery_penalty_status": "adjudicated",
+      "model": "claude-opus-5-5",
+      "status": "scored",
+      "elapsed_seconds": 3022.754906654358,
+      "delivery_attribution_pending": false,
+      "delivery_seed_policy": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/delivery_prime_policy/policy.json",
+        "sha256": "306dbca39bef73cd37b705889cfe3b0e8bd50ac84d60a781a169aa13e82bc3b9"
+      },
+      "delivery_replay_seeds": [
+        11,
+        29,
+        47
+      ],
+      "grading_policy_receipt": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading_receipt.json",
+        "sha256": "9069f853f9e4462a2f02ff8adea9e69fa2e0703bcade483dd71229c3c5e7bd0e"
+      },
+      "schema_version": 3,
+      "suite_id": "ic-delivery-rtl-v0.3",
+      "framework": "Claude Code",
+      "framework_version": "2.1.317",
+      "reasoning_effort": "high",
+      "task_language": "en",
+      "trial_kind": "pre_release_pilot",
+      "ranking_eligible": false,
+      "ranking_ineligible_reason": "Independent pilot; not an official benchmark ranking.",
+      "functional_possible": 50,
+      "ppa_possible": 50,
+      "time_possible": 5,
+      "display_possible": 105,
+      "time_limit_seconds": 7200,
+      "score_status": "scored",
+      "source_report_sha256": "a9cd7c0e4b94b2ca5432165efc7a560486ba1ce1f4025b388046443d9114fd00",
+      "source_score_input_sha256": "e221303496fb8c7210298e03a0a00f0e2adb3cb19d23cc1fcf93708f4c43da81",
+      "archive_evidence": {
+        "report.json": {
+          "archive_path": "evidence/T08/report.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T08/report.json",
+          "bytes": 11930,
+          "sha256": "a9cd7c0e4b94b2ca5432165efc7a560486ba1ce1f4025b388046443d9114fd00"
+        },
+        "score_input.json": {
+          "archive_path": "evidence/T08/score_input.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T08/score_input.json",
+          "bytes": 32665,
+          "sha256": "e221303496fb8c7210298e03a0a00f0e2adb3cb19d23cc1fcf93708f4c43da81"
+        },
+        "functional.json": {
+          "archive_path": "evidence/T08/functional.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T08/functional.json",
+          "bytes": 79931,
+          "sha256": "4bb15b952d5d534a7097b7540d8739942cb8d5ee9517b709d7fd99db0bab85e2"
+        },
+        "delivery.json": {
+          "archive_path": "evidence/T08/delivery.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T08/delivery.json",
+          "bytes": 1538,
+          "sha256": "22cf242a47d37813e804256676e5c24f746c0cd9b6324820f4d8ba6daa8f20f1"
+        }
+      },
+      "benchmark_freeze": {
+        "receipt": "benchmark/tasks/T08/FREEZE.json",
+        "receipt_sha256": "27d0567787d588cf5d1e28ea1a90a11d0d6fe35f74ed9f921b1d2eef8beb295c",
+        "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
+        "scope": "current grading contract"
+      }
+    },
+    {
+      "task_id": "T09",
+      "functional_basic": 32.0,
+      "functional_edges": 18.0,
+      "functional_total": 50.0,
+      "full_functional_pass": true,
+      "delivery_qualified": true,
+      "ppa_eligible": true,
+      "ppa_score": 38.78787688364108,
+      "ppa_rank_bucket": 31,
+      "time_score": 2.179287508626779,
+      "candidate_delivery_error_count": 0,
+      "candidate_delivery_penalty": 0,
+      "display_score_before_candidate_penalty": 90.96716439226786,
+      "display_score": 90.96716439226786,
+      "score_items": [
+        {
+          "id": "F_INTEGER_CONTROL",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 58,
+          "cases_total": 58,
+          "safety_violation": false
+        },
+        {
+          "id": "F_MEMORY",
+          "layer": "F",
+          "points": 8.0,
+          "possible_points": 8.0,
+          "cases_passed": 53,
+          "cases_total": 53,
+          "safety_violation": false
+        },
+        {
+          "id": "F_CSR_TRAP",
+          "layer": "F",
+          "points": 5.333333333333333,
+          "possible_points": 5.333333333333333,
+          "cases_passed": 77,
+          "cases_total": 77,
+          "safety_violation": false
+        },
+        {
+          "id": "F_ACT4",
+          "layer": "F",
+          "points": 5.333333333333333,
+          "possible_points": 5.333333333333333,
+          "cases_passed": 45,
+          "cases_total": 45,
+          "safety_violation": false
+        },
+        {
+          "id": "P_HAZARD",
+          "layer": "P",
+          "points": 3.1999999999999997,
+          "possible_points": 3.1999999999999997,
+          "cases_passed": 32,
+          "cases_total": 32,
+          "safety_violation": false
+        },
+        {
+          "id": "P_MEMORY_WAIT",
+          "layer": "P",
+          "points": 2.6666666666666665,
+          "possible_points": 2.6666666666666665,
+          "cases_passed": 80,
+          "cases_total": 80,
+          "safety_violation": false
+        },
+        {
+          "id": "P_PIPELINE",
+          "layer": "P",
+          "points": 2.1333333333333333,
+          "possible_points": 2.1333333333333333,
+          "cases_passed": 76,
+          "cases_total": 76,
+          "safety_violation": false
+        },
+        {
+          "id": "P_CYCLES",
+          "layer": "P",
+          "points": 10.0,
+          "possible_points": 10.0,
+          "cases_passed": 22,
+          "cases_total": 22,
+          "safety_violation": false
+        }
+      ],
+      "rank_key": [
+        50.0,
+        31,
+        -4061.8259875774384
+      ],
+      "physical_policy": "physical-wall-3600s-retain-results-v1",
+      "physical_records": [
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T09",
+          "candidate_source_sha256": "a30018e294038a8f26f717362309e38d59980e912ae5d89808f7831382fd5851",
+          "layout_seed": 11,
+          "elapsed_seconds": 692.5161243351176,
+          "status": "completed",
+          "started_utc": "2026-11-04T12:52:10.296440+00:00",
+          "ended_utc": "2026-11-04T13:03:42.812561+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T09",
+          "candidate_source_sha256": "a30018e294038a8f26f717362309e38d59980e912ae5d89808f7831382fd5851",
+          "layout_seed": 29,
+          "elapsed_seconds": 630.551610102877,
+          "status": "completed",
+          "started_utc": "2026-11-04T13:04:24.559558+00:00",
+          "ended_utc": "2026-11-04T13:14:55.111168+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-3600s-retain-results-v1",
+          "limit_seconds": 3600,
+          "task_id": "T09",
+          "candidate_source_sha256": "a30018e294038a8f26f717362309e38d59980e912ae5d89808f7831382fd5851",
+          "layout_seed": 47,
+          "elapsed_seconds": 609.4300008569844,
+          "status": "completed",
+          "started_utc": "2026-11-04T13:15:32.000689+00:00",
+          "ended_utc": "2026-11-04T13:25:41.430689+00:00",
+          "process_group_terminated": false
+        }
+      ],
+      "physical_timed_out_seeds": [],
+      "candidate_source_sha256": "a30018e294038a8f26f717362309e38d59980e912ae5d89808f7831382fd5851",
+      "power_compile_policy": "power-compile-wall-1200s-v1",
+      "power_compile_records": [
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T09",
+          "candidate_source_sha256": "a30018e294038a8f26f717362309e38d59980e912ae5d89808f7831382fd5851",
+          "layout_seed": 11,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_cpu_elf",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T09/seed11/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T09/seed11/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/rv32i_five_stage_cpu/ic_probe_t09_wc_p1000_u10_d0.6_s11_634982ad1a/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/evaluation_repairs/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T09/seed11/power/power_compile_command_0000.log",
+              "process_group": 2594562,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T09/seed11/power/power_compile_command_0000.log",
+                "bytes": 88864,
+                "sha256": "c0701679620f831488ee5031719a6cd6b6209886fe431a8275944dc907cb67dd"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T13:03:42.866100+00:00",
+          "prior_failed_compile_seconds": 0.0,
+          "prior_failed_compile_receipts": [],
+          "evaluation_repair": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/evaluation_repairs/T09_seq_model_repair.json",
+            "sha256": "1493bbaa599de835d03905ce8a88b9cdbf91fa5fe9613663f26cc79c22a8c925"
+          },
+          "status": "completed",
+          "elapsed_seconds": 35.09563648281619,
+          "ended_utc": "2026-11-04T13:04:17.961738+00:00"
+        },
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T09",
+          "candidate_source_sha256": "a30018e294038a8f26f717362309e38d59980e912ae5d89808f7831382fd5851",
+          "layout_seed": 29,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_cpu_elf",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T09/seed29/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T09/seed29/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/rv32i_five_stage_cpu/ic_probe_t09_wc_p1000_u10_d0.6_s29_8961850b1d/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/evaluation_repairs/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T09/seed29/power/power_compile_command_0000.log",
+              "process_group": 2603425,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T09/seed29/power/power_compile_command_0000.log",
+                "bytes": 88864,
+                "sha256": "81d889242aa16653b9f02dacbba86275863fa85c822c872fcefb0986102c019a"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T13:14:55.143624+00:00",
+          "evaluation_repair": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/evaluation_repairs/T09_seq_model_repair.json",
+            "sha256": "1493bbaa599de835d03905ce8a88b9cdbf91fa5fe9613663f26cc79c22a8c925"
+          },
+          "status": "completed",
+          "elapsed_seconds": 30.852631479967386,
+          "ended_utc": "2026-11-04T13:15:25.996255+00:00"
+        },
+        {
+          "policy_id": "power-compile-wall-1200s-v1",
+          "limit_seconds": 1200,
+          "task_id": "T09",
+          "candidate_source_sha256": "a30018e294038a8f26f717362309e38d59980e912ae5d89808f7831382fd5851",
+          "layout_seed": 47,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--binary",
+                "--timing",
+                "--trace",
+                "--trace-underscore",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_cpu_elf",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T09/seed47/power/build",
+                "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T09/seed47/power/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/rv32i_five_stage_cpu/ic_probe_t09_wc_p1000_u10_d0.6_s47_b716e1bdf1/6_final.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/evaluation_repairs/asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T09/seed47/power/power_compile_command_0000.log",
+              "process_group": 2610465,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T09/seed47/power/power_compile_command_0000.log",
+                "bytes": 88864,
+                "sha256": "c83a4f60aa4c754a50d13a720e6fd043d3136adc3c911284301b878873b4e3a4"
+              }
+            }
+          ],
+          "started_utc": "2026-11-04T13:25:41.469792+00:00",
+          "evaluation_repair": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/evaluation_repairs/T09_seq_model_repair.json",
+            "sha256": "1493bbaa599de835d03905ce8a88b9cdbf91fa5fe9613663f26cc79c22a8c925"
+          },
+          "status": "completed",
+          "elapsed_seconds": 34.838074911851436,
+          "ended_utc": "2026-11-04T13:26:16.307864+00:00"
+        }
+      ],
+      "delivery_assessment": {
+        "missing_deliverables": [],
+        "errors": []
+      },
+      "delivery_penalty_policy": "delivery-contract-cap10-v1",
+      "delivery_penalty_status": "adjudicated",
+      "model": "claude-opus-5-5",
+      "status": "scored",
+      "elapsed_seconds": 4061.8259875774384,
+      "delivery_attribution_pending": false,
+      "delivery_seed_policy": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/delivery_prime_policy/policy.json",
+        "sha256": "306dbca39bef73cd37b705889cfe3b0e8bd50ac84d60a781a169aa13e82bc3b9"
+      },
+      "delivery_replay_seeds": [
+        11,
+        29,
+        47
+      ],
+      "grading_policy_receipt": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading_receipt.json",
+        "sha256": "9069f853f9e4462a2f02ff8adea9e69fa2e0703bcade483dd71229c3c5e7bd0e"
+      },
+      "schema_version": 3,
+      "suite_id": "ic-delivery-rtl-v0.3",
+      "framework": "Claude Code",
+      "framework_version": "2.1.317",
+      "reasoning_effort": "high",
+      "task_language": "en",
+      "trial_kind": "pre_release_pilot",
+      "ranking_eligible": false,
+      "ranking_ineligible_reason": "Independent pilot; not an official benchmark ranking.",
+      "functional_possible": 50,
+      "ppa_possible": 50,
+      "time_possible": 5,
+      "display_possible": 105,
+      "time_limit_seconds": 7200,
+      "score_status": "scored",
+      "source_report_sha256": "be82e0593454bacc1d735dbdd20d588c31326c86d2f4c86eae12e389d27612e2",
+      "source_score_input_sha256": "b9f5d90a313b5a9da9611a898d3c53a54ce083c7b366b5b020a1323f141e748c",
+      "archive_evidence": {
+        "report.json": {
+          "archive_path": "evidence/T09/report.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T09/report.json",
+          "bytes": 12824,
+          "sha256": "be82e0593454bacc1d735dbdd20d588c31326c86d2f4c86eae12e389d27612e2"
+        },
+        "score_input.json": {
+          "archive_path": "evidence/T09/score_input.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T09/score_input.json",
+          "bytes": 29364,
+          "sha256": "b9f5d90a313b5a9da9611a898d3c53a54ce083c7b366b5b020a1323f141e748c"
+        },
+        "functional.json": {
+          "archive_path": "evidence/T09/functional.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T09/functional.json",
+          "bytes": 68569,
+          "sha256": "6337edf187c9ff030b8b1736c34d051c1b26a90f7deca02fd509b5591b512949"
+        },
+        "delivery.json": {
+          "archive_path": "evidence/T09/delivery.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T09/delivery.json",
+          "bytes": 1539,
+          "sha256": "12ebba337791a74366e9bc7e8118f3467f65ad020e7f189249b8cf2b9067004b"
+        }
+      },
+      "benchmark_freeze": {
+        "receipt": "benchmark/tasks/T09/FREEZE.json",
+        "receipt_sha256": "b1a845b44f654b975a4645a35b6d7ac167df03c1ce21806968a858f125616898",
+        "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
+        "scope": "current grading contract"
+      }
+    },
+    {
+      "task_id": "T10",
+      "functional_basic": 32.57358847153319,
+      "functional_edges": 16.666666666666664,
+      "functional_total": 49.240255138199856,
+      "full_functional_pass": false,
+      "delivery_qualified": true,
+      "ppa_eligible": false,
+      "ppa_score": 0.0,
+      "ppa_rank_bucket": 0,
+      "time_score": 0.0,
+      "candidate_delivery_error_count": 0,
+      "candidate_delivery_penalty": 0,
+      "display_score_before_candidate_penalty": 49.240255138199856,
+      "display_score": 49.240255138199856,
+      "score_items": [
+        {
+          "id": "F_INT",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 128,
+          "cases_total": 128,
+          "safety_violation": false
+        },
+        {
+          "id": "F_FP16_BF16",
+          "layer": "F",
+          "points": 3.710843373493976,
+          "possible_points": 4.0,
+          "cases_passed": 154,
+          "cases_total": 166,
+          "safety_violation": false
+        },
+        {
+          "id": "F_FP8",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 128,
+          "cases_total": 128,
+          "safety_violation": false
+        },
+        {
+          "id": "F_FP4",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 64,
+          "cases_total": 64,
+          "safety_violation": false
+        },
+        {
+          "id": "F_MXFP8",
+          "layer": "F",
+          "points": 3.5294117647058822,
+          "possible_points": 4.0,
+          "cases_passed": 180,
+          "cases_total": 204,
+          "safety_violation": false
+        },
+        {
+          "id": "F_MXFP4",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 128,
+          "cases_total": 128,
+          "safety_violation": false
+        },
+        {
+          "id": "P_PROTOCOL",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 337,
+          "cases_total": 337,
+          "safety_violation": false
+        },
+        {
+          "id": "P_SYSTOLIC",
+          "layer": "P",
+          "points": 16.666666666666664,
+          "possible_points": 16.666666666666664,
+          "cases_passed": 1616,
+          "cases_total": 1616,
+          "safety_violation": false
+        },
+        {
+          "id": "P_CORNER",
+          "layer": "F",
+          "points": 5.333333333333333,
+          "possible_points": 5.333333333333333,
+          "cases_passed": 128,
+          "cases_total": 128,
+          "safety_violation": false
+        }
+      ],
+      "rank_key": [
+        49.240255138199856,
+        0,
+        0
+      ],
+      "physical_policy": "physical-wall-7200s-retain-results-v1",
+      "physical_records": [
+        {
+          "policy_id": "physical-wall-7200s-retain-results-v1",
+          "limit_seconds": 7200,
+          "task_id": "T10",
+          "candidate_source_sha256": "1c2ad671e5de500a3848d9b541350798d7030d3c0b200273b00d18246ff71359",
+          "layout_seed": 11,
+          "elapsed_seconds": 890.0179388630204,
+          "status": "completed",
+          "started_utc": "2026-11-05T02:57:24.847187+00:00",
+          "ended_utc": "2026-11-05T03:12:14.863275+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-7200s-retain-results-v1",
+          "limit_seconds": 7200,
+          "task_id": "T10",
+          "candidate_source_sha256": "1c2ad671e5de500a3848d9b541350798d7030d3c0b200273b00d18246ff71359",
+          "layout_seed": 29,
+          "elapsed_seconds": 829.9474529861473,
+          "status": "completed",
+          "started_utc": "2026-11-05T03:12:14.994101+00:00",
+          "ended_utc": "2026-11-05T03:26:04.939853+00:00",
+          "process_group_terminated": false
+        },
+        {
+          "policy_id": "physical-wall-7200s-retain-results-v1",
+          "limit_seconds": 7200,
+          "task_id": "T10",
+          "candidate_source_sha256": "1c2ad671e5de500a3848d9b541350798d7030d3c0b200273b00d18246ff71359",
+          "layout_seed": 47,
+          "elapsed_seconds": 811.6186699969694,
+          "status": "completed",
+          "started_utc": "2026-11-05T03:26:05.017070+00:00",
+          "ended_utc": "2026-11-05T03:39:36.633869+00:00",
+          "process_group_terminated": false
+        }
+      ],
+      "power_compile_policy": "power-compile-wall-2400s-v2",
+      "candidate_source_sha256": "1c2ad671e5de500a3848d9b541350798d7030d3c0b200273b00d18246ff71359",
+      "power_compile_records": [
+        {
+          "policy_id": "power-compile-wall-2400s-v2",
+          "limit_seconds": 2400,
+          "task_id": "T10",
+          "candidate_source_sha256": "1c2ad671e5de500a3848d9b541350798d7030d3c0b200273b00d18246ff71359",
+          "layout_seed": 11,
+          "commands": [
+            {
+              "command": [
+                "verilator",
+                "--cc",
+                "--main",
+                "--exe",
+                "--hierarchical",
+                "--timing",
+                "--assert",
+                "--trace-saif",
+                "--trace-underscore",
+                "--trace-max-width",
+                "262144",
+                "--output-split",
+                "10000",
+                "--output-split-cfuncs",
+                "10000",
+                "-Wno-fatal",
+                "-Wno-SPECIFYIGN",
+                "-j",
+                "4",
+                "--top-module",
+                "tb_hidden_T10_stream",
+                "--Mdir",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/build",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/tb_power.sv",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/direct_asap7_seq_sim.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/direct_asap7sc7p5t_AO_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/direct_asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/direct_asap7sc7p5t_OA_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/direct_asap7sc7p5t_SIMPLE_RVT_TT_201020.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/planning_only/npu_systolic_matmul_16x16.v",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/planning_only/mm_pe.v",
+                "--protect-key",
+                "576afc80af06e936089fd8f841fbcc4f555cee254bfa1922f701296e1d092b8e"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/planning.log",
+              "process_group": 3422836,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/planning.log",
+                "bytes": 30223,
+                "sha256": "93bb5957369cbeb58165c2a8475259ac7996a37cea28dc562cd951eb8d2fc8f1"
+              }
+            },
+            {
+              "command": [
+                "verilator",
+                "-f",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/build/Vmm_pe__hierMkArgs.f"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/actual_mm_pe.log",
+              "process_group": 3422864,
+              "returncode": 0,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/actual_mm_pe.log",
+                "bytes": 8095,
+                "sha256": "2ae65cc69f8d1c82843852f646a63e3fd59599cc6455473721eddb929516a945"
+              }
+            },
+            {
+              "command": [
+                "verilator",
+                "-f",
+                "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/build/Vnpu_systolic_matmul_16x16__hierMkArgs.f"
+              ],
+              "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/actual_npu_systolic_matmul_16x16.log",
+              "process_group": 3422896,
+              "returncode": -15,
+              "log_artifact": {
+                "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/actual_npu_systolic_matmul_16x16.log",
+                "bytes": 0,
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              }
+            }
+          ],
+          "started_utc": "2026-11-05T04:16:11.949507+00:00",
+          "process_group_terminated": true,
+          "status": "timeout",
+          "elapsed_seconds": 2400.001300828997,
+          "ended_utc": "2026-11-05T04:56:11.950809+00:00",
+          "ppa_score": 0,
+          "time_score": 0
+        }
+      ],
+      "ppa_status": "power_compile_timeout_zero",
+      "ppa_zero_reason": "Power-simulation compilation exceeded the cumulative 2400-second per-seed wall-clock budget.",
+      "delivery_assessment": {
+        "missing_deliverables": [],
+        "errors": []
+      },
+      "delivery_penalty_policy": "delivery-contract-cap10-v1",
+      "delivery_penalty_status": "adjudicated",
+      "model": "claude-opus-5-5",
+      "status": "scored",
+      "elapsed_seconds": 12802.73377108574,
+      "delivery_attribution_pending": false,
+      "delivery_seed_policy": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/delivery_prime_policy/policy.json",
+        "sha256": "306dbca39bef73cd37b705889cfe3b0e8bd50ac84d60a781a169aa13e82bc3b9"
+      },
+      "delivery_replay_seeds": [
+        11,
+        29,
+        47
+      ],
+      "grading_policy_receipt": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading_receipt.json",
+        "sha256": "9069f853f9e4462a2f02ff8adea9e69fa2e0703bcade483dd71229c3c5e7bd0e"
+      },
+      "structure_evaluator_repair": {
+        "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/evaluation_repairs/T10_structure_stateful_20261105/policy.json",
+        "sha256": "6c88ad33b6dc38a2c4c5f38c850493aceb5b0cd25c584642131a9acdd1573a34"
+      },
+      "schema_version": 3,
+      "suite_id": "ic-delivery-rtl-v0.3",
+      "framework": "Claude Code",
+      "framework_version": "2.1.317",
+      "reasoning_effort": "high",
+      "task_language": "en",
+      "trial_kind": "pre_release_pilot",
+      "ranking_eligible": false,
+      "ranking_ineligible_reason": "Independent pilot; not an official benchmark ranking.",
+      "functional_possible": 50,
+      "ppa_possible": 50,
+      "time_possible": 5,
+      "display_possible": 105,
+      "time_limit_seconds": 14400,
+      "score_status": "scored",
+      "source_report_sha256": "fad40b93c01585a4e7783e0a411f5edc7e34a65edc2697695bb6ad3b0cff20ff",
+      "source_score_input_sha256": "04c0d9404d2f2b24d7c408a24c41253f3a2ab5e7d08c210b5227fb47263413e3",
+      "archive_evidence": {
+        "report.json": {
+          "archive_path": "evidence/T10/report.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/report.json",
+          "bytes": 9906,
+          "sha256": "fad40b93c01585a4e7783e0a411f5edc7e34a65edc2697695bb6ad3b0cff20ff"
+        },
+        "score_input.json": {
+          "archive_path": "evidence/T10/score_input.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/score_input.json",
+          "bytes": 7292,
+          "sha256": "04c0d9404d2f2b24d7c408a24c41253f3a2ab5e7d08c210b5227fb47263413e3"
+        },
+        "functional.json": {
+          "archive_path": "evidence/T10/functional.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/functional.json",
+          "bytes": 20420,
+          "sha256": "d366e25c934d90cc04198f9a373e3cb09600601c403c387d122305b7b235b464"
+        },
+        "delivery.json": {
+          "archive_path": "evidence/T10/delivery.json",
+          "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/delivery.json",
+          "bytes": 1535,
+          "sha256": "aecb1f1ece62c7c6c708edb2a6a4b3411ecaef9aa676c97a48bbf006c7f3f909"
+        }
+      },
+      "functional_groups": {
+        "MM-INT": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F16": {
+          "cases_passed": 154,
+          "cases_total": 166
+        },
+        "MM-F8": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F4": {
+          "cases_passed": 64,
+          "cases_total": 64
+        },
+        "MM-MX8": {
+          "cases_passed": 180,
+          "cases_total": 204
+        },
+        "MM-MX4": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-PROTO": {
+          "cases_passed": 337,
+          "cases_total": 337
+        },
+        "MM-SYSTOLIC": {
+          "cases_passed": 1616,
+          "cases_total": 1616
+        },
+        "MM-CORNER": {
+          "cases_passed": 128,
+          "cases_total": 128
+        }
+      },
+      "functional_retest": {
+        "policy_id": "t10-strict-range-v1",
+        "numerical_profile": "exact-dot-v1",
+        "seed": 11,
+        "report": {
+          "path": "results/t10-strict-functional-retest-20261106.json",
+          "sha256": "3c15d0da5b8d05890fc8c80a3c40a8b05529c3eac92b0debe3eba60ea46b241f",
+          "bytes": 15107
+        },
+        "functional_report": {
+          "path": "results/claude-opus-5.5/functional-retest-20261106/functional.json",
+          "sha256": "6224067e245751d5905d6a1d939e8dcf332bf41cd07d5af24b94735bcdd35226",
+          "bytes": 18851
+        },
+        "functional_score": {
+          "path": "results/claude-opus-5.5/functional-retest-20261106/functional_score.json",
+          "sha256": "6e683ebcabb226a1707484e2fd0ebeab07be1e0a4fad9871f35ed4456b8cd898",
+          "bytes": 2024
+        },
+        "trace_attestation": {
+          "path": "results/claude-opus-5.5/functional-retest-20261106/trace_attestation.json",
+          "sha256": "02fe784fb7eff1b1d27342612fe4b9519478b9f9b8139a26531955cb3e7bb7e1",
+          "bytes": 7236
+        },
+        "previous_summary": {
+          "path": "results/archive/t10-before-range-expansion-20261106/claude-opus-5.5/summary.json",
+          "sha256": "55601833c8dcfcf06edc7c8f3a23cdfe9fd2b341e8d7fbd30fbfc717c5233a78",
+          "bytes": 149873
+        },
+        "ppa_remeasured": false,
+        "group_weights_unchanged": true
+      }
+    }
+  ],
+  "task_freeze_receipts": {
+    "T08": {
+      "receipt": "benchmark/tasks/T08/FREEZE.json",
+      "receipt_sha256": "27d0567787d588cf5d1e28ea1a90a11d0d6fe35f74ed9f921b1d2eef8beb295c",
+      "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
+      "scope": "current grading contract"
+    },
+    "T09": {
+      "receipt": "benchmark/tasks/T09/FREEZE.json",
+      "receipt_sha256": "b1a845b44f654b975a4645a35b6d7ac167df03c1ce21806968a858f125616898",
+      "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
+      "scope": "current grading contract"
+    }
+  },
+  "weighted_display_score": 78.54783756197855,
+  "weighted_display_possible": 105.0,
+  "covered_task_weight": 1.0,
+  "covered_display_possible": 105.0,
+  "weighted_contributions": {
+    "T01": 2.6704170396068694,
+    "T02": 2.6589013746170473,
+    "T03": 5.3642978117851134,
+    "T04": 5.516901440383826,
+    "T05": 5.400558638408706,
+    "T06": 9.706396940401198,
+    "T07": 7.127065879403756,
+    "T08": 9.599801774368494,
+    "T09": 18.193432878453574,
+    "T10": 12.310063784549964
+  },
+  "functional_retest_revision": "t10-strict-range-v1",
+  "result_revision_date": "2026-11-06"
+}

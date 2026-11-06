@@ -1,0 +1,581 @@
+{
+  "task_id": "T02",
+  "groups": {
+    "AC-09": {
+      "cases_passed": 215407,
+      "cases_total": 215407,
+      "safety_violation": false
+    },
+    "AC-10": {
+      "cases_passed": 221033,
+      "cases_total": 221033,
+      "safety_violation": false
+    },
+    "AC-11": {
+      "cases_passed": 432,
+      "cases_total": 432,
+      "safety_violation": false
+    },
+    "AC-12": {
+      "cases_passed": 12,
+      "cases_total": 12,
+      "safety_violation": false
+    },
+    "AC-13": {
+      "cases_passed": 48,
+      "cases_total": 48,
+      "safety_violation": false
+    },
+    "AC-14": {
+      "cases_passed": 80463,
+      "cases_total": 80463,
+      "safety_violation": false
+    },
+    "AC-15": {
+      "cases_passed": 6,
+      "cases_total": 6,
+      "safety_violation": false
+    }
+  },
+  "elapsed_seconds": 531.3767669200897,
+  "time_limit_seconds": 3600,
+  "delivery_qualified": true,
+  "delivery_assessment": {
+    "missing_deliverables": [],
+    "errors": []
+  },
+  "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+  "power_compile_records": [
+    {
+      "policy_id": "power-compile-wall-1200s-v1",
+      "limit_seconds": 1200,
+      "task_id": "T02",
+      "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+      "layout_seed": 11,
+      "commands": [
+        {
+          "command": [
+            "verilator",
+            "--binary",
+            "--timing",
+            "--trace",
+            "--trace-underscore",
+            "-Wno-fatal",
+            "-Wno-SPECIFYIGN",
+            "-j",
+            "4",
+            "--top-module",
+            "tb_hidden_T02",
+            "--Mdir",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed11/power/build",
+            "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+            "-GWIDTH=32",
+            "-GDEPTH=16",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed11/power/tb_power.sv",
+            "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/synchronous_fifo/ic_probe_t02_wc_p1000_u10_d0.6_s11_50ced78297/6_final.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+          ],
+          "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed11/power/power_compile_command_0000.log",
+          "process_group": 2059350,
+          "returncode": 0,
+          "log_artifact": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed11/power/power_compile_command_0000.log",
+            "bytes": 27587,
+            "sha256": "619c6996007e4c8a03313efcccab4033cc7336839de24b5eac1cbac1c4398bed"
+          }
+        }
+      ],
+      "started_utc": "2026-11-04T04:24:55.309623+00:00",
+      "status": "completed",
+      "elapsed_seconds": 8.629689696244895,
+      "ended_utc": "2026-11-04T04:25:03.939312+00:00"
+    },
+    {
+      "policy_id": "power-compile-wall-1200s-v1",
+      "limit_seconds": 1200,
+      "task_id": "T02",
+      "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+      "layout_seed": 29,
+      "commands": [
+        {
+          "command": [
+            "verilator",
+            "--binary",
+            "--timing",
+            "--trace",
+            "--trace-underscore",
+            "-Wno-fatal",
+            "-Wno-SPECIFYIGN",
+            "-j",
+            "4",
+            "--top-module",
+            "tb_hidden_T02",
+            "--Mdir",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed29/power/build",
+            "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+            "-GWIDTH=32",
+            "-GDEPTH=16",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed29/power/tb_power.sv",
+            "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/synchronous_fifo/ic_probe_t02_wc_p1000_u10_d0.6_s29_a602933554/6_final.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+          ],
+          "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed29/power/power_compile_command_0000.log",
+          "process_group": 2062067,
+          "returncode": 0,
+          "log_artifact": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed29/power/power_compile_command_0000.log",
+            "bytes": 27587,
+            "sha256": "bdfc966d1c84ea2bd78bb0945c2a4ae8b6959bf674c4ded0edba4283f0e126b9"
+          }
+        }
+      ],
+      "started_utc": "2026-11-04T04:27:56.948320+00:00",
+      "status": "completed",
+      "elapsed_seconds": 3.670752859208733,
+      "ended_utc": "2026-11-04T04:28:00.619071+00:00"
+    },
+    {
+      "policy_id": "power-compile-wall-1200s-v1",
+      "limit_seconds": 1200,
+      "task_id": "T02",
+      "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+      "layout_seed": 47,
+      "commands": [
+        {
+          "command": [
+            "verilator",
+            "--binary",
+            "--timing",
+            "--trace",
+            "--trace-underscore",
+            "-Wno-fatal",
+            "-Wno-SPECIFYIGN",
+            "-j",
+            "4",
+            "--top-module",
+            "tb_hidden_T02",
+            "--Mdir",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed47/power/build",
+            "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+            "-GWIDTH=32",
+            "-GDEPTH=16",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed47/power/tb_power.sv",
+            "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/synchronous_fifo/ic_probe_t02_wc_p1000_u10_d0.6_s47_c2649d873b/6_final.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+          ],
+          "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed47/power/power_compile_command_0000.log",
+          "process_group": 2064630,
+          "returncode": 0,
+          "log_artifact": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed47/power/power_compile_command_0000.log",
+            "bytes": 27587,
+            "sha256": "9942de3ed727f6d13c82d9de5e91ff36db03d973655324c688e07fad3390f28d"
+          }
+        }
+      ],
+      "started_utc": "2026-11-04T04:30:45.746488+00:00",
+      "status": "completed",
+      "elapsed_seconds": 3.7709067268297076,
+      "ended_utc": "2026-11-04T04:30:49.517394+00:00"
+    }
+  ],
+  "physical_records": [
+    {
+      "policy_id": "physical-wall-3600s-retain-results-v1",
+      "limit_seconds": 3600,
+      "task_id": "T02",
+      "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+      "layout_seed": 11,
+      "elapsed_seconds": 184.4897808022797,
+      "status": "completed",
+      "started_utc": "2026-11-04T04:21:50.786751+00:00",
+      "ended_utc": "2026-11-04T04:24:55.276526+00:00",
+      "process_group_terminated": false
+    },
+    {
+      "policy_id": "physical-wall-3600s-retain-results-v1",
+      "limit_seconds": 3600,
+      "task_id": "T02",
+      "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+      "layout_seed": 29,
+      "elapsed_seconds": 170.98866763617843,
+      "status": "completed",
+      "started_utc": "2026-11-04T04:25:05.926921+00:00",
+      "ended_utc": "2026-11-04T04:27:56.915587+00:00",
+      "process_group_terminated": false
+    },
+    {
+      "policy_id": "physical-wall-3600s-retain-results-v1",
+      "limit_seconds": 3600,
+      "task_id": "T02",
+      "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+      "layout_seed": 47,
+      "elapsed_seconds": 163.07643943512812,
+      "status": "completed",
+      "started_utc": "2026-11-04T04:28:02.633230+00:00",
+      "ended_utc": "2026-11-04T04:30:45.709665+00:00",
+      "process_group_terminated": false
+    }
+  ],
+  "physical_policy": "physical-wall-3600s-retain-results-v1",
+  "ppa_measurement": {
+    "task_id": "T02",
+    "source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+    "workload_id": "T02-power-v1",
+    "workload_parameters": {
+      "seed": 20260928
+    },
+    "workload_sha256": "f83b8568fcd5c64b1029b2221b3328bf0fc11c3d3d84c9b34847f742c33d1858",
+    "measurement_status": "three_seed",
+    "parameter_set": {
+      "platform": "ASAP7_7p5t_RVT_NLDM",
+      "period_ps": 1000,
+      "corner": "WC",
+      "utilization": 10,
+      "density": 0.6,
+      "seeds": [
+        11,
+        29,
+        47
+      ]
+    },
+    "routed": true,
+    "setup_worst_slack_ns": 0.04086119999999999,
+    "hold_worst_slack_ns": 0.10425100000000001,
+    "drc_violations": 0,
+    "annotation_fraction": 1.0,
+    "area_um2": 422.878,
+    "delay_ns": 0.9577268,
+    "energy_per_op_pj": 2.4067328643216084,
+    "per_seed": [
+      {
+        "layout_seed": 11,
+        "area_um2": 422.878,
+        "delay_ns": 0.9414125,
+        "setup_worst_slack_ns": 0.0585875,
+        "hold_worst_slack_ns": 0.104257,
+        "drc_violations": 0,
+        "energy_per_op_pj": 2.4067328643216084,
+        "power_w": 0.00152,
+        "ops": 4975,
+        "annotation_fraction": 1.0,
+        "route_record": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed11/route/result.json",
+        "power_record": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed11/power/result.json"
+      },
+      {
+        "layout_seed": 29,
+        "area_um2": 422.878,
+        "delay_ns": 0.9577268,
+        "setup_worst_slack_ns": 0.042273200000000004,
+        "hold_worst_slack_ns": 0.10425100000000001,
+        "drc_violations": 0,
+        "energy_per_op_pj": 2.4067328643216084,
+        "power_w": 0.00152,
+        "ops": 4975,
+        "annotation_fraction": 1.0,
+        "route_record": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed29/route/result.json",
+        "power_record": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed29/power/result.json"
+      },
+      {
+        "layout_seed": 47,
+        "area_um2": 422.878,
+        "delay_ns": 0.9591388,
+        "setup_worst_slack_ns": 0.04086119999999999,
+        "hold_worst_slack_ns": 0.104265,
+        "drc_violations": 0,
+        "energy_per_op_pj": 2.4067328643216084,
+        "power_w": 0.00152,
+        "ops": 4975,
+        "annotation_fraction": 1.0,
+        "route_record": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed47/route/result.json",
+        "power_record": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed47/power/result.json"
+      }
+    ],
+    "physical_policy": "physical-wall-3600s-retain-results-v1",
+    "physical_records": [
+      {
+        "policy_id": "physical-wall-3600s-retain-results-v1",
+        "limit_seconds": 3600,
+        "task_id": "T02",
+        "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+        "layout_seed": 11,
+        "elapsed_seconds": 184.4897808022797,
+        "status": "completed",
+        "started_utc": "2026-11-04T04:21:50.786751+00:00",
+        "ended_utc": "2026-11-04T04:24:55.276526+00:00",
+        "process_group_terminated": false
+      },
+      {
+        "policy_id": "physical-wall-3600s-retain-results-v1",
+        "limit_seconds": 3600,
+        "task_id": "T02",
+        "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+        "layout_seed": 29,
+        "elapsed_seconds": 170.98866763617843,
+        "status": "completed",
+        "started_utc": "2026-11-04T04:25:05.926921+00:00",
+        "ended_utc": "2026-11-04T04:27:56.915587+00:00",
+        "process_group_terminated": false
+      },
+      {
+        "policy_id": "physical-wall-3600s-retain-results-v1",
+        "limit_seconds": 3600,
+        "task_id": "T02",
+        "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+        "layout_seed": 47,
+        "elapsed_seconds": 163.07643943512812,
+        "status": "completed",
+        "started_utc": "2026-11-04T04:28:02.633230+00:00",
+        "ended_utc": "2026-11-04T04:30:45.709665+00:00",
+        "process_group_terminated": false
+      }
+    ],
+    "power_compile_policy": "power-compile-wall-1200s-v1",
+    "power_compile_records": [
+      {
+        "policy_id": "power-compile-wall-1200s-v1",
+        "limit_seconds": 1200,
+        "task_id": "T02",
+        "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+        "layout_seed": 11,
+        "commands": [
+          {
+            "command": [
+              "verilator",
+              "--binary",
+              "--timing",
+              "--trace",
+              "--trace-underscore",
+              "-Wno-fatal",
+              "-Wno-SPECIFYIGN",
+              "-j",
+              "4",
+              "--top-module",
+              "tb_hidden_T02",
+              "--Mdir",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed11/power/build",
+              "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+              "-GWIDTH=32",
+              "-GDEPTH=16",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed11/power/tb_power.sv",
+              "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/synchronous_fifo/ic_probe_t02_wc_p1000_u10_d0.6_s11_50ced78297/6_final.v",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+            ],
+            "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed11/power/power_compile_command_0000.log",
+            "process_group": 2059350,
+            "returncode": 0,
+            "log_artifact": {
+              "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed11/power/power_compile_command_0000.log",
+              "bytes": 27587,
+              "sha256": "619c6996007e4c8a03313efcccab4033cc7336839de24b5eac1cbac1c4398bed"
+            }
+          }
+        ],
+        "started_utc": "2026-11-04T04:24:55.309623+00:00",
+        "status": "completed",
+        "elapsed_seconds": 8.629689696244895,
+        "ended_utc": "2026-11-04T04:25:03.939312+00:00"
+      },
+      {
+        "policy_id": "power-compile-wall-1200s-v1",
+        "limit_seconds": 1200,
+        "task_id": "T02",
+        "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+        "layout_seed": 29,
+        "commands": [
+          {
+            "command": [
+              "verilator",
+              "--binary",
+              "--timing",
+              "--trace",
+              "--trace-underscore",
+              "-Wno-fatal",
+              "-Wno-SPECIFYIGN",
+              "-j",
+              "4",
+              "--top-module",
+              "tb_hidden_T02",
+              "--Mdir",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed29/power/build",
+              "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+              "-GWIDTH=32",
+              "-GDEPTH=16",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed29/power/tb_power.sv",
+              "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/synchronous_fifo/ic_probe_t02_wc_p1000_u10_d0.6_s29_a602933554/6_final.v",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+            ],
+            "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed29/power/power_compile_command_0000.log",
+            "process_group": 2062067,
+            "returncode": 0,
+            "log_artifact": {
+              "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed29/power/power_compile_command_0000.log",
+              "bytes": 27587,
+              "sha256": "bdfc966d1c84ea2bd78bb0945c2a4ae8b6959bf674c4ded0edba4283f0e126b9"
+            }
+          }
+        ],
+        "started_utc": "2026-11-04T04:27:56.948320+00:00",
+        "status": "completed",
+        "elapsed_seconds": 3.670752859208733,
+        "ended_utc": "2026-11-04T04:28:00.619071+00:00"
+      },
+      {
+        "policy_id": "power-compile-wall-1200s-v1",
+        "limit_seconds": 1200,
+        "task_id": "T02",
+        "candidate_source_sha256": "86d43787c6d258c1e25a04a762c48674e88bc1c382f40bf5792a49c4dc0fc023",
+        "layout_seed": 47,
+        "commands": [
+          {
+            "command": [
+              "verilator",
+              "--binary",
+              "--timing",
+              "--trace",
+              "--trace-underscore",
+              "-Wno-fatal",
+              "-Wno-SPECIFYIGN",
+              "-j",
+              "4",
+              "--top-module",
+              "tb_hidden_T02",
+              "--Mdir",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed47/power/build",
+              "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+              "-GWIDTH=32",
+              "-GDEPTH=16",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed47/power/tb_power.sv",
+              "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/synchronous_fifo/ic_probe_t02_wc_p1000_u10_d0.6_s47_c2649d873b/6_final.v",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+              "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+            ],
+            "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed47/power/power_compile_command_0000.log",
+            "process_group": 2064630,
+            "returncode": 0,
+            "log_artifact": {
+              "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T02/seed47/power/power_compile_command_0000.log",
+              "bytes": 27587,
+              "sha256": "9942de3ed727f6d13c82d9de5e91ff36db03d973655324c688e07fad3390f28d"
+            }
+          }
+        ],
+        "started_utc": "2026-11-04T04:30:45.746488+00:00",
+        "status": "completed",
+        "elapsed_seconds": 3.7709067268297076,
+        "ended_utc": "2026-11-04T04:30:49.517394+00:00"
+      }
+    ]
+  },
+  "ppa_reference": {
+    "task_id": "T02",
+    "qualification_status": "qualified_1ghz",
+    "source_sha256": "9ae8e49b6642816bbce629570b0926a255a169467b831888563d5ca3d28ffdf4",
+    "workload_sha256": "d1189cb88da51a0d511960f7015732ff3fb9c628d11ce93be930e0e9e40e399f",
+    "workload_id": "T02-power-v1",
+    "workload_parameters": {
+      "seed": 20260928
+    },
+    "measurement_status": "three_seed",
+    "parameter_set": {
+      "platform": "ASAP7_7p5t_RVT_NLDM",
+      "period_ps": 1000,
+      "corner": "WC",
+      "utilization": 10,
+      "density": 0.6,
+      "seeds": [
+        11,
+        29,
+        47
+      ]
+    },
+    "routed": true,
+    "setup_worst_slack_ns": 0.0254264,
+    "hold_worst_slack_ns": 0.104068,
+    "drc_violations": 0,
+    "annotation_fraction": 1.0,
+    "area_um2": 408.357,
+    "delay_ns": 0.9745736,
+    "average_power_mw": 1.46,
+    "energy_per_op_pj": 2.3116422110552763,
+    "per_seed": [
+      {
+        "layout_seed": 11,
+        "area_um2": 408.357,
+        "delay_ns": 0.9745736,
+        "setup_worst_slack_ns": 0.0254264,
+        "hold_worst_slack_ns": 0.104056,
+        "drc_violations": 0,
+        "energy_per_op_pj": 2.3116422110552763,
+        "power_w": 0.00146,
+        "average_power_mw": 1.46,
+        "ops": 4975,
+        "annotation_fraction": 1.0,
+        "config_sha256": "58e8a99faaf023c01baebc86fa52c5b4d80b405f5f0186ef1a06031d3021733e",
+        "constraint_sha256": "f41645ed4920a2cc7a09c1d5a4fdb982146172901f0ac5507a83ae0031993099",
+        "finish_report_sha256": "cbae3a4969236c0a257f2d71b40308bd5ed09ef757c8eb0f6b9b15c30c9145d1",
+        "drc_report_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "power_report_sha256": "df3e8666c3f96707e53d58be95d0da877537858da5a2a19f8bacec63b08a072c"
+      },
+      {
+        "layout_seed": 29,
+        "area_um2": 408.357,
+        "delay_ns": 0.9700883,
+        "setup_worst_slack_ns": 0.0299117,
+        "hold_worst_slack_ns": 0.104068,
+        "drc_violations": 0,
+        "energy_per_op_pj": 2.3116422110552763,
+        "power_w": 0.00146,
+        "average_power_mw": 1.46,
+        "ops": 4975,
+        "annotation_fraction": 1.0,
+        "config_sha256": "c09e5e1a0575e2b956600fefe74ccb353d873a56592aef9797fdbb36ee5b3419",
+        "constraint_sha256": "f41645ed4920a2cc7a09c1d5a4fdb982146172901f0ac5507a83ae0031993099",
+        "finish_report_sha256": "f3a84a2154b59e8f798accf9c87554af0c227c65de2f32044bdf670ac40b7c12",
+        "drc_report_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "power_report_sha256": "82b07dadde484fc64dec81dd787e7dc877ab4daeec4b976c50c36d5d94da6213"
+      },
+      {
+        "layout_seed": 47,
+        "area_um2": 408.357,
+        "delay_ns": 0.9770655,
+        "setup_worst_slack_ns": 0.0229345,
+        "hold_worst_slack_ns": 0.104071,
+        "drc_violations": 0,
+        "energy_per_op_pj": 2.3116422110552763,
+        "power_w": 0.00146,
+        "average_power_mw": 1.46,
+        "ops": 4975,
+        "annotation_fraction": 1.0,
+        "config_sha256": "706d5634c22298153f9e7f9baeff22a5746b2e27f801f16496bde20017f082d9",
+        "constraint_sha256": "f41645ed4920a2cc7a09c1d5a4fdb982146172901f0ac5507a83ae0031993099",
+        "finish_report_sha256": "83b098528b9ce57931d60d87b1fc307e2eca5e0e4fddd665ae7b6b49a47c2d53",
+        "drc_report_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "power_report_sha256": "df3e8666c3f96707e53d58be95d0da877537858da5a2a19f8bacec63b08a072c"
+      }
+    ]
+  }
+}

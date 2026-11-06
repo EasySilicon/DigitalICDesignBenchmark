@@ -1,0 +1,329 @@
+{
+  "task_id": "T06",
+  "functional_basic": 40.0,
+  "functional_edges": 10.0,
+  "functional_total": 50.0,
+  "full_functional_pass": true,
+  "delivery_qualified": true,
+  "ppa_eligible": true,
+  "ppa_score": 43.72389711606172,
+  "ppa_rank_bucket": 35,
+  "time_score": 3.340072287950251,
+  "candidate_delivery_error_count": 0,
+  "candidate_delivery_penalty": 0,
+  "display_score_before_candidate_penalty": 97.06396940401197,
+  "display_score": 97.06396940401197,
+  "score_items": [
+    {
+      "id": "F_WRITE",
+      "layer": "F",
+      "points": 13.333333333333332,
+      "possible_points": 13.333333333333332,
+      "cases_passed": 340,
+      "cases_total": 340,
+      "safety_violation": false
+    },
+    {
+      "id": "F_READ",
+      "layer": "F",
+      "points": 13.333333333333332,
+      "possible_points": 13.333333333333332,
+      "cases_passed": 189,
+      "cases_total": 189,
+      "safety_violation": false
+    },
+    {
+      "id": "F_RESP",
+      "layer": "F",
+      "points": 13.333333333333332,
+      "possible_points": 13.333333333333332,
+      "cases_passed": 484,
+      "cases_total": 484,
+      "safety_violation": false
+    },
+    {
+      "id": "P_CONCURRENT",
+      "layer": "P",
+      "points": 3.333333333333333,
+      "possible_points": 3.333333333333333,
+      "cases_passed": 452,
+      "cases_total": 452,
+      "safety_violation": false
+    },
+    {
+      "id": "P_STALL",
+      "layer": "P",
+      "points": 3.333333333333333,
+      "possible_points": 3.333333333333333,
+      "cases_passed": 5954,
+      "cases_total": 5954,
+      "safety_violation": false
+    },
+    {
+      "id": "P_RESET",
+      "layer": "P",
+      "points": 3.333333333333333,
+      "possible_points": 3.333333333333333,
+      "cases_passed": 57,
+      "cases_total": 57,
+      "safety_violation": false
+    }
+  ],
+  "rank_key": [
+    50.0,
+    35,
+    -2390.295905351639
+  ],
+  "physical_policy": "physical-wall-3600s-retain-results-v1",
+  "physical_records": [
+    {
+      "policy_id": "physical-wall-3600s-retain-results-v1",
+      "limit_seconds": 3600,
+      "task_id": "T06",
+      "candidate_source_sha256": "5c214f694e066233c17c21b515bbab7d6f65f5f7e3d63401fe762ab718c0db34",
+      "layout_seed": 11,
+      "elapsed_seconds": 47.00222017290071,
+      "status": "completed",
+      "started_utc": "2026-11-04T07:33:34.220045+00:00",
+      "ended_utc": "2026-11-04T07:34:21.222260+00:00",
+      "process_group_terminated": false
+    },
+    {
+      "policy_id": "physical-wall-3600s-retain-results-v1",
+      "limit_seconds": 3600,
+      "task_id": "T06",
+      "candidate_source_sha256": "5c214f694e066233c17c21b515bbab7d6f65f5f7e3d63401fe762ab718c0db34",
+      "layout_seed": 29,
+      "elapsed_seconds": 47.560367051977664,
+      "status": "completed",
+      "started_utc": "2026-11-04T07:34:32.052927+00:00",
+      "ended_utc": "2026-11-04T07:35:19.613293+00:00",
+      "process_group_terminated": false
+    },
+    {
+      "policy_id": "physical-wall-3600s-retain-results-v1",
+      "limit_seconds": 3600,
+      "task_id": "T06",
+      "candidate_source_sha256": "5c214f694e066233c17c21b515bbab7d6f65f5f7e3d63401fe762ab718c0db34",
+      "layout_seed": 47,
+      "elapsed_seconds": 76.19271308509633,
+      "status": "completed",
+      "started_utc": "2026-11-04T07:35:29.088452+00:00",
+      "ended_utc": "2026-11-04T07:36:45.281163+00:00",
+      "process_group_terminated": false
+    }
+  ],
+  "physical_timed_out_seeds": [],
+  "candidate_source_sha256": "5c214f694e066233c17c21b515bbab7d6f65f5f7e3d63401fe762ab718c0db34",
+  "power_compile_policy": "power-compile-wall-1200s-v1",
+  "power_compile_records": [
+    {
+      "policy_id": "power-compile-wall-1200s-v1",
+      "limit_seconds": 1200,
+      "task_id": "T06",
+      "candidate_source_sha256": "5c214f694e066233c17c21b515bbab7d6f65f5f7e3d63401fe762ab718c0db34",
+      "layout_seed": 11,
+      "commands": [
+        {
+          "command": [
+            "verilator",
+            "--binary",
+            "--timing",
+            "--trace",
+            "--trace-underscore",
+            "-Wno-fatal",
+            "-Wno-SPECIFYIGN",
+            "-j",
+            "4",
+            "--top-module",
+            "tb_hidden_T06",
+            "--Mdir",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed11/power/build",
+            "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed11/power/tb_power.sv",
+            "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/axi4lite_to_apb4_bridge/ic_probe_t06_wc_p1000_u10_d0.6_s11_187b75dd34/6_final.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+          ],
+          "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed11/power/power_compile_command_0000.log",
+          "process_group": 2341474,
+          "returncode": 0,
+          "log_artifact": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed11/power/power_compile_command_0000.log",
+            "bytes": 23078,
+            "sha256": "5b6f08f96f79d4dda97fb1b3cb0bcbf9bf5164bb61f6c3ebbfa0c9897a7acb76"
+          }
+        }
+      ],
+      "started_utc": "2026-11-04T07:34:21.254145+00:00",
+      "status": "completed",
+      "elapsed_seconds": 9.782458810601383,
+      "ended_utc": "2026-11-04T07:34:31.036605+00:00"
+    },
+    {
+      "policy_id": "power-compile-wall-1200s-v1",
+      "limit_seconds": 1200,
+      "task_id": "T06",
+      "candidate_source_sha256": "5c214f694e066233c17c21b515bbab7d6f65f5f7e3d63401fe762ab718c0db34",
+      "layout_seed": 29,
+      "commands": [
+        {
+          "command": [
+            "verilator",
+            "--binary",
+            "--timing",
+            "--trace",
+            "--trace-underscore",
+            "-Wno-fatal",
+            "-Wno-SPECIFYIGN",
+            "-j",
+            "4",
+            "--top-module",
+            "tb_hidden_T06",
+            "--Mdir",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed29/power/build",
+            "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed29/power/tb_power.sv",
+            "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/axi4lite_to_apb4_bridge/ic_probe_t06_wc_p1000_u10_d0.6_s29_acf5f3b1e6/6_final.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+          ],
+          "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed29/power/power_compile_command_0000.log",
+          "process_group": 2344800,
+          "returncode": 0,
+          "log_artifact": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed29/power/power_compile_command_0000.log",
+            "bytes": 23078,
+            "sha256": "a3ec0414ea44b554b3b189fe0290e8272f2380ab25b8bf916740c1a98648a8dd"
+          }
+        }
+      ],
+      "started_utc": "2026-11-04T07:35:19.645828+00:00",
+      "status": "completed",
+      "elapsed_seconds": 8.382125569973141,
+      "ended_utc": "2026-11-04T07:35:28.027954+00:00"
+    },
+    {
+      "policy_id": "power-compile-wall-1200s-v1",
+      "limit_seconds": 1200,
+      "task_id": "T06",
+      "candidate_source_sha256": "5c214f694e066233c17c21b515bbab7d6f65f5f7e3d63401fe762ab718c0db34",
+      "layout_seed": 47,
+      "commands": [
+        {
+          "command": [
+            "verilator",
+            "--binary",
+            "--timing",
+            "--trace",
+            "--trace-underscore",
+            "-Wno-fatal",
+            "-Wno-SPECIFYIGN",
+            "-j",
+            "4",
+            "--top-module",
+            "tb_hidden_T06",
+            "--Mdir",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed47/power/build",
+            "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed47/power/tb_power.sv",
+            "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/axi4lite_to_apb4_bridge/ic_probe_t06_wc_p1000_u10_d0.6_s47_9292a846d8/6_final.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+          ],
+          "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed47/power/power_compile_command_0000.log",
+          "process_group": 2611993,
+          "returncode": 0,
+          "log_artifact": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/seed47/power/power_compile_command_0000.log",
+            "bytes": 23078,
+            "sha256": "2ba88d87e6b8deaaa243c734a451c135aef839bbdf613eb36f08bac37e86a739"
+          }
+        }
+      ],
+      "started_utc": "2026-11-04T13:26:53.345690+00:00",
+      "status": "completed",
+      "elapsed_seconds": 8.930770134087652,
+      "ended_utc": "2026-11-04T13:27:02.276459+00:00"
+    }
+  ],
+  "delivery_assessment": {
+    "missing_deliverables": [],
+    "errors": []
+  },
+  "delivery_penalty_policy": "delivery-contract-cap10-v1",
+  "delivery_penalty_status": "adjudicated",
+  "model": "claude-opus-5-5",
+  "status": "scored",
+  "elapsed_seconds": 2390.295905351639,
+  "delivery_attribution_pending": false,
+  "delivery_seed_policy": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/delivery_prime_policy/policy.json",
+    "sha256": "306dbca39bef73cd37b705889cfe3b0e8bd50ac84d60a781a169aa13e82bc3b9"
+  },
+  "delivery_replay_seeds": [
+    11,
+    29,
+    47
+  ],
+  "grading_policy_receipt": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading_receipt.json",
+    "sha256": "9069f853f9e4462a2f02ff8adea9e69fa2e0703bcade483dd71229c3c5e7bd0e"
+  },
+  "priority_recovery_receipt": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/evaluation_repairs/T06_recovery/request.json",
+    "sha256": "6b2a8de610c11d26d6ad8ff8640ea563ae4509f0f68e154345b695a52140244f"
+  },
+  "schema_version": 3,
+  "suite_id": "ic-delivery-rtl-v0.3",
+  "framework": "Claude Code",
+  "framework_version": "2.1.317",
+  "reasoning_effort": "high",
+  "task_language": "en",
+  "trial_kind": "pre_release_pilot",
+  "ranking_eligible": false,
+  "ranking_ineligible_reason": "Independent pilot; not an official benchmark ranking.",
+  "functional_possible": 50,
+  "ppa_possible": 50,
+  "time_possible": 5,
+  "display_possible": 105,
+  "time_limit_seconds": 7200,
+  "score_status": "scored",
+  "source_report_sha256": "d485ac5062125befb2679a5619ead46d1500c7980f6acb7c64a3afe45642c8eb",
+  "source_score_input_sha256": "fd5173fe79acc42acfd83e93897d4bc9301b7f72322a34749597af6dd185a3c7",
+  "archive_evidence": {
+    "report.json": {
+      "archive_path": "evidence/T06/report.json",
+      "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/report.json",
+      "bytes": 11873,
+      "sha256": "d485ac5062125befb2679a5619ead46d1500c7980f6acb7c64a3afe45642c8eb"
+    },
+    "score_input.json": {
+      "archive_path": "evidence/T06/score_input.json",
+      "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/score_input.json",
+      "bytes": 25074,
+      "sha256": "fd5173fe79acc42acfd83e93897d4bc9301b7f72322a34749597af6dd185a3c7"
+    },
+    "functional.json": {
+      "archive_path": "evidence/T06/functional.json",
+      "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/functional.json",
+      "bytes": 703,
+      "sha256": "70593c56acf39753a1c3bf22f2ef6d9d3b5b638d90f0f2efff816de43103acdc"
+    },
+    "delivery.json": {
+      "archive_path": "evidence/T06/delivery.json",
+      "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T06/delivery.json",
+      "bytes": 1535,
+      "sha256": "d1e87b709d5df130ae35f3b989383d5d7c8e08b98f47af9853b72d04bbe44d4a"
+    }
+  }
+}

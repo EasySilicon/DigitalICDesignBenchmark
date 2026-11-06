@@ -15,6 +15,15 @@ benchmark/npu-quality-gates.md
 # Publish summaries and explicitly verified task measurements/corrections only.
 /results/*/*
 !/results/*/summary.json
+!/results/claude-sonnet-5.5/**
+!/results/*/archive_manifest.json
+!/results/*/functional-retest-20261105/
+!/results/*/functional-retest-20261105/**
+!/results/gpt-5.6-sol/T10.json
+!/results/glm-5.3/T10.json
+!/results/kimi-k3.1-pro/T10.json
+!/results/archive/t10-before-cancel-range-20261105/
+!/results/archive/t10-before-cancel-range-20261105/**
 !/results/archive/kimi-k3.1-pro-high-20261024/
 !/results/archive/kimi-k3.1-pro-high-20261024/summary.json
 !/results/kimi-k3/T07.json
@@ -25,3 +34,14 @@ benchmark/npu-quality-gates.md
 !/results/gpt-6-sol/T10.json
 !/results/gpt-6-sol/T10-ppa40.json
 /evaluator/*_pilot_*.json
+
+# Current strict range replay, Opus publication and token evidence.
+!/results/claude-opus-5.5/**
+!/results/*/functional-retest-20261106/
+!/results/*/functional-retest-20261106/**
+!/results/*/token-evidence/
+!/results/*/token-evidence/**
+!/results/kimi-k3/T10.json
+!/results/glm-5.3-flash/T10.json
+!/results/archive/t10-before-range-expansion-20261106/
+!/results/archive/t10-before-range-expansion-20261106/**

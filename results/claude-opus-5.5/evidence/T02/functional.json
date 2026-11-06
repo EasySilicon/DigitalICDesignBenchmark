@@ -1,0 +1,41 @@
+{
+  "task_id": "T02",
+  "seed": 20260928,
+  "groups": {
+    "AC-09": {
+      "cases_passed": 215407,
+      "cases_total": 215407,
+      "safety_violation": false
+    },
+    "AC-10": {
+      "cases_passed": 221033,
+      "cases_total": 221033,
+      "safety_violation": false
+    },
+    "AC-11": {
+      "cases_passed": 432,
+      "cases_total": 432,
+      "safety_violation": false
+    },
+    "AC-12": {
+      "cases_passed": 12,
+      "cases_total": 12,
+      "safety_violation": false
+    },
+    "AC-13": {
+      "cases_passed": 48,
+      "cases_total": 48,
+      "safety_violation": false
+    },
+    "AC-14": {
+      "cases_passed": 80463,
+      "cases_total": 80463,
+      "safety_violation": false
+    },
+    "AC-15": {
+      "cases_passed": 6,
+      "cases_total": 6,
+      "safety_violation": false
+    }
+  }
+}

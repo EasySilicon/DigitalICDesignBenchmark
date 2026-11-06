@@ -20,6 +20,7 @@ class EnglishTaskReadmesTest(unittest.TestCase):
                 self.assertIn("## Delivery and evaluation", readme)
                 self.assertIn("without a token budget", readme)
                 self.assertIn("120 minutes for T10", readme)
+                self.assertIn("40-minute limit per seed", readme)
 
     def test_t08_retains_complete_english_specification_and_acceptance(self):
         directory = ROOT / "T08"
@@ -36,7 +37,7 @@ class EnglishTaskReadmesTest(unittest.TestCase):
         for term in ("n+4", "22/22", "11–21", "0–10", "response_cycles+ready_delay"):
             self.assertIn(term, cpu)
         systolic = (ROOT / "T10/README.en.md").read_text()
-        for term in ("7,200-second", "1,200-second", "306,304", "MM-SYSTOLIC", "γ(128)",
+        for term in ("7,200-second", "2,400-second", "306,304", "MM-SYSTOLIC", "γ(128)",
                      "public/matmul_oracle.py", "ST-MIX", "512", "ST-BP/RST", "128-block",
                      "32-cycle", "0,126,127,128,254,255", "exponent − bias − mantissa_bits",
                      "compilation timeout for **any** seed", "D_eff", "D_setup", "t/14400"):

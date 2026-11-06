@@ -1,0 +1,13 @@
+{
+  "reason": "apply existing guarded unmeasured-parent -O0 path uniformly, including below historical 128 MiB heuristic; preserve original cumulative compilation budget",
+  "measured_pe_optimization_unchanged": true,
+  "total_compile_limit_seconds": 1200,
+  "original_attempt_elapsed_seconds": 891.4805547590367,
+  "remaining_seconds": 308.51944524096325,
+  "tests_passed": 13,
+  "files": {
+    "t10_power_with_slang.py": "236cc6aef60fc98f44477026b9a58c5f0baf7ea6dcf7f28da9d87323ddeb9f10",
+    "power_compile_continuation.py": "b6cfbc63cc7ba71c267a7377e1cdba3f0a992a1d2202bb9b400ac6fa1e68b999"
+  },
+  "utc": "2026-11-04T09:25:05.904998+00:00"
+}

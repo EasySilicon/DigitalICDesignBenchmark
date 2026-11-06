@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "revision": "t10-cancel-range-v1",
+  "previous_summary": {
+    "path": "results/archive/t10-before-cancel-range-20261105/gpt-6-astra/summary.json",
+    "sha256": "3343c6010cb5762a02893d4b8b96a6e92b248c7000499ffa27e205afee058676",
+    "bytes": 12282
+  },
+  "created_utc": "2026-11-04T16:07:10.376663+00:00",
+  "files": [
+    {
+      "path": "T10-ppa40.json",
+      "sha256": "5ea838764db32eb6d680c755d90171a2406c3c467aa71f49d6cc60c431259c8e",
+      "bytes": 10502
+    },
+    {
+      "path": "T10.json",
+      "sha256": "87b389bc083f68a82db588c32e1852792d818431fd6e72b977471ec8bf406691",
+      "bytes": 13389
+    },
+    {
+      "path": "functional-retest-20261105/functional.json",
+      "sha256": "2c9966a0de7da0ca5f064cb80ff86744cad93667c10013792fa5b2ea4616cbb8",
+      "bytes": 6289
+    },
+    {
+      "path": "functional-retest-20261105/functional_score.json",
+      "sha256": "642e39c191e3c3a2c3c003ab232f2e65cc7b01960ea7f3bc5baa9eae0232cef9",
+      "bytes": 1996
+    },
+    {
+      "path": "functional-retest-20261105/supplemental_cases.json",
+      "sha256": "98e73ee227b247fe6c289566cf569d9b91a7e4a6159b00463a2e3ff689dbcb8a",
+      "bytes": 10284
+    },
+    {
+      "path": "functional-retest-20261106/functional.json",
+      "sha256": "ab0c23700b81566dde06392c4dea265b22c23ce58bb6b3a779ed3dd45a2b0dd5",
+      "bytes": 5095
+    },
+    {
+      "path": "functional-retest-20261106/functional_score.json",
+      "sha256": "f68ef9982a9dec120fea8d4ae5b7a476b0dfc437185959b10e57662853fee88f",
+      "bytes": 1981
+    },
+    {
+      "path": "functional-retest-20261106/trace_attestation.json",
+      "sha256": "b885124312de836a46e5f85ed91693bf28c7bbe43a53e04b5cb8d581a9e6bc19",
+      "bytes": 606
+    },
+    {
+      "path": "summary.json",
+      "sha256": "fdc1191acc3fd76720e8cb6985f6af0eb8e6ae45a407df136e971555ca3ca3ee",
+      "bytes": 16953
+    }
+  ],
+  "updated_utc": "2026-11-06T09:22:36.462215+00:00"
+}

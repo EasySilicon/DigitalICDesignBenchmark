@@ -1,0 +1,90 @@
+{
+  "task_id": "T10",
+  "functional_basic": 33.333333333333336,
+  "functional_edges": 16.666666666666664,
+  "functional_total": 50.0,
+  "score_items": [
+    {
+      "id": "F_INT",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 128,
+      "cases_total": 128,
+      "safety_violation": false
+    },
+    {
+      "id": "F_FP16_BF16",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 166,
+      "cases_total": 166,
+      "safety_violation": false
+    },
+    {
+      "id": "F_FP8",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 128,
+      "cases_total": 128,
+      "safety_violation": false
+    },
+    {
+      "id": "F_FP4",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 64,
+      "cases_total": 64,
+      "safety_violation": false
+    },
+    {
+      "id": "F_MXFP8",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 204,
+      "cases_total": 204,
+      "safety_violation": false
+    },
+    {
+      "id": "F_MXFP4",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 128,
+      "cases_total": 128,
+      "safety_violation": false
+    },
+    {
+      "id": "P_PROTOCOL",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 337,
+      "cases_total": 337,
+      "safety_violation": false
+    },
+    {
+      "id": "P_SYSTOLIC",
+      "layer": "P",
+      "points": 16.666666666666664,
+      "possible_points": 16.666666666666664,
+      "cases_passed": 1616,
+      "cases_total": 1616,
+      "safety_violation": false
+    },
+    {
+      "id": "P_CORNER",
+      "layer": "F",
+      "points": 5.333333333333333,
+      "possible_points": 5.333333333333333,
+      "cases_passed": 128,
+      "cases_total": 128,
+      "safety_violation": false
+    }
+  ],
+  "full_functional_pass": true
+}

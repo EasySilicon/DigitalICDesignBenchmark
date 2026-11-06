@@ -1,0 +1,96 @@
+{
+  "task_id": "T07",
+  "delivery_qualified": false,
+  "self_check_tests": 111,
+  "findings": [
+    "same-seed self-check results changed"
+  ],
+  "delivery_assessment": {
+    "missing_deliverables": [],
+    "errors": [
+      {
+        "root_cause": "self_check_determinism",
+        "detail": "same-seed self-check results changed",
+        "attribution": "candidate",
+        "affected_seeds": [
+          11,
+          29,
+          47
+        ]
+      }
+    ]
+  },
+  "note": "self-check validity only; RTL function is independently scored",
+  "delivery_seeds": [
+    11,
+    29,
+    47
+  ],
+  "replays_per_seed": 2,
+  "per_seed": [
+    {
+      "task_id": "T07",
+      "delivery_qualified": false,
+      "self_check_tests": 37,
+      "findings": [
+        "same-seed self-check results changed"
+      ],
+      "delivery_assessment": {
+        "missing_deliverables": [],
+        "errors": [
+          {
+            "root_cause": "self_check_determinism",
+            "detail": "same-seed self-check results changed",
+            "attribution": "candidate"
+          }
+        ]
+      },
+      "note": "self-check validity only; RTL function is independently scored",
+      "bench_seed": 11
+    },
+    {
+      "task_id": "T07",
+      "delivery_qualified": false,
+      "self_check_tests": 37,
+      "findings": [
+        "same-seed self-check results changed"
+      ],
+      "delivery_assessment": {
+        "missing_deliverables": [],
+        "errors": [
+          {
+            "root_cause": "self_check_determinism",
+            "detail": "same-seed self-check results changed",
+            "attribution": "candidate"
+          }
+        ]
+      },
+      "note": "self-check validity only; RTL function is independently scored",
+      "bench_seed": 29
+    },
+    {
+      "task_id": "T07",
+      "delivery_qualified": false,
+      "self_check_tests": 37,
+      "findings": [
+        "same-seed self-check results changed"
+      ],
+      "delivery_assessment": {
+        "missing_deliverables": [],
+        "errors": [
+          {
+            "root_cause": "self_check_determinism",
+            "detail": "same-seed self-check results changed",
+            "attribution": "candidate"
+          }
+        ]
+      },
+      "note": "self-check validity only; RTL function is independently scored",
+      "bench_seed": 47
+    }
+  ],
+  "delivery_seed_policy": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/delivery_prime_policy/policy.json",
+    "sha256": "306dbca39bef73cd37b705889cfe3b0e8bd50ac84d60a781a169aa13e82bc3b9"
+  }
+}

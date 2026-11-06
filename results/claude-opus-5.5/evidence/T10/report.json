@@ -1,0 +1,267 @@
+{
+  "task_id": "T10",
+  "functional_basic": 33.33333333333333,
+  "functional_edges": 16.666666666666664,
+  "functional_total": 50.0,
+  "full_functional_pass": true,
+  "delivery_qualified": true,
+  "ppa_eligible": false,
+  "ppa_score": 0.0,
+  "ppa_rank_bucket": 0,
+  "time_score": 0.0,
+  "candidate_delivery_error_count": 0,
+  "candidate_delivery_penalty": 0,
+  "display_score_before_candidate_penalty": 50.0,
+  "display_score": 50.0,
+  "score_items": [
+    {
+      "id": "F_INT",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 128,
+      "cases_total": 128,
+      "safety_violation": false
+    },
+    {
+      "id": "F_FP16_BF16",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 144,
+      "cases_total": 144,
+      "safety_violation": false
+    },
+    {
+      "id": "F_FP8",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 128,
+      "cases_total": 128,
+      "safety_violation": false
+    },
+    {
+      "id": "F_FP4",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 64,
+      "cases_total": 64,
+      "safety_violation": false
+    },
+    {
+      "id": "F_MXFP8",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 160,
+      "cases_total": 160,
+      "safety_violation": false
+    },
+    {
+      "id": "F_MXFP4",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 112,
+      "cases_total": 112,
+      "safety_violation": false
+    },
+    {
+      "id": "P_PROTOCOL",
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 337,
+      "cases_total": 337,
+      "safety_violation": false
+    },
+    {
+      "id": "P_SYSTOLIC",
+      "layer": "P",
+      "points": 16.666666666666664,
+      "possible_points": 16.666666666666664,
+      "cases_passed": 1616,
+      "cases_total": 1616,
+      "safety_violation": false
+    },
+    {
+      "id": "P_CORNER",
+      "layer": "F",
+      "points": 5.333333333333333,
+      "possible_points": 5.333333333333333,
+      "cases_passed": 128,
+      "cases_total": 128,
+      "safety_violation": false
+    }
+  ],
+  "rank_key": [
+    50.0,
+    0,
+    0
+  ],
+  "physical_policy": "physical-wall-7200s-retain-results-v1",
+  "physical_records": [
+    {
+      "policy_id": "physical-wall-7200s-retain-results-v1",
+      "limit_seconds": 7200,
+      "task_id": "T10",
+      "candidate_source_sha256": "1c2ad671e5de500a3848d9b541350798d7030d3c0b200273b00d18246ff71359",
+      "layout_seed": 11,
+      "elapsed_seconds": 890.0179388630204,
+      "status": "completed",
+      "started_utc": "2026-11-05T02:57:24.847187+00:00",
+      "ended_utc": "2026-11-05T03:12:14.863275+00:00",
+      "process_group_terminated": false
+    },
+    {
+      "policy_id": "physical-wall-7200s-retain-results-v1",
+      "limit_seconds": 7200,
+      "task_id": "T10",
+      "candidate_source_sha256": "1c2ad671e5de500a3848d9b541350798d7030d3c0b200273b00d18246ff71359",
+      "layout_seed": 29,
+      "elapsed_seconds": 829.9474529861473,
+      "status": "completed",
+      "started_utc": "2026-11-05T03:12:14.994101+00:00",
+      "ended_utc": "2026-11-05T03:26:04.939853+00:00",
+      "process_group_terminated": false
+    },
+    {
+      "policy_id": "physical-wall-7200s-retain-results-v1",
+      "limit_seconds": 7200,
+      "task_id": "T10",
+      "candidate_source_sha256": "1c2ad671e5de500a3848d9b541350798d7030d3c0b200273b00d18246ff71359",
+      "layout_seed": 47,
+      "elapsed_seconds": 811.6186699969694,
+      "status": "completed",
+      "started_utc": "2026-11-05T03:26:05.017070+00:00",
+      "ended_utc": "2026-11-05T03:39:36.633869+00:00",
+      "process_group_terminated": false
+    }
+  ],
+  "power_compile_policy": "power-compile-wall-2400s-v2",
+  "candidate_source_sha256": "1c2ad671e5de500a3848d9b541350798d7030d3c0b200273b00d18246ff71359",
+  "power_compile_records": [
+    {
+      "policy_id": "power-compile-wall-2400s-v2",
+      "limit_seconds": 2400,
+      "task_id": "T10",
+      "candidate_source_sha256": "1c2ad671e5de500a3848d9b541350798d7030d3c0b200273b00d18246ff71359",
+      "layout_seed": 11,
+      "commands": [
+        {
+          "command": [
+            "verilator",
+            "--cc",
+            "--main",
+            "--exe",
+            "--hierarchical",
+            "--timing",
+            "--assert",
+            "--trace-saif",
+            "--trace-underscore",
+            "--trace-max-width",
+            "262144",
+            "--output-split",
+            "10000",
+            "--output-split-cfuncs",
+            "10000",
+            "-Wno-fatal",
+            "-Wno-SPECIFYIGN",
+            "-j",
+            "4",
+            "--top-module",
+            "tb_hidden_T10_stream",
+            "--Mdir",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/build",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/tb_power.sv",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/direct_asap7_seq_sim.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/direct_asap7sc7p5t_AO_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/direct_asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/direct_asap7sc7p5t_OA_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/direct_asap7sc7p5t_SIMPLE_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/planning_only/npu_systolic_matmul_16x16.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/planning_only/mm_pe.v",
+            "--protect-key",
+            "576afc80af06e936089fd8f841fbcc4f555cee254bfa1922f701296e1d092b8e"
+          ],
+          "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/planning.log",
+          "process_group": 3422836,
+          "returncode": 0,
+          "log_artifact": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/planning.log",
+            "bytes": 30223,
+            "sha256": "93bb5957369cbeb58165c2a8475259ac7996a37cea28dc562cd951eb8d2fc8f1"
+          }
+        },
+        {
+          "command": [
+            "verilator",
+            "-f",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/build/Vmm_pe__hierMkArgs.f"
+          ],
+          "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/actual_mm_pe.log",
+          "process_group": 3422864,
+          "returncode": 0,
+          "log_artifact": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/actual_mm_pe.log",
+            "bytes": 8095,
+            "sha256": "2ae65cc69f8d1c82843852f646a63e3fd59599cc6455473721eddb929516a945"
+          }
+        },
+        {
+          "command": [
+            "verilator",
+            "-f",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/build/Vnpu_systolic_matmul_16x16__hierMkArgs.f"
+          ],
+          "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/actual_npu_systolic_matmul_16x16.log",
+          "process_group": 3422896,
+          "returncode": -15,
+          "log_artifact": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T10/physical/claude-opus-5-5/activity_seed11/actual_npu_systolic_matmul_16x16.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      ],
+      "started_utc": "2026-11-05T04:16:11.949507+00:00",
+      "process_group_terminated": true,
+      "status": "timeout",
+      "elapsed_seconds": 2400.001300828997,
+      "ended_utc": "2026-11-05T04:56:11.950809+00:00",
+      "ppa_score": 0,
+      "time_score": 0
+    }
+  ],
+  "ppa_status": "power_compile_timeout_zero",
+  "ppa_zero_reason": "Power-simulation compilation exceeded the cumulative 2400-second per-seed wall-clock budget.",
+  "delivery_assessment": {
+    "missing_deliverables": [],
+    "errors": []
+  },
+  "delivery_penalty_policy": "delivery-contract-cap10-v1",
+  "delivery_penalty_status": "adjudicated",
+  "model": "claude-opus-5-5",
+  "status": "scored",
+  "elapsed_seconds": 12802.73377108574,
+  "delivery_attribution_pending": false,
+  "delivery_seed_policy": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/delivery_prime_policy/policy.json",
+    "sha256": "306dbca39bef73cd37b705889cfe3b0e8bd50ac84d60a781a169aa13e82bc3b9"
+  },
+  "delivery_replay_seeds": [
+    11,
+    29,
+    47
+  ],
+  "grading_policy_receipt": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading_receipt.json",
+    "sha256": "9069f853f9e4462a2f02ff8adea9e69fa2e0703bcade483dd71229c3c5e7bd0e"
+  },
+  "structure_evaluator_repair": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/evaluation_repairs/T10_structure_stateful_20261105/policy.json",
+    "sha256": "6c88ad33b6dc38a2c4c5f38c850493aceb5b0cd25c584642131a9acdd1573a34"
+  }
+}

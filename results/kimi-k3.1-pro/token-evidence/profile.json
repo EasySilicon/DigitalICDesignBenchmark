@@ -1,0 +1,29 @@
+{
+  "kimi_k31_pro_max_20261026": {
+    "model": "k3.1-pro",
+    "reasoning_effort": "max",
+    "task_order": [
+      "T01",
+      "T02",
+      "T03",
+      "T04",
+      "T05",
+      "T06",
+      "T07",
+      "T08",
+      "T09",
+      "T10"
+    ],
+    "original_run_manifest_sha256": "28260e68699e1fd9175166d08386162f8b7b35d29ca11bc6089bbedc6e5637cf"
+  },
+  "kimi_k31_pro_max_t03_rerun_20261027": {
+    "model": "k3.1-pro",
+    "reasoning_effort": "max",
+    "task_order": [
+      "T03"
+    ],
+    "frozen_sha256": "033c33645cb0fce60ffd2ff8ba5fc6956a8efd20ef543e83e88efe2499ae986f",
+    "source_commit": "8623efe193f26d4b7f29007d9a6a3f5ad76dac79",
+    "original_run_manifest_sha256": "96b04df53e9d78814abc0bbe7d489faafdafed583180c5f93149aab886f3a182"
+  }
+}

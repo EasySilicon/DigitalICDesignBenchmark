@@ -1,0 +1,12 @@
+{
+  "task_id": "T02",
+  "model": "claude-sonnet-5-5",
+  "reasoning_effort": "high",
+  "exit_code": 0,
+  "elapsed_seconds": 317.4494569301605,
+  "tokens": 743961,
+  "session_id": "f11e5efa-de7f-4cb4-ae53-0966dcd4be2b",
+  "stop_reason": null,
+  "recovered_completed_attempt": false,
+  "finished_utc": "2026-11-03T17:35:09.161962+00:00"
+}

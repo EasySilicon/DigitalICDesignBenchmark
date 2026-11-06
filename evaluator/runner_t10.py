@@ -26,7 +26,8 @@ LEGACY_GROUP_COUNTS = {"MM-INT": 128, "MM-F16": 128, "MM-F8": 128,
                 "MM-F4": 64, "MM-MX8": 128, "MM-MX4": 96,
                 "MM-PROTO": 80, "MM-SYSTOLIC": 80, "MM-CORNER": 128}
 CANCELLATION_GROUP_COUNTS = {"MM-F16": 16, "MM-MX8": 32, "MM-MX4": 16}
-GROUP_COUNTS = {group: count + CANCELLATION_GROUP_COUNTS.get(group, 0)
+RANGE_GROUP_COUNTS = {"MM-F16": 22, "MM-MX8": 44, "MM-MX4": 16}
+GROUP_COUNTS = {group: count + CANCELLATION_GROUP_COUNTS.get(group, 0) + RANGE_GROUP_COUNTS.get(group, 0)
                 for group, count in LEGACY_GROUP_COUNTS.items()}
 GROUP_MODES = {"MM-INT": (0, 1), "MM-F16": (2, 3),
                "MM-F8": (4, 5), "MM-F4": (6,),
@@ -247,7 +248,9 @@ def generate_cases(seed: int) -> list[Case]:
             cases.append(generate_case(group, index, rngs[index % 3]))
     # Append after the historical corpus to retain existing case indices.
     cases.extend(cancellation_cases())
-    if len(cases) > 1024:
+    from t10_range_cases import range_stress_cases
+    cases.extend(range_stress_cases())
+    if len(cases) > 2048:
         raise ValueError("SV harness MAX_CASES too small")
     return cases
 
@@ -269,24 +272,34 @@ def write_vectors(directory: Path, cases: list[Case]) -> None:
 
 def parse_output(log: str, cases: list[Case], structure: dict,
                  require_timing: bool = False,
-                 numeric_checker=None) -> tuple[dict, list[dict]]:
+                 numeric_checker=None,
+                 selected_cases: set[int] | None = None) -> tuple[dict, list[dict]]:
+    if selected_cases is not None and any(
+            type(index) is not int or not 0 <= index < len(cases) for index in selected_cases):
+        raise ValueError("selected case index is outside the simulated corpus")
     if numeric_checker is None:
         numeric_checker = check_output
     statuses = {int(i): (p == "1", t == "1", o == "1", int(n))
                 for i, p, t, o, n in CASE_LINE.findall(log)}
+    status_counts = Counter(int(row[0]) for row in CASE_LINE.findall(log))
     reset_results = {int(i): ok == "1" for i, ok in
                      re.findall(r"^MM_RESET (\d+) ([01])$", log, re.MULTILINE)}
     rows: dict[int, dict[int, int]] = {}
+    row_counts = Counter()
     for index, row, value in ROW_LINE.findall(log):
         rows.setdefault(int(index), {})[int(row)] = int(value, 16)
-    totals = Counter(case.group for case in cases)
+        row_counts[int(index)] += 1
+    totals = Counter(case.group for index, case in enumerate(cases)
+                     if selected_cases is None or index in selected_cases)
     counts = {group: {"cases_passed": 0, "cases_total": totals[group]}
               for group in GROUP_COUNTS}
     failures = []
     for index, case in enumerate(cases):
+        if selected_cases is not None and index not in selected_cases:
+            continue
         protocol, timing, output, count = statuses.get(index, (False, False, False, 0))
         observed = rows.get(index, {})
-        rows_complete = count == 16 and set(observed) == set(range(16))
+        rows_complete = count == row_counts[index] == 16 and set(observed) == set(range(16)) and status_counts[index] == 1
         numeric_errors = ["missing/duplicate output rows"] if not rows_complete else \
             numeric_checker(list(case.a), list(case.b), case.a_scale, case.b_scale,
                             case.mode, [observed[r] for r in range(16)])

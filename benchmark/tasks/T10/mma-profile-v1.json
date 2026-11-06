@@ -1,6 +1,6 @@
 {
   "profile_id": "mma-f32-envelope-v1",
-  "status": "experimental_functional_profile",
+  "status": "diagnostic_only_v2_precision_candidate",
   "official_default_changed": false,
   "legacy_profile": "exact-dot-v1; existing README and matmul_oracle.py remain unchanged",
   "entrypoint": "python3 evaluator/runner_t10_mma.py SUBMISSION --output-dir NEW_DIRECTORY --seed 11",
@@ -34,12 +34,13 @@
     "intermediate_overflow": "No mandate to recover an exact finite result after intermediate overflow. Infinite/NaN outputs require a same-sign/opposing-sign overflow path respectively; plausible paths are recorded as diagnostics, never numerical passes.",
     "explicit_special_values": "Explicit NaN, zero times infinity, and opposite input infinities still require quiet NaN. An input infinity cannot become a finite result. Possible arithmetic overflow/denormal flushing may create an additional invalid path.",
     "mx_outside_float32": "Except guaranteed explicit NaN, record numerical verdict as diagnostic; output encoding and every interface check still apply.",
-    "overflow_sensitive_finite_outputs": "Finite outputs within the numeric envelope are checked passes. Outputs outside it that may arise from overflow saturation/cancellation are diagnostic, never silently accepted as numerical passes. Definite wrong-sign infinity, NaN without an invalid path and wrong ordinary finite values fail."
+    "overflow_sensitive_finite_outputs": "Finite outputs within the numeric envelope are checked passes. Outputs outside it that may arise from overflow saturation/cancellation are diagnostic, never silently accepted as numerical passes. Definite wrong-sign infinity, NaN without an invalid path and wrong ordinary finite values fail.",
+    "current_benchmark": "Benchmark v1 continues to use exact-dot-v1 strict precision. This alternative envelope is diagnostic only; any relaxed official precision belongs to benchmark v2."
   },
   "suite": {
     "default_seed": 11,
     "functional_seed_count": 1,
-    "legacy_continuous_stream": "Same source generator with seed 11; includes the 64 previously added cancellation cases",
+    "legacy_continuous_stream": "Shared strict seed-11 stream: 2,898 cases, including 64 cancellation and 82 range probes; the separate MMA trace adds 256 normal cases without changing archived vectors.",
     "added_normal_domain_cases": 256,
     "normal_domain_coverage": "32 cases for each of the eight floating modes; all must be fully numerically checked passes, including mantissa sensitivity, signs, asymmetry, source normals, sparse boundaries and per-row/per-block MX scaling",
     "retained_additional_range_probes": 82,
@@ -50,7 +51,11 @@
     "power_evaluation": "never launched by this entrypoint"
   },
   "reporting": {
-    "outcomes": ["pass", "fail", "diagnostic"],
+    "outcomes": [
+      "pass",
+      "fail",
+      "diagnostic"
+    ],
     "diagnostic_is_numeric_pass": false,
     "functional_passed": "All checked numerical lanes and unchanged interface checks pass, all 256 normal-domain cases are fully checked, structure passes and runtime reset passes. Every excluded diagnostic lane/case is counted separately.",
     "score_eligible": false,

@@ -12,7 +12,7 @@ from unittest.mock import patch, Mock
 import physical_budget as policy
 from score_run import load_rules
 from score_with_power_budget import score_run
-from power_compile_budget import POLICY_ID as POWER_POLICY
+from power_compile_budget import POLICY_ID as POWER_POLICY, LIMIT_SECONDS as POWER_LIMIT
 
 
 class PhysicalBudgetTest(unittest.TestCase):
@@ -23,7 +23,7 @@ class PhysicalBudgetTest(unittest.TestCase):
         physical=[policy.receipt(task,source,s,100 if s in completed else policy.limit_seconds(task),
                     'completed' if s in completed else 'timeout',process_group_terminated=s not in completed)
                   for s in policy.SEEDS]
-        power=[dict(policy_id=POWER_POLICY,limit_seconds=1200,task_id=task,
+        power=[dict(policy_id=POWER_POLICY,limit_seconds=POWER_LIMIT,task_id=task,
                     candidate_source_sha256=source,layout_seed=s,status='completed',elapsed_seconds=10)
                for s in completed]
         payload=dict(task_id=task,groups={g:dict(cases_passed=item.get('required_cases_total',1),
@@ -97,7 +97,7 @@ class PhysicalBudgetTest(unittest.TestCase):
             with self.assertRaises(ValueError):score_run(p)
 
     def test_power_compile_timeout_still_overrides_retained_results(self):
-        p=self.payload();p['power_compile_records'][0].update(status='timeout',elapsed_seconds=1200,process_group_terminated=True)
+        p=self.payload();p['power_compile_records'][0].update(status='timeout',elapsed_seconds=POWER_LIMIT,process_group_terminated=True)
         r=score_run(p)
         self.assertEqual((r['ppa_score'],r['time_score']),(0,0))
         self.assertEqual(r['ppa_status'],'power_compile_timeout_zero')
@@ -106,7 +106,7 @@ class PhysicalBudgetTest(unittest.TestCase):
         p=self.payload(completed=(11,))
         p.pop('ppa_measurement');p.pop('ppa_reference')
         p['physical_records']=p['physical_records'][:1]
-        p['power_compile_records'][0].update(status='timeout',elapsed_seconds=1200,process_group_terminated=True)
+        p['power_compile_records'][0].update(status='timeout',elapsed_seconds=POWER_LIMIT,process_group_terminated=True)
         r=score_run(p)
         self.assertEqual((r['ppa_score'],r['time_score']),(0,0))
 

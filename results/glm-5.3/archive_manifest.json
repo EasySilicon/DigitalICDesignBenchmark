@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "revision": "t10-cancel-range-v1",
+  "previous_summary": {
+    "path": "results/archive/t10-before-cancel-range-20261105/glm-5.3/summary.json",
+    "sha256": "0b8767a8876d4274f82d45f2c0d77b92886f61cf89df529d054408d371198545",
+    "bytes": 11680
+  },
+  "created_utc": "2026-11-04T16:07:10.378622+00:00",
+  "files": [
+    {
+      "path": "T10.json",
+      "sha256": "f0a7b539c22bd331a9e28e784fcb69fa7752bc4321cfd405ed33053f407432d4",
+      "bytes": 5054
+    },
+    {
+      "path": "functional-retest-20261105/functional.json",
+      "sha256": "79ee49d69226ca5b8b87e702a0f0bfcdf827b3eedbf837e8ac7ac988675296e8",
+      "bytes": 8032
+    },
+    {
+      "path": "functional-retest-20261105/functional_score.json",
+      "sha256": "e664b91a4e41d5c76a40430585dba8721e3722947ef1ebc4e2d70d997a147c1c",
+      "bytes": 2049
+    },
+    {
+      "path": "functional-retest-20261105/supplemental_cases.json",
+      "sha256": "f2cc4d03dc0446500608fa62901dd58f2f66402afffbc76ecbb33a69e5ac4230",
+      "bytes": 10680
+    },
+    {
+      "path": "functional-retest-20261106/functional.json",
+      "sha256": "c439e1c5a3166f39ebcace8bafd1d7abb57f974bdcd04e7d719adb1a7cabab2e",
+      "bytes": 16923
+    },
+    {
+      "path": "functional-retest-20261106/functional_score.json",
+      "sha256": "13b3a83335f387a5ce7183f063485ef6b74a3ab43e3833f24333202b887a7b42",
+      "bytes": 2027
+    },
+    {
+      "path": "functional-retest-20261106/trace_attestation.json",
+      "sha256": "c5d4a58b800e65a2dd7c099d7543615c3068c5c8478a063e515f632aaf2b756d",
+      "bytes": 6279
+    },
+    {
+      "path": "summary.json",
+      "sha256": "61d80122f3b2f5a9bc0604ac003462fab5c880d823785e0e0cfd13e0f2543b9b",
+      "bytes": 16814
+    }
+  ],
+  "updated_utc": "2026-11-06T09:22:36.466826+00:00"
+}

@@ -1,0 +1,11 @@
+{
+  "task_id": "T09",
+  "model": "k3.1-pro",
+  "exit_code": 0,
+  "elapsed_seconds": 7014.315559864044,
+  "tokens": 57780118,
+  "stop_reason": "completed_after_cli_checkpoint_failure",
+  "session_id": "session_7692a9bf-5442-44d0-a954-76f9c3b2e020",
+  "finished_utc": "2026-10-26T16:32:41.335834034Z",
+  "recovered_completed_attempt": true
+}

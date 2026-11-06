@@ -1,0 +1,50 @@
+{
+  "schema_version": 3,
+  "model": "k3.1-pro",
+  "suite_id": "ic-delivery-rtl-v0.3",
+  "task_id": "T10",
+  "trial_kind": "pre_release_pilot",
+  "evaluation_framework": "Kimi CLI",
+  "framework_version": "2.3.1",
+  "reasoning_effort": "max",
+  "delivery_qualified": true,
+  "delivery_penalty_policy": "delivery-contract-cap10-v1",
+  "delivery_penalty_status": "adjudicated",
+  "delivery_assessment": {
+    "missing_deliverables": [],
+    "errors": []
+  },
+  "candidate_delivery_error_count": 0,
+  "candidate_delivery_penalty": 0,
+  "time_limit_seconds": 14400,
+  "elapsed_seconds": 14229.46845626831,
+  "functional_possible": 50,
+  "functional_total": 50.0,
+  "full_functional_pass": true,
+  "ppa_possible": 50,
+  "ppa_eligible": false,
+  "ppa_score": 0.0,
+  "time_possible": 5,
+  "time_score": 0.0,
+  "display_possible": 105,
+  "display_score_before_candidate_penalty": 50.0,
+  "display_score": 50.0,
+  "score_status": "scored",
+  "ranking_eligible": false,
+  "ranking_ineligible_reason": "Independent pre-release pilot; not an official benchmark ranking.",
+  "candidate_source_sha256": "b1a5d7a1e878c665c6720496d4f237a7203aeedeb603ffb6aa3a7710ae97a520",
+  "source_report_sha256": "2445893c3603964ae77e55b410688275d0cb53744c32d301c61b76849c5f211b",
+  "source_score_input_sha256": "ca5025cce0488f22943128958f910718483a174cf359cf94fd467dee4a64dc4d",
+  "grading_policy_receipt": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k31_pro_max_20261026/grading_policy_20261024_slang/receipt.json",
+    "sha256": "cf55876f9a21a86d0f3cc4ca7491df76a45752a39375806eab196a0cc56a5809"
+  },
+  "score_adjudication": "No valid completed physical seed; PPA and time points are zero while full functional credit is retained.",
+  "physical_timed_out_seeds": [
+    11,
+    29,
+    47
+  ],
+  "valid_physical_seed_count": 0,
+  "seed_47_authorized_limit_seconds": 7200
+}

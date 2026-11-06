@@ -1,0 +1,42 @@
+{
+  "schema_version": 3,
+  "model": "k3.1-pro",
+  "suite_id": "ic-delivery-rtl-v0.3",
+  "task_id": "T06",
+  "trial_kind": "pre_release_pilot",
+  "evaluation_framework": "Kimi CLI",
+  "framework_version": "2.3.1",
+  "reasoning_effort": "max",
+  "delivery_qualified": true,
+  "delivery_penalty_policy": "delivery-contract-cap10-v1",
+  "delivery_penalty_status": "adjudicated",
+  "delivery_assessment": {
+    "missing_deliverables": [],
+    "errors": []
+  },
+  "candidate_delivery_error_count": 0,
+  "candidate_delivery_penalty": 0,
+  "time_limit_seconds": 7200,
+  "elapsed_seconds": 2245.354329586029,
+  "functional_possible": 50,
+  "functional_total": 50.0,
+  "full_functional_pass": true,
+  "ppa_possible": 50,
+  "ppa_eligible": true,
+  "ppa_score": 39.56012352430561,
+  "time_possible": 5,
+  "time_score": 3.4407261600097017,
+  "display_possible": 105,
+  "display_score_before_candidate_penalty": 93.00084968431531,
+  "display_score": 93.00084968431531,
+  "score_status": "scored",
+  "ranking_eligible": false,
+  "ranking_ineligible_reason": "Independent pre-release pilot; not an official benchmark ranking.",
+  "candidate_source_sha256": "3256fe5e4b2f464befdd3ee8945cc5377e746af9eff34bac0fb037a3303ecd6a",
+  "source_report_sha256": "014eec33f6c613daade1dc16725e70509373876c6ba4b905781bbe2cf807d7da",
+  "source_score_input_sha256": "c9c19d296003ca58d43e3d0e8a051e7b0dd27fc93508d6452f0bb8c2829167ce",
+  "grading_policy_receipt": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k31_pro_max_20261026/grading_policy_20261024_slang/receipt.json",
+    "sha256": "cf55876f9a21a86d0f3cc4ca7491df76a45752a39375806eab196a0cc56a5809"
+  }
+}

@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-06T08:44:51.868735+00:00",
+  "metric": "CLI adapter tokens; includes cached input according to the retained adapter accounting",
+  "models": [
+    {
+      "model": "kimi-k3.1-pro",
+      "reasoning_effort": "max",
+      "trial_id": "kimi_k31_pro_max_20261026",
+      "run_manifest_sha256": "28260e68699e1fd9175166d08386162f8b7b35d29ca11bc6089bbedc6e5637cf",
+      "tasks": [
+        {
+          "task_id": "T01",
+          "tokens": 1118038,
+          "source": {
+            "path": "results/kimi-k3.1-pro/token-evidence/T01.agent_result.json",
+            "sha256": "0279138687dfe2c50bb60803e2d9cfc250dff0b65fcee8c768976762d0fe43fe",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k31_pro_max_20261026/tasks/T01/agent_result.json"
+          }
+        },
+        {
+          "task_id": "T02",
+          "tokens": 2928216,
+          "source": {
+            "path": "results/kimi-k3.1-pro/token-evidence/T02.agent_result.json",
+            "sha256": "83f26547eed70caf2c7a544fa925b677fc6107909311eb55bc42e582f121962e",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k31_pro_max_20261026/tasks/T02/agent_result.json"
+          }
+        },
+        {
+          "task_id": "T03",
+          "tokens": 4090708,
+          "source": {
+            "path": "results/kimi-k3.1-pro/token-evidence/T03.agent_result.json",
+            "sha256": "2a8c51a8f192c0208c1cd4be9d91d85be162820af6735b5fa2593fea8595c1af",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k31_pro_max_t03_rerun_20261027/tasks/T03/agent_result.json"
+          }
+        },
+        {
+          "task_id": "T04",
+          "tokens": 4407639,
+          "source": {
+            "path": "results/kimi-k3.1-pro/token-evidence/T04.agent_result.json",
+            "sha256": "b41a583e9e58cedbeca6dc24c7576cf213763ffdf223954d01749d2d7fffc1f8",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k31_pro_max_20261026/tasks/T04/agent_result.json"
+          }
+        },
+        {
+          "task_id": "T05",
+          "tokens": 4273529,
+          "source": {
+            "path": "results/kimi-k3.1-pro/token-evidence/T05.agent_result.json",
+            "sha256": "b103c759f61eb866d07de21b26bb94963845747692efcb285d4a953f233cedfa",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k31_pro_max_20261026/tasks/T05/agent_result.json"
+          }
+        },
+        {
+          "task_id": "T06",
+          "tokens": 3802720,
+          "source": {
+            "path": "results/kimi-k3.1-pro/token-evidence/T06.agent_result.json",
+            "sha256": "1850360bc46201e53f8ce751ba05f76ee60915bf79a78ec471ab58f345e1ac5b",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k31_pro_max_20261026/tasks/T06/agent_result.json"
+          }
+        },
+        {
+          "task_id": "T07",
+          "tokens": 6625303,
+          "source": {
+            "path": "results/kimi-k3.1-pro/token-evidence/T07.agent_result.json",
+            "sha256": "0a8969f00a2a460e2cfe603392a3816e013a5013e178844a87d5dfe9d8f74b25",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k31_pro_max_20261026/tasks/T07/agent_result.json"
+          }
+        },
+        {
+          "task_id": "T08",
+          "tokens": 49867581,
+          "source": {
+            "path": "results/kimi-k3.1-pro/token-evidence/T08.agent_result.json",
+            "sha256": "23b9024f3010319d646707e17245567ea41a3eadadeef242e473966235444f8c",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k31_pro_max_20261026/tasks/T08/agent_result.json"
+          }
+        },
+        {
+          "task_id": "T09",
+          "tokens": 57780118,
+          "source": {
+            "path": "results/kimi-k3.1-pro/token-evidence/T09.agent_result.json",
+            "sha256": "c5e226f81a11721265c0f95e4cf62e8203fd348ba9b61a997c02124c88e1546b",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k31_pro_max_20261026/tasks/T09/agent_result.json"
+          }
+        },
+        {
+          "task_id": "T10",
+          "tokens": 270193295,
+          "source": {
+            "path": "results/kimi-k3.1-pro/token-evidence/T10.agent_result.json",
+            "sha256": "3b21fe61f3db103877f9c26d7608f64a57bc01da5848bf0f622c544e1cfd5383",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/kimi_k31_pro_max_20261026/tasks/T10/agent_result.json"
+          }
+        }
+      ],
+      "total_tokens": 405087147
+    },
+    {
+      "model": "claude-opus-5.5",
+      "reasoning_effort": "high",
+      "trial_id": "claude_opus55_en_20261104",
+      "run_manifest_sha256": "e782ae59a23a6afae75c56d8b615cc8b056257fb5fbea505376f3cace8113e70",
+      "tasks": [
+        {
+          "task_id": "T01",
+          "tokens": 2405213,
+          "source": {
+            "path": "results/claude-opus-5.5/evidence/T01/agent_result.json",
+            "sha256": "ee1bfe5340b34a746a7f01d1b942a895468b4e90dfeb2bc0c60805ca5babab1e",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/tasks/T01/agent_result.json"
+          }
+        },
+        {
+          "task_id": "T02",
+          "tokens": 898474,
+          "source": {
+            "path": "results/claude-opus-5.5/evidence/T02/agent_result.json",
+            "sha256": "4555369e7bf1c43a506e929e186bbbe32e58b8b287100e7af701fe6e2a289c79",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/tasks/T02/agent_result.json"
+          }
+        },
+        {
+          "task_id": "T03",
+          "tokens": 1739526,
+          "source": {
+            "path": "results/claude-opus-5.5/evidence/T03/agent_result.json",
+            "sha256": "570fe9378b8509a3ff2c0073b6e68840f590554f0c6e3ec688ff3d870940c4c2",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/tasks/T03/agent_result.json"
+          }
+        },
+        {
+          "task_id": "T04",
+          "tokens": 3283658,
+          "source": {
+            "path": "results/claude-opus-5.5/evidence/T04/agent_result.json",
+            "sha256": "675ab635f6d8c52ec1acc163ad103f6fddc08b071085f03be451cc7d45b780a2",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/tasks/T04/agent_result.json"
+          }
+        },
+        {
+          "task_id": "T05",
+          "tokens": 7879041,
+          "source": {
+            "path": "results/claude-opus-5.5/evidence/T05/agent_result.json",
+            "sha256": "10fd8b57679c88beaf1dec7491224f6800d4c790cb62f1116eb1029ebaf93ea8",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/tasks/T05/agent_result.json"
+          }
+        },
+        {
+          "task_id": "T06",
+          "tokens": 5646928,
+          "source": {
+            "path": "results/claude-opus-5.5/evidence/T06/agent_result.json",
+            "sha256": "32c094484123534b10faaa11c3a810fcaf939032f0b11bd3e2c0be474018f7d3",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/tasks/T06/agent_result.json"
+          }
+        },
+        {
+          "task_id": "T07",
+          "tokens": 3439676,
+          "source": {
+            "path": "results/claude-opus-5.5/evidence/T07/agent_result.json",
+            "sha256": "b9f8b4b00bb93a2f71f2c48c80c6fee10372e1abb6222c4d5a79976606a7819f",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/tasks/T07/agent_result.json"
+          }
+        },
+        {
+          "task_id": "T08",
+          "tokens": 13015319,
+          "source": {
+            "path": "results/claude-opus-5.5/evidence/T08/agent_result.json",
+            "sha256": "0f27eb428b182db227a9b8851e9a3efd77374a724a3e5bd6d50a140f2946dd19",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/tasks/T08/agent_result.json"
+          }
+        },
+        {
+          "task_id": "T09",
+          "tokens": 23135127,
+          "source": {
+            "path": "results/claude-opus-5.5/evidence/T09/agent_result.json",
+            "sha256": "def8bfc0d67e7263147fd5cb7ec80de4818f778fe714e0a6420ed71edbec8152",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/tasks/T09/agent_result.json"
+          }
+        },
+        {
+          "task_id": "T10",
+          "tokens": 65193838,
+          "source": {
+            "path": "results/claude-opus-5.5/evidence/T10/agent_result.json",
+            "sha256": "02ab82cdf35c0a4026620e653849a32eab60028a4fc46b16b939236c68d8f49e",
+            "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/tasks/T10/agent_result.json"
+          }
+        }
+      ],
+      "total_tokens": 126636800
+    }
+  ]
+}

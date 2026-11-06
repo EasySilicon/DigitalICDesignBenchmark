@@ -1,0 +1,225 @@
+{
+  "candidate_source_sha256": "b7bae0938294eb23ecbb76179acda889adaae60270e3d9bd8df3f4b78fb98ffb",
+  "seed": 11,
+  "oracle": "unchanged strict exact-dyadic oracle",
+  "simulation_sha256": "fe17119a2be03125c3d4e747a8685b91384b9a1d9edd371e07f648a944237206",
+  "groups": {
+    "cancellation": {
+      "total": 64,
+      "passed": 44,
+      "failures": [
+        {
+          "case_id": "cancel-range-v1.m3.cross_beat_cancel.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m3.boundary_four.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m3.small_before_huge.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m3.finite_residual.negative",
+          "errors": [
+            "C[0][0]: finite result expected, got -inf"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m3.boundary_three.negative",
+          "errors": [
+            "C[0][0]: finite result expected, got -inf"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.cross_beat_cancel.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.boundary_four.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.small_before_huge.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.finite_residual.negative",
+          "errors": [
+            "C[0][0]: finite result expected, got -inf"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.boundary_three.negative",
+          "errors": [
+            "C[0][0]: finite result expected, got -inf"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.cross_beat_cancel.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.boundary_four.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.small_before_huge.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.finite_residual.negative",
+          "errors": [
+            "C[0][0]: finite result expected, got -inf"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.boundary_three.negative",
+          "errors": [
+            "C[0][0]: finite result expected, got -inf"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.cross_beat_cancel.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.boundary_four.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.small_before_huge.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.finite_residual.negative",
+          "errors": [
+            "C[0][0]: finite result expected, got -inf"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.boundary_three.negative",
+          "errors": [
+            "C[0][0]: finite result expected, got -inf"
+          ]
+        }
+      ]
+    },
+    "mma_normal": {
+      "total": 256,
+      "passed": 256,
+      "failures": []
+    },
+    "range_stress": {
+      "total": 82,
+      "passed": 69,
+      "failures": [
+        {
+          "case_id": "opus-numeric-review-v1.m3.within_pair_cancel_then_residual.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.small_before_huge.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.same_beat_mixed_cancel.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.same_beat_mixed_cancel.negative",
+          "errors": [
+            "C[0][0]: got finite, expected -inf"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.within_pair_cancel_then_residual.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.small_before_huge.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.same_beat_mixed_cancel.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.same_beat_mixed_cancel.negative",
+          "errors": [
+            "C[0][0]: got finite, expected -inf"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.max_plus_tiny_same_beat.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.max_plus_tiny_late.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.max_plus_tiny_same_beat.negative",
+          "errors": [
+            "C[0][0]: got finite, expected -inf"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.max_plus_tiny_same_beat.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.max_plus_tiny_late.positive",
+          "errors": [
+            "C[0][0]: got finite, expected +inf"
+          ]
+        }
+      ]
+    }
+  },
+  "score_modified": false,
+  "wall_seconds": 2.5511311991140246
+}

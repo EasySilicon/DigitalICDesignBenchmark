@@ -33,8 +33,11 @@ def mma_cases(seed: int = 11) -> tuple[list, list[int]]:
     # from that train straight to unrestricted phase 0 would demand immediate
     # full input credit before its pending results have drained. Keep all new
     # arithmetic probes in the original, pre-backpressure numeric phase.
-    boundary = next(i for i, phase in enumerate(phases) if phase != 0)
-    extra = precision_cases(seed) + range_stress_cases()
+    # Range probes are now shared with the strict default. Insert the normal
+    # probes before them to preserve every previously archived MMA vector.
+    boundary = next(i for i, case in enumerate(cases)
+                    if case.case_id and case.case_id.startswith("opus-numeric-review"))
+    extra = precision_cases(seed)
     return (cases[:boundary] + extra + cases[boundary:],
             phases[:boundary] + [0] * len(extra) + phases[boundary:])
 
@@ -116,7 +119,7 @@ def run(submission: Path, output: Path, seed: int = 11,
                                           wall_seconds=time.monotonic() - started))
     progress("generating_vectors")
     cases, phases = mma_cases(seed)
-    original_count = len(cases) - 338
+    original_count = len(cases) - 256
     if len(cases) > 4096:
         raise ValueError("stream testbench MAX_CASES exceeded")
     vectors = output / "vectors"

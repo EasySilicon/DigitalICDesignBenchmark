@@ -15,8 +15,8 @@
   "display_score": 53.728216642001904,
   "score_status": "scored",
   "full_functional_pass": true,
-  "functional_basic": 40.0,
-  "functional_edges": 10.0,
+  "functional_basic": 33.333333333333336,
+  "functional_edges": 16.666666666666664,
   "ppa_eligible": true,
   "ppa_rank_bucket": 0,
   "candidate_delivery_error_count": 0,
@@ -26,8 +26,8 @@
     {
       "id": "F_INT",
       "layer": "F",
-      "points": 6.666666666666666,
-      "possible_points": 6.666666666666666,
+      "points": 4.0,
+      "possible_points": 4.0,
       "cases_passed": 128,
       "cases_total": 128,
       "safety_violation": false
@@ -35,17 +35,17 @@
     {
       "id": "F_FP16_BF16",
       "layer": "F",
-      "points": 6.666666666666666,
-      "possible_points": 6.666666666666666,
-      "cases_passed": 128,
-      "cases_total": 128,
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 166,
+      "cases_total": 166,
       "safety_violation": false
     },
     {
       "id": "F_FP8",
       "layer": "F",
-      "points": 6.666666666666666,
-      "possible_points": 6.666666666666666,
+      "points": 4.0,
+      "possible_points": 4.0,
       "cases_passed": 128,
       "cases_total": 128,
       "safety_violation": false
@@ -53,8 +53,8 @@
     {
       "id": "F_FP4",
       "layer": "F",
-      "points": 6.666666666666666,
-      "possible_points": 6.666666666666666,
+      "points": 4.0,
+      "possible_points": 4.0,
       "cases_passed": 64,
       "cases_total": 64,
       "safety_violation": false
@@ -62,26 +62,26 @@
     {
       "id": "F_MXFP8",
       "layer": "F",
-      "points": 6.666666666666666,
-      "possible_points": 6.666666666666666,
-      "cases_passed": 128,
-      "cases_total": 128,
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 204,
+      "cases_total": 204,
       "safety_violation": false
     },
     {
       "id": "F_MXFP4",
       "layer": "F",
-      "points": 6.666666666666666,
-      "possible_points": 6.666666666666666,
-      "cases_passed": 96,
-      "cases_total": 96,
+      "points": 4.0,
+      "possible_points": 4.0,
+      "cases_passed": 128,
+      "cases_total": 128,
       "safety_violation": false
     },
     {
       "id": "P_PROTOCOL",
-      "layer": "P",
-      "points": 3.333333333333333,
-      "possible_points": 3.333333333333333,
+      "layer": "F",
+      "points": 4.0,
+      "possible_points": 4.0,
       "cases_passed": 337,
       "cases_total": 337,
       "safety_violation": false
@@ -89,17 +89,17 @@
     {
       "id": "P_SYSTOLIC",
       "layer": "P",
-      "points": 3.333333333333333,
-      "possible_points": 3.333333333333333,
+      "points": 16.666666666666664,
+      "possible_points": 16.666666666666664,
       "cases_passed": 1616,
       "cases_total": 1616,
       "safety_violation": false
     },
     {
       "id": "P_CORNER",
-      "layer": "P",
-      "points": 3.333333333333333,
-      "possible_points": 3.333333333333333,
+      "layer": "F",
+      "points": 5.333333333333333,
+      "possible_points": 5.333333333333333,
       "cases_passed": 128,
       "cases_total": 128,
       "safety_violation": false
@@ -308,8 +308,8 @@
       "cases_total": 128
     },
     "MM-F16": {
-      "cases_passed": 128,
-      "cases_total": 128
+      "cases_passed": 166,
+      "cases_total": 166
     },
     "MM-F8": {
       "cases_passed": 128,
@@ -320,12 +320,12 @@
       "cases_total": 64
     },
     "MM-MX8": {
-      "cases_passed": 128,
-      "cases_total": 128
+      "cases_passed": 204,
+      "cases_total": 204
     },
     "MM-MX4": {
-      "cases_passed": 96,
-      "cases_total": 96
+      "cases_passed": 128,
+      "cases_total": 128
     },
     "MM-PROTO": {
       "cases_passed": 337,
@@ -339,5 +339,38 @@
       "cases_passed": 128,
       "cases_total": 128
     }
-  }
+  },
+  "functional_retest": {
+    "policy_id": "t10-strict-range-v1",
+    "numerical_profile": "exact-dot-v1",
+    "seed": 11,
+    "report": {
+      "path": "results/t10-strict-functional-retest-20261106.json",
+      "sha256": "3c15d0da5b8d05890fc8c80a3c40a8b05529c3eac92b0debe3eba60ea46b241f",
+      "bytes": 15107
+    },
+    "functional_report": {
+      "path": "results/gpt-6.1-sol/functional-retest-20261106/functional.json",
+      "sha256": "fcf62b101fb91463a85eea389f011b8093d3b5c4d680f2c4223690abe25a94a5",
+      "bytes": 5059
+    },
+    "functional_score": {
+      "path": "results/gpt-6.1-sol/functional-retest-20261106/functional_score.json",
+      "sha256": "f68ef9982a9dec120fea8d4ae5b7a476b0dfc437185959b10e57662853fee88f",
+      "bytes": 1981
+    },
+    "trace_attestation": {
+      "path": "results/gpt-6.1-sol/functional-retest-20261106/trace_attestation.json",
+      "sha256": "8a270cebad860a870eeafc0965fc94faa1e3bceb34449bf236ef7deb317df6a0",
+      "bytes": 605
+    },
+    "previous_summary": {
+      "path": "results/archive/t10-before-range-expansion-20261106/gpt-6.1-sol/summary.json",
+      "sha256": "dea9b75df94ba7a1c0bb8dc8162835e5a386053d2b7f46df04e92a94b1e5005c",
+      "bytes": 17896
+    },
+    "ppa_remeasured": false,
+    "group_weights_unchanged": true
+  },
+  "candidate_source_sha256": "ba346787bb260a418a9309d533d41c60db61714728e3c0d4ed01a58cc2785054"
 }

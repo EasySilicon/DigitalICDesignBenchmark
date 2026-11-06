@@ -1,0 +1,31 @@
+{
+  "task_id": "T01",
+  "seed": 20260927,
+  "groups": {
+    "AC-05": {
+      "cases_passed": 20,
+      "cases_total": 20,
+      "safety_violation": false
+    },
+    "AC-06": {
+      "cases_passed": 8,
+      "cases_total": 8,
+      "safety_violation": false
+    },
+    "AC-07": {
+      "cases_passed": 10,
+      "cases_total": 10,
+      "safety_violation": false
+    },
+    "AC-08A": {
+      "cases_passed": 8,
+      "cases_total": 8,
+      "safety_violation": false
+    },
+    "AC-08B": {
+      "cases_passed": 6,
+      "cases_total": 6,
+      "safety_violation": false
+    }
+  }
+}

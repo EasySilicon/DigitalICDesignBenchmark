@@ -11,12 +11,61 @@ import route_with_slang as route
 import t10_structure_with_slang as structure
 import t10_candidate_physical as physical
 import t10_physical_with_slang as current_physical
+import t10_power_with_slang as current_power
 import run_t10_candidate_40g as backend
 
 
 class FrontendTests(unittest.TestCase):
+    def test_small_unmeasured_parent_uses_guarded_frontend_path_too(self):
+        import t10_candidate_power as power
+        with tempfile.TemporaryDirectory() as temp:
+            out=Path(temp);(out/'build').mkdir()
+            parent=out/'build/Vnpu_systolic_matmul_16x16__hierMkArgs.f'
+            parent.write_text('--cc\n--top-module-encoded npu_systolic_matmul_16x16\nactual.v\n')
+            child=out/'build/Vnpu_pe__hierMkArgs.f';child.write_text('--cc\nactual_pe.v\n')
+            execute=lambda *args:None
+            def staged(command,sources,bench,directory,run,cwd):
+                run(['verilator','-f',str(parent)],out/'actual_npu_systolic_matmul_16x16.log',Path('/repo'))
+                run(['verilator','-f',str(child)],out/'actual_npu_pe.log',Path('/repo'))
+            def measure():power.staged_build([],[],None,out,execute,Path('/repo'))
+            with patch.object(current_power,'executable',return_value=Path('/tool/yosys-slang')), \
+                    patch.object(power,'staged_build',side_effect=staged), \
+                    patch.object(power,'measure',side_effect=measure):
+                current_power.measure()
+            self.assertIn('-O0',parent.read_text().split())
+            self.assertNotIn('-O0',child.read_text().split())
 
+    def test_blackbox_local_metadata_is_normalized_without_changing_connections(self):
+        shell='module top;\n'+''.join(
+            f"  pe #(.W(32'd44), .j(32'd7)) p{i} (.a(a{i}), .q(q{i}));\n"
+            for i in range(256))+'endmodule\n'
+        source='module pe(input a,output q); localparam W=44; assign q=a; endmodule'
+        converted,audit=current_power.normalize_blackbox_parameters(shell,'pe',source)
+        self.assertEqual(converted,shell.replace(" #(.W(32'd44), .j(32'd7))",''))
+        self.assertEqual(audit['instances'],256)
+        self.assertEqual(audit['discarded_non_overridable_metadata'],{'W':"32'd44",'j':"32'd7"})
+        for changed in (source.replace('localparam','parameter'),):
+            with self.assertRaisesRegex(ValueError,'public parameters'):
+                current_power.normalize_blackbox_parameters(shell,'pe',changed)
+        with self.assertRaisesRegex(ValueError,'varies'):
+            current_power.normalize_blackbox_parameters(shell.replace("32'd44","32'd45",1),'pe',source)
+        with self.assertRaisesRegex(ValueError,'256 distinct'):
+            current_power.normalize_blackbox_parameters(shell.replace(' p255 ',' p254 '),'pe',source)
 
+    def test_power_shell_frontend_retains_mapping_policy_and_restores_hooks(self):
+        import t10_candidate_power as power
+        original_write, original_which = power.write_new_or_same, shutil.which
+        with tempfile.TemporaryDirectory() as temp:
+            config=Path(temp)/'shell_area.mk'
+            def measure():
+                self.assertEqual(shutil.which('yosys'),'/tool/yosys-slang')
+                power.write_new_or_same(config,'export SYNTH_BLACKBOXES = candidate_pe\nexport ABC_AREA = 1\n')
+            with patch.object(current_power,'executable',return_value=Path('/tool/yosys-slang')), \
+                    patch.object(power,'measure',side_effect=measure):
+                current_power.measure()
+            self.assertEqual(config.read_text(),'export SYNTH_BLACKBOXES = candidate_pe\nexport ABC_AREA = 1\nexport SYNTH_HDL_FRONTEND = slang\nexport SYNTH_MEMORY_MAX_BITS = 306304\n')
+        self.assertIs(power.write_new_or_same,original_write)
+        self.assertIs(shutil.which,original_which)
 
     def setUp(self):
         frontend.yosys_command.cache_clear()

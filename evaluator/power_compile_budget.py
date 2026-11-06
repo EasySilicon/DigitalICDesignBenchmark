@@ -9,8 +9,9 @@ import signal
 import subprocess
 import time
 
-LIMIT_SECONDS = 1200
-POLICY_ID = 'power-compile-wall-1200s-v1'
+LIMIT_SECONDS = 2400
+POLICY_ID = 'power-compile-wall-2400s-v2'
+POLICY_LIMITS = {'power-compile-wall-1200s-v1': 1200, POLICY_ID: LIMIT_SECONDS}
 TIMEOUT_STATUS = 'power_compile_timeout_zero'
 TIMEOUT_EXIT_CODE = 124
 
@@ -19,10 +20,20 @@ class PowerCompileTimeout(TimeoutError):
     pass
 
 
+def records_policy(records):
+    policies = {record.get('policy_id') for record in records}
+    if len(policies) > 1:
+        raise ValueError('power compilation receipts use different policies')
+    return next(iter(policies), POLICY_ID)
+
+
 def validate_records(records, source, task, *, require_complete=False):
     """Validate evaluator receipts once for live grading and archive replay."""
     if not isinstance(records, list):
         raise ValueError('power_compile_records must be a list')
+    if any(not isinstance(record, dict) for record in records):
+        raise ValueError('power compile receipt must be an object')
+    records_policy(records)
     seeds = set()
     timed_out = False
     for record in records:
@@ -30,9 +41,9 @@ def validate_records(records, source, task, *, require_complete=False):
             raise ValueError('power compile receipt must be an object')
         seed = record.get('layout_seed')
         elapsed = record.get('elapsed_seconds')
+        limit = POLICY_LIMITS.get(record.get('policy_id'))
         if (type(seed) is not int or seed not in (11, 29, 47) or seed in seeds
-                or record.get('policy_id') != POLICY_ID
-                or record.get('limit_seconds') != LIMIT_SECONDS
+                or limit is None or record.get('limit_seconds') != limit
                 or record.get('task_id') != task or not source
                 or record.get('candidate_source_sha256') != source
                 or type(elapsed) not in (int, float)
@@ -42,7 +53,7 @@ def validate_records(records, source, task, *, require_complete=False):
         if record.get('status') == 'timeout':
             validate_timeout(record, source, seed, task)
             timed_out = True
-        elif record.get('status') != 'completed' or elapsed > LIMIT_SECONDS:
+        elif record.get('status') != 'completed' or elapsed > limit:
             raise ValueError('compile error or invalid completion is not a timeout zero')
     if require_complete and not timed_out and seeds != {11, 29, 47}:
         raise ValueError('new PPA score requires three completed power compile budget records')
@@ -57,9 +68,9 @@ def apply_to_scored_record(record, *, require_complete=False):
     """
     measurement = record.get('ppa_measurement') or {}
     records = record.get('power_compile_records', measurement.get('power_compile_records', []))
-    marked = (record.get('power_compile_policy') == POLICY_ID
-              or measurement.get('power_compile_policy') == POLICY_ID
-              or POLICY_ID in record.get('scoring_policy', '')
+    marked = (record.get('power_compile_policy') in POLICY_LIMITS
+              or measurement.get('power_compile_policy') in POLICY_LIMITS
+              or any(policy in record.get('scoring_policy', '') for policy in POLICY_LIMITS)
               or record.get('ppa_status') == TIMEOUT_STATUS)
     if not records and not marked and not require_complete:
         return dict(record)
@@ -78,12 +89,12 @@ def apply_to_scored_record(record, *, require_complete=False):
         raise ValueError('retained physical seeds lack matching power compile evidence')
     if record.get('ppa_status') == TIMEOUT_STATUS and not timed_out:
         raise ValueError('timeout zero requires a matching timeout receipt')
-    result = dict(record, power_compile_policy=POLICY_ID, power_compile_records=records)
+    result = dict(record, power_compile_policy=records_policy(records), power_compile_records=records)
     if timed_out:
         before = result['functional_total']
         result.update(ppa_score=0, time_score=0, ppa_eligible=False,
                       ppa_rank_bucket=0, ppa_status=TIMEOUT_STATUS,
-                      ppa_zero_reason='Power-simulation compilation exceeded the cumulative 1200-second per-seed wall-clock budget.',
+                      ppa_zero_reason=f"Power-simulation compilation exceeded the cumulative {POLICY_LIMITS[records_policy(records)]}-second per-seed wall-clock budget.",
                       display_score_before_candidate_penalty=before,
                       display_score=max(0.0, before-result.get('candidate_delivery_penalty', 0)))
     return result
@@ -91,12 +102,13 @@ def apply_to_scored_record(record, *, require_complete=False):
 
 def validate_timeout(record, source, seed, task='T10'):
     elapsed=record.get('elapsed_seconds')
-    if (record.get('policy_id') != POLICY_ID or record.get('limit_seconds') != LIMIT_SECONDS
+    limit=POLICY_LIMITS.get(record.get('policy_id'))
+    if (limit is None or record.get('limit_seconds') != limit
             or record.get('status') != 'timeout' or type(elapsed) not in (int,float)
-            or not math.isfinite(elapsed) or elapsed < LIMIT_SECONDS
+            or not math.isfinite(elapsed) or elapsed < limit
             or record.get('task_id') != task or record.get('candidate_source_sha256') != source or record.get('layout_seed') != seed
             or record.get('process_group_terminated') is not True):
-        raise ValueError('missing source-bound 1200-second power compile timeout evidence')
+        raise ValueError('missing source-bound power compile timeout evidence')
 
 
 def stop_group(process):
@@ -128,7 +140,7 @@ class CompileBudget:
 
     def expired(self):
         self.record['process_group_terminated']=True
-        raise PowerCompileTimeout('Power-simulation compilation exceeded 1200 seconds')
+        raise PowerCompileTimeout(f'Power-simulation compilation exceeded {self.seconds} seconds')
 
     def run(self, command, log, cwd, **launch_options):
         command_started=time.monotonic()
@@ -168,5 +180,5 @@ class CompileBudget:
                 payload=path.read_bytes()
                 entry['log_artifact']=dict(path=str(path),bytes=len(payload),sha256=hashlib.sha256(payload).hexdigest())
         (self.output/'power_compile.json').write_text(json.dumps(self.record,indent=2)+'\n')
-        if timeout and kind is None:raise PowerCompileTimeout('Power-simulation compilation exceeded 1200 seconds')
+        if timeout and kind is None:raise PowerCompileTimeout(f'Power-simulation compilation exceeded {self.seconds} seconds')
         return False

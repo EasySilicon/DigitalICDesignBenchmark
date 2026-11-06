@@ -1,0 +1,315 @@
+{
+  "task_id": "T03",
+  "functional_basic": 40.0,
+  "functional_edges": 10.0,
+  "functional_total": 50.0,
+  "full_functional_pass": true,
+  "delivery_qualified": true,
+  "ppa_eligible": true,
+  "ppa_score": 35.28975243735129,
+  "ppa_rank_bucket": 28,
+  "time_score": 4.317222046189838,
+  "candidate_delivery_error_count": 0,
+  "candidate_delivery_penalty": 0,
+  "display_score_before_candidate_penalty": 89.60697448354114,
+  "display_score": 89.60697448354114,
+  "score_items": [
+    {
+      "id": "F_REGISTERS",
+      "layer": "F",
+      "points": 13.333333333333332,
+      "possible_points": 13.333333333333332,
+      "cases_passed": 493,
+      "cases_total": 493,
+      "safety_violation": false
+    },
+    {
+      "id": "F_COUNT",
+      "layer": "F",
+      "points": 13.333333333333332,
+      "possible_points": 13.333333333333332,
+      "cases_passed": 185,
+      "cases_total": 185,
+      "safety_violation": false
+    },
+    {
+      "id": "F_IRQ",
+      "layer": "F",
+      "points": 13.333333333333332,
+      "possible_points": 13.333333333333332,
+      "cases_passed": 5417,
+      "cases_total": 5417,
+      "safety_violation": false
+    },
+    {
+      "id": "P_APB",
+      "layer": "P",
+      "points": 6.666666666666666,
+      "possible_points": 6.666666666666666,
+      "cases_passed": 2608,
+      "cases_total": 2608,
+      "safety_violation": false
+    },
+    {
+      "id": "P_BOUNDARY",
+      "layer": "P",
+      "points": 3.333333333333333,
+      "possible_points": 3.333333333333333,
+      "cases_passed": 2616,
+      "cases_total": 2616,
+      "safety_violation": false
+    }
+  ],
+  "rank_key": [
+    50.0,
+    28,
+    -737.400190114975
+  ],
+  "physical_policy": "physical-wall-3600s-retain-results-v1",
+  "physical_records": [
+    {
+      "policy_id": "physical-wall-3600s-retain-results-v1",
+      "limit_seconds": 3600,
+      "task_id": "T03",
+      "candidate_source_sha256": "de1d60ab02267708bae44a87b67090064ab4833190d44d066485acd8e8df97c5",
+      "layout_seed": 11,
+      "elapsed_seconds": 37.0216067279689,
+      "status": "completed",
+      "started_utc": "2026-11-03T17:48:16.725262+00:00",
+      "ended_utc": "2026-11-03T17:48:53.746869+00:00",
+      "process_group_terminated": false
+    },
+    {
+      "policy_id": "physical-wall-3600s-retain-results-v1",
+      "limit_seconds": 3600,
+      "task_id": "T03",
+      "candidate_source_sha256": "de1d60ab02267708bae44a87b67090064ab4833190d44d066485acd8e8df97c5",
+      "layout_seed": 29,
+      "elapsed_seconds": 36.71916926605627,
+      "status": "completed",
+      "started_utc": "2026-11-03T17:49:00.148599+00:00",
+      "ended_utc": "2026-11-03T17:49:36.867769+00:00",
+      "process_group_terminated": false
+    },
+    {
+      "policy_id": "physical-wall-3600s-retain-results-v1",
+      "limit_seconds": 3600,
+      "task_id": "T03",
+      "candidate_source_sha256": "de1d60ab02267708bae44a87b67090064ab4833190d44d066485acd8e8df97c5",
+      "layout_seed": 47,
+      "elapsed_seconds": 48.390471063088626,
+      "status": "completed",
+      "started_utc": "2026-11-03T17:49:41.713064+00:00",
+      "ended_utc": "2026-11-03T17:50:30.103536+00:00",
+      "process_group_terminated": false
+    }
+  ],
+  "physical_timed_out_seeds": [],
+  "candidate_source_sha256": "de1d60ab02267708bae44a87b67090064ab4833190d44d066485acd8e8df97c5",
+  "power_compile_policy": "power-compile-wall-1200s-v1",
+  "power_compile_records": [
+    {
+      "policy_id": "power-compile-wall-1200s-v1",
+      "limit_seconds": 1200,
+      "task_id": "T03",
+      "candidate_source_sha256": "de1d60ab02267708bae44a87b67090064ab4833190d44d066485acd8e8df97c5",
+      "layout_seed": 11,
+      "commands": [
+        {
+          "command": [
+            "verilator",
+            "--binary",
+            "--timing",
+            "--trace",
+            "--trace-underscore",
+            "-Wno-fatal",
+            "-Wno-SPECIFYIGN",
+            "-j",
+            "4",
+            "--top-module",
+            "tb_hidden_T03",
+            "--Mdir",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/grading/T03/seed11/power/build",
+            "-I/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/frozen/ic_bcmk",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/grading/T03/seed11/power/tb_power.sv",
+            "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/apb4_timer/ic_probe_t03_wc_p1000_u10_d0.6_s11_618840b1a1/6_final.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+          ],
+          "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/grading/T03/seed11/power/power_compile_command_0000.log",
+          "process_group": 1215724,
+          "returncode": 0,
+          "log_artifact": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/grading/T03/seed11/power/power_compile_command_0000.log",
+            "bytes": 20085,
+            "sha256": "9344a4c0a3453a9350ef93fda5984d5d57c0faed882e92b08aabb2de8d864f8b"
+          }
+        }
+      ],
+      "started_utc": "2026-11-03T17:48:53.773209+00:00",
+      "status": "completed",
+      "elapsed_seconds": 5.4730272786691785,
+      "ended_utc": "2026-11-03T17:48:59.246239+00:00"
+    },
+    {
+      "policy_id": "power-compile-wall-1200s-v1",
+      "limit_seconds": 1200,
+      "task_id": "T03",
+      "candidate_source_sha256": "de1d60ab02267708bae44a87b67090064ab4833190d44d066485acd8e8df97c5",
+      "layout_seed": 29,
+      "commands": [
+        {
+          "command": [
+            "verilator",
+            "--binary",
+            "--timing",
+            "--trace",
+            "--trace-underscore",
+            "-Wno-fatal",
+            "-Wno-SPECIFYIGN",
+            "-j",
+            "4",
+            "--top-module",
+            "tb_hidden_T03",
+            "--Mdir",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/grading/T03/seed29/power/build",
+            "-I/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/frozen/ic_bcmk",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/grading/T03/seed29/power/tb_power.sv",
+            "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/apb4_timer/ic_probe_t03_wc_p1000_u10_d0.6_s29_c8d1930619/6_final.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+          ],
+          "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/grading/T03/seed29/power/power_compile_command_0000.log",
+          "process_group": 1217746,
+          "returncode": 0,
+          "log_artifact": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/grading/T03/seed29/power/power_compile_command_0000.log",
+            "bytes": 20085,
+            "sha256": "c4f262428648f6efe5d7a8bd847c5296510900fec30486e76009595d4b02f884"
+          }
+        }
+      ],
+      "started_utc": "2026-11-03T17:49:36.894798+00:00",
+      "status": "completed",
+      "elapsed_seconds": 3.9206405440345407,
+      "ended_utc": "2026-11-03T17:49:40.815440+00:00"
+    },
+    {
+      "policy_id": "power-compile-wall-1200s-v1",
+      "limit_seconds": 1200,
+      "task_id": "T03",
+      "candidate_source_sha256": "de1d60ab02267708bae44a87b67090064ab4833190d44d066485acd8e8df97c5",
+      "layout_seed": 47,
+      "commands": [
+        {
+          "command": [
+            "verilator",
+            "--binary",
+            "--timing",
+            "--trace",
+            "--trace-underscore",
+            "-Wno-fatal",
+            "-Wno-SPECIFYIGN",
+            "-j",
+            "4",
+            "--top-module",
+            "tb_hidden_T03",
+            "--Mdir",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/grading/T03/seed47/power/build",
+            "-I/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/frozen/ic_bcmk",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/grading/T03/seed47/power/tb_power.sv",
+            "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/apb4_timer/ic_probe_t03_wc_p1000_u10_d0.6_s47_3a23029d01/6_final.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+          ],
+          "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/grading/T03/seed47/power/power_compile_command_0000.log",
+          "process_group": 1219733,
+          "returncode": 0,
+          "log_artifact": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/grading/T03/seed47/power/power_compile_command_0000.log",
+            "bytes": 20085,
+            "sha256": "88b0da7028cc252199c1e0e6f2a12ae07c45312a4890d2cf981008977f25a301"
+          }
+        }
+      ],
+      "started_utc": "2026-11-03T17:50:30.129490+00:00",
+      "status": "completed",
+      "elapsed_seconds": 3.970604461617768,
+      "ended_utc": "2026-11-03T17:50:34.100098+00:00"
+    }
+  ],
+  "delivery_assessment": {
+    "missing_deliverables": [],
+    "errors": []
+  },
+  "delivery_penalty_policy": "delivery-contract-cap10-v1",
+  "delivery_penalty_status": "adjudicated",
+  "model": "claude-sonnet-5-5",
+  "status": "scored",
+  "elapsed_seconds": 737.400190114975,
+  "delivery_attribution_pending": false,
+  "grading_policy_receipt": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/grading_receipt.json",
+    "sha256": "0f6d01a3f8015f37fd5bdfe7d57ca2e3ec5c1d1796cee62550808d286fea920e"
+  },
+  "delivery_seed_policy": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/delivery_prime_policy/policy.json",
+    "sha256": "306dbca39bef73cd37b705889cfe3b0e8bd50ac84d60a781a169aa13e82bc3b9"
+  },
+  "delivery_replay_seeds": [
+    11,
+    29,
+    47
+  ],
+  "schema_version": 3,
+  "suite_id": "ic-delivery-rtl-v0.3",
+  "framework": "Claude Code",
+  "framework_version": "2.1.317",
+  "reasoning_effort": "high",
+  "trial_kind": "pre_release_pilot",
+  "ranking_eligible": false,
+  "ranking_ineligible_reason": "Independent pilot; not an official benchmark ranking.",
+  "functional_possible": 50,
+  "ppa_possible": 50,
+  "time_possible": 5,
+  "display_possible": 105,
+  "time_limit_seconds": 5400,
+  "score_status": "scored",
+  "source_report_sha256": "89e09d52aafaaee9029533977f3d3ded5e5092f48e019c1dab532e62653eb40a",
+  "source_score_input_sha256": "cd0ddb4bdfb570b3ca24a434e31229161701e509e6935e643c59223d35d04769",
+  "archive_evidence": {
+    "report.json": {
+      "archive_path": "evidence/T03/report.json",
+      "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/grading/T03/report.json",
+      "bytes": 11453,
+      "sha256": "89e09d52aafaaee9029533977f3d3ded5e5092f48e019c1dab532e62653eb40a"
+    },
+    "score_input.json": {
+      "archive_path": "evidence/T03/score_input.json",
+      "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/grading/T03/score_input.json",
+      "bytes": 25095,
+      "sha256": "cd0ddb4bdfb570b3ca24a434e31229161701e509e6935e643c59223d35d04769"
+    },
+    "functional.json": {
+      "archive_path": "evidence/T03/functional.json",
+      "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/grading/T03/functional.json",
+      "bytes": 602,
+      "sha256": "1b87d319845d556ca277e4fb039994b75dbae99f934fd18931e34e895c964c03"
+    },
+    "delivery.json": {
+      "archive_path": "evidence/T03/delivery.json",
+      "original_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/grading/T03/delivery.json",
+      "bytes": 1536,
+      "sha256": "5ac26958d4f3ccfe6280eb758627934ca66a883f4c89a3c66b1613df1613dbd5"
+    }
+  }
+}

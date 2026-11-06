@@ -1,0 +1,283 @@
+{
+  "task_id": "T04",
+  "functional_basic": 40.0,
+  "functional_edges": 10.0,
+  "functional_total": 50.0,
+  "full_functional_pass": true,
+  "delivery_qualified": true,
+  "ppa_eligible": true,
+  "ppa_score": 37.98426551998491,
+  "ppa_rank_bucket": 30,
+  "time_score": 3.9640918197455233,
+  "candidate_delivery_error_count": 0,
+  "candidate_delivery_penalty": 0,
+  "display_score_before_candidate_penalty": 91.94835733973044,
+  "display_score": 91.94835733973044,
+  "score_items": [
+    {
+      "id": "F_SELECT",
+      "layer": "F",
+      "points": 13.333333333333332,
+      "possible_points": 13.333333333333332,
+      "cases_passed": 81636,
+      "cases_total": 81636,
+      "safety_violation": false
+    },
+    {
+      "id": "F_ROTATE",
+      "layer": "F",
+      "points": 13.333333333333332,
+      "possible_points": 13.333333333333332,
+      "cases_passed": 81632,
+      "cases_total": 81632,
+      "safety_violation": false
+    },
+    {
+      "id": "F_DATA",
+      "layer": "F",
+      "points": 13.333333333333332,
+      "possible_points": 13.333333333333332,
+      "cases_passed": 163249,
+      "cases_total": 163249,
+      "safety_violation": false
+    },
+    {
+      "id": "P_STALL",
+      "layer": "P",
+      "points": 6.666666666666666,
+      "possible_points": 6.666666666666666,
+      "cases_passed": 29916,
+      "cases_total": 29916,
+      "safety_violation": false
+    },
+    {
+      "id": "P_FAIR",
+      "layer": "P",
+      "points": 3.333333333333333,
+      "possible_points": 3.333333333333333,
+      "cases_passed": 960,
+      "cases_total": 960,
+      "safety_violation": false
+    }
+  ],
+  "rank_key": [
+    50.0,
+    30,
+    -1118.7808346748352
+  ],
+  "physical_policy": "physical-wall-3600s-retain-results-v1",
+  "physical_records": [
+    {
+      "policy_id": "physical-wall-3600s-retain-results-v1",
+      "limit_seconds": 3600,
+      "task_id": "T04",
+      "candidate_source_sha256": "3fd351500c96e580f93ef53d5e8725ddc953347aad9d9f02d7914367b1e329bc",
+      "layout_seed": 11,
+      "elapsed_seconds": 33.36860196571797,
+      "status": "completed",
+      "started_utc": "2026-11-04T09:41:32.495807+00:00",
+      "ended_utc": "2026-11-04T09:42:05.864409+00:00",
+      "process_group_terminated": false
+    },
+    {
+      "policy_id": "physical-wall-3600s-retain-results-v1",
+      "limit_seconds": 3600,
+      "task_id": "T04",
+      "candidate_source_sha256": "3fd351500c96e580f93ef53d5e8725ddc953347aad9d9f02d7914367b1e329bc",
+      "layout_seed": 29,
+      "elapsed_seconds": 33.824197904672474,
+      "status": "completed",
+      "started_utc": "2026-11-04T09:42:11.472448+00:00",
+      "ended_utc": "2026-11-04T09:42:45.296647+00:00",
+      "process_group_terminated": false
+    },
+    {
+      "policy_id": "physical-wall-3600s-retain-results-v1",
+      "limit_seconds": 3600,
+      "task_id": "T04",
+      "candidate_source_sha256": "3fd351500c96e580f93ef53d5e8725ddc953347aad9d9f02d7914367b1e329bc",
+      "layout_seed": 47,
+      "elapsed_seconds": 33.51797257689759,
+      "status": "completed",
+      "started_utc": "2026-11-04T09:42:48.314176+00:00",
+      "ended_utc": "2026-11-04T09:43:21.832149+00:00",
+      "process_group_terminated": false
+    }
+  ],
+  "physical_timed_out_seeds": [],
+  "candidate_source_sha256": "3fd351500c96e580f93ef53d5e8725ddc953347aad9d9f02d7914367b1e329bc",
+  "power_compile_policy": "power-compile-wall-1200s-v1",
+  "power_compile_records": [
+    {
+      "policy_id": "power-compile-wall-1200s-v1",
+      "limit_seconds": 1200,
+      "task_id": "T04",
+      "candidate_source_sha256": "3fd351500c96e580f93ef53d5e8725ddc953347aad9d9f02d7914367b1e329bc",
+      "layout_seed": 11,
+      "commands": [
+        {
+          "command": [
+            "verilator",
+            "--binary",
+            "--timing",
+            "--trace",
+            "--trace-underscore",
+            "-Wno-fatal",
+            "-Wno-SPECIFYIGN",
+            "-j",
+            "4",
+            "--top-module",
+            "tb_hidden_T04",
+            "--Mdir",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed11/power/build",
+            "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+            "-GN=8",
+            "-GWIDTH=32",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed11/power/tb_power.sv",
+            "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/round_robin_stream_arbiter/ic_probe_t04_wc_p1000_u10_d0.6_s11_5ed097e9aa/6_final.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+          ],
+          "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed11/power/power_compile_command_0000.log",
+          "process_group": 2409546,
+          "returncode": 0,
+          "log_artifact": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed11/power/power_compile_command_0000.log",
+            "bytes": 13898,
+            "sha256": "9f4b5feadea9753a9b3beec5a3e4136c79a023a5441c0c3b742fb8a05fbc1c1f"
+          }
+        }
+      ],
+      "started_utc": "2026-11-04T09:42:05.892996+00:00",
+      "status": "completed",
+      "elapsed_seconds": 4.02086978405714,
+      "ended_utc": "2026-11-04T09:42:09.913867+00:00"
+    },
+    {
+      "policy_id": "power-compile-wall-1200s-v1",
+      "limit_seconds": 1200,
+      "task_id": "T04",
+      "candidate_source_sha256": "3fd351500c96e580f93ef53d5e8725ddc953347aad9d9f02d7914367b1e329bc",
+      "layout_seed": 29,
+      "commands": [
+        {
+          "command": [
+            "verilator",
+            "--binary",
+            "--timing",
+            "--trace",
+            "--trace-underscore",
+            "-Wno-fatal",
+            "-Wno-SPECIFYIGN",
+            "-j",
+            "4",
+            "--top-module",
+            "tb_hidden_T04",
+            "--Mdir",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed29/power/build",
+            "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+            "-GN=8",
+            "-GWIDTH=32",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed29/power/tb_power.sv",
+            "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/round_robin_stream_arbiter/ic_probe_t04_wc_p1000_u10_d0.6_s29_1015d547af/6_final.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+          ],
+          "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed29/power/power_compile_command_0000.log",
+          "process_group": 2411582,
+          "returncode": 0,
+          "log_artifact": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed29/power/power_compile_command_0000.log",
+            "bytes": 13898,
+            "sha256": "1b160f71b78d64cd5ec5ad618d0f9019f375c619251211037d268810b270355a"
+          }
+        }
+      ],
+      "started_utc": "2026-11-04T09:42:45.323428+00:00",
+      "status": "completed",
+      "elapsed_seconds": 1.4163492801599205,
+      "ended_utc": "2026-11-04T09:42:46.739778+00:00"
+    },
+    {
+      "policy_id": "power-compile-wall-1200s-v1",
+      "limit_seconds": 1200,
+      "task_id": "T04",
+      "candidate_source_sha256": "3fd351500c96e580f93ef53d5e8725ddc953347aad9d9f02d7914367b1e329bc",
+      "layout_seed": 47,
+      "commands": [
+        {
+          "command": [
+            "verilator",
+            "--binary",
+            "--timing",
+            "--trace",
+            "--trace-underscore",
+            "-Wno-fatal",
+            "-Wno-SPECIFYIGN",
+            "-j",
+            "4",
+            "--top-module",
+            "tb_hidden_T04",
+            "--Mdir",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed47/power/build",
+            "-I/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk",
+            "-GN=8",
+            "-GWIDTH=32",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed47/power/tb_power.sv",
+            "/mnt/ubu_3T/ic_bcmk_orfs_asap7/flow/results/asap7/round_robin_stream_arbiter/ic_probe_t04_wc_p1000_u10_d0.6_s47_6cd241cdc4/6_final.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/env/asap7_seq_sim.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_AO_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_INVBUF_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_OA_RVT_TT_201020.v",
+            "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/frozen/ic_bcmk/vendor/asap7/verilog/stdcell/asap7sc7p5t_SIMPLE_RVT_TT_201020.v"
+          ],
+          "log": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed47/power/power_compile_command_0000.log",
+          "process_group": 2413535,
+          "returncode": 0,
+          "log_artifact": {
+            "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading/T04/seed47/power/power_compile_command_0000.log",
+            "bytes": 13898,
+            "sha256": "3383d47ef2984b166cce1f382f5c238c3cc020750bbfdca8783270936ffcb475"
+          }
+        }
+      ],
+      "started_utc": "2026-11-04T09:43:21.859859+00:00",
+      "status": "completed",
+      "elapsed_seconds": 1.516651565209031,
+      "ended_utc": "2026-11-04T09:43:23.376511+00:00"
+    }
+  ],
+  "delivery_assessment": {
+    "missing_deliverables": [],
+    "errors": []
+  },
+  "delivery_penalty_policy": "delivery-contract-cap10-v1",
+  "delivery_penalty_status": "adjudicated",
+  "model": "claude-opus-5-5",
+  "status": "scored",
+  "elapsed_seconds": 1118.7808346748352,
+  "delivery_attribution_pending": false,
+  "delivery_seed_policy": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/delivery_prime_policy/policy.json",
+    "sha256": "306dbca39bef73cd37b705889cfe3b0e8bd50ac84d60a781a169aa13e82bc3b9"
+  },
+  "delivery_replay_seeds": [
+    11,
+    29,
+    47
+  ],
+  "grading_policy_receipt": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/grading_receipt.json",
+    "sha256": "9069f853f9e4462a2f02ff8adea9e69fa2e0703bcade483dd71229c3c5e7bd0e"
+  },
+  "frontend_evaluator_repair": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/evaluation_repairs/T04_frontend_policy.json",
+    "sha256": "52c11721dd5a52aea9b1cc757a4973f5212f4f64aad726e73992eb158c9ae9d8"
+  }
+}

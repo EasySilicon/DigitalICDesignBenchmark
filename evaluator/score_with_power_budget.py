@@ -7,13 +7,13 @@ from pathlib import Path
 
 if __package__:
     from .delivery_policy import apply_to_score
-    from .power_compile_budget import POLICY_ID, TIMEOUT_STATUS, validate_records
+    from .power_compile_budget import POLICY_ID, POLICY_LIMITS, TIMEOUT_STATUS, validate_records, records_policy
     from .score_run import score_run as frozen_score_run
     from .score_run import load_rules
     from . import physical_budget
 else:
     from delivery_policy import apply_to_score
-    from power_compile_budget import POLICY_ID, TIMEOUT_STATUS, validate_records
+    from power_compile_budget import POLICY_ID, POLICY_LIMITS, TIMEOUT_STATUS, validate_records, records_policy
     from score_run import score_run as frozen_score_run
     from score_run import load_rules
     import physical_budget
@@ -26,7 +26,7 @@ def score_run(payload, rules=None):
     source=payload.get('candidate_source_sha256',(payload.get('ppa_measurement') or {}).get('source_sha256'))
     if isinstance(measurement,dict) and measurement.get('source_sha256')!=source:
         raise ValueError('power compilation and PPA candidate source differ')
-    marked=payload.get('power_compile_policy')==POLICY_ID or POLICY_ID in payload.get('scoring_policy','')
+    marked=payload.get('power_compile_policy') in POLICY_LIMITS or any(policy in payload.get('scoring_policy','') for policy in POLICY_LIMITS)
     physical_records=payload.get('physical_records',(measurement or {}).get('physical_records',[]))
     expected_physical_policy=physical_budget.policy_id(task)
     if (payload.get('physical_policy')==expected_physical_policy or
@@ -59,12 +59,12 @@ def score_run(payload, rules=None):
         else:
             result.update(physical_policy=expected_physical_policy,physical_records=copy.deepcopy(physical_records))
     if records:
-        result.update(power_compile_policy=POLICY_ID,
+        result.update(power_compile_policy=records_policy(records),
                       candidate_source_sha256=source,power_compile_records=copy.deepcopy(records))
     if timed_out:
         result.update(ppa_status=TIMEOUT_STATUS,
-            ppa_zero_reason='Power-simulation compilation exceeded the cumulative 1200-second per-seed wall-clock budget.',
-            power_compile_policy=POLICY_ID)
+            ppa_zero_reason=f'Power-simulation compilation exceeded the cumulative {POLICY_LIMITS[records_policy(records)]}-second per-seed wall-clock budget.',
+            power_compile_policy=records_policy(records))
     return apply_to_score(result, payload)
 
 

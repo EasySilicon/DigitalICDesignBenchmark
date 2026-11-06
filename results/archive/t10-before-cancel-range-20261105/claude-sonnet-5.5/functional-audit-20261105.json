@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "model": "claude-sonnet-5-5",
+  "task_id": "T10",
+  "created_utc": "2026-11-04T15:18:36.917876+00:00",
+  "status": "confirmed_functional_defect_historical_score_under_review",
+  "historical_score_changed": false,
+  "historical_score": {
+    "functional_total": 50,
+    "ppa_score": 0,
+    "time_score": 0,
+    "display_score": 50,
+    "weighted_suite_score": 81.0137033735526
+  },
+  "audit": {
+    "cases": 64,
+    "failed_cases": 32,
+    "passed_cases": 32,
+    "full_dut_original_rtl": true,
+    "independently_checked_with": [
+      "Fraction-based exact oracle",
+      "integer-based fast oracle"
+    ],
+    "all_cases_protocol_and_timing_pass": true,
+    "affected_modes": {
+      "3": "BF16",
+      "7": "MXFP8 E4M3",
+      "8": "MXFP8 E5M2",
+      "9": "MXFP4 E2M1"
+    },
+    "warning": "These are targeted adversarial cases, not an estimate of general error frequency.",
+    "report_path": "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/evaluation_repairs/T10_functional_audit_20261105/report.json",
+    "report_sha256": "48f8eec1fd1e7ae90f92511e7222a024d65e80175bb373eec199d0707bc15220",
+    "incorrect_numeric_lanes": 8192
+  },
+  "root_cause": "The 44-bit block-floating accumulation discards low-exponent contributions; huge cancellation can expose a discarded residual that is still outside binary32 range, incorrectly returning finite zero.",
+  "acceptance_gap": {
+    "official_checker_rejects_counterexample": true,
+    "candidate_self_checker_used_for_official_grading": false,
+    "original_seed": 20260925,
+    "original_generated_scale_bytes": [
+      0,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      190,
+      254,
+      255
+    ],
+    "original_cancellation_k_positions": [
+      0,
+      1,
+      32
+    ],
+    "counterexample_k_positions": [
+      0,
+      8,
+      32
+    ],
+    "missing_cross": "Large cancellation combined with a final residual outside binary32 finite range; both same-beat and cross-beat layouts matter."
+  },
+  "discovery": "Review of README known limitations led to checking the candidate self-oracle exception, then constructing legal vectors and reproducing on the original PE followed by the full DUT.",
+  "next_scoring_step": "Revise acceptance coverage and apply consistently before publishing revised scores; this audit does not invent a replacement score.",
+  "artifacts": {
+    "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/evaluation_repairs/T10_functional_audit_20261105/audit.py": "ae6afc8f55cbf0211fbcc40bef6a40b67965a21e8f25ff506a9e35dde97b8b2c",
+    "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/evaluation_repairs/T10_functional_audit_20261105/cases.json": "c1dce35b3aa6fe92fbef666991c4095884df6be6d66045dd5c1d65352c0bc6e5",
+    "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/evaluation_repairs/T10_functional_audit_20261105/vector_fingerprints.json": "4b2400b561d40addb45ade061aecb6ddab2615d302c2208f582d63a2b7c2b8fb",
+    "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/evaluation_repairs/T10_functional_audit_20261105/simulation.log": "ac913c5f4fc172d824db2d0f3ad3b6d0ff4cbe44ecb9c4d836650c53128e338a",
+    "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/tasks/T10/submission/README.md": "76c01d206582bd0a9de732fa87f39026488f07c761a43a16d023b6ecf54fcf68",
+    "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/tasks/T10/submission/verif/model.py": "56065b4f68e7ab049bd2eb66ae7a831b3eee48c2701294a318375bcbee0a1a85"
+  },
+  "original_task_requirement": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104/tasks/T10/submission/benchmark/tasks/T10/README.en.md",
+    "line": 58,
+    "sha256": "cffdcc0169860d5bf7e750a165bef5b7ad934734f06c0d9a384ee2f483553603",
+    "matches_prelaunch_candidate_inventory": true,
+    "requirement": "An exact finite value outside the binary32 finite range yields infinity with the corresponding sign."
+  }
+}

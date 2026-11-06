@@ -23,21 +23,27 @@ def run(submission: Path, seed: int) -> dict:
     aggregate = {group: {"cases_passed": 0, "cases_total": 0,
                          "safety_violation": False}
                  for group in EXPECTED_GROUPS}
+    frontends = []
     with tempfile.TemporaryDirectory(prefix="ic_bcmk_T04_hidden_") as temporary:
         for index, (n_inputs, width) in enumerate(PARAMETERS):
-            executable = Path(temporary) / f"sim_{index}.vvp"
+            build = Path(temporary) / f"verilator_{index}"
             compiled = subprocess.run(
-                ["iverilog", "-g2012", "-s", "tb_hidden_T04",
-                 f"-Ptb_hidden_T04.N={n_inputs}", f"-Ptb_hidden_T04.WIDTH={width}",
-                 "-o", str(executable), *map(str, sources),
+                ["verilator", "--binary", "--timing", "--assert", "-Wno-fatal",
+                 "--x-initial", "unique", "--x-assign", "unique", "-j", "4",
+                 "--top-module", "tb_hidden_T04", f"-GN={n_inputs}", f"-GWIDTH={width}",
+                 "--Mdir", str(build), *map(str, sources),
                  str(ROOT / "t04_hidden_tb.sv")],
                 text=True, capture_output=True, timeout=120, check=False,
             )
+            compile_log = compiled.stdout + compiled.stderr
+            simulation_command = [str(build / "Vtb_hidden_T04"),
+                                  "+verilator+rand+reset+2", f"+verilator+seed+{seed}"]
             if compiled.returncode:
                 raise RuntimeError(f"compile failed for N={n_inputs} WIDTH={width}: "
-                                   f"{(compiled.stdout + compiled.stderr)[-4000:]}")
+                                   f"{compile_log[-4000:]}")
+            frontends.append(dict(N=n_inputs, WIDTH=width, frontend="verilator"))
             executed = subprocess.run(
-                ["vvp", str(executable), f"+SEED={seed}"],
+                [*simulation_command, f"+SEED={seed}"],
                 text=True, capture_output=True, timeout=120, check=False,
             )
             if executed.returncode:
@@ -52,7 +58,8 @@ def run(submission: Path, seed: int) -> dict:
                     raise RuntimeError(f"invalid group count for {group}")
                 aggregate[group]["cases_passed"] += passed_i
                 aggregate[group]["cases_total"] += total_i
-    return {"task_id": "T04", "seed": seed, "groups": dict(sorted(aggregate.items()))}
+    return {"task_id": "T04", "seed": seed, "groups": dict(sorted(aggregate.items())),
+            "hdl_frontends": frontends}
 
 
 def main() -> int:

@@ -1,0 +1,32 @@
+{
+  "task_id": "T08",
+  "model": "claude-opus-5-5",
+  "reasoning_effort": "high",
+  "exit_code": 0,
+  "elapsed_seconds": 3022.754906654358,
+  "tokens": 13015319,
+  "session_id": "53e4b576-e78e-461e-afb5-20278e46ef4d",
+  "stop_reason": null,
+  "recovered_completed_attempt": false,
+  "finished_utc": "2026-11-04T11:11:55.371748+00:00",
+  "container_oom_observed": false,
+  "completed_after_child_oom": false,
+  "quota_resume_request": {
+    "session_id": "53e4b576-e78e-461e-afb5-20278e46ef4d",
+    "reset_epoch": 1793788800.0,
+    "interruption_epoch": 1793779096.3722079,
+    "evidence": "five_hour_rejected",
+    "event_id": "6112783e-cf69-49dd-a832-eb3f94591bee",
+    "prior_active_seconds": 1140.799144268036,
+    "remaining_seconds": 6059,
+    "original_time_limit_seconds": 7200,
+    "request_id": "20261104T075816-1792ed",
+    "task_id": "T08",
+    "container": "ic-bcmk-claude-20261104-t08-bbb8e9",
+    "reason": "confirmed_five_hour_quota",
+    "observed_utc": "2026-11-04T07:58:16.400128+00:00",
+    "prior_tokens": 4160770,
+    "resume_driver_sha256": "4f4f40a955f0b9c7fa2303c7ed73b09b9303a66d42e1c145183a574fe69862f1"
+  },
+  "elapsed_time_policy": "sum_of_active_attempts_excluding_confirmed_quota_wait"
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": 3,
+  "model": "gpt-6.1-sol",
+  "suite_id": "ic-delivery-rtl-v0.3",
+  "task_id": "T05",
+  "legacy_task_id": "T06",
+  "trial_kind": "pre_release_pilot",
+  "delivery_qualified": null,
+  "time_limit_seconds": 7200,
+  "functional_possible": 50,
+  "ranking_eligible": false,
+  "functional_total": 50.0,
+  "ppa_score": 35.18610245337002,
+  "time_score": 3.7416666666666663,
+  "display_score": 88.92776912003667,
+  "score_status": "scored",
+  "full_functional_pass": true
+}

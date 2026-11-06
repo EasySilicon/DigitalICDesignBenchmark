@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "reason": null,
+  "pe_module": "mm_pe",
+  "pe_instances": 256,
+  "mesh_paths": [
+    16,
+    16
+  ],
+  "link_register_placement": "tile_shell",
+  "top_state_bits": 295610,
+  "checked_links": [
+    [
+      "a_out",
+      "a_in"
+    ],
+    [
+      "b_out",
+      "b_in"
+    ]
+  ],
+  "flattened_from_hierarchy": true,
+  "status": "qualified",
+  "method": "yosys_netlist",
+  "hdl_frontend": "slang",
+  "slang_available": true,
+  "candidate_source_sha256": "1c2ad671e5de500a3848d9b541350798d7030d3c0b200273b00d18246ff71359",
+  "wall_seconds": 139.18253561668098,
+  "scope": "structural_check_only",
+  "candidate_source_unchanged": true,
+  "checker_files": {
+    "t10_structure_check.py": "6d81bc6983d79478841b5b86361a6498c0d681cd99bed62765aca81e2edb328c",
+    "t10_structure_with_slang.py": "e174b4c3c804945f7647e7c0df409fa4479459fb033dd4e26f6017df9773c071"
+  }
+}

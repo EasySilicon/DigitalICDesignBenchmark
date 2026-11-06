@@ -1,0 +1,14 @@
+{
+  "phase": "stopped_by_user",
+  "trial_kind": "diagnostic",
+  "score_eligible": false,
+  "utc": "2026-11-05T14:39:40.050030+00:00",
+  "exit_code": -15,
+  "elapsed_seconds": 34632.08208500175,
+  "compile_elapsed_seconds": null,
+  "official_scores_unchanged": true,
+  "termination_reason": "User explicitly requested stopping the unlimited diagnostic; incomplete result is not a new candidate failure.",
+  "stopped_utc": "2026-11-05T14:40:03.179189+00:00",
+  "processes_exited": true,
+  "artifacts_preserved": true
+}

@@ -1,0 +1,840 @@
+{
+  "schema_version": 1,
+  "seed": 11,
+  "hdl_frontend": "verilator",
+  "parameters": [
+    [
+      4,
+      8
+    ],
+    [
+      4,
+      32
+    ],
+    [
+      8,
+      8
+    ],
+    [
+      8,
+      32
+    ]
+  ],
+  "source_bound_rtl_checked": 13,
+  "tests_on_submissions_only": true,
+  "ppa_launched": false,
+  "oracle_testbench_unchanged": true,
+  "oracle_testbench_sha256": "897e23e3c8b6788328b443987485dc0831119d6ae23835f0dd07a8c180f4bf12",
+  "checker_sha256": "07ea86ee157501220d9717a69a8dde75490564d37c263a2ec5fc03a20957c18c",
+  "mutation_regression": {
+    "task_id": "T04",
+    "seed": 11,
+    "mutants": {
+      "advance_without_ready": {
+        "eligible": true,
+        "killed": true,
+        "failed_groups": [
+          "AC-21",
+          "AC-22",
+          "AC-23",
+          "AC-24"
+        ]
+      },
+      "fixed_priority": {
+        "eligible": true,
+        "killed": true,
+        "failed_groups": [
+          "AC-21",
+          "AC-22",
+          "AC-23",
+          "AC-24",
+          "AC-25"
+        ]
+      },
+      "multiple_ready": {
+        "eligible": true,
+        "killed": true,
+        "failed_groups": [
+          "AC-23"
+        ]
+      },
+      "no_hold": {
+        "eligible": true,
+        "killed": true,
+        "failed_groups": [
+          "AC-21",
+          "AC-22",
+          "AC-23",
+          "AC-24"
+        ]
+      },
+      "no_pointer_reset": {
+        "eligible": true,
+        "killed": true,
+        "failed_groups": [
+          "AC-21",
+          "AC-22",
+          "AC-23",
+          "AC-24"
+        ]
+      },
+      "only_channel_zero": {
+        "eligible": true,
+        "killed": true,
+        "failed_groups": [
+          "AC-21",
+          "AC-22",
+          "AC-23",
+          "AC-24",
+          "AC-25"
+        ]
+      },
+      "skip_pointer": {
+        "eligible": true,
+        "killed": true,
+        "failed_groups": [
+          "AC-21",
+          "AC-22",
+          "AC-23",
+          "AC-24",
+          "AC-25"
+        ]
+      },
+      "truncate_data": {
+        "eligible": true,
+        "killed": true,
+        "failed_groups": [
+          "AC-23",
+          "AC-24"
+        ]
+      },
+      "wrong_lane": {
+        "eligible": true,
+        "killed": true,
+        "failed_groups": [
+          "AC-23",
+          "AC-24"
+        ]
+      }
+    },
+    "eligible": 9,
+    "killed": 9
+  },
+  "results": [
+    {
+      "task_id": "T04",
+      "seed": 11,
+      "groups": {
+        "AC-21": {
+          "cases_passed": 81636,
+          "cases_total": 81636,
+          "safety_violation": false
+        },
+        "AC-22": {
+          "cases_passed": 81632,
+          "cases_total": 81632,
+          "safety_violation": false
+        },
+        "AC-23": {
+          "cases_passed": 163247,
+          "cases_total": 163247,
+          "safety_violation": false
+        },
+        "AC-24": {
+          "cases_passed": 30108,
+          "cases_total": 30108,
+          "safety_violation": false
+        },
+        "AC-25": {
+          "cases_passed": 960,
+          "cases_total": 960,
+          "safety_violation": false
+        }
+      },
+      "hdl_frontends": [
+        {
+          "N": 4,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 4,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        }
+      ],
+      "source_sha256": "22cbbb784c82f2f4ddc2b073ad00d4053fae260966c89823995c724d68b3dda4",
+      "source_unchanged": true
+    },
+    {
+      "task_id": "T04",
+      "seed": 11,
+      "groups": {
+        "AC-21": {
+          "cases_passed": 81636,
+          "cases_total": 81636,
+          "safety_violation": false
+        },
+        "AC-22": {
+          "cases_passed": 81632,
+          "cases_total": 81632,
+          "safety_violation": false
+        },
+        "AC-23": {
+          "cases_passed": 163247,
+          "cases_total": 163247,
+          "safety_violation": false
+        },
+        "AC-24": {
+          "cases_passed": 30108,
+          "cases_total": 30108,
+          "safety_violation": false
+        },
+        "AC-25": {
+          "cases_passed": 960,
+          "cases_total": 960,
+          "safety_violation": false
+        }
+      },
+      "hdl_frontends": [
+        {
+          "N": 4,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 4,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        }
+      ],
+      "source_sha256": "2f4c786866f3a8758c5e0f62ad2b8ef700bbb9f710a59bfc828ba8e809019943",
+      "source_unchanged": true
+    },
+    {
+      "task_id": "T04",
+      "seed": 11,
+      "groups": {
+        "AC-21": {
+          "cases_passed": 81636,
+          "cases_total": 81636,
+          "safety_violation": false
+        },
+        "AC-22": {
+          "cases_passed": 81632,
+          "cases_total": 81632,
+          "safety_violation": false
+        },
+        "AC-23": {
+          "cases_passed": 163247,
+          "cases_total": 163247,
+          "safety_violation": false
+        },
+        "AC-24": {
+          "cases_passed": 30108,
+          "cases_total": 30108,
+          "safety_violation": false
+        },
+        "AC-25": {
+          "cases_passed": 960,
+          "cases_total": 960,
+          "safety_violation": false
+        }
+      },
+      "hdl_frontends": [
+        {
+          "N": 4,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 4,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        }
+      ],
+      "source_sha256": "2ff7adb6aa249998afb471801c823ad916e4fafeecdd21464ca9c4874fc36ecb",
+      "source_unchanged": true
+    },
+    {
+      "task_id": "T04",
+      "seed": 11,
+      "groups": {
+        "AC-21": {
+          "cases_passed": 81636,
+          "cases_total": 81636,
+          "safety_violation": false
+        },
+        "AC-22": {
+          "cases_passed": 81632,
+          "cases_total": 81632,
+          "safety_violation": false
+        },
+        "AC-23": {
+          "cases_passed": 163247,
+          "cases_total": 163247,
+          "safety_violation": false
+        },
+        "AC-24": {
+          "cases_passed": 30108,
+          "cases_total": 30108,
+          "safety_violation": false
+        },
+        "AC-25": {
+          "cases_passed": 960,
+          "cases_total": 960,
+          "safety_violation": false
+        }
+      },
+      "hdl_frontends": [
+        {
+          "N": 4,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 4,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        }
+      ],
+      "source_sha256": "3fd351500c96e580f93ef53d5e8725ddc953347aad9d9f02d7914367b1e329bc",
+      "source_unchanged": true
+    },
+    {
+      "task_id": "T04",
+      "seed": 11,
+      "groups": {
+        "AC-21": {
+          "cases_passed": 81636,
+          "cases_total": 81636,
+          "safety_violation": false
+        },
+        "AC-22": {
+          "cases_passed": 81632,
+          "cases_total": 81632,
+          "safety_violation": false
+        },
+        "AC-23": {
+          "cases_passed": 163247,
+          "cases_total": 163247,
+          "safety_violation": false
+        },
+        "AC-24": {
+          "cases_passed": 30108,
+          "cases_total": 30108,
+          "safety_violation": false
+        },
+        "AC-25": {
+          "cases_passed": 960,
+          "cases_total": 960,
+          "safety_violation": false
+        }
+      },
+      "hdl_frontends": [
+        {
+          "N": 4,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 4,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        }
+      ],
+      "source_sha256": "33bb08aea2ee91d0c1d8b058ae1e0a5f5830194124e527e67778d5d9a063d72c",
+      "source_unchanged": true
+    },
+    {
+      "task_id": "T04",
+      "seed": 11,
+      "groups": {
+        "AC-21": {
+          "cases_passed": 81636,
+          "cases_total": 81636,
+          "safety_violation": false
+        },
+        "AC-22": {
+          "cases_passed": 81632,
+          "cases_total": 81632,
+          "safety_violation": false
+        },
+        "AC-23": {
+          "cases_passed": 163247,
+          "cases_total": 163247,
+          "safety_violation": false
+        },
+        "AC-24": {
+          "cases_passed": 30108,
+          "cases_total": 30108,
+          "safety_violation": false
+        },
+        "AC-25": {
+          "cases_passed": 960,
+          "cases_total": 960,
+          "safety_violation": false
+        }
+      },
+      "hdl_frontends": [
+        {
+          "N": 4,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 4,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        }
+      ],
+      "source_sha256": "47d47beed55fd9bea6cc42aff88087363bcbe6495379b40fe39469db7a20b01d",
+      "source_unchanged": true
+    },
+    {
+      "task_id": "T04",
+      "seed": 11,
+      "groups": {
+        "AC-21": {
+          "cases_passed": 81636,
+          "cases_total": 81636,
+          "safety_violation": false
+        },
+        "AC-22": {
+          "cases_passed": 81632,
+          "cases_total": 81632,
+          "safety_violation": false
+        },
+        "AC-23": {
+          "cases_passed": 163247,
+          "cases_total": 163247,
+          "safety_violation": false
+        },
+        "AC-24": {
+          "cases_passed": 30108,
+          "cases_total": 30108,
+          "safety_violation": false
+        },
+        "AC-25": {
+          "cases_passed": 960,
+          "cases_total": 960,
+          "safety_violation": false
+        }
+      },
+      "hdl_frontends": [
+        {
+          "N": 4,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 4,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        }
+      ],
+      "source_sha256": "4e34f80bef676827f0d713c4e4122e905e091aeef334742a9e92d5d41db0cec4",
+      "source_unchanged": true
+    },
+    {
+      "task_id": "T04",
+      "seed": 11,
+      "groups": {
+        "AC-21": {
+          "cases_passed": 81636,
+          "cases_total": 81636,
+          "safety_violation": false
+        },
+        "AC-22": {
+          "cases_passed": 81632,
+          "cases_total": 81632,
+          "safety_violation": false
+        },
+        "AC-23": {
+          "cases_passed": 163247,
+          "cases_total": 163247,
+          "safety_violation": false
+        },
+        "AC-24": {
+          "cases_passed": 30108,
+          "cases_total": 30108,
+          "safety_violation": false
+        },
+        "AC-25": {
+          "cases_passed": 960,
+          "cases_total": 960,
+          "safety_violation": false
+        }
+      },
+      "hdl_frontends": [
+        {
+          "N": 4,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 4,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        }
+      ],
+      "source_sha256": "81c7e7b38d383ad1508d5459effd8512375f4e66d95a640250719b6cc9cbb215",
+      "source_unchanged": true
+    },
+    {
+      "task_id": "T04",
+      "seed": 11,
+      "groups": {
+        "AC-21": {
+          "cases_passed": 81636,
+          "cases_total": 81636,
+          "safety_violation": false
+        },
+        "AC-22": {
+          "cases_passed": 81632,
+          "cases_total": 81632,
+          "safety_violation": false
+        },
+        "AC-23": {
+          "cases_passed": 163247,
+          "cases_total": 163247,
+          "safety_violation": false
+        },
+        "AC-24": {
+          "cases_passed": 30108,
+          "cases_total": 30108,
+          "safety_violation": false
+        },
+        "AC-25": {
+          "cases_passed": 960,
+          "cases_total": 960,
+          "safety_violation": false
+        }
+      },
+      "hdl_frontends": [
+        {
+          "N": 4,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 4,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        }
+      ],
+      "source_sha256": "833e9c713d0e9594593bad018610c110233a6c7ae5760bc67aec9949272e6da2",
+      "source_unchanged": true
+    },
+    {
+      "task_id": "T04",
+      "seed": 11,
+      "groups": {
+        "AC-21": {
+          "cases_passed": 81636,
+          "cases_total": 81636,
+          "safety_violation": false
+        },
+        "AC-22": {
+          "cases_passed": 81632,
+          "cases_total": 81632,
+          "safety_violation": false
+        },
+        "AC-23": {
+          "cases_passed": 163247,
+          "cases_total": 163247,
+          "safety_violation": false
+        },
+        "AC-24": {
+          "cases_passed": 30108,
+          "cases_total": 30108,
+          "safety_violation": false
+        },
+        "AC-25": {
+          "cases_passed": 960,
+          "cases_total": 960,
+          "safety_violation": false
+        }
+      },
+      "hdl_frontends": [
+        {
+          "N": 4,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 4,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        }
+      ],
+      "source_sha256": "8d7093abf8af1546500e358fadc553bcf321d9e770ba0121ce5812a0a85f3661",
+      "source_unchanged": true
+    },
+    {
+      "task_id": "T04",
+      "seed": 11,
+      "groups": {
+        "AC-21": {
+          "cases_passed": 81636,
+          "cases_total": 81636,
+          "safety_violation": false
+        },
+        "AC-22": {
+          "cases_passed": 81632,
+          "cases_total": 81632,
+          "safety_violation": false
+        },
+        "AC-23": {
+          "cases_passed": 163247,
+          "cases_total": 163247,
+          "safety_violation": false
+        },
+        "AC-24": {
+          "cases_passed": 30108,
+          "cases_total": 30108,
+          "safety_violation": false
+        },
+        "AC-25": {
+          "cases_passed": 960,
+          "cases_total": 960,
+          "safety_violation": false
+        }
+      },
+      "hdl_frontends": [
+        {
+          "N": 4,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 4,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        }
+      ],
+      "source_sha256": "f400edf0ff6eed586a727911b67dca36aebb6b437a85fa3da4ee6b6b8dbcd1a9",
+      "source_unchanged": true
+    },
+    {
+      "task_id": "T04",
+      "seed": 11,
+      "groups": {
+        "AC-21": {
+          "cases_passed": 81636,
+          "cases_total": 81636,
+          "safety_violation": false
+        },
+        "AC-22": {
+          "cases_passed": 81632,
+          "cases_total": 81632,
+          "safety_violation": false
+        },
+        "AC-23": {
+          "cases_passed": 163247,
+          "cases_total": 163247,
+          "safety_violation": false
+        },
+        "AC-24": {
+          "cases_passed": 30108,
+          "cases_total": 30108,
+          "safety_violation": false
+        },
+        "AC-25": {
+          "cases_passed": 960,
+          "cases_total": 960,
+          "safety_violation": false
+        }
+      },
+      "hdl_frontends": [
+        {
+          "N": 4,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 4,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        }
+      ],
+      "source_sha256": "9fde250369d624a3f4756d1cae52b9dd44347d6e4a196d8246c7b044aa0894cc",
+      "source_unchanged": true
+    },
+    {
+      "task_id": "T04",
+      "seed": 11,
+      "groups": {
+        "AC-21": {
+          "cases_passed": 81636,
+          "cases_total": 81636,
+          "safety_violation": false
+        },
+        "AC-22": {
+          "cases_passed": 81632,
+          "cases_total": 81632,
+          "safety_violation": false
+        },
+        "AC-23": {
+          "cases_passed": 163247,
+          "cases_total": 163247,
+          "safety_violation": false
+        },
+        "AC-24": {
+          "cases_passed": 30108,
+          "cases_total": 30108,
+          "safety_violation": false
+        },
+        "AC-25": {
+          "cases_passed": 960,
+          "cases_total": 960,
+          "safety_violation": false
+        }
+      },
+      "hdl_frontends": [
+        {
+          "N": 4,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 4,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 8,
+          "frontend": "verilator"
+        },
+        {
+          "N": 8,
+          "WIDTH": 32,
+          "frontend": "verilator"
+        }
+      ],
+      "source_sha256": "f92d26eb1308f32dbe319a1faa5bd5b454f1d4fdbe7912e5657b8cd626270c45",
+      "source_unchanged": true
+    }
+  ]
+}

@@ -60,6 +60,10 @@ derive multiple test seeds deterministically. Repeated runs with the same seed
 must reproduce the same outcomes. Failed simulations/compilers must not be
 masked as passing tests. Use your own scoreboard, directed boundary cases and
 randomized regression; the copied public evaluator is only a smoke test.
+During development, run your self-checks using a documented fixed default or a
+chosen BENCH_SEED. A sweep of all evaluator seeds is not required before submission.
+The evaluator performs its acceptance replays after submission, outside the
+candidate development time budget.
 Do not edit the supplied public evaluator. Its source does not define extra
 requirements beyond the task specification.
 

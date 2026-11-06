@@ -1,0 +1,11 @@
+{
+  "task_id": "T05",
+  "model": "k3.1-pro",
+  "exit_code": 0,
+  "elapsed_seconds": 2492.179587125778,
+  "tokens": 4273529,
+  "stop_reason": null,
+  "session_id": "session_175fa8fc-dc94-45b0-b533-bf956b6d442a",
+  "finished_utc": "2026-10-26T10:53:51.580663237Z",
+  "recovered_completed_attempt": false
+}

@@ -1,0 +1,2440 @@
+{
+  "candidate_source_sha256": "7e49e0b2294713a6250dc4a5bfeff25c1c826d0faa5d67b227efd2881e941344",
+  "seed": 11,
+  "oracle": "unchanged strict exact-dyadic oracle",
+  "simulation_sha256": "fc6089c73df83f856709e4eb0d9fe189ff4b9141d9fa93cf1eb5740e6dc8eab7",
+  "groups": {
+    "cancellation": {
+      "total": 64,
+      "passed": 0,
+      "failures": [
+        {
+          "case_id": "cancel-range-v1.m3.no_cancellation.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m3.same_beat_cancel.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m3.cross_beat_cancel.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m3.exact_zero.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m3.finite_residual.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m3.boundary_three.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m3.boundary_four.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m3.small_before_huge.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m3.no_cancellation.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m3.same_beat_cancel.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m3.cross_beat_cancel.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m3.exact_zero.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m3.finite_residual.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m3.boundary_three.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m3.boundary_four.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m3.small_before_huge.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.no_cancellation.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.same_beat_cancel.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.cross_beat_cancel.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.exact_zero.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.finite_residual.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.boundary_three.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.boundary_four.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.small_before_huge.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.no_cancellation.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.same_beat_cancel.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.cross_beat_cancel.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.exact_zero.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.finite_residual.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.boundary_three.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.boundary_four.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m7.small_before_huge.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.no_cancellation.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.same_beat_cancel.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.cross_beat_cancel.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.exact_zero.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.finite_residual.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.boundary_three.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.boundary_four.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.small_before_huge.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.no_cancellation.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.same_beat_cancel.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.cross_beat_cancel.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.exact_zero.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.finite_residual.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.boundary_three.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.boundary_four.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m8.small_before_huge.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.no_cancellation.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.same_beat_cancel.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.cross_beat_cancel.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.exact_zero.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.finite_residual.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.boundary_three.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.boundary_four.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.small_before_huge.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.no_cancellation.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.same_beat_cancel.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.cross_beat_cancel.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.exact_zero.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.finite_residual.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.boundary_three.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.boundary_four.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "cancel-range-v1.m9.small_before_huge.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        }
+      ]
+    },
+    "mma_normal": {
+      "total": 256,
+      "passed": 0,
+      "failures": [
+        {
+          "case_id": "mma-normal-v1.m2.p0.i0",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p1.i1",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p2.i2",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p3.i3",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p4.i4",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p5.i5",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p6.i6",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p7.i7",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p0.i8",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p1.i9",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p2.i10",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p3.i11",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p4.i12",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p5.i13",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p6.i14",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p7.i15",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p0.i16",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p1.i17",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p2.i18",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p3.i19",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p4.i20",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p5.i21",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p6.i22",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p7.i23",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p0.i24",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p1.i25",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p2.i26",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p3.i27",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p4.i28",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p5.i29",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p6.i30",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m2.p7.i31",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p0.i0",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p1.i1",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p2.i2",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p3.i3",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p4.i4",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p5.i5",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p6.i6",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p7.i7",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p0.i8",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p1.i9",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p2.i10",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p3.i11",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p4.i12",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p5.i13",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p6.i14",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p7.i15",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p0.i16",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p1.i17",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p2.i18",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p3.i19",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p4.i20",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p5.i21",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p6.i22",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p7.i23",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p0.i24",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p1.i25",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p2.i26",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p3.i27",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p4.i28",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p5.i29",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p6.i30",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m3.p7.i31",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p0.i0",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p1.i1",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p2.i2",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p3.i3",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p4.i4",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p5.i5",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p6.i6",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p7.i7",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p0.i8",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p1.i9",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p2.i10",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p3.i11",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p4.i12",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p5.i13",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p6.i14",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p7.i15",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p0.i16",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p1.i17",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p2.i18",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p3.i19",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p4.i20",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p5.i21",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p6.i22",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p7.i23",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p0.i24",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p1.i25",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p2.i26",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p3.i27",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p4.i28",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p5.i29",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p6.i30",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m4.p7.i31",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p0.i0",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p1.i1",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p2.i2",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p3.i3",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p4.i4",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p5.i5",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p6.i6",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p7.i7",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p0.i8",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p1.i9",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p2.i10",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p3.i11",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p4.i12",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p5.i13",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p6.i14",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p7.i15",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p0.i16",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p1.i17",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p2.i18",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p3.i19",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p4.i20",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p5.i21",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p6.i22",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p7.i23",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p0.i24",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p1.i25",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p2.i26",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p3.i27",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p4.i28",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p5.i29",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p6.i30",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m5.p7.i31",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p0.i0",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p1.i1",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p2.i2",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p3.i3",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p4.i4",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p5.i5",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p6.i6",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p7.i7",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p0.i8",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p1.i9",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p2.i10",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p3.i11",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p4.i12",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p5.i13",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p6.i14",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p7.i15",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p0.i16",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p1.i17",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p2.i18",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p3.i19",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p4.i20",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p5.i21",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p6.i22",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p7.i23",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p0.i24",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p1.i25",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p2.i26",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p3.i27",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p4.i28",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p5.i29",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p6.i30",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m6.p7.i31",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p0.i0",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p1.i1",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p2.i2",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p3.i3",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p4.i4",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p5.i5",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p6.i6",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p7.i7",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p0.i8",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p1.i9",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p2.i10",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p3.i11",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p4.i12",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p5.i13",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p6.i14",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p7.i15",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p0.i16",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p1.i17",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p2.i18",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p3.i19",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p4.i20",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p5.i21",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p6.i22",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p7.i23",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p0.i24",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p1.i25",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p2.i26",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p3.i27",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p4.i28",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p5.i29",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p6.i30",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m7.p7.i31",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p0.i0",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p1.i1",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p2.i2",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p3.i3",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p4.i4",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p5.i5",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p6.i6",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p7.i7",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p0.i8",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p1.i9",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p2.i10",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p3.i11",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p4.i12",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p5.i13",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p6.i14",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p7.i15",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p0.i16",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p1.i17",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p2.i18",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p3.i19",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p4.i20",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p5.i21",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p6.i22",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p7.i23",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p0.i24",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p1.i25",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p2.i26",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p3.i27",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p4.i28",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p5.i29",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p6.i30",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m8.p7.i31",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p0.i0",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p1.i1",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p2.i2",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p3.i3",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p4.i4",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p5.i5",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p6.i6",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p7.i7",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p0.i8",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p1.i9",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p2.i10",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p3.i11",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p4.i12",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p5.i13",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p6.i14",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p7.i15",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p0.i16",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p1.i17",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p2.i18",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p3.i19",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p4.i20",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p5.i21",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p6.i22",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p7.i23",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p0.i24",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p1.i25",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p2.i26",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p3.i27",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p4.i28",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p5.i29",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p6.i30",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "mma-normal-v1.m9.p7.i31",
+          "errors": [
+            "missing output rows"
+          ]
+        }
+      ]
+    },
+    "range_stress": {
+      "total": 82,
+      "passed": 0,
+      "failures": [
+        {
+          "case_id": "opus-numeric-review-v1.m3.within_pair_cancel_then_residual.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.small_between_huge.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.small_before_huge.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.small_with_second_huge.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.same_beat_mixed_cancel.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.exact_zero.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.no_cancel.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.finite_residual.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.within_pair_cancel_then_residual.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.small_between_huge.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.small_before_huge.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.small_with_second_huge.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.same_beat_mixed_cancel.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.exact_zero.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.no_cancel.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.finite_residual.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.within_pair_cancel_then_residual.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.small_between_huge.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.small_before_huge.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.small_with_second_huge.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.same_beat_mixed_cancel.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.exact_zero.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.no_cancel.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.finite_residual.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.within_pair_cancel_then_residual.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.small_between_huge.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.small_before_huge.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.small_with_second_huge.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.same_beat_mixed_cancel.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.exact_zero.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.no_cancel.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.finite_residual.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.within_pair_cancel_then_residual.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.small_between_huge.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.small_before_huge.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.small_with_second_huge.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.same_beat_mixed_cancel.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.exact_zero.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.no_cancel.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.finite_residual.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.within_pair_cancel_then_residual.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.small_between_huge.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.small_before_huge.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.small_with_second_huge.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.same_beat_mixed_cancel.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.exact_zero.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.no_cancel.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.finite_residual.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m9.within_pair_cancel_then_residual.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m9.small_between_huge.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m9.small_before_huge.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m9.small_with_second_huge.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m9.same_beat_mixed_cancel.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m9.exact_zero.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m9.no_cancel.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m9.finite_residual.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m9.within_pair_cancel_then_residual.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m9.small_between_huge.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m9.small_before_huge.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m9.small_with_second_huge.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m9.same_beat_mixed_cancel.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m9.exact_zero.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m9.no_cancel.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m9.finite_residual.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.max_exact.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.max_plus_tiny_same_beat.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.max_plus_tiny_late.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.max_exact.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.max_plus_tiny_same_beat.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m3.max_plus_tiny_late.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.max_exact.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.max_plus_tiny_same_beat.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.max_plus_tiny_late.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.max_exact.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.max_plus_tiny_same_beat.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m7.max_plus_tiny_late.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.max_exact.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.max_plus_tiny_same_beat.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.max_plus_tiny_late.positive",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.max_exact.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.max_plus_tiny_same_beat.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        },
+        {
+          "case_id": "opus-numeric-review-v1.m8.max_plus_tiny_late.negative",
+          "errors": [
+            "missing output rows"
+          ]
+        }
+      ]
+    }
+  },
+  "score_modified": false,
+  "wall_seconds": 0.0010042558424174786
+}

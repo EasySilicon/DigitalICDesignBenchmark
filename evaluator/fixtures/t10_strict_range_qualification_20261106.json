@@ -1,0 +1,253 @@
+{
+  "schema_version": 1,
+  "numerical_profile": "exact-dot-v1",
+  "seed": 11,
+  "strict_core_cases": 2898,
+  "original_legacy_cases_preserved": true,
+  "cancellation_probes": 64,
+  "range_probes": 82,
+  "precision_relaxed": false,
+  "ppa_launched": false,
+  "model_session_started": false,
+  "implementation_sha256": {
+    "evaluator/runner_t10.py": "af77572f73a0e815a0923a49439ddb44cb44942c06aa5f343e2832799c21eb23",
+    "evaluator/runner_t10_stream.py": "1f5ae05e0f609fe0046d5324d5ad85f6b706425ec781e6b04934dd383a67362e",
+    "evaluator/replay_t10_strict.py": "d06415bc0086191368d07d9b5be1f6a906616e27b2fee29786082b0af2d89916",
+    "evaluator/t10_range_cases.py": "1fdbdda6e092d34eaa6891b299e908e30745b86fb5d05df83b881018072fe430",
+    "benchmark/tasks/T10/public/matmul_oracle.py": "880a56317f3b54ea6b9f563ad2e6272d54e2332986bfd09780b25aa0a3aa57e7"
+  },
+  "checks": [
+    {
+      "source_sha256": "ce52654f3ae4e5c5ebbcdb227a5d08c8d3d37ade4b00276f34f4875c70811c64",
+      "scope_kind": "test_fixture",
+      "score": 0.0,
+      "passed": false,
+      "scored_cases": 2898,
+      "simulated_cases": 3154,
+      "groups": {
+        "MM-INT": {
+          "cases_passed": 0,
+          "cases_total": 128
+        },
+        "MM-F16": {
+          "cases_passed": 0,
+          "cases_total": 166
+        },
+        "MM-F8": {
+          "cases_passed": 0,
+          "cases_total": 128
+        },
+        "MM-F4": {
+          "cases_passed": 0,
+          "cases_total": 64
+        },
+        "MM-MX8": {
+          "cases_passed": 0,
+          "cases_total": 204
+        },
+        "MM-MX4": {
+          "cases_passed": 0,
+          "cases_total": 128
+        },
+        "MM-PROTO": {
+          "cases_passed": 0,
+          "cases_total": 337
+        },
+        "MM-SYSTOLIC": {
+          "cases_passed": 0,
+          "cases_total": 1616
+        },
+        "MM-CORNER": {
+          "cases_passed": 0,
+          "cases_total": 128
+        }
+      },
+      "evidence": {
+        "kind": "retained RTL simulation; strict oracle replay",
+        "trace_provenance_sha256": "95fb4d122477505fee16b633a992ebbb667647c6250e9356c43323dd4da81c17",
+        "trace_report_sha256": "e07a1f0cccda54788326d237dda7388203d36fa911950d29b710f82ad57724e4",
+        "simulation_sha256": "0bee4873ad283646b37b84f0fbdeb97014854cb76b60667a99202d7ca96f96e0",
+        "reset_sha256": "a5cfa10c76bf41bf132fa67856b9edc8abf2f2efd6951b31db59363a81ec1f3c",
+        "structure_sha256": "f78ea50a0758ca96b1e098e38b45628bb0f86e69b915f676686df1bab53cb4df",
+        "oracle_sha256": "880a56317f3b54ea6b9f563ad2e6272d54e2332986bfd09780b25aa0a3aa57e7",
+        "all_input_vectors_verified": true,
+        "scored_subsequence_verified": true
+      },
+      "functional_report_sha256": "3d1bae092323dc3fe36378e85626ad714c815d068ce19c54b66787468c9cc37f"
+    },
+    {
+      "source_sha256": "d7e7be0df51a42b1eff3796ad7fd4e85d9e225a211951e3c8ab66b53272fcc97",
+      "scope_kind": "reference",
+      "score": 50.0,
+      "passed": true,
+      "scored_cases": 2898,
+      "simulated_cases": 3154,
+      "groups": {
+        "MM-INT": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F16": {
+          "cases_passed": 166,
+          "cases_total": 166
+        },
+        "MM-F8": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F4": {
+          "cases_passed": 64,
+          "cases_total": 64
+        },
+        "MM-MX8": {
+          "cases_passed": 204,
+          "cases_total": 204
+        },
+        "MM-MX4": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-PROTO": {
+          "cases_passed": 337,
+          "cases_total": 337
+        },
+        "MM-SYSTOLIC": {
+          "cases_passed": 1616,
+          "cases_total": 1616
+        },
+        "MM-CORNER": {
+          "cases_passed": 128,
+          "cases_total": 128
+        }
+      },
+      "evidence": {
+        "kind": "retained RTL simulation; strict oracle replay",
+        "trace_provenance_sha256": "a763d67f77cf56bf110f6bfa66ade3e9fcab0be83142156da9ddbc3077dd3f23",
+        "trace_report_sha256": "0150cd39c0ac6d2b657ba28a0f2807056212f0f8e6b05502eebb9b0c1f2c985b",
+        "simulation_sha256": "e8df151a5ca7608a0bdf7531774c04a9ee0a6ce0b4a3193055cc95683205d453",
+        "reset_sha256": "f7d726828d782382cc35a42ef395292e03fec520b572ea8715435bc8cc31a1f1",
+        "structure_sha256": "c6e0e5da9daf4a69bf61d095be11bb5dab9759429bdee5d415edae8e7c756b0f",
+        "oracle_sha256": "880a56317f3b54ea6b9f563ad2e6272d54e2332986bfd09780b25aa0a3aa57e7",
+        "all_input_vectors_verified": true,
+        "scored_subsequence_verified": true
+      },
+      "functional_report_sha256": "5c9d7aacfe3d34b6ab976ce40853283b831b1d1d8f246e22497304e29806c4b7"
+    },
+    {
+      "source_sha256": "7fb4d5efc6cd63f8240b4c5fa4eef0ca74ef55d0d245fee25bd6d3a3ca2c5a4f",
+      "scope_kind": "reference",
+      "score": 50.0,
+      "passed": true,
+      "scored_cases": 2898,
+      "simulated_cases": 3154,
+      "groups": {
+        "MM-INT": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F16": {
+          "cases_passed": 166,
+          "cases_total": 166
+        },
+        "MM-F8": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F4": {
+          "cases_passed": 64,
+          "cases_total": 64
+        },
+        "MM-MX8": {
+          "cases_passed": 204,
+          "cases_total": 204
+        },
+        "MM-MX4": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-PROTO": {
+          "cases_passed": 337,
+          "cases_total": 337
+        },
+        "MM-SYSTOLIC": {
+          "cases_passed": 1616,
+          "cases_total": 1616
+        },
+        "MM-CORNER": {
+          "cases_passed": 128,
+          "cases_total": 128
+        }
+      },
+      "evidence": {
+        "kind": "retained RTL simulation; strict oracle replay",
+        "trace_provenance_sha256": "d6a2cab6ba72d0484ddab9e193e30be90238f2df74087e6d843a5d1a1f10d6c5",
+        "trace_report_sha256": "27d7a67e214b2b9edfa775e6bef6106b491fb08c71392331ac272854ec93ff91",
+        "simulation_sha256": "c79ae33c772f9b53f2341402b548896684cc4be24cf6214d255890afc4345e5f",
+        "reset_sha256": "74899d62b214190f637c32113c63ef1160ca5d250cfded1661f41c2cbe7d4890",
+        "structure_sha256": "4a004d1fbfb3ea20900ffdb6f4e31c890f4f6e613975e68d3b28db05a692db67",
+        "oracle_sha256": "880a56317f3b54ea6b9f563ad2e6272d54e2332986bfd09780b25aa0a3aa57e7",
+        "all_input_vectors_verified": true,
+        "scored_subsequence_verified": true
+      },
+      "functional_report_sha256": "8f267675c7734ff8cf3446c49ee5d9325ce77fea23256d9e1476499332658801"
+    },
+    {
+      "source_sha256": "ffa89352a9b297410b363cb948318457d1fe326207a8bd2752ffe458ff5cf44e",
+      "scope_kind": "reference",
+      "score": 50.0,
+      "passed": true,
+      "scored_cases": 2898,
+      "simulated_cases": 3154,
+      "groups": {
+        "MM-INT": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F16": {
+          "cases_passed": 166,
+          "cases_total": 166
+        },
+        "MM-F8": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F4": {
+          "cases_passed": 64,
+          "cases_total": 64
+        },
+        "MM-MX8": {
+          "cases_passed": 204,
+          "cases_total": 204
+        },
+        "MM-MX4": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-PROTO": {
+          "cases_passed": 337,
+          "cases_total": 337
+        },
+        "MM-SYSTOLIC": {
+          "cases_passed": 1616,
+          "cases_total": 1616
+        },
+        "MM-CORNER": {
+          "cases_passed": 128,
+          "cases_total": 128
+        }
+      },
+      "evidence": {
+        "kind": "retained RTL simulation; strict oracle replay",
+        "trace_provenance_sha256": "eb63825a994f30bdd4bdd4a9adce2d2f23a08a4751916d608bfea3e887ced0d3",
+        "trace_report_sha256": "b8c1f4ae1b3991f8e98c002ee96f0f3bbea1b09b19c8b7231fbaff91f4916c2a",
+        "simulation_sha256": "3eb401d1248211df492f2fe79885000dc556c7d5f677b69a15d8d64cea1902b3",
+        "reset_sha256": "4ed52325d97078602198bf04084936c14354e32b4b31751bbe872d18b4fab918",
+        "structure_sha256": "769f3edb7f84510df470f1721327b88565c471c25141d88f2b4423ab3a14ae2a",
+        "oracle_sha256": "880a56317f3b54ea6b9f563ad2e6272d54e2332986bfd09780b25aa0a3aa57e7",
+        "all_input_vectors_verified": true,
+        "scored_subsequence_verified": true
+      },
+      "functional_report_sha256": "e96b674c1fda7b5e1a1ff80f726c76578c38e02f78e40ac4be917c65651f8e1d"
+    }
+  ]
+}

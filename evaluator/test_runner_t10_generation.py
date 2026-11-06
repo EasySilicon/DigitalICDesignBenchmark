@@ -58,7 +58,7 @@ class T10ScaleGenerationTest(unittest.TestCase):
         from collections import Counter
         for seed in (11,29,47):
             cases=generate_cases(seed)
-            self.assertEqual(len(cases),1024)
+            self.assertEqual(len(cases),1106)
             self.assertEqual(Counter(case.group for case in cases),GROUP_COUNTS)
             self.assertTrue(all(case.case_id is None for case in cases[:960]))
             stream,phases=stream_cases(seed)
@@ -215,9 +215,9 @@ class T10ScaleGenerationTest(unittest.TestCase):
 
     def test_stream_campaign_has_required_long_trains_and_backpressure(self) -> None:
         cases, phases = stream_cases(20260925)
-        self.assertEqual(len(cases), 2816)
+        self.assertEqual(len(cases), 2898)
         self.assertEqual(len(phases), len(cases))
-        self.assertEqual(phases.count(0), 1024)
+        self.assertEqual(phases.count(0), 1106)
         self.assertEqual(phases.count(11), 128)
         self.assertEqual(phases.count(12), 512)
         self.assertEqual(phases.count(13), 128)

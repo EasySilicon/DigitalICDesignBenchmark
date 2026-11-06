@@ -1,0 +1,124 @@
+{
+  "schema_version": 3,
+  "model": "gpt-6-astra",
+  "task_id": "T04",
+  "trial_kind": "pre_release_pilot",
+  "pilot_date": "2026-10-03",
+  "reasoning_effort": "high",
+  "elapsed_seconds": 1128,
+  "model_tokens_reported": 116431,
+  "prompt_sha256": "6213cd00cbe0af225317e2533150330ca62dbe85270b0dd43b681830235adf43",
+  "candidate_sha256": "2f4c786866f3a8758c5e0f62ad2b8ef700bbb9f710a59bfc828ba8e809019943",
+  "source_trial_id": "gpt6astra_noskills_from_t03_v6_20261003",
+  "skills_policy": "skills_disabled",
+  "delivery_qualified": true,
+  "functional_total": 50.0,
+  "functional_possible": 50,
+  "full_functional_pass": true,
+  "ppa_eligible": true,
+  "ppa_score": 43.31507052070609,
+  "ppa_possible": 50,
+  "ppa_rank_bucket": 35,
+  "time_score": 3.9555555555555557,
+  "time_possible": 5,
+  "display_score": 97.27062607626164,
+  "display_possible": 105,
+  "score_status": "scored",
+  "scoring_policy": "functional50-ppa50-setup-frequency-power4-hold-continuous-drc-half-delivery-v6",
+  "ranking_eligible": false,
+  "ranking_ineligible_reason": "Historical pilots collected under different budgets/skills and pre-freeze evaluator revisions; missing new T08 components and T10 reference components remain pending.",
+  "functional_groups": {
+    "AC-21": {
+      "cases_passed": 81636,
+      "cases_total": 81636
+    },
+    "AC-22": {
+      "cases_passed": 81632,
+      "cases_total": 81632
+    },
+    "AC-23": {
+      "cases_passed": 163239,
+      "cases_total": 163239
+    },
+    "AC-24": {
+      "cases_passed": 30121,
+      "cases_total": 30121
+    },
+    "AC-25": {
+      "cases_passed": 960,
+      "cases_total": 960
+    }
+  },
+  "ppa_measurement": {
+    "measurement_status": "three_seed",
+    "workload_id": "T04-power-v1",
+    "workload_parameters": {
+      "seed": 20260928
+    },
+    "parameter_set": {
+      "platform": "ASAP7_7p5t_RVT_NLDM",
+      "period_ps": 1000,
+      "corner": "WC",
+      "utilization": 10,
+      "density": 0.6,
+      "seeds": [
+        11,
+        29,
+        47
+      ]
+    },
+    "routed": true,
+    "setup_worst_slack_ns": 0.08989749999999999,
+    "hold_worst_slack_ns": 0.130858,
+    "drc_violations": 0,
+    "annotation_fraction": 1.0,
+    "area_um2": 62.7815,
+    "delay_ns": 0.9101024999999999,
+    "energy_per_op_pj": 0.16319999999999998,
+    "per_seed": [
+      {
+        "layout_seed": 11,
+        "area_um2": 62.7815,
+        "delay_ns": 0.9101024999999999,
+        "setup_worst_slack_ns": 0.08989749999999999,
+        "hold_worst_slack_ns": 0.130858,
+        "drc_violations": 0,
+        "energy_per_op_pj": 0.16319999999999998,
+        "power_w": 0.000102,
+        "ops": 13139,
+        "annotation_fraction": 1.0
+      },
+      {
+        "layout_seed": 29,
+        "area_um2": 62.7815,
+        "delay_ns": 0.9101024999999999,
+        "setup_worst_slack_ns": 0.08989749999999999,
+        "hold_worst_slack_ns": 0.130858,
+        "drc_violations": 0,
+        "energy_per_op_pj": 0.16319999999999998,
+        "power_w": 0.000102,
+        "ops": 13139,
+        "annotation_fraction": 1.0
+      },
+      {
+        "layout_seed": 47,
+        "area_um2": 62.7815,
+        "delay_ns": 0.9101024999999999,
+        "setup_worst_slack_ns": 0.08989749999999999,
+        "hold_worst_slack_ns": 0.130858,
+        "drc_violations": 0,
+        "energy_per_op_pj": 0.16319999999999998,
+        "power_w": 0.000102,
+        "ops": 13139,
+        "annotation_fraction": 1.0
+      }
+    ]
+  },
+  "time_limit_seconds": 5400,
+  "candidate_delivery_error_count": 0,
+  "candidate_delivery_penalty": 0,
+  "display_score_before_candidate_penalty": 97.27062607626164,
+  "legacy_task_id": "T05",
+  "suite_id": "ic-delivery-rtl-v0.3",
+  "result_revision_date": "2026-10-08"
+}

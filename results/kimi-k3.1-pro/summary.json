@@ -9,12 +9,12 @@
   "reasoning_effort": "max",
   "trial_kind": "pre_release_pilot",
   "status": "scored",
-  "result_revision_date": "2026-10-27",
+  "result_revision_date": "2026-11-06",
   "completed_tasks": 10,
   "full_functional_task_count": 10,
-  "functional_total_sum": 500,
+  "functional_total_sum": 500.0,
   "ppa_score_sum": 264.9414900180435,
-  "time_score_sum": 21.58486786440567,
+  "time_score_sum": 21.584867864405666,
   "display_score_sum": 786.5263578824491,
   "task_weights": {
     "T01": 0.03,
@@ -43,13 +43,13 @@
   "task_freeze_receipts": {
     "T08": {
       "receipt": "benchmark/tasks/T08/FREEZE.json",
-      "receipt_sha256": "9b033f0bad3d654c3108b749e57b84c222fb97098cf303a73872c8f1a168f0d7",
+      "receipt_sha256": "27d0567787d588cf5d1e28ea1a90a11d0d6fe35f74ed9f921b1d2eef8beb295c",
       "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
       "scope": "current grading contract"
     },
     "T09": {
       "receipt": "benchmark/tasks/T09/FREEZE.json",
-      "receipt_sha256": "90d9790c2ed523d2cf73ce83e9e68962a615fad5254033bbc036b44285083615",
+      "receipt_sha256": "b1a845b44f654b975a4645a35b6d7ac167df03c1ce21806968a858f125616898",
       "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
       "scope": "current grading contract"
     }
@@ -392,7 +392,7 @@
       },
       "benchmark_freeze": {
         "receipt": "benchmark/tasks/T08/FREEZE.json",
-        "receipt_sha256": "9b033f0bad3d654c3108b749e57b84c222fb97098cf303a73872c8f1a168f0d7",
+        "receipt_sha256": "27d0567787d588cf5d1e28ea1a90a11d0d6fe35f74ed9f921b1d2eef8beb295c",
         "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
         "scope": "current grading contract"
       }
@@ -440,7 +440,7 @@
       },
       "benchmark_freeze": {
         "receipt": "benchmark/tasks/T09/FREEZE.json",
-        "receipt_sha256": "90d9790c2ed523d2cf73ce83e9e68962a615fad5254033bbc036b44285083615",
+        "receipt_sha256": "b1a845b44f654b975a4645a35b6d7ac167df03c1ce21806968a858f125616898",
         "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
         "scope": "current grading contract"
       }
@@ -492,7 +492,177 @@
         29,
         47
       ],
-      "valid_physical_seed_count": 0
+      "valid_physical_seed_count": 0,
+      "functional_basic": 33.333333333333336,
+      "functional_edges": 16.666666666666664,
+      "score_items": [
+        {
+          "id": "F_INT",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 128,
+          "cases_total": 128,
+          "safety_violation": false
+        },
+        {
+          "id": "F_FP16_BF16",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 166,
+          "cases_total": 166,
+          "safety_violation": false
+        },
+        {
+          "id": "F_FP8",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 128,
+          "cases_total": 128,
+          "safety_violation": false
+        },
+        {
+          "id": "F_FP4",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 64,
+          "cases_total": 64,
+          "safety_violation": false
+        },
+        {
+          "id": "F_MXFP8",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 204,
+          "cases_total": 204,
+          "safety_violation": false
+        },
+        {
+          "id": "F_MXFP4",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 128,
+          "cases_total": 128,
+          "safety_violation": false
+        },
+        {
+          "id": "P_PROTOCOL",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 337,
+          "cases_total": 337,
+          "safety_violation": false
+        },
+        {
+          "id": "P_SYSTOLIC",
+          "layer": "P",
+          "points": 16.666666666666664,
+          "possible_points": 16.666666666666664,
+          "cases_passed": 1616,
+          "cases_total": 1616,
+          "safety_violation": false
+        },
+        {
+          "id": "P_CORNER",
+          "layer": "F",
+          "points": 5.333333333333333,
+          "possible_points": 5.333333333333333,
+          "cases_passed": 128,
+          "cases_total": 128,
+          "safety_violation": false
+        }
+      ],
+      "functional_groups": {
+        "MM-INT": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F16": {
+          "cases_passed": 166,
+          "cases_total": 166
+        },
+        "MM-F8": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F4": {
+          "cases_passed": 64,
+          "cases_total": 64
+        },
+        "MM-MX8": {
+          "cases_passed": 204,
+          "cases_total": 204
+        },
+        "MM-MX4": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-PROTO": {
+          "cases_passed": 337,
+          "cases_total": 337
+        },
+        "MM-SYSTOLIC": {
+          "cases_passed": 1616,
+          "cases_total": 1616
+        },
+        "MM-CORNER": {
+          "cases_passed": 128,
+          "cases_total": 128
+        }
+      },
+      "functional_retest": {
+        "policy_id": "t10-strict-range-v1",
+        "numerical_profile": "exact-dot-v1",
+        "seed": 11,
+        "report": {
+          "path": "results/t10-strict-functional-retest-20261106.json",
+          "sha256": "3c15d0da5b8d05890fc8c80a3c40a8b05529c3eac92b0debe3eba60ea46b241f",
+          "bytes": 15107
+        },
+        "functional_report": {
+          "path": "results/kimi-k3.1-pro/functional-retest-20261106/functional.json",
+          "sha256": "d7c385b692b4a3028f6b53162f05b4612134d4671d1c6a8e0f0f6570da66dad2",
+          "bytes": 5133
+        },
+        "functional_score": {
+          "path": "results/kimi-k3.1-pro/functional-retest-20261106/functional_score.json",
+          "sha256": "f68ef9982a9dec120fea8d4ae5b7a476b0dfc437185959b10e57662853fee88f",
+          "bytes": 1981
+        },
+        "trace_attestation": {
+          "path": "results/kimi-k3.1-pro/functional-retest-20261106/trace_attestation.json",
+          "sha256": "a700f4457c1757ce5bbd85ce89518450f322f4c4b229d6b8040e2d2f8b7e2b6a",
+          "bytes": 606
+        },
+        "previous_summary": {
+          "path": "results/archive/t10-before-range-expansion-20261106/kimi-k3.1-pro/summary.json",
+          "sha256": "5a052b420cd7c0aa2f59f787befc18e38b785dbce163d979088ff10271e9ba4e",
+          "bytes": 26762
+        },
+        "ppa_remeasured": false,
+        "group_weights_unchanged": true
+      }
     }
-  ]
+  ],
+  "functional_retest_revision": "t10-strict-range-v1",
+  "covered_task_weight": 1.0,
+  "covered_display_possible": 105.0,
+  "weighted_contributions": {
+    "T01": 1.5744797804564463,
+    "T02": 2.61071718107557,
+    "T03": 5.4003598374089075,
+    "T04": 4.534237682160278,
+    "T05": 5.353064787325361,
+    "T06": 9.300084968431532,
+    "T07": 8.888850534589016,
+    "T08": 9.352845304881551,
+    "T09": 15.06203985565066,
+    "T10": 12.5
+  }
 }

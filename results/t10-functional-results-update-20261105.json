@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "status": "applied",
+  "policy_id": "t10-cancel-range-v1",
+  "created_utc": "2026-11-04T16:07:10.379397+00:00",
+  "functional_retest": {
+    "path": "results/t10-functional-retest-20261105.json",
+    "sha256": "e4b9f3453c06b60b88ce84de44da0106329bb965d92e2956b6dee85e5f51f2a7",
+    "bytes": 42324
+  },
+  "previous_results_backup": "results/archive/t10-before-cancel-range-20261105",
+  "ppa_remeasured": false,
+  "ppa_scores_unchanged": true,
+  "task_weights_unchanged": true,
+  "t01_through_t09_unchanged": true,
+  "models": [
+    {
+      "model": "claude-sonnet-5.5",
+      "previous_functional_total": 50.0,
+      "functional_total": 49.092063492063495,
+      "previous_weighted_display_score": 81.0137033735526,
+      "weighted_display_score": 80.78671924656848,
+      "ppa_score_unchanged": true,
+      "time_score_unchanged": true,
+      "source_rtl_unchanged": true
+    },
+    {
+      "model": "gpt-6-astra",
+      "previous_functional_total": 50.0,
+      "functional_total": 50.0,
+      "previous_weighted_display_score": 76.02388637255541,
+      "weighted_display_score": 76.02388637255541,
+      "ppa_score_unchanged": true,
+      "time_score_unchanged": true,
+      "source_rtl_unchanged": true
+    },
+    {
+      "model": "gpt-6.1-sol",
+      "previous_functional_total": 50.0,
+      "functional_total": 50.0,
+      "previous_weighted_display_score": 74.76596937738272,
+      "weighted_display_score": 74.76596937738272,
+      "ppa_score_unchanged": true,
+      "time_score_unchanged": true,
+      "source_rtl_unchanged": true
+    },
+    {
+      "model": "gpt-6-sol",
+      "previous_functional_total": 50.0,
+      "functional_total": 50.0,
+      "previous_weighted_display_score": 73.04196638577297,
+      "weighted_display_score": 73.04196638577297,
+      "ppa_score_unchanged": true,
+      "time_score_unchanged": true,
+      "source_rtl_unchanged": true
+    },
+    {
+      "model": "gpt-5.6-sol",
+      "previous_functional_total": 33.270833333333336,
+      "functional_total": 33.00813492063492,
+      "previous_weighted_display_score": 72.75264233717664,
+      "weighted_display_score": 72.68696773400204,
+      "ppa_score_unchanged": true,
+      "time_score_unchanged": true,
+      "source_rtl_unchanged": true
+    },
+    {
+      "model": "glm-5.3",
+      "previous_functional_total": 50,
+      "functional_total": 49.88650793650793,
+      "previous_weighted_display_score": 66.87820140342947,
+      "weighted_display_score": 66.84982838755646,
+      "ppa_score_unchanged": true,
+      "time_score_unchanged": true,
+      "source_rtl_unchanged": true
+    },
+    {
+      "model": "kimi-k3.1-pro",
+      "previous_functional_total": 50.0,
+      "functional_total": 50.0,
+      "previous_weighted_display_score": 74.57667993197933,
+      "weighted_display_score": 74.57667993197933,
+      "ppa_score_unchanged": true,
+      "time_score_unchanged": true,
+      "source_rtl_unchanged": true
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "profile": "mma-f32-envelope-v1",
+  "seed": 11,
+  "candidate_source_sha256": "1c2ad671e5de500a3848d9b541350798d7030d3c0b200273b00d18246ff71359",
+  "original_stream_cases": 2816,
+  "added_normal_cases": 256,
+  "retained_range_probes": 82,
+  "legacy_oracle_sha256": "880a56317f3b54ea6b9f563ad2e6272d54e2332986bfd09780b25aa0a3aa57e7",
+  "vector_sha256": {
+    "phase.mem": "b3f704f66c7b1cb1e71a092a85a3630173d1a8b580991017afe91c408b5a5551",
+    "a.mem": "9a155d6b834a436207f9cd46c47ca4baeb77fc4cc8b273e4ce807ac8347c8e01",
+    "stall.mem": "80b59bbb321087e097172ec69756d14f257b4cb31a7defa1389dc0b455616efc",
+    "b.mem": "f2ca1b905e339497405045b6cabc2f131f1bcf2147fd5ed66126699660f0427f",
+    "as.mem": "75000bf9c36bf6f063604012dbf904cbfc94b903eacce506ad7af4dd37830103",
+    "bs.mem": "25320a174f68a98e222c9957efa8a7bf3babcd856aa57c4d379bc4070aca4b2d",
+    "pause.mem": "f64414b7e7f999ce03896e05a697228f930acdfaac735e099ed6da876c8fd114",
+    "reset.mem": "f7ea948aa31ce42a591be1ba08a626c71c8424b117668478537780d854f0ac69",
+    "mode.mem": "4c40083c94e108b56b07626375f90e7d88b493f7ebefed4198bb4b0cb50908a8"
+  },
+  "evaluator_sha256": {
+    "runner_t10_mma.py": "78b2878ed3545eb011d34444ad7a0c1e61cbaff2a91f767d7d442717284be67f",
+    "t10_mma_cases.py": "220bb82fc185f7b334f999ef27521f6bfc5b30d78ff29949ea064e27c2c02597",
+    "matmul_oracle_mma.py": "9497e7348b976d849d84dc9b86d22709f54dcd0d9f4f35ac1237814fab061ce3"
+  },
+  "score_eligible": false,
+  "power_evaluation": "not_requested_or_launched",
+  "reused_structure_evidence": {
+    "path": "/mnt/ubu_3T/ic_bcmk_scratch/t10_mma_profile_20261105/opus_structure_receipt.json",
+    "sha256": "b8b12bba2217c3f401f861a5c93d653e16674bc51600d39ffe6fb2b23c26b473"
+  }
+}

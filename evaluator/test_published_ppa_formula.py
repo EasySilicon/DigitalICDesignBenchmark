@@ -9,7 +9,7 @@ import math
 from pathlib import Path
 import unittest
 
-from evaluator.score_run import load_rules, ppa_provenance_valid, ppa_score, weighted_suite_score
+from evaluator.score_run import load_rules, ppa_provenance_valid, ppa_score, weighted_suite_score, score_functional
 
 ROOT = Path(__file__).resolve().parents[1]
 AUDIT = ROOT/'results/ppa-formula-audit-20261021.json'
@@ -43,6 +43,25 @@ class PublishedPPAFormulaTest(unittest.TestCase):
                 row = rows[task]
                 counts[item['status']] += 1
                 with self.subTest(model=model, task=task):
+                    if task == 'T10' and row.get('functional_retest'):
+                        # The immutable formula audit still verifies the
+                        # historical record. Separately verify the new strict
+                        # functional correction and unchanged physical scores.
+                        revision = row['functional_retest']
+                        previous = ROOT / revision['previous_summary']['path']
+                        self.assertEqual(hashlib.sha256(previous.read_bytes()).hexdigest(),
+                                         revision['previous_summary']['sha256'])
+                        previous_row = next(r for r in json.loads(previous.read_text())['tasks']
+                                            if r['task_id'] == task)
+                        functional = ROOT / revision['functional_report']['path']
+                        self.assertEqual(hashlib.sha256(functional.read_bytes()).hexdigest(),
+                                         revision['functional_report']['sha256'])
+                        report = json.loads(functional.read_text())
+                        basic, edges, _ = score_functional(task, report['groups'], self.rules)
+                        self.assertAlmostEqual(row['functional_total'], basic + edges)
+                        for key in ('ppa_score', 'time_score'):
+                            self.assertEqual(row[key], previous_row[key])
+                        row = previous_row
                     for key, value in item['expected'].items():
                         self.assertAlmostEqual(row[key], value, places=9)
                     for component in ('functional_total', 'time_score'):

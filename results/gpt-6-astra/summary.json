@@ -4,7 +4,7 @@
   "suite_id": "ic-delivery-rtl-v0.3",
   "model": "gpt-6-astra",
   "trial_kind": "pre_release_pilot",
-  "result_revision_date": "2026-10-21",
+  "result_revision_date": "2026-11-06",
   "benchmark_base_commit": "87ad1a4",
   "scoring_policy": "functional50-ppa50-setup-frequency-power4-hold-continuous-drc-half-delivery-v6",
   "ranking_eligible": false,
@@ -103,7 +103,7 @@
       "grade_phase": "scored",
       "benchmark_freeze": {
         "receipt": "benchmark/tasks/T08/FREEZE.json",
-        "receipt_sha256": "9b033f0bad3d654c3108b749e57b84c222fb97098cf303a73872c8f1a168f0d7",
+        "receipt_sha256": "27d0567787d588cf5d1e28ea1a90a11d0d6fe35f74ed9f921b1d2eef8beb295c",
         "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
         "scope": "current grading contract"
       },
@@ -234,7 +234,7 @@
       "cycle_cases_total": 22,
       "benchmark_freeze": {
         "receipt": "benchmark/tasks/T09/FREEZE.json",
-        "receipt_sha256": "90d9790c2ed523d2cf73ce83e9e68962a615fad5254033bbc036b44285083615",
+        "receipt_sha256": "b1a845b44f654b975a4645a35b6d7ac167df03c1ce21806968a858f125616898",
         "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
         "scope": "current grading contract"
       },
@@ -274,7 +274,163 @@
           "note": "40 GiB diagnostic remeasurement, not a claim of 32 GiB compliance"
         },
         "note": "Serial 40 GiB remeasurement with swap allowed."
-      }
+      },
+      "functional_basic": 33.333333333333336,
+      "functional_edges": 16.666666666666664,
+      "score_items": [
+        {
+          "id": "F_INT",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 128,
+          "cases_total": 128,
+          "safety_violation": false
+        },
+        {
+          "id": "F_FP16_BF16",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 166,
+          "cases_total": 166,
+          "safety_violation": false
+        },
+        {
+          "id": "F_FP8",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 128,
+          "cases_total": 128,
+          "safety_violation": false
+        },
+        {
+          "id": "F_FP4",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 64,
+          "cases_total": 64,
+          "safety_violation": false
+        },
+        {
+          "id": "F_MXFP8",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 204,
+          "cases_total": 204,
+          "safety_violation": false
+        },
+        {
+          "id": "F_MXFP4",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 128,
+          "cases_total": 128,
+          "safety_violation": false
+        },
+        {
+          "id": "P_PROTOCOL",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 337,
+          "cases_total": 337,
+          "safety_violation": false
+        },
+        {
+          "id": "P_SYSTOLIC",
+          "layer": "P",
+          "points": 16.666666666666664,
+          "possible_points": 16.666666666666664,
+          "cases_passed": 1616,
+          "cases_total": 1616,
+          "safety_violation": false
+        },
+        {
+          "id": "P_CORNER",
+          "layer": "F",
+          "points": 5.333333333333333,
+          "possible_points": 5.333333333333333,
+          "cases_passed": 128,
+          "cases_total": 128,
+          "safety_violation": false
+        }
+      ],
+      "functional_groups": {
+        "MM-INT": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F16": {
+          "cases_passed": 166,
+          "cases_total": 166
+        },
+        "MM-F8": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F4": {
+          "cases_passed": 64,
+          "cases_total": 64
+        },
+        "MM-MX8": {
+          "cases_passed": 204,
+          "cases_total": 204
+        },
+        "MM-MX4": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-PROTO": {
+          "cases_passed": 337,
+          "cases_total": 337
+        },
+        "MM-SYSTOLIC": {
+          "cases_passed": 1616,
+          "cases_total": 1616
+        },
+        "MM-CORNER": {
+          "cases_passed": 128,
+          "cases_total": 128
+        }
+      },
+      "functional_retest": {
+        "policy_id": "t10-strict-range-v1",
+        "numerical_profile": "exact-dot-v1",
+        "seed": 11,
+        "report": {
+          "path": "results/t10-strict-functional-retest-20261106.json",
+          "sha256": "3c15d0da5b8d05890fc8c80a3c40a8b05529c3eac92b0debe3eba60ea46b241f",
+          "bytes": 15107
+        },
+        "functional_report": {
+          "path": "results/gpt-6-astra/functional-retest-20261106/functional.json",
+          "sha256": "ab0c23700b81566dde06392c4dea265b22c23ce58bb6b3a779ed3dd45a2b0dd5",
+          "bytes": 5095
+        },
+        "functional_score": {
+          "path": "results/gpt-6-astra/functional-retest-20261106/functional_score.json",
+          "sha256": "f68ef9982a9dec120fea8d4ae5b7a476b0dfc437185959b10e57662853fee88f",
+          "bytes": 1981
+        },
+        "trace_attestation": {
+          "path": "results/gpt-6-astra/functional-retest-20261106/trace_attestation.json",
+          "sha256": "b885124312de836a46e5f85ed91693bf28c7bbe43a53e04b5cb8d581a9e6bc19",
+          "bytes": 606
+        },
+        "previous_summary": {
+          "path": "results/archive/t10-before-range-expansion-20261106/gpt-6-astra/summary.json",
+          "sha256": "895082bc1d42374e63daa5191215883b6bf82ad7758d0ba0731f471cdc9d0281",
+          "bytes": 18197
+        },
+        "ppa_remeasured": false,
+        "group_weights_unchanged": true
+      },
+      "candidate_source_sha256": "ed1ddf4dc54565e35a3341aef87a3d139769b142388b246bf6472eb2609c7aa0"
     }
   ],
   "task_weights": {
@@ -336,13 +492,13 @@
   "task_freeze_receipts": {
     "T08": {
       "receipt": "benchmark/tasks/T08/FREEZE.json",
-      "receipt_sha256": "9b033f0bad3d654c3108b749e57b84c222fb97098cf303a73872c8f1a168f0d7",
+      "receipt_sha256": "27d0567787d588cf5d1e28ea1a90a11d0d6fe35f74ed9f921b1d2eef8beb295c",
       "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
       "scope": "current grading contract"
     },
     "T09": {
       "receipt": "benchmark/tasks/T09/FREEZE.json",
-      "receipt_sha256": "90d9790c2ed523d2cf73ce83e9e68962a615fad5254033bbc036b44285083615",
+      "receipt_sha256": "b1a845b44f654b975a4645a35b6d7ac167df03c1ce21806968a858f125616898",
       "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
       "scope": "current grading contract"
     }
@@ -366,5 +522,6 @@
     "T10": 13.45842622637279
   },
   "totals_complete": true,
-  "completed_tasks": 10
+  "completed_tasks": 10,
+  "functional_retest_revision": "t10-strict-range-v1"
 }

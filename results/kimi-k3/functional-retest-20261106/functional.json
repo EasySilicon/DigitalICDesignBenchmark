@@ -1,0 +1,767 @@
+{
+  "task_id": "T10",
+  "policy_id": "t10-strict-range-v1",
+  "numerical_profile": "exact-dot-v1",
+  "phase": "run",
+  "seed": 11,
+  "cases": 3154,
+  "scored_cases": 2898,
+  "groups": {
+    "MM-INT": {
+      "cases_passed": 96,
+      "cases_total": 128
+    },
+    "MM-F16": {
+      "cases_passed": 154,
+      "cases_total": 166
+    },
+    "MM-F8": {
+      "cases_passed": 128,
+      "cases_total": 128
+    },
+    "MM-F4": {
+      "cases_passed": 64,
+      "cases_total": 64
+    },
+    "MM-MX8": {
+      "cases_passed": 188,
+      "cases_total": 204
+    },
+    "MM-MX4": {
+      "cases_passed": 123,
+      "cases_total": 128
+    },
+    "MM-PROTO": {
+      "cases_passed": 333,
+      "cases_total": 337
+    },
+    "MM-SYSTOLIC": {
+      "cases_passed": 0,
+      "cases_total": 1616
+    },
+    "MM-CORNER": {
+      "cases_passed": 128,
+      "cases_total": 128
+    }
+  },
+  "failures": [
+    {
+      "case": 3,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -4389008383, expected -94041087",
+        "C[0][1]: got 31263745, expected 2178747393",
+        "C[0][2]: got -6538622977, expected -96172033"
+      ]
+    },
+    {
+      "case": 5,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -5527009278, expected -3379525630",
+        "C[0][1]: got -3187601405, expected -1040117757",
+        "C[0][2]: got -3425731576, expected -1278247928"
+      ]
+    },
+    {
+      "case": 11,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -6312066048, expected -4164582400",
+        "C[0][1]: got -3222278135, expected 1072689161",
+        "C[0][2]: got -6377274365, expected -2082307069"
+      ]
+    },
+    {
+      "case": 13,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -5202938879, expected -3055455231",
+        "C[0][1]: got -5324893167, expected -1029925871",
+        "C[0][2]: got -3489532927, expected -1342049279"
+      ]
+    },
+    {
+      "case": 19,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -4190247926, expected 104719370",
+        "C[0][1]: got -4524476414, expected -229509118",
+        "C[0][2]: got -1035004922, expected 5407446022"
+      ]
+    },
+    {
+      "case": 21,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -5257575406, expected -3110091758",
+        "C[0][1]: got 900626435, expected 3048110083",
+        "C[0][3]: got -4139968496, expected -1992484848"
+      ]
+    },
+    {
+      "case": 27,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][1]: got -3185577980, expected 3256872964",
+        "C[0][2]: got 1207925764, expected 3355409412",
+        "C[0][5]: got -2146426882, expected 1056766"
+      ]
+    },
+    {
+      "case": 29,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -2171621367, expected 2123345929",
+        "C[0][1]: got 1204506643, expected 3351990291",
+        "C[0][5]: got -3058867188, expected -911383540"
+      ]
+    },
+    {
+      "case": 35,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -1051781119, expected 3243186177",
+        "C[0][1]: got -5108858874, expected 3481075718",
+        "C[0][2]: got -3487598586, expected 5102336006"
+      ]
+    },
+    {
+      "case": 37,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -1105105918, expected 3189861378",
+        "C[0][1]: got -921667583, expected 3373299713",
+        "C[0][3]: got -2148505593, expected 2146461703"
+      ]
+    },
+    {
+      "case": 43,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -3182372858, expected -1034889210",
+        "C[0][8]: got -736405493, expected 1411078155",
+        "C[0][10]: got 3352067079, expected 5499550727"
+      ]
+    },
+    {
+      "case": 45,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -1140787198, expected 1006696450",
+        "C[0][3]: got 1979475976, expected 4126959624",
+        "C[0][4]: got -1029715963, expected 1117767685"
+      ]
+    },
+    {
+      "case": 51,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][1]: got -1041299454, expected 1106184194",
+        "C[0][2]: got -846403578, expected 5596047366",
+        "C[0][3]: got -1938834423, expected 208649225"
+      ]
+    },
+    {
+      "case": 53,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -4219582460, expected -2072098812",
+        "C[0][1]: got -1143967740, expected 1003515908",
+        "C[0][3]: got -5267992570, expected -973025274"
+      ]
+    },
+    {
+      "case": 59,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -2188575736, expected -41092088",
+        "C[0][1]: got -4462632963, expected 1979817981",
+        "C[0][7]: got -2382109693, expected -234626045"
+      ]
+    },
+    {
+      "case": 61,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -4253100023, expected -2105616375",
+        "C[0][3]: got -3183586298, expected 5406348294",
+        "C[0][4]: got -3466289155, expected -1318805507"
+      ]
+    },
+    {
+      "case": 67,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -2254307325, expected -106823677",
+        "C[0][1]: got -5193649139, expected 1248801805",
+        "C[0][2]: got -4837975040, expected -2690491392"
+      ]
+    },
+    {
+      "case": 69,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][1]: got -1009936384, expected 1137547264",
+        "C[0][2]: got 1136497665, expected 3283981313",
+        "C[0][3]: got -3094515708, expected 3347935236"
+      ]
+    },
+    {
+      "case": 75,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -5542440959, expected 900009985",
+        "C[0][1]: got -1109390327, expected 1038093321",
+        "C[0][2]: got -4196406268, expected 2246044676"
+      ]
+    },
+    {
+      "case": 77,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -726873078, expected 1420610570",
+        "C[0][7]: got -1934769147, expected 2360198149",
+        "C[0][10]: got 269211660, expected 2416695308"
+      ]
+    },
+    {
+      "case": 83,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -6710598652, expected 1879335940",
+        "C[0][1]: got -1979682817, expected 2315284479",
+        "C[0][2]: got -1275034621, expected 872449027"
+      ]
+    },
+    {
+      "case": 85,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -8792994814, expected -2350543870",
+        "C[0][1]: got -4324044796, expected 2118406148",
+        "C[0][2]: got -7642715138, expected -1200264194"
+      ]
+    },
+    {
+      "case": 91,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -8792169474, expected -2349718530",
+        "C[0][1]: got -2048916483, expected 4393534461",
+        "C[0][2]: got -7482635260, expected -1040184316"
+      ]
+    },
+    {
+      "case": 93,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -104134647, expected 4190832649",
+        "C[0][1]: got -1166091258, expected 3128876038",
+        "C[0][2]: got -1067599870, expected 3227367426"
+      ]
+    },
+    {
+      "case": 99,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][4]: got -1104189441, expected 1043294207",
+        "C[0][7]: got -4446921725, expected -2299438077",
+        "C[0][8]: got -2170542065, expected -23058417"
+      ]
+    },
+    {
+      "case": 101,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][1]: got -4492883972, expected -2345400324",
+        "C[0][3]: got -1007929340, expected 1139554308",
+        "C[0][4]: got -1981009907, expected 4461441037"
+      ]
+    },
+    {
+      "case": 107,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -3087106047, expected -939622399",
+        "C[0][1]: got -168892416, expected 1978591232",
+        "C[0][2]: got -4158690300, expected 136276996"
+      ]
+    },
+    {
+      "case": 109,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got 1234834441, expected 3382318089",
+        "C[0][1]: got -3021023223, expected -873539575",
+        "C[0][2]: got -4526432257, expected -231464961"
+      ]
+    },
+    {
+      "case": 115,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -3251450880, expected -1103967232",
+        "C[0][1]: got -4300172288, expected -5204992",
+        "C[0][2]: got -5560304643, expected -3412820995"
+      ]
+    },
+    {
+      "case": 117,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -5366291453, expected 1076159491",
+        "C[0][1]: got -5429580788, expected -3282097140",
+        "C[0][3]: got -29467635, expected 4265499661"
+      ]
+    },
+    {
+      "case": 123,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][2]: got -2252255228, expected -104771580",
+        "C[0][3]: got 1167691780, expected 3315175428",
+        "C[0][6]: got -1843760123, expected 303723525"
+      ]
+    },
+    {
+      "case": 125,
+      "case_id": null,
+      "group": "MM-INT",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -6635141112, expected -4487657464",
+        "C[0][1]: got -4485466108, expected -2337982460",
+        "C[0][2]: got -67245052, expected 4227722244"
+      ]
+    },
+    {
+      "case": 683,
+      "case_id": null,
+      "group": "MM-PROTO",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][1]: got 971833348, expected 3119316996",
+        "C[0][2]: got 1401744391, expected 3549228039",
+        "C[0][3]: got -5640304641, expected -3492820993"
+      ]
+    },
+    {
+      "case": 693,
+      "case_id": null,
+      "group": "MM-PROTO",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][2]: got -5262776314, expected 1179674630",
+        "C[0][3]: got -1096977401, expected 3197989895",
+        "C[0][4]: got -6459149308, expected -16698364"
+      ]
+    },
+    {
+      "case": 723,
+      "case_id": null,
+      "group": "MM-PROTO",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -2291076088, expected -143592440",
+        "C[0][3]: got -1985146873, expected 162336775",
+        "C[0][4]: got -4225830910, expected -2078347262"
+      ]
+    },
+    {
+      "case": 733,
+      "case_id": null,
+      "group": "MM-PROTO",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -2085628916, expected 61854732",
+        "C[0][1]: got -5334111222, expected -1039143926",
+        "C[0][6]: got -2378001414, expected -230517766"
+      ]
+    },
+    {
+      "case": 752,
+      "case_id": null,
+      "group": "MM-SYSTOLIC",
+      "mode": 0,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": []
+    },
+    {
+      "case": 753,
+      "case_id": null,
+      "group": "MM-SYSTOLIC",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": []
+    },
+    {
+      "case": 754,
+      "case_id": null,
+      "group": "MM-SYSTOLIC",
+      "mode": 2,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": []
+    },
+    {
+      "case": 755,
+      "case_id": null,
+      "group": "MM-SYSTOLIC",
+      "mode": 3,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": []
+    },
+    {
+      "case": 756,
+      "case_id": null,
+      "group": "MM-SYSTOLIC",
+      "mode": 4,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": []
+    },
+    {
+      "case": 757,
+      "case_id": null,
+      "group": "MM-SYSTOLIC",
+      "mode": 5,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": []
+    },
+    {
+      "case": 758,
+      "case_id": null,
+      "group": "MM-SYSTOLIC",
+      "mode": 6,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": []
+    },
+    {
+      "case": 759,
+      "case_id": null,
+      "group": "MM-SYSTOLIC",
+      "mode": 7,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": []
+    },
+    {
+      "case": 760,
+      "case_id": null,
+      "group": "MM-SYSTOLIC",
+      "mode": 8,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": []
+    },
+    {
+      "case": 761,
+      "case_id": null,
+      "group": "MM-SYSTOLIC",
+      "mode": 9,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": []
+    },
+    {
+      "case": 762,
+      "case_id": null,
+      "group": "MM-SYSTOLIC",
+      "mode": 0,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": []
+    },
+    {
+      "case": 763,
+      "case_id": null,
+      "group": "MM-SYSTOLIC",
+      "mode": 1,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got -6143715322, expected 2446219270",
+        "C[0][1]: got -1177775100, expected 5264675844",
+        "C[0][2]: got -4027854834, expected 267112462"
+      ]
+    },
+    {
+      "case": 764,
+      "case_id": null,
+      "group": "MM-SYSTOLIC",
+      "mode": 2,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": []
+    },
+    {
+      "case": 765,
+      "case_id": null,
+      "group": "MM-SYSTOLIC",
+      "mode": 3,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": []
+    }
+  ],
+  "structure": {
+    "passed": false,
+    "status": "failed",
+    "method": "yosys_netlist",
+    "reason": "Yosys elaboration failed",
+    "yosys_log_tail": "./../mnt/ubu_3T/ic_bcmk_trials/rtl_retention_20261009_222440/kimi_k3_256k_20261004/workspaces/T10/rtl/npu_systolic_matmul_16x16.sv:170:33: warning: asynchronous load value missing for variable '\\g_feed[12].g_skew.ifr'\n                    if (!rst_n) begin\n                                ^~~~~\n../../../../../mnt/ubu_3T/ic_bcmk_trials/rtl_retention_20261009_222440/kimi_k3_256k_20261004/workspaces/T10/rtl/npu_systolic_matmul_16x16.sv:169:25: note: asynchronous load pattern implied by edge sensitivity on multiple signals\n                always @(posedge clk or negedge rst_n) begin\n                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n../../../../../mnt/ubu_3T/ic_bcmk_trials/rtl_retention_20261009_222440/kimi_k3_256k_20261004/workspaces/T10/rtl/npu_systolic_matmul_16x16.sv:170:33: warning: asynchronous load value missing for variable '\\g_feed[13].g_skew.ifr'\n                    if (!rst_n) begin\n                                ^~~~~\n../../../../../mnt/ubu_3T/ic_bcmk_trials/rtl_retention_20261009_222440/kimi_k3_256k_20261004/workspaces/T10/rtl/npu_systolic_matmul_16x16.sv:169:25: note: asynchronous load pattern implied by edge sensitivity on multiple signals\n                always @(posedge clk or negedge rst_n) begin\n                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n../../../../../mnt/ubu_3T/ic_bcmk_trials/rtl_retention_20261009_222440/kimi_k3_256k_20261004/workspaces/T10/rtl/npu_systolic_matmul_16x16.sv:170:33: warning: asynchronous load value missing for variable '\\g_feed[14].g_skew.ifr'\n                    if (!rst_n) begin\n                                ^~~~~\n../../../../../mnt/ubu_3T/ic_bcmk_trials/rtl_retention_20261009_222440/kimi_k3_256k_20261004/workspaces/T10/rtl/npu_systolic_matmul_16x16.sv:169:25: note: asynchronous load pattern implied by edge sensitivity on multiple signals\n                always @(posedge clk or negedge rst_n) begin\n                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n../../../../../mnt/ubu_3T/ic_bcmk_trials/rtl_retention_20261009_222440/kimi_k3_256k_20261004/workspaces/T10/rtl/npu_systolic_matmul_16x16.sv:170:33: warning: asynchronous load value missing for variable '\\g_feed[15].g_skew.ifr'\n                    if (!rst_n) begin\n                                ^~~~~\n../../../../../mnt/ubu_3T/ic_bcmk_trials/rtl_retention_20261009_222440/kimi_k3_256k_20261004/workspaces/T10/rtl/npu_systolic_matmul_16x16.sv:169:25: note: asynchronous load pattern implied by edge sensitivity on multiple signals\n                always @(posedge clk or negedge rst_n) begin\n                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n../../../../../mnt/ubu_3T/ic_bcmk_trials/rtl_retention_20261009_222440/kimi_k3_256k_20261004/workspaces/T10/rtl/npu_systolic_matmul_16x16.sv:357:56: error: simple if-else pattern expected in modeling an asynchronous load on a flip-flop\n                always @(posedge clk or negedge rst_n) begin\n                                                       ^~~~~\n../../../../../mnt/ubu_3T/ic_bcmk_trials/rtl_retention_20261009_222440/kimi_k3_256k_20261004/workspaces/T10/rtl/npu_systolic_matmul_16x16.sv:357:25: note: asynchronous load pattern implied by edge sensitivity on multiple signals\n                always @(posedge clk or negedge rst_n) begin\n                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n../../../../../mnt/ubu_3T/ic_bcmk_trials/rtl_retention_20261009_222440/kimi_k3_256k_20261004/workspaces/T10/rtl/npu_systolic_matmul_16x16.sv:421:21: warning: asynchronous load value missing for variable '\\iq'\n        if (!rst_n) begin\n                    ^~~~~\n../../../../../mnt/ubu_3T/ic_bcmk_trials/rtl_retention_20261009_222440/kimi_k3_256k_20261004/workspaces/T10/rtl/npu_systolic_matmul_16x16.sv:420:13: note: asynchronous load pattern implied by edge sensitivity on multiple signals\n    always @(posedge clk or negedge rst_n) begin\n            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\nBuild failed: 1 error, 18 warnings\n<suppressed ~2186 debug messages>\nERROR: Design elaboration failed; see full log for details\n",
+    "hdl_frontend": "slang",
+    "slang_available": true,
+    "candidate_source_sha256": "b7bae0938294eb23ecbb76179acda889adaae60270e3d9bd8df3f4b78fb98ffb",
+    "source_unchanged": true,
+    "wall_seconds": 182.05814554076642,
+    "checker_sha256": "b4e4129dd1a712542b3e39276b72e9041ff05aaca730dab5b91956c432645b9a"
+  },
+  "reset_probe_passed": true,
+  "stream_line": "MM_STREAM input_bubble_phases=00000000000000 finished=3154",
+  "additional_diagnostic_cases": 256,
+  "additional_diagnostic_groups": {
+    "MM-INT": {
+      "cases_passed": 0,
+      "cases_total": 0
+    },
+    "MM-F16": {
+      "cases_passed": 64,
+      "cases_total": 64
+    },
+    "MM-F8": {
+      "cases_passed": 64,
+      "cases_total": 64
+    },
+    "MM-F4": {
+      "cases_passed": 32,
+      "cases_total": 32
+    },
+    "MM-MX8": {
+      "cases_passed": 64,
+      "cases_total": 64
+    },
+    "MM-MX4": {
+      "cases_passed": 32,
+      "cases_total": 32
+    },
+    "MM-PROTO": {
+      "cases_passed": 0,
+      "cases_total": 0
+    },
+    "MM-SYSTOLIC": {
+      "cases_passed": 0,
+      "cases_total": 0
+    },
+    "MM-CORNER": {
+      "cases_passed": 0,
+      "cases_total": 0
+    }
+  },
+  "additional_diagnostic_failures": [],
+  "candidate_source_sha256": "b7bae0938294eb23ecbb76179acda889adaae60270e3d9bd8df3f4b78fb98ffb",
+  "evidence": {
+    "kind": "retained RTL simulation; strict oracle replay",
+    "trace_provenance_sha256": "77960b809f0b43a068caae6a40a6c316364012f166deabb66183384d7f16b1f4",
+    "trace_report_sha256": "895231ede153f7844df5e34896aeb3b3eb802fc9517ade0f8bba1f3ad4c23785",
+    "simulation_sha256": "fe17119a2be03125c3d4e747a8685b91384b9a1d9edd371e07f648a944237206",
+    "reset_sha256": "ed23f8dbe425c9cea3de5cfe5862bf39f27794d5c73022330e71bc0029f9f1cb",
+    "structure_sha256": "48b899b8a266f8c2f2a4e30004eeed42467f7bf1d5c923df06b4643738f41505",
+    "oracle_sha256": "880a56317f3b54ea6b9f563ad2e6272d54e2332986bfd09780b25aa0a3aa57e7",
+    "all_input_vectors_verified": true,
+    "scored_subsequence_verified": true
+  },
+  "ppa_remeasured": false,
+  "model_session_started": false,
+  "full_functional_pass": false
+}

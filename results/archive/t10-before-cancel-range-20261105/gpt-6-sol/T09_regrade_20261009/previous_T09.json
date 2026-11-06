@@ -1,0 +1,161 @@
+{
+  "schema_version": 3,
+  "model": "gpt-6-sol",
+  "task_id": "T09",
+  "trial_kind": "pre_release_pilot",
+  "pilot_date": "2026-10-03",
+  "reasoning_effort": "high",
+  "elapsed_seconds": 2100,
+  "model_tokens_reported": 217674,
+  "prompt_sha256": "006c3b0d123c8c392be202f4c68ddca24aedbefaecddfe64f1147234f536ec6a",
+  "candidate_sha256": "286a219fb1e7b963039e1d0619700856db45eb9b90025d1239987a781f44e3cf",
+  "source_trial_id": "gpt6sol_noskills_from_t03_v6_20261003",
+  "skills_policy": "skills_disabled",
+  "delivery_qualified": true,
+  "functional_total": 50.0,
+  "functional_possible": 50,
+  "full_functional_pass": true,
+  "ppa_eligible": true,
+  "ppa_score": 3.1682953649634116,
+  "ppa_possible": 50,
+  "ppa_rank_bucket": 3,
+  "time_score": 3.541666666666666,
+  "time_possible": 5,
+  "display_score": 56.70996203163008,
+  "display_possible": 105,
+  "score_status": "scored",
+  "scoring_policy": "functional50-ppa50-setup-frequency-power4-hold-continuous-drc-half-delivery-v6",
+  "ranking_eligible": false,
+  "ranking_ineligible_reason": "Historical pilots collected under different budgets/skills and pre-freeze evaluator revisions; missing new T08 components and T10 reference components remain pending.",
+  "functional_groups": {
+    "CPU-ACT": {
+      "cases_passed": 45,
+      "cases_total": 45
+    },
+    "CPU-DIR-INT": {
+      "cases_passed": 24,
+      "cases_total": 24
+    },
+    "CPU-DIR-MEM": {
+      "cases_passed": 20,
+      "cases_total": 20
+    },
+    "CPU-DIR-HAZ": {
+      "cases_passed": 24,
+      "cases_total": 24
+    },
+    "CPU-DIR-TRAP": {
+      "cases_passed": 28,
+      "cases_total": 28
+    },
+    "CPU-DIR-CSR": {
+      "cases_passed": 16,
+      "cases_total": 16
+    },
+    "CPU-DIFF-INT": {
+      "cases_passed": 34,
+      "cases_total": 34
+    },
+    "CPU-DIFF-MEM": {
+      "cases_passed": 33,
+      "cases_total": 33
+    },
+    "CPU-DIFF-TRAP": {
+      "cases_passed": 33,
+      "cases_total": 33
+    },
+    "CPU-PIPE-HAZ": {
+      "cases_passed": 8,
+      "cases_total": 8
+    },
+    "CPU-PIPE-FLUSH": {
+      "cases_passed": 8,
+      "cases_total": 8
+    },
+    "CPU-PIPE-MEM": {
+      "cases_passed": 80,
+      "cases_total": 80
+    },
+    "CPU-PIPE-RESET": {
+      "cases_passed": 4,
+      "cases_total": 4
+    },
+    "CPU-PIPE-LAT": {
+      "cases_passed": 64,
+      "cases_total": 64
+    }
+  },
+  "ppa_measurement": {
+    "measurement_status": "three_seed",
+    "workload_id": "T09-power-v1",
+    "workload_parameters": {
+      "seed": 20260928,
+      "elf_sha256": "81409d0bca3da16b2da73233324a59632daf2a8f7d64b64284a6663397f782bd"
+    },
+    "parameter_set": {
+      "platform": "ASAP7_7p5t_RVT_NLDM",
+      "period_ps": 1000,
+      "corner": "WC",
+      "utilization": 10,
+      "density": 0.6,
+      "seeds": [
+        11,
+        29,
+        47
+      ]
+    },
+    "routed": true,
+    "setup_worst_slack_ns": -0.836153,
+    "hold_worst_slack_ns": 0.0561331,
+    "drc_violations": 0,
+    "annotation_fraction": 1.0,
+    "area_um2": 2099.61,
+    "delay_ns": 1.828443,
+    "energy_per_op_pj": 16.888163265306126,
+    "per_seed": [
+      {
+        "layout_seed": 11,
+        "area_um2": 2099.3,
+        "delay_ns": 1.8253510000000002,
+        "setup_worst_slack_ns": -0.825351,
+        "hold_worst_slack_ns": 0.0561331,
+        "drc_violations": 0,
+        "energy_per_op_pj": 16.85517857142857,
+        "power_w": 0.00511,
+        "ops": 1568,
+        "annotation_fraction": 1.0
+      },
+      {
+        "layout_seed": 29,
+        "area_um2": 2099.61,
+        "delay_ns": 1.828443,
+        "setup_worst_slack_ns": -0.8284429999999999,
+        "hold_worst_slack_ns": 0.0573377,
+        "drc_violations": 0,
+        "energy_per_op_pj": 16.888163265306126,
+        "power_w": 0.00512,
+        "ops": 1568,
+        "annotation_fraction": 1.0
+      },
+      {
+        "layout_seed": 47,
+        "area_um2": 2101.02,
+        "delay_ns": 1.836153,
+        "setup_worst_slack_ns": -0.836153,
+        "hold_worst_slack_ns": 0.057848300000000005,
+        "drc_violations": 0,
+        "energy_per_op_pj": 16.888163265306126,
+        "power_w": 0.00512,
+        "ops": 1568,
+        "annotation_fraction": 1.0
+      }
+    ]
+  },
+  "time_limit_seconds": 7200,
+  "candidate_delivery_error_count": 0,
+  "candidate_delivery_penalty": 0,
+  "display_score_before_candidate_penalty": 56.70996203163008,
+  "legacy_task_id": "T09",
+  "suite_id": "ic-delivery-rtl-v0.3",
+  "result_revision_date": "2026-10-08"
+}

@@ -1,0 +1,539 @@
+{
+  "task_id": "T10",
+  "phase": "run",
+  "status": "streaming_pre_release",
+  "seed": 11,
+  "cases": 2816,
+  "legacy_cases": 960,
+  "supplemental_cases": 64,
+  "mixed_backpressure": false,
+  "first_latency_limit": 64,
+  "last_latency_limit": 80,
+  "continuous_train_cases": 1792,
+  "groups": {
+    "MM-INT": {
+      "cases_passed": 128,
+      "cases_total": 128
+    },
+    "MM-F16": {
+      "cases_passed": 136,
+      "cases_total": 144
+    },
+    "MM-F8": {
+      "cases_passed": 128,
+      "cases_total": 128
+    },
+    "MM-F4": {
+      "cases_passed": 64,
+      "cases_total": 64
+    },
+    "MM-MX8": {
+      "cases_passed": 144,
+      "cases_total": 160
+    },
+    "MM-MX4": {
+      "cases_passed": 104,
+      "cases_total": 112
+    },
+    "MM-PROTO": {
+      "cases_passed": 337,
+      "cases_total": 337
+    },
+    "MM-SYSTOLIC": {
+      "cases_passed": 1616,
+      "cases_total": 1616
+    },
+    "MM-CORNER": {
+      "cases_passed": 128,
+      "cases_total": 128
+    }
+  },
+  "structure": {
+    "passed": true,
+    "reason": null,
+    "pe_module": "npu_pe",
+    "pe_instances": 256,
+    "mesh_paths": [
+      16,
+      16
+    ],
+    "link_register_placement": "tile_shell",
+    "top_state_bits": 194299,
+    "checked_links": [
+      [
+        "a_fwd",
+        "a_in"
+      ],
+      [
+        "b_fwd",
+        "b_in"
+      ]
+    ],
+    "flattened_from_hierarchy": true,
+    "status": "qualified",
+    "method": "yosys_netlist",
+    "hdl_frontend": "slang",
+    "slang_available": true
+  },
+  "stream_line": "MM_STREAM input_bubble_phases=00000000000000 finished=2816",
+  "reset_probe_passed": true,
+  "failures": [
+    {
+      "case": 961,
+      "case_id": "cancel-range-v1.m3.same_beat_cancel.positive",
+      "group": "MM-F16",
+      "mode": 3,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf",
+        "C[0][2]: got finite, expected +inf"
+      ]
+    },
+    {
+      "case": 962,
+      "case_id": "cancel-range-v1.m3.cross_beat_cancel.positive",
+      "group": "MM-F16",
+      "mode": 3,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf",
+        "C[0][2]: got finite, expected +inf"
+      ]
+    },
+    {
+      "case": 966,
+      "case_id": "cancel-range-v1.m3.boundary_four.positive",
+      "group": "MM-F16",
+      "mode": 3,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf",
+        "C[0][2]: got finite, expected +inf"
+      ]
+    },
+    {
+      "case": 967,
+      "case_id": "cancel-range-v1.m3.small_before_huge.positive",
+      "group": "MM-F16",
+      "mode": 3,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf",
+        "C[0][2]: got finite, expected +inf"
+      ]
+    },
+    {
+      "case": 969,
+      "case_id": "cancel-range-v1.m3.same_beat_cancel.negative",
+      "group": "MM-F16",
+      "mode": 3,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf",
+        "C[0][2]: got finite, expected -inf"
+      ]
+    },
+    {
+      "case": 970,
+      "case_id": "cancel-range-v1.m3.cross_beat_cancel.negative",
+      "group": "MM-F16",
+      "mode": 3,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf",
+        "C[0][2]: got finite, expected -inf"
+      ]
+    },
+    {
+      "case": 974,
+      "case_id": "cancel-range-v1.m3.boundary_four.negative",
+      "group": "MM-F16",
+      "mode": 3,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf",
+        "C[0][2]: got finite, expected -inf"
+      ]
+    },
+    {
+      "case": 975,
+      "case_id": "cancel-range-v1.m3.small_before_huge.negative",
+      "group": "MM-F16",
+      "mode": 3,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf",
+        "C[0][2]: got finite, expected -inf"
+      ]
+    },
+    {
+      "case": 977,
+      "case_id": "cancel-range-v1.m7.same_beat_cancel.positive",
+      "group": "MM-MX8",
+      "mode": 7,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf",
+        "C[0][2]: got finite, expected +inf"
+      ]
+    },
+    {
+      "case": 978,
+      "case_id": "cancel-range-v1.m7.cross_beat_cancel.positive",
+      "group": "MM-MX8",
+      "mode": 7,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf",
+        "C[0][2]: got finite, expected +inf"
+      ]
+    },
+    {
+      "case": 982,
+      "case_id": "cancel-range-v1.m7.boundary_four.positive",
+      "group": "MM-MX8",
+      "mode": 7,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf",
+        "C[0][2]: got finite, expected +inf"
+      ]
+    },
+    {
+      "case": 983,
+      "case_id": "cancel-range-v1.m7.small_before_huge.positive",
+      "group": "MM-MX8",
+      "mode": 7,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf",
+        "C[0][2]: got finite, expected +inf"
+      ]
+    },
+    {
+      "case": 985,
+      "case_id": "cancel-range-v1.m7.same_beat_cancel.negative",
+      "group": "MM-MX8",
+      "mode": 7,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf",
+        "C[0][2]: got finite, expected -inf"
+      ]
+    },
+    {
+      "case": 986,
+      "case_id": "cancel-range-v1.m7.cross_beat_cancel.negative",
+      "group": "MM-MX8",
+      "mode": 7,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf",
+        "C[0][2]: got finite, expected -inf"
+      ]
+    },
+    {
+      "case": 990,
+      "case_id": "cancel-range-v1.m7.boundary_four.negative",
+      "group": "MM-MX8",
+      "mode": 7,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf",
+        "C[0][2]: got finite, expected -inf"
+      ]
+    },
+    {
+      "case": 991,
+      "case_id": "cancel-range-v1.m7.small_before_huge.negative",
+      "group": "MM-MX8",
+      "mode": 7,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf",
+        "C[0][2]: got finite, expected -inf"
+      ]
+    },
+    {
+      "case": 993,
+      "case_id": "cancel-range-v1.m8.same_beat_cancel.positive",
+      "group": "MM-MX8",
+      "mode": 8,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf",
+        "C[0][2]: got finite, expected +inf"
+      ]
+    },
+    {
+      "case": 994,
+      "case_id": "cancel-range-v1.m8.cross_beat_cancel.positive",
+      "group": "MM-MX8",
+      "mode": 8,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf",
+        "C[0][2]: got finite, expected +inf"
+      ]
+    },
+    {
+      "case": 998,
+      "case_id": "cancel-range-v1.m8.boundary_four.positive",
+      "group": "MM-MX8",
+      "mode": 8,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf",
+        "C[0][2]: got finite, expected +inf"
+      ]
+    },
+    {
+      "case": 999,
+      "case_id": "cancel-range-v1.m8.small_before_huge.positive",
+      "group": "MM-MX8",
+      "mode": 8,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf",
+        "C[0][2]: got finite, expected +inf"
+      ]
+    },
+    {
+      "case": 1001,
+      "case_id": "cancel-range-v1.m8.same_beat_cancel.negative",
+      "group": "MM-MX8",
+      "mode": 8,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf",
+        "C[0][2]: got finite, expected -inf"
+      ]
+    },
+    {
+      "case": 1002,
+      "case_id": "cancel-range-v1.m8.cross_beat_cancel.negative",
+      "group": "MM-MX8",
+      "mode": 8,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf",
+        "C[0][2]: got finite, expected -inf"
+      ]
+    },
+    {
+      "case": 1006,
+      "case_id": "cancel-range-v1.m8.boundary_four.negative",
+      "group": "MM-MX8",
+      "mode": 8,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf",
+        "C[0][2]: got finite, expected -inf"
+      ]
+    },
+    {
+      "case": 1007,
+      "case_id": "cancel-range-v1.m8.small_before_huge.negative",
+      "group": "MM-MX8",
+      "mode": 8,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf",
+        "C[0][2]: got finite, expected -inf"
+      ]
+    },
+    {
+      "case": 1009,
+      "case_id": "cancel-range-v1.m9.same_beat_cancel.positive",
+      "group": "MM-MX4",
+      "mode": 9,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf",
+        "C[0][2]: got finite, expected +inf"
+      ]
+    },
+    {
+      "case": 1010,
+      "case_id": "cancel-range-v1.m9.cross_beat_cancel.positive",
+      "group": "MM-MX4",
+      "mode": 9,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf",
+        "C[0][2]: got finite, expected +inf"
+      ]
+    },
+    {
+      "case": 1014,
+      "case_id": "cancel-range-v1.m9.boundary_four.positive",
+      "group": "MM-MX4",
+      "mode": 9,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf",
+        "C[0][2]: got finite, expected +inf"
+      ]
+    },
+    {
+      "case": 1015,
+      "case_id": "cancel-range-v1.m9.small_before_huge.positive",
+      "group": "MM-MX4",
+      "mode": 9,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected +inf",
+        "C[0][1]: got finite, expected +inf",
+        "C[0][2]: got finite, expected +inf"
+      ]
+    },
+    {
+      "case": 1017,
+      "case_id": "cancel-range-v1.m9.same_beat_cancel.negative",
+      "group": "MM-MX4",
+      "mode": 9,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf",
+        "C[0][2]: got finite, expected -inf"
+      ]
+    },
+    {
+      "case": 1018,
+      "case_id": "cancel-range-v1.m9.cross_beat_cancel.negative",
+      "group": "MM-MX4",
+      "mode": 9,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf",
+        "C[0][2]: got finite, expected -inf"
+      ]
+    },
+    {
+      "case": 1022,
+      "case_id": "cancel-range-v1.m9.boundary_four.negative",
+      "group": "MM-MX4",
+      "mode": 9,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf",
+        "C[0][2]: got finite, expected -inf"
+      ]
+    },
+    {
+      "case": 1023,
+      "case_id": "cancel-range-v1.m9.small_before_huge.negative",
+      "group": "MM-MX4",
+      "mode": 9,
+      "protocol": true,
+      "timing": true,
+      "output": true,
+      "errors": [
+        "C[0][0]: got finite, expected -inf",
+        "C[0][1]: got finite, expected -inf",
+        "C[0][2]: got finite, expected -inf"
+      ]
+    }
+  ],
+  "log_tail": " 16\nMM_CASE 2652 1 1 1 16\nMM_CASE 2653 1 1 1 16\nMM_CASE 2654 1 1 1 16\nMM_CASE 2655 1 1 1 16\nMM_CASE 2656 1 1 1 16\nMM_CASE 2657 1 1 1 16\nMM_CASE 2658 1 1 1 16\nMM_CASE 2659 1 1 1 16\nMM_CASE 2660 1 1 1 16\nMM_CASE 2661 1 1 1 16\nMM_CASE 2662 1 1 1 16\nMM_CASE 2663 1 1 1 16\nMM_CASE 2664 1 1 1 16\nMM_CASE 2665 1 1 1 16\nMM_CASE 2666 1 1 1 16\nMM_CASE 2667 1 1 1 16\nMM_CASE 2668 1 1 1 16\nMM_CASE 2669 1 1 1 16\nMM_CASE 2670 1 1 1 16\nMM_CASE 2671 1 1 1 16\nMM_CASE 2672 1 1 1 16\nMM_CASE 2673 1 1 1 16\nMM_CASE 2674 1 1 1 16\nMM_CASE 2675 1 1 1 16\nMM_CASE 2676 1 1 1 16\nMM_CASE 2677 1 1 1 16\nMM_CASE 2678 1 1 1 16\nMM_CASE 2679 1 1 1 16\nMM_CASE 2680 1 1 1 16\nMM_CASE 2681 1 1 1 16\nMM_CASE 2682 1 1 1 16\nMM_CASE 2683 1 1 1 16\nMM_CASE 2684 1 1 1 16\nMM_CASE 2685 1 1 1 16\nMM_CASE 2686 1 1 1 16\nMM_CASE 2687 1 1 1 16\nMM_CASE 2688 1 1 1 16\nMM_CASE 2689 1 1 1 16\nMM_CASE 2690 1 1 1 16\nMM_CASE 2691 1 1 1 16\nMM_CASE 2692 1 1 1 16\nMM_CASE 2693 1 1 1 16\nMM_CASE 2694 1 1 1 16\nMM_CASE 2695 1 1 1 16\nMM_CASE 2696 1 1 1 16\nMM_CASE 2697 1 1 1 16\nMM_CASE 2698 1 1 1 16\nMM_CASE 2699 1 1 1 16\nMM_CASE 2700 1 1 1 16\nMM_CASE 2701 1 1 1 16\nMM_CASE 2702 1 1 1 16\nMM_CASE 2703 1 1 1 16\nMM_CASE 2704 1 1 1 16\nMM_CASE 2705 1 1 1 16\nMM_CASE 2706 1 1 1 16\nMM_CASE 2707 1 1 1 16\nMM_CASE 2708 1 1 1 16\nMM_CASE 2709 1 1 1 16\nMM_CASE 2710 1 1 1 16\nMM_CASE 2711 1 1 1 16\nMM_CASE 2712 1 1 1 16\nMM_CASE 2713 1 1 1 16\nMM_CASE 2714 1 1 1 16\nMM_CASE 2715 1 1 1 16\nMM_CASE 2716 1 1 1 16\nMM_CASE 2717 1 1 1 16\nMM_CASE 2718 1 1 1 16\nMM_CASE 2719 1 1 1 16\nMM_CASE 2720 1 1 1 16\nMM_CASE 2721 1 1 1 16\nMM_CASE 2722 1 1 1 16\nMM_CASE 2723 1 1 1 16\nMM_CASE 2724 1 1 1 16\nMM_CASE 2725 1 1 1 16\nMM_CASE 2726 1 1 1 16\nMM_CASE 2727 1 1 1 16\nMM_CASE 2728 1 1 1 16\nMM_CASE 2729 1 1 1 16\nMM_CASE 2730 1 1 1 16\nMM_CASE 2731 1 1 1 16\nMM_CASE 2732 1 1 1 16\nMM_CASE 2733 1 1 1 16\nMM_CASE 2734 1 1 1 16\nMM_CASE 2735 1 1 1 16\nMM_CASE 2736 1 1 1 16\nMM_CASE 2737 1 1 1 16\nMM_CASE 2738 1 1 1 16\nMM_CASE 2739 1 1 1 16\nMM_CASE 2740 1 1 1 16\nMM_CASE 2741 1 1 1 16\nMM_CASE 2742 1 1 1 16\nMM_CASE 2743 1 1 1 16\nMM_CASE 2744 1 1 1 16\nMM_CASE 2745 1 1 1 16\nMM_CASE 2746 1 1 1 16\nMM_CASE 2747 1 1 1 16\nMM_CASE 2748 1 1 1 16\nMM_CASE 2749 1 1 1 16\nMM_CASE 2750 1 1 1 16\nMM_CASE 2751 1 1 1 16\nMM_CASE 2752 1 1 1 16\nMM_CASE 2753 1 1 1 16\nMM_CASE 2754 1 1 1 16\nMM_CASE 2755 1 1 1 16\nMM_CASE 2756 1 1 1 16\nMM_CASE 2757 1 1 1 16\nMM_CASE 2758 1 1 1 16\nMM_CASE 2759 1 1 1 16\nMM_CASE 2760 1 1 1 16\nMM_CASE 2761 1 1 1 16\nMM_CASE 2762 1 1 1 16\nMM_CASE 2763 1 1 1 16\nMM_CASE 2764 1 1 1 16\nMM_CASE 2765 1 1 1 16\nMM_CASE 2766 1 1 1 16\nMM_CASE 2767 1 1 1 16\nMM_CASE 2768 1 1 1 16\nMM_CASE 2769 1 1 1 16\nMM_CASE 2770 1 1 1 16\nMM_CASE 2771 1 1 1 16\nMM_CASE 2772 1 1 1 16\nMM_CASE 2773 1 1 1 16\nMM_CASE 2774 1 1 1 16\nMM_CASE 2775 1 1 1 16\nMM_CASE 2776 1 1 1 16\nMM_CASE 2777 1 1 1 16\nMM_CASE 2778 1 1 1 16\nMM_CASE 2779 1 1 1 16\nMM_CASE 2780 1 1 1 16\nMM_CASE 2781 1 1 1 16\nMM_CASE 2782 1 1 1 16\nMM_CASE 2783 1 1 1 16\nMM_CASE 2784 1 1 1 16\nMM_CASE 2785 1 1 1 16\nMM_CASE 2786 1 1 1 16\nMM_CASE 2787 1 1 1 16\nMM_CASE 2788 1 1 1 16\nMM_CASE 2789 1 1 1 16\nMM_CASE 2790 1 1 1 16\nMM_CASE 2791 1 1 1 16\nMM_CASE 2792 1 1 1 16\nMM_CASE 2793 1 1 1 16\nMM_CASE 2794 1 1 1 16\nMM_CASE 2795 1 1 1 16\nMM_CASE 2796 1 1 1 16\nMM_CASE 2797 1 1 1 16\nMM_CASE 2798 1 1 1 16\nMM_CASE 2799 1 1 1 16\nMM_CASE 2800 1 1 1 16\nMM_CASE 2801 1 1 1 16\nMM_CASE 2802 1 1 1 16\nMM_CASE 2803 1 1 1 16\nMM_CASE 2804 1 1 1 16\nMM_CASE 2805 1 1 1 16\nMM_CASE 2806 1 1 1 16\nMM_CASE 2807 1 1 1 16\nMM_CASE 2808 1 1 1 16\nMM_CASE 2809 1 1 1 16\nMM_CASE 2810 1 1 1 16\nMM_CASE 2811 1 1 1 16\nMM_CASE 2812 1 1 1 16\nMM_CASE 2813 1 1 1 16\nMM_CASE 2814 1 1 1 16\nMM_CASE 2815 1 1 1 16\nMM_STREAM input_bubble_phases=00000000000000 finished=2816\nMM_END reason=complete\n- /mnt/ubu_3T/ic_bcmk_scratch/t10_functional_retest_20261105/evaluator/hidden/tb_hidden_T10_stream.sv:271: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 255us; walltime 6.318 s; speed 40.422 us/s\n- Verilator: cpu 6.177 s on 257 threads; allocated 26 MB\n",
+  "model": "claude-sonnet-5.5",
+  "candidate_source_sha256": "c568979aaef6e4007d6d5197a722a9b3a833ba0acedda3141407a345d50d6d8a",
+  "campaign": "t10-cancel-range-v1-functional-retest",
+  "scope": "functional_only",
+  "power_evaluation": false,
+  "source_bound_structure_reused": true,
+  "simulation_adaptations": [],
+  "wall_seconds": 124.88275006320328
+}

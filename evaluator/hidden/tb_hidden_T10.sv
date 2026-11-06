@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 module tb_hidden_T10;
-  localparam int MAX_CASES = 1024;
+  localparam int MAX_CASES = 2048;
   logic clk = 0;
   always #5 clk = ~clk;
   logic rst_n = 1;

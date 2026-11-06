@@ -1,0 +1,25 @@
+{
+  "candidate_source_sha256": "ba346787bb260a418a9309d533d41c60db61714728e3c0d4ed01a58cc2785054",
+  "seed": 11,
+  "oracle": "unchanged strict exact-dyadic oracle",
+  "simulation_sha256": "62e37e753e3772cfb4c8f22c9b1b845b5fca4413c8507ad05dec6e9e2ee1f67e",
+  "groups": {
+    "cancellation": {
+      "total": 64,
+      "passed": 64,
+      "failures": []
+    },
+    "mma_normal": {
+      "total": 256,
+      "passed": 256,
+      "failures": []
+    },
+    "range_stress": {
+      "total": 82,
+      "passed": 82,
+      "failures": []
+    }
+  },
+  "score_modified": false,
+  "wall_seconds": 5.04485846310854
+}

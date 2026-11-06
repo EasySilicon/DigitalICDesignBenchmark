@@ -1,0 +1,133 @@
+"""Keep existing T10 graph elaboration and retry unsupported SV through slang."""
+import re
+import shlex
+from pathlib import Path
+if __package__:
+    from . import t10_structure_check as frozen
+    from .slang_frontend import yosys_command
+else:
+    import t10_structure_check as frozen
+    from slang_frontend import yosys_command
+
+
+_READ_VERILOG = re.compile(
+    r"read_verilog -sv (?P<sources>.*?)(?=; hierarchy -top )")
+_HIERARCHY_TOP = re.compile(
+    r";\s*hierarchy\s+-top\s+(?P<top>[A-Za-z_][A-Za-z0-9_$]*)\b")
+_MODULE = re.compile(r"^\s*module\s+(?:automatic\s+)?([A-Za-z_][A-Za-z0-9_$]*)\b",
+                     re.MULTILINE)
+_COMMENTS = re.compile(r"/\*.*?\*/|//[^\n]*", re.DOTALL)
+_PARAMETER = re.compile(r"\bparameter\b")
+_STATEFUL = re.compile(r"\b(?:always_ff|always_latch|posedge|negedge)\b")
+_UNPACKED_PORT = re.compile(
+    r"\b[A-Za-z_][A-Za-z0-9_$]*\s*(?:\[[^\]]*\]\s*)+(?=[,)=])")
+
+
+def _staged_slang_reads(script: str) -> str | None:
+    """Keep source-level PE identities by loading leaves before their parents.
+
+    Slang's monolithic ``--keep-hierarchy`` elaboration specializes a generated
+    leaf once for every hierarchical path.  That is correct elaboration, but
+    it hides the fact that 256 generated instances came from one PE module.
+    Loading a leaf file before its parent makes the already-loaded leaf an
+    external module during parent elaboration, preserving its common identity
+    for the structural checker.  A final top-level source may also contain
+    local helper modules, provided the requested hierarchy top is explicit;
+    other ambiguous layouts retain the conservative monolithic fallback.
+    """
+    match = _READ_VERILOG.search(script)
+    if match is None:
+        return None
+    try:
+        sources = [Path(source) for source in shlex.split(match.group("sources"))]
+        modules = []
+        top_match = _HIERARCHY_TOP.search(script)
+        if top_match is None:
+            return None
+        hierarchy_top = top_match.group("top")
+        for index, source in enumerate(sources):
+            text = _COMMENTS.sub("", source.read_text())
+            names = _MODULE.findall(text)
+            if len(names) == 1:
+                stage_top = names[0]
+            elif index == len(sources) - 1 and len(sources) > 1 and \
+                    hierarchy_top in names:
+                # A conventional top-level source often contains a small
+                # helper module beside the actual top.  Rejecting that layout
+                # forces Slang to specialize a large generated PE once per
+                # hierarchical path, turning a seconds-long structural read
+                # into a many-minute, multi-gigabyte elaboration.
+                stage_top = hierarchy_top
+            else:
+                return None
+            # Loading a parameterized helper on its own converts it into a
+            # default-specialized RTLIL module. Later reads see that external
+            # module, which no longer accepts parameter overrides or preserves
+            # the original unpacked-array port shape. Keep combinational helper
+            # sources with every consumer read instead of pre-elaborating them.
+            # The requested design top may itself expose configuration
+            # parameters; it has no parent that could override a preloaded
+            # default, so elaborate it normally after its PE dependencies.
+            parameterized = _PARAMETER.search(text) is not None
+            # External RTLIL modules expose packed bit vectors, so a staged
+            # read cannot reconstruct an unpacked array port's SV type either.
+            # Elaborate those wrappers together with their parents as well.
+            array_ports = _UNPACKED_PORT.search(text.split(";", 1)[0]) is not None
+            generic = (stage_top != hierarchy_top and len(names) == 1
+                       and (parameterized or array_ports))
+            if generic and _STATEFUL.search(text) and not array_ports:
+                return None
+            modules.append((stage_top, source, generic))
+    except (OSError, ValueError):
+        return None
+    if len({name for name, _, _ in modules}) != len(modules):
+        return None
+    reads = []
+    libraries = [source for _, source, generic in modules if generic]
+    for name, source, generic in modules:
+        if generic:
+            continue
+        # Retain helper hierarchy inside the first PE as well. Flattening a
+        # large arithmetic helper here can make later cone analysis needlessly
+        # expensive; the existing checker already understands retained children.
+        keep = "--keep-hierarchy " if reads or libraries else ""
+        reads.append("read_slang " + keep + "--top " + name +
+                     " --compat=vcs -D SYNTHESIS --ignore-assertions " +
+                     " ".join(shlex.quote(str(path)) for path in [*libraries, source]))
+    if not reads or modules[-1][2]:
+        return None
+    return "; ".join(reads) + script[match.end():]
+
+
+def inspect(submission):
+    command = yosys_command()
+    original = frozen.subprocess.run
+    used_slang = False
+
+    def run(args, *values, **options):
+        nonlocal used_slang
+        if args and args[0] == 'yosys' and '-p' in args:
+            first = original(args, *values, **options)
+            if first.returncode == 0:
+                return first
+            used_slang = True
+            args = list(args)
+            index = args.index('-p') + 1
+            staged = _staged_slang_reads(args[index])
+            if staged is not None:
+                args[index] = staged
+            else:
+                args[index] = args[index].replace('read_verilog -sv ',
+                    'read_slang --keep-hierarchy --top ' + frozen.TOP +
+                    ' --compat=vcs -D SYNTHESIS --ignore-assertions ', 1)
+            args = [*command, *args[1:]]
+        return original(args, *values, **options)
+
+    try:
+        frozen.subprocess.run = run
+        result = frozen.inspect(submission)
+        result['hdl_frontend'] = 'slang' if used_slang else 'builtin'
+        result['slang_available'] = True
+        return result
+    finally:
+        frozen.subprocess.run = original

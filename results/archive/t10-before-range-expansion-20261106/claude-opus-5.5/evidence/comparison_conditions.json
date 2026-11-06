@@ -1,0 +1,35 @@
+{
+  "compared_with": "claude_sonnet55_en_20261104",
+  "candidate_input_inventories_identical": true,
+  "model": "claude-opus-5-5",
+  "reasoning_effort": "high",
+  "cli_version": "2.1.317",
+  "cli_sha256": "eb224419e344575faa4a1f39b290b649425a10cd5ee2ef1d003480cd9ae57eb0",
+  "resources": {
+    "vcpu": 16,
+    "ram_gib": 40,
+    "disk_gib": 100,
+    "gpu": false
+  },
+  "skills": {
+    "builtin": true,
+    "user": false,
+    "external": false
+  },
+  "task_order": [
+    "T01",
+    "T02",
+    "T03",
+    "T04",
+    "T05",
+    "T06",
+    "T07",
+    "T08",
+    "T09",
+    "T10"
+  ],
+  "task_language": "en",
+  "host_grading_environment": "same repaired sequential models and three-prime acceptance policy as Sonnet",
+  "host_pipeline_change": "Pending grading reports retain their evidence and do not terminate later grading tasks.",
+  "candidate_three_seed_sweep_required": false
+}

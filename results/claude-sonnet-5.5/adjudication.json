@@ -1,0 +1,43 @@
+{
+  "authority": "benchmark_owner",
+  "utc": "2026-11-04T11:39:20.074134+00:00",
+  "task_id": "T10",
+  "functional_total": 48.43556579258209,
+  "ppa_score": 0,
+  "time_score": 0,
+  "display_score": 48.43556579258209,
+  "reason": "Original owner-adjudicated PPA/time zero retained; functionality updated using the common strict range corpus.",
+  "diagnostic_unlimited_run_changes_score": false,
+  "functional_retest": {
+    "policy_id": "t10-strict-range-v1",
+    "numerical_profile": "exact-dot-v1",
+    "seed": 11,
+    "report": {
+      "path": "results/t10-strict-functional-retest-20261106.json",
+      "sha256": "3c15d0da5b8d05890fc8c80a3c40a8b05529c3eac92b0debe3eba60ea46b241f",
+      "bytes": 15107
+    },
+    "functional_report": {
+      "path": "results/claude-sonnet-5.5/functional-retest-20261106/functional.json",
+      "sha256": "e2c18f4828b2717b2c533ad0a0c3fbc0f52413cc72f4e87c6a2f2af5eb6de42f",
+      "bytes": 23859
+    },
+    "functional_score": {
+      "path": "results/claude-sonnet-5.5/functional-retest-20261106/functional_score.json",
+      "sha256": "687d7d88dac707bd8afdc85c9e2192d2d5166d9412c2ef0e740b6f9ba488bda9",
+      "bytes": 2025
+    },
+    "trace_attestation": {
+      "path": "results/claude-sonnet-5.5/functional-retest-20261106/trace_attestation.json",
+      "sha256": "ab31f75521e871098cf23a778222231aef02a15c6db3e6323e979712c4f77cd7",
+      "bytes": 13208
+    },
+    "previous_summary": {
+      "path": "results/archive/t10-before-range-expansion-20261106/claude-sonnet-5.5/summary.json",
+      "sha256": "ffa9d83427cdf6fde313b8c22c250494e7246090ab123b110f07d68e2f8df52e",
+      "bytes": 162551
+    },
+    "ppa_remeasured": false,
+    "group_weights_unchanged": true
+  }
+}

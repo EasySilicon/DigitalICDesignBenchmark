@@ -38,6 +38,7 @@ GENERATED_ROOT_ENTRIES = {
     "reports",
     "results.json",
 }
+DEFAULT_DELIVERY_SEEDS = (11, 29, 47)
 
 
 def stage_submission(source: Path, destination: Path) -> None:
@@ -185,14 +186,41 @@ def delivery_report(task, report, rows):
             "note": "self-check validity only; RTL function is independently scored"}
 
 
+def check_seeds(task: str, submission: Path, seeds=DEFAULT_DELIVERY_SEEDS,
+                timeout: int = 600) -> dict:
+    """Replay each agreed seed twice through the ordinary delivery contract."""
+    seeds = tuple(seeds)
+    if not seeds or any(type(seed) is not int for seed in seeds) or len(set(seeds)) != len(seeds):
+        raise ValueError("delivery seeds must be a nonempty sequence of distinct integers")
+    reports = [dict(check(task, submission, seed, timeout), bench_seed=seed) for seed in seeds]
+    missing, errors = [], {}
+    for report in reports:
+        for item in report["delivery_assessment"]["missing_deliverables"]:
+            if item not in missing:
+                missing.append(item)
+        for error in report["delivery_assessment"]["errors"]:
+            key = error["root_cause"], error["attribution"]
+            if key not in errors:
+                errors[key] = dict(error, affected_seeds=[report["bench_seed"]])
+            else:
+                errors[key]["affected_seeds"].append(report["bench_seed"])
+    combined = delivery_report(task, assessment(missing, list(errors.values())), [])
+    combined.update(delivery_seeds=list(seeds), replays_per_seed=2, per_seed=reports,
+                    self_check_tests=sum(report["self_check_tests"] for report in reports))
+    return combined
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("task", choices=[f"T{i:02d}" for i in range(1, 11)])
     parser.add_argument("submission", type=Path)
-    parser.add_argument("--seed", type=int, default=20260925)
+    selected = parser.add_mutually_exclusive_group()
+    selected.add_argument("--seed", type=int, help="explicit single-seed diagnostic replay")
+    selected.add_argument("--seeds", type=int, nargs="+", help="delivery seeds (default: 11 29 47)")
     parser.add_argument("--timeout", type=int, default=600)
     args = parser.parse_args()
-    result = check(args.task, args.submission, args.seed, args.timeout)
+    seeds = [args.seed] if args.seed is not None else (args.seeds or DEFAULT_DELIVERY_SEEDS)
+    result = check_seeds(args.task, args.submission, seeds, args.timeout)
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if result["delivery_qualified"] else 1
 

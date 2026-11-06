@@ -136,6 +136,7 @@ def file_inventory(task: str, root: Path = ROOT) -> list[str]:
              "benchmark/delivery-policy.md", "evaluator/delivery_policy.py",
              "evaluator/slang_frontend.py", "evaluator/yosys_slang.py", "evaluator/route_with_slang.py",
              "benchmark/physical-runtime-policy.md", "evaluator/physical_budget.py",
+             "benchmark/power-compile-policy.md",
              "evaluator/physical_grading.py", "evaluator/aggregate_with_power_budget.py",
              "evaluator/score_with_power_budget.py", "evaluator/power_compile_budget.py",
              "evaluator/score_run.py", "evaluator/ppa_aggregate.py",

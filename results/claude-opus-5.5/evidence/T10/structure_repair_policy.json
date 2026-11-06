@@ -1,0 +1,78 @@
+{
+  "id": "t10-stateful-parameterized-tiles-20261105",
+  "scope": "host-only structure and fixed-seed-11 functional evaluation; no PPA",
+  "root_causes": [
+    "Stateful parameterized tile caused staging to be abandoned in favor of monolithic per-path PE elaboration",
+    "Array preparation passes optimized dynamic stores even when memory_map excluded them",
+    "Fixed-address enabled forwarding arrays were not normalized into enabled flip-flops"
+  ],
+  "fixes": [
+    "Retain generic stateful tile sources with parent reads while sharing a real PE module",
+    "Select only evaluator-tagged constant-address synchronous-write asynchronous-read arrays for memory preparation",
+    "Preserve write enables and recover DFFE representation after equivalent array lowering",
+    "Reduce repeated and constant enable bits before merging partial memory writes",
+    "Reuse the normalized hierarchy independently for each PE flattening hypothesis"
+  ],
+  "regression": {
+    "command": "PYTHONPATH=evaluator python3 -m unittest evaluator.test_slang_frontend evaluator.test_t10_structure_check -q",
+    "tests_passed": 36
+  },
+  "requirements_unchanged": {
+    "pe_instances": 256,
+    "horizontal_edges": 240,
+    "vertical_edges": 240,
+    "max_non_pe_state_bits": 306304,
+    "per_command_timeout_seconds": 180
+  },
+  "candidate_source_sha256": "1c2ad671e5de500a3848d9b541350798d7030d3c0b200273b00d18246ff71359",
+  "files": {
+    "t10_structure_with_slang.py": "e174b4c3c804945f7647e7c0df409fa4479459fb033dd4e26f6017df9773c071",
+    "t10_structure_check.py": "6d81bc6983d79478841b5b86361a6498c0d681cd99bed62765aca81e2edb328c",
+    "test_slang_frontend.py": "d7bb8f5034717a5612348564f7b294b13ab6c5bd3798c5debc3ec1dc7cc6f3d3"
+  },
+  "structure_result": {
+    "passed": true,
+    "reason": null,
+    "pe_module": "mm_pe",
+    "pe_instances": 256,
+    "mesh_paths": [
+      16,
+      16
+    ],
+    "link_register_placement": "tile_shell",
+    "top_state_bits": 295610,
+    "checked_links": [
+      [
+        "a_out",
+        "a_in"
+      ],
+      [
+        "b_out",
+        "b_in"
+      ]
+    ],
+    "flattened_from_hierarchy": true,
+    "status": "qualified",
+    "method": "yosys_netlist",
+    "hdl_frontend": "slang",
+    "slang_available": true,
+    "candidate_source_sha256": "1c2ad671e5de500a3848d9b541350798d7030d3c0b200273b00d18246ff71359",
+    "wall_seconds": 139.18253561668098,
+    "scope": "structural_check_only",
+    "candidate_source_unchanged": true
+  },
+  "structure_evidence_sha256": "d7404d9692c4de2e037254dbd7d1d62cb03a1d1fe08af5f611b9c51eabf45bc1",
+  "functional_evidence": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/evaluation_repairs/T10_structure_stateful_20261105/functional/functional.json",
+    "sha256": "d366e25c934d90cc04198f9a373e3cb09600601c403c387d122305b7b235b464"
+  },
+  "functional_score": {
+    "path": "/mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104/evaluation_repairs/T10_structure_stateful_20261105/functional/functional_score.json",
+    "sha256": "34648426dbcb37d04c9633bfd4698f5e12071e9d6b076779c41c09602f354f38"
+  },
+  "functional_seed": 11,
+  "functional_total": 50,
+  "full_functional_pass": true,
+  "supplemental_passed": 64,
+  "power_evaluation_started": false
+}

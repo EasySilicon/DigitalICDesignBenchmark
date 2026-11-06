@@ -1,0 +1,8 @@
+{
+  "phase": "finished",
+  "utc": "2026-11-04T11:34:04.818697+00:00",
+  "report_status": "scored",
+  "display_score": 50.0,
+  "ppa_status": "power_compile_timeout_zero",
+  "error": null
+}

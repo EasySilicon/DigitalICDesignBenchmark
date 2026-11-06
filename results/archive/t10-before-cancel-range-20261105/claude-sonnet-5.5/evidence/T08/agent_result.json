@@ -1,0 +1,30 @@
+{
+  "task_id": "T08",
+  "model": "claude-sonnet-5-5",
+  "reasoning_effort": "high",
+  "exit_code": 0,
+  "elapsed_seconds": 5710.399841785431,
+  "tokens": 27451020,
+  "session_id": "02b48ef1-f75f-436a-ae91-09a3233f346c",
+  "stop_reason": null,
+  "recovered_completed_attempt": false,
+  "finished_utc": "2026-11-03T21:12:23.532435+00:00",
+  "quota_resume_request": {
+    "session_id": "02b48ef1-f75f-436a-ae91-09a3233f346c",
+    "reset_epoch": 1793734800.0,
+    "interruption_epoch": 1793732282.954702,
+    "evidence": "five_hour_rejected",
+    "event_id": "3d6f48e2-37c3-426f-8908-1401a70d5b9b",
+    "prior_active_seconds": 204.7888059616089,
+    "remaining_seconds": 6995,
+    "original_time_limit_seconds": 7200,
+    "request_id": "20261103T185802-159ba7",
+    "task_id": "T08",
+    "container": "ic-bcmk-claude-20261104-t08-5148a2",
+    "reason": "confirmed_five_hour_quota",
+    "observed_utc": "2026-11-03T18:58:02.975933+00:00",
+    "prior_tokens": 1320387,
+    "resume_driver_sha256": "c6cf041ac1924f7408a91a732f3acc93973bdf75c563d2a6f3157f412330ac6c"
+  },
+  "elapsed_time_policy": "sum_of_active_attempts_excluding_confirmed_quota_wait"
+}
