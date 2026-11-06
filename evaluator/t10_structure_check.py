@@ -57,30 +57,61 @@ def _paths(edges: dict[int, int], size: int = 256) -> list[list[int]] | None:
 
 
 def _shell_registered_meshes(module: dict, connections: list[dict],
-                              input_ports: list[str]) -> list[tuple[str, list[list[int]]]]:
+                              input_ports: list[str],
+                              pe: dict | None = None) -> list[tuple[str, list[list[int]]]]:
     """Find PE-input chains advanced by one register in the enclosing mesh.
 
     A physical implementation may keep the wavefront register in the tile
     shell instead of inside the PE macro.  In that form each edge has the
     current PE input on a flop D pin and the adjacent PE input on its Q pin.
-    Requiring exact vector equality on both sides rejects combinational
-    forwarding, partial buses, fanout trees, and skipped PE stages.
+    Match every ordered D/Q bit pair, independently of how the frontend groups
+    flops into cells. Operand bits may share a wider cell with scale/control
+    bits, or be split between several cells. Exact bus correspondence still
+    rejects partial buses, permutations, fanout trees, and skipped PE stages.
     """
     flops = [cell for cell in module["cells"].values()
              if cell["type"] in FLOP_TYPES]
+    registered_sources = {}
+    ambiguous = set()
+    for flop in flops:
+        for d_bit, q_bit in zip(flop["connections"].get("D", ()),
+                                flop["connections"].get("Q", ())):
+            if not isinstance(q_bit, int):
+                continue
+            if q_bit in registered_sources:
+                ambiguous.add(q_bit)
+            registered_sources[q_bit] = d_bit
     meshes = []
     for input_port in input_ports:
-        receivers = {tuple(conn[input_port]): index
-                     for index, conn in enumerate(connections)}
         sources = {tuple(conn[input_port]): index
                    for index, conn in enumerate(connections)}
+        if len(sources) != len(connections):
+            continue
+        # A retained PE can expose a separate output pin that is literally
+        # wired to this input internally. Parent RTLIL bit IDs remain distinct
+        # across the cell boundary, so include those exact identity aliases.
+        aliases = [] if pe is None else [
+            port for port, data in pe["ports"].items()
+            if data["direction"] == "output" and
+            data["bits"] == pe["ports"][input_port]["bits"]]
+        conflicting = set()
+        for index, conn in enumerate(connections):
+            for port in aliases:
+                bits = tuple(conn[port])
+                if bits in sources and sources[bits] != index:
+                    conflicting.add(bits)
+                sources[bits] = index
+        for bits in conflicting:
+            sources.pop(bits)
         edges = {}
-        for flop in flops:
-            d_bits = tuple(flop["connections"].get("D", ()))
-            q_bits = tuple(flop["connections"].get("Q", ()))
+        for receiver, conn in enumerate(connections):
+            q_bits = conn[input_port]
+            if any(bit in ambiguous or bit not in registered_sources
+                   for bit in q_bits):
+                continue
+            d_bits = tuple(registered_sources[bit] for bit in q_bits)
             source = sources.get(d_bits)
-            receiver = receivers.get(q_bits)
-            if source is not None and receiver is not None and source != receiver:
+            if source is not None and source != receiver:
                 if source in edges and edges[source] != receiver:
                     edges[source] = -1
                 else:
@@ -267,6 +298,18 @@ def _non_pe_state_bits(modules: dict, module_name: str, pe_kind: str) -> int:
     return state
 
 
+def _control_cone(module: dict) -> set:
+    # Bit-blasted registers often share the same clock/reset. Trace each
+    # distinct control vector once instead of rebuilding its driver map for
+    # every register; the union of reachable bits is unchanged.
+    targets = {tuple(cell["connections"][pin])
+               for cell in module["cells"].values()
+               if cell["type"] in FLOP_TYPES
+               for pin in ("CLK", "ARST", "SRST")
+               if pin in cell["connections"]}
+    return set().union(*(_cone(module, bits) for bits in targets))
+
+
 def inspect_netlist(design: dict) -> dict:
     modules = design["modules"]
     top = modules[TOP]
@@ -299,13 +342,7 @@ def inspect_netlist(design: dict) -> dict:
     pe_input_bits = {bit for port in pe["ports"].values()
                      if port["direction"] == "input"
                      for bit in port["bits"] if isinstance(bit, int)}
-    control_bits = set()
-    for cell in pe["cells"].values():
-        if cell["type"] not in FLOP_TYPES:
-            continue
-        for pin in ("CLK", "ARST", "SRST"):
-            if pin in cell["connections"]:
-                control_bits.update(_cone(pe, cell["connections"][pin]))
+    control_bits = _control_cone(pe)
     pe_data_inputs = pe_input_bits - control_bits
     meshes = []
     for output_port in outs:
@@ -331,7 +368,7 @@ def inspect_netlist(design: dict) -> dict:
     if len(matching) == 1:
         first, second = matching[0]
     else:
-        shell_meshes = _shell_registered_meshes(top, connections, ins)
+        shell_meshes = _shell_registered_meshes(top, connections, ins, pe)
         shell_matching = []
         for i, first_shell in enumerate(shell_meshes):
             for second_shell in shell_meshes[i + 1:]:
@@ -466,6 +503,59 @@ def _yosys_exact_module_selection(name: str) -> str:
     return f"={name}"
 
 
+def _mark_static_register_arrays(design: dict) -> int:
+    """Select constant-address register arrays for an equivalent FF view.
+
+    Dynamic result stores stay as memories: expanding their decoders is both
+    unnecessary for mesh checking and potentially very expensive. Only arrays
+    with constant addresses, synchronous writes and asynchronous reads are
+    selected. Write enables may vary, just as for individual enabled flops.
+    Yosys performs the actual semantics-preserving lowering.
+    """
+    count = 0
+    for module in design["modules"].values():
+        ports = defaultdict(list)
+        for cell in module.get("cells", {}).values():
+            if cell["type"] in {"$mem", "$mem_v2"}:
+                cell.setdefault("attributes", {})["ic_bcmk_static_array"] = 0
+            if cell["type"] in {"$memwr", "$memwr_v2", "$memrd", "$memrd_v2"}:
+                ports[cell["parameters"]["MEMID"].lstrip("\\")].append(cell)
+        for name, memory in module.get("memories", {}).items():
+            # Never honor a candidate-supplied selection attribute.
+            # memory_map -attr constrains memories *with* the attribute;
+            # absent attributes are mapped by default, so mark every memory.
+            memory.setdefault("attributes", {})["ic_bcmk_static_array"] = 0
+            accesses = ports.get(name, [])
+            if not accesses or not any(cell["type"].startswith("$memwr")
+                                       for cell in accesses):
+                continue
+            if any(
+                any(bit not in ("0", "1") for bit in cell["connections"][pin])
+                for cell in accesses for pin in ("ADDR",)
+            ) or any(int(cell["parameters"]["CLK_ENABLE"], 2) !=
+                     int(cell["type"].startswith("$memwr")) for cell in accesses):
+                continue
+            memory["attributes"]["ic_bcmk_static_array"] = 1
+            count += 1
+    return count
+
+
+def _static_register_array_script(tagged: Path, output: Path) -> str:
+    # Selection must cover the preparation passes too: optimizing all memory
+    # ports can expand a large dynamic result bank even when memory_map itself
+    # excludes it. Recover enabled flops after mapping so their D/Q link is
+    # represented like the same register written without an array declaration.
+    selected = "a:ic_bcmk_static_array=1"
+    # Partial writes to packed slices are often emitted as wide enable muxes.
+    # Reduce their repeated/constant bits before merging write ports, otherwise
+    # the merge obscures an identity D/Q link behind redundant priority muxes.
+    return (f"read_json {tagged}; opt_reduce -fine; opt_expr -mux_bool -fine; "
+            f"opt_clean; memory_share -nosat -nowiden {selected}; "
+            f"opt_mem {selected}; memory_map -attr ic_bcmk_static_array; "
+            f"opt_expr -mux_bool -fine; opt_clean; opt_dff -nosdff; "
+            f"opt_clean; write_json {output}")
+
+
 def inspect(submission: Path) -> dict:
     sources = sources_from_filelist(submission)
     with tempfile.TemporaryDirectory(prefix="ic_bcmk_t10_struct_") as temp:
@@ -479,7 +569,18 @@ def inspect(submission: Path) -> dict:
                                       timeout=180)
             if compiled.returncode:
                 return None, (compiled.stdout + compiled.stderr)[-4000:]
-            return json.loads(output.read_text()), None
+            design = json.loads(output.read_text())
+            if _mark_static_register_arrays(design):
+                tagged = Path(temp) / "static_arrays.json"
+                tagged.write_text(json.dumps(design))
+                normalized = subprocess.run(
+                    ["yosys", "-Q", "-T", "-p",
+                     _static_register_array_script(tagged, output)],
+                    capture_output=True, text=True, timeout=180)
+                if normalized.returncode:
+                    return None, (normalized.stdout + normalized.stderr)[-4000:]
+                design = json.loads(output.read_text())
+            return design, None
 
         design, error = elaborate(f"{prefix}; write_json {output}")
         if design is None:
@@ -504,6 +605,12 @@ def inspect(submission: Path) -> dict:
                     reachable[kind] = str(exc)
             candidates = [kind for kind in interface_candidates
                           if reachable[kind] == 256]
+            # Reuse the already elaborated and normalized hierarchy for every
+            # PE hypothesis. Re-reading the SV repeats both frontend work and
+            # array conversion; sharing a saved baseline also keeps hypotheses
+            # independent of each other's flattening changes.
+            baseline = Path(temp) / "hierarchical.json"
+            baseline.write_text(json.dumps(design))
             attempts = {}
             passing = []
             for pe_kind in candidates:
@@ -513,7 +620,7 @@ def inspect(submission: Path) -> dict:
                     attempts[pe_kind] = {"passed": False, "reason": str(exc)}
                     continue
                 flattened, flatten_error = elaborate(
-                    f"{prefix}; setattr -unset keep_hierarchy; "
+                    f"read_json {baseline}; setattr -unset keep_hierarchy; "
                     f"setattr -mod -unset keep_hierarchy; "
                     f"setattr -mod -set keep_hierarchy 1 {selection}; "
                     # Limit flattening to the evaluator's top-level view.

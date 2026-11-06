@@ -14,3 +14,11 @@ module DFFASRHQNx1_ASAP7_75t_R(output reg QN,
     else QN <= ~D;
   end
 endmodule
+
+// Active-high transparent latch. The vendor SEQ model and Liberty define
+// DHLx1 with data D and enable CLK; there is no reset or inverted output.
+module DHLx1_ASAP7_75t_R(output logic Q, input logic D, CLK);
+  always_latch begin
+    if (CLK) Q <= D;
+  end
+endmodule

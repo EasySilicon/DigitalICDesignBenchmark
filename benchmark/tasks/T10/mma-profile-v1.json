@@ -1,0 +1,59 @@
+{
+  "profile_id": "mma-f32-envelope-v1",
+  "status": "experimental_functional_profile",
+  "official_default_changed": false,
+  "legacy_profile": "exact-dot-v1; existing README and matmul_oracle.py remain unchanged",
+  "entrypoint": "python3 evaluator/runner_t10_mma.py SUBMISSION --output-dir NEW_DIRECTORY --seed 11",
+  "sources": [
+    {
+      "title": "NVIDIA PTX ISA 9.5, mma precision and rounding",
+      "url": "https://docs.nvidia.com/cuda/parallel-thread-execution/index.html#warp-level-matrix-instructions-mma",
+      "scope": "mma.sync with FP32 accumulation, including alternate formats and block scaling; not wgmma's implementation-specific reduced-precision note",
+      "commitment": "At least single precision accumulation; accumulation order, rounding and subnormal input handling unspecified"
+    },
+    {
+      "title": "OCP MX v1.0, sections 5.1 and 6.1",
+      "url": "https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf",
+      "commitment": "Internal dot precision/order and MX operands outside Float32 range are implementation-defined"
+    }
+  ],
+  "interpretation": {
+    "not_a_vendor_emulator": true,
+    "not_a_proof_of_internal_precision": true,
+    "reason": "The vendor text does not specify one bit-exact answer or a numeric gamma formula. This profile supplies a conservative executable benchmark envelope and explicitly reports unresolved exceptional outcomes.",
+    "multiplication": "Decode low-bit operands exactly and form mathematical products for the error reference. This is a benchmark reference construction, not a claim that PTX specifies exact full-dot arithmetic.",
+    "unchanged_requirements": [
+      "All INT8/INT16 results remain exact signed INT64 under the T10 interface; PTX integer s32 semantics are not substituted",
+      "Floating output upper 32 bits zero; NaNs must be quiet; payload and signed zero unconstrained",
+      "Original row/ID ordering, no duplication, throughput, metadata capture, backpressure, reset and mesh requirements"
+    ],
+    "finite_error": "distance(D, [S_lo,S_hi]) <= gamma_128 * sum(abs(products)) + 129*2^-126",
+    "gamma_128": "128 / (2^23 - 128); accounts for directed rounding, unlike round-nearest's half-ulp assumption",
+    "subnormals": "A term involving a source-format or effective binary32 subnormal operand may be preserved or flushed. S_lo/S_hi bound optional deletion of these terms; 129*2^-126 conservatively covers arithmetic/output flushing. This is an outer envelope, not enumeration of every hardware implementation.",
+    "finite_range_rule_removed": "An exact sum just beyond MAX_F32 does not automatically require infinity. For example MAX_F32+1 may produce MAX_F32 under nearest-even rounding.",
+    "intermediate_overflow": "No mandate to recover an exact finite result after intermediate overflow. Infinite/NaN outputs require a same-sign/opposing-sign overflow path respectively; plausible paths are recorded as diagnostics, never numerical passes.",
+    "explicit_special_values": "Explicit NaN, zero times infinity, and opposite input infinities still require quiet NaN. An input infinity cannot become a finite result. Possible arithmetic overflow/denormal flushing may create an additional invalid path.",
+    "mx_outside_float32": "Except guaranteed explicit NaN, record numerical verdict as diagnostic; output encoding and every interface check still apply.",
+    "overflow_sensitive_finite_outputs": "Finite outputs within the numeric envelope are checked passes. Outputs outside it that may arise from overflow saturation/cancellation are diagnostic, never silently accepted as numerical passes. Definite wrong-sign infinity, NaN without an invalid path and wrong ordinary finite values fail."
+  },
+  "suite": {
+    "default_seed": 11,
+    "functional_seed_count": 1,
+    "legacy_continuous_stream": "Same source generator with seed 11; includes the 64 previously added cancellation cases",
+    "added_normal_domain_cases": 256,
+    "normal_domain_coverage": "32 cases for each of the eight floating modes; all must be fully numerically checked passes, including mantissa sensitivity, signs, asymmetry, source normals, sparse boundaries and per-row/per-block MX scaling",
+    "retained_additional_range_probes": 82,
+    "range_probe_operand_identity": "Byte-identical to the 82 probes audited on Opus and both GPT models on 2026-11-05",
+    "mixed_backpressure": true,
+    "runtime_reset_probe": true,
+    "structure": "Fresh independent structure check or reuse a passed source-hash-bound structural receipt",
+    "power_evaluation": "never launched by this entrypoint"
+  },
+  "reporting": {
+    "outcomes": ["pass", "fail", "diagnostic"],
+    "diagnostic_is_numeric_pass": false,
+    "functional_passed": "All checked numerical lanes and unchanged interface checks pass, all 256 normal-domain cases are fully checked, structure passes and runtime reset passes. Every excluded diagnostic lane/case is counted separately.",
+    "score_eligible": false,
+    "historical_scores": "Untouched; do not silently recompute old scores or represent this preview as NVIDIA certification"
+  }
+}

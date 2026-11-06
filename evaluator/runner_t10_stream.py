@@ -14,7 +14,7 @@ from dataclasses import replace
 from pathlib import Path
 
 from t10_common import EVALUATOR_ROOT
-from runner_t10 import (Case, GROUP_COUNTS, ONE, WIDTH, generate_cases,
+from runner_t10 import (Case, GROUP_COUNTS, LEGACY_GROUP_COUNTS, ONE, WIDTH, generate_cases,
                         pack_rows, parse_output, write_vectors)
 from t10_structure_with_slang import inspect as inspect_structure
 from t10_fast_oracle import check_output_fast
@@ -71,7 +71,7 @@ def stream_cases(seed: int) -> tuple[list[Case], list[int]]:
     # The first four modes force both 4 -> 16 and 16 -> 4 transitions.
     rng = random.Random(seed ^ 0x10A7C0DE)
     source_by_mode = {
-        mode: [case for case in cases[:sum(GROUP_COUNTS.values())]
+        mode: [case for case in cases[:sum(LEGACY_GROUP_COUNTS.values())]
                if case.mode == mode]
         for mode in range(10)
     }
@@ -192,7 +192,8 @@ def run(submission: Path, seed: int = 20260925,
                                  "error": "reset probe failed to compile or pass"})
         return {"task_id": "T10", "phase": "run" if executed.returncode == 0
                 else "simulation-failed", "status": "streaming_pre_release",
-                "seed": seed, "cases": len(cases), "legacy_cases": sum(GROUP_COUNTS.values()),
+                "seed": seed, "cases": len(cases), "legacy_cases": sum(LEGACY_GROUP_COUNTS.values()),
+                "supplemental_cases": sum(GROUP_COUNTS.values()) - sum(LEGACY_GROUP_COUNTS.values()),
                 "mixed_backpressure": mixed_backpressure,
                 "first_latency_limit": first_latency_limit,
                 "last_latency_limit": last_latency_limit,

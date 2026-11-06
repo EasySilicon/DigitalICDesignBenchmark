@@ -21,6 +21,26 @@ def sha(path):
     return h.hexdigest()
 
 
+def repository_artifact(directory, relative, expected_sha256, size=None):
+    """Resolve a dependency at its recorded bytes, including archived sources.
+
+    Historical reports bind the tool/contract version used for that run, not
+    every future revision of the live evaluator. A content-addressed snapshot
+    preserves that identity without rewriting reports or accepting drift.
+    """
+    path = (REPO / relative).resolve()
+    if not path.is_relative_to(REPO):
+        raise ValueError('repository dependency missing/changed: ' + relative)
+    directory = directory.resolve()
+    snapshot = (directory / 'repository_snapshots' / (expected_sha256 + '_' + path.name)).resolve()
+    candidates = (path, snapshot) if snapshot.is_relative_to(directory) else (path,)
+    for candidate in candidates:
+        if candidate.is_file() and (size is None or candidate.stat().st_size == size) and \
+                sha(candidate) == expected_sha256:
+            return candidate
+    raise ValueError('repository dependency missing/changed: ' + relative)
+
+
 def verify_bundle(directory):
     directory=directory.resolve();index=json.loads((directory/'index.json').read_text())
     for row in index['portable']:
@@ -29,9 +49,7 @@ def verify_bundle(directory):
                 path.stat().st_size!=row['bytes'] or sha(path)!=row['sha256']:
             raise ValueError('portable artifact missing/changed: '+row['path'])
     for row in index['repository']:
-        path=(REPO/row['path']).resolve()
-        if not path.is_relative_to(REPO) or not path.is_file() or sha(path)!=row['sha256']:
-            raise ValueError('repository dependency missing/changed: '+row['path'])
+        repository_artifact(directory, row['path'], row['sha256'], row.get('bytes'))
     return index
 
 

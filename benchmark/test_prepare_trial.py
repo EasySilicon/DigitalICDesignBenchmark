@@ -2,12 +2,33 @@ from __future__ import annotations
 
 import tempfile
 import unittest
+import re
 from pathlib import Path
 
 from benchmark.prepare_trial import prepare
 
 
 class PrepareTrialIsolationTest(unittest.TestCase):
+    def test_english_preparation_uses_complete_english_contracts_for_all_tasks(self) -> None:
+        for number in range(1, 11):
+            task = f"T{number:02d}"
+            with self.subTest(task=task), tempfile.TemporaryDirectory() as temporary:
+                destination = Path(temporary) / "workspace"
+                prepare(task, destination, language="en")
+                directory = destination / "benchmark/tasks" / task
+                english = (directory / "README.en.md").read_text()
+                self.assertEqual((directory / "task.md").read_text(), english)
+                for path in (directory / "task.md", directory / "acceptance.md",
+                             destination / "benchmark/README.md", destination / "PROMPT.md"):
+                    self.assertIsNone(re.search(r"[\u4e00-\u9fff]", path.read_text()), str(path))
+                self.assertIn("README.en.md", (destination / "PROMPT.md").read_text())
+                self.assertFalse(any(destination.rglob("SKILL.md")))
+                if task == "T08":
+                    self.assertTrue((destination / "rtl/mac_1g_repair.sv").is_file())
+                if task == "T10":
+                    self.assertIn("ST-BP/RST", english)
+                    self.assertTrue((directory / "public/matmul_oracle.py").is_file())
+
     def test_every_candidate_task_states_its_reset_contract_explicitly(self) -> None:
         expected = {
             "T01": ("`rst_n` 为异步低有效", "无须等待 `clk` 上升沿"),

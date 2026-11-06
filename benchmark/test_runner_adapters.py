@@ -11,6 +11,49 @@ from benchmark.test_runner_config import valid_config
 
 
 class RunnerAdapterTest(unittest.TestCase):
+    def test_claude_oauth_is_private_and_rotation_reaches_next_fresh_task(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            credentials = root / "oauth.json"
+            credentials.write_text(json.dumps({"claudeAiOauth": {
+                "accessToken": "private-access", "refreshToken": "private-refresh", "expiresAt": 100}}))
+            settings = root / "settings.json"
+            settings.write_text('{"env": {}, "enabledPlugins": {"external@example": true}}')
+            config = self.configuration(root, {"adapter": "claude", "profile": str(settings)},
+                                        options={"oauth_credentials": str(credentials)})
+            adapter = ClaudeAdapter(config)
+            adapter.preflight()
+            task = root / "candidate"
+            (task / "agent_home").mkdir(parents=True)
+            private = root / "private-task"
+            private.mkdir()
+            runtime = adapter.prepare(task, private, 60)
+            # A second task prepared before the first one refreshes must receive
+            # the latest shared chain at launch, rather than its prepared copy.
+            next_task = root / "next-candidate"
+            (next_task / "agent_home").mkdir(parents=True)
+            next_private = root / "next-private"
+            next_private.mkdir()
+            next_runtime = adapter.prepare(next_task, next_private, 60)
+            for path in task.rglob("*"):
+                if path.is_file():
+                    self.assertNotIn("private-access", path.read_text())
+            private_settings = (private / ".claude/settings.json").read_text()
+            self.assertNotIn("external@example", private_settings)
+            self.assertIn("TeamCreate", runtime.shell)
+            renewed = private / ".claude/.credentials.json"
+            renewed.write_text(json.dumps({"claudeAiOauth": {
+                "accessToken": "rotated-access", "refreshToken": "rotated-refresh", "expiresAt": 200}}))
+            adapter.finalize(task, private, runtime)
+            self.assertEqual(json.loads(credentials.read_text())["claudeAiOauth"]["accessToken"], "rotated-access")
+            # An older task must not overwrite newer shared credentials.
+            renewed.write_text(json.dumps({"claudeAiOauth": {"expiresAt": 150}}))
+            adapter.finalize(task, private, runtime)
+            self.assertEqual(json.loads(credentials.read_text())["claudeAiOauth"]["expiresAt"], 200)
+            adapter.before_start(next_task, next_private, next_runtime)
+            self.assertEqual(json.loads((next_private / ".claude/.credentials.json").read_text())[
+                "claudeAiOauth"]["accessToken"], "rotated-access")
+
     def configuration(self, root: Path, changes: dict, *, options=None):
         value = valid_config(root)
         value["agent"].update(changes)

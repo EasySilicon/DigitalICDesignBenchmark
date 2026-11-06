@@ -11,7 +11,7 @@ ROOT=Path(__file__).resolve().parents[1]
 FIXTURES=ROOT/'evaluator/fixtures/t10_v1_three_seed'
 sys.path.insert(0,str(ROOT/'evaluator/t10_backend/v1'))
 from complete_seed import check_activity
-from export_bundle import verify_bundle
+from export_bundle import verify_bundle, repository_artifact
 sys.path.pop(0)
 
 
@@ -159,4 +159,5 @@ class V1EvidenceTest(unittest.TestCase):
             'filelist_sha256':'evaluator/reference/T10_v15/rtl/files.f',
             'checker_sha256':'evaluator/t10_structure_check.py',
         }.items():
-            self.assertEqual(record[key],hashlib.sha256((ROOT/path).read_bytes()).hexdigest())
+            original = repository_artifact(FIXTURES / 'reference_bundle', path, record[key])
+            self.assertEqual(record[key],hashlib.sha256(original.read_bytes()).hexdigest())

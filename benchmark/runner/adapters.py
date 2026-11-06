@@ -109,7 +109,8 @@ class Adapter:
     def __init__(self, config: RunnerConfig):
         self.config = config
         self.agent = config.agent
-        allowed_options = {"zcode": {"provider_config", "runtime_root"}}.get(self.name, set())
+        allowed_options = {"zcode": {"provider_config", "runtime_root"},
+                           "claude": {"oauth_credentials"}}.get(self.name, set())
         unknown_options = sorted(set(self.agent.options) - allowed_options)
         if unknown_options:
             raise ValueError(f"unsupported {self.name} adapter options: {', '.join(unknown_options)}")
@@ -134,6 +135,9 @@ class Adapter:
         raise NotImplementedError
 
     def finalize(self, task_dir: Path, private_dir: Path, runtime: AdapterRuntime) -> None:
+        return None
+
+    def before_start(self, task_dir: Path, private_dir: Path, runtime: AdapterRuntime) -> None:
         return None
 
     def _wrapped(self, invocation: str, seconds: int) -> str:
@@ -345,6 +349,13 @@ class ClaudeAdapter(Adapter):
         super().preflight()
         if self.agent.profile is None or not self.agent.profile.is_file():
             raise ValueError("Claude adapter requires agent.profile pointing to settings.json")
+        credentials = self.agent.options.get("oauth_credentials")
+        if credentials is not None:
+            source = Path(credentials)
+            if not source.is_absolute() or not source.is_file():
+                raise ValueError("Claude oauth_credentials must point to an existing absolute file")
+            if not json.loads(source.read_text()).get("claudeAiOauth", {}).get("refreshToken"):
+                raise ValueError("Claude OAuth credentials lack a refresh token")
 
     def prepare(self, task_dir: Path, private_dir: Path, seconds: int) -> AdapterRuntime:
         assert self.agent.profile is not None
@@ -356,12 +367,19 @@ class ClaudeAdapter(Adapter):
             env[key] = self.agent.model
         private_home = private_dir / ".claude"
         private_home.mkdir(parents=True, mode=0o700)
+        credentials = self.agent.options.get("oauth_credentials")
+        if credentials is not None:
+            _copy_file(Path(credentials), private_home / ".credentials.json")
+        env["CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"] = "1"
+        env["DISABLE_AUTOUPDATER"] = "1"
         (task_dir / "agent_home/.claude").mkdir(parents=True, mode=0o700)
         deny = []
         if not self.agent.skills.builtin:
             deny.append("Skill")
         if not self.agent.tools.web:
             deny += ["WebSearch", "WebFetch"]
+        if not self.agent.tools.multi_agent:
+            deny += ["Agent", "Task", "TeamCreate"]
         settings = private_home / "settings.json"
         settings.write_text(json.dumps({
             "env": env,
@@ -382,13 +400,34 @@ class ClaudeAdapter(Adapter):
         if deny:
             args += ["--disallowedTools", ",".join(deny)]
         if self.agent.tools.allowed:
-            args += ["--allowedTools", ",".join(self.agent.tools.allowed)]
+            args += ["--tools", ",".join(self.agent.tools.allowed),
+                     "--allowedTools", ",".join(self.agent.tools.allowed)]
         invocation = " ".join(shlex.quote(arg) if not arg.startswith("$(<") else '"' + arg + '"'
                               for arg in args)
         return AdapterRuntime(self._wrapped(invocation, seconds),
             (binary_mount,
              Mount(private_home, "/home/benchmark/.claude", False)),
             audit_home=private_dir)
+
+    def finalize(self, task_dir: Path, private_dir: Path, runtime: AdapterRuntime) -> None:
+        credentials = self.agent.options.get("oauth_credentials")
+        renewed = private_dir / ".claude/.credentials.json"
+        if credentials is None or not renewed.is_file():
+            return
+        source = Path(credentials)
+        # Tasks are serial. Carry an actual token rotation into the next fresh
+        # home, without replacing a credential chain that was renewed later.
+        current = json.loads(source.read_text()).get("claudeAiOauth", {})
+        updated = json.loads(renewed.read_text()).get("claudeAiOauth", {})
+        if updated.get("expiresAt", 0) > current.get("expiresAt", 0):
+            _copy_file(renewed, source)
+
+    def before_start(self, task_dir: Path, private_dir: Path, runtime: AdapterRuntime) -> None:
+        credentials = self.agent.options.get("oauth_credentials")
+        if credentials is not None:
+            # All workspaces may be prepared offline in advance. Refresh their
+            # private credential copy only when each serial task actually starts.
+            _copy_file(Path(credentials), private_dir / ".claude/.credentials.json")
 
     def audit(self, task_dir: Path, runtime: AdapterRuntime) -> AuditResult:
         initialized = failed = binding = False

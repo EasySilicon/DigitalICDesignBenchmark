@@ -59,8 +59,13 @@ class ManualClosureTest(unittest.TestCase):
             self.assertEqual(len(blob), artifact["bytes"], artifact["path"])
             self.assertEqual(hashlib.sha256(blob).hexdigest(), artifact["sha256"], artifact["path"])
         qualification = json.loads((base / "t10_qualification.json").read_text())
+        from evaluator.t10_backend.v1.export_bundle import repository_artifact
         for key in ("ppa_contract", "ppa_evidence_schema", "pe_reference_probe", "historical_pe_reference_probe"):
-            blob = (base / qualification[key + "_path"]).read_bytes()
+            dependency = (base / qualification[key + "_path"]).resolve().relative_to(ROOT)
+            original = repository_artifact(
+                ROOT / 'evaluator/fixtures/t10_v1_three_seed/reference_bundle',
+                str(dependency), qualification[key + "_sha256"])
+            blob = original.read_bytes()
             self.assertEqual(hashlib.sha256(blob).hexdigest(), qualification[key + "_sha256"])
         self.assertFalse(qualification["pe_reference_probe"]["official_ppa_baseline"])
         self.assertEqual(qualification["physical_levels"], ["pe"])

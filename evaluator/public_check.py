@@ -18,6 +18,27 @@ ROOT = Path(__file__).resolve().parent
 SUPPORTED = {f"T{i:02d}" for i in range(1, 11)}
 
 
+def compile_smoke(command: list[str], build: Path, timeout: float):
+    """Keep one deadline when working around the known empty VM_TRACE macro."""
+    started = time.monotonic()
+    compiled = subprocess.run(command, text=True, capture_output=True,
+                              timeout=timeout, check=False)
+    transcript = compiled.stdout + compiled.stderr
+    if compiled.returncode and "--hierarchical" in command and \
+            "error: #if with no expression" in transcript and "-DVM_TRACE=" in transcript:
+        remaining = timeout - (time.monotonic() - started)
+        if remaining > 0:
+            retry_build = build / "trace_fallback"
+            retry = command.copy()
+            retry[retry.index("--Mdir") + 1] = str(retry_build)
+            retry.insert(retry.index("--timing"), "--trace")
+            compiled = subprocess.run(retry, text=True, capture_output=True,
+                                      timeout=remaining, check=False)
+            transcript += "\nKnown VM_TRACE compiler fallback:\n" + compiled.stdout + compiled.stderr
+            build = retry_build
+    return compiled, build, transcript
+
+
 def sources_from_filelist(submission: Path) -> list[Path]:
     rtl = (submission / "rtl").resolve(strict=True)
     filelist = rtl / "files.f"
@@ -57,12 +78,12 @@ def run(task: str, submission: Path, seed: int, width: int, depth: int, n_inputs
             compile_cmd[1:1] = [f"-GWIDTH={width}", f"-GDEPTH={depth}"]
         elif task == "T04":
             compile_cmd[1:1] = [f"-GWIDTH={width}", f"-GN={n_inputs}"]
-        compiled = subprocess.run(compile_cmd, text=True, capture_output=True,
-                                  timeout=600 if task == "T10" else 180, check=False)
+        compiled, binary_dir, compile_log = compile_smoke(
+            compile_cmd, binary_dir, 600 if task == "T10" else 180)
         if compiled.returncode:
             return {"task": task, "passed": False, "phase": "compile",
                     "elapsed_seconds": round(time.monotonic() - start, 3),
-                    "log_tail": (compiled.stdout + compiled.stderr)[-8000:]}
+                    "log_tail": compile_log[-8000:]}
         binary = binary_dir / f"Vtb_{task}"
         executed = subprocess.run([str(binary), f"+SEED={seed}"], text=True,
                                   capture_output=True,

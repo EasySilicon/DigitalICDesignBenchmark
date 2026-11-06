@@ -2,6 +2,7 @@
 import re
 import shlex
 from pathlib import Path
+from subprocess import TimeoutExpired
 if __package__:
     from . import t10_structure_check as frozen
     from .slang_frontend import yosys_command
@@ -16,6 +17,10 @@ _HIERARCHY_TOP = re.compile(
     r";\s*hierarchy\s+-top\s+(?P<top>[A-Za-z_][A-Za-z0-9_$]*)\b")
 _MODULE = re.compile(r"^\s*module\s+(?:automatic\s+)?([A-Za-z_][A-Za-z0-9_$]*)\b",
                      re.MULTILINE)
+_COMMENTS = re.compile(r"/\*.*?\*/|//[^\n]*", re.DOTALL)
+_PARAMETER = re.compile(r"\bparameter\b")
+_UNPACKED_PORT = re.compile(
+    r"\b[A-Za-z_][A-Za-z0-9_$]*\s*(?:\[[^\]]*\]\s*)+(?=[,)=])")
 
 
 def _staged_slang_reads(script: str) -> str | None:
@@ -41,7 +46,8 @@ def _staged_slang_reads(script: str) -> str | None:
             return None
         hierarchy_top = top_match.group("top")
         for index, source in enumerate(sources):
-            names = _MODULE.findall(source.read_text())
+            text = _COMMENTS.sub("", source.read_text())
+            names = _MODULE.findall(text)
             if len(names) == 1:
                 stage_top = names[0]
             elif index == len(sources) - 1 and len(sources) > 1 and \
@@ -54,17 +60,43 @@ def _staged_slang_reads(script: str) -> str | None:
                 stage_top = hierarchy_top
             else:
                 return None
-            modules.append((stage_top, source))
+            # Loading a parameterized helper on its own converts it into a
+            # default-specialized RTLIL module. Later reads see that external
+            # module, which no longer accepts parameter overrides or preserves
+            # the original unpacked-array port shape. Keep generic sources
+            # with every consumer read instead of pre-elaborating them. This
+            # also applies to stateful tiles: their parameters and registers
+            # must be elaborated in their parent's context, while a previously
+            # loaded PE can retain its common identity across tile instances.
+            # The requested design top may itself expose configuration
+            # parameters; it has no parent that could override a preloaded
+            # default, so elaborate it normally after its PE dependencies.
+            parameterized = _PARAMETER.search(text) is not None
+            # External RTLIL modules expose packed bit vectors, so a staged
+            # read cannot reconstruct an unpacked array port's SV type either.
+            # Elaborate those wrappers together with their parents as well.
+            array_ports = _UNPACKED_PORT.search(text.split(";", 1)[0]) is not None
+            generic = (stage_top != hierarchy_top and len(names) == 1
+                       and (parameterized or array_ports))
+            modules.append((stage_top, source, generic))
     except (OSError, ValueError):
         return None
-    if len({name for name, _ in modules}) != len(modules):
+    if len({name for name, _, _ in modules}) != len(modules):
         return None
     reads = []
-    for index, (name, source) in enumerate(modules):
-        keep = "--keep-hierarchy " if index else ""
+    libraries = [source for _, source, generic in modules if generic]
+    for name, source, generic in modules:
+        if generic:
+            continue
+        # Retain helper hierarchy inside the first PE as well. Flattening a
+        # large arithmetic helper here can make later cone analysis needlessly
+        # expensive; the existing checker already understands retained children.
+        keep = "--keep-hierarchy " if reads or libraries else ""
         reads.append("read_slang " + keep + "--top " + name +
                      " --compat=vcs -D SYNTHESIS --ignore-assertions " +
-                     shlex.quote(str(source)))
+                     " ".join(shlex.quote(str(path)) for path in [*libraries, source]))
+    if not reads or modules[-1][2]:
+        return None
     return "; ".join(reads) + script[match.end():]
 
 
@@ -75,9 +107,17 @@ def inspect(submission):
 
     def run(args, *values, **options):
         nonlocal used_slang
-        if args and args[0] == 'yosys' and '-p' in args:
-            first = original(args, *values, **options)
-            if first.returncode == 0:
+        if args and args[0] == 'yosys' and '-p' in args and \
+                _READ_VERILOG.search(args[args.index('-p') + 1]):
+            try:
+                first = original(args, *values, **options)
+            except TimeoutExpired:
+                # A supported SV construct may cause pathological native
+                # frontend elaboration rather than a clean syntax error.
+                # subprocess.run has already terminated that process; retry
+                # the same design through the staged Slang frontend.
+                first = None
+            if first is not None and first.returncode == 0:
                 return first
             used_slang = True
             args = list(args)

@@ -3,12 +3,40 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 SPEC=importlib.util.spec_from_file_location('t10_bundle',Path(__file__).parent/'t10_backend/v1/export_bundle.py')
 BUNDLE=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(BUNDLE)
 
 
 class ReportBundleTest(unittest.TestCase):
+    def test_historical_dependency_requires_exact_live_or_archived_bytes(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            repo, bundle = root / 'repo', root / 'bundle'
+            repo.mkdir(); bundle.mkdir()
+            source = repo / 'checker.py'
+            source.write_text('historical checker\n')
+            expected = BUNDLE.sha(source)
+            size = source.stat().st_size
+            row = dict(path='checker.py', bytes=size, sha256=expected)
+            (bundle / 'index.json').write_text(json.dumps(dict(portable=[], repository=[row])))
+            with patch.object(BUNDLE, 'REPO', repo):
+                BUNDLE.verify_bundle(bundle)
+                original = source.read_bytes()
+                source.write_text('updated checker\n')
+                with self.assertRaisesRegex(ValueError, 'dependency missing/changed'):
+                    BUNDLE.verify_bundle(bundle)
+                snapshots = bundle / 'repository_snapshots'
+                snapshots.mkdir()
+                archived = snapshots / (expected + '_checker.py')
+                archived.write_bytes(original)
+                BUNDLE.verify_bundle(bundle)
+                self.assertEqual(BUNDLE.repository_artifact(bundle, 'checker.py', expected, size), archived)
+                archived.write_text('tampered historical checker\n')
+                with self.assertRaisesRegex(ValueError, 'dependency missing/changed'):
+                    BUNDLE.verify_bundle(bundle)
+
     def test_incomplete_assembly_cannot_create_bundle(self):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp);evidence=root/'evidence.json';output=root/'output'

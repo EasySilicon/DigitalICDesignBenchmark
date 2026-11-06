@@ -65,7 +65,11 @@ def copy_public_task_materials(task: str, destination: Path) -> None:
 
 
 def prepare(task: str, destination: Path, *, time_limit_minutes: int | None = None,
-            orfs_root: Path | None = None) -> dict:
+            orfs_root: Path | None = None, language: str = "original") -> dict:
+    if language not in {"original", "en"}:
+        raise ValueError("language must be original or en")
+    if language == "en" and time_limit_minutes is not None:
+        raise ValueError("English materials do not support time-limit overrides")
     if orfs_root is not None and task not in ('T08', 'T09', 'T10'):
         raise ValueError('The public EDA kit currently supports T08, T09 and T10')
     manifest = yaml.safe_load((ROOT / "benchmark/manifest.yaml").read_text())
@@ -153,6 +157,37 @@ Your compilation/simulation/EDA wall time is recorded separately from total
 elapsed time; host preparation and independent grading are excluded.
 """
     (destination / "PROMPT.md").write_text(prompt)
+    if language == "en":
+        # The consolidated English document includes the complete task-specific
+        # acceptance and delivery contract, including T08's long specification.
+        public_task = destination / "benchmark/tasks" / task
+        english = (ROOT / "benchmark/tasks" / task / "README.en.md").read_text()
+        for name in ("README.en.md", "README.md", "task.md"):
+            (public_task / name).write_text(english)
+        (public_task / "acceptance.md").write_text(
+            f"# {task} acceptance\n\n"
+            "Read [the complete English task specification](README.en.md), including "
+            "its acceptance and delivery/evaluation sections. That document contains "
+            "the task's normative requirements and all acceptance group IDs.\n")
+        # Keep ancillary specification links English as well. Public code and
+        # machine-readable metadata remain the original supplied artifacts.
+        for path in (public_task / "ppa.md", destination / "benchmark/npu-validation.md"):
+            if path.is_file():
+                path.write_text(english)
+        rules_path = destination / "benchmark/README.md"
+        rules = rules_path.read_text()
+        rules = "\n".join(
+            "Host physical implementation has a cumulative per-seed limit of 60 minutes "
+            "for T01-T09 and 120 minutes for T10. Timeouts retain valid completed "
+            "measurements; no valid measurement yields zero PPA and time points. "
+            "These limits do not extend the model development deadline."
+            if line.startswith("评测方物理实现每个布局种子限时：") else line
+            for line in rules.splitlines())
+        rules_path.write_text(rules + "\n")
+        with (destination / "PROMPT.md").open("a") as stream:
+            stream.write(f"\nLanguage: English. Read `benchmark/tasks/{task}/README.en.md` "
+                         "in full; it consolidates the specification, acceptance plan, "
+                         "and delivery/evaluation requirements.\n")
     if orfs_root is not None:
         if not __package__:
             sys.path.insert(0, str(ROOT))
@@ -171,8 +206,9 @@ def main() -> int:
     parser.add_argument("task", choices=[f"T{i:02d}" for i in range(1, 11)])
     parser.add_argument("destination", type=Path)
     parser.add_argument("--orfs-root", type=Path, help="supply the public T08/T09/T10 EDA kit")
+    parser.add_argument("--language", choices=("original", "en"), default="original")
     args = parser.parse_args()
-    print(prepare(args.task, args.destination, orfs_root=args.orfs_root))
+    print(prepare(args.task, args.destination, orfs_root=args.orfs_root, language=args.language))
     return 0
 
 

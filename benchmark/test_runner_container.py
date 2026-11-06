@@ -1,6 +1,8 @@
 import tempfile
 import unittest
 from pathlib import Path
+from dataclasses import replace
+from unittest.mock import patch
 
 import yaml
 
@@ -11,6 +13,19 @@ from benchmark.test_runner_config import valid_config
 
 
 class RunnerContainerTest(unittest.TestCase):
+    def test_explicit_proxy_overrides_inherited_xray_for_every_proxy_variable(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            config = replace(self.config(root), proxy_url="http://127.0.0.1:7897")
+            with patch.dict("os.environ", {"HTTPS_PROXY": "http://127.0.0.1:20808"}):
+                command = docker_command(config, self.task(root), AdapterRuntime("true"),
+                                         "candidate", cpus=16, memory_gib=40)
+            env = [command[i + 1] for i, arg in enumerate(command[:-1]) if arg == "-e"]
+            for name in ("HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "http_proxy", "https_proxy", "all_proxy"):
+                self.assertIn(name + "=http://127.0.0.1:7897", env)
+            self.assertIn("NO_PROXY=localhost,127.0.0.1,::1", env)
+            self.assertNotIn("20808", " ".join(command))
+
     def config(self, root: Path):
         value = valid_config(root)
         path = root / "runner.yaml"

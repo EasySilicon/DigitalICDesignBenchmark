@@ -64,7 +64,11 @@ def docker_command(config: RunnerConfig, task_dir: Path, runtime: AdapterRuntime
         "--security-opt", "no-new-privileges", "--read-only",
     ]
     for key in PROXY_KEYS:
-        command += ["-e", key]
+        value = key
+        if config.proxy_url is not None:
+            value += "=" + ("localhost,127.0.0.1,::1" if key.lower() == "no_proxy"
+                            else config.proxy_url)
+        command += ["-e", value]
     command += ["-e", "HOME=/home/benchmark", "-e", f"PATH={config.tool_path}",
                 "-e", "LANG=C.UTF-8", "-e", "LC_ALL=C.UTF-8", "-e", "CI=1"]
     base_mounts = [
@@ -105,5 +109,5 @@ def docker_command(config: RunnerConfig, task_dir: Path, runtime: AdapterRuntime
         if "=" not in value or value.split("=", 1)[0] in {"HOME", "PATH"}:
             raise ValueError(f"invalid adapter environment entry: {value}")
         command += ["-e", value]
-    command += ["-w", "/workspace", config.image, "bash", "-lc", runtime.shell]
+    command += ["-w", "/workspace", config.image, "bash", "-c", runtime.shell]
     return command

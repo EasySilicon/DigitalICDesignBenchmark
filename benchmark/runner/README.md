@@ -28,6 +28,21 @@
 | `claude` | Claude Code 可执行文件 | `profile` 指向宿主 `settings.json` |
 | `zcode` | `zcode.cjs` | `options.provider_config` 指向用户管理的 provider JSON |
 
+`task_language: en` 使用各题完整的 `README.en.md` 生成英文题面和验收入口；默认保留原始题面。
+`proxy_url: http://127.0.0.1:7897` 显式覆盖容器中大小写的 HTTP/HTTPS/ALL_PROXY，
+避免继承宿主上另一套代理。容器使用 host 网络，因此该地址指向宿主的代理监听口。
+Claude 的 `options.oauth_credentials` 可指向仓库和 trial 之外的专用 OAuth 凭证文件；
+每题只复制该凭证到独立私有 home，交卷后将更新的凭证传给下一题，不挂载宿主插件、skills 或历史会话。
+使用该选项时不要同时运行共用同一凭证链的其他 Claude 会话。
+
+初始化会把配置指定的仓库文件复制到 trial 的 `frozen/ic_bcmk/`，并在
+`snapshot_inventory.json` 中逐文件记录哈希。`run_manifest.json` 的 `frozen_sha256`
+标识这份初始文件快照；`source_commit` 仅记录来源仓库的 Git 基线，
+`source_worktree_dirty: true` 表示快照还包含未提交改动，不能把它当成纯提交版本。
+不同模型可以使用相同快照，但各自的题目工作区、私有 CLI home、会话和交付 RTL 独立。
+模型容器只接收准备后的公共材料，不挂载私有评估器。trial 外层的额外监控、续跑或
+评估修复脚本不自动属于初始快照，使用时应另存来源及哈希。
+
 `grader.command` 是主机评分适配层，必须写出 `{task_id}`，并在 `{grading}/report.json` 生成符合仓库报告格式的结果。可用占位符为：`{task_id}`、`{trial_root}`、`{task_root}`、`{submission}`、`{grading}`、`{repo_root}`、`{frozen_repo}` 和 `{elapsed_seconds}`。认证、模型调用与评分命令互不共享目录。
 
 先进行只读预检：

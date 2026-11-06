@@ -3,8 +3,9 @@
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
-from t10_structure_check import (_cone, _registered_d_cone,
+from t10_structure_check import (_cone, _control_cone, _registered_d_cone,
                                  _registered_forward_d_cone,
                                  _reachable_instances,
                                  _shell_registered_meshes, inspect)
@@ -14,6 +15,27 @@ FIXTURE = Path(__file__).parent / "fixtures/t10_mesh_good"
 
 
 class MeshStructureCheckTest(unittest.TestCase):
+    def test_shared_register_controls_are_traced_once(self) -> None:
+        module = {"cells": {
+            "reset_gate": {
+                "type": "$not", "connections": {"A": [2], "Y": [3]},
+                "port_directions": {"A": "input", "Y": "output"}},
+            **{f"ff_{i}": {"type": "$adff", "connections": {
+                "CLK": [1], "ARST": [3], "D": [10 + i], "Q": [1000 + i]}}
+               for i in range(100)},
+            "sync_ff": {"type": "$sdff", "connections": {
+                "CLK": [1], "SRST": [4], "D": [5], "Q": [6]}},
+        }}
+        expected = set().union(*(
+            _cone(module, cell["connections"][pin])
+            for cell in module["cells"].values() if cell["type"] in {"$adff", "$sdff"}
+            for pin in ("CLK", "ARST", "SRST") if pin in cell["connections"]))
+        with patch("t10_structure_check._cone", wraps=_cone) as trace:
+            self.assertEqual(_control_cone(module), expected)
+        self.assertEqual(expected, {1, 2, 3, 4})
+        self.assertEqual(trace.call_count, 3)
+        self.assertEqual(_control_cone({"cells": {}}), set())
+
     @staticmethod
     def _shell_mesh_fixture(drop_edge: tuple[str, int, int] | None = None):
         connections = []
@@ -59,6 +81,66 @@ class MeshStructureCheckTest(unittest.TestCase):
         module, connections = self._shell_mesh_fixture(("left", 17, 18))
         meshes = _shell_registered_meshes(module, connections, ["left", "top"])
         self.assertEqual([name for name, _ in meshes], ["top"])
+
+    def test_shell_register_bus_may_share_a_cell_with_control_bits(self) -> None:
+        module, connections = self._shell_mesh_fixture()
+        for index, cell in enumerate(module["cells"].values()):
+            cell["connections"]["D"] = ["0"] * 8 + cell["connections"]["D"]
+            cell["connections"]["Q"] = list(range(900000 + index * 8,
+                                                  900008 + index * 8)) + cell["connections"]["Q"]
+        self.assertEqual(len(_shell_registered_meshes(
+            module, connections, ["left", "top"])), 2)
+
+    def test_shell_links_through_retained_identity_output_ports(self) -> None:
+        module, connections = self._shell_mesh_fixture()
+        for cell in module["cells"].values():
+            cell["connections"]["D"] = [bit + 400000 for bit in cell["connections"]["D"]]
+        for conn in connections:
+            conn["left_out"] = [bit + 400000 for bit in conn["left"]]
+            conn["top_out"] = [bit + 400000 for bit in conn["top"]]
+        pe = {"ports": {
+            "left": {"direction": "input", "bits": list(range(64))},
+            "left_out": {"direction": "output", "bits": list(range(64))},
+            "top": {"direction": "input", "bits": list(range(64, 128))},
+            "top_out": {"direction": "output", "bits": list(range(64, 128))},
+        }}
+        self.assertEqual(len(_shell_registered_meshes(
+            module, connections, ["left", "top"], pe)), 2)
+        pe["ports"]["left_out"]["bits"].reverse()
+        self.assertEqual([name for name, _ in _shell_registered_meshes(
+            module, connections, ["left", "top"], pe)], ["top"])
+
+    def test_shell_register_bus_may_be_split_between_cells(self) -> None:
+        module, connections = self._shell_mesh_fixture()
+        cells = {}
+        for name, cell in module["cells"].items():
+            for part in range(2):
+                cells[f"{name}_{part}"] = {"type": "$dff", "connections": {
+                    pin: bits[part * 32:(part + 1) * 32]
+                    for pin, bits in cell["connections"].items()}}
+        module["cells"] = cells
+        self.assertEqual(len(_shell_registered_meshes(
+            module, connections, ["left", "top"])), 2)
+
+    def test_shell_register_partial_or_permuted_bus_is_rejected(self) -> None:
+        for defect in ("missing", "swapped", "duplicate_driver", "two_stages"):
+            with self.subTest(defect=defect):
+                module, connections = self._shell_mesh_fixture()
+                cell = module["cells"]["left_17_18"]
+                if defect == "missing":
+                    cell["connections"]["D"] = cell["connections"]["D"][:-1]
+                elif defect == "swapped":
+                    cell["connections"]["D"] = list(reversed(cell["connections"]["D"]))
+                elif defect == "duplicate_driver":
+                    module["cells"]["extra"] = cell
+                else:
+                    old_d = cell["connections"]["D"]
+                    intermediate = list(range(900000, 900064))
+                    cell["connections"]["D"] = intermediate
+                    module["cells"]["extra"] = {"type": "$dff", "connections": {
+                        "D": old_d, "Q": intermediate}}
+                meshes = _shell_registered_meshes(module, connections, ["left", "top"])
+                self.assertEqual([name for name, _ in meshes], ["top"])
 
     def test_complemented_registered_forward_is_accepted(self) -> None:
         pe = {"cells": {

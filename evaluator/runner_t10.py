@@ -22,9 +22,12 @@ sys.path.insert(0, str(DEFAULT_BENCHMARK_ROOT / "evaluator"))
 from matmul_oracle import check_output  # noqa: E402
 from public_check import sources_from_filelist  # noqa: E402
 
-GROUP_COUNTS = {"MM-INT": 128, "MM-F16": 128, "MM-F8": 128,
+LEGACY_GROUP_COUNTS = {"MM-INT": 128, "MM-F16": 128, "MM-F8": 128,
                 "MM-F4": 64, "MM-MX8": 128, "MM-MX4": 96,
                 "MM-PROTO": 80, "MM-SYSTOLIC": 80, "MM-CORNER": 128}
+CANCELLATION_GROUP_COUNTS = {"MM-F16": 16, "MM-MX8": 32, "MM-MX4": 16}
+GROUP_COUNTS = {group: count + CANCELLATION_GROUP_COUNTS.get(group, 0)
+                for group, count in LEGACY_GROUP_COUNTS.items()}
 GROUP_MODES = {"MM-INT": (0, 1), "MM-F16": (2, 3),
                "MM-F8": (4, 5), "MM-F4": (6,),
                "MM-MX8": (7, 8), "MM-MX4": (9,),
@@ -65,6 +68,7 @@ class Case:
     pause: int
     stall: int
     reset_kind: int
+    case_id: str | None = None
 
 
 def pack_rows(rows: list[list[int]], mode: int) -> tuple[int, ...]:
@@ -184,12 +188,65 @@ def generate_case(group: str, index: int, rng: random.Random) -> Case:
                 ascale, bscale, pause, stall, reset_kind)
 
 
+def cancellation_cases() -> list[Case]:
+    """Fixed legal vectors coupling huge cancellation and final FP32 range.
+
+    Both loss of an earlier small term and loss of a later small term matter.
+    The controls include finite residuals, exact zero and uncancelled overflow.
+    Cases belong to their numeric-format groups and are counted exactly once.
+    """
+    cases = []
+    patterns = ("no_cancellation", "same_beat_cancel", "cross_beat_cancel",
+                "exact_zero", "finite_residual", "boundary_three",
+                "boundary_four", "small_before_huge")
+    for mode in (3, 7, 8, 9):
+        width = WIDTH[mode]
+        lanes, sign_bit = 64 // width, 1 << (width - 1)
+        for sign in (1, -1):
+            for pattern in patterns:
+                first_scale, second_scale = 227, 192
+                indices, signs = [0, lanes, 32], [1, -1, sign]
+                if pattern == "no_cancellation":
+                    signs = [1, 0, sign]
+                elif pattern == "same_beat_cancel":
+                    indices = [0, 1, 32]
+                elif pattern == "exact_zero":
+                    signs = [sign, -sign, 0]
+                elif pattern == "finite_residual":
+                    second_scale = 190
+                elif pattern in ("boundary_three", "boundary_four"):
+                    second_scale = 190
+                    count = 3 if pattern == "boundary_three" else 4
+                    indices = [0, lanes, *range(32, 32 + count)]
+                    signs = [1, -1, *([sign] * count)]
+                elif pattern == "small_before_huge":
+                    first_scale, second_scale = 192, 227
+                    indices, signs = [0, 32, 32 + lanes], [sign, 1, -1]
+                a, b = [[0] * 64 for _ in range(16)], [[0] * 64 for _ in range(16)]
+                for vector in range(16):
+                    for k, direction in zip(indices, signs):
+                        scale = first_scale if k < 32 else second_scale
+                        element = scale << 7 if mode == 3 else ONE[mode]
+                        a[vector][k] = (element | (sign_bit if direction < 0 else 0)) if direction else 0
+                        b[vector][k] = element
+                scales = 0 if mode == 3 else sum(
+                    scale << (8 * index) for index, scale in
+                    enumerate([first_scale, second_scale] * 16))
+                group = "MM-F16" if mode == 3 else "MM-MX4" if mode == 9 else "MM-MX8"
+                cases.append(Case(group, mode, pack_rows(a, mode), pack_rows(b, mode),
+                    scales, scales, 0, 0, 0,
+                    f"cancel-range-v1.m{mode}.{pattern}.{'positive' if sign > 0 else 'negative'}"))
+    return cases
+
+
 def generate_cases(seed: int) -> list[Case]:
     rngs = [random.Random(seed + offset) for offset in range(3)]
     cases = []
-    for group, count in GROUP_COUNTS.items():
+    for group, count in LEGACY_GROUP_COUNTS.items():
         for index in range(count):
             cases.append(generate_case(group, index, rngs[index % 3]))
+    # Append after the historical corpus to retain existing case indices.
+    cases.extend(cancellation_cases())
     if len(cases) > 1024:
         raise ValueError("SV harness MAX_CASES too small")
     return cases
@@ -247,7 +304,8 @@ def parse_output(log: str, cases: list[Case], structure: dict,
             counts[case.group]["cases_passed"] += 1
         elif len(failures) < 50 and not (case.group == "MM-SYSTOLIC" and
                                          structure.get("status") == "pending"):
-            failures.append({"case": index, "group": case.group, "mode": case.mode,
+            failures.append({"case": index, "case_id": case.case_id,
+                             "group": case.group, "mode": case.mode,
                              "protocol": protocol, "timing": timing, "output": output,
                              "errors": numeric_errors[:3]})
     return counts, failures

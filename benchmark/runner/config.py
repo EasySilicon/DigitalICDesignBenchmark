@@ -10,6 +10,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 import yaml
 
@@ -113,6 +114,8 @@ class RunnerConfig:
     readonly_mounts: tuple[MountConfig, ...]
     agent: AgentConfig
     grader: GraderConfig
+    task_language: str = "original"
+    proxy_url: str | None = None
 
 
 def _skills(raw: Any) -> SkillPolicy:
@@ -143,7 +146,7 @@ def load_config(path: Path) -> RunnerConfig:
     data = _mapping(yaml.safe_load(path.read_text()), "configuration")
     _only(data, {"schema_version", "trial_root", "repo_root", "orfs_root",
                  "private_root", "image", "task_order", "tool_path",
-                 "readonly_mounts", "agent", "grader"}, "configuration")
+                 "readonly_mounts", "agent", "grader", "task_language", "proxy_url"}, "configuration")
     if data.get("schema_version") != 1:
         raise ValueError("schema_version must be 1")
     base = path.parent
@@ -212,6 +215,14 @@ def load_config(path: Path) -> RunnerConfig:
     if not isinstance(image, str) or not image or not isinstance(tool_path, str) or not tool_path:
         raise ValueError("image and tool_path must be nonempty strings")
     orfs = data.get("orfs_root")
+    language = data.get("task_language", "original")
+    if language not in {"original", "en"}:
+        raise ValueError("task_language must be original or en")
+    proxy = data.get("proxy_url")
+    if proxy is not None:
+        parsed = urlsplit(proxy) if isinstance(proxy, str) else None
+        if parsed is None or parsed.scheme not in {"http", "https"} or not parsed.hostname:
+            raise ValueError("proxy_url must be an explicit HTTP(S) proxy URL")
     return RunnerConfig(
         path=path,
         trial_root=trial_root,
@@ -224,4 +235,6 @@ def load_config(path: Path) -> RunnerConfig:
         readonly_mounts=tuple(mounts),
         agent=agent,
         grader=GraderConfig(tuple(command), _path(grader_raw.get("lock"), base, "grader.lock")),
+        task_language=language,
+        proxy_url=proxy,
     )

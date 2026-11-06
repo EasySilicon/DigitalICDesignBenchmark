@@ -142,6 +142,8 @@ class SuiteRunner:
                 "schema_version": 1, "suite_id": manifest.get("suite_id"),
                 "model": self.config.agent.model,
                 "reasoning_effort": self.config.agent.reasoning_effort,
+                "task_language": self.config.task_language,
+                "proxy_url": self.config.proxy_url,
                 "adapter": self.config.agent.adapter,
                 "agent_binary": str(self.config.agent.binary),
                 "agent_binary_sha256": digest_bytes(self.config.agent.binary.read_bytes())
@@ -200,7 +202,7 @@ class SuiteRunner:
         for name in ("agent_home", "empty_skills", "tmp"):
             (directory / name).mkdir(mode=0o700)
         command = [sys.executable, str(self.frozen / "benchmark/prepare_trial.py"),
-                   task_id, str(directory / "workspace")]
+                   task_id, str(directory / "workspace"), "--language", self.config.task_language]
         if task_id in ("T08", "T09", "T10"):
             assert self.config.orfs_root is not None
             command += ["--orfs-root", str(self.config.orfs_root)]
@@ -208,6 +210,18 @@ class SuiteRunner:
                        env=os.environ | {"PYTHONPATH": str(self.frozen)},
                        stdout=subprocess.DEVNULL)
         policy = self.config.agent.skills
+        if policy.builtin:
+            # The stock contract predates CLI-bundled Skills. Explicit trial
+            # policy permits only bundled Skills; never import host guidance.
+            for path in (directory / "workspace/PROMPT.md", directory / "workspace/benchmark/README.md"):
+                content = path.read_text()
+                content = content.replace(
+                    "No Skills are supplied: do not discover, load, create as guidance, or install\nSkills.",
+                    "Only official CLI-bundled Skills may be used. Do not discover, load, create\nas guidance, or install user or external Skills.")
+                content = content.replace(
+                    "No Agent Skills are supplied. Do not discover, load or install Skills.",
+                    "Only official CLI-bundled Skills may be used. Do not discover, load or install user or external Skills.")
+                path.write_text(content)
         with (directory / "workspace/PROMPT.md").open("a") as stream:
             stream.write("\nTrial tool policy: official built-in Skills are " +
                          ("enabled" if policy.builtin else "disabled") +
@@ -245,7 +259,20 @@ class SuiteRunner:
         seconds = int(task["time_limit_minutes"]) * 60
         exit_code = int(state.get("ExitCode", -1))
         deadline = exit_code == 124 and elapsed >= seconds - 2
-        if state.get("OOMKilled"):
+        # Docker's OOM flag is sticky even when only a child was killed and
+        # the CLI subsequently recovered and delivered successfully. Preserve
+        # that evidence without discarding an otherwise completed task.
+        completed_after_child_oom = False
+        if state.get("OOMKilled") and exit_code == 0 and self.config.agent.adapter == "claude":
+            for line in (directory / "session.jsonl").read_text().splitlines():
+                try:
+                    row = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                if row.get("type") == "result":
+                    completed_after_child_oom = (row.get("subtype") == "success"
+                                                 and row.get("is_error") is False)
+        if state.get("OOMKilled") and not completed_after_child_oom:
             raise RuntimeError(f"{task_id} candidate container exceeded the benchmark RAM limit")
         if audit.failed and not deadline:
             raise RuntimeError(f"{task_id} Agent/API failed before the task deadline")
@@ -263,6 +290,8 @@ class SuiteRunner:
             "tokens": audit.tokens, "session_id": audit.session_id,
             "stop_reason": "development_time_limit" if deadline else None,
             "recovered_completed_attempt": recovered, "finished_utc": utc(),
+            "container_oom_observed": bool(state.get("OOMKilled")),
+            "completed_after_child_oom": completed_after_child_oom,
         }
         atomic_json(directory / "container_exit.json", state)
         atomic_json(directory / "agent_result.json", record)
@@ -313,6 +342,7 @@ class SuiteRunner:
         if recovered is not None:
             return recovered
         private_dir = self.config.private_root / self.root.name / task_id
+        self.adapter.before_start(directory, private_dir, runtime)
         container = f"ic-bcmk-{self.config.agent.adapter}-{self.root.name[-8:]}-{task_id.lower()}-{uuid.uuid4().hex[:6]}"
         hardware = self.manifest["hardware_limit"]  # type: ignore[index]
         command = docker_command(self.config, directory, runtime, container,
@@ -477,6 +507,8 @@ class SuiteRunner:
         })
 
     def run(self) -> None:
+        if (self.root / "AWAITING_USER_CONFIRMATION").exists():
+            raise RuntimeError("trial is awaiting explicit user confirmation; no model session started")
         self.initialize()
         self.preflight()
         self._summary()

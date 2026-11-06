@@ -7,7 +7,8 @@ import tempfile
 from pathlib import Path
 from unittest.mock import patch
 
-from runner_t10 import GROUP_COUNTS, WIDTH, generate_cases, parse_output
+from runner_t10 import (GROUP_COUNTS, LEGACY_GROUP_COUNTS, WIDTH, generate_cases,
+                        cancellation_cases, parse_output)
 from runner_t10_stream import compile_hierarchical, stream_cases, functional_passed
 from matmul_oracle import MAX_F32, dot_terms, expected_dot
 from grade_t10_pilot import summarize
@@ -20,6 +21,49 @@ from t10_mutation_regression import MUTATIONS, materialize
 
 
 class T10ScaleGenerationTest(unittest.TestCase):
+    def test_cancellation_supplement_has_stable_ids_and_correct_numeric_groups(self) -> None:
+        from collections import Counter
+        cases = cancellation_cases()
+        self.assertEqual(len(cases), 64)
+        self.assertEqual(len({case.case_id for case in cases}), 64)
+        self.assertEqual(len({(c.mode,c.a,c.b,c.a_scale,c.b_scale) for c in cases}),64)
+        self.assertEqual(Counter(case.group for case in cases),
+                         {"MM-F16":16,"MM-MX8":32,"MM-MX4":16})
+        for case in cases:
+            self.assertEqual((case.pause,case.stall,case.reset_kind),(0,0,0))
+            self.assertLess(max((case.a_scale>>(8*i))&255 for i in range(32)),255)
+
+    def test_cancelled_overflow_requires_infinity_in_both_independent_oracles(self) -> None:
+        for case in cancellation_cases():
+            terms=dot_terms(list(case.a),list(case.b),case.a_scale,case.b_scale,case.mode,0,0)
+            kind,exact,_=expected_dot(terms)
+            identifier=case.case_id
+            infinity=any(name in identifier for name in
+                         ("same_beat_cancel","cross_beat_cancel","boundary_four","small_before_huge"))
+            if not infinity:
+                continue
+            self.assertEqual(kind,"-inf" if identifier.endswith("negative") else "+inf")
+            for lane in [0,0x7f7fffff,0xff7fffff]:
+                rows=[sum(lane<<(64*c) for c in range(16))]*16
+                args=(list(case.a),list(case.b),case.a_scale,case.b_scale,case.mode,rows)
+                self.assertEqual(len(check_output(*args)),256)
+                self.assertEqual(len(check_output_fast(*args)),256)
+            lane=0xff800000 if exact<0 else 0x7f800000
+            rows=[sum(lane<<(64*c) for c in range(16))]*16
+            args=(list(case.a),list(case.b),case.a_scale,case.b_scale,case.mode,rows)
+            self.assertEqual(check_output(*args),[])
+            self.assertEqual(check_output_fast(*args),[])
+
+    def test_supplement_does_not_change_legacy_vectors_or_mixed_stream_source(self) -> None:
+        from collections import Counter
+        for seed in (11,29,47):
+            cases=generate_cases(seed)
+            self.assertEqual(len(cases),1024)
+            self.assertEqual(Counter(case.group for case in cases),GROUP_COUNTS)
+            self.assertTrue(all(case.case_id is None for case in cases[:960]))
+            stream,phases=stream_cases(seed)
+            self.assertTrue(all(case.case_id is None for case,phase in zip(stream,phases) if phase==12))
+
     def test_completed_simulation_is_not_sufficient_for_functional_pass(self) -> None:
         report = {"phase": "run", "cases": 2752,
                   "structure": {"passed": True}, "reset_probe_passed": True,
@@ -171,9 +215,9 @@ class T10ScaleGenerationTest(unittest.TestCase):
 
     def test_stream_campaign_has_required_long_trains_and_backpressure(self) -> None:
         cases, phases = stream_cases(20260925)
-        self.assertEqual(len(cases), 2752)
+        self.assertEqual(len(cases), 2816)
         self.assertEqual(len(phases), len(cases))
-        self.assertEqual(phases.count(0), 960)
+        self.assertEqual(phases.count(0), 1024)
         self.assertEqual(phases.count(11), 128)
         self.assertEqual(phases.count(12), 512)
         self.assertEqual(phases.count(13), 128)
