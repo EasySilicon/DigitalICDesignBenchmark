@@ -11,8 +11,8 @@
     },
     "evaluator/score_rules.json": {
       "path": "evaluator/score_rules.json",
-    "bytes": 10847,
-    "sha256": "757af42346f0462c8d4a4959255ee75a926f69a7524aa9d851b4cb1378fecc02"
+      "bytes": 10847,
+      "sha256": "757af42346f0462c8d4a4959255ee75a926f69a7524aa9d851b4cb1378fecc02"
     },
     "benchmark/ppa-baselines.json": {
       "path": "benchmark/ppa-baselines.json",
@@ -456,9 +456,10 @@
           },
           "status": "measured_formula_recomputed",
           "measurement_evidence": {
-            "path": "results/gpt-6-astra/T10-ppa40.json",
+            "path": "/mnt/ubu_3T/ic_bcmk_scratch/results_cleanup_20261108/before_cleanup/results/gpt-6-astra/T10-ppa40.json",
             "bytes": 10502,
-            "sha256": "5ea838764db32eb6d680c755d90171a2406c3c467aa71f49d6cc60c431259c8e"
+            "sha256": "5ea838764db32eb6d680c755d90171a2406c3c467aa71f49d6cc60c431259c8e",
+            "storage": "external"
           },
           "source_task_id": "T10",
           "candidate_source_sha256": "ed1ddf4dc54565e35a3341aef87a3d139769b142388b246bf6472eb2609c7aa0",
@@ -965,9 +966,10 @@
           },
           "status": "measured_formula_recomputed",
           "measurement_evidence": {
-            "path": "results/gpt-6.1-sol/T10-ppa40.json",
+            "path": "/mnt/ubu_3T/ic_bcmk_scratch/results_cleanup_20261108/before_cleanup/results/gpt-6.1-sol/T10-ppa40.json",
             "bytes": 10503,
-            "sha256": "5f01df4436f1c746345518d37b3d6af6f8d54b4cc6128133ca784f543e80c7f1"
+            "sha256": "5f01df4436f1c746345518d37b3d6af6f8d54b4cc6128133ca784f543e80c7f1",
+            "storage": "external"
           },
           "source_task_id": "T10",
           "candidate_source_sha256": "ba346787bb260a418a9309d533d41c60db61714728e3c0d4ed01a58cc2785054",

@@ -5,6 +5,7 @@ import copy
 import datetime as dt
 import hashlib
 import json
+from result_publication import load_task, final_summary
 import math
 from pathlib import Path
 import shutil
@@ -69,7 +70,7 @@ def verified_report(model,state,work,trials,orfs,*,allow_cached=False,legacy_rep
         raise ValueError('missing confirmed OOM under the authorized resource policy')
     inputs=json.loads((directory/'inputs40.json').read_text())
     if inputs['source_sha256']!=item['source_sha256']:raise ValueError('OOM candidate source changed')
-    original=json.loads((REPO/f'results/{model}/T10.json').read_text())
+    original=load_task(REPO,model,'T10')
     trial=trials/TRIALS[model];workspace=trial/'workspaces/T10'
     functional_path=trial/'grading/T10/functional.json'
     functional=json.loads(functional_path.read_text())
@@ -196,23 +197,26 @@ def main():
         allow_cached=args.allow_partial,legacy_replay=args.legacy_replay) for model in args.models}
     stamp=dt.datetime.now().astimezone().date().isoformat();prepared=[]
     for model,report in reports.items():
-        directory=REPO/'results'/model;receipt_path=directory/'T10-ppa40.json'
-        # Bind the archived copy, not the scratch report's former location.
+        directory=REPO/'results'/model;receipt_path=work/'published_evidence'/model/'T10-ppa40.json'
+        # Keep intermediate measurements in the caller's work directory.
         encoded=(json.dumps(report,indent=2,ensure_ascii=False)+'\n').encode()
-        receipt=dict(path=str(receipt_path.relative_to(REPO)),bytes=len(encoded),sha256=hashlib.sha256(encoded).hexdigest())
+        receipt=dict(path=str(receipt_path),storage='external',bytes=len(encoded),sha256=hashlib.sha256(encoded).hexdigest())
         source=report.get('candidate_source_sha256',report.get('measurement',{}).get('source_sha256'))
-        task=task_record(json.loads((directory/'T10.json').read_text()),report,receipt,stamp,verified_source=source)
+        task=task_record(load_task(REPO,model,'T10'),report,receipt,stamp,verified_source=source)
         summary=summary_record(json.loads((directory/'summary.json').read_text()),task,stamp)
+        summary=final_summary(summary,{'T10':task})
         prepared.append((model,directory,report,task,summary))
     if args.write:
         for model,directory,report,task,summary in prepared:
             backup=work/'publication_backup40'/model;backup.mkdir(parents=True,exist_ok=True)
-            for name in ('T10.json','summary.json'):
+            for name in ('summary.json',):
                 if not (backup/name).exists():shutil.copy2(directory/name,backup/name)
-            save(directory/'T10-ppa40.json',report);save(directory/'T10.json',task);save(directory/'summary.json',summary)
+            evidence=work/'published_evidence'/model/'T10-ppa40.json'
+            evidence.parent.mkdir(parents=True,exist_ok=True)
+            save(evidence,report);save(directory/'summary.json',summary)
     for model,_,_,task,summary in prepared:
         print(model,task['ppa_score'],task['time_score'],task['display_score'],
-            summary['weighted_display_score_with_unscored_components_omitted'])
+            summary['weighted_display_score'])
 
 
 if __name__=='__main__':main()

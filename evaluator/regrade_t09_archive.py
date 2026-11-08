@@ -24,6 +24,7 @@ if __package__:
     from .t09_reference_freeze import TOTALS, publish_atomic
     from .t09_timing_check import apply_timing_groups
     from .power_compile_budget import POLICY_ID, TIMEOUT_STATUS
+    from .result_publication import final_summary, task_record
     from .score_with_power_budget import score_run as budget_score_run
 else:
     from ppa_aggregate import source_hash
@@ -32,6 +33,7 @@ else:
     from t09_reference_freeze import TOTALS, publish_atomic
     from t09_timing_check import apply_timing_groups
     from power_compile_budget import POLICY_ID, TIMEOUT_STATUS
+    from result_publication import final_summary, task_record
     from score_with_power_budget import score_run as budget_score_run
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -67,10 +69,19 @@ def regrade_record(old: dict, grade: dict, entry: dict, reference: dict, rules: 
         raise ValueError("replay belongs to another RTL snapshot")
     if old.get("candidate_sha256") not in {None, digest}:
         raise ValueError("candidate differs from the archived answer")
+    limit = entry.get('time_limit_seconds', old.get('time_limit_seconds'))
+    if limit is None:
+        raise ValueError('regrade plan must specify the original time_limit_seconds')
+    errors = old.get('candidate_delivery_error_count')
+    if errors is None:
+        penalty = old.get('candidate_delivery_penalty')
+        if penalty is None:
+            raise ValueError('delivery deduction must be specified before regrading')
+        errors = int(penalty / rules['candidate_delivery_error_penalty'])
     payload = {"task_id": "T09", "groups": groups,
-               "elapsed_seconds": entry["elapsed"], "time_limit_seconds": old["time_limit_seconds"],
+               "elapsed_seconds": entry["elapsed"], "time_limit_seconds": limit,
                "delivery_qualified": entry["delivery"],
-               "candidate_delivery_error_count": old.get("candidate_delivery_error_count", 0)}
+               "candidate_delivery_error_count": errors}
     measurement = read(Path(entry["measurement"])) if entry.get("measurement") else None
     if measurement is not None:
         if measurement.get("source_sha256") != digest or not ppa_provenance_valid("T09", measurement, reference):
@@ -161,7 +172,7 @@ def refresh_summary(summary: dict, records: list[dict], updated: dict, rules: di
     return result
 
 
-def run(plan: Path, results: Path, write: bool) -> list[dict]:
+def run(plan: Path, results: Path, write: bool, evidence_root: Path | None = None) -> list[dict]:
     entries = read(plan)["models"]
     if len({row["model"] for row in entries}) != len(entries):
         raise ValueError("duplicate model in regrade plan")
@@ -170,15 +181,22 @@ def run(plan: Path, results: Path, write: bool) -> list[dict]:
     prepared, reports = [], []
     for entry in entries:
         folder = results/entry["model"]
-        old, summary = read(folder/"T09.json"), read(folder/"summary.json")
+        summary = read(folder/'summary.json')
+        final_format = summary.get('schema_version') == 4
+        if final_format and write:
+            if evidence_root is None:
+                raise ValueError('final-summary publication requires an external --evidence-dir')
+            if evidence_root.resolve().is_relative_to(ROOT) or evidence_root.resolve().is_relative_to(results.resolve()):
+                raise ValueError('regrade evidence must stay outside the repository and published results')
+        old = task_record(summary,'T09') if final_format else read(folder/'T09.json')
         grade = read(Path(entry["report"]))
         updated = regrade_record(old, grade, entry, reference, rules)
-        records = [updated if number == 9 else read(folder/f"T{number:02d}.json")
+        records = [updated if number == 9 else task_record(summary,f'T{number:02d}') if final_format else read(folder/f"T{number:02d}.json")
                    for number in range(1, 11)]
         refreshed = refresh_summary(summary, records, updated, rules)
         stamp = datetime.now(ZoneInfo("Asia/Shanghai")).isoformat()
         updated["result_revision_date"] = refreshed["result_revision_date"] = stamp[:10]
-        evidence = folder/"T09_regrade_20261009"
+        evidence = (evidence_root or plan.parent/'regrade_evidence')/entry['model'] if final_format else folder/'T09_regrade_20261009'
         if write and evidence.exists():
             raise ValueError("regrade evidence destination exists; do not overwrite historical evidence")
         updated["t09_regrade"].update(date=stamp, report=str(evidence/"functional.json"),
@@ -186,20 +204,23 @@ def run(plan: Path, results: Path, write: bool) -> list[dict]:
                                      checker_sha256={name: sha(ROOT/'evaluator'/name) for name in (
                                          "t09_check.py", "t09_timing_check.py", "t09_timing_tb.sv",
                                          "score_run.py", "score_rules.json", "regrade_t09_archive.py")})
-        prepared.append((folder, evidence, old, summary, Path(entry["report"]), updated, refreshed))
+        if final_format:
+            refreshed = final_summary(refreshed,{'T09':updated})
+        prepared.append((folder, evidence, old, summary, Path(entry["report"]), updated, refreshed, final_format))
         reports.append({"model": entry["model"], "old_functional": old["functional_total"],
                         "cycles": updated["cycle_cases_passed"], "functional": updated["functional_total"],
                         "ppa": updated["ppa_score"], "time": updated["time_score"],
                         "display": updated["display_score"],
-                        "weighted_total": refreshed["weighted_display_score_with_unscored_components_omitted"]})
+                        "weighted_total": refreshed.get('weighted_display_score', refreshed.get('weighted_display_score_with_unscored_components_omitted'))})
     # Validate every replay before touching any model's authoritative records.
     if write:
-        for folder, evidence, old, summary, grade_path, updated, refreshed in prepared:
-            evidence.mkdir()
+        for folder, evidence, old, summary, grade_path, updated, refreshed, final_format in prepared:
+            evidence.mkdir(parents=True)
             for name, value in (("previous_T09.json", old), ("previous_summary.json", summary)):
                 publish_atomic(evidence/name, json.dumps(value, indent=2, ensure_ascii=False)+'\n')
             shutil.copy2(grade_path, evidence/"functional.json")
-            publish_atomic(folder/"T09.json", json.dumps(updated, indent=2, ensure_ascii=False)+'\n')
+            if not final_format:
+                publish_atomic(folder/"T09.json", json.dumps(updated, indent=2, ensure_ascii=False)+'\n')
             publish_atomic(folder/"summary.json", json.dumps(refreshed, indent=2, ensure_ascii=False)+'\n')
     return reports
 
@@ -209,8 +230,9 @@ def main() -> int:
     parser.add_argument("--plan", type=Path, required=True)
     parser.add_argument("--results", type=Path, default=ROOT/"results")
     parser.add_argument("--write", action="store_true")
+    parser.add_argument('--evidence-dir', type=Path, help='external raw-evidence directory; required to update final summaries')
     args = parser.parse_args()
-    print(json.dumps(run(args.plan, args.results, args.write), indent=2, ensure_ascii=False))
+    print(json.dumps(run(args.plan, args.results, args.write, args.evidence_dir), indent=2, ensure_ascii=False))
     return 0
 
 

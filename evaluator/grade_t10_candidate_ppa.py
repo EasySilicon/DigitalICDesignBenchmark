@@ -18,6 +18,7 @@ from t10_candidate_physical import REPO, TRIALS, artifact, sha, write_new_or_sam
 from ppa_aggregate import source_hash
 from score_run import expected_ppa_parameters, ppa_provenance_valid, score_run
 from power_compile_budget import POLICY_ID, LIMIT_SECONDS
+from result_publication import load_task
 import physical_budget
 from score_with_power_budget import score_run as budget_score_run
 
@@ -159,7 +160,7 @@ def grade(model,work,trials,orfs,*,cached_only=False,legacy_replay=False):
         if not valid:raise ValueError('invalid candidate measurement provenance')
     original=trials/TRIALS[model]
     if source_hash(original/'workspaces/T10')!=source:raise ValueError('original candidate source changed')
-    public=json.loads((REPO/f'results/{model}/T10.json').read_text())
+    public=load_task(REPO,model,'T10')
     functional=json.loads((original/'grading/T10/functional.json').read_text())
     # Astra's original structural checker did not support retained wrappers;
     # its published, corrected groups are bound to the same candidate hash.

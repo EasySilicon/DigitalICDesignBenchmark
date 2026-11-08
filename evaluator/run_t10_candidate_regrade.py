@@ -18,6 +18,7 @@ from ppa_aggregate import source_hash
 from power_compile_budget import TIMEOUT_EXIT_CODE, TIMEOUT_STATUS, validate_timeout
 from t10_candidate_physical import artifact
 from physical_budget import timed_out as physical_timed_out
+from result_publication import load_task
 
 
 def save(path,value):
@@ -49,7 +50,7 @@ def main():
     status=dict(status='waiting_for_identified_physical_queue',physical_supervisor_pid=a.physical_supervisor_pid,
         process_start_ticks=identity,runner_sha256=sha(Path(__file__)),models={})
     for model in ('kimi-k3','deepseek-flash','glm-5.3-flash'):
-        row=json.loads((REPO/f'results/{model}/T10.json').read_text())
+        row=load_task(REPO,model,'T10')
         if row.get('ppa_score')!=0 or row.get('full_functional_pass') is True:
             raise ValueError('existing zero requires independent review: '+model)
         status['models'][model]=dict(status='existing_functional_or_delivery_gate_zero',ppa_score=0)

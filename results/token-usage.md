@@ -28,15 +28,4 @@
 
 ## 数据来源
 
-| 模型 | 试跑目录 |
-|---|---|
-| Kimi K3 | /mnt/ubu_3T/ic_bcmk_trials/kimi_k3_256k_20261004 |
-| GLM-5.3 | /mnt/ubu_3T/ic_bcmk_trials/zcode_glm53_20261023_rNRx6Q |
-| GLM-5.3F | /mnt/ubu_3T/ic_bcmk_trials/zcode_glm53_flash_20261024_bscfd5ox |
-| Kimi K3.1 Pro(max) | /mnt/ubu_3T/ic_bcmk_trials/kimi_k31_pro_max_20261026；T03 使用 kimi_k31_pro_max_t03_rerun_20261027 |
-| GPT-6-Astra | /mnt/ubu_3T/ic_bcmk_trials/gpt6astra_20261003 及 gpt6astra_noskills_from_t03_v3 / from_t04_v6（T01–T02 取前者，T03 取 v3，T04–T10 取 v6） |
-| GPT-6.1-Sol | /mnt/ubu_3T/ic_bcmk_trials/gpt61sol_20261003 |
-| Claude Sonnet 5.5 | /mnt/ubu_3T/ic_bcmk_trials/claude_sonnet55_en_20261104 |
-| Claude Opus 5.5(high) | /mnt/ubu_3T/ic_bcmk_trials/claude_opus55_en_20261104 |
-
-逐题机器可读数据及原始记录哈希见 [token-usage.json](token-usage.json)。原 high 场次合计 287,215,960 token，不再混入 max 场次统计；历史成绩另存于 [high 归档](archive/kimi-k3.1-pro-high-20261024/summary.json)。
+用量取实际评分场次的 CLI/适配器统计。Kimi K3.1 Pro 使用 max 场次及对应 T03 重跑；原 high 场次的用量不混入当前统计。逐题机器可读汇总见 [token-usage.json](token-usage.json)。原始日志和运行目录不在本目录发布。

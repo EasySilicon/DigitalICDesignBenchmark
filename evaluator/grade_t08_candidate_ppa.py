@@ -23,6 +23,7 @@ from ppa_aggregate import expected_result_dir, source_hash
 from aggregate_with_power_budget import aggregate
 from t11_sram import prepare, contract, sha256, validated_mapping
 from score_run import weighted_suite_score, load_rules
+from result_publication import final_summary
 from score_with_power_budget import score_run
 from power_compile_budget import TIMEOUT_EXIT_CODE, validate_timeout
 import physical_budget
@@ -39,60 +40,16 @@ def write(path: Path, data):
 
 
 def publish(repo: Path, model: str, record: dict, trial: Path):
-    """Replace only this task, keeping every other task and raw trial immutable."""
-    results = repo / 'results' / model
-    summary_paths = [results / 'summary.json']
-    backup = trial / 'publication_backup' / model
-    backup.mkdir(parents=True, exist_ok=True)
-    for path in [results / 'T08.json', *summary_paths]:
-        if path.exists():
-            label = path.name
-            if not (backup / label).exists():
-                shutil.copy2(path, backup / label)
-    old = json.loads((results / 'T08.json').read_text()) if (results / 'T08.json').exists() else {}
-    old.update(record)
-    write(results / 'T08.json', old)
-    final_fields = {key: value for key, value in record.items() if key not in {
-        'previous_trial', 'trial_directory', 'ppa_measurement_file',
-        'additional_phase_elapsed_seconds', 'pilot_budget', 'run_phase', 'note'}}
-    if isinstance(final_fields.get('eda'), dict):
-        final_fields['eda'] = {key: value for key, value in final_fields['eda'].items()
-                               if key not in {'container', 'container_init_pid', 'attached_utc',
-                                              'active_calls', 'note'}}
-    for path in summary_paths:
-        summary = json.loads(path.read_text())
-        rows = summary['tasks']
-        for row in rows:
-            if row['task_id'] == 'T08':
-                row.update(final_fields)
-                row.pop('note', None)
-                row['full_functional_pass'] = record['functional_total'] == 50
-        totals = {key: sum(row.get(key) or 0 for row in rows) for key in
-                  ('functional_total', 'ppa_score', 'time_score', 'display_score')}
-        summary.update(functional_total_sum=totals['functional_total'],
-            functional_score_sum=totals['functional_total'], ppa_score_sum=totals['ppa_score'],
-            ppa_score_sum_for_available_tasks=totals['ppa_score'],
-            time_score_sum=totals['time_score'], time_score_sum_for_available_tasks=totals['time_score'],
-            display_score_sum=totals['display_score'],
-            display_score_subtotal_with_unscored_components_omitted=totals['display_score'],
-            full_functional_task_count=sum(row.get('full_functional_pass') is True for row in rows),
-            result_revision_date=dt.datetime.now().astimezone().date().isoformat(), ranking_eligible=False)
-        weighted = weighted_suite_score({row['task_id']: row.get('display_score') for row in rows})
-        summary.update(weighted)
-        summary.update(weighted_display_score_with_unscored_components_omitted=weighted['weighted_display_score'],
-                       weighted_task_contributions=weighted['weighted_contributions'])
-        summary['pending_components'] = {row['task_id']: [key for key in
-            ('functional_total', 'ppa_score', 'time_score', 'display_score') if row.get(key) is None] for row in rows
-            if any(row.get(key) is None for key in ('functional_total', 'ppa_score', 'time_score', 'display_score'))}
-        summary['complete_display_score_task_count'] = len(rows) - len(summary['pending_components'])
-        summary['totals_complete'] = not summary['pending_components']
-        summary['pending_functional_tasks'] = [row['task_id'] for row in rows
-                                               if row.get('functional_total') is None]
-        summary['evaluated_task_count'] = len(rows) - len(summary['pending_functional_tasks'])
-        summary['completed_tasks'] = summary['evaluated_task_count']
-        if 'remaining_unscored_component' in summary:
-            summary['remaining_unscored_component'] = summary['pending_components']
-        write(path, summary)
+    """Publish one task inside the sole final summary; archive raw inputs externally."""
+    path=repo/'results'/model/'summary.json'
+    original=json.loads(path.read_text())
+    updated=dict(record,full_functional_pass=record['functional_total']==50)
+    published=final_summary(original,{'T08':updated})
+    backup=trial/'publication_backup'/model
+    backup.mkdir(parents=True,exist_ok=True)
+    if not (backup/'summary.json').exists():shutil.copy2(path,backup/'summary.json')
+    write(path,published)
+
 
 def delivery(trial: Path, output: Path):
     assessment = inspect_contract(trial / 'workspace')

@@ -7,6 +7,7 @@ from unittest.mock import patch
 
 from grade_t08_candidate_ppa import candidate_clock, publish, result_model, run
 from score_run import load_rules
+from result_publication import final_summary
 
 
 class T08CandidateGradingTest(unittest.TestCase):
@@ -62,11 +63,9 @@ class T08CandidateGradingTest(unittest.TestCase):
             results.mkdir(parents=True)
             table = root / 'repo/results/model-score-comparison.md'
             table.write_text('| T08 | 11% | preserved |\n')
-            original = {'tasks': [
-                {'task_id': 'T01', 'functional_total': 50, 'full_functional_pass': True,
-                 'ppa_score': 30, 'time_score': 2, 'display_score': 82},
-                {'task_id': 'T08', 'functional_total': None, 'ppa_score': None,
-                 'time_score': None, 'display_score': None, 'note': 'not run'}]}
+            original=final_summary(dict(suite_id='test',model='gpt-6-astra',ranking_eligible=False,
+                tasks=[dict(task_id=f'T{i:02}',functional_total=50,full_functional_pass=True,
+                            ppa_score=30,time_score=2,display_score=82) for i in range(1,11)]))
             (results / 'summary.json').write_text(json.dumps(original))
             trial = root / 'trial'
             record = {'task_id': 'T08', 'functional_total': 50, 'ppa_score': 35,
@@ -81,19 +80,19 @@ class T08CandidateGradingTest(unittest.TestCase):
             self.assertEqual(table.read_text(), '| T08 | 11% | preserved |\n')
             summary = json.loads((results / 'summary.json').read_text())
             self.assertEqual(summary['tasks'][0], original['tasks'][0])
-            row = summary['tasks'][1]
+            row = summary['tasks'][7]
             self.assertTrue(row['full_functional_pass'])
             self.assertEqual(row['display_score'], 87)
             self.assertNotIn('trial_directory', row)
             self.assertNotIn('previous_trial', row)
             self.assertNotIn('ppa_measurement_file', row)
             self.assertNotIn('note', row)
-            self.assertEqual(row['eda'], {'method': 'host_proc_sampling',
-                                          'eda_wall_seconds_estimate': 100})
-            self.assertEqual(summary['functional_score_sum'], 100)
-            self.assertEqual(summary['evaluated_task_count'], 2)
-            self.assertEqual(summary['pending_functional_tasks'], [])
-            self.assertEqual(json.loads((results / 'T08.json').read_text()), record)
+            self.assertNotIn('eda',row)
+            self.assertEqual(summary['functional_total_sum'],500)
+            self.assertEqual(summary['completed_tasks'],10)
+            self.assertEqual({p.name for p in results.iterdir()},{'summary.json'})
+            self.assertEqual(summary['tasks'][:7],original['tasks'][:7])
+            self.assertEqual(summary['tasks'][8:],original['tasks'][8:])
             self.assertEqual(json.loads((trial / 'publication_backup/gpt-6-astra/summary.json').read_text()), original)
 
 

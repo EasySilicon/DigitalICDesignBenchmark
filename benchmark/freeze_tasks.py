@@ -290,6 +290,13 @@ def sync_results(root: Path = ROOT) -> None:
         if not summary_path.is_file():
             continue
         summary = json.loads(summary_path.read_text())
+        if summary.get('schema_version') == 4:
+            # Final publication deliberately excludes operational provenance.
+            # Verify the task contracts above; do not reinsert freeze receipts
+            # into the public summary when this historical helper is invoked.
+            import jsonschema
+            jsonschema.validate(summary, read('results/result.schema.json', root))
+            continue
         for task in TASKS:
             summary_row = next(row for row in summary["tasks"] if row["task_id"] == task)
             binding = {

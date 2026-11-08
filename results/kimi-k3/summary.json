@@ -1,139 +1,163 @@
 {
-  "suite": "ic-delivery-rtl-v0.3",
+  "schema_version": 4,
+  "suite_id": "ic-delivery-rtl-v0.3",
   "model": "kimi-code/k3-256k",
-  "model_display_name": "K3-256k",
-  "time_limits_minutes": {
-    "T01": 30,
-    "T02": 60,
-    "T03": 90,
-    "T04": 90,
-    "T05": 120,
-    "T06": 120,
-    "T07": 120,
-    "T08": 120,
-    "T09": 120,
-    "T10": 240
-  },
-  "status": "complete",
-  "totals_complete": true,
-  "pending_functional_tasks": [],
-  "completed_tasks": 10,
-  "full_functional_task_count": 7,
-  "functional_total_sum": 446.5267234718241,
-  "ppa_score_sum": 210.01851161127047,
-  "time_score_sum": 18.088985196705217,
-  "display_score_sum": 674.6342202797998,
+  "framework": null,
+  "framework_version": null,
+  "reasoning_effort": null,
+  "task_language": null,
+  "trial_kind": "pre_release_pilot",
+  "ranking_eligible": false,
   "tasks": [
     {
       "task_id": "T01",
-      "legacy_task_id": "T02",
       "functional_total": 50,
       "full_functional_pass": true,
+      "ppa_eligible": true,
       "ppa_score": 24.77853683439572,
+      "ppa_rank_bucket": 20,
       "time_score": 0.7138888888888889,
+      "candidate_delivery_penalty": 0,
       "display_score": 75.49242572328461,
-      "grade_phase": "scored",
-      "elapsed_seconds": 1543
+      "delivery_qualified": null,
+      "elapsed_seconds": 1543,
+      "time_limit_seconds": null,
+      "score_status": "scored",
+      "functional_groups": null,
+      "score_items": null,
+      "ppa_metrics": null
     },
     {
       "task_id": "T02",
-      "legacy_task_id": "T03",
       "functional_total": 50,
       "full_functional_pass": true,
+      "ppa_eligible": true,
       "ppa_score": 35.20471466502102,
+      "ppa_rank_bucket": 28,
       "time_score": 3.9625,
+      "candidate_delivery_penalty": 0,
       "display_score": 89.16721466502102,
-      "grade_phase": "scored",
-      "elapsed_seconds": 747
+      "delivery_qualified": null,
+      "elapsed_seconds": 747,
+      "time_limit_seconds": null,
+      "score_status": "scored",
+      "functional_groups": null,
+      "score_items": null,
+      "ppa_metrics": null
     },
     {
       "task_id": "T03",
-      "legacy_task_id": "T04",
       "functional_total": 50,
       "full_functional_pass": true,
+      "ppa_eligible": true,
       "ppa_score": 36.56737855761365,
+      "ppa_rank_bucket": 29,
       "time_score": 3.390740740740741,
+      "candidate_delivery_penalty": 0,
       "display_score": 89.95811929835439,
-      "grade_phase": "scored",
-      "elapsed_seconds": 1738
+      "delivery_qualified": null,
+      "elapsed_seconds": 1738,
+      "time_limit_seconds": null,
+      "score_status": "scored",
+      "functional_groups": null,
+      "score_items": null,
+      "ppa_metrics": null
     },
     {
       "task_id": "T04",
-      "legacy_task_id": "T05",
       "functional_total": 50,
       "full_functional_pass": true,
+      "ppa_eligible": true,
       "ppa_score": 14.682895058141074,
+      "ppa_rank_bucket": 12,
       "time_score": 3.4518518518518517,
+      "candidate_delivery_penalty": 0,
       "display_score": 68.13474690999293,
-      "grade_phase": "scored",
-      "elapsed_seconds": 1672
+      "delivery_qualified": null,
+      "elapsed_seconds": 1672,
+      "time_limit_seconds": null,
+      "score_status": "scored",
+      "functional_groups": null,
+      "score_items": null,
+      "ppa_metrics": null
     },
     {
       "task_id": "T05",
-      "legacy_task_id": "T06",
       "functional_total": 50,
       "full_functional_pass": true,
+      "ppa_eligible": true,
       "ppa_score": 36.16610363301013,
+      "ppa_rank_bucket": 29,
       "time_score": 3.0090277777777774,
+      "candidate_delivery_penalty": 0,
       "display_score": 89.1751314107879,
-      "grade_phase": "corrected-scored",
-      "elapsed_seconds": 2867
+      "delivery_qualified": null,
+      "elapsed_seconds": 2867,
+      "time_limit_seconds": null,
+      "score_status": "scored",
+      "functional_groups": null,
+      "score_items": null,
+      "ppa_metrics": null
     },
     {
       "task_id": "T06",
-      "legacy_task_id": "T07",
       "functional_total": 25,
       "full_functional_pass": false,
+      "ppa_eligible": null,
       "ppa_score": 0,
+      "ppa_rank_bucket": 0,
       "time_score": 0,
+      "candidate_delivery_penalty": 0,
       "display_score": 25,
-      "grade_phase": "scored",
-      "elapsed_seconds": 2980
+      "delivery_qualified": null,
+      "elapsed_seconds": 2980,
+      "time_limit_seconds": null,
+      "score_status": "scored",
+      "functional_groups": null,
+      "score_items": null,
+      "ppa_metrics": null
     },
     {
       "task_id": "T07",
-      "legacy_task_id": "T08",
       "functional_total": 50,
       "full_functional_pass": true,
-      "ppa_score": 28.831084513816844,
-      "time_score": 3.052083333333333,
-      "display_score": 81.88316784715018,
-      "grade_phase": "scored",
-      "elapsed_seconds": 2805,
-      "ppa_rank_bucket": 23,
       "ppa_eligible": true,
-      "scoring_policy": "functional50-ppa50-setup-frequency-power4-hold-continuous-drc-half-delivery-v6",
-      "display_score_before_candidate_penalty": 81.88316784715018,
-      "ppa_formula_regrade": {
-        "audit": "results/ppa-formula-audit-20261021.json",
-        "reason": "Historical score omitted the current fourth-power setup penalty.",
-        "prior_ppa_score": 36.649966537096624,
-        "prior_display_score": 89.70204987042995,
-        "setup_factor": 0.7866605958462306,
-        "original_measurement_unchanged": true,
-        "physical_flow_rerun": false
+      "ppa_score": 28.831084513816844,
+      "ppa_rank_bucket": 23,
+      "time_score": 3.052083333333333,
+      "candidate_delivery_penalty": 0,
+      "display_score": 81.88316784715018,
+      "delivery_qualified": null,
+      "elapsed_seconds": 2805,
+      "time_limit_seconds": 7200,
+      "score_status": "scored",
+      "functional_groups": null,
+      "score_items": null,
+      "ppa_metrics": {
+        "measurement_scope": null,
+        "area_um2": 2389.75,
+        "delay_ns": 1.0617735,
+        "energy_per_op_pj": 75.13926153846153,
+        "setup_worst_slack_ns": -0.0618255,
+        "hold_worst_slack_ns": 0.0619137,
+        "drc_violations": 0
       }
     },
     {
       "task_id": "T08",
-      "legacy_task_id": "T11",
       "functional_total": 50,
       "full_functional_pass": true,
-      "ppa_score": 33.78779834927204,
-      "time_score": 0.5088926041126252,
-      "display_score": 84.29669095338467,
-      "score_status": "scored",
-      "grade_phase": "scored",
-      "judge_revision": "3.1-boundary-crosses",
-      "elapsed_seconds": 8083.993312597275,
-      "functional_basic": 40,
-      "functional_edges": 10,
-      "delivery_qualified": true,
       "ppa_eligible": true,
+      "ppa_score": 33.78779834927204,
       "ppa_rank_bucket": 27,
-      "candidate_delivery_error_count": 0,
+      "time_score": 0.5088926041126252,
       "candidate_delivery_penalty": 0,
-      "display_score_before_candidate_penalty": 84.29669095338467,
+      "display_score": 84.29669095338467,
+      "delivery_qualified": true,
+      "elapsed_seconds": 8083.993312597275,
+      "time_limit_seconds": null,
+      "score_status": "scored",
+      "functional_groups": null,
       "score_items": [
         {
           "id": "TX_REGRESSION",
@@ -199,85 +223,78 @@
           "safety_violation": false
         }
       ],
-      "rank_key": [
-        50,
-        27,
-        -8083.993312597275
-      ],
-      "model": "kimi-code/k3-256k",
-      "suite_id": "ic-delivery-rtl-v0.3",
-      "trial_kind": "pre_release_pilot",
-      "ranking_eligible": false,
-      "source_sha256": "58e8f881da4bc6765f2c28406847286f7b2b9e748710bb0b8d21670ad0d101b4",
-      "eda": {
-        "schema_version": 1,
-        "method": "host_proc_sampling",
-        "sampling_interval_seconds": 0.1,
-        "max_observed_sample_gap_seconds": 0.17574326880276203,
-        "observed_seconds": 3366.6006177039817,
-        "eda_wall_seconds_estimate": 2473.975885919528,
-        "observed_call_count": 208,
-        "active_calls": [],
-        "process_seconds_sum_estimate": 6503.365605756408,
-        "limitations": [
-          "Processes shorter than the polling interval may be missed.",
-          "Timing starts at monitor attachment; prior activity is not reconstructed.",
-          "Unrecognized custom simulator names require --extra-tool.",
-          "Build tools in the candidate container are included regardless of purpose.",
-          "Observed call count describes processes, not Agent Bash/tool requests."
-        ],
-        "container": "ic-bcmk-t08-kimi-k3-256k-06a64b80",
-        "container_init_pid": 4149291,
-        "attached_utc": "2026-10-08T12:27:00.613442+00:00",
-        "finished": true
-      },
-      "benchmark_freeze": {
-        "receipt": "benchmark/tasks/T08/FREEZE.json",
-        "receipt_sha256": "27d0567787d588cf5d1e28ea1a90a11d0d6fe35f74ed9f921b1d2eef8beb295c",
-        "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
-        "scope": "current grading contract"
-      }
+      "ppa_metrics": null
     },
     {
       "task_id": "T09",
-      "legacy_task_id": "T09",
       "functional_total": 40,
       "full_functional_pass": false,
-      "ppa_score": 0,
-      "time_score": 0,
-      "display_score": 40,
-      "grade_phase": "regraded-current-t09-policy",
-      "elapsed_seconds": 6677,
-      "delivery_qualified": true,
       "ppa_eligible": false,
+      "ppa_score": 0,
       "ppa_rank_bucket": 0,
-      "candidate_delivery_error_count": 0,
+      "time_score": 0,
       "candidate_delivery_penalty": 0,
-      "display_score_before_candidate_penalty": 40,
+      "display_score": 40,
+      "delivery_qualified": true,
+      "elapsed_seconds": 6677,
+      "time_limit_seconds": null,
       "score_status": "scored",
-      "scoring_policy": "t09_group_cycles10_v1",
-      "cycle_cases_passed": 10,
-      "cycle_cases_total": 22,
-      "benchmark_freeze": {
-        "receipt": "benchmark/tasks/T09/FREEZE.json",
-        "receipt_sha256": "b1a845b44f654b975a4645a35b6d7ac167df03c1ce21806968a858f125616898",
-        "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
-        "scope": "current grading contract"
-      },
-      "trial_kind": "pre_release_pilot"
+      "functional_groups": null,
+      "score_items": null,
+      "ppa_metrics": null
     },
     {
       "task_id": "T10",
-      "legacy_task_id": "T10",
       "functional_total": 31.52672347182411,
       "full_functional_pass": false,
+      "ppa_eligible": false,
       "ppa_score": 0,
+      "ppa_rank_bucket": 0,
       "time_score": 0,
+      "candidate_delivery_penalty": 0,
       "display_score": 31.52672347182411,
-      "grade_phase": "pre_release_behavior_scored",
+      "delivery_qualified": null,
       "elapsed_seconds": 12771,
-      "functional_basic": 31.52672347182411,
-      "functional_edges": 0.0,
+      "time_limit_seconds": 14400,
+      "score_status": "scored",
+      "functional_groups": {
+        "MM-INT": {
+          "cases_passed": 96,
+          "cases_total": 128
+        },
+        "MM-F16": {
+          "cases_passed": 154,
+          "cases_total": 166
+        },
+        "MM-F8": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F4": {
+          "cases_passed": 64,
+          "cases_total": 64
+        },
+        "MM-MX8": {
+          "cases_passed": 188,
+          "cases_total": 204
+        },
+        "MM-MX4": {
+          "cases_passed": 123,
+          "cases_total": 128
+        },
+        "MM-PROTO": {
+          "cases_passed": 333,
+          "cases_total": 337
+        },
+        "MM-SYSTOLIC": {
+          "cases_passed": 0,
+          "cases_total": 1616
+        },
+        "MM-CORNER": {
+          "cases_passed": 128,
+          "cases_total": 128
+        }
+      },
       "score_items": [
         {
           "id": "F_INT",
@@ -361,99 +378,15 @@
           "safety_violation": false
         }
       ],
-      "functional_groups": {
-        "MM-INT": {
-          "cases_passed": 96,
-          "cases_total": 128
-        },
-        "MM-F16": {
-          "cases_passed": 154,
-          "cases_total": 166
-        },
-        "MM-F8": {
-          "cases_passed": 128,
-          "cases_total": 128
-        },
-        "MM-F4": {
-          "cases_passed": 64,
-          "cases_total": 64
-        },
-        "MM-MX8": {
-          "cases_passed": 188,
-          "cases_total": 204
-        },
-        "MM-MX4": {
-          "cases_passed": 123,
-          "cases_total": 128
-        },
-        "MM-PROTO": {
-          "cases_passed": 333,
-          "cases_total": 337
-        },
-        "MM-SYSTOLIC": {
-          "cases_passed": 0,
-          "cases_total": 1616
-        },
-        "MM-CORNER": {
-          "cases_passed": 128,
-          "cases_total": 128
-        }
-      },
-      "candidate_source_sha256": "b7bae0938294eb23ecbb76179acda889adaae60270e3d9bd8df3f4b78fb98ffb",
-      "display_score_before_candidate_penalty": 31.52672347182411,
-      "functional_retest": {
-        "policy_id": "t10-strict-range-v1",
-        "numerical_profile": "exact-dot-v1",
-        "seed": 11,
-        "report": {
-          "path": "results/t10-strict-functional-retest-20261106.json",
-          "sha256": "3c15d0da5b8d05890fc8c80a3c40a8b05529c3eac92b0debe3eba60ea46b241f",
-          "bytes": 15107
-        },
-        "functional_report": {
-          "path": "results/kimi-k3/functional-retest-20261106/functional.json",
-          "sha256": "3c85fc00ca4da27449610c40cf41d08331ad8d07bf6b00dc10c86846059a4466",
-          "bytes": 22994
-        },
-        "functional_score": {
-          "path": "results/kimi-k3/functional-retest-20261106/functional_score.json",
-          "sha256": "4ef60a5696c6d24de905875b20306ea7d07c8660ec19df0cffeb4f807d4f4f7c",
-          "bytes": 2007
-        },
-        "trace_attestation": {
-          "path": "results/kimi-k3/functional-retest-20261106/trace_attestation.json",
-          "sha256": "6ba489b30805d3b477daa8d60ee639a753a7956119a159b8f8bb77d6e93d0559",
-          "bytes": 6542
-        },
-        "previous_summary": {
-          "path": "results/archive/t10-before-range-expansion-20261106/kimi-k3/summary.json",
-          "sha256": "d124e8d332093e8ffe803d3098e5bb1a4f86bae463712c6a90d33f46e6e5a81d",
-          "bytes": 12079
-        },
-        "ppa_remeasured": false,
-        "group_weights_unchanged": true
-      },
-      "ppa_eligible": false
+      "ppa_metrics": null
     }
   ],
-  "weighted_display_score": 55.618502726340644,
-  "weighted_display_possible": 105.0,
-  "covered_task_weight": 1.0,
-  "covered_display_possible": 105.0,
-  "weighted_contributions": {
-    "T01": 2.264772771698538,
-    "T02": 2.6750164399506304,
-    "T03": 5.3974871579012635,
-    "T04": 4.088084814599576,
-    "T05": 5.350507884647274,
-    "T06": 2.5,
-    "T07": 8.188316784715019,
-    "T08": 9.272636004872314,
-    "T09": 8.0,
-    "T10": 7.881680867956027
-  },
-  "suite_id": "ic-delivery-rtl-v0.3",
-  "task_count": 10,
+  "functional_total_sum": 446.5267234718241,
+  "ppa_score_sum": 210.01851161127047,
+  "time_score_sum": 18.088985196705217,
+  "display_score_sum": 674.6342202797998,
+  "completed_tasks": 10,
+  "full_functional_task_count": 7,
   "task_weights": {
     "T01": 0.03,
     "T02": 0.03,
@@ -466,72 +399,6 @@
     "T09": 0.2,
     "T10": 0.25
   },
-  "ranking_eligible": false,
-  "result_revision_date": "2026-11-06",
-  "functional_score_sum": 446.5267234718241,
-  "functional_score_possible": 500,
-  "ppa_score_sum_for_available_tasks": 210.01851161127047,
-  "time_score_sum_for_available_tasks": 18.088985196705217,
-  "display_score_subtotal_with_unscored_components_omitted": 674.6342202797998,
-  "weighted_display_score_with_unscored_components_omitted": 55.618502726340644,
-  "weighted_display_score_possible": 105,
-  "weighted_task_contributions": {
-    "T01": 2.264772771698538,
-    "T02": 2.6750164399506304,
-    "T03": 5.3974871579012635,
-    "T04": 4.088084814599576,
-    "T05": 5.350507884647274,
-    "T06": 2.5,
-    "T07": 8.188316784715019,
-    "T08": 9.272636004872314,
-    "T09": 8.0,
-    "T10": 7.881680867956027
-  },
-  "complete_display_score_task_count": 10,
-  "evaluated_task_count": 10,
-  "pending_components": {},
-  "task_id_migration": {
-    "from_suite": "ic-delivery-rtl-v0.2",
-    "to_suite": "ic-delivery-rtl-v0.3",
-    "removed_legacy_task_id": "T01",
-    "mapping": {
-      "T02": "T01",
-      "T03": "T02",
-      "T04": "T03",
-      "T05": "T04",
-      "T06": "T05",
-      "T07": "T06",
-      "T08": "T07",
-      "T11": "T08",
-      "T09": "T09",
-      "T10": "T10"
-    },
-    "raw_trial_paths_and_rtl_unchanged": true,
-    "score_values_for_retained_tasks_unchanged": true,
-    "weights_policy": "existing weights by new task slot; no renormalization",
-    "legacy_result_snapshots": "backed up outside repository"
-  },
-  "ranking_ineligible_reasons": [
-    "Suite-wide release qualification is pending: T10 reference PPA and the common tool-image freeze. See pending_components for model-specific unscored components."
-  ],
-  "task_scoring_policies": {
-    "T09": "t09_group_cycles10_v1",
-    "T07": "functional50-ppa50-setup-frequency-power4-hold-continuous-drc-half-delivery-v6"
-  },
-  "task_freeze_receipts": {
-    "T08": {
-      "receipt": "benchmark/tasks/T08/FREEZE.json",
-      "receipt_sha256": "27d0567787d588cf5d1e28ea1a90a11d0d6fe35f74ed9f921b1d2eef8beb295c",
-      "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
-      "scope": "current grading contract"
-    },
-    "T09": {
-      "receipt": "benchmark/tasks/T09/FREEZE.json",
-      "receipt_sha256": "b1a845b44f654b975a4645a35b6d7ac167df03c1ce21806968a858f125616898",
-      "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
-      "scope": "current grading contract"
-    }
-  },
-  "ppa_formula_audit": "results/ppa-formula-audit-20261021.json",
-  "functional_retest_revision": "t10-strict-range-v1"
+  "weighted_display_score": 55.618502726340644,
+  "weighted_display_possible": 105.0
 }

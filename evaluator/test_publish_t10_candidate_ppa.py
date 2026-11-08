@@ -1,4 +1,6 @@
 import copy
+import hashlib
+import io
 import json
 from pathlib import Path
 import sys
@@ -8,6 +10,7 @@ from unittest.mock import patch
 
 sys.path.insert(0,str(Path(__file__).parent))
 from publish_t10_candidate_ppa import task_record,summary_record,POLICY
+from result_publication import final_summary
 import publish_t10_candidate_ppa as M
 
 
@@ -19,6 +22,34 @@ def measured():
 
 
 class PublishTest(unittest.TestCase):
+    def test_publication_keeps_intermediate_measurement_outside_results(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);repo=root/'repo';work=root/'work';work.mkdir()
+            folder=repo/'results/gpt-6-sol';folder.mkdir(parents=True)
+            original=final_summary(dict(suite_id='test',model='gpt-6-sol',ranking_eligible=False,
+                tasks=[dict(task_id=f'T{i:02}',functional_total=50,full_functional_pass=True,
+                            ppa_score=30,time_score=2,display_score=82) for i in range(1,11)]))
+            (folder/'summary.json').write_text(json.dumps(original))
+            (work/'t10_ppa_scores40.json').write_text(json.dumps(dict(policy=POLICY,status='complete')))
+            argv=['publish','--work',str(work),'--trials-root',str(root),
+                  '--orfs',str(root),'--models','gpt-6-sol','--write']
+            with patch.object(M,'REPO',repo),patch.object(M,'verified_report',return_value=measured()), \
+                    patch.object(sys,'argv',argv),patch('sys.stdout',new_callable=io.StringIO):
+                M.main()
+            self.assertEqual({p.name for p in folder.iterdir()},{'summary.json'})
+            result=json.loads((folder/'summary.json').read_text())
+            self.assertEqual(result['tasks'][:9],original['tasks'][:9])
+            self.assertEqual(result['tasks'][-1]['display_score'],94)
+            self.assertNotIn('t10_ppa_remeasurement',result['tasks'][-1])
+            evidence=work/'published_evidence/gpt-6-sol/T10-ppa40.json'
+            self.assertEqual(json.loads(evidence.read_text()),measured())
+            self.assertEqual(json.loads((work/'publication_backup40/gpt-6-sol/summary.json').read_text()),original)
+            first=(folder/'summary.json').read_bytes()
+            with patch.object(M,'REPO',repo),patch.object(M,'verified_report',return_value=measured()), \
+                    patch.object(sys,'argv',argv),patch('sys.stdout',new_callable=io.StringIO):
+                M.main()
+            self.assertEqual(first,(folder/'summary.json').read_bytes())
+
     def test_automatic_compile_timeout_has_its_own_policy_not_manual_or_oom(self):
         report=measured();report.pop('measurement')
         report.update(candidate_source_sha256='unchanged',queue_status=M.TIMEOUT_STATUS,

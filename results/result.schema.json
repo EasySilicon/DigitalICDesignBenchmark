@@ -1,288 +1,603 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://easysilicon.example/schemas/ic-benchmark-model-result-v3.json",
-  "title": "Digital IC benchmark task result",
+  "$id": "https://easysilicon.example/schemas/ic-benchmark-model-summary-v4.json",
+  "title": "Final model summary with ten task results",
   "type": "object",
   "required": [
     "schema_version",
+    "suite_id",
     "model",
-    "task_id",
+    "framework",
+    "framework_version",
+    "reasoning_effort",
+    "task_language",
     "trial_kind",
-    "delivery_qualified",
-    "time_limit_seconds",
-    "functional_total",
-    "functional_possible",
-    "full_functional_pass",
-    "ppa_score",
-    "time_score",
-    "display_score",
-    "score_status",
-    "ranking_eligible"
+    "ranking_eligible",
+    "tasks",
+    "functional_total_sum",
+    "ppa_score_sum",
+    "time_score_sum",
+    "display_score_sum",
+    "weighted_display_score",
+    "weighted_display_possible",
+    "completed_tasks",
+    "full_functional_task_count",
+    "task_weights"
   ],
-  "dependentRequired": {"physical_policy": ["physical_records"]},
   "properties": {
-    "physical_policy": {
-      "enum": [
-        "physical-wall-3600s-retain-results-v1",
-        "physical-wall-7200s-retain-results-v1"
+    "schema_version": {
+      "const": 4
+    },
+    "suite_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1
+    },
+    "framework": {
+      "type": [
+        "string",
+        "null"
       ]
     },
-    "physical_records": {
+    "framework_version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reasoning_effort": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "task_language": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "trial_kind": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "ranking_eligible": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "tasks": {
       "type": "array",
-      "minItems": 3,
-      "maxItems": 3,
+      "minItems": 10,
+      "maxItems": 10,
       "items": {
-        "type": "object",
-        "required": [
-          "policy_id",
-          "limit_seconds",
-          "task_id",
-          "candidate_source_sha256",
-          "layout_seed",
-          "elapsed_seconds",
-          "status"
-        ],
-        "properties": {
-          "policy_id": {
-            "enum": [
-              "physical-wall-3600s-retain-results-v1",
-              "physical-wall-7200s-retain-results-v1"
-            ]
-          },
-          "limit_seconds": {
-            "enum": [3600, 7200]
-          },
-          "task_id": {
-            "pattern": "^T(0[1-9]|10)$"
-          },
-          "layout_seed": {
-            "enum": [
-              11,
-              29,
-              47
-            ]
-          },
-          "elapsed_seconds": {
-            "type": "number",
-            "minimum": 0
-          },
-          "status": {
-            "enum": [
-              "completed",
-              "timeout"
-            ]
-          },
-          "process_group_terminated": {
-            "type": "boolean"
-          }
-        },
-        "allOf": [
-          {
-            "if": {"properties": {"policy_id": {"const": "physical-wall-3600s-retain-results-v1"}}},
-            "then": {"properties": {"limit_seconds": {"const": 3600}}}
-          },
-          {
-            "if": {"properties": {"policy_id": {"const": "physical-wall-7200s-retain-results-v1"}}},
-            "then": {"properties": {"limit_seconds": {"const": 7200}}}
-          },
-          {
-            "if": {"properties": {"task_id": {"pattern": "^T0[1-9]$"}}, "required": ["task_id"]},
-            "then": {
-              "properties": {
-                "policy_id": {"const": "physical-wall-3600s-retain-results-v1"},
-                "limit_seconds": {"const": 3600}
+        "$ref": "#/$defs/task"
+      },
+      "allOf": [
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "const": "T01"
               }
-            }
-          }
-        ]
-      }
-    },
-    "physical_timed_out_seeds": {
-      "type": "array",
-      "uniqueItems": true,
-      "items": {
-        "enum": [
-          11,
-          29,
-          47
-        ]
-      }
-    },
-    "ppa_status": {
-      "type": "string"
-    },
-    "candidate_source_sha256": {
-      "type": "string"
-    },
-    "schema_version": {"const": 3},
-    "model": {"type": "string", "minLength": 1},
-    "task_id": {"pattern": "^T(0[1-9]|10)$"},
-    "trial_kind": {"enum": ["official", "pre_release_pilot", "diagnostic"]},
-    "delivery_qualified": {"type": ["boolean", "null"]},
-    "delivery_penalty_policy": {
-      "type": "string",
-      "minLength": 1
-    },
-    "delivery_penalty_status": {
-      "enum": [
-        "adjudicated",
-        "pending"
+            },
+            "required": [
+              "task_id"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "const": "T02"
+              }
+            },
+            "required": [
+              "task_id"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "const": "T03"
+              }
+            },
+            "required": [
+              "task_id"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "const": "T04"
+              }
+            },
+            "required": [
+              "task_id"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "const": "T05"
+              }
+            },
+            "required": [
+              "task_id"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "const": "T06"
+              }
+            },
+            "required": [
+              "task_id"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "const": "T07"
+              }
+            },
+            "required": [
+              "task_id"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "const": "T08"
+              }
+            },
+            "required": [
+              "task_id"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "const": "T09"
+              }
+            },
+            "required": [
+              "task_id"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "const": "T10"
+              }
+            },
+            "required": [
+              "task_id"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
       ]
     },
-    "delivery_penalty_pending_reason": {
-      "type": "string",
-      "minLength": 1
+    "functional_total_sum": {
+      "type": "number",
+      "minimum": 0
     },
-    "delivery_assessment": {
+    "ppa_score_sum": {
+      "type": "number",
+      "minimum": 0
+    },
+    "time_score_sum": {
+      "type": "number",
+      "minimum": 0
+    },
+    "display_score_sum": {
+      "type": "number",
+      "minimum": 0
+    },
+    "weighted_display_score": {
+      "type": "number",
+      "minimum": 0
+    },
+    "weighted_display_possible": {
+      "type": "number",
+      "minimum": 0
+    },
+    "completed_tasks": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "full_functional_task_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "task_weights": {
       "type": "object",
       "required": [
-        "missing_deliverables",
-        "errors"
+        "T01",
+        "T02",
+        "T03",
+        "T04",
+        "T05",
+        "T06",
+        "T07",
+        "T08",
+        "T09",
+        "T10"
       ],
-      "additionalProperties": false,
       "properties": {
-        "missing_deliverables": {
-          "type": "array",
-          "items": {
-            "enum": [
-              "rtl/",
-              "rtl/files.f",
-              "verif/",
-              "run.sh",
-              "results.json",
-              "README.md"
-            ]
-          }
+        "T01": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
         },
-        "errors": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "required": [
-              "root_cause",
-              "attribution"
-            ],
-            "properties": {
-              "root_cause": {
-                "type": "string",
-                "minLength": 1
-              },
-              "attribution": {
-                "enum": [
-                  "candidate",
-                  "infrastructure",
-                  "pending"
-                ]
-              },
-              "detail": {
-                "type": "string"
-              }
-            }
-          }
+        "T02": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "T03": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "T04": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "T05": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "T06": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "T07": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "T08": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "T09": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "T10": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
         }
-      }
-    },
-    "candidate_delivery_error_count": {"type": "integer", "minimum": 0},
-    "candidate_delivery_penalty": {"type": ["number", "null"], "minimum": 0},
-    "display_score_before_candidate_penalty": {"type": "number", "minimum": 0, "maximum": 105},
-    "candidate_delivery_error_details": {
-      "type": "array",
-      "items": {"type": "string", "minLength": 1}
-    },
-    "time_limit_seconds": {"type": "number", "exclusiveMinimum": 0},
-    "functional_total": {"type": ["number", "null"], "minimum": 0, "maximum": 50},
-    "functional_possible": {"const": 50},
-    "full_functional_pass": {"type": ["boolean", "null"]},
-    "ppa_eligible": {"type": ["boolean", "null"]},
-    "ppa_score": {"type": ["number", "null"], "minimum": 0, "maximum": 50},
-    "ppa_possible": {"const": 50},
-    "time_score": {"type": ["number", "null"], "minimum": 0, "maximum": 5},
-    "time_possible": {"const": 5},
-    "display_score": {"type": ["number", "null"], "minimum": 0, "maximum": 105},
-    "display_possible": {"const": 105},
-    "score_status": {"type": "string", "minLength": 1},
-    "ranking_eligible": {"type": "boolean"},
-    "ranking_ineligible_reason": {"type": "string"},
-    "benchmark_freeze": {
-      "type": "object",
-      "required": ["receipt", "receipt_sha256", "reference_source_sha256", "scope"],
-      "properties": {
-        "receipt": {"enum": ["benchmark/tasks/T08/FREEZE.json", "benchmark/tasks/T09/FREEZE.json"]},
-        "receipt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-        "reference_source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-        "scope": {"type": "string", "minLength": 1}
       },
       "additionalProperties": false
     }
   },
-  "allOf": [
-    {
-      "if": {
-        "required": [
-          "delivery_penalty_policy"
-        ],
-        "properties": {
-          "delivery_penalty_policy": {
-            "const": "delivery-contract-cap10-v1"
-          }
-        }
-      },
-      "then": {
-        "required": [
-          "delivery_penalty_status",
-          "candidate_delivery_penalty"
-        ],
-        "properties": {
-          "candidate_delivery_penalty": {
-            "enum": [
-              0,
-              5,
-              10,
-              null
-            ]
+  "additionalProperties": false,
+  "$defs": {
+    "task": {
+      "type": "object",
+      "required": [
+        "task_id",
+        "functional_total",
+        "full_functional_pass",
+        "ppa_eligible",
+        "ppa_score",
+        "ppa_rank_bucket",
+        "time_score",
+        "candidate_delivery_penalty",
+        "display_score",
+        "delivery_qualified",
+        "elapsed_seconds",
+        "time_limit_seconds",
+        "score_status",
+        "functional_groups",
+        "score_items",
+        "ppa_metrics"
+      ],
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "enum": [
+            "T01",
+            "T02",
+            "T03",
+            "T04",
+            "T05",
+            "T06",
+            "T07",
+            "T08",
+            "T09",
+            "T10"
+          ]
+        },
+        "functional_total": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 50
+        },
+        "full_functional_pass": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "ppa_eligible": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "ppa_score": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 50
+        },
+        "ppa_rank_bucket": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 40
+        },
+        "time_score": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 5
+        },
+        "candidate_delivery_penalty": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 10
+        },
+        "display_score": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 105
+        },
+        "delivery_qualified": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "elapsed_seconds": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "time_limit_seconds": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "score_status": {
+          "enum": [
+            "scored",
+            "pending"
+          ]
+        },
+        "functional_groups": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "object",
+            "required": [
+              "cases_passed",
+              "cases_total"
+            ],
+            "properties": {
+              "cases_passed": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "cases_total": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "safety_violation": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
           }
         },
-        "allOf": [
-          {
-            "if": {
-              "properties": {
-                "delivery_penalty_status": {
-                  "const": "pending"
-                }
+        "score_items": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "layer",
+              "points",
+              "possible_points"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "layer": {
+                "enum": [
+                  "F",
+                  "P"
+                ]
+              },
+              "points": {
+                "type": "number",
+                "minimum": 0
+              },
+              "possible_points": {
+                "type": "number",
+                "minimum": 0
+              },
+              "cases_passed": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "cases_total": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "safety_violation": {
+                "type": "boolean"
               }
             },
-            "then": {
-              "required": [
-                "delivery_penalty_pending_reason"
-              ],
-              "properties": {
-                "candidate_delivery_penalty": {
-                  "type": "null"
-                },
-                "display_score": {
-                  "type": "null"
-                }
-              }
-            },
-            "else": {
-              "properties": {
-                "candidate_delivery_penalty": {
-                  "enum": [
-                    0,
-                    5,
-                    10
-                  ]
-                }
-              }
-            }
+            "additionalProperties": false
           }
-        ]
-      }
-    },
-    {
-      "if": {"properties": {"trial_kind": {"const": "official"}}, "required": ["trial_kind"]},
-      "then": {"properties": {"delivery_qualified": {"type": "boolean"}, "functional_total": {"type": "number"}, "full_functional_pass": {"type": "boolean"}, "display_score": {"type": "number"}}}
+        },
+        "ppa_metrics": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "measurement_scope",
+            "area_um2",
+            "delay_ns",
+            "energy_per_op_pj",
+            "setup_worst_slack_ns",
+            "hold_worst_slack_ns",
+            "drc_violations"
+          ],
+          "properties": {
+            "measurement_scope": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "area_um2": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "delay_ns": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "energy_per_op_pj": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "setup_worst_slack_ns": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "hold_worst_slack_ns": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "drc_violations": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
     }
-  ],
-  "additionalProperties": true
+  }
 }

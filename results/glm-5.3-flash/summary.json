@@ -1,161 +1,228 @@
 {
+  "schema_version": 4,
   "suite_id": "ic-delivery-rtl-v0.3",
-  "suite": "ic-delivery-rtl-v0.3",
-  "agent": "zcode-cli",
   "model": "glm-5.3-flash",
   "framework": "ZCode CLI",
   "framework_version": "0.17.0",
   "reasoning_effort": "max",
+  "task_language": null,
   "trial_kind": "pre_release_pilot",
-  "status": "scored",
-  "completed_tasks": 10,
-  "full_functional_task_count": 7,
-  "functional_total_sum": 412.7291666666667,
-  "ppa_score_sum": 214.51169863989276,
-  "time_score_sum": 10.231886757965441,
-  "display_score_sum": 617.4102520645248,
-  "task_weights": {
-    "T01": 0.03,
-    "T02": 0.03,
-    "T03": 0.06,
-    "T04": 0.06,
-    "T05": 0.06,
-    "T06": 0.1,
-    "T07": 0.1,
-    "T08": 0.11,
-    "T09": 0.2,
-    "T10": 0.25
-  },
-  "weighted_display_score": 45.55443981318164,
-  "weighted_display_score_with_unscored_components_omitted": 45.55443981318164,
-  "weighted_display_possible": 105.0,
   "ranking_eligible": false,
-  "ranking_ineligible_reasons": [
-    "Historical pre-release pilot; not an official benchmark ranking."
-  ],
-  "source_trial": {
-    "id": "zcode_glm53_flash_20261024_bscfd5ox",
-    "run_manifest_sha256": "0871601abfdbb82fde61d664c28aa904b44b4cb2e096c9494b619de16bc2fb15"
-  },
-  "task_freeze_receipts": {
-    "T08": {
-      "receipt": "benchmark/tasks/T08/FREEZE.json",
-      "receipt_sha256": "27d0567787d588cf5d1e28ea1a90a11d0d6fe35f74ed9f921b1d2eef8beb295c",
-      "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
-      "scope": "current grading contract"
-    },
-    "T09": {
-      "receipt": "benchmark/tasks/T09/FREEZE.json",
-      "receipt_sha256": "b1a845b44f654b975a4645a35b6d7ac167df03c1ce21806968a858f125616898",
-      "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
-      "scope": "current grading contract"
-    }
-  },
   "tasks": [
     {
       "task_id": "T01",
       "functional_total": 50.0,
+      "full_functional_pass": true,
+      "ppa_eligible": true,
       "ppa_score": 23.926561821230834,
+      "ppa_rank_bucket": 19,
       "time_score": 0.0,
       "candidate_delivery_penalty": 10,
       "display_score": 63.926561821230834,
-      "score_status": "scored"
+      "delivery_qualified": null,
+      "elapsed_seconds": null,
+      "time_limit_seconds": null,
+      "score_status": "scored",
+      "functional_groups": null,
+      "score_items": null,
+      "ppa_metrics": null
     },
     {
       "task_id": "T02",
       "functional_total": 50.0,
+      "full_functional_pass": true,
+      "ppa_eligible": true,
       "ppa_score": 34.75087501492428,
+      "ppa_rank_bucket": 28,
       "time_score": 2.3475286821524306,
       "candidate_delivery_penalty": 0,
       "display_score": 87.0984036970767,
-      "score_status": "scored"
+      "delivery_qualified": null,
+      "elapsed_seconds": null,
+      "time_limit_seconds": null,
+      "score_status": "scored",
+      "functional_groups": null,
+      "score_items": null,
+      "ppa_metrics": null
     },
     {
       "task_id": "T03",
       "functional_total": 50.0,
+      "full_functional_pass": true,
+      "ppa_eligible": true,
       "ppa_score": 36.14619780486346,
+      "ppa_rank_bucket": 29,
       "time_score": 1.724458900866685,
       "candidate_delivery_penalty": 0,
       "display_score": 87.87065670573014,
-      "score_status": "scored"
+      "delivery_qualified": null,
+      "elapsed_seconds": null,
+      "time_limit_seconds": null,
+      "score_status": "scored",
+      "functional_groups": null,
+      "score_items": null,
+      "ppa_metrics": null
     },
     {
       "task_id": "T04",
       "functional_total": 50.0,
+      "full_functional_pass": true,
+      "ppa_eligible": true,
       "ppa_score": 16.655463337603354,
+      "ppa_rank_bucket": 13,
       "time_score": 2.4797878753255915,
       "candidate_delivery_penalty": 0,
       "display_score": 69.13525121292895,
-      "score_status": "scored"
+      "delivery_qualified": null,
+      "elapsed_seconds": null,
+      "time_limit_seconds": null,
+      "score_status": "scored",
+      "functional_groups": null,
+      "score_items": null,
+      "ppa_metrics": null
     },
     {
       "task_id": "T05",
       "functional_total": 39.0,
+      "full_functional_pass": false,
+      "ppa_eligible": null,
       "ppa_score": 0.0,
+      "ppa_rank_bucket": 0,
       "time_score": 0.0,
       "candidate_delivery_penalty": 0,
       "display_score": 39.0,
-      "score_status": "scored"
+      "delivery_qualified": null,
+      "elapsed_seconds": null,
+      "time_limit_seconds": null,
+      "score_status": "scored",
+      "functional_groups": null,
+      "score_items": null,
+      "ppa_metrics": null
     },
     {
       "task_id": "T06",
       "functional_total": 50.0,
+      "full_functional_pass": true,
+      "ppa_eligible": true,
       "ppa_score": 30.24469310645925,
+      "ppa_rank_bucket": 24,
       "time_score": 1.9080354251795346,
       "candidate_delivery_penalty": 0,
       "display_score": 82.15272853163879,
-      "score_status": "scored"
+      "delivery_qualified": null,
+      "elapsed_seconds": null,
+      "time_limit_seconds": null,
+      "score_status": "scored",
+      "functional_groups": null,
+      "score_items": null,
+      "ppa_metrics": null
     },
     {
       "task_id": "T07",
       "functional_total": 50.0,
+      "full_functional_pass": true,
+      "ppa_eligible": true,
       "ppa_score": 38.57376939519354,
+      "ppa_rank_bucket": 31,
       "time_score": 0.11302972502178599,
       "candidate_delivery_penalty": 0,
       "display_score": 88.68679912021533,
-      "score_status": "scored"
+      "delivery_qualified": null,
+      "elapsed_seconds": null,
+      "time_limit_seconds": null,
+      "score_status": "scored",
+      "functional_groups": null,
+      "score_items": null,
+      "ppa_metrics": null
     },
     {
       "task_id": "T08",
       "functional_total": 50.0,
+      "full_functional_pass": true,
+      "ppa_eligible": true,
       "ppa_score": 34.214138159618024,
+      "ppa_rank_bucket": 27,
       "time_score": 1.6590461494194138,
       "candidate_delivery_penalty": 0,
       "display_score": 85.87318430903743,
+      "delivery_qualified": null,
+      "elapsed_seconds": null,
+      "time_limit_seconds": null,
       "score_status": "scored",
-      "benchmark_freeze": {
-        "receipt": "benchmark/tasks/T08/FREEZE.json",
-        "receipt_sha256": "27d0567787d588cf5d1e28ea1a90a11d0d6fe35f74ed9f921b1d2eef8beb295c",
-        "reference_source_sha256": "3886697e2b4ab256de5853afbcf3fd7a4e805a2cafe4a748c67fc503abd2d5ad",
-        "scope": "current grading contract"
-      }
+      "functional_groups": null,
+      "score_items": null,
+      "ppa_metrics": null
     },
     {
       "task_id": "T09",
       "functional_total": 23.666666666666664,
+      "full_functional_pass": false,
+      "ppa_eligible": null,
       "ppa_score": 0.0,
+      "ppa_rank_bucket": 0,
       "time_score": 0.0,
       "candidate_delivery_penalty": 10,
       "display_score": 13.666666666666664,
+      "delivery_qualified": null,
+      "elapsed_seconds": null,
+      "time_limit_seconds": null,
       "score_status": "scored",
-      "benchmark_freeze": {
-        "receipt": "benchmark/tasks/T09/FREEZE.json",
-        "receipt_sha256": "b1a845b44f654b975a4645a35b6d7ac167df03c1ce21806968a858f125616898",
-        "reference_source_sha256": "b1f384af97b3d69f56b8e91e30033b9a07ba9061b45ab746f0aaf4c1edb7cddb",
-        "scope": "current grading contract"
-      }
+      "functional_groups": null,
+      "score_items": null,
+      "ppa_metrics": null
     },
     {
       "task_id": "T10",
       "functional_total": 0.0625,
+      "full_functional_pass": false,
+      "ppa_eligible": false,
       "ppa_score": 0.0,
+      "ppa_rank_bucket": 0,
       "time_score": 0.0,
       "candidate_delivery_penalty": 10,
       "display_score": 0,
-      "score_status": "scored_candidate_failure",
-      "functional_basic": 0.0625,
-      "functional_edges": 0.0,
-      "full_functional_pass": false,
+      "delivery_qualified": false,
+      "elapsed_seconds": 14400,
+      "time_limit_seconds": 14400,
+      "score_status": "scored",
+      "functional_groups": {
+        "MM-INT": {
+          "cases_passed": 2,
+          "cases_total": 128
+        },
+        "MM-F16": {
+          "cases_passed": 0,
+          "cases_total": 166
+        },
+        "MM-F8": {
+          "cases_passed": 0,
+          "cases_total": 128
+        },
+        "MM-F4": {
+          "cases_passed": 0,
+          "cases_total": 64
+        },
+        "MM-MX8": {
+          "cases_passed": 0,
+          "cases_total": 204
+        },
+        "MM-MX4": {
+          "cases_passed": 0,
+          "cases_total": 128
+        },
+        "MM-PROTO": {
+          "cases_passed": 0,
+          "cases_total": 337
+        },
+        "MM-SYSTOLIC": {
+          "cases_passed": 0,
+          "cases_total": 1616
+        },
+        "MM-CORNER": {
+          "cases_passed": 0,
+          "cases_total": 128
+        }
+      },
       "score_items": [
         {
           "id": "F_INT",
@@ -239,95 +306,27 @@
           "safety_violation": false
         }
       ],
-      "functional_groups": {
-        "MM-INT": {
-          "cases_passed": 2,
-          "cases_total": 128
-        },
-        "MM-F16": {
-          "cases_passed": 0,
-          "cases_total": 166
-        },
-        "MM-F8": {
-          "cases_passed": 0,
-          "cases_total": 128
-        },
-        "MM-F4": {
-          "cases_passed": 0,
-          "cases_total": 64
-        },
-        "MM-MX8": {
-          "cases_passed": 0,
-          "cases_total": 204
-        },
-        "MM-MX4": {
-          "cases_passed": 0,
-          "cases_total": 128
-        },
-        "MM-PROTO": {
-          "cases_passed": 0,
-          "cases_total": 337
-        },
-        "MM-SYSTOLIC": {
-          "cases_passed": 0,
-          "cases_total": 1616
-        },
-        "MM-CORNER": {
-          "cases_passed": 0,
-          "cases_total": 128
-        }
-      },
-      "candidate_source_sha256": "7e49e0b2294713a6250dc4a5bfeff25c1c826d0faa5d67b227efd2881e941344",
-      "display_score_before_candidate_penalty": 0.0625,
-      "functional_retest": {
-        "policy_id": "t10-strict-range-v1",
-        "numerical_profile": "exact-dot-v1",
-        "seed": 11,
-        "report": {
-          "path": "results/t10-strict-functional-retest-20261106.json",
-          "sha256": "3c15d0da5b8d05890fc8c80a3c40a8b05529c3eac92b0debe3eba60ea46b241f",
-          "bytes": 15107
-        },
-        "functional_report": {
-          "path": "results/glm-5.3-flash/functional-retest-20261106/functional.json",
-          "sha256": "d6a6133079ccab1df96c5fb0de30059dacae59c376cd4e73301b15bdf0c40f01",
-          "bytes": 29694
-        },
-        "functional_score": {
-          "path": "results/glm-5.3-flash/functional-retest-20261106/functional_score.json",
-          "sha256": "072b2a46084547c507e19330829a8e68aabea74566d954e82f2bb5cac4ec660c",
-          "bytes": 1912
-        },
-        "trace_attestation": {
-          "path": "results/glm-5.3-flash/functional-retest-20261106/trace_attestation.json",
-          "sha256": "143d368a9354a86b072a83e2adf1a2e85b2ee5d6ad929c512f661e580d9061b5",
-          "bytes": 59318
-        },
-        "previous_summary": {
-          "path": "results/archive/t10-before-range-expansion-20261106/glm-5.3-flash/summary.json",
-          "sha256": "f84933b9b27d0f4c1648fb3a20bf36b296befc28ff9c134a82d1f9a35540fccd",
-          "bytes": 4996
-        },
-        "ppa_remeasured": false,
-        "group_weights_unchanged": true
-      },
-      "ppa_eligible": false
+      "ppa_metrics": null
     }
   ],
-  "functional_retest_revision": "t10-strict-range-v1",
-  "result_revision_date": "2026-11-06",
-  "covered_task_weight": 1.0,
-  "covered_display_possible": 105.0,
-  "weighted_contributions": {
-    "T01": 1.9177968546369248,
-    "T02": 2.612952110912301,
-    "T03": 5.272239402343808,
-    "T04": 4.148115072775737,
-    "T05": 2.34,
-    "T06": 8.21527285316388,
-    "T07": 8.868679912021532,
-    "T08": 9.446050273994118,
-    "T09": 2.733333333333333,
-    "T10": 0.0
-  }
+  "functional_total_sum": 412.7291666666667,
+  "ppa_score_sum": 214.51169863989276,
+  "time_score_sum": 10.231886757965441,
+  "display_score_sum": 617.4102520645248,
+  "completed_tasks": 10,
+  "full_functional_task_count": 7,
+  "task_weights": {
+    "T01": 0.03,
+    "T02": 0.03,
+    "T03": 0.06,
+    "T04": 0.06,
+    "T05": 0.06,
+    "T06": 0.1,
+    "T07": 0.1,
+    "T08": 0.11,
+    "T09": 0.2,
+    "T10": 0.25
+  },
+  "weighted_display_score": 45.55443981318164,
+  "weighted_display_possible": 105.0
 }

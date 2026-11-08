@@ -5,11 +5,35 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from evaluator.regrade_t09_archive import ROOT, POLICY, read, refresh_summary, regrade_record
+from evaluator.regrade_t09_archive import ROOT, POLICY, read, refresh_summary, regrade_record, run
+from evaluator.result_publication import final_summary
 from evaluator.score_run import load_rules
 
 
 class T09RegradeTest(unittest.TestCase):
+    def test_final_publication_writes_only_summary_and_keeps_evidence_external(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);results=root/'results';folder=results/'test-model';folder.mkdir(parents=True)
+            source=dict(suite_id='test',model='test-model',ranking_eligible=False,
+                tasks=[dict(task_id=f'T{i:02}',functional_total=50,full_functional_pass=True,
+                            ppa_score=0,time_score=0,display_score=50) for i in range(1,11)])
+            source['tasks'][8].update(candidate_delivery_penalty=5,display_score=45,time_limit_seconds=7200)
+            original=final_summary(source)
+            (folder/'summary.json').write_text(json.dumps(original))
+            grade=root/'functional.json';grade.write_text(json.dumps(self.grade))
+            plan=root/'plan.json';plan.write_text(json.dumps(dict(models=[dict(
+                self.entry,model='test-model',report=str(grade))])))
+            with self.assertRaisesRegex(ValueError,'evidence-dir'):run(plan,results,True)
+            self.assertEqual(read(folder/'summary.json'),original)
+            run(plan,results,True,root/'evidence')
+            self.assertEqual({p.name for p in folder.iterdir()},{'summary.json'})
+            published=read(folder/'summary.json')
+            self.assertEqual(published['tasks'][:8],original['tasks'][:8])
+            self.assertEqual(published['tasks'][9],original['tasks'][9])
+            self.assertEqual(published['tasks'][8]['candidate_delivery_penalty'],5)
+            self.assertNotIn('t09_regrade',published)
+            self.assertEqual(read(root/'evidence/test-model/previous_summary.json'),original)
+
     def setUp(self):
         self.rules = load_rules()
         self.reference = read(ROOT/'benchmark/ppa-baselines.json')['tasks']['T09']

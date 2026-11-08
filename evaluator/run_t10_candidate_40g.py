@@ -20,6 +20,7 @@ from physical_budget import T10_LIMIT_SECONDS as PHYSICAL_SECONDS, receipt as ph
 from t10_candidate_physical import REPO, TRIALS, prepare, run_seed, sha, artifact, write_new_or_same
 from grade_t10_candidate_ppa import grade
 from power_compile_budget import TIMEOUT_EXIT_CODE, TIMEOUT_STATUS, validate_timeout
+from result_publication import load_task
 
 POLICY=dict(memory_max_bytes=40*1024**3,memory_swap_max='max',max_address_space='unlimited',
             concurrency=1,cpu_threads=4,user_authorized_oom_ppa_zero=True,
@@ -410,7 +411,7 @@ def main():
             if output.exists():raise ValueError('40 GiB queue already exists; inspect it instead of restarting')
             state=dict(status='running_serial_40g',policy=POLICY,models={},runner_sha256=sha(Path(__file__)))
             for model in ('kimi-k3','deepseek-flash','glm-5.3-flash'):
-                old=json.loads((REPO/f'results/{model}/T10.json').read_text())
+                old=load_task(REPO,model,'T10')
                 if old.get('ppa_score')!=0:raise ValueError('existing non-GPT zero changed')
                 state['models'][model]=dict(status='existing_gate_zero',ppa_score=0)
             for model in TRIALS:state['models'][model]=dict(status='queued',ppa_score=None)

@@ -78,30 +78,25 @@ class FreezeTasksTest(unittest.TestCase):
                 self.assertFalse((target / "evaluator/fixtures").exists())
                 self.assertEqual([p.name for p in (target / "benchmark/tasks").iterdir()], [task])
 
-    def test_all_model_records_bind_to_receipts_without_changing_scores(self):
-        schema = freeze.read("results/result.schema.json")
-        count = 0
-        for path in (freeze.ROOT / "results").glob("*/summary.json"):
-            count += 1
-            summary = json.loads(path.read_text())
-            for task in freeze.TASKS:
-                row = next(r for r in summary["tasks"] if r["task_id"] == task)
-                binding = row["benchmark_freeze"]
-                jsonschema.validate(binding, schema["properties"]["benchmark_freeze"])
-                self.assertEqual(binding, summary["task_freeze_receipts"][task])
-                self.assertEqual(binding["receipt_sha256"], freeze.sha(freeze.ROOT / binding["receipt"]))
-                if row.get("functional_total") is not None:
-                    self.assertGreaterEqual(row["functional_total"], 0)
-                    self.assertLessEqual(row["functional_total"], 50)
-        # New model archives must be validated too; their addition must not
-        # require changing a hard-coded upper limit on the model count.
-        self.assertGreaterEqual(count, 9)
+    def test_final_summaries_validate_without_embedded_freeze_bookkeeping(self):
+        schema=freeze.read('results/result.schema.json')
+        paths=list((freeze.ROOT/'results').glob('*/summary.json'))
+        self.assertGreaterEqual(len(paths),9)
+        before={p:p.read_bytes() for p in paths}
+        for path in paths:
+            summary=json.loads(path.read_text())
+            jsonschema.validate(summary,schema)
+            self.assertNotIn('task_freeze_receipts',summary)
+            for row in summary['tasks']:self.assertNotIn('benchmark_freeze',row)
+        freeze.sync_results()
+        self.assertEqual(before,{p:p.read_bytes() for p in paths})
 
     def test_kimi_final_summary_preserves_scores_and_elapsed_time(self):
-        record = next(row for row in freeze.read("results/kimi-k3/summary.json")["tasks"]
+        summary=freeze.read("results/kimi-k3/summary.json")
+        record = next(row for row in summary["tasks"]
                       if row["task_id"] == "T08")
-        self.assertEqual(record["trial_kind"], "pre_release_pilot")
-        self.assertFalse(record["ranking_eligible"])
+        self.assertEqual(summary["trial_kind"], "pre_release_pilot")
+        self.assertFalse(summary["ranking_eligible"])
         self.assertEqual(record["functional_total"], 50)
         self.assertAlmostEqual(record["ppa_score"], 33.78779834927204)
         self.assertAlmostEqual(record["time_score"], 0.5088926041126252)

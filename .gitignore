@@ -7,41 +7,43 @@ third_party/
 work/
 reports/
 logs/
+# Local-only archived trial evidence; never publish.
+/archived/
 # Locally generated model-evaluation articles are not release artifacts.
 /articles/
 # Local-only T10 reference-RTL iteration notes; release criteria live in tasks/T10/acceptance.md.
 benchmark/npu-quality-gates.md
 
-# Publish summaries and explicitly verified task measurements/corrections only.
-/results/*/*
-!/results/*/summary.json
-!/results/claude-sonnet-5.5/**
-!/results/*/archive_manifest.json
-!/results/*/functional-retest-20261105/
-!/results/*/functional-retest-20261105/**
-!/results/gpt-5.6-sol/T10.json
-!/results/glm-5.3/T10.json
-!/results/kimi-k3.1-pro/T10.json
-!/results/archive/t10-before-cancel-range-20261105/
-!/results/archive/t10-before-cancel-range-20261105/**
-!/results/archive/kimi-k3.1-pro-high-20261024/
-!/results/archive/kimi-k3.1-pro-high-20261024/summary.json
-!/results/kimi-k3/T07.json
-!/results/gpt-6-astra/T10.json
-!/results/gpt-6-astra/T10-ppa40.json
-!/results/gpt-6.1-sol/T10.json
-!/results/gpt-6.1-sol/T10-ppa40.json
-!/results/gpt-6-sol/T10.json
-!/results/gpt-6-sol/T10-ppa40.json
-/evaluator/*_pilot_*.json
+# Publish final result records and compact summaries only.
+/results/**
+!/results/README.md
+!/results/model-score-comparison.md
+!/results/ppa-formula-audit-20261021.json
+!/results/result.schema.json
+!/results/t10-strict-functional-retest-20261106.json
+!/results/token-usage.json
+!/results/token-usage.md
+!/results/claude-opus-5.5/
+!/results/claude-opus-5.5/summary.json
+!/results/claude-sonnet-5.5/
+!/results/claude-sonnet-5.5/summary.json
+!/results/deepseek-flash/
+!/results/deepseek-flash/summary.json
+!/results/glm-5.3/
+!/results/glm-5.3/summary.json
+!/results/glm-5.3-flash/
+!/results/glm-5.3-flash/summary.json
+!/results/gpt-5.6-sol/
+!/results/gpt-5.6-sol/summary.json
+!/results/gpt-6-astra/
+!/results/gpt-6-astra/summary.json
+!/results/gpt-6-sol/
+!/results/gpt-6-sol/summary.json
+!/results/gpt-6.1-sol/
+!/results/gpt-6.1-sol/summary.json
+!/results/kimi-k3/
+!/results/kimi-k3/summary.json
+!/results/kimi-k3.1-pro/
+!/results/kimi-k3.1-pro/summary.json
 
-# Current strict range replay, Opus publication and token evidence.
-!/results/claude-opus-5.5/**
-!/results/*/functional-retest-20261106/
-!/results/*/functional-retest-20261106/**
-!/results/*/token-evidence/
-!/results/*/token-evidence/**
-!/results/kimi-k3/T10.json
-!/results/glm-5.3-flash/T10.json
-!/results/archive/t10-before-range-expansion-20261106/
-!/results/archive/t10-before-range-expansion-20261106/**
+/evaluator/*_pilot_*.json
