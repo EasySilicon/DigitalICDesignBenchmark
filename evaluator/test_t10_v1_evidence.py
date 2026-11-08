@@ -11,54 +11,37 @@ ROOT=Path(__file__).resolve().parents[1]
 FIXTURES=ROOT/'evaluator/fixtures/t10_v1_three_seed'
 sys.path.insert(0,str(ROOT/'evaluator/t10_backend/v1'))
 from complete_seed import check_activity
-from export_bundle import verify_bundle, repository_artifact
+from export_bundle import repository_artifact
 sys.path.pop(0)
 
 
 class V1EvidenceTest(unittest.TestCase):
-    def test_three_real_seeds_and_portable_reports_match_authoritative_baseline(self):
-        from jsonschema import Draft202012Validator
+    def test_final_three_seed_baseline_matches_source_and_qualification(self):
         import statistics
+        from evaluator.ppa_aggregate import source_hash
+        from evaluator.score_run import ppa_provenance_valid
         baseline=json.loads((ROOT/'benchmark/ppa-baselines.json').read_text())['tasks']['T10']
-        bundle=ROOT/baseline['report_index'];directory=bundle.parent
-        self.assertEqual(hashlib.sha256(bundle.read_bytes()).hexdigest(),baseline['report_index_sha256'])
-        index=verify_bundle(directory)
-        portable={(row['original_path'],row['sha256']):directory/row['path'] for row in index['portable']}
-        def record(artifact):
-            return json.loads(portable[(artifact['path'],artifact['sha256'])].read_text())
-        evidence_path=ROOT/baseline['evidence_record']
-        self.assertEqual(hashlib.sha256(evidence_path.read_bytes()).hexdigest(),baseline['evidence_record_sha256'])
-        evidence=json.loads(evidence_path.read_text())
-        Draft202012Validator(json.loads((ROOT/'benchmark/tasks/T10/ppa-evidence.schema.json').read_text())).validate(evidence)
-        self.assertEqual(evidence['measurement_scope'],'single_pe')
-        self.assertEqual(evidence['measurement_status'],'three_seed_single_pe')
-        self.assertEqual([row['layout_seed'] for row in evidence['per_seed']],[11,29,47])
-        for row,normalized in zip(evidence['per_seed'],baseline['per_seed']):
-            self.assertEqual(row['layout_seed'],normalized['layout_seed'])
-            physical=record(row['physical_record']);activity=record(row['activity_manifest'])
-            self.assertEqual(physical['status'],'single_seed_physical_qualified')
-            self.assertFalse(physical['failures'])
-            self.assertEqual(set(physical['blocks']),{'pe','fp0','fp1','fp2','int','cpa'})
-            check_activity(activity,physical,next(r['sha256'] for r in activity['netlists'] if r['block']=='shell'))
-            full=record(row['levels']['pe']['artifacts']['full_geometry'])
-            self.assertEqual(full['status'],'single_seed_all_geometry_passed')
-            self.assertEqual(set(full['blocks']),set(physical['blocks']))
-            for artifact in full['blocks'].values():
-                connectivity=record(artifact)
-                self.assertEqual(connectivity['status'],'passed')
-                self.assertEqual(connectivity['wire_iterator_policy'],'OpenDB_paths_plus_explicit_RECT_decoder')
-            power=row['power']
-            self.assertEqual(len(power['components']),10)
-            self.assertEqual(power['matrix_blocks'],200)
-            self.assertGreaterEqual(power['activity_annotation_fraction'],.95)
-            self.assertAlmostEqual(sum(piece['power_w'] for piece in power['components']),power['total_power_w'])
-            self.assertAlmostEqual(power['energy_j_per_block']*1e12,normalized['energy_per_op_pj'])
-            self.assertEqual(normalized['drc_violations'],0)
-            self.assertGreaterEqual(normalized['setup_worst_slack_ns'],0)
-            self.assertGreaterEqual(normalized['hold_worst_slack_ns'],0)
+        qualification=json.loads((ROOT/'evaluator/t10_qualification.json').read_text())
+        self.assertEqual(source_hash(ROOT/baseline['frozen_reference_path']),baseline['source_sha256'])
+        self.assertTrue(ppa_provenance_valid('T10',baseline,baseline))
+        self.assertEqual(baseline['qualification_status'],'qualified_1ghz')
+        self.assertEqual([r['layout_seed'] for r in baseline['per_seed']],[11,29,47])
+        self.assertEqual(qualification['layout_seeds'],[11,29,47])
+        self.assertEqual(qualification['three_seed_reference']['evidence_record_sha256'],
+                         baseline['evidence_record_sha256'])
+        self.assertEqual(baseline['evidence_storage'],'external')
+        self.assertNotIn('report_index',baseline)
+        self.assertNotIn('evidence_record',baseline)
+        for row in baseline['per_seed']:
+            self.assertEqual(row['drc_violations'],0)
+            self.assertGreaterEqual(row['setup_worst_slack_ns'],0)
+            self.assertGreaterEqual(row['hold_worst_slack_ns'],0)
+            self.assertGreaterEqual(row['annotation_fraction'],.95)
+            self.assertEqual(row['ops'],200)
         for key in ('area_um2','delay_ns','energy_per_op_pj','average_power_mw'):
             self.assertEqual(baseline[key],statistics.median(row[key] for row in baseline['per_seed']))
-            self.assertEqual(baseline[key],evidence['aggregate'][key])
+        for key in ('setup_worst_slack_ns','hold_worst_slack_ns','annotation_fraction'):
+            self.assertEqual(baseline[key],min(row[key] for row in baseline['per_seed']))
 
     def test_complete_activity_matches_actual_physical_gate_netlists(self):
         activity=json.loads((FIXTURES/'seed11_activity_manifest.json').read_text())

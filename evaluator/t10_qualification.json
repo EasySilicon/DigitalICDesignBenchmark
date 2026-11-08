@@ -16,7 +16,7 @@
   "ppa_evidence_schema_path": "../benchmark/tasks/T10/ppa-evidence.schema.json",
   "ppa_evidence_schema_sha256": "ae2698d6d1b7c6ba82caf5e37ad27eda9a397a2f2c4f14da77eb3c3fd119af85",
   "pe_reference_probe_path": "t10_pe_manual_closure.json",
-  "pe_reference_probe_sha256": "b600dfd92a1be3e912e51ace4a55d3b79a5585517cb0bdc7f5504384fa713a46",
+  "pe_reference_probe_sha256": "9184e9b87e9d3b88597ef4639022df138f197855a9554edd17f8427cc58eb352",
   "pe_reference_probe": {
     "layout_seed": 11,
     "setup_wns_ps": 22.243984,
@@ -59,9 +59,7 @@
   "three_seed_reference": {
     "qualification_date": "2026-10-20",
     "scoring_baseline": "../benchmark/ppa-baselines.json#tasks.T10",
-    "evidence_record": "evaluator/fixtures/t10_v1_three_seed/reference_bundle/reports/2cb6f27d91ff0f46e1f27b3d8b82055683366c495cd09bca4b8e31c53fde154f_evidence.json",
     "evidence_record_sha256": "2cb6f27d91ff0f46e1f27b3d8b82055683366c495cd09bca4b8e31c53fde154f",
-    "report_index": "evaluator/fixtures/t10_v1_three_seed/reference_bundle/index.json",
-    "report_index_sha256": "d465b36be13762a3cd9612606c2ceae8dbc2e2e432983f37fb456ece75401887"
+    "evidence_storage": "external"
   }
 }

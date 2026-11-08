@@ -60,8 +60,7 @@
     "unchanged_context_only": 658,
     "new_markers": 0,
     "native_unfiltered_matches_stock_byte_for_byte": true,
-    "historical_five_marker_negative_control_passed": true,
-    "verification_path": "fixtures/t10_v15_manual/drc_verification.json"
+    "historical_five_marker_negative_control_passed": true
   },
   "invariants": {
     "changed_nets": [
@@ -135,123 +134,6 @@
       "role": "unchanged_sdc"
     }
   ],
-  "portable_artifacts": [
-    {
-      "path": "fixtures/t10_v15_manual/antenna.rpt",
-      "bytes": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/audit.log",
-      "bytes": 908,
-      "sha256": "24873d751823d0bd80a1b27bfd80a75c351038a1046f4f073d79f54a7669111f"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/connectivity.log",
-      "bytes": 976,
-      "sha256": "f3a61e9a8cbc24e6b85c3141d2c095077bc29bb4591472cfe90fdb194f23d50f"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/constraint_coverage.rpt",
-      "bytes": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/drc_verification.json",
-      "bytes": 1735,
-      "sha256": "487bcd3e4426e16bb777b68a439bd61e54d022df3141d8da3a3be41eca342c0e"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/electrical.rpt",
-      "bytes": 63733,
-      "sha256": "cbfc359d1c2175915c231d3e4aab7453eba3acc8842a9397d50b0242400ddb58"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/historical.drc.rpt",
-      "bytes": 793,
-      "sha256": "a929310e31e506ee7dc6c1ab19209653feed1796fbbb79752d09e953fab3a6d3"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/hold_path.rpt",
-      "bytes": 4852,
-      "sha256": "6e130215fb1852e621e9e75866b1b81c27d93103244856751a61c75822caef33"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/hold.rpt",
-      "bytes": 26,
-      "sha256": "c9159d5c72c38201f400f75c3c1c1d7a3a56f10bd843562cf3bbf49a7eae6891"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/hold_tns.rpt",
-      "bytes": 17,
-      "sha256": "d2cd5ac33c7e5ae94363b6f4cee3f294aa0852daa624c390b572ee0b5ed6f5db"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/original_full.drc.rpt",
-      "bytes": 81153,
-      "sha256": "a64999230e290745f7840aab8edf3f882a289f7ef3a23c90d54a2d1be2e95e07"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/original_scoped.drc.log",
-      "bytes": 3472,
-      "sha256": "de1755f13fde5cee21e49574e6dfd922e38ad186e83d21cae8073c740dbd2a1a"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/original_scoped.drc.rpt",
-      "bytes": 793,
-      "sha256": "a929310e31e506ee7dc6c1ab19209653feed1796fbbb79752d09e953fab3a6d3"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/original_scoped.drc.rpt.raw",
-      "bytes": 81153,
-      "sha256": "a64999230e290745f7840aab8edf3f882a289f7ef3a23c90d54a2d1be2e95e07"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/power_vectorless.rpt",
-      "bytes": 840,
-      "sha256": "a3bfb56839ed57ff01732c886ca0a7d82534bb2cb86733e253cebc1b8d164a1e"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/repaired_full.drc.rpt",
-      "bytes": 80360,
-      "sha256": "b1573fd68b6256742a6cd5ddda79f0409df9fb879cbd10e9760decbeffb0e931"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/repaired_scoped.drc.log",
-      "bytes": 3472,
-      "sha256": "042d9fd05462c134d5a4a4f2b46364c74fac14416143914826d024cffa57e604"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/repaired_scoped.drc.rpt",
-      "bytes": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/repaired_scoped.drc.rpt.raw",
-      "bytes": 80360,
-      "sha256": "b1573fd68b6256742a6cd5ddda79f0409df9fb879cbd10e9760decbeffb0e931"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/setup_path.rpt",
-      "bytes": 5621,
-      "sha256": "b8946cdcfb079644cc16cb04544dc45ac524ccef4fd436fa33a54acac3ae37af"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/setup.rpt",
-      "bytes": 26,
-      "sha256": "de380c6360c3954f6d02b7ee758d9eeb21268546d9f4d5680de5ec03ca7ec88b"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/setup_tns.rpt",
-      "bytes": 17,
-      "sha256": "44f23fe41be6907ffbb46685b3ddca75e2346eb1009578f7dcf1a0c5a4bdc1d5"
-    },
-    {
-      "path": "fixtures/t10_v15_manual/verify.log",
-      "bytes": 2071,
-      "sha256": "707e57fcd50d1ae2eeccaa0d36890f5771b4f9b89cba4351272a940b6879c8d3"
-    }
-  ],
   "scripts": [
     {
       "path": "t10_backend/physical/t10_manual_v15_apply.tcl",
@@ -305,8 +187,8 @@
     },
     {
       "path": "t10_backend/physical/t10_manual_v15_reproduce.sh",
-      "bytes": 3786,
-      "sha256": "c3c94d8e2c09569c753edc79c6445f7e9b6353bbc82fa28faba90670e3088155"
+      "bytes": 3777,
+      "sha256": "3c6632691974840fefb331922995b89e816b24e3a758913eb5b165d46e185151"
     },
     {
       "path": "t10_backend/physical/t10_manual_v15_verify.tcl",
@@ -322,5 +204,6 @@
     "The V1.0 target is single-PE PPA, not tile/top physical implementation; full-DUT functional, structural and throughput gates remain.",
     "The historical probe is preserved unchanged; this new record supersedes its five-residual-DRC status, not its historical provenance.",
     "Production PPA scoring remains disabled; a qualified three-seed baseline and normalized scorer inputs are still required."
-  ]
+  ],
+  "evidence_storage": "external"
 }

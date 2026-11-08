@@ -47,3 +47,10 @@ benchmark/npu-quality-gates.md
 !/results/kimi-k3.1-pro/summary.json
 
 /evaluator/*_pilot_*.json
+
+# Raw reference runs are external; fixtures contain only reusable fixed inputs.
+/evaluator/fixtures/t10_v1_three_seed/reference_bundle/index.json
+/evaluator/fixtures/t08_reference_20261008/
+/evaluator/fixtures/t09_cpu_20261009/
+/evaluator/fixtures/t09_cpu_20261009_cycles10/
+/evaluator/fixtures/t10_v15_manual/

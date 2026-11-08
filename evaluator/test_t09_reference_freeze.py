@@ -30,6 +30,11 @@ class T09FreezeTest(unittest.TestCase):
                    "outcomes": [{"compilable": True, "caught": True} for _ in range(21)]}
         return ppa, functional, timing, mutants
 
+    def test_raw_evidence_cannot_be_published_inside_repository(self):
+        from evaluator.t09_reference_freeze import ROOT, freeze
+        with self.assertRaisesRegex(ValueError,'outside the repository'):
+            freeze(Path('/unused/measurement.json'),ROOT/'evaluator/fixtures/new_evidence')
+
     def test_all_gates_pass(self):
         qualify(*self.evidence())
 

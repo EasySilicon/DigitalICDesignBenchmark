@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Requalify and freeze T09 only after functional, cycle and three-seed PPA gates.
 
-The existing baseline is not touched on failure. Raw evidence is retained in
+The existing baseline is not touched on failure. Raw evidence stays outside
 the public repository; historical contestant scores are not automatically
 regraded when the reference changes.
 """
@@ -133,6 +133,9 @@ def verify_routes(ppa: dict) -> None:
 
 
 def freeze(measurement: Path, evidence: Path) -> dict:
+    evidence=evidence.resolve()
+    if evidence.is_relative_to(ROOT):
+        raise ValueError("raw reference evidence must stay outside the repository")
     before = source_hash(REFERENCE)
     original = json.loads(measurement.read_text())
     pairs = [(Path(row["route_record"]), Path(row["power_record"])) for row in original["per_seed"]]
@@ -185,9 +188,7 @@ def freeze(measurement: Path, evidence: Path) -> dict:
                    drc_report_sha256=sha(destination/"5_route_drc.rpt"),
                    power_report_sha256=sha(destination/"power.log"),
                    routed_netlist_sha256=sha(result_dir/"6_final.v"),
-                   routed_spef_sha256=sha(result_dir/"6_final.spef"),
-                   evidence_route_record=str((destination/"route.json").relative_to(ROOT)),
-                   evidence_power_record=str((destination/"power.json").relative_to(ROOT)))
+                   routed_spef_sha256=sha(result_dir/"6_final.spef"))
     ppa.update(qualification_status="qualified_1ghz", timing_policy_revision="port_timing_v1")
     add_power_fields(ppa)
     (evidence/"ppa.json").write_text(json.dumps(ppa, indent=2)+"\n")
@@ -209,7 +210,7 @@ def freeze(measurement: Path, evidence: Path) -> dict:
         "eligible_mutants": 21, "killed_mutants": 21,
         "ppa_baseline_status": "qualified_1ghz", "layout_seeds": [11,29,47], "gate_clock_period_ps": 1000,
         "power_workload_id": ppa["workload_id"], "power_workload_parameters": ppa["workload_parameters"],
-        "evidence_path": str(evidence.relative_to(ROOT)),
+        "evidence_storage": "external",
         "checker_sha256": {name: sha(HERE/name) for name in (
             "t09_check.py", "t09_timing_check.py", "t09_timing_tb.sv", "t09_mutation_check.py",
             "t09_oracle_check.py", "t09_wait_check.py", "t09_reset_check.py", "t09_spec_check.py",
@@ -221,8 +222,8 @@ def freeze(measurement: Path, evidence: Path) -> dict:
         "public_latency_testbench_sha256": sha(ROOT/"benchmark/tasks/T09/public/tb.sv"),
         "oracle_manifest_sha256": {str(path.relative_to(HERE)): sha(path)
                                    for path in sorted((HERE/"t09_data").rglob("MANIFEST.json"))},
-        "evidence_sha256": {str(path.relative_to(evidence)): sha(path)
-                            for path in sorted(evidence.rglob("*")) if path.is_file()},
+        "evidence_record_sha256": sha(evidence/"ppa.json"),
+        "reference_check_sha256": {name+".json": sha(evidence/(name+".json")) for name in reports},
     }
     baselines["tasks"]["T09"] = ppa
     # Publish the authoritative PPA pointer last. Cross-file readers must
@@ -241,8 +242,8 @@ def main() -> int:
     parser.add_argument("--evidence-dir", type=Path, required=True)
     args = parser.parse_args()
     evidence = args.evidence_dir.resolve()
-    if not evidence.is_relative_to(HERE/"fixtures"):
-        parser.error("publish evidence inside evaluator/fixtures")
+    if evidence.is_relative_to(ROOT):
+        parser.error("raw evidence must stay outside the repository")
     print(json.dumps(freeze(args.measurement.resolve(), evidence), indent=2))
     return 0
 

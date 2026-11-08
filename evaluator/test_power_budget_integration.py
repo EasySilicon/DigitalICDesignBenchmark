@@ -12,7 +12,6 @@ import aggregate_with_power_budget as aggregation
 import check_t09_with_power_budget as t09
 import grade_t10_candidate_ppa as t10
 import regrade_trial_ppa as trial_regrade
-import run_t10_candidate_regrade as queue
 from power_compile_budget import POLICY_ID, TIMEOUT_STATUS, apply_to_scored_record
 from regrade_result_archive import regrade_record
 from score_run import load_rules
@@ -74,16 +73,6 @@ class PowerBudgetIntegrationTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'three power compile budget records'):
                 t10.grade('model',Path(temp),Path(temp),Path(temp))
 
-    def test_t10_other_queue_recognizes_only_verified_compile_timeout(self):
-        with tempfile.TemporaryDirectory() as temp:
-            root=Path(temp);(root/'seed11').mkdir();(root/'activity_seed11').mkdir()
-            path=root/'activity_seed11/power_compile.json';path.write_text(json.dumps(record()))
-            with patch.object(queue,'source_hash',return_value='source'),patch.object(queue.subprocess,'run',return_value=subprocess.CompletedProcess(['power'],124)):
-                result=queue.run_power(['power'],root,11)
-                self.assertEqual((result['status'],result['ppa_score']),(TIMEOUT_STATUS,0))
-            (root/'seed11/activity_queue.log').unlink()
-            with patch.object(queue.subprocess,'run',return_value=subprocess.CompletedProcess(['power'],1)):
-                with self.assertRaises(subprocess.CalledProcessError):queue.run_power(['power'],root,11)
 
     def test_t09_current_entry_uses_budget_score_and_restores_frozen_scorer(self):
         import t09_check as frozen

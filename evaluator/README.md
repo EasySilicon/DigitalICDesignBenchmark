@@ -91,7 +91,7 @@ python3 evaluator/check_act4_sail.py \
 详见[统一规则与入口参数](../benchmark/power-compile-policy.md)。旧冻结脚本仅用于
 复现历史基线，其字节、工作负载哈希和历史成绩不因新增时限而改写。
 T09 功能验收与 PPA 一并计分时使用 `check_t09_with_power_budget.py`，另通过可重复的
-`--power-compile-record` 传入编译记录。两套 T10 候选调度器都会在超时后跳过
+`--power-compile-record` 传入编译记录。T10 串行候选调度器会在超时后跳过
 该提交剩余功耗种子。当前评分和发布默认要求编译记录，只有显式 `--legacy-replay`
 才允许核验政策生效前的旧测量。成绩重算工具校验并保留编译时限记录。
 
@@ -125,21 +125,21 @@ T07 的独立功能入口为 `python3 evaluator/t07_check.py /path/to/submission
 
 T09 的独立功能入口为 `python3 evaluator/check_t09_with_power_budget.py /path/to/submission --elapsed-seconds SECONDS`。它运行 45 个 ACT4、108 个定向、100 个差分随机、80 个总线等待、4 个运行中复位、4 个题卡专项异常和 64 条取指至退休延时检查，再交给统一评分器汇总。冻结 ELF、汇编源和压缩提交 oracle 位于 `t09_data/`，可用 `python3 evaluator/verify_t09_artifacts.py` 校验清单、SHA-256、压缩 JSONL 和事件数。`python3 evaluator/t09_mutation_check.py` 在临时目录生成并验证二十一个可综合缺陷变异体。当前参考 RTL 的归一化功能分为 50/50，新增周期检查 22/22 通过；2026-10-09 重新冻结的资格记录见 `t09_qualification.json`。T09 的三种子 ASAP7 WC 1 GHz 参考物理基线已完成，全部 setup/hold/DRC 通过；最薄的 seed 47 setup 裕量为 +9.008 ps，详见 `benchmark/ppa-baselines.json`。
 
-`port_timing_v1` 通过 `t09_timing_check.py` 运行 22 项固定端口周期检查，在 `t09_group_cycles10_v1` 中组成独立的 `CPU-PIPE-CYCLES` 组：22 项全过得 10 分，通过 11–21 项得 5 分，通过 0–10 项得 0 分，其余验收组共 40 分。检查涵盖独立 ADDI 的四拍延时和 IPC=1、ALU 前递、load-use 气泡及直线程序退休跨度预算，使用三种固定 ready/response 时序。分支/JAL/JALR 罚拍作为诊断记录。具体规则见 `benchmark/tasks/T09/acceptance.md`；参考资格见 `t09_timing_qualification.json` 和 `fixtures/t09_cpu_20261009_cycles10/`。
+`port_timing_v1` 通过 `t09_timing_check.py` 运行 22 项固定端口周期检查，在 `t09_group_cycles10_v1` 中组成独立的 `CPU-PIPE-CYCLES` 组：22 项全过得 10 分，通过 11–21 项得 5 分，通过 0–10 项得 0 分，其余验收组共 40 分。检查涵盖独立 ADDI 的四拍延时和 IPC=1、ALU 前递、load-use 气泡及直线程序退休跨度预算，使用三种固定 ready/response 时序。分支/JAL/JALR 罚拍作为诊断记录。具体规则见 `benchmark/tasks/T09/acceptance.md`；参考资格见 `t09_timing_qualification.json`，原始测量输出留在仓库外。
 
-参考重新冻结入口为 `python3 evaluator/t09_reference_freeze.py --measurement /path/to/three_seed_measurement.json --evidence-dir evaluator/fixtures/NEW_T09_EVIDENCE`。它重新汇总三种子，逐一核对实际 RTL、1 GHz SDC、最终报告和功耗 workload，并重新运行全部功能、22 项周期与 21 个变异体；任一种子 setup/hold/DRC 不过、证据不全或源代码不一致都会拒绝。证据目录须为新目录，PPA 基线最后原子更新，不自动重算历史候选成绩。
+参考重新冻结入口为 `python3 evaluator/t09_reference_freeze.py --measurement /path/to/three_seed_measurement.json --evidence-dir /path/to/external/NEW_T09_EVIDENCE`。它重新汇总三种子，逐一核对实际 RTL、1 GHz SDC、最终报告和功耗 workload，并重新运行全部功能、22 项周期与 21 个变异体；任一种子 setup/hold/DRC 不过、证据不全或源代码不一致都会拒绝。证据目录须为新目录，PPA 基线最后原子更新，不自动重算历史候选成绩。
 
 ## T08/T09 已冻结资格与结果
 
 T08 使用 `python3 -m evaluator.t08_check /path/to/submission --output functional.json`，
 37 个计分场景各跑三种子，共 111 次。`t08_stress_check.py` 另跑 270 次并发资格回归，
 不额外加功能分。参考的原始及 SRAM 映射版本均全过；三种子 1 GHz 研究 PPA
-资格与原始报告见 `t08_qualification.json`、`fixtures/t08_reference_20261008/`。
+资格摘要见 `t08_qualification.json`；原始测量报告保存在仓库外。
 旧 T11 标签仅保留在历史原始证据内；当前题号是 T08。唯一评分基线仍是
 `benchmark/ppa-baselines.json`，不使用私有基线副本。
 
 正式成绩位于 `results/<model>/summary.json`。T08/T09 冻结清单通过
-`python3 benchmark/freeze_tasks.py` 校验；原始答卷、预算与测量记录保持归档。
+`python3 benchmark/freeze_tasks.py` 校验；原始答卷、预算与测量记录保存在仓库外。该入口核对当前契约和已记录资格；需要重核完整测量证据时，显式传入 `--verify-t08-evidence DIR` 或 `--verify-t09-evidence DIR`。
 
 ## T05 双级同步结构检查实现
 

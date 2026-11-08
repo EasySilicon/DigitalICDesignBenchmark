@@ -10,7 +10,7 @@
 
 三种子中位参考值为 **60,298.3 µm²、0.944853668 ns、837.441929552 pJ/块**。每组均检查六类物理实现块、完整 RECT 金属连通，以及完整门级 DUT 的 200 块/51,200 个输出点；功耗为 256 个 PE 活动的等权平均，计入单 PE 内部宏，不代表完整 NPU 的功耗。最低活动注释率为 98.302878%，时序单元为 100%。
 
-正式计分唯一数据源为 [`ppa-baselines.json`](../../../benchmark/ppa-baselines.json) 的 `tasks.T10`。随仓库保存的[报告索引](../../fixtures/t10_v1_three_seed/reference_bundle/index.json)映射原始文件与小型报告副本；大文件仍仅列出大小和哈希，不宣称完整重跑环境已自包含。工具镜像与整套发布检查仍是独立的未完成事项。历史模型分数需另行实测，不能由参考值补齐推定。
+正式计分唯一数据源为 [`ppa-baselines.json`](../../../benchmark/ppa-baselines.json) 的 `tasks.T10`，资格摘要见 [`t10_qualification.json`](../../t10_qualification.json)。原始报告、活动数据和生成的宏模型留在仓库外的测量工作目录，不随 Git 发布。工具镜像与整套发布检查仍是独立的未完成事项。历史模型分数需另行实测，不能由参考值补齐推定。
 
 ## 物理流程
 
@@ -73,11 +73,11 @@ python3 evaluator/t10_backend/v1/run_gate_activity.py \
 
 固定 OpenSTA 的 [SAIF 词法规则](https://github.com/The-OpenROAD-Project/OpenSTA/blob/76c4d6df3537ccce331b5caa812196c3330ba7c4/power/SaifLex.ll)不接受网络标识符中的 `/`；[读取实现](https://github.com/The-OpenROAD-Project/OpenSTA/blob/76c4d6df3537ccce331b5caa812196c3330ba7c4/power/SaifReader.cc)还会将网络名当作引脚名查询。因此 `saif_activity.py` 与 `import_saif_activity.tcl` 按实际物理网络精确匹配，把 SAIF 的切换频率、驻留比例写入所有相连引脚，使用相同的原生活动 API。不会将常量的零切换替换成默认活动；不使用通配匹配；除 VDD/VSS 外，缺失物理网络或多义映射均失败。另行检查时序单元全部引脚的活动注释率，至少为 95%。原始 SAIF、平均 SAIF、网络活动数据和映射审计均保留。
 
-## 三种子汇总与可移植报告
+## 三种子汇总与外部证据
 
-`assemble_baseline.py` 逐项核对三个种子的实际物理、完整几何、门级活动和功耗记录及原始文件哈希，全部通过后才输出测量记录、计分参考值及评测代码清单；它不会自行修改正式基线文件。三组数据缺一不可，单元测试通过也不能替代真实测量。
+`assemble_baseline.py` 逐项核对三个种子的实际物理、完整几何、门级活动和功耗记录及原始文件哈希，全部通过后只输出一份测量证据。各阶段报告记录对应检查器及输入的身份；正式参考值统一保存在 `ppa-baselines.json`，组装器不会自行修改该文件。三组数据缺一不可，单元测试通过也不能替代真实测量。
 
-`export_bundle.py` 在汇总通过后归档小型原始报告，保持其内容和哈希不变，并提供原路径到随仓库副本的索引。ODB、SPEF、SAIF 等大型文件仅保留大小与哈希，因此报告包不是包含所有 EDA 数据和工具的镜像。检查随仓库保存的材料不依赖原宿主挂载目录：
+`export_bundle.py` 可将实际测量引用的报告导出到仓库外，并保持原始内容和哈希。导出器拒绝向本仓库写入报告包。ODB、SPEF、SAIF 等大型文件仅保留大小与哈希，因此报告包不是完整 EDA 镜像。对已保留的外部报告包可执行：
 
 ```bash
 python3 evaluator/t10_backend/v1/export_bundle.py --verify /path/to/report-bundle

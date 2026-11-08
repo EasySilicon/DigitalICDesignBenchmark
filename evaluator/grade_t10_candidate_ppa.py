@@ -14,15 +14,22 @@ import re
 import statistics
 import subprocess
 
-from t10_candidate_physical import REPO, TRIALS, artifact, sha, write_new_or_same, active_records
+from t10_candidate_physical import REPO, artifact, sha, write_new_or_same, active_records, trial_paths
 from ppa_aggregate import source_hash
-from score_run import expected_ppa_parameters, ppa_provenance_valid, score_run
+from score_run import expected_ppa_parameters, ppa_provenance_valid, score_run, load_rules, score_functional
 from power_compile_budget import POLICY_ID, LIMIT_SECONDS
 from result_publication import load_task
 import physical_budget
 from score_with_power_budget import score_run as budget_score_run
 
 BACKEND=REPO/'evaluator/t10_backend/v1'
+
+
+def functional_score(functional):
+    rules=load_rules()
+    basic,edges,_=score_functional('T10',functional['groups'],rules)
+    total=basic+edges
+    return float(rules['functional_total']) if math.isclose(total,rules['functional_total'],rel_tol=0,abs_tol=1e-9) else total
 
 
 def check_artifacts(value):
@@ -158,18 +165,25 @@ def grade(model,work,trials,orfs,*,cached_only=False,legacy_replay=False):
         if physical_records:measurement=physical_budget.attach(measurement,physical_records)
         valid=physical_budget.partial_provenance_valid('T10',measurement,reference,physical_records,source) if timeouts else ppa_provenance_valid('T10',measurement,reference)
         if not valid:raise ValueError('invalid candidate measurement provenance')
-    original=trials/TRIALS[model]
+    original=trials[model]
     if source_hash(original/'workspaces/T10')!=source:raise ValueError('original candidate source changed')
-    public=load_task(REPO,model,'T10')
+    public=load_task(REPO,model,'T10') if legacy_replay else {}
+    if legacy_replay and public.get('functional_total')!=50:
+        raise ValueError('candidate not functionally qualified')
     functional=json.loads((original/'grading/T10/functional.json').read_text())
-    # Astra's original structural checker did not support retained wrappers;
-    # its published, corrected groups are bound to the same candidate hash.
-    groups=public.get('functional_groups',functional['groups'])
-    if public.get('functional_total')!=50:raise ValueError('candidate not functionally qualified')
+    # Historical replay may use published corrected groups for the same source.
+    # New grading always consumes the independently generated functional report.
+    groups=public.get('functional_groups') or functional['groups']
+    if functional_score(dict(groups=groups))!=50:raise ValueError('candidate not functionally qualified')
     structure=json.loads((model_dir/'structure.json').read_text())
     if not structure['passed'] or structure['candidate_source_sha256']!=source:
         raise ValueError('candidate structure not qualified')
-    if functional.get('stream_line')!='MM_STREAM input_bubble_phases=00000000000000 finished=2752':
+    if legacy_replay:
+        stream_passed=functional.get('stream_line')=='MM_STREAM input_bubble_phases=00000000000000 finished=2752'
+    else:
+        from runner_t10_stream import functional_passed
+        stream_passed=functional_passed(functional)
+    if not stream_passed:
         raise ValueError('missing full continuous-stream acceptance')
     ws=original/'workspaces/T10'
     elapsed=float((ws/'trial_finished_epoch.txt').read_text())-float((ws/'trial_started_epoch.txt').read_text())
@@ -195,17 +209,20 @@ def grade(model,work,trials,orfs,*,cached_only=False,legacy_replay=False):
         scored=score_run(payload)
     if measurement is not None and not scored['ppa_eligible']:raise ValueError('measured record was rejected by the official scorer')
     return dict(model=model,measurement=measurement,score=scored,elapsed_seconds=elapsed,
+        **({'candidate_source_sha256':source} if measurement is None else {}),
         grading_resource_policy=rows[0].get('resource_policy') if rows else None,
         original_functional_record=artifact(original/'grading/T10/functional.json'),structure=artifact(model_dir/'structure.json'))
 
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--work',type=Path,required=True);p.add_argument('--trials-root',type=Path,required=True)
+    p.add_argument('--work',type=Path,required=True)
+    p.add_argument('--trial',action='append',required=True,metavar='LABEL=TRIAL_DIR')
     p.add_argument('--orfs',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
     p.add_argument('--legacy-replay',action='store_true',help='reproduce preserved pre-policy measurements, never use for new candidates')
     a=p.parse_args()
     if a.output.exists():raise ValueError('output exists; do not overwrite an audited report')
-    reports=[grade(m,a.work.resolve(),a.trials_root.resolve(),a.orfs.resolve(),legacy_replay=a.legacy_replay) for m in TRIALS]
+    trials=trial_paths(a.trial)
+    reports=[grade(model,a.work.resolve(),trials,a.orfs.resolve(),legacy_replay=a.legacy_replay) for model in trials]
     a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(reports,indent=2)+'\n')
     for report in reports:print(report['model'],report['score']['ppa_score'])

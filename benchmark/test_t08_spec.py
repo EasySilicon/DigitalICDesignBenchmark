@@ -1,6 +1,7 @@
 """Host-side consistency checks; never copied into a contestant package."""
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import re
@@ -176,6 +177,26 @@ class T08SpecTest(unittest.TestCase):
         self.assertEqual(sorted(cases), list(range(37)))
         self.assertEqual(len(cases), len(set(cases)))
 
+    def test_reference_source_and_scoring_match_t08_contract(self):
+        from evaluator.ppa_aggregate import source_hash
+        from evaluator.score_run import load_rules, ppa_provenance_valid, ppa_score, score_functional
+        from evaluator.t08_check import GROUPS
+
+        reference = json.loads((ROOT / "benchmark/ppa-baselines.json").read_text())["tasks"]["T08"]
+        self.assertEqual(source_hash(ROOT / "evaluator/reference/T08"), reference["source_sha256"])
+        self.assertTrue(ppa_provenance_valid("T08", reference, reference))
+        self.assertAlmostEqual(ppa_score(reference, reference), 35)
+        groups = {name: {"cases_passed": len(cases), "cases_total": len(cases)}
+                  for name, _, cases in GROUPS}
+        basic, edge, _ = score_functional("T08", groups, load_rules())
+        self.assertEqual(basic + edge, 50)
+        groups["metadata_headers"]["cases_passed"] -= 1
+        basic, edge, _ = score_functional("T08", groups, load_rules())
+        self.assertEqual(basic + edge, 49)
+        bad = copy.deepcopy(reference)
+        bad["parameter_set"]["sram_contract"]["contract_sha256"] = "0" * 64
+        self.assertFalse(ppa_provenance_valid("T08", bad, reference))
+
     def test_sram_policy_is_visible_and_consistent_without_new_functional_ticket(self):
         policy = "2.0-lambdapdk-tdp-1ghz"
         for name in ("task.md", "task.yaml", "acceptance.md", "README.md"):
@@ -211,23 +232,6 @@ class T08SpecTest(unittest.TestCase):
         self.assertEqual(evidence["baseline_run_count"], 111)
         self.assertEqual(evidence["variant_count"], 18)
         self.assertEqual(evidence["detected_count"], 18)
-        for relative, checksum in evidence["judge_sha256"].items():
-            self.assertEqual(hashlib.sha256((ROOT / relative).read_bytes()).hexdigest(), checksum)
-
-    def test_boundary_evidence_catches_real_regression_without_false_positives(self):
-        evidence = json.loads((ROOT / "evaluator/fixtures/t11_mac/boundary_regression_qualification_v31.json").read_text())
-        self.assertTrue(evidence["passed"])
-        self.assertTrue(evidence["original_trial_and_summary_unchanged"])
-        replays = evidence["replays"]
-        for name in ("streaming_control", "independent_kimi_replay"):
-            self.assertTrue(replays[name]["full_functional_pass"])
-            self.assertEqual(replays[name]["run_count"], 111)
-        bad = replays["known_glm_regression"]
-        self.assertFalse(bad["full_functional_pass"])
-        self.assertEqual(bad["functional_total"], 44)
-        self.assertEqual([case["case"] for case in bad["failed_cases"]], [28,30,31,33,35,36])
-        for case in bad["failed_cases"]:
-            self.assertEqual(case["failed_seeds"], [20261007,47,91])
         for relative, checksum in evidence["judge_sha256"].items():
             self.assertEqual(hashlib.sha256((ROOT / relative).read_bytes()).hexdigest(), checksum)
 

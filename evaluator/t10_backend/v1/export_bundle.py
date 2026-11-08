@@ -54,6 +54,9 @@ def verify_bundle(directory):
 
 
 def export(evidence_path,work,output):
+    output=output.resolve()
+    if output.is_relative_to(REPO):
+        raise ValueError("raw report bundles must be written outside the repository")
     evidence=json.loads(evidence_path.read_text())
     if evidence.get('measurement_status')!='three_seed_single_pe' or \
             evidence.get('measurement_scope')!='single_pe' or \
@@ -113,10 +116,11 @@ def export(evidence_path,work,output):
         elif isinstance(value,list):
             for child in value:walk(child)
 
-    # These were created only after strict assembly validated every real seed.
-    for p in (evidence_path,evidence_path.with_name('scoring_reference.json'),evidence_path.with_name('evaluator_inventory.json')):add(p)
-    for path,digest in json.loads(evidence_path.with_name('evaluator_inventory.json').read_text()).items():
-        add(REPO/path,digest)
+    # Follow measured artifact references instead of freezing an entire tree.
+    add(evidence_path)
+    for relative in ('benchmark/tasks/T10/ppa.md','benchmark/tasks/T10/ppa-evidence.schema.json',
+                     'evaluator/t10_structure_check.py'):
+        add(REPO/relative)
     for seed in (11,29,47):
         root=work/f'seed{seed}_activity_directnets';manifest=json.loads((root/'activity_manifest.json').read_text())
         for name in ('activity_manifest.json','merge_audit.json','staged_build_manifest.json','simulation.log'):add(root/name)
@@ -127,7 +131,6 @@ def export(evidence_path,work,output):
         add(root/'activity.saif',manifest['activity_sha256'])
         merged=json.loads((root/'merge_audit.json').read_text())
         add(root/'average.saif',merged['output_sha256'])
-        if seed!=11:add(work/f'seed{seed}_complete.json')
     index=dict(status='portable_reports_with_external_checkpoints',seeds=[11,29,47],
                portable=[],repository=[],external=[])
     for _,row in sorted(records.items()):

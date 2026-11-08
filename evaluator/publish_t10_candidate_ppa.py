@@ -10,12 +10,11 @@ import math
 from pathlib import Path
 import shutil
 
-from t10_candidate_physical import REPO, TRIALS, artifact, prepare
+from t10_candidate_physical import REPO, artifact, prepare, trial_paths
 from grade_t10_candidate_ppa import grade
 from run_t10_candidate_40g import POLICY, save
 from score_run import load_rules, score_run, weighted_suite_score
 from score_with_power_budget import score_run as current_score_run
-from adjudicate_t10_compile_stop import STATUS as COMPILE_STOP_ZERO, validate_decision
 from power_compile_budget import TIMEOUT_STATUS, TIMEOUT_EXIT_CODE, validate_timeout
 
 SCORING_POLICY='functional50-ppa50-setup-frequency-power4-hold-continuous-drc-half-delivery-v6'
@@ -30,12 +29,12 @@ def verified_report(model,state,work,trials,orfs,*,allow_cached=False,legacy_rep
         # waiting for another candidate's measurements to finish.
         path=work/model/'scored40.json'
         saved=json.loads(path.read_text())
-        prepare(model,trials,work)
+        prepare(model,trials,work,cached_only=True)
         regenerated=grade(model,work,trials,orfs,cached_only=True,**({'legacy_replay':True} if legacy_replay else {}))
         if saved!=regenerated or saved.get('model')!=model:
             raise ValueError('cached report disagrees with verified native measurements')
         return saved
-    item=prepare(model,trials,work)
+    item=prepare(model,trials,work,cached_only=True)
     if row['status']=='measured_and_scored_40g':
         evidence=row['report'];path=Path(evidence['path'])
         if artifact(path)!=evidence:raise ValueError('scored report changed')
@@ -44,13 +43,14 @@ def verified_report(model,state,work,trials,orfs,*,allow_cached=False,legacy_rep
         if saved!=regenerated or saved['score']['ppa_score']!=row['ppa_score']:
             raise ValueError('official rescoring disagrees with completed measurement')
         return saved
-    allowed={'user_adjudicated_40g_oom_zero','user_adjudicated_40g_power_oom_zero',COMPILE_STOP_ZERO,TIMEOUT_STATUS}
+    allowed={'resource_oom_zero','resource_power_oom_zero',TIMEOUT_STATUS}
+    if legacy_replay:allowed|={'user_adjudicated_40g_oom_zero','user_adjudicated_40g_power_oom_zero'}
     if row['status'] not in allowed or row['ppa_score']!=0:
         raise ValueError('unadjudicated failure cannot become a zero score')
     seed=row['failing_seed'];directory=work/model/f'seed{seed}'
-    name='activity_runtime40.json' if row['status'].endswith('power_oom_zero') or row['status'] in (COMPILE_STOP_ZERO,TIMEOUT_STATUS) else 'runtime40.json'
+    name='activity_runtime40.json' if row['status'].endswith('power_oom_zero') or row['status']==TIMEOUT_STATUS else 'runtime40.json'
     runtime_path=directory/name;runtime=json.loads(runtime_path.read_text())
-    decision=None;compile_record=None
+    compile_record=None
     if row['status']==TIMEOUT_STATUS:
         evidence=row['evidence'];path=Path(evidence['path'])
         if artifact(path)!=evidence:raise ValueError('power compile timeout record changed')
@@ -58,25 +58,18 @@ def verified_report(model,state,work,trials,orfs,*,allow_cached=False,legacy_rep
         validate_timeout(compile_record,item['source_sha256'],seed)
         if runtime.get('exit_code')!=TIMEOUT_EXIT_CODE or not runtime.get('confirmed') or runtime.get('policy')!=POLICY or runtime.get('systemd_result')=='oom-kill':
             raise ValueError('timeout is not backed by a terminal budget-limited runtime')
-    elif row['status']==COMPILE_STOP_ZERO:
-        evidence=row['adjudication'];path=Path(evidence['path'])
-        if artifact(path)!=evidence:raise ValueError('user stop decision changed')
-        decision=json.loads(path.read_text())
-        validate_decision(decision,runtime,model,item['source_sha256'])
-        for binding in (decision['request'],decision['terminal_runtime'],decision['queue_after_stop'],*decision['preserved_inputs'].values()):
-            if artifact(Path(binding['path']))!=binding:raise ValueError('user stop evidence changed')
-        if decision['terminal_runtime']!=artifact(runtime_path):raise ValueError('stopped runtime changed')
     elif runtime.get('confirmed') is not True or runtime.get('systemd_result')!='oom-kill' or runtime['policy']!=POLICY:
         raise ValueError('missing confirmed OOM under the authorized resource policy')
     inputs=json.loads((directory/'inputs40.json').read_text())
     if inputs['source_sha256']!=item['source_sha256']:raise ValueError('OOM candidate source changed')
     original=load_task(REPO,model,'T10')
-    trial=trials/TRIALS[model];workspace=trial/'workspaces/T10'
+    trial=trials[model];workspace=trial/'workspaces/T10'
     functional_path=trial/'grading/T10/functional.json'
     functional=json.loads(functional_path.read_text())
     delivery=json.loads((trial/'grading/T10/delivery.json').read_text())
     elapsed=float((workspace/'trial_finished_epoch.txt').read_text())-float((workspace/'trial_started_epoch.txt').read_text())
-    payload=dict(task_id='T10',groups=original.get('functional_groups',functional['groups']),delivery_qualified=delivery['delivery_qualified'],
+    groups=(original.get('functional_groups') or functional['groups']) if legacy_replay else functional['groups']
+    payload=dict(task_id='T10',groups=groups,delivery_qualified=delivery['delivery_qualified'],
         elapsed_seconds=elapsed,time_limit_seconds=original['time_limit_seconds'],
         sustained_throughput_passed=True,candidate_delivery_error_count=original.get('candidate_delivery_error_count',0))
     if not legacy_replay:
@@ -90,18 +83,16 @@ def verified_report(model,state,work,trials,orfs,*,allow_cached=False,legacy_rep
     return dict(model=model,score=scored,elapsed_seconds=elapsed,
         original_functional_record=artifact(functional_path),
         candidate_source_sha256=item['source_sha256'],grading_resource_policy=POLICY,
-        adjudication=('Power-simulation compilation exceeded the cumulative 1200-second per-seed wall-clock budget.'
-            if compile_record else decision['reason'] if decision else 'user-authorized PPA zero after confirmed 40 GiB OOM, swap allowed'),
+        adjudication=(f"Power-simulation compilation exceeded the cumulative {compile_record['limit_seconds']}-second per-seed wall-clock budget."
+            if compile_record else 'PPA zero after confirmed 40 GiB OOM, swap allowed'),
         power_compile_timeout_record=compile_record,
-        user_decision=row['adjudication'] if decision else None,
-        user_decision_record=decision,
         measurement_completed=False,failing_seed=seed,runtime=artifact(runtime_path),queue_status=row['status'])
 
 
 def task_record(old,report,receipt,stamp,*,verified_source=None):
     if report['score'].get('display_score') is None:
         raise ValueError('delivery deduction must be adjudicated before score publication')
-    source=report.get('candidate_source_sha256',report.get('measurement',{}).get('source_sha256'))
+    source=report.get('candidate_source_sha256') or (report.get('measurement') or {}).get('source_sha256')
     previous_source=old.get('candidate_sha256')
     if not source or (previous_source is None and verified_source!=source) or \
             (previous_source is not None and previous_source!=source) or \
@@ -115,22 +106,26 @@ def task_record(old,report,receipt,stamp,*,verified_source=None):
         ranking_ineligible_reason='Historical pilot; common tool-image and suite release qualification remain pending.',
         t10_ppa_remeasurement=dict(report=receipt,resource_policy=POLICY,
             note='Serial 40 GiB remeasurement with swap allowed.'))
-    if 'measurement' in report:
+    if report.get('measurement') is not None:
         updated['ppa_measurement']=report['measurement']
         if report['measurement'].get('power_compile_policy'):
             updated['scoring_policy']=SCORING_POLICY+'+'+report['measurement']['power_compile_policy']
             updated['power_compile_policy']=report['measurement']['power_compile_policy']
             updated['power_compile_records']=report['measurement']['power_compile_records']
             updated['candidate_source_sha256']=source
-    elif report.get('queue_status') in (COMPILE_STOP_ZERO,TIMEOUT_STATUS):
+    elif report.get('queue_status')==TIMEOUT_STATUS:
         updated['ppa_adjudication']=report['adjudication']
-        updated['scoring_policy']=SCORING_POLICY+('+'+'power-compile-wall-1200s-v1'
-            if report['queue_status']==TIMEOUT_STATUS else '+explicit-user-compile-stop-zero')
-        if report['queue_status']==TIMEOUT_STATUS:
-            validate_timeout(report['power_compile_timeout_record'],source,report['failing_seed'])
-            updated.update(power_compile_policy='power-compile-wall-1200s-v1',
-                           ppa_status=TIMEOUT_STATUS,candidate_source_sha256=source,
-                           power_compile_records=[report['power_compile_timeout_record']])
+        compile_record=report['power_compile_timeout_record']
+        validate_timeout(compile_record,source,report['failing_seed'])
+        updated['scoring_policy']=SCORING_POLICY+'+'+compile_record['policy_id']
+        updated.update(power_compile_policy=compile_record['policy_id'],
+                       ppa_status=TIMEOUT_STATUS,candidate_source_sha256=source,
+                       power_compile_records=[compile_record])
+    elif report['score'].get('ppa_status')=='physical_timeout_no_results':
+        from physical_budget import validate_records
+        if validate_records(report['score'].get('physical_records',[]),source,'T10')!={11,29,47}:
+            raise ValueError('physical zero requires three timeout receipts')
+        updated['ppa_adjudication']='No physical seed completed within the per-seed budget.'
     else:updated['resource_failure_adjudication']=report['adjudication']
     if report['score'].get('delivery_penalty_policy'):
         updated['scoring_policy']+='+'+report['score']['delivery_penalty_policy']
@@ -183,25 +178,25 @@ def summary_record(old,updated,stamp):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    for name in ('work','trials-root','orfs'):parser.add_argument('--'+name,type=Path,required=True)
+    for name in ('work','orfs'):parser.add_argument('--'+name,type=Path,required=True)
+    parser.add_argument('--trial',action='append',required=True,metavar='LABEL=TRIAL_DIR')
     parser.add_argument('--write',action='store_true')
     parser.add_argument('--legacy-replay',action='store_true',help='verify preserved pre-policy measurements without retroactively applying the new limit')
-    parser.add_argument('--models',nargs='+',choices=TRIALS,default=list(TRIALS))
     parser.add_argument('--allow-partial',action='store_true',
         help='publish only selected, independently reverified cached reports; never score missing measurements')
-    args=parser.parse_args();work=args.work.resolve()
+    args=parser.parse_args();work=args.work.resolve();trials=trial_paths(args.trial)
     state=json.loads((work/'t10_ppa_scores40.json').read_text())
     if state['policy']!=POLICY:raise ValueError('resource policy changed')
     if state['status']!='complete' and not args.allow_partial:raise ValueError('entire score queue must be complete')
-    reports={model:verified_report(model,state,work,args.trials_root.resolve(),args.orfs.resolve(),
-        allow_cached=args.allow_partial,legacy_replay=args.legacy_replay) for model in args.models}
+    reports={model:verified_report(model,state,work,trials,args.orfs.resolve(),
+        allow_cached=args.allow_partial,legacy_replay=args.legacy_replay) for model in trials}
     stamp=dt.datetime.now().astimezone().date().isoformat();prepared=[]
     for model,report in reports.items():
         directory=REPO/'results'/model;receipt_path=work/'published_evidence'/model/'T10-ppa40.json'
         # Keep intermediate measurements in the caller's work directory.
         encoded=(json.dumps(report,indent=2,ensure_ascii=False)+'\n').encode()
         receipt=dict(path=str(receipt_path),storage='external',bytes=len(encoded),sha256=hashlib.sha256(encoded).hexdigest())
-        source=report.get('candidate_source_sha256',report.get('measurement',{}).get('source_sha256'))
+        source=report.get('candidate_source_sha256') or (report.get('measurement') or {}).get('source_sha256')
         task=task_record(load_task(REPO,model,'T10'),report,receipt,stamp,verified_source=source)
         summary=summary_record(json.loads((directory/'summary.json').read_text()),task,stamp)
         summary=final_summary(summary,{'T10':task})

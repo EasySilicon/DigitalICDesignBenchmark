@@ -765,9 +765,7 @@
           "drc_report_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "power_report_sha256": "a37a70ca8d1b8a45b2b055b88152e805f5b30c9241d7a849b1b461516f26419a",
           "constraint_sha256": "f3f3085da51d130a64bd37c4a909173d10be321f70e5742017b74814fa980783",
-          "config_sha256": "6cbf787970e612edfb6c877b2812696b36fdcdb3ed826e01fdd374d53ad6f6bc",
-          "evidence_route_record": "evaluator/fixtures/t08_reference_20261008/seed11/route.json",
-          "evidence_power_record": "evaluator/fixtures/t08_reference_20261008/seed11/power.json"
+          "config_sha256": "6cbf787970e612edfb6c877b2812696b36fdcdb3ed826e01fdd374d53ad6f6bc"
         },
         {
           "layout_seed": 29,
@@ -788,9 +786,7 @@
           "drc_report_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "power_report_sha256": "b5875abb68f38925a0822acdf9e365591b3fe464ecdb7167b7140fe1dc2984a7",
           "constraint_sha256": "f3f3085da51d130a64bd37c4a909173d10be321f70e5742017b74814fa980783",
-          "config_sha256": "8fddd6ee77b248d1eabccb6c5a73f3b2b5f9148e58c4288fb60432acc887ec47",
-          "evidence_route_record": "evaluator/fixtures/t08_reference_20261008/seed29/route.json",
-          "evidence_power_record": "evaluator/fixtures/t08_reference_20261008/seed29/power.json"
+          "config_sha256": "8fddd6ee77b248d1eabccb6c5a73f3b2b5f9148e58c4288fb60432acc887ec47"
         },
         {
           "layout_seed": 47,
@@ -811,9 +807,7 @@
           "drc_report_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
           "power_report_sha256": "f47b3908f3343fe73a558acc896602b66744ecb2a54700c5f2b29689c363085b",
           "constraint_sha256": "f3f3085da51d130a64bd37c4a909173d10be321f70e5742017b74814fa980783",
-          "config_sha256": "ada0ab6f0c1e26f49b620122fe81e34db688bdaa49d8fce82e1c3c1058174470",
-          "evidence_route_record": "evaluator/fixtures/t08_reference_20261008/seed47/route.json",
-          "evidence_power_record": "evaluator/fixtures/t08_reference_20261008/seed47/power.json"
+          "config_sha256": "ada0ab6f0c1e26f49b620122fe81e34db688bdaa49d8fce82e1c3c1058174470"
         }
       ],
       "legacy_task_id": "T11",
@@ -879,8 +873,6 @@
           "power_report_sha256": "5da00a5e14a6a1d9b4c880c1554a29fa3831834b66546b59475bdaeebb3438c3",
           "routed_netlist_sha256": "8870fe37e6875e5543b4ee94c62213f49db094fb22fe308668e4cf081d18889c",
           "routed_spef_sha256": "6fca03bb768b07a0e36794b10df1049b6187b7393431bc575ebe3297080bd93c",
-          "evidence_route_record": "evaluator/fixtures/t09_cpu_20261009_cycles10/seed11/route.json",
-          "evidence_power_record": "evaluator/fixtures/t09_cpu_20261009_cycles10/seed11/power.json",
           "average_power_mw": 5.819999999999999
         },
         {
@@ -903,8 +895,6 @@
           "power_report_sha256": "c7b41cbd2975e3d5df6973a234ffa66dca049e68dc6147af3a267d3ec510e3ef",
           "routed_netlist_sha256": "8870fe37e6875e5543b4ee94c62213f49db094fb22fe308668e4cf081d18889c",
           "routed_spef_sha256": "a5edbc9c7fa261c8ca55b2687fe4a14f721546e676043869480d5840d091fd97",
-          "evidence_route_record": "evaluator/fixtures/t09_cpu_20261009_cycles10/seed29/route.json",
-          "evidence_power_record": "evaluator/fixtures/t09_cpu_20261009_cycles10/seed29/power.json",
           "average_power_mw": 5.819999999999999
         },
         {
@@ -927,8 +917,6 @@
           "power_report_sha256": "520ca6c6317368b6880c4b364aad6fc66998b268127f3f5811efda2da39609eb",
           "routed_netlist_sha256": "8915ec22dc26eb99e0c95b7d24962018a69a25a9d736c72f9778d40d9f733081",
           "routed_spef_sha256": "38feaff3eb88897a9032863d559c735d411c666a704b392353fe0862cc023459",
-          "evidence_route_record": "evaluator/fixtures/t09_cpu_20261009_cycles10/seed47/route.json",
-          "evidence_power_record": "evaluator/fixtures/t09_cpu_20261009_cycles10/seed47/power.json",
           "average_power_mw": 5.819999999999999
         }
       ],
@@ -1023,10 +1011,8 @@
       "setup_worst_slack_ns": 0.022243984,
       "hold_worst_slack_ns": 0.010891954,
       "drc_violations": 0,
-      "evidence_record": "evaluator/fixtures/t10_v1_three_seed/reference_bundle/reports/2cb6f27d91ff0f46e1f27b3d8b82055683366c495cd09bca4b8e31c53fde154f_evidence.json",
       "evidence_record_sha256": "2cb6f27d91ff0f46e1f27b3d8b82055683366c495cd09bca4b8e31c53fde154f",
-      "report_index": "evaluator/fixtures/t10_v1_three_seed/reference_bundle/index.json",
-      "report_index_sha256": "cca8afdb5f6273f51d4065d8fea69cf8eeb56caecc1f18bfd73d252b6345f607"
+      "evidence_storage": "external"
     }
   }
 }

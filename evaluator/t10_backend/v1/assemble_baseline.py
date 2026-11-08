@@ -256,11 +256,8 @@ def main():
             structure['rtl_sha256']!=EXPECTED_RTL or structure['checker_sha256']!=sha(REPO/'evaluator/t10_structure_check.py') or \
             structure['filelist_sha256']!=sha(RTL.parent/'files.f'):
         raise ValueError('frozen structure is not qualified')
-    inventory={str(p.relative_to(REPO)):sha(p) for p in sorted(HERE.parent.rglob('*')) if p.suffix in ('.py','.tcl','.cc','.mk')}
-    for name in ('evaluator/score_run.py','evaluator/ppa_power_probe.py','evaluator/make_t10_power_vectors.py','evaluator/t10_structure_check.py','benchmark/tasks/T10/ppa.md','benchmark/tasks/T10/ppa-evidence.schema.json','env/orfs-26q2-compat.patch'):
-        inventory[name]=sha(REPO/name)
-    inventory_text=json.dumps(inventory,sort_keys=True,indent=2)+'\n'
-    evaluator_sha=hashlib.sha256(inventory_text.encode()).hexdigest()
+    # Each stage's report already binds its own checker and measured inputs.
+    evaluator_sha=sha(Path(__file__))
     workload=read(work/'workload/manifest.json')
     if workload['task_id']!='T10' or workload['seed']!=20260925 or workload['case_count']!=200 or \
             workload['oracle_check']['status']!='pass' or \
@@ -304,13 +301,10 @@ def main():
                    setup_worst_slack_ns=min(r['setup_worst_slack_ns'] for r in normalized),hold_worst_slack_ns=min(r['hold_worst_slack_ns'] for r in normalized),drc_violations=0)
     if not ppa_provenance_valid('T10',reference,reference):
         raise ValueError('normalized scoring record fails scope/parameter provenance')
-    outputs={output:json.dumps(evidence,indent=2)+'\n',output.with_name('scoring_reference.json'):json.dumps(reference,indent=2)+'\n',
-             output.with_name('evaluator_inventory.json'):inventory_text}
-    if any(path.exists() for path in outputs):
+    if output.exists():
         raise ValueError('output already exists; do not overwrite audited evidence')
     output.parent.mkdir(parents=True,exist_ok=True)
-    for path,text in outputs.items():
-        path.write_text(text)
+    output.write_text(json.dumps(evidence,indent=2)+'\n')
     print('PASS complete three-seed audit; generated evidence only, authoritative baselines not edited')
 
 

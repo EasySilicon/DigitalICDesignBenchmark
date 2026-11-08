@@ -81,7 +81,7 @@ seed11，不达标就回到 RTL 优化，不自动消耗另外两种子。单种
 功耗资格通过，以及同一 RTL 的新一轮 111 正式/270 压力回归全部通过。
 它在仓库之外保留只读原始物理工件与 freeze.json；公开参考 RTL 位于
 `evaluator/reference/T08/rtl/`，公开资格报告位于
-`evaluator/fixtures/t08_reference_20261008/`，公开任务冻结清单为 `FREEZE.json`。
+仓库外的测量目录，公开任务冻结清单为 `FREEZE.json`。
 唯一评分基线为 `benchmark/ppa-baselines.json`，不存在额外私有评分基线。
 本参考资格已完成，不修改考生输入或历史成绩；未来新参考资格完成前保持 pending，
 不得将“已设为 1 GHz”“综合完成”或单种子结果写成已冻结。

@@ -1,61 +1,65 @@
-# T10 独立验收包
+# T10 独立验收与测量
 
-本包提供 T10 的独立数值、协议、结构及持续吞吐验收。候选 DUT 从自身
-`rtl/files.f` 加载，测试通过题目固定的顶层端口进行。
+T10 通过题目固定端口检查数值、协议、结构和持续吞吐。验收器从候选的
+`rtl/files.f` 加载源码，采用严格数值 oracle；评分规则见[任务验收计划](../benchmark/tasks/T10/acceptance.md)。
 
-## 依赖与入口
-
-依赖 Python 3.10+（标准库）、支持 SystemVerilog timing/assertions 与
-hierarchical 编译的 Verilator、Yosys、C++ 编译器和 make。
-工具安装方式见仓库的环境安装文档。模块路径按当前 checkout 自动确定。
+## 功能验收
 
 ```bash
-# 独立结构检查，以及 2752 个连续输入/混合精度/背压用例与独立复位探针
 python3 evaluator/runner_t10_stream.py /path/to/submission \
-  --seed 20260925 --output-dir work/T10_qualification
+  --seed 11 --output-dir /path/to/scratch/T10_functional
 
-# 功能试评分；PPA 由独立候选后端测量
-python3 evaluator/grade_t10_pilot.py --help
-
-# 固定 200-block 功耗工作负载；生成前验证 51200 个输出点均为有限结果
-python3 evaluator/make_t10_power_vectors.py work/T10_power --seed 20260925
-
-# 数值/协议/结构/持续吞吐/负载生成回归
 PYTHONPATH=evaluator python3 -m unittest \
   evaluator.test_runner_t10_generation evaluator.test_t10_structure_check \
-  evaluator.test_ppa_power_t10 -q
+  evaluator.test_ppa_power_t10
 ```
 
-`runner_t10.py` 保留旧单块验收入口，主要为连续输入验收器提供矩阵生成和
-结果解析；正式连续吞吐验证使用 `runner_t10_stream.py` 与 streaming/reset
-两个独立 testbench。`t10_fast_oracle.py` 用整数和精确二进制有理数判定结果，
-包含 MX scale 极值、溢出及异号抵消，不以参考 RTL 的输出作为 golden。
+`runner_t10_stream.py` 使用独立流式 testbench 和复位探针，覆盖完整矩阵结果、
+双 1024-bit 输入、四槽输出、背压、块 ID、格式切换和持续吞吐。只有全部
+数值、协议、结构、复位及吞吐检查通过时 CLI 才返回 0，并输出 `functional_passed`。
+输出 JSON 保留分组计数、失败位置与结构结果。
 
-`grade_t10_pilot.py` 按公共计分规则汇总功能分。PPA/time 发布资格及持续吞吐
-状态必须单独检查；其 pilot 报告不代表正式全量评分。候选测试失败仍保留
-已完成用例的报告；基础设施失败、用例未完成与功能通过不得混淆。streaming CLI 仅在所有
-数值/协议/结构/复位用例及持续吞吐均通过时返回 0，并输出 `functional_passed`。
+`runner_t10.py` 提供公共向量生成和结果解析；`t10_fast_oracle.py` 使用精确
+二进制数值计算，包含 MX scale 极值、溢出和抵消。`hidden/` 中的评测方
+输入与 testbench 随完整仓库发布，由准备器隔离在候选工作区之外。
+`t10_mutation_regression.py` 用于校准验收器的缺陷检出能力。
 
-`hidden/` 表示评测方拥有的测试资料；目录可以随评测仓库发布，但必须由
-trial 准备流程排除在被测 Agent 的工作区之外。`t10_mutation_regression.py`
-用于验证特定参考 RTL 的故障注入能否被独立验收捕获，不是候选结构门禁。
+## 单 PE 物理与功耗评估
 
-## PPA 测量与编译时限
+[v1 参考后端](t10_backend/v1/README.md)用于复现冻结基线。候选流程由
+`t10_candidate_physical.py`、`t10_power_with_slang.py` 和
+`grade_t10_candidate_ppa.py` 完成；单 PE 测量的具体范围和约束见
+[PPA 契约](../benchmark/tasks/T10/ppa.md)。
 
-新候选的功耗仿真编译受[所有题目统一的 20 分钟时限](../benchmark/power-compile-policy.md)
-约束：每个布局种子的分层代码生成、C++ 编译、链接与 SAIF 运行库构建共用
-1,200 秒预算。超时停止编译进程树，PPA/耗时加分归零，已验证的功能分保留；
-环境错误和缺失记录不计作编译超时。`t10_candidate_power.py`、串行调度器
-和结果发布器共同执行该规则。冻结的 v1 参考复现脚本不作历史性改写。
+候选调度和发布使用显式 `--trial LABEL=TRIAL_DIR`，可重复指定多个候选。
+`LABEL` 是安全的目录标签；trial 目录包含 `workspaces/T10/` 的原始交付、
+开发计时文件，以及 `grading/T10/functional.json` 和 `delivery.json`。
+该接口用于保留上述交付结构的 trial，不内置模型名单或本机历史目录。
 
-[v1 后端](t10_backend/v1/README.md)提供单 PE 三种子参考测量；
-`t10_candidate_physical.py`、`t10_candidate_power.py` 与
-`grade_t10_candidate_ppa.py` 负责候选物理、活动功耗和评分。完整 DUT 的
-功能、结构及持续吞吐资格与单 PE 测量分别校验。正式结果基线见
-[`ppa-baselines.json`](../benchmark/ppa-baselines.json)。
+```bash
+python3 evaluator/run_t10_candidate_40g.py \
+  --trial model-a=/path/to/trial-a --trial model-b=/path/to/trial-b \
+  --work /path/to/fresh-measurements --orfs /path/to/OpenROAD-flow-scripts
 
-## 验证记录
+# 只复核已有缓存并发布最终 summary；不启动 EDA
+python3 evaluator/publish_t10_candidate_ppa.py \
+  --trial model-a=/path/to/trial-a \
+  --work /path/to/measurements --orfs /path/to/OpenROAD-flow-scripts --write
+```
 
-[T10_PACKAGE_VERIFICATION.json](T10_PACKAGE_VERIFICATION.json) 记录独立入口的功能回归结果：2752 个用例、独立复位探针、256-PE
-结构与 14 个无输入气泡阶段均通过，包含工具版本、RTL 与向量 SHA256。
-该记录涵盖功能、结构与吞吐；物理及功耗资格由后端报告独立记录。
+流程串行运行并记录实际资源使用。T10 每布局种子的物理实现累计限时
+7,200 秒，功耗仿真编译另限 2,400 秒，编译预算覆盖规划、代码生成、C++
+编译、链接和 SAIF 运行库构建。超时、普通工具错误和 OOM 分别保留证据，
+基础设施错误保持待评；终态失败不会自动重试。完整规则见
+[物理预算](../benchmark/physical-runtime-policy.md)和
+[编译预算](../benchmark/power-compile-policy.md)。
+
+发布器验证源码、缓存和测量来源，最终只更新模型的 `summary.json`；原始
+报告和备份保存在调用者指定的测量目录。`--legacy-replay` 仅用于复核历史
+测量记录，不放宽新候选的编译预算或交付检查。
+
+## 参考资格
+
+冻结功能与物理资格见 [t10_qualification.json](t10_qualification.json)，
+正式参考值来自唯一的 [ppa-baselines.json](../benchmark/ppa-baselines.json)。
+单 PE 的 PPA 资格与完整 DUT 的功能、结构及持续吞吐资格分别检查。

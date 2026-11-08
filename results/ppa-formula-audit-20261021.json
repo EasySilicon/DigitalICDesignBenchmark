@@ -16,8 +16,8 @@
     },
     "benchmark/ppa-baselines.json": {
       "path": "benchmark/ppa-baselines.json",
-      "bytes": 44874,
-      "sha256": "fad32a454f5e8a91fd65f203f9ef32fc666d7703135315e48074dbeb3ff940cb"
+      "bytes": 43362,
+      "sha256": "0d0b719cffb4be9f4af3ead23d1da376da90d319cae75290bce91b1aaa1969bc"
     }
   },
   "models": {

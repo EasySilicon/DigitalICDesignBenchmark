@@ -92,7 +92,6 @@
     "seed": 20260928,
     "elf_sha256": "81409d0bca3da16b2da73233324a59632daf2a8f7d64b64284a6663397f782bd"
   },
-  "evidence_path": "evaluator/fixtures/t09_cpu_20261009_cycles10",
   "checker_sha256": {
     "t09_check.py": "e1e750a08f2de0c9974d5d3590c6143e7f09353746627b2d1ba3f3bb4d80af33",
     "t09_timing_check.py": "b91e233aaabacc640a4496587d162edcc72f665d9cd3b447a216e214daf3447b",
@@ -121,40 +120,11 @@
     "t09_data/programs/random/MANIFEST.json": "d9899118d91ab7b8eb56b8e539cfcea64fe63aa12740a7667d4505b5a9dc2e6d",
     "t09_data/programs/spec/MANIFEST.json": "f12b38e9f56196cc8efa272bb2542131ed58c693ce8e2ca960de0119ec7e70ff"
   },
-  "evidence_sha256": {
+  "evidence_storage": "external",
+  "evidence_record_sha256": "fb36c9d1326628e184b92d8d055fb969d0c8ea6f81b10333f7e545265f36a564",
+  "reference_check_sha256": {
     "functional.json": "ed1e1852b8e396503068cafe753ca02c0b7501624392744e9ea1d431584e0d61",
-    "functional.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "mutations.json": "4e9af4df8479c221d3718df757dfbbcec6a6a9dcd405b8141147ec341f44833f",
-    "mutations.log": "90e07da81c0914a6cc7634ca1e96b86d424b6c012cca573695f6cad33afd2fa8",
-    "ppa.json": "fb36c9d1326628e184b92d8d055fb969d0c8ea6f81b10333f7e545265f36a564",
-    "seed11/5_route_drc.rpt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "seed11/6_finish.rpt": "9aa00a12fb741fa397f4ec3d55ca6b55a1dac48a57bbb124b8ef575b1d9b7a19",
-    "seed11/6_report.json": "d28418836610733b96093522d55bef95787558d7270f9944bd23e476adaeb812",
-    "seed11/config.mk": "3e85358b4e77446e894239bae15d0a454d82aaa386292685c4f5d3d95bdb4808",
-    "seed11/constraint.sdc": "fd5f90c682a00d97cfeae11eb01f435c5d6b708fc4cb0b6868be5ed6811b2d11",
-    "seed11/power.json": "773999cab7f50d0f651f07f1fe82279066c2e3c5717f50a82c7b92455b93e1a2",
-    "seed11/power.log": "5da00a5e14a6a1d9b4c880c1554a29fa3831834b66546b59475bdaeebb3438c3",
-    "seed11/route.json": "7f68ab89f8a4c6df0abe5e1d21d50bb23bd2f5c2dc33ab5111ab8ed9399be4d8",
-    "seed11/simulation.log": "07b2f36be75667ee5030de378804a0235edd776f9e05137175cf7d14bde834c2",
-    "seed29/5_route_drc.rpt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "seed29/6_finish.rpt": "9f751e729536c3691a25052ca5f5f7917cb8a1e84c35a8a0d22ccb886d7a9658",
-    "seed29/6_report.json": "3bb590a285b592c60cbbc37a1e2d4949a1e394aa2e1e2cc9e31ed228505ad626",
-    "seed29/config.mk": "6d2b0fc152ef01f08bd86fa55f2f426d46872aa926a3bf38206b25debff2f755",
-    "seed29/constraint.sdc": "fd5f90c682a00d97cfeae11eb01f435c5d6b708fc4cb0b6868be5ed6811b2d11",
-    "seed29/power.json": "4522d42e1de1f9d09181113546966906e519651ca47328fc6178397fc8f9b357",
-    "seed29/power.log": "c7b41cbd2975e3d5df6973a234ffa66dca049e68dc6147af3a267d3ec510e3ef",
-    "seed29/route.json": "96010a3c8fe7d0bb328a5193cd7316442d5de12cd78fb2ef311c1cc5400d66fd",
-    "seed29/simulation.log": "7c550de193313002ea6b6fe44f8a5f4033042560333213d7461cdcff3d757e59",
-    "seed47/5_route_drc.rpt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "seed47/6_finish.rpt": "62c79c564882a80e6002ad128477d0ef401a4891d5c06b8e7c8edf9a97dc0932",
-    "seed47/6_report.json": "2603942f9e67e9e4519a95bee0d272add4ec00ae1d885175f729ba7ff4eac016",
-    "seed47/config.mk": "993ae37a8c26d6e72c0390d39874aac9c74b07a17ab507a443b0e7a696a78466",
-    "seed47/constraint.sdc": "fd5f90c682a00d97cfeae11eb01f435c5d6b708fc4cb0b6868be5ed6811b2d11",
-    "seed47/power.json": "3a0a683c87987e07e76abbdfb1e533b32be0b1b062e69775aeb3f67ee5d2b0eb",
-    "seed47/power.log": "520ca6c6317368b6880c4b364aad6fc66998b268127f3f5811efda2da39609eb",
-    "seed47/route.json": "7437cc7f114beee34f3cc8bdeaab87c46c2b964cf279cebd14350a930dcc4502",
-    "seed47/simulation.log": "ad90f0280d7cd975b829f8bcf0aee66764952f166bf017d4c1403060abdb01f3",
     "timing.json": "69353aca6daa82f3512cb49c4a086791b40933749d546435f86cc103d0b49750",
-    "timing.log": "401505105f9fe648364b79125f2340c25f112929820d6de8e0fd259fc2210d31"
+    "mutations.json": "4e9af4df8479c221d3718df757dfbbcec6a6a9dcd405b8141147ec341f44833f"
   }
 }

@@ -12,12 +12,25 @@ from evaluator.t10_backend.physical.t10_manual_v15_compare_drc import check
 
 
 ROOT = Path(__file__).resolve().parents[1]
-FIXTURES = ROOT / "evaluator/fixtures/t10_v15_manual"
 
 
 class ManualClosureTest(unittest.TestCase):
+    def setUp(self):
+        self.temp=tempfile.TemporaryDirectory(prefix='t10_drc_controls_')
+        self.addCleanup(self.temp.cleanup)
+        self.fixtures=Path(self.temp.name)
+        def marker(index):
+            return f'violation type: Metal spacing\n  srcs: net{index}\n  bbox = ({index}, 0) - ({index+1}, 1)\n'
+        historical=''.join(marker(i) for i in range(5))
+        context=''.join(marker(i) for i in (5,6))
+        data={'historical.drc.rpt':historical,'original_full.drc.rpt':historical+context,
+              'repaired_full.drc.rpt':context,'original_scoped.drc.rpt':historical,
+              'repaired_scoped.drc.rpt':'','original_scoped.drc.rpt.raw':historical+context,
+              'repaired_scoped.drc.rpt.raw':context}
+        for name,text in data.items():(self.fixtures/name).write_text(text)
+
     def paths(self):
-        return [str(FIXTURES / name) for name in (
+        return [str(self.fixtures / name) for name in (
             "historical.drc.rpt", "original_full.drc.rpt", "repaired_full.drc.rpt",
             "original_scoped.drc.rpt", "repaired_scoped.drc.rpt")]
 
@@ -25,17 +38,17 @@ class ManualClosureTest(unittest.TestCase):
         result = check(self.paths())
         self.assertEqual([result[k] for k in (
             "raw_before", "raw_after", "scoped_before", "scoped_after",
-            "unchanged_context_only", "new_markers")], [663, 658, 5, 0, 658, 0])
+            "unchanged_context_only", "new_markers")], [7, 2, 5, 0, 2, 0])
         for a, b in (("original_full.drc.rpt", "original_scoped.drc.rpt.raw"),
                      ("repaired_full.drc.rpt", "repaired_scoped.drc.rpt.raw"),
                      ("historical.drc.rpt", "original_scoped.drc.rpt")):
-            self.assertEqual((FIXTURES / a).read_bytes(), (FIXTURES / b).read_bytes())
+            self.assertEqual((self.fixtures / a).read_bytes(), (self.fixtures / b).read_bytes())
 
     def test_blanket_filter_fails_negative_control(self):
         with tempfile.TemporaryDirectory() as directory:
             before = Path(directory) / "original.rpt"
             before.write_bytes(b"")  # Pretending the unmodified original is clean is invalid.
-            before.with_suffix(".rpt.raw").write_bytes((FIXTURES / "original_full.drc.rpt").read_bytes())
+            before.with_suffix(".rpt.raw").write_bytes((self.fixtures / "original_full.drc.rpt").read_bytes())
             paths = self.paths()
             paths[3] = str(before)
             with self.assertRaisesRegex(ValueError, "negative control"):
@@ -44,8 +57,8 @@ class ManualClosureTest(unittest.TestCase):
     def test_nonempty_repaired_report_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             after = Path(directory) / "repaired.rpt"
-            after.write_bytes((FIXTURES / "historical.drc.rpt").read_bytes())
-            after.with_suffix(".rpt.raw").write_bytes((FIXTURES / "repaired_full.drc.rpt").read_bytes())
+            after.write_bytes((self.fixtures / "historical.drc.rpt").read_bytes())
+            after.with_suffix(".rpt.raw").write_bytes((self.fixtures / "repaired_full.drc.rpt").read_bytes())
             paths = self.paths()
             paths[4] = str(after)
             with self.assertRaisesRegex(ValueError, "real violation"):
@@ -54,7 +67,7 @@ class ManualClosureTest(unittest.TestCase):
     def test_record_hashes_and_qualification_links(self):
         base = ROOT / "evaluator"
         record = json.loads((base / "t10_pe_manual_closure.json").read_text())
-        for artifact in record["portable_artifacts"] + record["scripts"]:
+        for artifact in record["scripts"]:
             blob = (base / artifact["path"]).read_bytes()
             self.assertEqual(len(blob), artifact["bytes"], artifact["path"])
             self.assertEqual(hashlib.sha256(blob).hexdigest(), artifact["sha256"], artifact["path"])
@@ -69,7 +82,7 @@ class ManualClosureTest(unittest.TestCase):
             self.assertEqual(hashlib.sha256(blob).hexdigest(), qualification[key + "_sha256"])
         self.assertFalse(qualification["pe_reference_probe"]["official_ppa_baseline"])
         self.assertEqual(qualification["physical_levels"], ["pe"])
-        self.assertEqual((FIXTURES / "electrical.rpt").read_text().count("(VIOLATED)"), 756)
+        self.assertEqual(record["results"]["electrical"]["max_slew_violations"], 756)
 
 
 class SinglePeSchemaTest(unittest.TestCase):

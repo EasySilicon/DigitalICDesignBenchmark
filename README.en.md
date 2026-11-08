@@ -66,7 +66,7 @@ The main suite, `ic-delivery-rtl-v0.3`, contains **ten tasks, T01–T10**. T01�
 | T01–T09 | Frozen task specifications and acceptance collateral, public smoke tests, reference RTL, defect mutants, and frozen three-seed 1 GHz PPA baselines | Complete |
 | T10 | Continuous-stream matrix evaluation, exact numerical oracle, reset/backpressure/throughput tests, PE mesh checks, and the single-PE three-seed 1 GHz PPA baseline with activity-based power | Complete |
 
-The latest public T10 evaluator package replay passed **2,752 matrix blocks, a separate reset probe, 256-PE structural checks, and all 14 input phases without bubbles**. See [T10_PACKAGE_VERIFICATION.json](evaluator/T10_PACKAGE_VERIFICATION.json). See the [three-seed implementation and measurement notes](evaluator/t10_backend/v1/README.md) for timing, complete DRC/connectivity checks, and activity-based power. Each full gate-level DUT passed 200 blocks, 51,200 output checks, and protocol checks. The single-PE median reference is **60,298.3 µm², 0.944853668 ns, and 837.441929552 pJ/block**, not the cost of the full NPU.
+The frozen T10 functional reference passed **2,752 matrix blocks, a separate reset probe, 256-PE structural checks, and all 14 input phases without bubbles**. See [T10 qualification record](evaluator/t10_qualification.json). See the [three-seed implementation and measurement notes](evaluator/t10_backend/v1/README.md) for timing, complete DRC/connectivity checks, and activity-based power. Each full gate-level DUT passed 200 blocks, 51,200 output checks, and protocol checks. The single-PE median reference is **60,298.3 µm², 0.944853668 ns, and 837.441929552 pJ/block**, not the cost of the full NPU.
 
 ## Tasks and capability coverage
 

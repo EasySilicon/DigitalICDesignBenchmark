@@ -37,7 +37,17 @@ class T09RegradeTest(unittest.TestCase):
     def setUp(self):
         self.rules = load_rules()
         self.reference = read(ROOT/'benchmark/ppa-baselines.json')['tasks']['T09']
-        self.grade = read(ROOT/'evaluator/fixtures/t09_cpu_20261009_cycles10/functional.json')
+        from evaluator.t09_reference_freeze import TOTALS
+        from evaluator.t09_timing_check import case_inventory
+        import hashlib
+        # Synthetic publication evidence; live CPU verification has its own regressions.
+        self.grade = dict(task_id='T09',phase='scored',scoring_policy=POLICY,
+            groups={name:dict(cases_passed=count,cases_total=count) for name,count in TOTALS.items()},
+            diagnostics=dict(timing_cycles=dict(phase='run',timing_policy='port_timing_v1',
+                cases_passed=22,cases_total=22,
+                outcomes=[dict(name=name,passed=True) for name in
+                          ['continuous_addi',*(row[0] for row in case_inventory())]],
+                rtl_sha256={'ref.sv':hashlib.sha256((ROOT/'evaluator/reference/T09/rtl/ref.sv').read_bytes()).hexdigest()})))
         self.old = {'task_id': 'T09', 'functional_total': 50, 'full_functional_pass': True,
                     'ppa_score': 0, 'time_score': 0, 'display_score': 50,
                     'time_limit_seconds': 7200, 'candidate_delivery_error_count': 1}

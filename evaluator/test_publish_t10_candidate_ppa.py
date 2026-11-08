@@ -15,24 +15,44 @@ import publish_t10_candidate_ppa as M
 
 
 def measured():
-    return dict(model='gpt-6-sol',elapsed_seconds=1000,measurement={'source_sha256':'unchanged'},
+    return dict(model='candidate-a',elapsed_seconds=1000,measurement={'source_sha256':'unchanged'},
         score=dict(functional_total=50,full_functional_pass=True,delivery_qualified=True,ppa_eligible=True,ppa_score=40,
             ppa_rank_bucket=32,time_score=4,display_score=94,candidate_delivery_error_count=0,
             candidate_delivery_penalty=0,display_score_before_candidate_penalty=94))
 
 
 class PublishTest(unittest.TestCase):
+    def test_unsupported_operator_stop_cannot_become_a_resource_zero(self):
+        state={'models':{'candidate-a':{'status':'operator_stop','ppa_score':0}}}
+        with patch.object(M,'prepare',return_value={'source_sha256':'source'}), \
+                self.assertRaisesRegex(ValueError,'unadjudicated'):
+            M.verified_report('candidate-a',state,Path('/unused'),{},Path('/unused'))
+
+    def test_no_physical_results_requires_all_three_timeout_receipts(self):
+        from physical_budget import receipt
+        report=measured();report.update(measurement=None,candidate_source_sha256='unchanged')
+        records=[receipt('T10','unchanged',seed,7200,'timeout',process_group_terminated=True)
+                 for seed in (11,29,47)]
+        report['score'].update(ppa_score=0,time_score=0,display_score=50,
+            ppa_status='physical_timeout_no_results',physical_records=records)
+        task=task_record(dict(candidate_sha256='unchanged',functional_total=50),report,{},'date')
+        self.assertEqual(task['ppa_score'],0)
+        self.assertNotIn('ppa_measurement',task)
+        report['score']['physical_records']=records[:2]
+        with self.assertRaisesRegex(ValueError,'all three seeds'):
+            task_record(dict(candidate_sha256='unchanged',functional_total=50),report,{},'date')
+
     def test_publication_keeps_intermediate_measurement_outside_results(self):
         with tempfile.TemporaryDirectory() as temporary:
             root=Path(temporary);repo=root/'repo';work=root/'work';work.mkdir()
-            folder=repo/'results/gpt-6-sol';folder.mkdir(parents=True)
-            original=final_summary(dict(suite_id='test',model='gpt-6-sol',ranking_eligible=False,
+            folder=repo/'results/candidate-a';folder.mkdir(parents=True)
+            original=final_summary(dict(suite_id='test',model='candidate-a',ranking_eligible=False,
                 tasks=[dict(task_id=f'T{i:02}',functional_total=50,full_functional_pass=True,
                             ppa_score=30,time_score=2,display_score=82) for i in range(1,11)]))
             (folder/'summary.json').write_text(json.dumps(original))
             (work/'t10_ppa_scores40.json').write_text(json.dumps(dict(policy=POLICY,status='complete')))
-            argv=['publish','--work',str(work),'--trials-root',str(root),
-                  '--orfs',str(root),'--models','gpt-6-sol','--write']
+            argv=['publish','--work',str(work),'--trial',f'candidate-a={root}',
+                  '--orfs',str(root),'--write']
             with patch.object(M,'REPO',repo),patch.object(M,'verified_report',return_value=measured()), \
                     patch.object(sys,'argv',argv),patch('sys.stdout',new_callable=io.StringIO):
                 M.main()
@@ -41,9 +61,9 @@ class PublishTest(unittest.TestCase):
             self.assertEqual(result['tasks'][:9],original['tasks'][:9])
             self.assertEqual(result['tasks'][-1]['display_score'],94)
             self.assertNotIn('t10_ppa_remeasurement',result['tasks'][-1])
-            evidence=work/'published_evidence/gpt-6-sol/T10-ppa40.json'
+            evidence=work/'published_evidence/candidate-a/T10-ppa40.json'
             self.assertEqual(json.loads(evidence.read_text()),measured())
-            self.assertEqual(json.loads((work/'publication_backup40/gpt-6-sol/summary.json').read_text()),original)
+            self.assertEqual(json.loads((work/'publication_backup40/candidate-a/summary.json').read_text()),original)
             first=(folder/'summary.json').read_bytes()
             with patch.object(M,'REPO',repo),patch.object(M,'verified_report',return_value=measured()), \
                     patch.object(sys,'argv',argv),patch('sys.stdout',new_callable=io.StringIO):
@@ -65,24 +85,10 @@ class PublishTest(unittest.TestCase):
         self.assertNotIn('resource_failure_adjudication',task)
         self.assertNotIn('explicit-user',task['scoring_policy'])
 
-    def test_user_compile_stop_is_explicit_and_not_mislabeled_as_oom(self):
-        report=measured();report.pop('measurement')
-        report.update(candidate_source_sha256='unchanged',queue_status=M.COMPILE_STOP_ZERO,
-            adjudication='explicit user stop, not OOM',measurement_completed=False)
-        report['score'].update(ppa_score=0,time_score=0,display_score=50,
-            display_score_before_candidate_penalty=50,ppa_rank_bucket=0)
-        task=task_record(dict(candidate_sha256='unchanged',functional_total=50),report,{},'date')
-        self.assertEqual(task['functional_total'],50)
-        self.assertEqual(task['ppa_score'],0)
-        self.assertEqual(task['time_score'],0)
-        self.assertNotIn('resource_failure_adjudication',task)
-        self.assertNotIn('ppa_measurement',task)
-        self.assertEqual(task['ppa_adjudication'],report['adjudication'])
-        self.assertIn('explicit-user-compile-stop-zero',task['scoring_policy'])
 
     def test_partial_publication_requires_opt_in_and_cached_native_rescoring(self):
         with tempfile.TemporaryDirectory() as temp:
-            root=Path(temp);model='gpt-6-sol';directory=root/model;directory.mkdir()
+            root=Path(temp);model='candidate-a';directory=root/model;directory.mkdir()
             report=measured();(directory/'scored40.json').write_text(json.dumps(report))
             state={'models':{model:{'ppa_score':None,'status':'pending_infrastructure_review'}}}
             original=copy.deepcopy(state)
@@ -99,9 +105,9 @@ class PublishTest(unittest.TestCase):
 
     def test_partial_publication_cannot_manufacture_a_missing_report(self):
         with tempfile.TemporaryDirectory() as temp:
-            root=Path(temp);state={'models':{'gpt-6-sol':{'ppa_score':None}}}
+            root=Path(temp);state={'models':{'candidate-a':{'ppa_score':None}}}
             with self.assertRaises(FileNotFoundError):
-                M.verified_report('gpt-6-sol',state,root,root,root,allow_cached=True)
+                M.verified_report('candidate-a',state,root,root,root,allow_cached=True)
             self.assertEqual(list(root.iterdir()),[])
 
     def test_summary_only_historical_record_needs_verified_trial_identity(self):

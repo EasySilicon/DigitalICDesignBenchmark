@@ -2,8 +2,8 @@
 """Publish/verify T08 and T09 task freeze receipts, without running physical EDA.
 
 Receipts contain hashes and contracts, not a second PPA baseline. Default mode
-is read-only. --write requires already-qualified portable reference evidence.
-Historical reports are copied byte-for-byte, including their old task labels.
+is read-only. --write refreshes contracts for recorded reference qualifications.
+Full raw-evidence verification is an explicit operation on an external directory.
 """
 from __future__ import annotations
 
@@ -11,7 +11,6 @@ import argparse
 import hashlib
 import json
 import math
-import shutil
 import sys
 from pathlib import Path
 
@@ -22,8 +21,6 @@ sys.path.insert(0, str(ROOT / "evaluator"))
 from ppa_aggregate import source_hash
 
 TASKS = ("T08", "T09")
-T08_EVIDENCE = "evaluator/fixtures/t08_reference_20261008"
-T09_EVIDENCE = "evaluator/fixtures/t09_cpu_20261009_cycles10"
 
 
 def sha(path: Path) -> str:
@@ -44,83 +41,77 @@ def publish(path: Path, value: dict) -> None:
     path.write_text(json.dumps(value, indent=2, ensure_ascii=False, allow_nan=False) + "\n")
 
 
-def import_t08_evidence(bundle: Path, root: Path = ROOT) -> None:
-    """Export a small auditable subset, not ODB/SPEF or an entire private tree."""
-    bundle = bundle.resolve()
-    baseline = read("benchmark/ppa-baselines.json", root)
-    row = baseline["tasks"]["T08"]
-    receipt = read("benchmark/tasks/T08/PPA_FREEZE.json", root)
-    original = json.loads((bundle / "freeze.json").read_text())
-    if sha(bundle / "freeze.json") != receipt["freeze_evidence"]["freeze_manifest_sha256"]:
-        raise ValueError("wrong original T08 freeze manifest")
-    if original["source_sha256"] != row["source_sha256"] or \
-            original["status"] != "frozen_reference_1ghz":
-        raise ValueError("unqualified/different T08 frozen reference")
-    names = [f"qualification/{kind}.json" for kind in
-             ("functional", "stress", "mapped_functional", "mapped_stress")]
-    for seed in (11, 29, 47):
-        names += [f"seed{seed}/{name}" for name in
-                  ("route.json", "power.json", "6_finish.rpt", "5_route_drc.rpt",
-                   "power.log", "simulation.log", "6_final.sdc", "power.tcl")]
-    names += [f"mapped_reference/{name}" for name in
-              ("qualification.json", "mapping.json", "mapping.log")]
-    # Validate every source before creating any output; never repair hash failures.
-    for name in names:
-        path = bundle / name
-        if not path.is_file() or path.is_symlink() or \
-                sha(path) != original["artifact_sha256"].get(name):
-            raise ValueError(f"original frozen evidence missing/changed: {name}")
-    destination = root / T08_EVIDENCE
-    if destination.exists():
-        for name in ["freeze.json", *names]:
-            if not (destination / name).is_file() or sha(destination / name) != sha(bundle / name):
-                raise ValueError(f"existing evidence differs: {name}")
-    for name in ["freeze.json", *names]:
-        target = destination / name
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(bundle / name, target)
-    # Original freeze retains final SDC; export the input SDC/config too.
-    for seed in row["per_seed"]:
-        prefix = f"seed{seed['layout_seed']}"
-        route = json.loads((bundle / prefix / "route.json").read_text())
-        original_seed = original["ppa"]["per_seed"]
-        record = next(r for r in original_seed if r["layout_seed"] == seed["layout_seed"])
-        source = Path(record["route_record"]).parent
-        for name, expected in (("config.mk", seed["config_sha256"]),
-                               ("constraint.sdc", route["constraint_sha256"])):
-            if sha(source / name) != expected:
-                raise ValueError(f"original T08 route input drift: {name}")
-            shutil.copyfile(source / name, destination / prefix / name)
-    for seed in row["per_seed"]:
-        prefix = f"{T08_EVIDENCE}/seed{seed['layout_seed']}"
-        seed["evidence_route_record"] = prefix + "/route.json"
-        seed["evidence_power_record"] = prefix + "/power.json"
-    publish(root / "benchmark/ppa-baselines.json", baseline)
-    receipt["freeze_evidence"]["public_manifest"] = T08_EVIDENCE + "/freeze.json"
-    publish(root / "benchmark/tasks/T08/PPA_FREEZE.json", receipt)
-    publish(root / "evaluator/t08_qualification.json", {
-        "task_id": "T08", "legacy_evidence_task_id": "T11",
-        "qualification_status": "qualified_1ghz",
-        "source_sha256": row["source_sha256"],
-        "spec_revision": "3.0-frame-transactions", "judge_revision": "3.1-boundary-crosses",
-        "ppa_policy_revision": "2.0-lambdapdk-tdp-1ghz",
-        "functional_total_normalized": 50, "functional_runs": 111,
-        "mapped_functional_runs": 111, "stress_runs": 270, "mapped_stress_runs": 270,
-        "layout_seeds": [11, 29, 47], "toolchain": original["toolchain"],
-        "frozen_at_utc": original["frozen_at_utc"],
-        "original_freeze_manifest": T08_EVIDENCE + "/freeze.json",
-        "original_freeze_manifest_sha256": sha(destination / "freeze.json"),
-        "scoring_baseline": "benchmark/ppa-baselines.json#tasks.T08",
-        "provenance_note": "Original T11 reports retain historical labels/status; no new physical run. Current task is T08."
-    })
+def verify_evidence(task: str, bundle: Path, root: Path = ROOT) -> None:
+    """Audit explicitly supplied raw reports without copying them into the repo."""
+    baseline = read("benchmark/ppa-baselines.json", root)["tasks"][task]
+    if task == "T08":
+        qualification = read("evaluator/t08_qualification.json", root)
+        original = json.loads((bundle / "freeze.json").read_text())
+        if sha(bundle / "freeze.json") != qualification["original_freeze_manifest_sha256"] or \
+                original["source_sha256"] != baseline["source_sha256"] or \
+                original["status"] != "frozen_reference_1ghz":
+            raise ValueError("wrong or unqualified original T08 freeze evidence")
+        names=[f"qualification/{name}.json" for name in
+               ("functional","stress","mapped_functional","mapped_stress")]
+        names += [f"seed{seed}/{name}" for seed in (11,29,47) for name in
+                  ("route.json","power.json","6_finish.rpt","5_route_drc.rpt",
+                   "power.log","simulation.log","6_final.sdc","power.tcl")]
+        names += [f"mapped_reference/{name}" for name in
+                  ("qualification.json","mapping.json","mapping.log")]
+        for name in names:
+            path=bundle/name
+            if not path.is_file() or path.is_symlink() or sha(path)!=original["artifact_sha256"].get(name):
+                raise ValueError(f"T08 original evidence missing/changed: {name}")
+        for kind in ("functional", "mapped_functional"):
+            evidence = json.loads((bundle / "qualification" / (kind + ".json")).read_text())
+            cases = evidence["cases"]
+            if evidence["full_functional_pass"] is not True or len(cases) != 37 or \
+                    any(len(case["runs"]) != 3 or not all(r["passed"] is True for r in case["runs"])
+                        for case in cases.values()):
+                raise ValueError(f"T08 {kind} does not pass 111 runs")
+        for kind in ("stress", "mapped_stress"):
+            evidence = json.loads((bundle / "qualification" / (kind + ".json")).read_text())
+            if evidence["full_pass"] is not True or evidence["passed_count"] != 270 or \
+                    evidence["run_count"] != 270 or len(evidence["runs"]) != 270 or \
+                    not all(row["passed"] is True for row in evidence["runs"]):
+                raise ValueError(f"T08 {kind} does not pass 270 runs")
+        for path in bundle.rglob("*"):
+            name = str(path.relative_to(bundle))
+            if path.is_file() and name in original["artifact_sha256"] and \
+                    sha(path) != original["artifact_sha256"][name]:
+                raise ValueError(f"T08 original evidence changed: {name}")
+    elif task == "T09":
+        qualification=read("evaluator/t09_qualification.json",root)
+        for name,expected in qualification["reference_check_sha256"].items():
+            if sha(bundle/name)!=expected:
+                raise ValueError(f"T09 reference check changed: {name}")
+        if sha(bundle/'ppa.json')!=qualification['evidence_record_sha256']:
+            raise ValueError("T09 original PPA evidence changed")
+        from t09_reference_freeze import qualify
+        qualify(baseline, *(json.loads((bundle / (name + ".json")).read_text())
+                            for name in ("functional", "timing", "mutations")))
+    else:
+        raise ValueError("unsupported evidence task")
+    for seed in baseline["per_seed"]:
+        directory = bundle / f"seed{seed['layout_seed']}"
+        for name, field in (("6_finish.rpt", "finish_report_sha256"),
+                            ("5_route_drc.rpt", "drc_report_sha256"),
+                            ("power.log", "power_report_sha256")):
+            if sha(directory / name) != seed[field]:
+                raise ValueError(f"{task} report mismatch: {name}")
+        route = json.loads((directory / "route.json").read_text())
+        if route["period_ps"] != 1000 or route["seed"] != seed["layout_seed"] or \
+                route["exit_code"] != 0 or route["corner"] != "WC":
+            raise ValueError(f"{task} incorrect original route contract")
+        if task == "T08" and (sha(directory / "config.mk") != seed["config_sha256"] or
+                              sha(directory / "constraint.sdc") != route["constraint_sha256"]):
+            raise ValueError("T08 input config/SDC differs from measured route")
 
 
 def file_inventory(task: str, root: Path = ROOT) -> list[str]:
     """Scope all normative materials, actual judges, stimuli and transitive assets."""
     paths: set[Path] = set()
-    directories = [f"benchmark/tasks/{task}", f"evaluator/reference/{task}",
-                   T08_EVIDENCE if task == "T08" else T09_EVIDENCE,
-                   "vendor/asap7"]
+    directories = [f"benchmark/tasks/{task}", f"evaluator/reference/{task}", "vendor/asap7"]
     if task == "T08":
         directories += ["evaluator/fixtures/t11_mac", "vendor/lambdapdk_fakeram7"]
     else:
@@ -202,51 +193,38 @@ def contracts(task: str, root: Path = ROOT) -> dict:
                 raise ValueError(f"{task} seed {seed['layout_seed']} fails {key}")
         if seed["drc_violations"] != 0 or seed["annotation_fraction"] < .95:
             raise ValueError(f"{task} invalid DRC/power qualification")
-        directory = (root / seed["evidence_route_record"]).parent
-        for name, field in (("6_finish.rpt", "finish_report_sha256"),
-                            ("5_route_drc.rpt", "drc_report_sha256"),
-                            ("power.log", "power_report_sha256")):
-            if sha(directory / name) != seed[field]:
-                raise ValueError(f"{task} report mismatch: {name}")
-        route = json.loads((directory / "route.json").read_text())
-        if route["period_ps"] != 1000 or route["seed"] != seed["layout_seed"] or \
-                route["exit_code"] != 0 or route["corner"] != "WC":
-            raise ValueError(f"{task} incorrect original route contract")
-        if task == "T08" and (sha(directory / "config.mk") != seed["config_sha256"] or
-                              sha(directory / "constraint.sdc") != route["constraint_sha256"]):
-            raise ValueError("T08 input config/SDC differs from measured route")
     qualification = read(f"evaluator/{task.lower()}_qualification.json", root)
     if qualification["source_sha256"] != baseline["source_sha256"] or \
             qualification["functional_total_normalized"] != 50:
         raise ValueError(f"{task} missing functional qualification")
     if task == "T08":
-        original = read(T08_EVIDENCE + "/freeze.json", root)
         ppa_receipt = read("benchmark/tasks/T08/PPA_FREEZE.json", root)
         for key in ("source_sha256", "workload_id", "workload_sha256", "parameter_set",
                     "area_um2", "delay_ns", "average_power_mw", "energy_per_op_pj",
                     "setup_worst_slack_ns", "hold_worst_slack_ns", "drc_violations"):
             if ppa_receipt[key] != baseline[key]:
-                raise ValueError(f"T08 historical PPA receipt differs from sole baseline: {key}")
-        if original["source_sha256"] != baseline["source_sha256"] or original["functional_passes"] != 111 or original["stress_passes"] != 270:
-            raise ValueError("T08 original freeze qualification mismatch")
-        for kind in ("functional", "mapped_functional"):
-            evidence = read(f"{T08_EVIDENCE}/qualification/{kind}.json", root)
-            cases = evidence["cases"]
-            if evidence["full_functional_pass"] is not True or len(cases) != 37 or \
-                    any(len(case["runs"]) != 3 or not all(r["passed"] is True for r in case["runs"]) for case in cases.values()):
-                raise ValueError(f"T08 {kind} does not pass 111 runs")
-        for kind in ("stress", "mapped_stress"):
-            evidence = read(f"{T08_EVIDENCE}/qualification/{kind}.json", root)
-            if evidence["full_pass"] is not True or evidence["passed_count"] != 270 or evidence["run_count"] != 270 or \
-                    len(evidence["runs"]) != 270 or not all(row["passed"] is True for row in evidence["runs"]):
-                raise ValueError(f"T08 {kind} does not pass 270 runs")
+                raise ValueError(f"T08 PPA receipt differs from sole baseline: {key}")
+        expected_runs = {"functional_runs": 111, "mapped_functional_runs": 111,
+                         "stress_runs": 270, "mapped_stress_runs": 270}
+        if any(qualification.get(k) != v for k, v in expected_runs.items()) or \
+                qualification["original_freeze_manifest_sha256"] != \
+                ppa_receipt["freeze_evidence"]["freeze_manifest_sha256"]:
+            raise ValueError("T08 recorded reference qualification mismatch")
         for path, expected in baseline["parameter_set"]["sram_contract"]["model_sha256"].items():
             if sha(root / path) != expected:
                 raise ValueError(f"SRAM model contract drift: {path}")
     else:
-        from t09_reference_freeze import qualify
-        qualify(baseline, read(T09_EVIDENCE + "/functional.json", root),
-                read(T09_EVIDENCE + "/timing.json", root), read(T09_EVIDENCE + "/mutations.json", root))
+        from t09_reference_freeze import TOTALS
+        from t09_timing_check import apply_timing_groups
+        expected_groups = {name: {"passed": count, "total": count} for name, count in TOTALS.items()}
+        timing = read("evaluator/t09_timing_qualification.json", root)
+        groups = {}
+        apply_timing_groups(groups, timing)
+        if qualification.get("reference_groups") != expected_groups or \
+                qualification.get("eligible_mutants") != 21 or qualification.get("killed_mutants") != 21 or \
+                groups["CPU-PIPE-CYCLES"] != {"cases_passed": 22, "cases_total": 22} or \
+                timing.get("rtl_sha256") != {"ref.sv": sha(root / "evaluator/reference/T09/rtl/ref.sv")}:
+            raise ValueError("T09 recorded reference qualification mismatch")
     # Freeze task-specific fragments, so completing T10 won't invalidate T08/T09.
     shared_rules = {k: v for k, v in rules.items() if k not in ("tasks", "task_weights", "task_raw_allocations")}
     shared_rules["task_weight"] = rules["task_weights"][task]
@@ -313,12 +291,14 @@ def sync_results(root: Path = ROOT) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--write", action="store_true", help="explicitly publish qualified freeze receipts")
-    parser.add_argument("--import-t08-evidence", type=Path, help="original read-only frozen_reference bundle")
+    parser.add_argument("--verify-t08-evidence", type=Path, help="audit external T08 reports without importing")
+    parser.add_argument("--verify-t09-evidence", type=Path, help="audit external T09 reports without importing")
     parser.add_argument("--sync-results", action="store_true", help="bind current records to verified grading receipts; no score changes")
     args = parser.parse_args()
     try:
-        if args.import_t08_evidence:
-            import_t08_evidence(args.import_t08_evidence)
+        for task, directory in (("T08", args.verify_t08_evidence), ("T09", args.verify_t09_evidence)):
+            if directory:
+                verify_evidence(task, directory.resolve())
         receipts = {task: build(task) if args.write else verify(task) for task in TASKS}
         if args.write:
             for task, receipt in receipts.items():
@@ -326,7 +306,7 @@ def main() -> int:
         if args.sync_results:
             sync_results()
         for task, receipt in receipts.items():
-            print(f"PASS {task}: frozen, {len(receipt['artifact_sha256'])} artifacts, three qualified 1 GHz seeds")
+            print(f"PASS {task}: frozen, {len(receipt['artifact_sha256'])} artifacts, recorded three-seed 1 GHz qualification")
         return 0
     except (OSError, ValueError, KeyError) as exc:
         print(f"freeze validation failed: {exc}", file=sys.stderr)

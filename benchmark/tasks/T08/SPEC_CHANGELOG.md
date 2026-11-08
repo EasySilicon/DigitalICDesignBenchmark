@@ -4,7 +4,7 @@
 
 `FREEZE.json` freezes specification/starter/judge and SRAM policy together.
 Portable original qualification and three-seed reports are under
-`evaluator/fixtures/t08_reference_20261008/`; historical T11 labels are retained
+external measurement storage; historical T11 labels are retained
 for provenance. `benchmark/ppa-baselines.json` is the sole scoring baseline.
 Older pending statements below describe historical states, superseded by this
 completed freeze. No RTL, historical budget or measured physical value changed.

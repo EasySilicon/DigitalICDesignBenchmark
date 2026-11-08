@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Measure archived candidates' own PEs; never edit RTL or invent power scores.
+"""Measure explicitly selected candidates' PEs without modifying their RTL.
 
 This is the physical phase only. A completed flow still requires connectivity,
 native geometry, extracted timing, and full-DUT activity/power qualification.
@@ -9,6 +9,7 @@ import fcntl
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -20,11 +21,19 @@ from t10_structure_with_slang import inspect
 from physical_budget import run as physical_run, timed_out as physical_timed_out
 
 REPO=Path(__file__).resolve().parents[1]
-TRIALS={
-    'gpt-6-astra':'gpt6astra_noskills_from_t04_v6_20261003',
-    'gpt-6-sol':'gpt6sol_noskills_from_t04_v6_20261003',
-    'gpt-6.1-sol':'gpt61sol_20261003',
-}
+
+def trial_paths(values):
+    """Resolve explicit LABEL=TRIAL_DIR selections, never infer model names."""
+    trials={}
+    for value in values:
+        label,separator,path=value.partition('=')
+        if (not separator or not path or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]*',label)
+                or label in ('.','..') or label in trials):
+            raise ValueError('expected a unique safe LABEL=TRIAL_DIR selection')
+        trials[label]=Path(path).expanduser().resolve(strict=True)
+        if not trials[label].is_dir():raise ValueError('trial must be a directory')
+    if not trials:raise ValueError('at least one trial is required')
+    return trials
 
 
 def sha(path):
@@ -44,18 +53,18 @@ def write_new_or_same(path,text):
     else:path.write_text(text)
 
 
-def prepare(model,trials,work):
-    original=trials/TRIALS[model]/'workspaces/T10'
-    archive=trials/'rtl_retention_20261009_222440'/TRIALS[model]/'workspaces/T10'
+def prepare(model,trials,work,*,cached_only=False):
+    original=trials[model]/'workspaces/T10'
     digest=source_hash(original)
-    if digest!=source_hash(archive):raise ValueError('archive/source mismatch: '+model)
     directory=work/model;directory.mkdir(parents=True,exist_ok=True)
     snapshot=directory/'submission'
     if not snapshot.exists():
-        snapshot.mkdir();shutil.copytree(archive/'rtl',snapshot/'rtl')
+        if cached_only:raise ValueError('cached candidate snapshot is missing')
+        snapshot.mkdir();shutil.copytree(original/'rtl',snapshot/'rtl')
     if source_hash(snapshot)!=digest:raise ValueError('snapshot/source mismatch: '+model)
     structural=directory/'structure.json'
     if not structural.exists():
+        if cached_only:raise ValueError('cached structural proof is missing')
         result=inspect(snapshot)
         result.update(candidate_source_sha256=digest,checker_sha256=sha(REPO/'evaluator/t10_structure_check.py'))
         structural.write_text(json.dumps(result,indent=2)+'\n')
@@ -153,17 +162,25 @@ def run_seed(item,seed,work,orfs,target,*,memory_gib=40,allow_swap=False,prepare
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--trials-root',type=Path,required=True);p.add_argument('--work',type=Path,required=True)
-    p.add_argument('--orfs',type=Path,required=True);p.add_argument('--models',choices=TRIALS,nargs='+',default=list(TRIALS))
+    p.add_argument('--trial',action='append',required=True,metavar='LABEL=TRIAL_DIR')
+    p.add_argument('--work',type=Path,required=True)
+    p.add_argument('--orfs',type=Path,required=True)
     p.add_argument('--seeds',type=int,choices=(11,29,47),nargs='+',default=[11,29,47])
     p.add_argument('--target',choices=('synth','baseline'),default='baseline')
     a=p.parse_args();work=a.work.resolve();orfs=a.orfs.resolve()
-    # Current 40-GiB flows run serially; 32-GiB inputs remain historical records.
-    items=[prepare(m,a.trials_root.resolve(),work) for m in a.models]
+    trials=trial_paths(a.trial)
+    work.mkdir(parents=True,exist_ok=True)
+    with (work/'serial40.lock').open('a') as lock:
+        fcntl.flock(lock,fcntl.LOCK_EX)
+        measure_trials(trials,work,orfs,a.seeds,a.target)
+
+
+def measure_trials(trials,work,orfs,seeds,target):
+    items=[prepare(model,trials,work) for model in trials]
     rows=[]
-    for seed in a.seeds:
+    for seed in seeds:
         for item in items:
-            if a.target=='baseline':
+            if target=='baseline':
                 from run_t10_candidate_40g import completed_physical
                 from t10_physical_with_slang import physical
                 directory=work/item['model']/f'seed{seed}'
@@ -174,9 +191,9 @@ def main():
                 else:
                     row,_=physical(item,seed,work,orfs)
             else:
-                row=run_seed(item,seed,work,orfs,a.target)
+                row=run_seed(item,seed,work,orfs,target)
             rows.append(row)
-    (work/f'{a.target}_summary.json').write_text(json.dumps(rows,indent=2)+'\n')
+    (work/f'{target}_summary.json').write_text(json.dumps(rows,indent=2)+'\n')
 
 
 if __name__=='__main__':main()

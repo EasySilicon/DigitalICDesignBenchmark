@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Dependencies must belong to the pinned OpenROAD build, not another ABI.
-for name in T10_ORFS_FLOW T10_OPENROAD_SRC T10_WORK_DIR T10_THIRDPARTY_INCLUDE T10_BOOST_INCLUDE T10_ORTOOLS_INCLUDE; do
+for name in T10_ORFS_FLOW T10_OPENROAD_SRC T10_WORK_DIR T10_THIRDPARTY_INCLUDE T10_BOOST_INCLUDE T10_ORTOOLS_INCLUDE T10_REPORTS_DIR; do
   if [[ -z ${!name:-} ]]; then printf '%s is required\n' "$name" >&2; exit 2; fi
 done
 script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
@@ -51,7 +51,7 @@ for label in original repaired; do
   T10_PATCH_SO="$work/plugins/t10_manual_v15_gc_full.so" \
     "$openroad_bin" -exit "$script_dir/t10_manual_v15_gc_full.tcl" > "$work/$label.drc.log" 2>&1
 done
-fixtures=$script_dir/../../fixtures/t10_v15_manual
+fixtures=$T10_REPORTS_DIR
 python3 "$script_dir/t10_manual_v15_compare_drc.py" \
   "$fixtures/historical.drc.rpt" "$fixtures/original_full.drc.rpt" "$fixtures/repaired_full.drc.rpt" \
   "$work/original.drc.rpt" "$work/repaired.drc.rpt" > "$work/drc_verification.json"

@@ -22,8 +22,8 @@
     "verilator": "Verilator 5.051 devel rev vUNKNOWN-built20261006-c025ceb61"
   },
   "frozen_at_utc": "2026-10-08T10:40:21.622906+00:00",
-  "original_freeze_manifest": "evaluator/fixtures/t08_reference_20261008/freeze.json",
   "original_freeze_manifest_sha256": "5455e2dfa5ab99830e08a423a8a074036d658107585d784887570ad72c24a74b",
   "scoring_baseline": "benchmark/ppa-baselines.json#tasks.T08",
-  "provenance_note": "Original T11 reports retain historical labels/status; no new physical run. Current task is T08."
+  "provenance_note": "Original T11 reports retain historical labels/status; no new physical run. Current task is T08.",
+  "evidence_storage": "external"
 }

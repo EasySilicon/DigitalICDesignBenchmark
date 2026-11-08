@@ -79,6 +79,6 @@
     "functional_passes": 111,
     "stress_passes": 270,
     "freeze_manifest_sha256": "5455e2dfa5ab99830e08a423a8a074036d658107585d784887570ad72c24a74b",
-    "public_manifest": "evaluator/fixtures/t08_reference_20261008/freeze.json"
+    "evidence_storage": "external"
   }
 }

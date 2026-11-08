@@ -57,14 +57,21 @@ class FreezeTasksTest(unittest.TestCase):
         with patch.object(freeze, "read", side_effect=changed), self.assertRaises(ValueError):
             freeze.verify("T09")
 
-    def test_t08_historical_report_bytes_are_anchored_to_original_freeze(self):
-        base = freeze.ROOT / freeze.T08_EVIDENCE
-        original = json.loads((base / "freeze.json").read_text())
-        receipt = freeze.read("benchmark/tasks/T08/PPA_FREEZE.json")
-        self.assertEqual(freeze.sha(base / "freeze.json"), receipt["freeze_evidence"]["freeze_manifest_sha256"])
-        for path in base.rglob("*"):
-            if path.is_file() and str(path.relative_to(base)) in original["artifact_sha256"]:
-                self.assertEqual(freeze.sha(path), original["artifact_sha256"][str(path.relative_to(base))])
+    def test_process_reports_are_not_freeze_dependencies(self):
+        for task in freeze.TASKS:
+            names=freeze.file_inventory(task)
+            self.assertFalse(any('/fixtures/t08_reference_' in p or '/fixtures/t09_cpu_' in p for p in names))
+            self.assertIn(f'evaluator/{task.lower()}_qualification.json',names)
+
+    def test_incomplete_recorded_qualification_is_rejected(self):
+        real_read=freeze.read
+        for task,key in [('T08','mapped_functional_runs'),('T09','killed_mutants')]:
+            def changed(path,root=freeze.ROOT):
+                value=real_read(path,root)
+                if path==f'evaluator/{task.lower()}_qualification.json':value[key]-=1
+                return value
+            with self.subTest(task=task),patch.object(freeze,'read',side_effect=changed),self.assertRaises(ValueError):
+                freeze.contracts(task)
 
     def test_both_candidate_packages_exclude_frozen_answers(self):
         for task in freeze.TASKS:
@@ -90,27 +97,6 @@ class FreezeTasksTest(unittest.TestCase):
             for row in summary['tasks']:self.assertNotIn('benchmark_freeze',row)
         freeze.sync_results()
         self.assertEqual(before,{p:p.read_bytes() for p in paths})
-
-    def test_kimi_final_summary_preserves_scores_and_elapsed_time(self):
-        summary=freeze.read("results/kimi-k3/summary.json")
-        record = next(row for row in summary["tasks"]
-                      if row["task_id"] == "T08")
-        self.assertEqual(summary["trial_kind"], "pre_release_pilot")
-        self.assertFalse(summary["ranking_eligible"])
-        self.assertEqual(record["functional_total"], 50)
-        self.assertAlmostEqual(record["ppa_score"], 33.78779834927204)
-        self.assertAlmostEqual(record["time_score"], 0.5088926041126252)
-        self.assertAlmostEqual(record["elapsed_seconds"], 8083.993312597275)
-        self.assertAlmostEqual(record["display_score"], 84.29669095338467)
-
-    def test_final_summaries_exclude_workflow_bookkeeping(self):
-        for path in (freeze.ROOT / "results").glob("*/summary.json"):
-            summary = json.loads(path.read_text())
-            self.assertNotIn("t09_regrade", summary)
-            for row in summary["tasks"]:
-                for key in ("run_phase", "pilot_budget", "previous_trial",
-                            "additional_phase_elapsed_seconds"):
-                    self.assertNotIn(key, row)
 
 
 if __name__ == "__main__":

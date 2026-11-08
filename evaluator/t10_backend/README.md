@@ -31,20 +31,20 @@ V1.0 的物理交付范围见[单 PE PPA 契约](../../benchmark/tasks/T10/ppa.m
 
 因此，**由评测器纠正报告收集范围，不给被测 Agent 区域豁免**。这份代码固定校验 v15 的网格，不能直接用于任意候选。通用评测器须按实际网格确保全覆盖，并对每个候选应用同一收集原则；不能拿这 658 条的数量或坐标作全局忽略清单。
 
-## 核对已保存的报告
+## 核对外部测量报告
 
-在仓库根目录执行，无须安装 OpenROAD：
+提供原始测量报告目录，在仓库根目录执行，无须安装 OpenROAD：
 
 ```bash
 python3 evaluator/t10_backend/physical/t10_manual_v15_compare_drc.py \
-  evaluator/fixtures/t10_v15_manual/historical.drc.rpt \
-  evaluator/fixtures/t10_v15_manual/original_full.drc.rpt \
-  evaluator/fixtures/t10_v15_manual/repaired_full.drc.rpt \
-  evaluator/fixtures/t10_v15_manual/original_scoped.drc.rpt \
-  evaluator/fixtures/t10_v15_manual/repaired_scoped.drc.rpt
+  /path/to/t10-reports/historical.drc.rpt \
+  /path/to/t10-reports/original_full.drc.rpt \
+  /path/to/t10-reports/repaired_full.drc.rpt \
+  /path/to/t10-reports/original_scoped.drc.rpt \
+  /path/to/t10-reports/repaired_scoped.drc.rpt
 ```
 
-脚本验证原始报告仅相差那 5 条、原生报告复现一致、原版负对照为 5、修复版为 0，以及两版的上下文标记集合一致。小型原始报告、时序路径、连通与几何审计保存在 [`fixtures/t10_v15_manual/`](../fixtures/t10_v15_manual/)。较大的 ODB/SPEF 不放进 Git，机器记录保存其位置、长度和 SHA-256。
+脚本验证原始报告仅相差那 5 条、原生报告复现一致、原版负对照为 5、修复版为 0，以及两版的上下文标记集合一致。原始报告、时序路径、连通与几何审计均保留在仓库外的测量目录。仓库只保存修复工具、最小回归测试和精简结果记录。
 
 ## 从历史检查点重新应用修复
 
@@ -55,6 +55,7 @@ python3 evaluator/t10_backend/physical/t10_manual_v15_compare_drc.py \
 - `T10_ORFS_FLOW`：保留原版 v15 的 ORFS `flow` 目录。
 - `T10_OPENROAD_SRC`：与固定二进制匹配的 OpenROAD 源码目录。
 - `T10_WORK_DIR`：新的输出目录；不要指向原始产物目录。
+- `T10_REPORTS_DIR`：仓库外保留的历史 DRC 报告目录，包含上述前三份报告。
 - `T10_THIRDPARTY_INCLUDE`、`T10_BOOST_INCLUDE`、`T10_ORTOOLS_INCLUDE`：匹配依赖的 include 目录。
 - 可选 `OPENROAD`、`CXX`：二进制和编译器路径。
 
