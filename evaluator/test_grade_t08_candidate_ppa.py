@@ -4,13 +4,48 @@ import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
+from types import SimpleNamespace
+import re
+import yaml
 
-from grade_t08_candidate_ppa import candidate_clock, publish, result_model, run
+from grade_t08_candidate_ppa import candidate_clock, publish, result_model, run, delivery
 from score_run import load_rules
 from result_publication import final_summary
+from benchmark.runner.config import load_config
+from benchmark.test_runner_config import valid_config
 
 
 class T08CandidateGradingTest(unittest.TestCase):
+    def test_delivery_uses_current_container_policy_without_a_model_runner(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);trial=root/'trial';workspace=trial/'workspace';output=root/'output';output.mkdir()
+            (workspace/'rtl').mkdir(parents=True);(workspace/'verif').mkdir()
+            (workspace/'rtl/files.f').write_text('dut.v\n')
+            (workspace/'rtl/dut.v').write_text('module dut; endmodule\n')
+            (workspace/'verif/selfcheck.py').write_text('pass\n')
+            (workspace/'README.md').write_text('Run ./run.sh')
+            (workspace/'run.sh').write_text('#!/bin/sh\nexit 0\n');(workspace/'run.sh').chmod(0o755)
+            config_path=root/'runner.yaml';config_path.write_text(yaml.safe_dump(valid_config(root)))
+            commands=[]
+            def execute(command,**kwargs):
+                if command[:2]==['docker','run']:
+                    commands.append(command)
+                    seed=int(re.search(r'BENCH_SEED=(\d+)',command[-1])[1])
+                    report=dict(tests=[dict(name='selfcheck',passed=True,seed=seed)],tool_versions={'tool':'test'},elapsed_seconds=1)
+                    (output/'delivery_sandbox/workspace/results.json').write_text(json.dumps(report))
+                return SimpleNamespace(returncode=0)
+            with patch('grade_t08_candidate_ppa.subprocess.run',side_effect=execute):
+                result=delivery(trial,output,load_config(config_path))
+            self.assertEqual(result['delivery_seeds'],[11,29,47])
+            self.assertEqual(result['replays_per_seed'],2)
+            self.assertEqual(len(commands),6)
+            for command in commands:
+                self.assertEqual(command[command.index('--cpus')+1],'16')
+                self.assertEqual(command[command.index('--memory')+1],'40g')
+                self.assertNotIn('--pids-limit',command)
+                self.assertFalse(any('frozen_judge' in part or '/opt/kimi' in part for part in command))
+                self.assertEqual(command[-1].split()[-1],'./run.sh')
+
     def test_fresh_trial_uses_exact_model_and_original_budget(self):
         for name in ('gpt-6-astra', 'gpt-6-sol', 'gpt-6.1-sol', 'gpt-5.6-sol',
                      'deepseek-flash', 'glm-5.3-flash'):

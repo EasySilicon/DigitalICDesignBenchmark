@@ -6,7 +6,12 @@ import unittest
 from unittest.mock import patch
 
 from benchmark import candidate_ppa, public_eda
-from benchmark.run_t08_comparison import command
+from benchmark.public_eda import copy_common_synthesis_maps
+from benchmark.runner.adapters import AdapterRuntime
+from benchmark.runner.container import docker_command
+from benchmark.runner.config import load_config
+from benchmark.test_runner_config import valid_config
+import yaml
 
 
 class PublicEdaTests(unittest.TestCase):
@@ -49,7 +54,11 @@ class PublicEdaTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             source, orfs = root / 'repo', root / 'orfs'
-            for name in ['benchmark/candidate_ppa.py', 'evaluator/slang_frontend.py',
+            for name in ['benchmark/candidate_ppa.py', 'benchmark/t08_candidate_ppa.py',
+                         'vendor/lambdapdk_fakeram7/model.v',
+                         'evaluator/fixtures/t11_mac/sram_libmap.txt',
+                         'evaluator/fixtures/t11_mac/sram_map.v',
+                         'evaluator/fixtures/t11_mac/sram_stub.v', 'evaluator/slang_frontend.py',
                          'evaluator/yosys_slang.py', 'vendor/asap7/allowed.lib',
                          'evaluator/reference/T09/answer.sv', 'evaluator/t09_hidden_tb.sv']:
                 path = source / name
@@ -61,7 +70,7 @@ class PublicEdaTests(unittest.TestCase):
                 path = orfs / 'flow' / name
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text('fixture')
-            for task in ('T09', 'T10'):
+            for task in ('T08', 'T09', 'T10'):
                 trial = root / task
                 (trial / 'workspace').mkdir(parents=True)
                 (trial / 'workspace/PROMPT.md').write_text('task\n')
@@ -70,12 +79,23 @@ class PublicEdaTests(unittest.TestCase):
                 self.assertTrue((kit / 'asap7/allowed.lib').exists())
                 self.assertFalse(any(kit.rglob('answer*')))
                 self.assertFalse(any(kit.rglob('SKILL.md')))
-                self.assertEqual(json.loads((kit / 'task.json').read_text())['task'], task)
-                cmd = command(trial, 'kimi', 'test', 'test', shell='true')
-                self.assertIn(f'{kit}:/opt/benchmark_eda:ro', cmd)
+                if task == 'T08':
+                    self.assertTrue((kit/'lambdapdk_fakeram7/model.v').is_file())
+                    self.assertTrue((kit/'sram_map.v').is_file())
+                    self.assertIn('/opt/t08_eda', (trial/'workspace/PROMPT.md').read_text())
+                else:
+                    self.assertEqual(json.loads((kit / 'task.json').read_text())['task'], task)
+                for name in ('agent_home','empty_skills','tmp'):
+                    (trial/name).mkdir()
+                config_path=root/'runner.yaml'
+                config_path.write_text(yaml.safe_dump(valid_config(root)))
+                cmd=docker_command(load_config(config_path),trial,AdapterRuntime('true'),'test',cpus=16,memory_gib=40)
+                mount = '/opt/t08_eda' if task == 'T08' else '/opt/benchmark_eda'
+                self.assertIn(f'{kit}:{mount}:ro', cmd)
                 if task == 'T10':
                     self.assertIn('--top YOUR_PE_MODULE', (trial / 'workspace/PROMPT.md').read_text())
-                self.assertIn('existing task deadline', (trial / 'workspace/EDA_TOOLS.md').read_text())
+                if task != 'T08':
+                    self.assertIn('existing task deadline', (trial / 'workspace/EDA_TOOLS.md').read_text())
 
     def test_filelist_cannot_escape_candidate_rtl(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -86,6 +106,34 @@ class PublicEdaTests(unittest.TestCase):
                 (root / 'rtl/files.f').write_text(entry + '\n')
                 with self.assertRaises(ValueError):
                     candidate_ppa.sources(root)
+
+    def test_common_synthesis_map_is_included_without_designs(self):
+            with tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                orfs, kit = root / 'orfs', root / 'kit'
+                source = orfs / 'flow/platforms/common/lcu_kogge_stone.v'
+                source.parent.mkdir(parents=True)
+                source.write_text('module public_map; endmodule\n')
+                copy_common_synthesis_maps(kit, orfs)
+                target = kit / 'flow/platforms/common/lcu_kogge_stone.v'
+                self.assertEqual(source.read_bytes(), target.read_bytes())
+                self.assertFalse((kit / 'flow/designs').exists())
+                copy_common_synthesis_maps(kit, orfs)
+                target.write_text('different\n')
+                with self.assertRaises(ValueError):
+                    copy_common_synthesis_maps(kit, orfs)
+
+    def test_common_synthesis_map_missing_or_symlink_is_rejected(self):
+            with tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                orfs, kit = root / 'orfs', root / 'kit'
+                with self.assertRaises(ValueError):
+                    copy_common_synthesis_maps(kit, orfs)
+                source = orfs / 'flow/platforms/common/lcu_kogge_stone.v'
+                source.parent.mkdir(parents=True)
+                source.symlink_to('/etc/passwd')
+                with self.assertRaises(ValueError):
+                    copy_common_synthesis_maps(kit, orfs)
 
 
 if __name__ == '__main__':

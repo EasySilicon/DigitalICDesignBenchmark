@@ -118,7 +118,7 @@ Tasks below full functionality receive zero PPA and time points. GPT-6-Sol T10 r
 
 Run conditions: Kimi T08 used a cumulative historical development budget of 150 minutes. T10 reference and candidate implementations differ in internal macros and physical flow; a same-flow comparison is not available.
 
-Details: [per-task score-loss analysis](results/model-score-comparison.md#各模型逐题失分原因), [PPA formula audit](results/model-score-comparison.md#ppa-公式审计2026-10-21), [archive policy](results/README.md), and [result schema](results/result.schema.json).
+Details: [per-task score-loss analysis](results/model-score-comparison.md#各模型逐题失分原因), [PPA formula audit](results/ppa-formula-audit-20261021.json), [archive policy](results/README.md), and [result schema](results/result.schema.json).
 
 ## Environment setup
 
@@ -327,13 +327,13 @@ Per-task ordering compares **functional score, PPA bucket, then completion time*
 
 #### Physical evaluation: 60 minutes per T01–T09 seed, 120 minutes per T10 seed
 
-For T01–T09, synthesis, placement, clock-tree synthesis, routing, extraction, and final reports share a **3,600-second wall-clock limit per layout seed**; T10's single-PE flow uses **7,200 seconds**. The clock does not restart between stages. On timeout, terminate that seed's tool processes, retain its artifacts, and continue the other seeds. Score the valid completed seeds with measured activity-based power: take median area, delay, and energy, and retain worst-case timing slack and DRC counts. If no valid complete measurement is available, PPA and time points are zero; functional points and delivery deductions remain. Intermediate reports do not replace complete measurements. Only T10's physical-implementation deadline changes; its 40 GiB memory limit, model-development deadline, and the separate 20-minute power-compilation rule remain unchanged. See the [physical runtime policy](benchmark/physical-runtime-policy.md).
+For T01–T09, synthesis, placement, clock-tree synthesis, routing, extraction, and final reports share a **3,600-second wall-clock limit per layout seed**; T10's single-PE flow uses **7,200 seconds**. The clock does not restart between stages. On timeout, terminate that seed's tool processes, retain its artifacts, and continue the other seeds. Score the valid completed seeds with measured activity-based power: take median area, delay, and energy, and retain worst-case timing slack and DRC counts. If no valid complete measurement is available, PPA and time points are zero; functional points and delivery deductions remain. Intermediate reports do not replace complete measurements. Only T10's physical-implementation deadline changes; its 40 GiB memory limit and model-development deadline remain unchanged. Power compilation has the separate task-specific budget below. See the [physical runtime policy](benchmark/physical-runtime-policy.md).
 
-#### Power-simulation compilation: 20 cumulative minutes per seed
+#### Power-simulation compilation: 20 minutes per T01–T09 seed, 40 minutes per T10 seed
 
-New T01–T10 candidates share one **1,200-second wall-clock budget per layout seed** across the complete power-simulation build: hierarchical planning, Verilator code generation for every module, C++ compilation, linking, and SAIF runtime builds. The budget cannot restart for each module or command. **A timeout in any seed zeros the entire task's PPA and time points, retaining functional points and existing delivery deductions.** Expiry terminates the compiler process tree, retains logs and compile receipts, and stops the remaining seeds' power flow for that submission.
+Power-simulation compilation has one cumulative wall-clock budget per layout seed: **1,200 seconds (20 minutes) for T01–T09 and 2,400 seconds (40 minutes) for T10**, covering the complete build: hierarchical planning, Verilator code generation for every module, C++ compilation, linking, and SAIF runtime builds. The budget cannot restart for each module or command. **A timeout in any seed zeros the entire task's PPA and time points, retaining functional points and existing delivery deductions.** Expiry terminates the compiler process tree, retains logs and compile receipts, and stops the remaining seeds' power flow for that submission.
 
-This is not a 20-minute limit on synthesis, place-and-route, or the entire power flow. Workload simulation, power analysis, and independent functional tests are outside this compile budget. Missing tools, ordinary build errors, missing receipts, and failed validation are not automatically classified as compile timeouts; they require separate attribution. The rule does not retroactively rewrite historical scores. See the [common compile-limit policy and current entries](benchmark/power-compile-policy.md).
+These budgets apply only to the power-simulation compilation stage. Workload simulation, power analysis, and independent functional tests are outside this compile budget. Missing tools, ordinary build errors, missing receipts, and failed validation are not automatically classified as compile timeouts; they require separate attribution. The rule does not retroactively rewrite historical scores. See the [common compile-limit policy and current entries](benchmark/power-compile-policy.md).
 
 Evaluation tools consume **evaluator-generated** group results and measurements, never candidate score claims. New candidates use `power_probe_with_budget.py`, `aggregate_with_power_budget.py`, and `score_with_power_budget.py`; the dedicated T10 flow enforces the same rule. Frozen entries such as `ppa_power_probe.py` and `score_run.py` remain available for historical baseline reproduction.
 
@@ -341,7 +341,7 @@ Evaluation tools consume **evaluator-generated** group results and measurements,
 
 | Location | Purpose |
 | --- | --- |
-| [benchmark/README.md](benchmark/README.md) | Normative shared rules, resources, full acceptance/scoring/PPA, coverage and release gates |
+| [benchmark/README.md](benchmark/README.md) | Task index, delivery and public acceptance/scoring/PPA contract |
 | [benchmark/tasks/](benchmark/tasks/) | Per-task `task.md`, `acceptance.md`, `task.yaml` and `public/` |
 | [benchmark/manifest.yaml](benchmark/manifest.yaml) | Task set, time/resource limits and token-usage recording policy and score configuration |
 | [evaluator/](evaluator/README.md) | Smoke tests, independent acceptance, structural/delivery checks and scoring |

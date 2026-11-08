@@ -58,7 +58,7 @@ def copy_public_task_materials(task: str, destination: Path) -> None:
                 shutil.copy2(path, target / "starter/rtl" / path.name)
     else:
         shutil.copytree(source, target,
-                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "FREEZE.json", "PPA_FREEZE.json", "AUTHOR_GUIDE.md"))
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "FREEZE.json", "PPA_FREEZE.json", "AUTHOR_GUIDE.md", "AGENTS.md"))
 
     if task == "T09":
         shutil.copytree(ROOT / "benchmark/cpu/act4", benchmark / "cpu/act4")
@@ -191,12 +191,8 @@ elapsed time; host preparation and independent grading are excluded.
     if orfs_root is not None:
         if not __package__:
             sys.path.insert(0, str(ROOT))
-        if task in ('T09', 'T10'):
-            from benchmark.public_eda import prepare_public_eda
-            prepare_public_eda(destination.parent, orfs_root, task)
-        elif task == 'T08':
-            from benchmark.prepare_t08_comparison import prepare_public_eda
-            prepare_public_eda(destination.parent, orfs_root)
+        from benchmark.public_eda import prepare_public_eda
+        prepare_public_eda(destination.parent, orfs_root, task)
     return {"task": task, "destination": str(destination),
             "time_limit_minutes": row["time_limit_minutes"]}
 

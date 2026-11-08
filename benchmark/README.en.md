@@ -1,70 +1,172 @@
 # Digital IC Design Benchmark for Agents
 
-Evaluator physical runs have a **60-minute limit per layout seed for T01–T09 and a 120-minute limit for T10**, from synthesis through final reports. On timeout, retain artifacts and score the valid completed seeds with measured power; with no valid measurements, PPA and time points are zero. See the [physical runtime policy](physical-runtime-policy.md).
-
 [中文](README.md)
 
-This benchmark evaluates whether widely used frontier models, working through coding agents, can handle real digital IC development and delivery tasks. Capabilities include long-context comprehension, logic and microarchitecture design, timing-window and CDC analysis, verification convergence, debugging and feature integration, timing closure, physical implementation and PPA optimization, and reproducible engineering handoff.
+This directory defines ten digital IC engineering tasks and their public evaluation contract: synthesizable RTL, self-checking verification, PPA exploration and reproducible delivery. Results prioritize functionality, PPA and completion time. See the [project overview](../README.en.md) for motivation and capability coverage.
 
-It also supports controlled experiments on whether external harnesses such as Skills, multi-agent orchestration, and immediate quality gates improve the final performance of frontier or cost-effective models. These mechanisms are optional experimental variables, not entry requirements or presumed advantages. See the [motivation and evaluation philosophy](../README.en.md#motivation-and-evaluation-philosophy) and [experimental methodology](README.md#评测与评分方法).
-
-| ID | Task | Time limit |
-| --- | --- | ---: |
-
-| T01 | SerDes RX comma aligner | 30 min |
-| T02 | Parameterized synchronous FIFO | 1 h |
-| T03 | APB4 timer peripheral | 90 min |
-| T04 | ready/valid round-robin arbiter | 90 min |
-| T05 | Asynchronous FIFO | 2 h |
-| T06 | AXI4-Lite to APB4 bridge | 2 h |
-| T07 | Direct-mapped write-back cache | 2 h |
-| T08 | 1GbE MAC bug repair and VLAN admission | 2 h |
-| T09 | RV32I five-stage pipelined CPU | 2 h |
-| T10 | 16×16 streaming multi-precision systolic-array matrix multiplication | 4 h |
-
-The suite allocation is **16 vCPU, 40 GiB RAM and 100 GiB writable disk**.
-The RAM ceiling limits actual memory, not virtual address space.
-Token usage is recorded only: there is no token budget or token-triggered termination.
-
-Every task card states its clock and reset behavior explicitly. T01–T07, T09
-and T10 use rising-edge sequential operation with asynchronous active-low
-reset inputs ending in `_n`; required reset effects occur without waiting for
-a clock edge. T05 has separate local resets for its write and read domains.
-T08 instead inherits three per-domain asynchronous active-high resets,
-`logic_rst`, `tx_rst` and `rx_rst`. A task card may exempt unobservable payload
-storage when reset validity state prevents stale data from being observed.
+The current suite is `ic-delivery-rtl-v0.3`, still a pre-release suite. Reference baselines exist for all ten tasks; T10 measures one PE. Historical pilot results are in [results](../results/README.md).
 
 ## Entry points
 
-- [Task packages](tasks/): frozen task cards, task-specific acceptance plans, public artifacts, and machine-readable metadata.
-- [Shared task rules](README.md#共享任务规则) and [shared acceptance rules](README.md#通用验收规则).
-- [Verification and delivery contract](README.md#验证与交付契约): submission layout, fixed DUT interfaces, and independent evaluation.
-- [Public executable checks](../evaluator/README.en.md): task-specific port-level smoke checks.
-- [Evaluation methodology](README.md#评测与评分方法) and [PPA methodology](README.md#ppa-测量与评分).
-- [Environment setup](../env/README.en.md) and the vendored [ASAP7 platform](../vendor/README.en.md).
+| Subject | Authoritative source |
+| --- | --- |
+| Task behavior, interfaces, legal inputs and acceptance | Each task's `task.md`, `task.yaml` and `acceptance.md` |
+| Development budgets, resources and task weights | [manifest.yaml](manifest.yaml) |
+| Delivery and deductions | [candidate-rules.md](candidate-rules.md), [delivery-policy.md](delivery-policy.md) |
+| Scoring | [score_rules.json](../evaluator/score_rules.json), [score_run.py](../evaluator/score_run.py) and current budget wrappers |
+| Reference PPA values | [ppa-baselines.json](ppa-baselines.json) |
+| Running the suite | [Runner](runner/README.en.md), [environment setup](../env/README.en.md), [source lock](sources.lock.yaml) |
 
-Run `python3 benchmark/validate_spec.py` for a local consistency check. Create a task-only public workspace with `python3 benchmark/prepare_trial.py T03 /path/to/empty/T03`. Each evaluation run starts in a new conversation and an empty workspace with the same task material, model configuration, tool environment, and timing boundary.
+Task-specific requirements override shared rules. Public smoke checks demonstrate interfaces; they do not define additional requirements. Maintainer development and release checks belong in [AGENTS.md](AGENTS.md), which is excluded from candidate inputs.
 
-Use the repository's [generic experiment runner](runner/README.en.md) for a formal full-suite comparison. It adapts Kimi CLI, Codex CLI, Claude Code, and ZCode CLI to one candidate-development pipeline and one independent serial host-grading queue. Time and resource policy comes only from the manifest; local configuration cannot introduce token, turn, or monetary limits. `runner.example.yaml` is the credential-free local configuration template.
+## Tasks
 
-T09 follows the same self-test delivery contract as the other tasks. The evaluator independently loads ELF programs, drives the CPU bus and captures execution traces for ACT4 and differential checks.
+| ID | Specification | Acceptance | Development limit | Display weight |
+| --- | --- | --- | ---: | ---: |
+| T01 | [SerDes RX comma aligner](tasks/T01/task.md) | [T01](tasks/T01/acceptance.md) | 30 min | 3% |
+| T02 | [Synchronous FIFO](tasks/T02/task.md) | [T02](tasks/T02/acceptance.md) | 60 min | 3% |
+| T03 | [APB4 timer](tasks/T03/task.md) | [T03](tasks/T03/acceptance.md) | 90 min | 6% |
+| T04 | [Round-robin arbiter](tasks/T04/task.md) | [T04](tasks/T04/acceptance.md) | 90 min | 6% |
+| T05 | [Asynchronous FIFO](tasks/T05/task.md) | [T05](tasks/T05/acceptance.md) | 120 min | 6% |
+| T06 | [AXI4-Lite/APB4 bridge](tasks/T06/task.md) | [T06](tasks/T06/acceptance.md) | 120 min | 10% |
+| T07 | [Direct-mapped write-back cache](tasks/T07/task.md) | [T07](tasks/T07/acceptance.md) | 120 min | 10% |
+| T08 | [1GbE MAC repair and VLAN admission](tasks/T08/task.md) | [T08](tasks/T08/acceptance.md) | 120 min | 11% |
+| T09 | [RV32I five-stage CPU](tasks/T09/task.md) | [T09](tasks/T09/acceptance.md) | 120 min | 20% |
+| T10 | [Multi-precision systolic matrix multiplication](tasks/T10/task.md) | [T10](tasks/T10/acceptance.md) | 240 min | 25% |
 
+Top modules, ports, parameters, clock/reset and handshake semantics come from the task cards. Internal module organization and verification frameworks may vary. T01–T07, T09 and T10 use asynchronous active-low reset; T08 uses per-domain asynchronous active-high reset. A ready/valid transfer is accepted on the relevant rising edge when both are high; the sender holds valid and payload while stalled. Task cards define exceptions.
 
+## Acceptance
 
-## Unexpected failures and scoring
+The evaluator drives and observes the specified DUT ports with independent stimulus and expected results. It does not use candidate `run.sh` or self-reported PASS as the RTL oracle. Candidate self-tests, public smoke and independent acceptance are separate checks.
 
-T09 retains the full/half/zero rubric, with 40 functional points distributed proportionally across its legacy groups and 10 reserved for the 22 cycle checks. The cycle group earns 10 points for 22/22, 5 for 11–21/22, and 0 for 0–10/22; failures are not deducted once per case or merged into legacy hazard/latency groups again. Functional correctness remains out of 50, PPA out of 50, and time out of 5. Historical scores require explicit regrading under the new policy.
+Failures retain points from independently passing groups under the [scoring map](../evaluator/score_rules.json). T05 includes CDC structure checks; T10 includes the full 256-PE mesh, local accumulation, resource and sustained-throughput checks. A passing single PE does not qualify the full DUT. V1 T10 retains strict numerical precision; an MMA-inspired diagnostic profile does not replace official acceptance.
 
-Preserve the frozen submission, command, tool version, stage logs, exit status/signal, time and memory limits, and available resource peaks before attributing a failure. A timeout or kill signal alone does not establish candidate fault.
+Executable entry points are documented in [evaluator](../evaluator/README.en.md). See [T09 acceptance](tasks/T09/acceptance.md) and the [NPU plan](npu-validation.md) for task-specific requirements.
 
-- Functional errors, deadlocks, and functional-test timeouts affect the corresponding functional items, not every independent item. Incomplete functional correctness makes PPA/time zero.
-- A reviewed candidate-caused resource-limit failure during Yosys frontend processing, synthesis, or structural netlist generation, or failure to complete the common physical flow, receives PPA=0 and time=0. Preserve verified functional points; this does not itself prove incorrect functionality or semantic unsynthesizability.
-- Evaluator defects, missing tools/dependencies, host reboots, unrelated process kills, and unexplained timeouts/OOM leave affected components `null`/pending. Correct the infrastructure and re-evaluate the unchanged submission without candidate penalties.
-- An unavailable or unqualified PPA baseline leaves PPA/time pending, except that an independently adjudicated candidate PPA failure is explicitly zero.
-- Delivery-contract deductions are capped at 10 points per task: one missing deliverable or one candidate-caused execution error costs 5 points; two or more missing deliverables, or two distinct delivery errors, cost 10. Repeated failures of one root cause count once. Infrastructure faults incur no deduction, and earned component scores remain intact. A synthesis resource-limit failure alone incurs no additional delivery deduction. See the [delivery policy](delivery-policy.md#delivery-contract-deductions).
+## Delivery
 
-Keep functional and synthesis/structural results separately. An incomplete structural check must not be treated as a pass; unmeasured functional components remain pending. Zero means an adjudicated failure, whereas `null` means no conclusion. Freeze and calibrate per-task/per-stage tool budgets and resource-failure rules before official evaluation, using the reference and alternative equivalent RTL styles. Diagnostic budget extensions are not changes to official budgets. Do not rewrite or optimize candidate RTL. Version scoring-relevant evaluator corrections and regrade all affected frozen submissions.
+| Artifact | Requirement |
+| --- | --- |
+| `rtl/`, `rtl/files.f` | Synthesizable sources; one path relative to `rtl/` per filelist line, with no absolute paths, `..` or command options |
+| `verif/` | Executable self-checks comparing expected and observed behavior |
+| `run.sh` | Non-interactive, run from the workspace root, no dependency downloads; zero only for a real pass |
+| `results.json` | Generated by real tests; `tests`, `tool_versions`, `elapsed_seconds`; each test has `name`, `passed` and its actual integer `seed` |
+| `README.md` | Reproduction commands, verified scope, known limitations, design choices and actual PPA exploration |
 
-Pre-release example (2026-10-05, Kimi K3-256k / T10): the delivery self-check passed, but full-design Yosys structural elaboration timed out even with a diagnostic 900-second budget. Its result store uses a 196,608-bit packed vector with dynamic partial writes from 192 sequential processes; a separate memory-limited probe also hit a frontend resource limit. The evaluator adjudicated PPA=0, leaving official functional grading pending, with no RTL edits or extra handoff penalty. This neither bans dynamic indexing nor establishes a universal 900-second budget. The evaluator exception that interrupted subsequent functional grading is a separate issue to fix. See the [full failure policy](README.md#异常归因与分项判分).
+Support `BENCH_SEED` with a documented fixed default. Test instances are unique by `(name, seed)` and repeatable. Candidates need not sweep every evaluation seed before submission; host acceptance performs its own replays. T09 follows the same delivery contract; the evaluator loads ELF programs and captures architectural results independently.
 
-T08/T09 task-level freeze (2026-10-09): [T08 receipt](../benchmark/tasks/T08/FREEZE.json), [T09 receipt](../benchmark/tasks/T09/FREEZE.json). Run `python3 benchmark/freeze_tasks.py` from the repository root to verify specification, RTL, judge, scoring, baseline and portable evidence hashes. All six T09 archives have been regraded, and all six T08 answers have been scored. Host-only receipts are excluded from candidate packages. T10 V1.0 measures single-PE PPA; full-DUT functional, structural, and throughput requirements remain unchanged. The v15 single-PE reference has passed timing, complete DRC/connectivity, and activity-based power checks for seeds 11/29/47; archived candidates still need individual PPA/time measurements. See the [PPA contract](tasks/T10/ppa.md) and [manual-repair record](../evaluator/t10_pe_manual_closure.json). Suite-wide tool-image, fairness, and release checks remain pending. See the [three-seed measurement notes](../evaluator/t10_backend/v1/README.md).
+Honest failed or non-improving PPA attempts are acceptable exploration records. Candidate constraints, cell models, measurements and scores cannot replace official measurements.
+
+## Evaluation and ranking
+
+The allocation is 16 vCPU, 40 GiB RAM and 100 GiB writable disk, without a GPU. Token usage is recorded without a cumulative cap. Reasoning, builds, simulation, EDA and retries count toward development time; host preparation, queueing and post-submission grading do not.
+
+Use [benchmark.runner](runner/README.en.md) with fresh per-task sessions and workspaces, keeping candidate materials separate from host judges. Record model, effort, language, Skills, tools and collaboration settings; interpret differing conditions separately. The preparer copies only the assigned task's public inputs:
+
+```bash
+python3 benchmark/prepare_trial.py T03 /path/to/empty/T03 --language en
+```
+
+| Component | Maximum | Condition |
+| --- | ---: | --- |
+| Functionality | 50 | Task-specific groups; the task's raw F/P items both contribute to functionality and normalize from 75 |
+| PPA | 50 | Full functionality plus synthesis, required structure and measurement-provenance checks |
+| Time | 5 | Full functionality and positive PPA; `5 × (1 − t/T_max)`, clipped to 0–5 |
+
+T08/T10 use their frozen proportional group rules; T09 has a dedicated cycle rubric. Other tasks follow their own full/half/zero and safety gates. Missing or invalid grading inputs are errors, not passes.
+
+Delivery deductions are capped at 10 points per task under [delivery-policy.md](delivery-policy.md). `Display = max(0, functionality + PPA + time − delivery deduction)`. The suite display uses fixed task weights without renormalizing missing components.
+
+Single-task ordering compares functionality, PPA bucket and completion time, with a 1.25-point bucket width. Suite ordering compares full-pass task count, functional sum, PPA bucket sum over full-pass tasks, then the sum of their `t/T_max`. Display totals do not replace this ordering.
+
+Confirmed candidate functional failures affect their groups and disable PPA/time eligibility. Candidate physical failures preserve valid functional points. Evaluator/tool faults do not penalize candidates; affected components remain pending. Zero means an adjudicated failure; `null` means no result yet.
+
+## PPA
+
+Use locked Yosys, ASAP7 and OpenROAD at 1000 ps / 1 GHz. T01–T09 measure the full DUT; v1 T10 measures one PE while retaining full-DUT acceptance. T08 includes the specified SRAM model and T10 has PE-specific physical parameters. References and candidates use the same task-specific scope and settings; see the [T08 contract](tasks/T08/task.md), [T10 PE contract](tasks/T10/ppa.md), [source lock](sources.lock.yaml) and [baselines](ppa-baselines.json).
+
+### Measurement settings and scope
+
+| Setting | Current contract |
+| --- | --- |
+| Libraries/corners | ASAP7 7.5T RVT NLDM, WC standard-cell timing and TT activity power; T08 SRAM uses its declared TT research model, not full-design WC signoff |
+| Clocks and I/O | 1000 ps per domain, 20% I/O delay; T05/T08 asynchronous domains are constrained separately without removing valid intra-domain paths |
+| Drive/load | Fixed `BUFx2_ASAP7_75t_R` input drive and 3.898 fF output load |
+| Utilization/density | T01–T09: 10% / 0.60; T10 PE: 24% / 0.24, with internal macros following its specific contract |
+| Storage | T02/T05/T07 small memories and the T09 register file use standard cells; T08 uses the specified SRAM and T10 accounts for internal macros |
+| Repeats | Layout seeds 11/29/47; the current flow randomizes routing, which is not three independent randomized placements |
+
+The evaluator generates constraints. Area excludes filler and the testbench, and includes the full physical area of required macros, including unused capacity. References and candidates use identical settings for the same task.
+
+### Fixed power workload and useful operations
+
+Workload versions and transaction distributions are fixed, legal inputs are used, and outputs remain self-checked. Candidates cannot change the energy denominator:
+
+| Task | One useful operation |
+| --- | --- |
+| T01 | One actually emitted 10-bit aligned symbol |
+| T02 | One successful read corresponding to an accepted write; reset-discarded entries do not count |
+| T03 | One completed APB access, including timer activity within the measurement window |
+| T04 | One successful output transfer |
+| T05 | One successful read corresponding to an accepted write, with the specified domain clocks/phases |
+| T06 | One completed AXI read or write transaction |
+| T07 | One completed CPU request, with the fixed hit/miss and read/write distribution |
+| T08 | One accepted TX body octet or delivered RX body octet, including the fixed rejection/recovery workload and SRAM activity |
+| T09 | One normally retired instruction, with a fixed instruction/wait distribution |
+| T10 | One PE's dot product for a completed matrix block; the full DUT runs the specified workload and activity is averaged equally across PEs, including internal macros |
+
+Count operations from accepted port transactions, output events or CPU retirement. Exclude initial reset, loading and testbench initialization from the capture window; include workload stalls and in-window reset consistently. A longer window for the same useful work increases energy per operation. Valid activity annotation must reach 95%; a T10 PE energy result is not a full-NPU energy result.
+
+### Aggregation and scoring
+
+Area includes actual logic, registers, buffers, clock cells and required macros. Power comes from the corresponding routed netlist, parasitics and fixed self-checking activity workload. `Energy = average power × measurement duration / useful operations`; source/netlist line counts or different workloads cannot substitute for measurements.
+
+Use median area, delay and energy across layout seeds, worst setup/hold slack and maximum DRC count. Retained valid seeds and physical timeouts follow the [physical policy](physical-runtime-policy.md); power-simulation compilation has a separate 20-minute T01–T09 or 40-minute T10 limit per seed under the [budget policy](power-compile-policy.md).
+
+For worst setup/hold slack `S/H`, with time in ns:
+
+```text
+R(x)    = min(2, max(0, x))
+D_eff   = D + max(0, -H)
+D_setup = T + max(0, -S)
+P_base  = min(50, 35 × R(A_ref/A)^0.35 × R(D_ref/D_eff)^0.35 × R(E_ref/E)^0.30)
+PPA     = P_base × (T/D_setup)^4 × (0.5 if any DRC violations, otherwise 1)
+```
+
+The reference receives 35/50. Candidate negative slack is penalized continuously and DRC halves the result. Valid complete measurements, activity annotation and provenance remain mandatory. Current candidates use budget wrappers; frozen legacy entry points are for historical baseline replay only. See the [current entry points](power-compile-policy.md).
+
+## Domain and difficulty coverage
+
+The task set tests a range of digital IC design capabilities, with each capability mapped to task requirements and independent acceptance groups. Ten tasks cannot cover every topic and stage of chip development.
+
+### Task-by-task mapping
+
+| Hypothesized level | Task / budget | Main domain | Engineering difficulty | Independent acceptance evidence |
+| ---: | --- | --- | --- | --- |
+| 1 | T01 SerDes aligner / 30 min | Serial-link PCS and symbol synchronization | Cross-slice bit windows, comma training, regrouping, lock loss and recovery | AC-05–08B; random phase, bit slips and markers |
+| 2 | T02 synchronous FIFO / 60 min | Streaming buffers and parameterized storage | ready/valid, empty/full boundaries, concurrent push/pop and non-power-of-two wrap | AC-09–15; depths 3/8/16 and widths 8/32 |
+| 3 | T03 APB4 timer / 90 min | Register peripherals and control state | APB phases, byte writes, W1C, interrupts and event priority | AC-16–20; cycle-by-cycle register model |
+| 4 | T04 arbiter / 90 min | Multiport flow control | Persistent contention, fairness, arbitration state and stalled-payload stability | AC-21–25; N=4/8 competition |
+| 5 | T05 asynchronous FIFO / 120 min | CDC, dual-clock buffering and reset | Gray pointers, two-stage synchronizers, conservative flags and domain recovery | AC-26–31; clock-ratio variation and CDC structure |
+| 6 | T06 AXI4-Lite/APB4 bridge / 120 min | On-chip buses and protocol conversion | AW/W decoupling, concurrent reads/writes, APB waits and error mapping | AC-32–37; independent endpoint scoreboards |
+| 7 | T07 write-back cache / 120 min | Memory hierarchy | Tags/indexing, dirty eviction, write allocation and byte enables | AC-38–43; independent byte-addressed memory |
+| 8 | T08 MAC repair / 120 min | Ethernet MAC and brownfield RTL | Long specifications, coupled bug repair, VLAN policy, CDC and metadata | 37 scenarios × 3 seeds; 270 stress runs |
+| 9 | T09 five-stage RV32I CPU / 120 min | Processor microarchitecture and ISA | Fetch-to-retirement latency, forwarding, stalls, flushes, precise traps and ordered commit | CPU-ACT/DIR/DIFF/PIPE; observable latency and at least 100,000 randomized retirement comparisons |
+| 10 | T10 16×16 streaming array / 240 min | NPU/DSP arithmetic, formats and spatial dataflow | Neighbor PE forwarding, 4/8/16-cycle block intervals, four tagged row slots, FP8/FP4/MX semantics, backpressure credits, rounding and physical cost | MM-INT/F16/F8/F4/MX8/MX4/PROTO/SYSTOLIC/CORNER; the frozen reference passed the 2,752-block qualification stream and 14 compilable mutants were detected; three-seed PE physical/activity qualification is complete |
+
+### What this coverage supports
+
+- **Several distinct domains** have dedicated tasks: sequential control, serial-link PCS, streaming buffers/arbitration, buses/peripherals, CDC, memory hierarchy, processors and matrix arithmetic. T10 adds multiply arrays, low-precision floating formats and block scaling.
+- **State and timing scales vary:** small control state and bit buffers, multiple interacting states, asynchronous domains, pipelines and a two-dimensional wavefront. These are not ten copies of one RTL template.
+- **Interfaces vary:** serial slices, ready/valid, APB4, AXI4-Lite, cache-line backends and CPU instruction/data buses. Multiple tasks deliberately stress backpressure, independently arriving channels and variable external waits.
+- **Cross-cutting skills** include parameterization, reset/event priority, independent scoreboards, debugging and routed PPA. The matrix task also has a qualified single-PE activity baseline.
+- **Difficulty structure:** tasks 1–3, 4–6 and 7–9 form three intended difficulty bands, followed by the T10 challenge. Individual budgets range from 30 minutes to four hours, totaling 18 hours 30 minutes.
+
+### Possible future extensions
+
+Future tasks may cover NoC, DDR/high-speed I/O, DFT/scan, multiple power domains, security IP, analog/mixed-signal design and production signoff.
+
+## Licensing
+
+Original code and documentation use [Apache-2.0](../LICENSE). Third-party materials retain their own licenses; see the [source lock](sources.lock.yaml), [vendor notices](../vendor/README.en.md) and [third-party notices](../THIRD_PARTY_NOTICES.md).

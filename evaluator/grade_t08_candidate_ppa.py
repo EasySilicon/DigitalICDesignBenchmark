@@ -16,6 +16,7 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -28,8 +29,10 @@ from score_with_power_budget import score_run
 from power_compile_budget import TIMEOUT_EXIT_CODE, validate_timeout
 import physical_budget
 from physical_grading import read_receipt
-from delivery_check import read_result, check_normal, inspect_contract
-from benchmark.run_t08_comparison import command, TOOL_PATH
+from delivery_check import read_result, check_normal, inspect_contract, DEFAULT_DELIVERY_SEEDS
+from benchmark.runner.adapters import AdapterRuntime
+from benchmark.runner.config import load_config
+from benchmark.runner.container import docker_command
 
 
 def write(path: Path, data):
@@ -51,7 +54,10 @@ def publish(repo: Path, model: str, record: dict, trial: Path):
     write(path,published)
 
 
-def delivery(trial: Path, output: Path):
+def delivery(trial: Path, output: Path, runner_config=None):
+    if runner_config is None:
+        raise RuntimeError('isolated delivery replay requires --runner-config with the installed tool image and mounts')
+    hardware = yaml.safe_load((ROOT/'benchmark/manifest.yaml').read_text())['hardware_limit']
     assessment = inspect_contract(trial / 'workspace')
     sandbox = output / 'delivery_sandbox'
     workspace = sandbox / 'workspace'
@@ -74,24 +80,31 @@ def delivery(trial: Path, output: Path):
             raise ValueError('run.sh missing or not executable')
         if not (workspace / 'README.md').is_file() or not (workspace / 'verif').is_dir():
             raise ValueError('README.md or verif/ missing')
-        for index in (1, 2):
-            execution_started = True
-            name = 'ic-bcmk-t08-delivery-' + str(os.getpid()) + '-' + str(index)
-            cmd = command(sandbox, 'kimi', name, '', shell='BENCH_SEED=20261007 timeout --signal=INT --kill-after=10s 600s ./run.sh')
-            try:
-                with (output / f'delivery_run{index}.log').open('w') as log:
-                    result = subprocess.run(cmd, stdout=log, stderr=subprocess.STDOUT, timeout=630)
-                if result.returncode:
-                    raise ValueError(f'candidate run.sh exited {result.returncode}; see delivery_run{index}.log')
-                report = read_result(workspace / 'results.json')
-                tests.append(check_normal(report))
-                write(output / f'delivery_result{index}.json', report)
-            finally:
-                subprocess.run(['docker', 'stop', '--timeout', '2', name], capture_output=True)
-            if index == 1:
-                (workspace / 'results.json').unlink()
-        if tests[0] != tests[1]:
-            raise ValueError('same-seed self-check results changed')
+        for seed in DEFAULT_DELIVERY_SEEDS:
+            pair=[]
+            for index in (1, 2):
+                execution_started=True
+                name=f'ic-bcmk-t08-delivery-{os.getpid()}-{seed}-{index}'
+                runtime=AdapterRuntime(f'BENCH_SEED={seed} timeout --signal=INT --kill-after=10s 600s ./run.sh',
+                                       environment=('CCACHE_DIR=/tmp/ccache',))
+                cmd=docker_command(runner_config,sandbox,runtime,name,
+                                   cpus=hardware['vcpu'],memory_gib=hardware['ram_gib'])
+                result_path=workspace/'results.json'
+                result_path.unlink(missing_ok=True)
+                try:
+                    log_path=output/f'delivery_seed{seed}_run{index}.log'
+                    with log_path.open('w') as log:
+                        result=subprocess.run(cmd,stdout=log,stderr=subprocess.STDOUT,timeout=630)
+                    if result.returncode:
+                        raise ValueError(f'candidate run.sh exited {result.returncode}; see {log_path.name}')
+                    report=read_result(result_path)
+                    pair.append(check_normal(report))
+                    write(output/f'delivery_seed{seed}_result{index}.json',report)
+                finally:
+                    subprocess.run(['docker','stop','--timeout','2',name],capture_output=True)
+            if pair[0]!=pair[1]:
+                raise ValueError(f'same-seed self-check results changed for seed {seed}')
+            tests.extend(pair[0])
     except (ValueError, OSError, subprocess.TimeoutExpired) as error:
         findings.append(str(error))
         if execution_started:
@@ -102,7 +115,8 @@ def delivery(trial: Path, output: Path):
         [error['detail'] for error in assessment['errors']] + findings))
     report = {'delivery_qualified': not findings, 'findings': findings,
               'delivery_assessment': assessment,
-              'self_check_tests': len(tests[0]) if tests else 0, 'execution': 'isolated Docker; not host'}
+              'self_check_tests': len(tests), 'execution': 'isolated Docker; not host',
+              'delivery_seeds': list(DEFAULT_DELIVERY_SEEDS), 'replays_per_seed': 2}
     write(output / 'delivery.json', report)
     return report
 
@@ -126,7 +140,7 @@ def candidate_clock(manifest: dict, functional: dict) -> tuple[float, float]:
     return elapsed, limit
 
 
-def run(trial: Path, orfs: Path, repo: Path):
+def run(trial: Path, orfs: Path, repo: Path, runner_config=None):
     output = trial / 'ppa_grading'
     output.mkdir(exist_ok=False)
     manifest = json.loads((trial / 'run_manifest.json').read_text())
@@ -141,7 +155,7 @@ def run(trial: Path, orfs: Path, repo: Path):
               'stage': stage, 'completed_seeds': state['completed_seeds'], 'updated_utc': state['updated_utc'],
               'error': state.get('error')})
         print('PPA_GRADING ' + json.dumps(state), flush=True)
-    env = {**os.environ, 'PYTHONPATH': str(ROOT), 'PATH': TOOL_PATH, 'PYTHONDONTWRITEBYTECODE': '1'}
+    env = {**os.environ, 'PYTHONPATH': str(ROOT), 'PYTHONDONTWRITEBYTECODE': '1'}
     def execute(stage, cmd, timeout=3600):
         update(stage)
         with (output / (stage + '.log')).open('w') as log:
@@ -155,7 +169,7 @@ def run(trial: Path, orfs: Path, repo: Path):
         source_digest = source_hash(submission)
         write(output / 'submission_receipt.json', {'source_sha256': source_digest, 'frozen_utc': dt.datetime.now(dt.timezone.utc).isoformat()})
         update('delivery_check')
-        delivery_report = delivery(trial, output)
+        delivery_report = delivery(trial, output, runner_config)
         groups = {g['id']: {'cases_total': len(g['cases']), 'cases_passed': sum(
                   functional['cases'][str(case)]['passed'] for case in g['cases']), 'safety_violation': False}
                   for g in functional['test_groups']}
@@ -273,8 +287,10 @@ def main():
     parser.add_argument('--root', type=Path, required=True)
     parser.add_argument('--orfs', type=Path, required=True)
     parser.add_argument('--publish-repo', type=Path, required=True)
+    parser.add_argument('--runner-config', type=Path, required=True,
+                        help='current runner configuration for isolated self-check tools and mounts')
     args = parser.parse_args()
-    run(args.root.resolve(), args.orfs.resolve(), args.publish_repo.resolve())
+    run(args.root.resolve(), args.orfs.resolve(), args.publish_repo.resolve(), load_config(args.runner_config))
 
 
 if __name__ == '__main__':

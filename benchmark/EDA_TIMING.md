@@ -9,8 +9,7 @@ Run on the host, before starting the candidate container:
 
 ```sh
 python3 benchmark/eda_time.py \
-  --container-prefix ic-bcmk-claude-glm-5-3-flash- \
-  --container-prefix ic-bcmk-kimi-k3-256k- \
+  --container-prefix ic-bcmk- \
   --output-dir /path/to/host-only/telemetry
 ```
 
@@ -42,13 +41,3 @@ known executable basename with `--extra-tool my_cpu_sim`. These classification
 rules and the tool version should be frozen for model comparisons. Candidates
 can evade a sampled name-based monitor; this is descriptive telemetry and must
 not be treated as a tamper-proof accounting source or score input.
-
-Persistent Claude/Kimi session settings are independent of the monitor. No
-additional Agent prompt, Skill, reference RTL or acceptance code is exposed.
-
-The 2026-10-07 parser fix preserves empty arguments in `/proc/*/cmdline`.
-OSS CAD's explicit ELF loader uses `--inhibit-rpath ""`; dropping that empty
-value shifted option parsing and could miss the main Yosys process. The fix is
-frozen into the GLM T08 v3 90-minute trial. Historical sampled reports are not
-retrospectively repaired by this change and should not be treated as complete
-EDA accounting without a separate audit.

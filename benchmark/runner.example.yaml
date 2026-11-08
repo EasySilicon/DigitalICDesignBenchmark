@@ -1,7 +1,7 @@
 schema_version: 1
 
 # Trial and private authentication state must both be outside the repository.
-trial_root: /mnt/benchmark-trials/kimi-k31-pro-max-run01
+trial_root: /mnt/benchmark-trials/run01
 repo_root: /path/to/ic_bcmk
 orfs_root: /opt/OpenROAD-flow-scripts
 private_root: /mnt/benchmark-private
@@ -37,8 +37,8 @@ agent:
     allowed: [Read, Write, Edit, Grep, Glob, Bash, TaskList, TaskOutput, TaskStop, WaitFor, TodoList, Skill]
   options: {}
 
-# This host-only adapter may be maintained privately while grading policy is
-# being frozen. It must write {grading}/report.json and never enter the candidate container.
+# Host-only grading command; writes {grading}/report.json.
+# The grader and its outputs must remain outside the candidate container.
 grader:
   command: [python3, /path/to/site-grade.py, --task, "{task_id}", --submission, "{submission}", --output, "{grading}", --repo, "{frozen_repo}", --elapsed, "{elapsed_seconds}"]
   lock: /mnt/benchmark-trials/physical-grade.lock

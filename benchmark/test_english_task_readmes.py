@@ -20,7 +20,12 @@ class EnglishTaskReadmesTest(unittest.TestCase):
                 self.assertIn("## Delivery and evaluation", readme)
                 self.assertIn("without a token budget", readme)
                 self.assertIn("120 minutes for T10", readme)
-                self.assertIn("40-minute limit per seed", readme)
+                self.assertIn("20 minutes for T01–T09 and 40 minutes for T10", readme)
+
+    def test_task_index_combines_english_then_chinese(self):
+        index = (ROOT / "README.md").read_text()
+        self.assertLess(index.index("## English"), index.index("## 中文"))
+        self.assertFalse((ROOT / "README.en.md").exists())
 
     def test_t08_retains_complete_english_specification_and_acceptance(self):
         directory = ROOT / "T08"

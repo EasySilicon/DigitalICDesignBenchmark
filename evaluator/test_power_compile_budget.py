@@ -11,7 +11,7 @@ from types import SimpleNamespace
 import unittest
 from unittest.mock import Mock,patch
 
-from power_compile_budget import CompileBudget,PowerCompileTimeout,POLICY_ID,LIMIT_SECONDS,validate_timeout,validate_records
+from power_compile_budget import CompileBudget,PowerCompileTimeout,POLICY_ID,LIMIT_SECONDS,validate_timeout,validate_records,policy_id,limit_seconds
 from power_probe_with_budget import run_probe
 import power_probe_with_budget as probe_cli
 from score_with_power_budget import score_run
@@ -20,12 +20,40 @@ from score_run import score_run as frozen_score_run
 from run_t10_candidate_40g import compile_timeout_zero,POLICY
 
 
-def record(task='T10',seed=11,status='timeout',elapsed=LIMIT_SECONDS):
-    return dict(policy_id=POLICY_ID,task_id=task,limit_seconds=LIMIT_SECONDS,layout_seed=seed,
-        candidate_source_sha256='source',elapsed_seconds=elapsed,status=status,process_group_terminated=True)
+def record(task='T10',seed=11,status='timeout',elapsed=None):
+    return dict(policy_id=policy_id(task),task_id=task,limit_seconds=limit_seconds(task),layout_seed=seed,
+        candidate_source_sha256='source',elapsed_seconds=limit_seconds(task) if elapsed is None else elapsed,
+        status=status,process_group_terminated=True)
 
 
 class PowerCompileBudgetTest(unittest.TestCase):
+    def test_current_probe_selects_20_minutes_except_40_for_t10(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            for number in range(1,11):
+                task=f'T{number:02d}'
+                expected=2400 if task=='T10' else 1200
+                compiler=Mock(pid=999,returncode=0)
+                compiler.wait.return_value=0
+                module=SimpleNamespace(main=lambda:subprocess.run(['verilator','design.v']),__file__='probe.py')
+                output=root/task
+                with self.subTest(task=task),patch('power_compile_budget.time.monotonic',return_value=0), \
+                        patch('power_compile_budget.subprocess.Popen',return_value=compiler):
+                    run_probe(module,[],output,'source',11,task)
+                    compiler.wait.assert_called_once_with(timeout=expected)
+                    receipt=json.loads((output/'power_compile.json').read_text())
+                    self.assertEqual(receipt['limit_seconds'],expected)
+                    self.assertEqual(receipt['policy_id'],f'power-compile-wall-{expected}s-v{2 if task=="T10" else 1}')
+                    validate_records([receipt],'source',task)
+
+    def test_current_task_boundaries_preserve_historical_40_minute_receipts(self):
+        validate_records([record('T10',status='completed',elapsed=1200.001)],'source','T10')
+        with self.assertRaises(ValueError):
+            validate_records([record('T01',status='completed',elapsed=1200.001)],'source','T01')
+        historical=record('T01',status='completed',elapsed=1800)|dict(policy_id=POLICY_ID,limit_seconds=2400)
+        validate_records([historical],'source','T01')
+        self.assertEqual(historical['elapsed_seconds'],1800)
+
     def test_current_cli_dispatches_every_task_to_its_correct_backend(self):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp);source='a'*64
@@ -59,12 +87,12 @@ class PowerCompileBudgetTest(unittest.TestCase):
             payload=dict(task_id=task,groups=groups,delivery_qualified=True,elapsed_seconds=1,
                 time_limit_seconds=14400,sustained_throughput_passed=True,candidate_source_sha256=source,
                 ppa_measurement=copy.deepcopy(reference),ppa_reference=reference,
-                power_compile_records=[record(task,s,'completed',LIMIT_SECONDS)|{'candidate_source_sha256':source} for s in (11,29,47)])
+                power_compile_records=[record(task,s,'completed')|{'candidate_source_sha256':source} for s in (11,29,47)])
             with self.subTest(task=task):
                 self.assertEqual(score_run(payload),frozen_score_run(payload)|{
                     'delivery_penalty_policy':'delivery-contract-cap10-v1',
                     'delivery_penalty_status':'adjudicated',
-                    'power_compile_policy':POLICY_ID,'candidate_source_sha256':source,
+                    'power_compile_policy':policy_id(task),'candidate_source_sha256':source,
                     'power_compile_records':payload['power_compile_records']})
 
     def test_real_adapter_build_completes_before_longer_simulation(self):
@@ -84,7 +112,7 @@ class PowerCompileBudgetTest(unittest.TestCase):
                 budget_factory=lambda *args,**kwargs:CompileBudget(*args,**kwargs,seconds=.8))
 
     def test_positive_completion_after_limit_and_duplicate_seeds_are_rejected(self):
-        for records in ([record('T01',status='completed',elapsed=LIMIT_SECONDS+.001)],
+        for records in ([record('T01',status='completed',elapsed=limit_seconds('T01')+.001)],
                 [record('T01'),record('T01')]):
             with self.subTest(records=records),self.assertRaises(ValueError):
                 score_run(dict(task_id='T01',candidate_source_sha256='source',power_compile_records=records))
@@ -166,7 +194,7 @@ class PowerCompileBudgetTest(unittest.TestCase):
             with self.subTest(task=task):
                 self.assertEqual(result['functional_total'],50)
                 self.assertEqual(result['ppa_score'],0);self.assertEqual(result['time_score'],0)
-                self.assertEqual(result['display_score'],45);self.assertIn(str(LIMIT_SECONDS),result['ppa_zero_reason'])
+                self.assertEqual(result['display_score'],45);self.assertIn(str(limit_seconds(task)),result['ppa_zero_reason'])
                 self.assertEqual(payload,before)
 
     def test_wrong_identity_error_nan_and_unproved_positive_are_rejected(self):

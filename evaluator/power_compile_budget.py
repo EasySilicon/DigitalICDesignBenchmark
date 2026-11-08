@@ -9,15 +9,29 @@ import signal
 import subprocess
 import time
 
-LIMIT_SECONDS = 2400
+DEFAULT_LIMIT_SECONDS = 1200
+T10_LIMIT_SECONDS = 2400
+DEFAULT_POLICY_ID = 'power-compile-wall-1200s-v1'
+# Retain these exports for T10-only callers and historical receipt readers.
+LIMIT_SECONDS = T10_LIMIT_SECONDS
 POLICY_ID = 'power-compile-wall-2400s-v2'
-POLICY_LIMITS = {'power-compile-wall-1200s-v1': 1200, POLICY_ID: LIMIT_SECONDS}
+POLICY_LIMITS = {DEFAULT_POLICY_ID: DEFAULT_LIMIT_SECONDS, POLICY_ID: T10_LIMIT_SECONDS}
 TIMEOUT_STATUS = 'power_compile_timeout_zero'
 TIMEOUT_EXIT_CODE = 124
 
 
 class PowerCompileTimeout(TimeoutError):
     pass
+
+
+def policy_id(task):
+    if task not in {f'T{i:02d}' for i in range(1, 11)}:
+        raise ValueError('unknown task for power compilation budget')
+    return POLICY_ID if task == 'T10' else DEFAULT_POLICY_ID
+
+
+def limit_seconds(task):
+    return POLICY_LIMITS[policy_id(task)]
 
 
 def records_policy(records):
@@ -124,10 +138,12 @@ def stop_group(process):
 
 
 class CompileBudget:
-    def __init__(self, output, source, seed, *, task='T10', seconds=LIMIT_SECONDS):
+    def __init__(self, output, source, seed, *, task='T10', seconds=None):
+        selected_policy = policy_id(task)
+        seconds = limit_seconds(task) if seconds is None else seconds
         if not math.isfinite(seconds) or seconds<=0:raise ValueError('invalid compile budget')
         self.output=Path(output);self.seconds=seconds
-        self.record=dict(policy_id=POLICY_ID,limit_seconds=seconds,task_id=task,
+        self.record=dict(policy_id=selected_policy,limit_seconds=seconds,task_id=task,
             candidate_source_sha256=source,layout_seed=seed,commands=[])
 
     def __enter__(self):

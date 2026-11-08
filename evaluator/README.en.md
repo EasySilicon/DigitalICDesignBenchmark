@@ -71,8 +71,8 @@ After routing, a setup miss is represented by the measured critical-path delay a
 
 `ppa_aggregate.py` is the public three-seed PPA-record aggregator. It verifies that route and power records describe the same routed result, fixed flow parameters, activity annotation, workload identity and hash, and layout seeds `{11,29,47}`. It preserves setup, hold, and DRC measurements for continuous scoring by `score_run.py`. [`benchmark/ppa-baselines.json`](../benchmark/ppa-baselines.json) is the repository's sole authoritative reference baseline; evaluator scripts must not keep duplicate baseline copies.
 
-For new T01–T10 candidates, power-simulation compilation has one cumulative
-1,200-second wall-clock budget per layout seed. Code generation, all module
+For new candidates, power-simulation compilation has one cumulative wall-clock
+budget per layout seed: 1,200 seconds for T01–T09 and 2,400 seconds for T10. Code generation, all module
 builds, linking, and SAIF runtime builds share that budget. Expiry kills the
 compiler process group, sets PPA/time points to zero, and retains functional
 points, logs, and any existing delivery penalty. Simulation and physical design

@@ -4,11 +4,28 @@ import tempfile
 import unittest
 import re
 from pathlib import Path
+from unittest.mock import patch
 
 from benchmark.prepare_trial import prepare
+from benchmark.prepare_trial import copy_public_task_materials
+from benchmark import prepare_trial
 
 
 class PrepareTrialIsolationTest(unittest.TestCase):
+    def test_maintainer_instructions_never_enter_task_materials(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);repo=root/'repo';destination=root/'workspace';destination.mkdir()
+            task=repo/'benchmark/tasks/T03';(task/'nested').mkdir(parents=True)
+            (repo/'benchmark/candidate-rules.md').write_text('public contract')
+            (repo/'benchmark/AGENTS.md').write_text('private maintainer checks')
+            (task/'task.md').write_text('public task')
+            (task/'AGENTS.md').write_text('private task notes')
+            (task/'nested/AGENTS.md').write_text('private nested notes')
+            with patch.object(prepare_trial,'ROOT',repo):
+                copy_public_task_materials('T03',destination)
+            self.assertFalse(any(destination.rglob('AGENTS.md')))
+            self.assertEqual((destination/'benchmark/tasks/T03/task.md').read_text(),'public task')
+
     def test_english_preparation_uses_complete_english_contracts_for_all_tasks(self) -> None:
         for number in range(1, 11):
             task = f"T{number:02d}"

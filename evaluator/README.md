@@ -84,7 +84,7 @@ python3 evaluator/check_act4_sail.py \
 
 **所有题目的功耗编译时限：** 新候选统一通过 `power_probe_with_budget.py`、
 `aggregate_with_power_budget.py`、`score_with_power_budget.py` 收集功耗、聚合记录和评分，T10 专用候选入口使用同一实现。
-每个布局种子的完整功耗仿真编译共用 1,200 秒墙钟预算，包括 Verilator、C++、
+每个布局种子的完整功耗仿真编译共用累计预算：T01–T09 为 1,200 秒，T10 为 2,400 秒，包括 Verilator、C++、
 链接和 SAIF 运行库构建；任一种子超时则该题 PPA/耗时加分为 0，功能分保留。
 超时会终止进程树并保留日志和 `power_compile.json`；普通编译错误、工具缺失及
 无效证据仍需归因，不自动判超时。独立功能测试的时限不变。

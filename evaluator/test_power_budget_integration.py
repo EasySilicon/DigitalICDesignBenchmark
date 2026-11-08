@@ -54,7 +54,7 @@ class PowerBudgetIntegrationTest(unittest.TestCase):
                 rows.append(dict(layout_seed=seed,power_record=str(power)))
             with patch.object(aggregation,'source_hash',return_value='source'),patch.object(aggregation,'frozen_aggregate',return_value={'per_seed':rows}):
                 result=aggregation.aggregate('T01',root,pairs)
-                self.assertEqual(result['power_compile_policy'],POLICY_ID)
+                self.assertEqual(result['power_compile_policy'],'power-compile-wall-1200s-v1')
                 self.assertEqual(len(result['power_compile_records']),3)
                 one=pairs[0][1].parent/'power_compile.json';two=pairs[1][1].parent/'power_compile.json'
                 first,second=one.read_text(),two.read_text();one.write_text(second);two.write_text(first)
