@@ -31,7 +31,7 @@
 `results/` 只允许以下发布文件：
 
 1. `results/<model>/summary.json`：每个模型唯一的结果文件，统一结构，包含十题最终分数、必要通过数/扣分、总分和测试条件。禁止另存重复的 `Txx.json`。
-2. `results/README.md`、`results/model-score-comparison.md`：结果入口、比较和口径说明。
+2. `results/README.md`、`results/model-score-comparison.md`、`results/model-score-leaderboard.svg`：结果入口、比较、榜单和口径说明。
 3. `results/token-usage.md`、`results/token-usage.json`：逐题用量、模型档位和统计口径。
 4. `results/result.schema.json`：最终汇总格式；用严格字段白名单阻止运行记录混入。
 5. `results/ppa-formula-audit-20261021.json`、`results/t10-strict-functional-retest-20261106.json`：已有的公式核对和当前验收口径说明。禁止新增被后续结果覆盖的过程版本；确需增加发布文件时，同时更新本白名单和 `.gitignore` 的精确文件项，不增加目录通配例外。

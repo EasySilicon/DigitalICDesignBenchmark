@@ -4,7 +4,7 @@
   "model": "glm-5.3",
   "framework": "ZCode CLI",
   "framework_version": "0.17.0",
-  "reasoning_effort": "default",
+  "reasoning_effort": "max",
   "task_language": null,
   "trial_kind": "pre_release_pilot",
   "ranking_eligible": false,

@@ -1,8 +1,8 @@
 # 模型评测结果 · v0.3（2026-11-06）
 
-本页汇总十一个模型的 T01–T10 成绩。当前 benchmark v1 继续采用严格高精度 `exact-dot-v1`；MMA 宽松误差配置仅作诊断，精度放宽留待 benchmark v2。
+![模型加权总分榜单](model-score-leaderboard.svg)
 
-11 月 6 日统一复核了默认严格流中的 2,898 个计分块（含 64 个抵消用例和 82 个范围/消去边界），固定种子 11，各功能组权重不变。复核使用保留的 3,154 块 RTL 轨迹，另 256 块为附加诊断；全部输入向量和原有输出日志哈希均已验证，未改写仿真日志、未重跑 PPA。功能分、显示分和加权总分已更新，PPA/时间沿用原裁定。见[严格复核摘要](t10-strict-functional-retest-20261106.json)。原始报告和更新前快照仅在外部归档保存，历史成绩也可从 Git 历史查阅。
+本页汇总十一个模型的 T01–T10 成绩。
 
 ## 成绩总表
 
@@ -10,7 +10,7 @@
 
 模型名括号内为思考强度；`default` 表示未显式指定，沿用默认设置。不同框架的档位不代表同等推理预算。
 
-| 题目 | 权重 | GPT-6-Astra(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6.1-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-5.6-Sol(high)<br><sub>Codex CLI 0.162.1</sub> | Kimi K3.1 Pro(max)<br><sub>Kimi CLI 2.3.1</sub> | Kimi K3(max)<br><sub>Kimi CLI 2.1.1</sub> | DeepSeek V4.1 Flash(default)<br><sub>Claude Code 2.1.183</sub> | GLM-5.3-Flash(max)<br><sub>ZCode CLI 0.17.0</sub> | GLM-5.3(default)<br><sub>ZCode CLI 0.17.0</sub> | Sonnet 5.5(high)<br><sub>Claude Code 2.1.317</sub> | Opus 5.5(high)<br><sub>Claude Code 2.1.317</sub> |
+| 题目 | 权重 | GPT-6-Astra(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6.1-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-5.6-Sol(high)<br><sub>Codex CLI 0.162.1</sub> | Kimi K3.1 Pro(max)<br><sub>Kimi CLI 2.3.1</sub> | Kimi K3(max)<br><sub>Kimi CLI 2.1.1</sub> | DeepSeek V4.1 Flash(high)<br><sub>Claude Code 2.1.183</sub> | GLM-5.3-Flash(max)<br><sub>ZCode CLI 0.17.0</sub> | GLM-5.3(max)<br><sub>ZCode CLI 0.17.0</sub> | Sonnet 5.5(high)<br><sub>Claude Code 2.1.317</sub> | Opus 5.5(high)<br><sub>Claude Code 2.1.317</sub> |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | T01 | 3% | 88.24 | 86.33 | 86.98 | 87.20 | 52.48 | 75.49 | 82.86 | 63.93 | 64.96 | 90.28 | 89.01 |
 | T02 | 3% | 87.88 | 87.20 | 89.70 | 88.65 | 87.02 | 89.17 | 89.07 | 87.10 | 89.28 | 89.06 | 88.63 |
@@ -125,7 +125,7 @@ T10 完成三个种子的单 PE 物理实现；完整 DUT 功耗模型在种子 
 | T09 | 23.67 | 0.00 | 0.00 | 存储、CSR/异常、ACT4 与流水线周期组失分；另缺 `run.sh`、`README.md` 且自检结果格式错误，显示分扣 10 分。 |
 | T10 | 0.06 | 0.00 | 0.00 | 严格范围复核已更新；PPA/时间保留原裁定。 |
 
-### GLM-5.3(default)（ZCode CLI 0.17.0）
+### GLM-5.3(max)（ZCode CLI 0.17.0）
 
 数据：[summary.json](glm-5.3/summary.json)。T01 缺少三项交付物，扣 10 分；PPA 使用评测方补写的运行脚本测得。T08 的 VLAN 准入、配置快照、元数据和复位恢复均有未通过项，功能分 45 分。T10 146 个补充用例通过 115 个，严格功能分修订为 49.34；三个种子的物理实现及功耗流程触发 40 GiB 上限的原记录保留，PPA 和时间分仍为 0。其余逐题分项见汇总。
 
@@ -142,7 +142,7 @@ T10 完成三个种子的单 PE 物理实现；完整 DUT 功耗模型在种子 
 | T09 | 50.00 | 7.09 | 1.94 | 功能全过，PPA 7.09。 |
 | T10 | 49.34 | 0.00 | 0.00 | 严格范围复核已更新；PPA/时间保留原裁定。 |
 
-### DeepSeek V4.1 Flash(default)（Claude Code 2.1.183）
+### DeepSeek V4.1 Flash(high)（Claude Code 2.1.183）
 
 数据：[summary.json](deepseek-flash/summary.json)。功能 /50，PPA /50，时间 /5；交付扣分计入显示总分。
 

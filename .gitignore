@@ -18,6 +18,7 @@ benchmark/npu-quality-gates.md
 /results/**
 !/results/README.md
 !/results/model-score-comparison.md
+!/results/model-score-leaderboard.svg
 !/results/ppa-formula-audit-20261021.json
 !/results/result.schema.json
 !/results/t10-strict-functional-retest-20261106.json

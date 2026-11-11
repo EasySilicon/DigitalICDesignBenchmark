@@ -99,7 +99,7 @@ Each cell is the task's display score **out of 105, including delivery deduction
 
 Parentheses after model names indicate reasoning effort; `default` means no explicit setting was supplied. Effort levels across frameworks do not imply equal reasoning budgets.
 
-| Task | Weight | GPT-6-Astra(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6.1-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-5.6-Sol(high)<br><sub>Codex CLI 0.162.1</sub> | Kimi K3.1 Pro(max)<br><sub>Kimi CLI 2.3.1</sub> | Kimi K3(max)<br><sub>Kimi CLI 2.1.1</sub> | DeepSeek V4.1 Flash(default)<br><sub>Claude Code 2.1.183</sub> | GLM-5.3-Flash(max)<br><sub>ZCode CLI 0.17.0</sub> | GLM-5.3(default)<br><sub>ZCode CLI 0.17.0</sub> |
+| Task | Weight | GPT-6-Astra(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6.1-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-5.6-Sol(high)<br><sub>Codex CLI 0.162.1</sub> | Kimi K3.1 Pro(max)<br><sub>Kimi CLI 2.3.1</sub> | Kimi K3(max)<br><sub>Kimi CLI 2.1.1</sub> | DeepSeek V4.1 Flash(high)<br><sub>Claude Code 2.1.183</sub> | GLM-5.3-Flash(max)<br><sub>ZCode CLI 0.17.0</sub> | GLM-5.3(max)<br><sub>ZCode CLI 0.17.0</sub> |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | T01 | 3% | 88.24 | 86.33 | 86.98 | 87.20 | 52.48 | 75.49 | 82.86 | 63.93 | 64.96 |
 | T02 | 3% | 87.88 | 87.20 | 89.70 | 88.65 | 87.02 | 89.17 | 89.07 | 87.10 | 89.28 |
