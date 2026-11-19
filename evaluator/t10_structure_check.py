@@ -218,37 +218,68 @@ def _registered_forward_d_cone(module: dict, output_bits: list[int],
 
 def _registered_d_cone(module: dict, bits: list[int], modules: dict,
                        visited: set[str] | None = None) -> set[int] | None:
-    """Return the output register's D cone in the current module's bit space."""
-    flop = _registered_port(module, bits)
-    if flop is not None:
-        return _cone(module, flop["connections"]["D"],
-                     include_registers=True, modules=modules)
+    """Prove direct registered output wiring and return its D dependencies.
+
+    Register banks, slices and repeated sign bits need not match one whole
+    Q vector. Known constant padding is harmless, but every dynamic output bit
+    must come directly from state, including through retained child ports.
+    Combinational output logic and ambiguous drivers are not accepted here.
+    """
     visited = set() if visited is None else visited
+    selected = set(bits)
+    if any(not isinstance(bit, int) and bit not in ("0", "1") for bit in selected):
+        return None
+    selected = {bit for bit in selected if isinstance(bit, int)}
+    if not selected:
+        return None
+    drivers = defaultdict(list)
     for cell in module["cells"].values():
-        kind = cell["type"]
-        if kind not in modules or kind in visited:
-            continue
-        child = modules[kind]
         for port, direction in cell["port_directions"].items():
-            if direction != "output" or cell["connections"][port] != bits:
+            if direction != "output":
                 continue
-            child_bits = child["ports"][port]["bits"]
-            child_cone = _registered_d_cone(child, child_bits,
-                                            modules, visited | {kind})
-            if child_cone is None:
-                continue
-            sources = []
-            # A held output register feeds its own D mux. Preserve that
-            # feedback when translating the child cone into parent bits.
-            if set(child_bits) & child_cone:
-                sources.extend(bits)
-            for input_port, description in child["ports"].items():
-                if description["direction"] == "input" and \
-                        set(description["bits"]) & child_cone:
-                    sources.extend(cell["connections"][input_port])
-            return _cone(module, sources, include_registers=True,
-                         modules=modules)
-    return None
+            for index, bit in enumerate(cell["connections"][port]):
+                if bit in selected:
+                    drivers[bit].append((cell, port, index))
+    sources = set()
+    children = {}
+    for bit in selected:
+        entries = drivers[bit]
+        if not entries:
+            return None
+        # The same child may expose an aliased bit more than once. Those are
+        # wires from one source, whereas different cells are multiple drivers.
+        cell, port, index = entries[0]
+        if any(other is not cell for other, _, _ in entries):
+            return None
+        kind = cell["type"]
+        if kind in FLOP_TYPES:
+            if any(pin != "Q" or position != index for _, pin, position in entries):
+                return None
+            sources.add(cell["connections"]["D"][index])
+        elif kind in modules and kind not in visited:
+            child = modules[kind]
+            child_targets = children.setdefault(id(cell), (cell, set()))[1]
+            aliases = {child["ports"][pin]["bits"][position]
+                       for _, pin, position in entries}
+            if len(aliases) != 1:
+                return None
+            child_targets.update(aliases)
+        else:
+            return None
+    for cell, targets in children.values():
+        kind = cell["type"]
+        child = modules[kind]
+        child_cone = _registered_d_cone(child, list(targets), modules, visited | {kind})
+        if child_cone is None:
+            return None
+        # Map individual bits, not whole ports: an unused register slice must
+        # not supply apparent operand dependencies. Include output aliases to
+        # preserve held-register feedback visible at the parent boundary.
+        for port, description in child["ports"].items():
+            for index, child_bit in enumerate(description["bits"]):
+                if child_bit in child_cone:
+                    sources.add(cell["connections"][port][index])
+    return _cone(module, list(sources), include_registers=True, modules=modules)
 
 
 def _feedback_on_result_path(module: dict, bits: list[int], modules: dict,
@@ -418,11 +449,14 @@ def _packet_payloads(top: dict, pe: dict, connections: list[dict]) -> tuple[dict
                                   if roots and roots & (roots - 1) == 0 and roots & mask)
                 if len(positions) == 64 and len({row[i] for i in positions}) == 64:
                     groups[positions].append(row)
-            # Exactly 64 distinct bits per row and all 1024 source bits across
-            # the sixteen boundaries. Metadata cannot replace a lost payload
-            # bit, and repeating a row or a bit cannot satisfy this proof.
+            # Exactly sixteen distinct 64-bit source vectors must cover all
+            # 1024 operand bits. Shell-only forwarding can make the same
+            # vector visible at every hop, rather than only at the boundary.
+            # Count source vectors, not the number of visible PE input taps.
+            # Metadata and repeated injection rows cannot replace lost bits.
             for positions, rows in groups.items():
-                if len(rows) == 16 and len({row[i] for row in rows for i in positions}) == 1024:
+                vectors = {tuple(row[i] for i in positions) for row in rows}
+                if len(vectors) == 16 and len({bit for row in vectors for bit in row}) == 1024:
                     hypotheses.append((list(positions), source))
         if len(hypotheses) != 1:
             continue
@@ -457,7 +491,7 @@ def inspect_netlist(design: dict) -> dict:
                if data["direction"] == "input" and len(data["bits"]) >= 64]
         outs = [port for port, data in pe["ports"].items()
                 if data["direction"] == "output" and len(data["bits"]) >= 64]
-        if len(ins) >= 2 and len(outs) >= 3:
+        if len(ins) >= 2 and len(outs) >= 1:
             candidates.append((kind, instances, pe, ins, outs))
     if len(candidates) != 1:
         return {"passed": False, "reason": "expected one 256-instance PE module type",
@@ -561,13 +595,19 @@ def inspect_netlist(design: dict) -> dict:
                          input_set.issubset(registered_sources) and
                          not other_operand_bits & registered_sources):
                     output_candidates.append(output_port)
-            if len(output_candidates) != 1 or output_candidates[0] in used_outputs:
+            if len(output_candidates) > 1 or (output_candidates and
+                                               output_candidates[0] in used_outputs):
                 return {"passed": False,
                         "reason": f"PE forwarding output for {input_port} is ambiguous",
                         "pe_module": kind,
                         "forward_output_candidates": output_candidates}
-            used_outputs.add(output_candidates[0])
-            paired.append((output_candidates[0], input_port, paths))
+            # The shell may register the PE input directly without routing it
+            # through a redundant PE output port. The full ordered D/Q proof
+            # in _shell_registered_meshes already establishes every hop.
+            output_port = output_candidates[0] if output_candidates else None
+            if output_port is not None:
+                used_outputs.add(output_port)
+            paired.append((output_port, input_port, paths))
         first, second = paired
         link_placement = "tile_shell"
     forwarding = (first, second)
@@ -606,6 +646,9 @@ def inspect_netlist(design: dict) -> dict:
                    for conn in connections):
                 reasons.append("at least one PE accumulator does not reach output")
     for output_port, input_port, _ in forwarding:
+        if output_port is None:
+            # This link was proved entirely in the enclosing shell.
+            continue
         input_set = {pe["ports"][input_port]["bits"][i] for i in payloads[input_port]}
         output_bits = [pe["ports"][output_port]["bits"][i]
                        for i in _link_payload(pe, output_port, payloads[input_port])]
@@ -646,7 +689,16 @@ def _pe_interface_candidates(modules: dict) -> list[str]:
                   for data in body.get("ports", {}).values())
         outs = sum(data["direction"] == "output" and len(data["bits"]) >= 64
                    for data in body.get("ports", {}).values())
-        if ins >= 2 and outs >= 3:
+        if ins < 2 or outs < 1:
+            continue
+        # With shell forwarding, a PE need only expose its registered result.
+        # Filter combinational arithmetic helpers before considering wrapper
+        # flattening hypotheses; they are not candidate stateful PEs.
+        registered_result = outs >= 3 or any(
+            data["direction"] == "output" and len(data["bits"]) == 64 and
+            _registered_d_cone(body, data["bits"], modules) is not None
+            for data in body.get("ports", {}).values())
+        if registered_result:
             candidates.append(kind)
     return sorted(candidates)
 

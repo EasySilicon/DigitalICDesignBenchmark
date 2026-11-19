@@ -1,6 +1,8 @@
 """Keep existing T10 graph elaboration and retry unsupported SV through slang."""
 import re
 import shlex
+import hashlib
+import tempfile
 from pathlib import Path
 from subprocess import TimeoutExpired
 if __package__:
@@ -23,7 +25,7 @@ _UNPACKED_PORT = re.compile(
     r"\b[A-Za-z_][A-Za-z0-9_$]*\s*(?:\[[^\]]*\]\s*)+(?=[,)=])")
 
 
-def _staged_slang_reads(script: str) -> str | None:
+def _staged_slang_reads(script: str, *, interface_dir: Path) -> str | None:
     """Keep source-level PE identities by loading leaves before their parents.
 
     Slang's monolithic ``--keep-hierarchy`` elaboration specializes a generated
@@ -31,9 +33,11 @@ def _staged_slang_reads(script: str) -> str | None:
     it hides the fact that 256 generated instances came from one PE module.
     Loading a leaf file before its parent makes the already-loaded leaf an
     external module during parent elaboration, preserving its common identity
-    for the structural checker.  A final top-level source may also contain
-    local helper modules, provided the requested hierarchy top is explicit;
-    other ambiguous layouts retain the conservative monolithic fallback.
+    for the structural checker. Packages and multi-module library files remain
+    source dependencies of each read, so helpers specialize in their consumer's
+    context. A final top-level source may also contain local helper modules,
+    provided the requested hierarchy top is explicit; other ambiguous layouts
+    retain the conservative monolithic fallback.
     """
     match = _READ_VERILOG.search(script)
     if match is None:
@@ -41,6 +45,7 @@ def _staged_slang_reads(script: str) -> str | None:
     try:
         sources = [Path(source) for source in shlex.split(match.group("sources"))]
         modules = []
+        declared_names = set()
         top_match = _HIERARCHY_TOP.search(script)
         if top_match is None:
             return None
@@ -48,6 +53,18 @@ def _staged_slang_reads(script: str) -> str | None:
         for index, source in enumerate(sources):
             text = _COMMENTS.sub("", source.read_text())
             names = _MODULE.findall(text)
+            if len(set(names)) != len(names) or declared_names.intersection(names):
+                return None
+            declared_names.update(names)
+            if not names or (len(names) > 1 and index < len(sources) - 1):
+                # A source file is a compilation unit, not necessarily one
+                # module. Keep packages and collections of arithmetic helpers
+                # available without eagerly elaborating their default tops.
+                # The same source is supplied intact at each consumer stage.
+                if hierarchy_top in names:
+                    return None
+                modules.append((None, source, True))
+                continue
             if len(names) == 1:
                 stage_top = names[0]
             elif index == len(sources) - 1 and len(sources) > 1 and \
@@ -81,9 +98,8 @@ def _staged_slang_reads(script: str) -> str | None:
             modules.append((stage_top, source, generic))
     except (OSError, ValueError):
         return None
-    if len({name for name, _, _ in modules}) != len(modules):
-        return None
     reads = []
+    staged_modules = []
     libraries = [source for _, source, generic in modules if generic]
     for name, source, generic in modules:
         if generic:
@@ -92,9 +108,37 @@ def _staged_slang_reads(script: str) -> str | None:
         # large arithmetic helper here can make later cone analysis needlessly
         # expensive; the existing checker already understands retained children.
         keep = "--keep-hierarchy " if reads or libraries else ""
+        # Imported RTLIL ports can differ from SV positional declaration order.
+        # Re-supply the original declarations and blackbox previously loaded
+        # modules for this read only. Slang binds ports from source while the
+        # real elaborated bodies and shared module identities remain intact.
+        prior_sources = [path for _, path in staged_modules]
+        blackboxes = "".join(" --blackboxed-module " + shlex.quote(kind)
+                             for kind, _ in staged_modules)
         reads.append("read_slang " + keep + "--top " + name +
                      " --compat=vcs -D SYNTHESIS --ignore-assertions " +
-                     " ".join(shlex.quote(str(path)) for path in [*libraries, source]))
+                     " ".join(shlex.quote(str(path))
+                              for path in [*libraries, *prior_sources, source]) + blackboxes)
+        if source == modules[-1][1]:
+            continue
+        # Supplying full blackboxed bodies also exports internal loop variables
+        # as bogus cell parameters in some Slang versions. Only the original
+        # interface declaration is needed to resolve source-level port order.
+        text = _COMMENTS.sub("", source.read_text())
+        declaration = _MODULE.search(text)
+        end = text.find(";", declaration.end()) if declaration else -1
+        if end < 0 or re.search(r"`(?!timescale\b)[A-Za-z_]", text):
+            return None
+        header = text[:end + 1]
+        port_header = header[declaration.end():]
+        if "(" in port_header and not re.search(r"\b(input|output|inout)\b", port_header) \
+                and not re.search(r"\(\s*\)", port_header):
+            return None
+        interface_dir.mkdir(parents=True, exist_ok=True)
+        digest = hashlib.sha256(header.encode()).hexdigest()[:16]
+        stub = interface_dir / f"{name}-{digest}.sv"
+        stub.write_text(header + "\nendmodule\n")
+        staged_modules.append((name, stub))
     if not reads or modules[-1][2]:
         return None
     return "; ".join(reads) + script[match.end():]
@@ -104,6 +148,7 @@ def inspect(submission):
     command = yosys_command()
     original = frozen.subprocess.run
     used_slang = False
+    interfaces = tempfile.TemporaryDirectory(prefix="ic_bcmk_t10_interfaces_")
 
     def run(args, *values, **options):
         nonlocal used_slang
@@ -122,7 +167,7 @@ def inspect(submission):
             used_slang = True
             args = list(args)
             index = args.index('-p') + 1
-            staged = _staged_slang_reads(args[index])
+            staged = _staged_slang_reads(args[index], interface_dir=Path(interfaces.name))
             if staged is not None:
                 args[index] = staged
             else:
@@ -140,3 +185,4 @@ def inspect(submission):
         return result
     finally:
         frozen.subprocess.run = original
+        interfaces.cleanup()

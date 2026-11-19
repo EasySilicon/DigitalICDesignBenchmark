@@ -2,6 +2,8 @@ from pathlib import Path
 import sys
 import unittest
 import tempfile
+import shutil
+import subprocess
 from unittest.mock import patch
 
 sys.path.insert(0,str(Path(__file__).parent))
@@ -9,6 +11,54 @@ from t10_candidate_power import annotation, validate_paths, run, run_unoptimized
 
 
 class CandidatePowerTest(unittest.TestCase):
+    @unittest.skipUnless(shutil.which('verilator'), 'Verilator is required')
+    def test_staging_keeps_shell_trace_disabled_and_measured_pe_trace_enabled(self):
+        from run_gate_activity import hierblock, shell_trace_off
+        from staged_gate_build import build as staged_build
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            shell=root/'shell.v';pe=root/'pe.v';bench=root/'bench.sv'
+            shell.write_text(hierblock(shell_trace_off('''module npu_systolic_matmul_16x16(clk,a,b,y);
+ input clk;
+ input a,b;
+ output y;
+ reg shell_secret_state;
+ wire pe_out;
+ always @(posedge clk) shell_secret_state <= a;
+ candidate_pe pe(.clk(clk), .a(b), .y(pe_out));
+ assign y = shell_secret_state ^ pe_out;
+endmodule
+''')))
+            pe.write_text(hierblock('''module candidate_pe(clk,a,y);
+ input clk;
+ input a;
+ output y;
+ reg measured_pe_state;
+ always @(posedge clk) measured_pe_state <= a;
+ assign y = measured_pe_state;
+endmodule
+'''))
+            bench.write_text('module tb_hidden_T10_stream; endmodule\n')
+            def plan_only(command,log,cwd):
+                if log.name=='planning.log':
+                    directory=root/'build';directory.mkdir()
+                    for name in ('candidate_pe','npu_systolic_matmul_16x16','tb_hidden_T10_stream'):
+                        (directory/f'V{name}__hierMkArgs.f').write_text('--cc\n')
+            staged_build(['verilator','--binary',str(shell),str(pe),str(bench)],
+                         [shell,pe],bench,root,plan_only,root)
+            # Inspect real Verilator trace declarations from the actual staged
+            # sources. No gate workload, C++ build or power flow is launched.
+            subprocess.run(['verilator','--cc','--hierarchical','--trace-saif','-Wno-fatal',
+                '--top-module','npu_systolic_matmul_16x16','--Mdir',str(root/'trace'),
+                str(root/'actual_modules/npu_systolic_matmul_16x16.v'),
+                str(root/'actual_modules/candidate_pe.v')],
+                capture_output=True,text=True,check=True,timeout=30)
+            trace=''.join(f.read_text() for f in (root/'trace').rglob('*Trace*.cpp'))
+            self.assertIn('"measured_pe_state"',trace)
+            self.assertIn('"t10_power_trace_clock"',trace)
+            self.assertFalse('"shell_secret_state"' in trace,
+                             'staging re-enabled unmeasured shell state tracing')
+
     def test_frontend_o0_only_changes_the_named_unmeasured_parent_arguments(self):
         with tempfile.TemporaryDirectory() as temp:
             out=Path(temp);build=out/'build';build.mkdir()

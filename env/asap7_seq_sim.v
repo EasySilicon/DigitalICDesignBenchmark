@@ -22,3 +22,11 @@ module DHLx1_ASAP7_75t_R(output logic Q, input logic D, CLK);
     if (CLK) Q <= D;
   end
 endmodule
+
+// Active-low transparent latch: Liberty defines data_in D, enable !CLK,
+// and the non-inverted output Q. There is no reset.
+module DLLx1_ASAP7_75t_R(output logic Q, input logic D, CLK);
+  always_latch begin
+    if (!CLK) Q <= D;
+  end
+endmodule

@@ -16,6 +16,106 @@ import run_t10_candidate_40g as backend
 
 
 class FrontendTests(unittest.TestCase):
+    @unittest.skipUnless(shutil.which('yosys'), 'Yosys not installed')
+    def test_staged_package_and_multimodule_library_preserve_shared_stateful_leaf(self):
+        for separate_package in (False, True):
+            with self.subTest(separate_package=separate_package), \
+                    tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                package = '''package arith_config;
+                  localparam int W=12;
+                  typedef logic [W-1:0] word_t;
+                endpackage
+'''
+                helper = root / 'helpers.sv'
+                helper.write_text(('' if separate_package else package) + '''
+module xor_bits #(parameter int W=4)(
+    input logic [W-1:0] a,b, output logic [W-1:0] q);
+  assign q=a^b;
+endmodule
+module rotate #(parameter int W=4)(
+    input logic [W-1:0] a, output logic [W-1:0] q);
+  assign q={a[0],a[W-1:1]};
+endmodule
+''')
+                sources = [helper]
+                if separate_package:
+                    definitions = root / 'config.sv'
+                    definitions.write_text(package)
+                    sources.insert(0, definitions)
+                pe = root / 'pe.sv'
+                pe.write_text('''module pe(input logic clk,
+                    input arith_config::word_t x,y, output arith_config::word_t q);
+                  arith_config::word_t mixed,d;
+                  xor_bits #(.W(arith_config::W)) combine(x,y,mixed);
+                  rotate #(.W(arith_config::W)) reorder(mixed,d);
+                  always_ff @(posedge clk) q<=d;
+                endmodule
+''')
+                top = root / 'top.sv'
+                top.write_text('''module top(input logic clk,
+                    input arith_config::word_t a,b, output arith_config::word_t y,z);
+                  pe first(clk,a,b,y);
+                  pe second(clk,b,a,z);
+                endmodule
+''')
+                sources += [pe, top]
+                output = root / 'design.json'
+                script = ('read_verilog -sv ' + ' '.join(map(str, sources)) +
+                          f'; hierarchy -top top; proc; opt_clean; write_json {output}')
+                staged = structure._staged_slang_reads(script, interface_dir=root / 'interfaces')
+                self.assertIsNotNone(staged)
+                result = subprocess.run([*frontend.yosys_command(), '-Q', '-T', '-p', staged],
+                                        capture_output=True, text=True, timeout=30)
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                design = json.loads(output.read_text())['modules']
+                self.assertEqual([c['type'] for c in design['top']['cells'].values()], ['pe', 'pe'])
+                self.assertEqual(len(design['pe']['ports']['q']['bits']), 12)
+                self.assertTrue(any(c['type'] in structure.frozen.FLOP_TYPES
+                                    for c in design['pe']['cells'].values()))
+                # Parameter overrides and both helper bodies survive staging.
+                for instance in ('combine', 'reorder'):
+                    cell = design['pe']['cells'][instance]
+                    self.assertEqual(len(cell['connections']['q']), 12)
+                    child = design[cell['type']]
+                    self.assertFalse(child.get('attributes', {}).get('blackbox'))
+                    self.assertNotEqual(child['ports']['a']['bits'], child['ports']['q']['bits'])
+                for instance, x, y, q in [('first', 'a', 'b', 'y'), ('second', 'b', 'a', 'z')]:
+                    cell = design['top']['cells'][instance]
+                    for port, parent in [('clk', 'clk'), ('x', x), ('y', y), ('q', q)]:
+                        self.assertEqual(cell['connections'][port], design['top']['ports'][parent]['bits'])
+
+    @unittest.skipUnless(shutil.which('yosys'), 'Yosys not installed')
+    def test_staged_positional_ports_preserve_declaration_order_and_leaf_body(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            leaf = root / 'leaf.sv'
+            top = root / 'top.sv'
+            leaf.write_text('''module leaf(input logic z, reset, output logic out);
+              always_ff @(posedge reset) out <= z;
+            endmodule
+''')
+            for positional in (True, False):
+                with self.subTest(positional=positional):
+                    ports = 'x,r,y' if positional else '.z(x),.reset(r),.out(y)'
+                    top.write_text('module top(input logic x,r,output logic y); '
+                                   f'leaf u({ports}); endmodule\n')
+                    output = root / 'design.json'
+                    script = (f'read_verilog -sv {leaf} {top}; hierarchy -top top; '
+                              f'proc; opt_clean; write_json {output}')
+                    staged = structure._staged_slang_reads(script, interface_dir=root / 'interfaces')
+                    result = subprocess.run([*frontend.yosys_command(), '-Q', '-T', '-p', staged],
+                                            capture_output=True, text=True, timeout=30)
+                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                    modules = json.loads(output.read_text())['modules']
+                    cell = modules['top']['cells']['u']
+                    self.assertEqual(cell['type'], 'leaf')
+                    for child, parent in (('z', 'x'), ('reset', 'r'), ('out', 'y')):
+                        self.assertEqual(cell['connections'][child],
+                                         modules['top']['ports'][parent]['bits'])
+                    self.assertTrue(any(c['type'] in structure.frozen.FLOP_TYPES
+                                        for c in modules['leaf']['cells'].values()))
+
     def test_small_unmeasured_parent_uses_guarded_frontend_path_too(self):
         import t10_candidate_power as power
         with tempfile.TemporaryDirectory() as temp:
@@ -172,7 +272,7 @@ class FrontendTests(unittest.TestCase):
             tile.write_text('module tile; pe p(); endmodule\n')
             top.write_text('module top; tile t(); endmodule\n')
             script=(f'read_verilog -sv {leaf} {tile} {top}; hierarchy -top top')
-            staged=structure._staged_slang_reads(script)
+            staged=structure._staged_slang_reads(script, interface_dir=root / 'interfaces')
         self.assertIsNotNone(staged)
         self.assertIn(f'read_slang --top pe --compat=vcs -D SYNTHESIS --ignore-assertions {leaf}',staged)
         self.assertIn(f'read_slang --keep-hierarchy --top tile',staged)
@@ -218,7 +318,7 @@ class FrontendTests(unittest.TestCase):
             output=root/'design.json'
             script=(f'read_verilog -sv {helper} {pe} {tile} {top}; hierarchy -top mesh; '
                     f'proc; opt_clean; write_json {output}')
-            staged=structure._staged_slang_reads(script)
+            staged=structure._staged_slang_reads(script, interface_dir=root / 'interfaces')
             self.assertIsNotNone(staged)
             result=subprocess.run([*frontend.yosys_command(),'-Q','-T','-p',staged],
                                   capture_output=True,text=True,timeout=60)
@@ -267,7 +367,7 @@ class FrontendTests(unittest.TestCase):
             output=root/'design.json'
             script=(f'read_verilog -sv {pe} {tile} {top}; hierarchy -top mesh; '
                     f'proc; opt_clean; write_json {output}')
-            staged=structure._staged_slang_reads(script)
+            staged=structure._staged_slang_reads(script, interface_dir=root / 'interfaces')
             self.assertIsNotNone(staged)
             result=subprocess.run([*frontend.yosys_command(),'-Q','-T','-p',staged],
                                   capture_output=True,text=True,timeout=60)
@@ -293,7 +393,7 @@ class FrontendTests(unittest.TestCase):
             top.write_text('module delay; endmodule\n'
                            'module top; tile t(); delay d(); endmodule\n')
             script=(f'read_verilog -sv {leaf} {tile} {top}; hierarchy -top top')
-            staged=structure._staged_slang_reads(script)
+            staged=structure._staged_slang_reads(script, interface_dir=root / 'interfaces')
         self.assertIsNotNone(staged)
         self.assertIn(f'read_slang --top pe',staged)
         self.assertIn(f'read_slang --keep-hierarchy --top tile',staged)
@@ -390,7 +490,7 @@ class FrontendTests(unittest.TestCase):
             source=Path(temp)/'both.sv'
             source.write_text('module a; endmodule\nmodule b; endmodule\n')
             self.assertIsNone(structure._staged_slang_reads(
-                f'read_verilog -sv {source}; hierarchy -top b'))
+                f'read_verilog -sv {source}; hierarchy -top b', interface_dir=Path(temp) / 'interfaces'))
 
     def test_structure_keeps_successful_existing_elaboration(self):
         def inspect(submission):

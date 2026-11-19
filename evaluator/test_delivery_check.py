@@ -5,10 +5,14 @@ from __future__ import annotations
 
 import tempfile
 import json
+import os
+import subprocess
+import sys
+import time
 import unittest
 from pathlib import Path
 
-from evaluator.delivery_check import check, check_normal, check_seeds, stage_submission
+from evaluator.delivery_check import check, check_normal, check_seeds, run_entry, stage_submission
 from evaluator.delivery_policy import deduction
 
 
@@ -86,6 +90,40 @@ class CpuDeliveryTests(unittest.TestCase):
 
 
 class DeliveryStagingTests(unittest.TestCase):
+    def test_timeout_terminates_self_check_descendants(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            child_pid = root / "child.pid"
+            script = root / "run.sh"
+            script.write_text(f"#!{sys.executable}\n"
+                "import pathlib, subprocess, sys, time\n"
+                "child = subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(60)'])\n"
+                f"pathlib.Path({str(child_pid)!r}).write_text(str(child.pid))\n"
+                "time.sleep(60)\n")
+            script.chmod(0o755)
+            pid = None
+            try:
+                with self.assertRaises(subprocess.TimeoutExpired):
+                    run_entry(root, [], 11, 1)
+                pid = int(child_pid.read_text())
+                # An orphan can briefly be a zombie until init reaps it; it
+                # must no longer execute or consume the next seed's resources.
+                def running():
+                    try:
+                        return Path(f"/proc/{pid}/stat").read_text().split(")", 1)[1].split()[0] != "Z"
+                    except (FileNotFoundError, ProcessLookupError):
+                        return False
+                deadline = time.monotonic() + 1
+                while running() and time.monotonic() < deadline:
+                    time.sleep(0.01)
+                self.assertFalse(running(), "timed-out self-check left a running descendant")
+            finally:
+                if pid is not None:
+                    try:
+                        os.kill(pid, 9)
+                    except ProcessLookupError:
+                        pass
+
     def test_staging_drops_generated_root_build_and_preserves_sources(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

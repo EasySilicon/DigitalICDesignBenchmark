@@ -7,6 +7,7 @@ import argparse
 import json
 import math
 import os
+import signal
 import shutil
 import subprocess
 import tempfile
@@ -60,13 +61,26 @@ def run_entry(submission: Path, args: list[str], seed: int, timeout: int) -> tup
     result_path.unlink(missing_ok=True)
     environment = os.environ.copy()
     environment["BENCH_SEED"] = str(seed)
-    finished = subprocess.run([str(submission / "run.sh"), *args], cwd=submission,
-                              env=environment, text=True, capture_output=True,
-                              timeout=timeout, check=False)
-    output = (finished.stdout + finished.stderr)[-2000:]
+    # A self-check may spawn make, compilers and simulators. Killing only its
+    # entry process leaves those children competing with the next seed and
+    # potentially writing into a staging directory being removed. Isolate the
+    # process group and terminate the entire check on timeout or interruption.
+    with subprocess.Popen([str(submission / "run.sh"), *args], cwd=submission,
+                          env=environment, text=True, stdout=subprocess.PIPE,
+                          stderr=subprocess.PIPE, start_new_session=True) as process:
+        try:
+            stdout, stderr = process.communicate(timeout=timeout)
+        except BaseException:
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            process.communicate()
+            raise
+    output = (stdout + stderr)[-2000:]
     if not result_path.is_file():
         raise ValueError(f"run.sh did not create results.json; output tail:\n{output}")
-    return (finished.returncode, read_result(result_path),
+    return (process.returncode, read_result(result_path),
             output)
 
 

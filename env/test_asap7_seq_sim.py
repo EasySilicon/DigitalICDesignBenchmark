@@ -14,8 +14,9 @@ class SequentialModelsTest(unittest.TestCase):
 `timescale 1ps/1ps
 module tb_seq;
   logic clk = 0, d = 0, resetn = 1, setn = 1;
-  wire q_latch, q_flop, qn_reset;
+  wire q_latch, q_low_latch, q_flop, qn_reset;
   DHLx1_ASAP7_75t_R latch_cell(q_latch, d, clk);
+  DLLx1_ASAP7_75t_R low_latch_cell(q_low_latch, d, clk);
   DFFHQx4_ASAP7_75t_R flop_cell(q_flop, d, clk);
   DFFASRHQNx1_ASAP7_75t_R reset_cell(qn_reset, d, resetn, setn, clk);
   initial begin
@@ -25,14 +26,18 @@ module tb_seq;
     #1; if (q_latch !== 0 || q_flop !== 0 || qn_reset !== 1) $fatal(1, "initial capture");
     d = 1;
     #1; if (q_latch !== 1 || q_flop !== 0 || qn_reset !== 1) $fatal(1, "latch transparency versus edge capture");
+    if (q_low_latch !== 0) $fatal(1, "low latch holds while clock is high");
     clk = 0;
     #1; d = 0;
     #1; if (q_latch !== 1) $fatal(1, "closed latch holds data");
+    if (q_low_latch !== 0) $fatal(1, "low latch follows falling data while open");
     d = 1;
+    #1; if (q_low_latch !== 1) $fatal(1, "low latch follows rising data while open");
     #1; clk = 1;
     #1; if (q_latch !== 1 || q_flop !== 1 || qn_reset !== 0) $fatal(1, "next rising edge");
     d = 0;
     #1; if (q_latch !== 0 || q_flop !== 1) $fatal(1, "open latch follows falling data");
+    if (q_low_latch !== 1) $fatal(1, "low latch retains data while closed");
     clk = 0; resetn = 0;
     #1; if (qn_reset !== 1) $fatal(1, "reset without clock");
     resetn = 1; setn = 0;

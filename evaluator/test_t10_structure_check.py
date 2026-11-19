@@ -136,6 +136,64 @@ endmodule''')
         self.assertTrue(result["passed"], result)
         self.assertEqual(result["link_register_placement"], "tile_shell")
 
+    @classmethod
+    def _result_only_shell_fixture(cls):
+        source = cls._packet_fixture(list(range(11, 75)), "shell_registers")
+        for old in (" output reg [82:0] right_data, bottom_data,\n",
+                    "always @* right_data = left_data;\n",
+                    "always @* bottom_data = top_data;\n",
+                    ".right_data(forwarded_a),", ".bottom_data(forwarded_b),"):
+            assert old in source, old
+            source = source.replace(old, "")
+        return source.replace("shell_a <= forwarded_a", "shell_a <= a_in").replace(
+            "shell_b <= forwarded_b", "shell_b <= b_in")
+
+    @staticmethod
+    def _check_source(source):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "rtl").mkdir()
+            (root / "rtl/files.f").write_text("mesh.sv\n")
+            (root / "rtl/mesh.sv").write_text(source)
+            return inspect(root)
+
+    def test_shell_forwarding_does_not_require_pe_forwarding_output_ports(self):
+        for wrapped in (False, True):
+            with self.subTest(wrapped=wrapped):
+                source = self._result_only_shell_fixture()
+                if wrapped:
+                    header = source.split("module npu_systolic_matmul_16x16", 1)[1].split(");", 1)[0]
+                    source = source.replace("module npu_systolic_matmul_16x16",
+                                            '(* keep_hierarchy = "yes" *) module wrapper', 1)
+                    source += ("\nmodule npu_systolic_matmul_16x16" +
+                               header.replace("output reg", "output wire") +
+                               ");\nwrapper u(.*);\nendmodule\n")
+                result = self._check_source(source)
+                self.assertTrue(result["passed"], result)
+                self.assertEqual(result["pe_module"], "mesh_cell")
+                self.assertEqual(result["link_register_placement"], "tile_shell")
+                self.assertEqual(result["mesh_paths"], [16, 16])
+
+    def test_result_only_pe_still_requires_mesh_feedback_all_lanes_and_output(self):
+        source = self._result_only_shell_fixture()
+        mutations = [
+            ("assign a_in = a_link[r][c-1];", "assign a_in = a_data[r*64 +: 64];"),
+            ("shell_a <= a_in", "shell_a <= {a_in[82:12],1'b0,a_in[10:0]}"),
+            ("assign a_link[r][c] = shell_a;", "assign a_link[r][c] = a_in;"),
+            ("assign a_link[r][c] = shell_a;",
+             "reg [82:0] extra; always @(posedge clk) extra <= shell_a; "
+             "assign a_link[r][c] = extra;"),
+            ("local_sum + x*y", "x*y"),
+            ("local_sum + x*y", "local_sum + {x[63:1],1'b0}*y"),
+            ("out_data[s*1024+c*64 +: 64] = sums[in_block_id[3:0]][c];",
+             "out_data[s*1024+c*64 +: 64] = 64'b0;"),
+        ]
+        for old, new in mutations:
+            with self.subTest(mutation=old + " -> " + new):
+                self.assertIn(old, source)
+                result = self._check_source(source.replace(old, new, 1))
+                self.assertFalse(result["passed"], result)
+
     def test_packet_metadata_need_not_follow_registered_operand_mesh(self):
         result = self._check_packet(list(range(11, 75)), "metadata_shortcut")
         self.assertTrue(result["passed"], result)
@@ -348,6 +406,97 @@ endmodule''')
                                    "connections": {"A": [1], "Y": [2]},
                                    "port_directions": {"A": "input", "Y": "output"}}}
         self.assertIsNone(_registered_d_cone(pe, [102], {"postprocess": child}))
+
+    @staticmethod
+    def _result_registers():
+        return {"cells": {
+            "low": {"type": "$dff", "connections": {"D": [1, 2], "Q": [11, 12]},
+                    "port_directions": {"D": "input", "Q": "output"}},
+            "sign": {"type": "$dff", "connections": {"D": [3], "Q": [13]},
+                     "port_directions": {"D": "input", "Q": "output"}},
+        }}
+
+    def test_result_register_slices_repetition_and_constant_padding(self):
+        pe = self._result_registers()
+        for bits, expected in (([11, 12, 13, 13], {1, 2, 3}),
+                               ([12, 11], {1, 2}), ([12], {2}),
+                               ([11, "0", "1"], {1})):
+            with self.subTest(bits=bits):
+                self.assertEqual(_registered_d_cone(pe, bits, {}), expected)
+
+    def test_result_requires_every_dynamic_bit_to_be_registered(self):
+        pe = self._result_registers()
+        pe["cells"]["comb"] = {"type": "$not",
+            "connections": {"A": [13], "Y": [14]},
+            "port_directions": {"A": "input", "Y": "output"}}
+        for bits in ([11, 3], [11, 14], [11, 99], [11, "x"],
+                     [11, "z"], ["0", "1"], []):
+            with self.subTest(bits=bits):
+                self.assertIsNone(_registered_d_cone(pe, bits, {}))
+        pe["cells"]["other"] = {"type": "$dff",
+            "connections": {"D": [3], "Q": [11]},
+            "port_directions": {"D": "input", "Q": "output"}}
+        self.assertIsNone(_registered_d_cone(pe, [11, 12], {}))
+
+    def test_split_child_result_maps_only_selected_input_bits(self):
+        child = self._result_registers()
+        child["ports"] = {"din": {"direction": "input", "bits": [1, 2, 3]},
+                          "dout": {"direction": "output", "bits": [11, 12, 13, 13]}}
+        pe = {"cells": {"stage": {"type": "bank",
+            "connections": {"din": [101, 102, 103], "dout": [111, 112, 113, 113]},
+            "port_directions": {"din": "input", "dout": "output"}}}}
+        self.assertEqual(_registered_d_cone(pe, [112, "0", 113, 113], {"bank": child}),
+                         {102, 103})
+        # A held child register must still expose result feedback to its parent.
+        child["cells"]["low"]["connections"]["D"] = [11, 2]
+        self.assertIn(111, _registered_d_cone(pe, [111, 113], {"bank": child}))
+        # A single combinational child output makes the whole result ineligible.
+        child["cells"]["sign"]["type"] = "$not"
+        child["cells"]["sign"]["connections"] = {"A": [3], "Y": [13]}
+        child["cells"]["sign"]["port_directions"] = {"A": "input", "Y": "output"}
+        self.assertIsNone(_registered_d_cone(pe, [111, 113], {"bank": child}))
+
+    def test_split_sign_extended_result_passes_mesh_check(self):
+        source = (FIXTURE / "rtl/mesh.sv").read_text()
+        source = source.replace("output reg  [63:0] local_sum",
+                                "output wire [63:0] local_sum")
+        source = source.replace("    always @(posedge clk", """    reg [37:0] low;
+    reg sign_q;
+    wire [63:0] next_sum = local_sum + left_data * top_data;
+    assign local_sum = {{26{sign_q}}, low};
+    always @(posedge clk""", 1)
+        source = source.replace("local_sum   <= 64'b0;", "low <= 0; sign_q <= 0;")
+        source = source.replace("local_sum   <= local_sum + left_data * top_data;",
+                                "low <= next_sum[37:0]; sign_q <= next_sum[37];")
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp); (root / "rtl").mkdir()
+            (root / "rtl/files.f").write_text("mesh.sv\n")
+            (root / "rtl/mesh.sv").write_text(source)
+            result = inspect(root)
+        self.assertTrue(result["passed"], result)
+
+    def test_result_can_concatenate_independent_child_register_banks(self):
+        child = {"ports": {"din": {"direction": "input", "bits": [1]},
+                           "dout": {"direction": "output", "bits": [2]}},
+                 "cells": {"ff": {"type": "$dff",
+                     "connections": {"D": [1], "Q": [2]},
+                     "port_directions": {"D": "input", "Q": "output"}}}}
+        pe = {"cells": {name: {"type": "bank",
+            "connections": {"din": [d], "dout": [q]},
+            "port_directions": {"din": "input", "dout": "output"}}
+            for name, d, q in (("a", 101, 111), ("b", 102, 112))}}
+        self.assertEqual(_registered_d_cone(pe, [112, 111, 112], {"bank": child}),
+                         {101, 102})
+
+    def test_child_output_aliases_cannot_hide_distinct_drivers(self):
+        child = self._result_registers()
+        child["ports"] = {"din": {"direction": "input", "bits": [1, 2, 3]},
+                          "dout": {"direction": "output", "bits": [11, 12]}}
+        # Shorting two distinct child Q bits onto one parent wire is invalid.
+        pe = {"cells": {"stage": {"type": "bank",
+            "connections": {"din": [101, 102, 103], "dout": [111, 111]},
+            "port_directions": {"din": "input", "dout": "output"}}}}
+        self.assertIsNone(_registered_d_cone(pe, [111], {"bank": child}))
 
     def test_nested_registered_bank_is_traced_to_its_input(self) -> None:
         bank = {"ports": {"din": {"direction": "input", "bits": [1]},

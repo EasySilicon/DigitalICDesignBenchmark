@@ -74,10 +74,15 @@ def shell_trace_off(source):
         body=match.group(0)
         if not re.search(r"\binput\s+(?:wire\s+)?clk\s*;",body):
             raise ValueError("mapped shell module lacks its expected clock port")
+        # Staged compilation extracts module ... endmodule and discards its
+        # file preamble. Keep this directive inside the module so its large
+        # unmeasured internal net set stays untraced in the actual build too.
+        header_end=body.index(';')+1
+        body=body[:header_end]+"\n/* verilator tracing_off */\n"+body[header_end:]
         # Retain a trace-only clock alias to keep child-library trace callbacks
         # reachable. It does not enter any physical power measurement.
         body=re.sub(r"\bendmodule\b$", "/* verilator tracing_on */\nwire t10_power_trace_clock;\nassign t10_power_trace_clock = clk;\nendmodule",body)
-        return "/* verilator tracing_off */\n"+body+"\n/* verilator tracing_on */"
+        return body+"\n/* verilator tracing_on */"
     return re.sub(r"\bmodule\s+.*?\bendmodule\b",convert,source,flags=re.S)
 
 
