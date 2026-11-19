@@ -93,26 +93,28 @@ See the [full coverage mapping and scope limits](benchmark/README.md#领域与�
 
 ## Evaluated models and results
 
-The following values come from the [per-task evaluation results](results/model-score-comparison.md). All **90 model/task results are resolved**, with no `null` functional, PPA, or time components. Column headers identify the coding framework and version used during the actual trials; model settings and Skill policy are defined by each run's original record.
+![Model weighted score leaderboard](results/model-score-leaderboard.svg)
+
+The following values come from the [per-task evaluation results](results/model-score-comparison.md). All **130 model/task results across thirteen models are resolved**, with no `null` functional, PPA, or time components. Column headers identify the coding framework and version used during the actual trials; model settings and Skill policy are defined by each run's original record.
 
 Each cell is the task's display score **out of 105, including delivery deductions**, rounded to two decimal places. Weighted totals use unrounded task scores and fixed weights, not a simple average.
 
 Parentheses after model names indicate reasoning effort; `default` means no explicit setting was supplied. Effort levels across frameworks do not imply equal reasoning budgets.
 
-| Task | Weight | GPT-6-Astra(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6.1-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-5.6-Sol(high)<br><sub>Codex CLI 0.162.1</sub> | Kimi K3.1 Pro(max)<br><sub>Kimi CLI 2.3.1</sub> | Kimi K3(max)<br><sub>Kimi CLI 2.1.1</sub> | DeepSeek V4.1 Flash(high)<br><sub>Claude Code 2.1.183</sub> | GLM-5.3-Flash(max)<br><sub>ZCode CLI 0.17.0</sub> | GLM-5.3(max)<br><sub>ZCode CLI 0.17.0</sub> |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| T01 | 3% | 88.24 | 86.33 | 86.98 | 87.20 | 52.48 | 75.49 | 82.86 | 63.93 | 64.96 |
-| T02 | 3% | 87.88 | 87.20 | 89.70 | 88.65 | 87.02 | 89.17 | 89.07 | 87.10 | 89.28 |
-| T03 | 6% | 91.08 | 91.18 | 89.80 | 89.62 | 90.01 | 89.96 | 90.88 | 87.87 | 89.28 |
-| T04 | 6% | 97.27 | 86.90 | 91.12 | 67.05 | 75.57 | 68.13 | 62.63 | 69.14 | 66.46 |
-| T05 | 6% | 89.72 | 88.93 | 90.12 | 90.35 | 89.22 | 89.18 | 90.00 | 39.00 | 89.15 |
-| T06 | 10% | 94.78 | 93.70 | 96.22 | 90.76 | 93.00 | 25.00 | 92.93 | 82.15 | 94.61 |
-| T07 | 10% | 93.49 | 93.12 | 88.44 | 83.35 | 88.89 | 81.88 | 92.50 | 88.69 | 88.39 |
-| T08 | 11% | 87.89 | 87.14 | 84.21 | 85.83 | 85.03 | 84.30 | 46.83 | 85.87 | 45.00 |
-| T09 | 20% | 60.51 | 59.20 | 56.25 | 87.43 | 75.31 | 40.00 | 44.93 | 13.67 | 59.03 |
-| T10 | 25% | 53.83 | 53.73 | 50.00 | 33.27 | 50.00 | 32.29 | 0.00 | 0.00 | 50.00 |
-| **Weighted total /105** | **100%** | **76.02** | **74.77** | **73.04** | **72.75** | **74.58** | **55.80** | **52.45** | **45.55** | **66.88** |
-| **Fully functional tasks** | — | **10/10** | **10/10** | **10/10** | **9/10** | **10/10** | **7/10** | **7/10** | **7/10** | **9/10** |
+| Task | Weight | GPT-6-Astra(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6.1-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-5.6-Sol(high)<br><sub>Codex CLI 0.162.1</sub> | Kimi K3.1 Pro(max)<br><sub>Kimi CLI 2.3.1</sub> | Kimi K3(max)<br><sub>Kimi CLI 2.1.1</sub> | DeepSeek V4.1 Flash(high)<br><sub>Claude Code 2.1.183</sub> | GLM-5.3-Flash(max)<br><sub>ZCode CLI 0.17.0</sub> | GLM-5.3(max)<br><sub>ZCode CLI 0.17.0</sub> | Sonnet 5.5(high)<br><sub>Claude Code 2.1.317</sub> | Opus 5.5(high)<br><sub>Claude Code 2.1.317</sub> | Fable 5.2(high)<br><sub>Claude Code 2.1.322</sub> | GPT-6.2-Astra(high)<br><sub>Codex CLI 0.169.1</sub> |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| T01 | 3% | 88.24 | 86.33 | 86.98 | 87.20 | 52.48 | 75.49 | 82.86 | 63.93 | 64.96 | 90.28 | 89.01 | 93.41 | 83.49 |
+| T02 | 3% | 87.88 | 87.20 | 89.70 | 88.65 | 87.02 | 89.17 | 89.07 | 87.10 | 89.28 | 89.06 | 88.63 | 87.44 | 87.76 |
+| T03 | 6% | 91.08 | 91.18 | 89.80 | 89.62 | 90.01 | 89.96 | 90.88 | 87.87 | 89.28 | 89.61 | 89.40 | 91.27 | 89.34 |
+| T04 | 6% | 97.27 | 86.90 | 91.12 | 67.05 | 75.57 | 68.13 | 62.63 | 69.14 | 66.46 | 92.76 | 91.95 | 93.43 | 93.55 |
+| T05 | 6% | 89.72 | 88.93 | 90.12 | 90.35 | 89.22 | 89.18 | 90.00 | 39.00 | 89.15 | 90.29 | 90.01 | 90.24 | 89.12 |
+| T06 | 10% | 94.78 | 93.70 | 96.22 | 90.76 | 93.00 | 25.00 | 92.93 | 82.15 | 94.61 | 98.26 | 97.06 | 94.81 | 96.11 |
+| T07 | 10% | 93.49 | 93.12 | 88.44 | 83.35 | 88.89 | 81.88 | 92.50 | 88.69 | 88.39 | 83.89 | 71.27 | 81.49 | 80.84 |
+| T08 | 11% | 87.89 | 87.14 | 84.21 | 85.83 | 85.03 | 84.30 | 46.83 | 85.87 | 45.00 | 84.44 | 87.27 | 85.98 | 85.24 |
+| T09 | 20% | 60.51 | 59.20 | 56.25 | 87.43 | 75.31 | 40.00 | 44.93 | 13.67 | 59.03 | 96.35 | 90.97 | 92.03 | 100.03 |
+| T10 | 25% | 53.83 | 53.73 | 50.00 | 32.39 | 50.00 | 31.53 | 0.00 | 0.00 | 49.34 | 48.44 | 49.24 | 50.00 | 50.00 |
+| **Weighted total /105** | **100%** | **76.02** | **74.77** | **73.04** | **72.53** | **74.58** | **55.62** | **52.45** | **45.55** | **66.71** | **80.62** | **78.55** | **79.92** | **81.04** |
+| **Fully functional tasks** | — | **10/10** | **10/10** | **10/10** | **9/10** | **10/10** | **7/10** | **7/10** | **7/10** | **8/10** | **9/10** | **9/10** | **10/10** | **10/10** |
 
 Tasks below full functionality receive zero PPA and time points. GPT-6-Sol T10 retains 50 functional points and zero PPA/time points under its historical power-compilation termination adjudication. Kimi K3.1 Pro(max) T10 passed all functional checks, but no seed completed physical implementation and formal power measurement within its adjudicated runtime limit, so its PPA and time scores are also zero. See the [model results](results/model-score-comparison.md) for component scores and zero-score categories.
 

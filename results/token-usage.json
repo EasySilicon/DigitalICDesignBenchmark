@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "metric": "CLI adapter tokens; includes cached input according to the retained adapter accounting",
+  "metric": "Retained CLI or adapter token counters; see per-model accounting and token-usage.md.",
   "models": [
     {
       "model": "kimi-k3.1-pro",
@@ -93,6 +93,106 @@
         {
           "task_id": "T10",
           "tokens": 65193838
+        }
+      ]
+    },
+    {
+      "model": "claude-fable-5.2",
+      "reasoning_effort": "high",
+      "total_tokens": 102366910,
+      "accounting": "Input + cache creation + cache read + output across development attempts; reasoning is included in output. Manual compaction usage is unavailable and excluded.",
+      "tasks": [
+        {
+          "task_id": "T01",
+          "tokens": 1283532
+        },
+        {
+          "task_id": "T02",
+          "tokens": 3783767
+        },
+        {
+          "task_id": "T03",
+          "tokens": 4510128
+        },
+        {
+          "task_id": "T04",
+          "tokens": 4669751
+        },
+        {
+          "task_id": "T05",
+          "tokens": 9309242
+        },
+        {
+          "task_id": "T06",
+          "tokens": 8986438
+        },
+        {
+          "task_id": "T07",
+          "tokens": 6423039
+        },
+        {
+          "task_id": "T08",
+          "tokens": 14376300
+        },
+        {
+          "task_id": "T09",
+          "tokens": 30310059
+        },
+        {
+          "task_id": "T10",
+          "tokens": 18714654
+        }
+      ]
+    },
+    {
+      "model": "gpt-6.2-astra",
+      "reasoning_effort": "high",
+      "total_tokens": null,
+      "known_tokens_total": 127316134,
+      "missing_tasks": [
+        "T08"
+      ],
+      "accounting": "Native CLI input_tokens + output_tokens; cached input is already included in input_tokens and reasoning is already included in output_tokens. T08 has no terminal usage counter.",
+      "tasks": [
+        {
+          "task_id": "T01",
+          "tokens": 3867608
+        },
+        {
+          "task_id": "T02",
+          "tokens": 5497023
+        },
+        {
+          "task_id": "T03",
+          "tokens": 6342769
+        },
+        {
+          "task_id": "T04",
+          "tokens": 8591887
+        },
+        {
+          "task_id": "T05",
+          "tokens": 6778301
+        },
+        {
+          "task_id": "T06",
+          "tokens": 5592446
+        },
+        {
+          "task_id": "T07",
+          "tokens": 6472069
+        },
+        {
+          "task_id": "T08",
+          "tokens": null
+        },
+        {
+          "task_id": "T09",
+          "tokens": 14690204
+        },
+        {
+          "task_id": "T10",
+          "tokens": 69483827
         }
       ]
     }

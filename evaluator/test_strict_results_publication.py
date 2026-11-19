@@ -31,8 +31,10 @@ class StrictPublicationTest(unittest.TestCase):
             self.assertEqual(task['score_items'], items)
             if not task['full_functional_pass']:
                 self.assertEqual((task['ppa_score'], task['time_score']), (0, 0))
-        self.assertEqual(len(checked), 10)
-        for name in ['gpt-6-astra', 'gpt-6.1-sol', 'gpt-6-sol', 'kimi-k3.1-pro']:
+        published = {p.parent.name for p in RESULTS.glob('*/summary.json')}
+        self.assertEqual(set(checked), published - {'deepseek-flash'})
+        for name in ['gpt-6-astra', 'gpt-6.1-sol', 'gpt-6-sol', 'kimi-k3.1-pro',
+                     'claude-fable-5.2', 'gpt-6.2-astra']:
             self.assertEqual(read(RESULTS / name / 'summary.json')['tasks'][-1]['functional_total'], 50)
         self.assertAlmostEqual(read(RESULTS / 'claude-sonnet-5.5/summary.json')['tasks'][-1]['functional_total'], 48.43556579258209)
         self.assertAlmostEqual(read(RESULTS / 'claude-opus-5.5/summary.json')['tasks'][-1]['functional_total'], 49.240255138199856)
@@ -49,14 +51,27 @@ class StrictPublicationTest(unittest.TestCase):
         self.assertNotIn('models', inventory)
         self.assertNotIn('previous_results_backup', inventory)
 
-    def test_token_totals_use_the_final_max_and_opus_trials_without_raw_logs(self):
+    def test_token_totals_preserve_complete_and_partial_final_counters(self):
         records = {r['model']:r for r in read(RESULTS / 'token-usage.json')['models']}
         self.assertEqual(records['kimi-k3.1-pro']['reasoning_effort'], 'max')
         self.assertEqual(records['kimi-k3.1-pro']['total_tokens'], 405087147)
         self.assertEqual(records['claude-opus-5.5']['total_tokens'], 126636800)
+        self.assertEqual(records['claude-fable-5.2']['total_tokens'], 102366910)
+        self.assertIsNone(records['gpt-6.2-astra']['total_tokens'])
+        self.assertEqual(records['gpt-6.2-astra']['known_tokens_total'], 127316134)
+        self.assertEqual(records['gpt-6.2-astra']['missing_tasks'], ['T08'])
         for model in records.values():
-            self.assertEqual(model['total_tokens'], sum(row['tokens'] for row in model['tasks']))
+            missing = [row['task_id'] for row in model['tasks'] if row['tokens'] is None]
+            known = sum(row['tokens'] for row in model['tasks'] if row['tokens'] is not None)
+            if missing:
+                self.assertIsNone(model['total_tokens'])
+                self.assertEqual(model['missing_tasks'], missing)
+                self.assertEqual(model['known_tokens_total'], known)
+            else:
+                self.assertEqual(model['total_tokens'], known)
             self.assertEqual([r['task_id'] for r in model['tasks']], [f'T{i:02}' for i in range(1,11)])
             for row in model['tasks']:
                 self.assertEqual(set(row), {'task_id', 'tokens'})
-                self.assertGreater(row['tokens'], 0)
+                if row['tokens'] is not None:
+                    self.assertIs(type(row['tokens']), int)
+                    self.assertGreater(row['tokens'], 0)

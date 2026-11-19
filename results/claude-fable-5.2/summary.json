@@ -1,0 +1,1205 @@
+{
+  "schema_version": 4,
+  "suite_id": "ic-delivery-rtl-v0.3",
+  "model": "claude-fable-5.2",
+  "framework": "Claude Code",
+  "framework_version": "2.1.322",
+  "reasoning_effort": "high",
+  "task_language": "en",
+  "trial_kind": "pre_release_pilot",
+  "ranking_eligible": false,
+  "tasks": [
+    {
+      "task_id": "T01",
+      "functional_total": 50.0,
+      "full_functional_pass": true,
+      "ppa_eligible": true,
+      "ppa_score": 41.32654914463015,
+      "ppa_rank_bucket": 33,
+      "time_score": 2.0853327618704904,
+      "candidate_delivery_penalty": 0,
+      "display_score": 93.41188190650064,
+      "delivery_qualified": true,
+      "elapsed_seconds": 1049.2802057266235,
+      "time_limit_seconds": 1800,
+      "score_status": "scored",
+      "functional_groups": {
+        "AC-05": {
+          "cases_passed": 20,
+          "cases_total": 20,
+          "safety_violation": false
+        },
+        "AC-06": {
+          "cases_passed": 8,
+          "cases_total": 8,
+          "safety_violation": false
+        },
+        "AC-07": {
+          "cases_passed": 10,
+          "cases_total": 10,
+          "safety_violation": false
+        },
+        "AC-08A": {
+          "cases_passed": 8,
+          "cases_total": 8,
+          "safety_violation": false
+        },
+        "AC-08B": {
+          "cases_passed": 6,
+          "cases_total": 6,
+          "safety_violation": false
+        }
+      },
+      "score_items": [
+        {
+          "id": "F_TRAIN",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 20,
+          "cases_total": 20,
+          "safety_violation": false
+        },
+        {
+          "id": "F_REASSEMBLE",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 8,
+          "cases_total": 8,
+          "safety_violation": false
+        },
+        {
+          "id": "F_PHASE",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 10,
+          "cases_total": 10,
+          "safety_violation": false
+        },
+        {
+          "id": "P_RELOCK",
+          "layer": "P",
+          "points": 6.666666666666666,
+          "possible_points": 6.666666666666666,
+          "cases_passed": 8,
+          "cases_total": 8,
+          "safety_violation": false
+        },
+        {
+          "id": "P_RESET",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 6,
+          "cases_total": 6,
+          "safety_violation": false
+        }
+      ],
+      "ppa_metrics": {
+        "measurement_scope": null,
+        "area_um2": 56.2205,
+        "delay_ns": 0.699361,
+        "energy_per_op_pj": 0.26372376681614346,
+        "setup_worst_slack_ns": 0.300639,
+        "hold_worst_slack_ns": 0.103131,
+        "drc_violations": 0
+      }
+    },
+    {
+      "task_id": "T02",
+      "functional_total": 50.0,
+      "full_functional_pass": true,
+      "ppa_eligible": true,
+      "ppa_score": 34.92645182176813,
+      "ppa_rank_bucket": 28,
+      "time_score": 2.5088388598627516,
+      "candidate_delivery_penalty": 0,
+      "display_score": 87.43529068163087,
+      "delivery_qualified": true,
+      "elapsed_seconds": 1793.636020898819,
+      "time_limit_seconds": 3600,
+      "score_status": "scored",
+      "functional_groups": {
+        "AC-09": {
+          "cases_passed": 215407,
+          "cases_total": 215407,
+          "safety_violation": false
+        },
+        "AC-10": {
+          "cases_passed": 221033,
+          "cases_total": 221033,
+          "safety_violation": false
+        },
+        "AC-11": {
+          "cases_passed": 432,
+          "cases_total": 432,
+          "safety_violation": false
+        },
+        "AC-12": {
+          "cases_passed": 12,
+          "cases_total": 12,
+          "safety_violation": false
+        },
+        "AC-13": {
+          "cases_passed": 48,
+          "cases_total": 48,
+          "safety_violation": false
+        },
+        "AC-14": {
+          "cases_passed": 80463,
+          "cases_total": 80463,
+          "safety_violation": false
+        },
+        "AC-15": {
+          "cases_passed": 6,
+          "cases_total": 6,
+          "safety_violation": false
+        }
+      },
+      "score_items": [
+        {
+          "id": "F_ORDER",
+          "layer": "F",
+          "points": 16.666666666666664,
+          "possible_points": 16.666666666666664,
+          "cases_passed": 215407,
+          "cases_total": 215407,
+          "safety_violation": false
+        },
+        {
+          "id": "F_CAPACITY",
+          "layer": "F",
+          "points": 10.0,
+          "possible_points": 10.0,
+          "cases_passed": 221033,
+          "cases_total": 221033,
+          "safety_violation": false
+        },
+        {
+          "id": "F_SIMULTANEOUS",
+          "layer": "F",
+          "points": 6.666666666666666,
+          "possible_points": 6.666666666666666,
+          "cases_passed": 432,
+          "cases_total": 432,
+          "safety_violation": false
+        },
+        {
+          "id": "F_PARAMETERS",
+          "layer": "F",
+          "points": 6.666666666666666,
+          "possible_points": 6.666666666666666,
+          "cases_passed": 12,
+          "cases_total": 12,
+          "safety_violation": false
+        },
+        {
+          "id": "P_RESET",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 48,
+          "cases_total": 48,
+          "safety_violation": false
+        },
+        {
+          "id": "P_STALL",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 80463,
+          "cases_total": 80463,
+          "safety_violation": false
+        },
+        {
+          "id": "P_WRAP",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 6,
+          "cases_total": 6,
+          "safety_violation": false
+        }
+      ],
+      "ppa_metrics": {
+        "measurement_scope": null,
+        "area_um2": 434.951,
+        "delay_ns": 0.9541829000000001,
+        "energy_per_op_pj": 2.216727638190955,
+        "setup_worst_slack_ns": 0.0456381,
+        "hold_worst_slack_ns": 0.116172,
+        "drc_violations": 0
+      }
+    },
+    {
+      "task_id": "T03",
+      "functional_total": 50.0,
+      "full_functional_pass": true,
+      "ppa_eligible": true,
+      "ppa_score": 37.977694403234935,
+      "ppa_rank_bucket": 30,
+      "time_score": 3.2881529097203854,
+      "candidate_delivery_penalty": 0,
+      "display_score": 91.26584731295532,
+      "delivery_qualified": true,
+      "elapsed_seconds": 1848.7948575019836,
+      "time_limit_seconds": 5400,
+      "score_status": "scored",
+      "functional_groups": {
+        "AC-16": {
+          "cases_passed": 493,
+          "cases_total": 493,
+          "safety_violation": false
+        },
+        "AC-17": {
+          "cases_passed": 185,
+          "cases_total": 185,
+          "safety_violation": false
+        },
+        "AC-18": {
+          "cases_passed": 5417,
+          "cases_total": 5417,
+          "safety_violation": false
+        },
+        "AC-19": {
+          "cases_passed": 2608,
+          "cases_total": 2608,
+          "safety_violation": false
+        },
+        "AC-20": {
+          "cases_passed": 2616,
+          "cases_total": 2616,
+          "safety_violation": false
+        }
+      },
+      "score_items": [
+        {
+          "id": "F_REGISTERS",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 493,
+          "cases_total": 493,
+          "safety_violation": false
+        },
+        {
+          "id": "F_COUNT",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 185,
+          "cases_total": 185,
+          "safety_violation": false
+        },
+        {
+          "id": "F_IRQ",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 5417,
+          "cases_total": 5417,
+          "safety_violation": false
+        },
+        {
+          "id": "P_APB",
+          "layer": "P",
+          "points": 6.666666666666666,
+          "possible_points": 6.666666666666666,
+          "cases_passed": 2608,
+          "cases_total": 2608,
+          "safety_violation": false
+        },
+        {
+          "id": "P_BOUNDARY",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 2616,
+          "cases_total": 2616,
+          "safety_violation": false
+        }
+      ],
+      "ppa_metrics": {
+        "measurement_scope": null,
+        "area_um2": 83.2664,
+        "delay_ns": 0.795246,
+        "energy_per_op_pj": 0.38360218579234967,
+        "setup_worst_slack_ns": 0.204754,
+        "hold_worst_slack_ns": 0.0959945,
+        "drc_violations": 0
+      }
+    },
+    {
+      "task_id": "T04",
+      "functional_total": 50.0,
+      "full_functional_pass": true,
+      "ppa_eligible": true,
+      "ppa_score": 40.38002086090466,
+      "ppa_rank_bucket": 32,
+      "time_score": 3.054591953975183,
+      "candidate_delivery_penalty": 0,
+      "display_score": 93.43461281487984,
+      "delivery_qualified": true,
+      "elapsed_seconds": 2101.0406897068024,
+      "time_limit_seconds": 5400,
+      "score_status": "scored",
+      "functional_groups": {
+        "AC-21": {
+          "cases_passed": 81636,
+          "cases_total": 81636,
+          "safety_violation": false
+        },
+        "AC-22": {
+          "cases_passed": 81632,
+          "cases_total": 81632,
+          "safety_violation": false
+        },
+        "AC-23": {
+          "cases_passed": 163249,
+          "cases_total": 163249,
+          "safety_violation": false
+        },
+        "AC-24": {
+          "cases_passed": 29916,
+          "cases_total": 29916,
+          "safety_violation": false
+        },
+        "AC-25": {
+          "cases_passed": 960,
+          "cases_total": 960,
+          "safety_violation": false
+        }
+      },
+      "score_items": [
+        {
+          "id": "F_SELECT",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 81636,
+          "cases_total": 81636,
+          "safety_violation": false
+        },
+        {
+          "id": "F_ROTATE",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 81632,
+          "cases_total": 81632,
+          "safety_violation": false
+        },
+        {
+          "id": "F_DATA",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 163249,
+          "cases_total": 163249,
+          "safety_violation": false
+        },
+        {
+          "id": "P_STALL",
+          "layer": "P",
+          "points": 6.666666666666666,
+          "possible_points": 6.666666666666666,
+          "cases_passed": 29916,
+          "cases_total": 29916,
+          "safety_violation": false
+        },
+        {
+          "id": "P_FAIR",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 960,
+          "cases_total": 960,
+          "safety_violation": false
+        }
+      ],
+      "ppa_metrics": {
+        "measurement_scope": null,
+        "area_um2": 64.4436,
+        "delay_ns": 0.9703497999999999,
+        "energy_per_op_pj": 0.18560000000000001,
+        "setup_worst_slack_ns": 0.0295279,
+        "hold_worst_slack_ns": 0.141833,
+        "drc_violations": 0
+      }
+    },
+    {
+      "task_id": "T05",
+      "functional_total": 50.0,
+      "full_functional_pass": true,
+      "ppa_eligible": true,
+      "ppa_score": 37.510563703279885,
+      "ppa_rank_bucket": 30,
+      "time_score": 2.7286388049523036,
+      "candidate_delivery_penalty": 0,
+      "display_score": 90.23920250823218,
+      "delivery_qualified": true,
+      "elapsed_seconds": 3270.760120868683,
+      "time_limit_seconds": 7200,
+      "score_status": "scored",
+      "functional_groups": {
+        "AC-26": {
+          "cases_passed": 400024,
+          "cases_total": 400024,
+          "safety_violation": false
+        },
+        "AC-27": {
+          "cases_passed": 1188306,
+          "cases_total": 1188306,
+          "safety_violation": false
+        },
+        "AC-28": {
+          "cases_passed": 16,
+          "cases_total": 16,
+          "safety_violation": false
+        },
+        "AC-29": {
+          "cases_passed": 8,
+          "cases_total": 8,
+          "safety_violation": false
+        },
+        "AC-30": {
+          "cases_passed": 16,
+          "cases_total": 16,
+          "safety_violation": false
+        },
+        "AC-31": {
+          "cases_passed": 4,
+          "cases_total": 4,
+          "safety_violation": false
+        }
+      },
+      "score_items": [
+        {
+          "id": "F_ORDER",
+          "layer": "F",
+          "points": 16.666666666666664,
+          "possible_points": 16.666666666666664,
+          "cases_passed": 400024,
+          "cases_total": 400024,
+          "safety_violation": false
+        },
+        {
+          "id": "F_SAFETY",
+          "layer": "F",
+          "points": 10.0,
+          "possible_points": 10.0,
+          "cases_passed": 1188306,
+          "cases_total": 1188306,
+          "safety_violation": false
+        },
+        {
+          "id": "F_CLOCKS",
+          "layer": "F",
+          "points": 6.666666666666666,
+          "possible_points": 6.666666666666666,
+          "cases_passed": 16,
+          "cases_total": 16,
+          "safety_violation": false
+        },
+        {
+          "id": "F_PARAMETERS",
+          "layer": "F",
+          "points": 6.666666666666666,
+          "possible_points": 6.666666666666666,
+          "cases_passed": 8,
+          "cases_total": 8,
+          "safety_violation": false
+        },
+        {
+          "id": "P_RESET",
+          "layer": "P",
+          "points": 4.666666666666666,
+          "possible_points": 4.666666666666666,
+          "cases_passed": 16,
+          "cases_total": 16,
+          "safety_violation": false
+        },
+        {
+          "id": "P_CDC",
+          "layer": "P",
+          "points": 5.333333333333333,
+          "possible_points": 5.333333333333333,
+          "cases_passed": 4,
+          "cases_total": 4,
+          "safety_violation": false
+        }
+      ],
+      "ppa_metrics": {
+        "measurement_scope": null,
+        "area_um2": 420.239,
+        "delay_ns": 0.873184,
+        "energy_per_op_pj": 1.921421980600647,
+        "setup_worst_slack_ns": 0.126582,
+        "hold_worst_slack_ns": 0.067363,
+        "drc_violations": 0
+      }
+    },
+    {
+      "task_id": "T06",
+      "functional_total": 50.0,
+      "full_functional_pass": true,
+      "ppa_eligible": true,
+      "ppa_score": 41.78140760217314,
+      "ppa_rank_bucket": 33,
+      "time_score": 3.0245358700553577,
+      "candidate_delivery_penalty": 0,
+      "display_score": 94.8059434722285,
+      "delivery_qualified": true,
+      "elapsed_seconds": 2844.668347120285,
+      "time_limit_seconds": 7200,
+      "score_status": "scored",
+      "functional_groups": {
+        "AC-32": {
+          "cases_passed": 340,
+          "cases_total": 340,
+          "safety_violation": false
+        },
+        "AC-33": {
+          "cases_passed": 189,
+          "cases_total": 189,
+          "safety_violation": false
+        },
+        "AC-34": {
+          "cases_passed": 484,
+          "cases_total": 484,
+          "safety_violation": false
+        },
+        "AC-35": {
+          "cases_passed": 452,
+          "cases_total": 452,
+          "safety_violation": false
+        },
+        "AC-36": {
+          "cases_passed": 5954,
+          "cases_total": 5954,
+          "safety_violation": false
+        },
+        "AC-37": {
+          "cases_passed": 57,
+          "cases_total": 57,
+          "safety_violation": false
+        }
+      },
+      "score_items": [
+        {
+          "id": "F_WRITE",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 340,
+          "cases_total": 340,
+          "safety_violation": false
+        },
+        {
+          "id": "F_READ",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 189,
+          "cases_total": 189,
+          "safety_violation": false
+        },
+        {
+          "id": "F_RESP",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 484,
+          "cases_total": 484,
+          "safety_violation": false
+        },
+        {
+          "id": "P_CONCURRENT",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 452,
+          "cases_total": 452,
+          "safety_violation": false
+        },
+        {
+          "id": "P_STALL",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 5954,
+          "cases_total": 5954,
+          "safety_violation": false
+        },
+        {
+          "id": "P_RESET",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 57,
+          "cases_total": 57,
+          "safety_violation": false
+        }
+      ],
+      "ppa_metrics": {
+        "measurement_scope": null,
+        "area_um2": 108.344,
+        "delay_ns": 0.6719639999999999,
+        "energy_per_op_pj": 7.545584313725492,
+        "setup_worst_slack_ns": 0.328036,
+        "hold_worst_slack_ns": 0.0828065,
+        "drc_violations": 0
+      }
+    },
+    {
+      "task_id": "T07",
+      "functional_total": 50.0,
+      "full_functional_pass": true,
+      "ppa_eligible": true,
+      "ppa_score": 28.82500600859943,
+      "ppa_rank_bucket": 23,
+      "time_score": 2.6687603086233134,
+      "candidate_delivery_penalty": 0,
+      "display_score": 81.49376631722275,
+      "delivery_qualified": true,
+      "elapsed_seconds": 3356.985155582428,
+      "time_limit_seconds": 7200,
+      "score_status": "scored",
+      "functional_groups": {
+        "AC-38": {
+          "cases_passed": 130,
+          "cases_total": 130,
+          "safety_violation": false
+        },
+        "AC-39": {
+          "cases_passed": 1684,
+          "cases_total": 1684,
+          "safety_violation": false
+        },
+        "AC-40": {
+          "cases_passed": 1098,
+          "cases_total": 1098,
+          "safety_violation": false
+        },
+        "AC-41": {
+          "cases_passed": 16620,
+          "cases_total": 16620,
+          "safety_violation": false
+        },
+        "AC-42": {
+          "cases_passed": 7686,
+          "cases_total": 7686,
+          "safety_violation": false
+        },
+        "AC-43": {
+          "cases_passed": 90,
+          "cases_total": 90,
+          "safety_violation": false
+        }
+      },
+      "score_items": [
+        {
+          "id": "F_HIT",
+          "layer": "F",
+          "points": 10.0,
+          "possible_points": 10.0,
+          "cases_passed": 130,
+          "cases_total": 130,
+          "safety_violation": false
+        },
+        {
+          "id": "F_CLEAN_MISS",
+          "layer": "F",
+          "points": 10.0,
+          "possible_points": 10.0,
+          "cases_passed": 1684,
+          "cases_total": 1684,
+          "safety_violation": false
+        },
+        {
+          "id": "F_DIRTY_EVICT",
+          "layer": "F",
+          "points": 10.0,
+          "possible_points": 10.0,
+          "cases_passed": 1098,
+          "cases_total": 1098,
+          "safety_violation": false
+        },
+        {
+          "id": "F_PARTIAL",
+          "layer": "F",
+          "points": 10.0,
+          "possible_points": 10.0,
+          "cases_passed": 16620,
+          "cases_total": 16620,
+          "safety_violation": false
+        },
+        {
+          "id": "P_STALL",
+          "layer": "P",
+          "points": 6.666666666666666,
+          "possible_points": 6.666666666666666,
+          "cases_passed": 7686,
+          "cases_total": 7686,
+          "safety_violation": false
+        },
+        {
+          "id": "P_RESET_LATENCY",
+          "layer": "P",
+          "points": 3.333333333333333,
+          "possible_points": 3.333333333333333,
+          "cases_passed": 90,
+          "cases_total": 90,
+          "safety_violation": false
+        }
+      ],
+      "ppa_metrics": {
+        "measurement_scope": null,
+        "area_um2": 2092.14,
+        "delay_ns": 1.0721384,
+        "energy_per_op_pj": 75.83876352395671,
+        "setup_worst_slack_ns": -0.0726529,
+        "hold_worst_slack_ns": 0.0388163,
+        "drc_violations": 0
+      }
+    },
+    {
+      "task_id": "T08",
+      "functional_total": 50.0,
+      "full_functional_pass": true,
+      "ppa_eligible": true,
+      "ppa_score": 34.878445046619866,
+      "ppa_rank_bucket": 28,
+      "time_score": 1.1043380406167773,
+      "candidate_delivery_penalty": 0,
+      "display_score": 85.98278308723665,
+      "delivery_qualified": true,
+      "elapsed_seconds": 5609.753221511841,
+      "time_limit_seconds": 7200,
+      "score_status": "scored",
+      "functional_groups": {
+        "tx_regression": {
+          "cases_passed": 4,
+          "cases_total": 4
+        },
+        "rx_regression": {
+          "cases_passed": 5,
+          "cases_total": 5
+        },
+        "frame_tail_repair": {
+          "cases_passed": 5,
+          "cases_total": 5
+        },
+        "vlan_admission": {
+          "cases_passed": 6,
+          "cases_total": 6
+        },
+        "metadata_headers": {
+          "cases_passed": 6,
+          "cases_total": 6
+        },
+        "config_snapshot": {
+          "cases_passed": 8,
+          "cases_total": 8
+        },
+        "reset_recovery": {
+          "cases_passed": 3,
+          "cases_total": 3
+        }
+      },
+      "score_items": [
+        {
+          "id": "TX_REGRESSION",
+          "layer": "F",
+          "points": 8.0,
+          "possible_points": 8.0,
+          "cases_passed": 4,
+          "cases_total": 4,
+          "safety_violation": false
+        },
+        {
+          "id": "RX_REGRESSION",
+          "layer": "F",
+          "points": 8.0,
+          "possible_points": 8.0,
+          "cases_passed": 5,
+          "cases_total": 5,
+          "safety_violation": false
+        },
+        {
+          "id": "FRAME_TAIL_REPAIR",
+          "layer": "F",
+          "points": 10.0,
+          "possible_points": 10.0,
+          "cases_passed": 5,
+          "cases_total": 5,
+          "safety_violation": false
+        },
+        {
+          "id": "VLAN_ADMISSION",
+          "layer": "F",
+          "points": 10.0,
+          "possible_points": 10.0,
+          "cases_passed": 6,
+          "cases_total": 6,
+          "safety_violation": false
+        },
+        {
+          "id": "CONFIG_SNAPSHOT",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 8,
+          "cases_total": 8,
+          "safety_violation": false
+        },
+        {
+          "id": "METADATA_HEADERS",
+          "layer": "P",
+          "points": 6.0,
+          "possible_points": 6.0,
+          "cases_passed": 6,
+          "cases_total": 6,
+          "safety_violation": false
+        },
+        {
+          "id": "RESET_RECOVERY",
+          "layer": "P",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 3,
+          "cases_total": 3,
+          "safety_violation": false
+        }
+      ],
+      "ppa_metrics": {
+        "measurement_scope": null,
+        "area_um2": 20056.604,
+        "delay_ns": 0.8477039999999999,
+        "energy_per_op_pj": 21.094957867783986,
+        "setup_worst_slack_ns": 0.15043700000000002,
+        "hold_worst_slack_ns": -0.00019567699999999998,
+        "drc_violations": 0
+      }
+    },
+    {
+      "task_id": "T09",
+      "functional_total": 50.0,
+      "full_functional_pass": true,
+      "ppa_eligible": true,
+      "ppa_score": 41.76543160161215,
+      "ppa_rank_bucket": 33,
+      "time_score": 0.2639809211095173,
+      "candidate_delivery_penalty": 0,
+      "display_score": 92.02941252272167,
+      "delivery_qualified": true,
+      "elapsed_seconds": 6819.867473602295,
+      "time_limit_seconds": 7200,
+      "score_status": "scored",
+      "functional_groups": {
+        "CPU-ACT": {
+          "cases_passed": 45,
+          "cases_total": 45
+        },
+        "CPU-DIR-INT": {
+          "cases_passed": 24,
+          "cases_total": 24
+        },
+        "CPU-DIR-MEM": {
+          "cases_passed": 20,
+          "cases_total": 20
+        },
+        "CPU-DIR-HAZ": {
+          "cases_passed": 24,
+          "cases_total": 24
+        },
+        "CPU-DIR-TRAP": {
+          "cases_passed": 28,
+          "cases_total": 28
+        },
+        "CPU-DIR-CSR": {
+          "cases_passed": 16,
+          "cases_total": 16
+        },
+        "CPU-DIFF-INT": {
+          "cases_passed": 34,
+          "cases_total": 34
+        },
+        "CPU-DIFF-MEM": {
+          "cases_passed": 33,
+          "cases_total": 33
+        },
+        "CPU-DIFF-TRAP": {
+          "cases_passed": 33,
+          "cases_total": 33
+        },
+        "CPU-PIPE-HAZ": {
+          "cases_passed": 8,
+          "cases_total": 8
+        },
+        "CPU-PIPE-FLUSH": {
+          "cases_passed": 8,
+          "cases_total": 8
+        },
+        "CPU-PIPE-MEM": {
+          "cases_passed": 80,
+          "cases_total": 80
+        },
+        "CPU-PIPE-RESET": {
+          "cases_passed": 4,
+          "cases_total": 4
+        },
+        "CPU-PIPE-LAT": {
+          "cases_passed": 64,
+          "cases_total": 64
+        },
+        "CPU-PIPE-CYCLES": {
+          "cases_passed": 22,
+          "cases_total": 22
+        }
+      },
+      "score_items": [
+        {
+          "id": "F_INTEGER_CONTROL",
+          "layer": "F",
+          "points": 13.333333333333332,
+          "possible_points": 13.333333333333332,
+          "cases_passed": 58,
+          "cases_total": 58,
+          "safety_violation": false
+        },
+        {
+          "id": "F_MEMORY",
+          "layer": "F",
+          "points": 8.0,
+          "possible_points": 8.0,
+          "cases_passed": 53,
+          "cases_total": 53,
+          "safety_violation": false
+        },
+        {
+          "id": "F_CSR_TRAP",
+          "layer": "F",
+          "points": 5.333333333333333,
+          "possible_points": 5.333333333333333,
+          "cases_passed": 77,
+          "cases_total": 77,
+          "safety_violation": false
+        },
+        {
+          "id": "F_ACT4",
+          "layer": "F",
+          "points": 5.333333333333333,
+          "possible_points": 5.333333333333333,
+          "cases_passed": 45,
+          "cases_total": 45,
+          "safety_violation": false
+        },
+        {
+          "id": "P_HAZARD",
+          "layer": "P",
+          "points": 3.1999999999999997,
+          "possible_points": 3.1999999999999997,
+          "cases_passed": 32,
+          "cases_total": 32,
+          "safety_violation": false
+        },
+        {
+          "id": "P_MEMORY_WAIT",
+          "layer": "P",
+          "points": 2.6666666666666665,
+          "possible_points": 2.6666666666666665,
+          "cases_passed": 80,
+          "cases_total": 80,
+          "safety_violation": false
+        },
+        {
+          "id": "P_PIPELINE",
+          "layer": "P",
+          "points": 2.1333333333333333,
+          "possible_points": 2.1333333333333333,
+          "cases_passed": 76,
+          "cases_total": 76,
+          "safety_violation": false
+        },
+        {
+          "id": "P_CYCLES",
+          "layer": "P",
+          "points": 10.0,
+          "possible_points": 10.0,
+          "cases_passed": 22,
+          "cases_total": 22,
+          "safety_violation": false
+        }
+      ],
+      "ppa_metrics": {
+        "measurement_scope": null,
+        "area_um2": 1659.66,
+        "delay_ns": 0.9887513,
+        "energy_per_op_pj": 16.489170918367346,
+        "setup_worst_slack_ns": 0.00511757,
+        "hold_worst_slack_ns": 0.052014899999999996,
+        "drc_violations": 0
+      }
+    },
+    {
+      "task_id": "T10",
+      "functional_total": 50.0,
+      "full_functional_pass": true,
+      "ppa_eligible": false,
+      "ppa_score": 0.0,
+      "ppa_rank_bucket": 0,
+      "time_score": 0.0,
+      "candidate_delivery_penalty": 0,
+      "display_score": 50.0,
+      "delivery_qualified": null,
+      "elapsed_seconds": 10608.694282054901,
+      "time_limit_seconds": 14400,
+      "score_status": "scored",
+      "functional_groups": {
+        "MM-INT": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F16": {
+          "cases_passed": 166,
+          "cases_total": 166
+        },
+        "MM-F8": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-F4": {
+          "cases_passed": 64,
+          "cases_total": 64
+        },
+        "MM-MX8": {
+          "cases_passed": 204,
+          "cases_total": 204
+        },
+        "MM-MX4": {
+          "cases_passed": 128,
+          "cases_total": 128
+        },
+        "MM-PROTO": {
+          "cases_passed": 337,
+          "cases_total": 337
+        },
+        "MM-SYSTOLIC": {
+          "cases_passed": 1616,
+          "cases_total": 1616
+        },
+        "MM-CORNER": {
+          "cases_passed": 128,
+          "cases_total": 128
+        }
+      },
+      "score_items": [
+        {
+          "id": "F_INT",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 128,
+          "cases_total": 128,
+          "safety_violation": false
+        },
+        {
+          "id": "F_FP16_BF16",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 166,
+          "cases_total": 166,
+          "safety_violation": false
+        },
+        {
+          "id": "F_FP8",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 128,
+          "cases_total": 128,
+          "safety_violation": false
+        },
+        {
+          "id": "F_FP4",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 64,
+          "cases_total": 64,
+          "safety_violation": false
+        },
+        {
+          "id": "F_MXFP8",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 204,
+          "cases_total": 204,
+          "safety_violation": false
+        },
+        {
+          "id": "F_MXFP4",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 128,
+          "cases_total": 128,
+          "safety_violation": false
+        },
+        {
+          "id": "P_PROTOCOL",
+          "layer": "F",
+          "points": 4.0,
+          "possible_points": 4.0,
+          "cases_passed": 337,
+          "cases_total": 337,
+          "safety_violation": false
+        },
+        {
+          "id": "P_SYSTOLIC",
+          "layer": "P",
+          "points": 16.666666666666664,
+          "possible_points": 16.666666666666664,
+          "cases_passed": 1616,
+          "cases_total": 1616,
+          "safety_violation": false
+        },
+        {
+          "id": "P_CORNER",
+          "layer": "F",
+          "points": 5.333333333333333,
+          "possible_points": 5.333333333333333,
+          "cases_passed": 128,
+          "cases_total": 128,
+          "safety_violation": false
+        }
+      ],
+      "ppa_metrics": null
+    }
+  ],
+  "functional_total_sum": 500.0,
+  "ppa_score_sum": 339.37157019282233,
+  "time_score_sum": 20.72717043078608,
+  "display_score_sum": 860.0987406236085,
+  "completed_tasks": 10,
+  "full_functional_task_count": 10,
+  "task_weights": {
+    "T01": 0.03,
+    "T02": 0.03,
+    "T03": 0.06,
+    "T04": 0.06,
+    "T05": 0.06,
+    "T06": 0.1,
+    "T07": 0.1,
+    "T08": 0.11,
+    "T09": 0.2,
+    "T10": 0.25
+  },
+  "weighted_display_score": 79.91575455889348,
+  "weighted_display_possible": 105.0
+}

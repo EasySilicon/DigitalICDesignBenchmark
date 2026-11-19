@@ -47,7 +47,13 @@ class T10FunctionalPublicationTest(unittest.TestCase):
                    if line.startswith('!/results/') and not line.endswith('/')]
         model_files = [p for p in allowed if len(Path(p).parts)==3]
         self.assertEqual({Path(p).name for p in model_files}, {'summary.json'})
-        self.assertEqual(len(allowed), len(model_files)+7)
+        self.assertEqual(set(allowed) - set(model_files), {
+            'results/README.md', 'results/model-score-comparison.md',
+            'results/model-score-leaderboard.svg', 'results/token-usage.md',
+            'results/token-usage.json', 'results/result.schema.json',
+            'results/ppa-formula-audit-20261021.json',
+            'results/t10-strict-functional-retest-20261106.json',
+        })
         for name in allowed:
             self.assertFalse(any(c in name for c in '*?['), name)
             self.assertTrue((ROOT/name).is_file(), name)

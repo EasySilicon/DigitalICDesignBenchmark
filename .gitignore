@@ -24,6 +24,10 @@ benchmark/npu-quality-gates.md
 !/results/t10-strict-functional-retest-20261106.json
 !/results/token-usage.json
 !/results/token-usage.md
+!/results/claude-fable-5.2/
+!/results/claude-fable-5.2/summary.json
+!/results/gpt-6.2-astra/
+!/results/gpt-6.2-astra/summary.json
 !/results/claude-opus-5.5/
 !/results/claude-opus-5.5/summary.json
 !/results/claude-sonnet-5.5/
