@@ -35,6 +35,19 @@ def valid_config(root: Path) -> dict:
 
 
 class RunnerConfigTest(unittest.TestCase):
+    def test_grader_cpu_weight_is_explicit_and_bounded(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            value = valid_config(root)
+            self.assertIsNone(load_config(self.write(root, value)).grader.cpu_weight)
+            value['grader']['cpu_weight'] = 10000
+            self.assertEqual(load_config(self.write(root, value)).grader.cpu_weight, 10000)
+            for invalid in (True, 0, -1, 10001, '10000'):
+                with self.subTest(invalid=invalid):
+                    value['grader']['cpu_weight'] = invalid
+                    with self.assertRaisesRegex(ValueError, 'cpu_weight'):
+                        load_config(self.write(root, value))
+
     def write(self, root: Path, value: dict) -> Path:
         path = root / "runner.yaml"
         path.write_text(yaml.safe_dump(value, sort_keys=False))

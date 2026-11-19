@@ -42,3 +42,5 @@ agent:
 grader:
   command: [python3, /path/to/site-grade.py, --task, "{task_id}", --submission, "{submission}", --output, "{grading}", --repo, "{frozen_repo}", --elapsed, "{elapsed_seconds}"]
   lock: /mnt/benchmark-trials/physical-grade.lock
+  # Linux systemd user scope; relative priority, without extra cores or time.
+  cpu_weight: 10000

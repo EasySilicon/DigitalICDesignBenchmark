@@ -11,6 +11,26 @@ from benchmark.test_runner_config import valid_config
 
 
 class RunnerAdapterTest(unittest.TestCase):
+    def test_codex_terminal_completion_is_not_inferred_from_partial_messages(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            config = self.configuration(root, {'adapter': 'codex'})
+            adapter = CodexAdapter(config)
+            for terminal, completed, failed in [
+                ([], False, False),
+                ([{'type': 'turn.completed'}], True, False),
+                ([{'type': 'turn.failed'}], False, True),
+                ([{'type': 'turn.completed'}, {'type': 'turn.started'}], False, False),
+                ([{'type': 'turn.completed'}, {'type': 'turn.failed'}], False, True),
+            ]:
+                with self.subTest(terminal=terminal):
+                    rows = [{'type': 'thread.started', 'thread_id': 'session'},
+                            {'type': 'turn.started'}, *terminal]
+                    (root / 'session.jsonl').write_text('\n'.join(map(json.dumps, rows)) + '\n')
+                    result = adapter.audit(root, None)
+                    self.assertEqual(result.completed, completed)
+                    self.assertEqual(result.failed, failed)
+
     def test_claude_oauth_is_private_and_rotation_reaches_next_fresh_task(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -119,15 +139,70 @@ oauth = true
             runtime = adapter.prepare(task, private, 60)
             self.assertNotIn("secret", runtime.shell)
             self.assertNotIn("max_tokens", runtime.shell)
+            self.assertNotIn("--ephemeral", runtime.shell)
             self.assertTrue((private / ".codex/auth.json").is_file())
             self.assertFalse((task / "agent_home/.codex/auth.json").exists())
+            self.assertIn("--dangerously-bypass-approvals-and-sandbox", runtime.shell)
+
+            # Retain this task's native history without carrying it into the
+            # next task's fresh CLI home.
+            history = private / ".codex/sessions/prior.jsonl"
+            history.parent.mkdir()
+            history.write_text('{"type":"token_count"}\n')
+            next_task = root / "next-candidate"
+            next_private = root / "next-private"
+            next_runtime = adapter.prepare(next_task, next_private, 60)
+            self.assertEqual(history.read_text(), '{"type":"token_count"}\n')
+            self.assertFalse((next_private / ".codex/sessions").exists())
+            self.assertEqual(next_runtime.audit_home, next_private)
+            self.assertNotEqual(runtime.mounts[-1].source, next_runtime.mounts[-1].source)
+            self.assertNotIn("resume", next_runtime.shell)
+            self.assertNotIn("--ephemeral", next_runtime.shell)
+
+    def test_codex_offline_tools_use_enforced_network_policy_without_bypass(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            profile = root / "profile"; profile.mkdir()
+            (profile / "auth.json").write_text('{"token":"private"}')
+            config = self.configuration(root, {"adapter": "codex", "profile": str(profile)},
+                                        options={"network_access": False})
+            task = root / "candidate"; (task / "agent_home").mkdir(parents=True)
+            private = root / "private-task"; private.mkdir()
+            runtime = CodexAdapter(config).prepare(task, private, 60)
+            self.assertNotIn("--dangerously-bypass-approvals-and-sandbox", runtime.shell)
+            self.assertIn('permissions.benchmark-offline.network.enabled=false', runtime.shell)
+            self.assertIn('approval_policy="never"', runtime.shell)
+            self.assertIn('--enable use_legacy_landlock', runtime.shell)
+            self.assertIn('--enable skip_host_skill_discovery', runtime.shell)
+            self.assertIn('--disable multi_agent_v2', runtime.shell)
+            for feature in ('apps', 'browser_use', 'computer_use', 'image_generation', 'remote_plugin'):
+                self.assertIn('--disable ' + feature, runtime.shell)
+            self.assertNotIn("private", " ".join(runtime.environment))
+
+    def test_codex_rejects_invalid_or_contradictory_offline_policy(self):
+        for access in (0, "false", None):
+            with self.subTest(access=access), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                config = self.configuration(root, {"adapter": "codex"},
+                                            options={"network_access": access})
+                with self.assertRaisesRegex(ValueError, "boolean"):
+                    CodexAdapter(config)
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            value = valid_config(root)
+            value["agent"].update(adapter="codex", options={"network_access": False})
+            value["agent"]["tools"]["web"] = True
+            path = root / "runner.yaml"; path.write_text(yaml.safe_dump(value))
+            with self.assertRaisesRegex(ValueError, "tools.web=false"):
+                CodexAdapter(load_config(path))
 
     def test_claude_keeps_provider_secret_outside_trial_and_adds_no_output_cap(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             settings = root / "claude-settings.json"
             settings.write_text(json.dumps({"env": {"ANTHROPIC_AUTH_TOKEN": "secret-token",
-                                                      "UNRELATED_SECRET": "forbidden"}}))
+                                                      "UNRELATED_SECRET": "forbidden",
+                                                      "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "17"}}))
             config = self.configuration(root, {"adapter": "claude", "profile": str(settings)})
             task = root / "candidate"
             (task / "agent_home").mkdir(parents=True)
@@ -144,6 +219,58 @@ oauth = true
             private_settings = (private / ".claude/settings.json").read_text()
             self.assertIn("secret-token", private_settings)
             self.assertNotIn("UNRELATED_SECRET", private_settings)
+            self.assertNotIn("MAX_OUTPUT_TOKENS", private_settings)
+
+    def test_claude_explicit_api_capabilities_and_automatic_reasoning(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            settings = root / "settings.json"
+            settings.write_text(json.dumps({"env": {
+                "ANTHROPIC_AUTH_TOKEN": "private-token",
+                "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "17"},
+                "enabledPlugins": {"external@example": True}}))
+            config = self.configuration(root, {"adapter": "claude", "profile": str(settings),
+                "reasoning_effort": "auto"}, options={"provider_capabilities": {
+                    "context_window": 524288, "response_window": 8192}})
+            adapter = ClaudeAdapter(config)
+            adapter.preflight()
+            task, private = root / "candidate", root / "private-task"
+            (task / "agent_home").mkdir(parents=True)
+            private.mkdir()
+            runtime = adapter.prepare(task, private, 60)
+            rendered = json.loads((private / ".claude/settings.json").read_text())
+            self.assertEqual(rendered["env"]["CLAUDE_CODE_MAX_CONTEXT_TOKENS"], "524288")
+            self.assertEqual(rendered["env"]["CLAUDE_CODE_MAX_OUTPUT_TOKENS"], "8192")
+            self.assertEqual(rendered["env"]["CLAUDE_CODE_AUTO_COMPACT_WINDOW"], "516096")
+            self.assertFalse(rendered["alwaysThinkingEnabled"])
+            self.assertNotIn("--effort", runtime.shell)
+            self.assertNotIn("max-tokens", runtime.shell)
+            self.assertNotIn("private-token", runtime.shell)
+            self.assertNotIn("enabledPlugins", rendered)
+            self.assertNotIn("oauth_credentials", config.agent.options)
+
+    def test_claude_rejects_invalid_provider_capabilities(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            settings = root / "settings.json"
+            settings.write_text('{}')
+            invalid = [None, {}, {"context_window": 1024},
+                {"context_window": True, "response_window": 1},
+                {"context_window": 1024, "response_window": -1},
+                {"context_window": 1024, "response_window": 1024},
+                {"context_window": 1024, "response_window": 2048},
+                {"context_window": "1024", "response_window": 1},
+                {"context_window": 1024, "response_window": 1, "extra": 1}]
+            for capabilities in invalid:
+                with self.subTest(capabilities=capabilities):
+                    config = self.configuration(root, {"adapter": "claude", "profile": str(settings)},
+                        options={"provider_capabilities": capabilities})
+                    with self.assertRaises(ValueError):
+                        ClaudeAdapter(config).preflight()
+            config = self.configuration(root, {"adapter": "claude", "profile": str(settings),
+                "reasoning_effort": "auto"})
+            with self.assertRaises(ValueError):
+                ClaudeAdapter(config).preflight()
 
     def test_zcode_validates_selected_model_and_effort(self):
         with tempfile.TemporaryDirectory() as temporary:

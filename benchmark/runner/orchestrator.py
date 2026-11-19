@@ -262,16 +262,8 @@ class SuiteRunner:
         # Docker's OOM flag is sticky even when only a child was killed and
         # the CLI subsequently recovered and delivered successfully. Preserve
         # that evidence without discarding an otherwise completed task.
-        completed_after_child_oom = False
-        if state.get("OOMKilled") and exit_code == 0 and self.config.agent.adapter == "claude":
-            for line in (directory / "session.jsonl").read_text().splitlines():
-                try:
-                    row = json.loads(line)
-                except json.JSONDecodeError:
-                    continue
-                if row.get("type") == "result":
-                    completed_after_child_oom = (row.get("subtype") == "success"
-                                                 and row.get("is_error") is False)
+        completed_after_child_oom = bool(state.get("OOMKilled") and exit_code == 0
+                                         and audit.completed and not audit.failed)
         if state.get("OOMKilled") and not completed_after_child_oom:
             raise RuntimeError(f"{task_id} candidate container exceeded the benchmark RAM limit")
         if audit.failed and not deadline:
@@ -442,13 +434,16 @@ class SuiteRunner:
         command = self._grader_command(task, directory, output)
         self.event("GRADE_QUEUED", task=task_id)
         request = output / "grade_job.json"
-        atomic_json(request, {
+        request_data = {
             "command": command, "cwd": str(self.frozen),
             "driver_log": str(output / "driver.log"),
             "lock": str(self.config.grader.lock), "report": str(report_path),
             "status": str(output / "job_status.json"),
             "pythonpath": str(self.frozen),
-        })
+        }
+        if self.config.grader.cpu_weight is not None:
+            request_data["cpu_weight"] = self.config.grader.cpu_weight
+        atomic_json(request, request_data)
         self.event("GRADE_START", task=task_id)
         with (output / "grade_job.log").open("a") as job_log:
             process = subprocess.Popen(

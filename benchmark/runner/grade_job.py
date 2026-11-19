@@ -19,7 +19,21 @@ import uuid
 
 
 STALE_GRADING_NAMES = {"delivery_sandbox", "mapped", "physical", "functional.json",
-                       "functional_score.json", "score_input.json", "measurement.json"}
+                       "functional_score.json", "score_input.json", "measurement.json",
+                       "resource_usage.json"}
+
+
+def _qualified_resources(output: Path, weight: int) -> bool:
+    try:
+        value = json.loads((output / "resource_usage.json").read_text())
+        return (value.get("status") == "completed" and value.get("returncode") == 0
+                and value.get("requested_cpu_weight") == weight
+                and value["before"]["cpu_weight"] == weight
+                and value["after"]["cpu_weight"] == weight
+                and bool(value["before"]["cgroup"])
+                and value["before"]["cgroup"] == value["after"]["cgroup"])
+    except (OSError, ValueError, KeyError, TypeError):
+        return False
 
 
 def _status(path: Path, phase: str, **fields: object) -> None:
@@ -59,8 +73,11 @@ def _archive_stale_output(output: Path, request_path: Path,
 def run(request_path: Path) -> int:
     request = json.loads(request_path.read_text())
     allowed = {"command", "cwd", "driver_log", "lock", "report", "status", "pythonpath"}
-    if set(request) != allowed:
+    if set(request) - {"cpu_weight"} != allowed:
         raise ValueError("invalid grading request fields")
+    cpu_weight = request.get("cpu_weight")
+    if cpu_weight is not None and (type(cpu_weight) is not int or not 1 <= cpu_weight <= 10000):
+        raise ValueError("invalid grading CPU weight")
     command = request["command"]
     if not isinstance(command, list) or not command or any(not isinstance(item, str) for item in command):
         raise ValueError("grading command must be an argv list")
@@ -72,14 +89,15 @@ def run(request_path: Path) -> int:
     log.parent.mkdir(parents=True, exist_ok=True)
     status.parent.mkdir(parents=True, exist_ok=True)
     output = report.parent
-    stale_artifacts = any(child.name in STALE_GRADING_NAMES or child.name.startswith("seed")
-                          for child in output.iterdir())
     _status(status, "waiting_for_global_lock")
     with lock_path.open("a") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
-        if report.is_file() and _final_report(report):
+        if report.is_file() and _final_report(report) and (
+                cpu_weight is None or _qualified_resources(output, cpu_weight)):
             _status(status, "skipped_existing_report", returncode=0)
             return 0
+        stale_artifacts = any(child.name in STALE_GRADING_NAMES or child.name.startswith("seed")
+                              for child in output.iterdir())
         archived = None
         if report.exists() or stale_artifacts:
             archived = _archive_stale_output(output, request_path, request)
@@ -87,13 +105,26 @@ def run(request_path: Path) -> int:
             status.parent.mkdir(parents=True, exist_ok=True)
         _status(status, "running_grader",
                 archived_attempt=str(archived) if archived else None)
+        if cpu_weight is not None:
+            unit = "ic-bcmk-grade-" + uuid.uuid4().hex + ".scope"
+            command = ["systemd-run", "--user", "--scope", "--quiet", "--unit=" + unit,
+                       "--property=CPUWeight=" + str(cpu_weight),
+                       sys.executable, str(Path(__file__).with_name("grade_resources.py")),
+                       str(request_path.resolve())]
         with log.open("w") as stream:
             result = subprocess.run(command, cwd=request["cwd"], stdout=stream,
                                     stderr=subprocess.STDOUT,
                                     env=os.environ | {"PYTHONPATH": request["pythonpath"]})
         if result.returncode:
+            if cpu_weight is not None and report.exists():
+                report.rename(output / ("unqualified_report-" + uuid.uuid4().hex + ".json"))
             _status(status, "grader_failed", returncode=result.returncode)
             return result.returncode
+        if cpu_weight is not None and not _qualified_resources(output, cpu_weight):
+            if report.exists():
+                report.rename(output / ("unqualified_report-" + uuid.uuid4().hex + ".json"))
+            _status(status, "resource_attestation_failed", returncode=76)
+            return 76
         if not report.is_file():
             _status(status, "missing_report", returncode=74)
             return 74

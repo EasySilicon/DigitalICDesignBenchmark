@@ -4,12 +4,74 @@ import sys
 import tempfile
 import threading
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 from benchmark.runner.grade_job import run
 
 
 class RunnerGradeJobTest(unittest.TestCase):
+    def test_old_final_report_without_requested_resources_is_not_reused(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            output = root/'grading/T07'
+            output.mkdir(parents=True)
+            report = output/'report.json'
+            original = '{"status":"scored","display_score":50}'
+            report.write_text(original)
+            request = output/'grade_job.json'
+            request.write_text(json.dumps({'command':['grader'], 'cwd':str(root),
+                'driver_log':str(output/'driver.log'),'lock':str(root/'grade.lock'),
+                'report':str(report),'status':str(output/'job_status.json'),
+                'pythonpath':str(root),'cpu_weight':10000}))
+            with patch('benchmark.runner.grade_job.subprocess.run',
+                       return_value=subprocess.CompletedProcess([],17)) as execute:
+                self.assertEqual(run(request),17)
+            execute.assert_called_once()
+            archives = list((root/'grading/_attempts').iterdir())
+            self.assertEqual(len(archives),1)
+            self.assertEqual((archives[0]/'report.json').read_text(),original)
+            self.assertFalse(report.exists())
+
+    def test_weighted_grader_cannot_publish_without_resource_attestation(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            report = root/'report.json'
+            request = root/'request.json'
+            request.write_text(json.dumps({'command':['grader'], 'cwd':str(root),
+                'driver_log':str(root/'driver.log'),'lock':str(root/'grade.lock'),
+                'report':str(report),'status':str(root/'job_status.json'),
+                'pythonpath':str(root),'cpu_weight':10000}))
+            def fake_success(*args, **kwargs):
+                report.write_text('{"status":"scored"}')
+                return subprocess.CompletedProcess([],0)
+            with patch('benchmark.runner.grade_job.subprocess.run', side_effect=fake_success):
+                self.assertEqual(run(request),76)
+            self.assertFalse(report.exists())
+            self.assertEqual(len(list(root.glob('unqualified_report-*.json'))),1)
+
+    def test_cpu_weight_uses_owned_scope_without_fallback(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            request = root / 'request.json'
+            report = root / 'report.json'
+            value = {'command': ['grader', 'T07'], 'cwd': str(root),
+                'driver_log': str(root/'driver.log'), 'lock': str(root/'grade.lock'),
+                'report': str(report), 'status': str(root/'job_status.json'),
+                'pythonpath': str(root), 'cpu_weight': 10000}
+            request.write_text(json.dumps(value))
+            with patch('benchmark.runner.grade_job.subprocess.run',
+                       return_value=subprocess.CompletedProcess([], 17)) as execute:
+                self.assertEqual(run(request), 17)
+            command = execute.call_args.args[0]
+            self.assertEqual(command[:4], ['systemd-run','--user','--scope','--quiet'])
+            self.assertIn('--property=CPUWeight=10000', command)
+            self.assertTrue(any(item.startswith('--unit=ic-bcmk-grade-') for item in command))
+            self.assertIn('grade_resources.py', ' '.join(command))
+            self.assertEqual(execute.call_count, 1)
+            self.assertFalse(report.exists())
+            self.assertEqual(json.loads((root/'job_status.json').read_text())['phase'], 'grader_failed')
+
     def test_duplicate_jobs_execute_grader_exactly_once(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

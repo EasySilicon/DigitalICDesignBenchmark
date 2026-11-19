@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from dataclasses import replace
 from pathlib import Path
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 import yaml
 
@@ -14,6 +14,34 @@ from benchmark.test_runner_config import valid_config
 
 
 class RunnerOrchestratorTest(unittest.TestCase):
+    def test_cpu_scheduling_policy_reaches_host_grade_request(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            value = valid_config(root)
+            value['grader']['cpu_weight'] = 10000
+            config_path = root/'runner.yaml'
+            config_path.write_text(yaml.safe_dump(value))
+            runner = SuiteRunner(load_config(config_path))
+            directory = runner.root/'tasks/T01'
+            directory.mkdir(parents=True)
+            (directory/'agent_result.json').write_text('{"elapsed_seconds":1}')
+            runner._grader_command = Mock(return_value=['fake-grader','T01'])
+            runner.event = Mock()
+            runner._summary = Mock()
+            def fake_job(*args, **kwargs):
+                output = runner.root/'grading/T01'
+                (output/'report.json').write_text('{"task_id":"T01","status":"scored"}')
+                process = Mock()
+                process.poll.return_value = 0
+                process.wait.return_value = 0
+                return process
+            with patch('benchmark.runner.orchestrator.subprocess.Popen', side_effect=fake_job):
+                runner.grade({'id':'T01'}, directory)
+            request = json.loads((runner.root/'grading/T01/grade_job.json').read_text())
+            self.assertEqual(request['cpu_weight'],10000)
+            self.assertEqual(request['command'],['fake-grader','T01'])
+            self.assertNotIn('cpu_weight',runner.config.agent.options)
+
     def test_successful_cli_delivery_after_child_oom_is_preserved(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -29,7 +57,7 @@ class RunnerOrchestratorTest(unittest.TestCase):
             (directory / "session.jsonl").write_text(json.dumps(
                 dict(type="result", subtype="success", is_error=False)) + "\n")
             runner.adapter = Mock()
-            runner.adapter.audit.return_value = AuditResult(True, False, "session", 123, True)
+            runner.adapter.audit.return_value = AuditResult(True, False, "session", 123, True, True)
             runner.event = Mock()
             runner._summary = Mock()
             state = dict(OOMKilled=True, ExitCode=0)
@@ -63,6 +91,30 @@ class RunnerOrchestratorTest(unittest.TestCase):
                     runner._finalize_agent(dict(id="T01", time_limit_minutes=3), directory,
                                            AdapterRuntime(""), dict(OOMKilled=True, ExitCode=code), 42)
                 self.assertFalse((directory / "agent_result.json").exists())
+
+    def test_codex_completed_turn_after_child_oom_is_preserved(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            value = valid_config(root)
+            value['agent']['adapter'] = 'codex'
+            config_path = root / 'runner.yaml'
+            config_path.write_text(yaml.safe_dump(value))
+            runner = SuiteRunner(load_config(config_path))
+            directory = runner.root / 'tasks/T01'
+            (directory / 'workspace').mkdir(parents=True)
+            (directory / 'workspace/delivery.txt').write_text('original delivery')
+            (directory / 'session.jsonl').write_text('\n'.join(map(json.dumps, [
+                {'type': 'thread.started', 'thread_id': 'session'},
+                {'type': 'turn.started'}, {'type': 'turn.completed', 'usage': {}},
+            ])) + '\n')
+            runner.event = Mock()
+            runner._summary = Mock()
+            runner._finalize_agent({'id': 'T01', 'time_limit_minutes': 3}, directory,
+                                   AdapterRuntime(''), {'OOMKilled': True, 'ExitCode': 0}, 42)
+            record = json.loads((directory / 'agent_result.json').read_text())
+            self.assertTrue(record['completed_after_child_oom'])
+            self.assertTrue(record['container_oom_observed'])
+
 
     def test_pending_user_confirmation_blocks_model_start(self):
         with tempfile.TemporaryDirectory() as temporary:

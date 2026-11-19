@@ -36,6 +36,7 @@ class AuditResult:
     session_id: str | None
     tokens: int | None
     binding_verified: bool
+    completed: bool = False
 
 
 def toml_value(value: Any) -> str:
@@ -109,8 +110,9 @@ class Adapter:
     def __init__(self, config: RunnerConfig):
         self.config = config
         self.agent = config.agent
-        allowed_options = {"zcode": {"provider_config", "runtime_root"},
-                           "claude": {"oauth_credentials"}}.get(self.name, set())
+        allowed_options = {"codex": {"network_access"},
+                           "zcode": {"provider_config", "runtime_root"},
+                           "claude": {"oauth_credentials", "provider_capabilities"}}.get(self.name, set())
         unknown_options = sorted(set(self.agent.options) - allowed_options)
         if unknown_options:
             raise ValueError(f"unsupported {self.name} adapter options: {', '.join(unknown_options)}")
@@ -282,6 +284,14 @@ class KimiAdapter(Adapter):
 class CodexAdapter(Adapter):
     name = "codex"
 
+    def __init__(self, config: RunnerConfig):
+        super().__init__(config)
+        access = self.agent.options.get("network_access")
+        if "network_access" in self.agent.options and type(access) is not bool:
+            raise ValueError("Codex network_access must be a boolean")
+        if access is False and self.agent.tools.web:
+            raise ValueError("Codex network_access=false also requires tools.web=false")
+
     def preflight(self) -> None:
         super().preflight()
         if self.agent.profile is None or not (self.agent.profile / "auth.json").is_file():
@@ -307,15 +317,32 @@ class CodexAdapter(Adapter):
                          "--disable", "skill_mcp_dependency_install", "--disable", "plugins",
                          "--disable", "plugin_sharing"]
         if not self.agent.tools.multi_agent:
-            switches += ["--disable", "multi_agent"]
+            switches += ["--disable", "multi_agent", "--disable", "multi_agent_v2"]
         if not self.agent.tools.web:
             switches += ["-c", 'web_search="disabled"']
+            # Recent Codex releases also expose server-side apps and browser
+            # tools, which are independent of shell-command network access.
+            for feature in ("apps", "browser_use", "browser_use_external",
+                            "browser_use_full_cdp_access", "in_app_browser",
+                            "computer_use", "image_generation", "remote_plugin"):
+                switches += ["--disable", feature]
+        if self.agent.options.get("network_access") is False:
+            # Docker already bounds filesystem access to the isolated mounts.
+            # Keep that boundary and let Codex's Linux command sandbox deny
+            # network sockets, while the CLI itself can reach its model service.
+            switches += ["--enable", "use_legacy_landlock",
+                         "-c", 'default_permissions="benchmark-offline"',
+                         "-c", 'permissions.benchmark-offline.filesystem={":root"="write"}',
+                         "-c", 'permissions.benchmark-offline.network.enabled=false',
+                         "-c", 'approval_policy="never"']
+        else:
+            switches += ["--dangerously-bypass-approvals-and-sandbox"]
         binary_mount, binary_target = _runtime_mount(self.agent.binary)
         node_mount, node_target = _node_mount()
         args = [node_target, binary_target, "exec", "--json", *switches,
                 "-m", self.agent.model, "-c", f'model_reasoning_effort="{self.agent.reasoning_effort}"',
-                "--dangerously-bypass-approvals-and-sandbox", "-C", "/workspace",
-                "--ephemeral", "--output-last-message", "/workspace/last_message.txt", "-"]
+                "-C", "/workspace",
+                "--output-last-message", "/workspace/last_message.txt", "-"]
         invocation = shlex.join(args) + " < /workspace/PROMPT.md"
         return AdapterRuntime(
             shell=self._wrapped(invocation, seconds),
@@ -324,7 +351,7 @@ class CodexAdapter(Adapter):
             environment=("CODEX_HOME=/home/benchmark/.codex",), audit_home=private_dir)
 
     def audit(self, task_dir: Path, runtime: AdapterRuntime) -> AuditResult:
-        initialized = failed = False
+        initialized = failed = completed = False
         session_id = None
         for row in _json_rows(task_dir / "session.jsonl"):
             if row.get("type") == "thread.started" and row.get("thread_id"):
@@ -332,7 +359,13 @@ class CodexAdapter(Adapter):
                 session_id = row["thread_id"]
             elif row.get("type") == "turn.failed":
                 failed = True
-        return AuditResult(initialized, failed, session_id, None, initialized)
+                completed = False
+            elif row.get("type") == "turn.started":
+                completed = False
+            elif row.get("type") == "turn.completed":
+                completed = True
+        return AuditResult(initialized, failed, session_id, None, initialized,
+                           completed and not failed)
 
     def finalize(self, task_dir: Path, private_dir: Path, runtime: AdapterRuntime) -> None:
         source = private_dir / ".codex/auth.json"
@@ -345,8 +378,23 @@ class ClaudeAdapter(Adapter):
     _allowed_env = {"ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_API_KEY", "ANTHROPIC_BASE_URL",
                     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"}
 
+    def _provider_capabilities(self) -> dict[str, int] | None:
+        capabilities = self.agent.options.get("provider_capabilities")
+        if "provider_capabilities" not in self.agent.options:
+            if self.agent.reasoning_effort == "auto":
+                raise ValueError("automatic provider reasoning requires explicit provider capabilities")
+            return None
+        if not isinstance(capabilities, dict) or set(capabilities) != {"context_window", "response_window"}:
+            raise ValueError("provider_capabilities requires context_window and response_window")
+        if any(type(value) is not int or value <= 0 for value in capabilities.values()):
+            raise ValueError("provider capability windows must be positive integers")
+        if capabilities["response_window"] >= capabilities["context_window"]:
+            raise ValueError("provider response window must be smaller than its context window")
+        return capabilities
+
     def preflight(self) -> None:
         super().preflight()
+        self._provider_capabilities()
         if self.agent.profile is None or not self.agent.profile.is_file():
             raise ValueError("Claude adapter requires agent.profile pointing to settings.json")
         credentials = self.agent.options.get("oauth_credentials")
@@ -359,8 +407,17 @@ class ClaudeAdapter(Adapter):
 
     def prepare(self, task_dir: Path, private_dir: Path, seconds: int) -> AdapterRuntime:
         assert self.agent.profile is not None
+        capabilities = self._provider_capabilities()
         host = json.loads(self.agent.profile.read_text())
         env = {key: value for key, value in host.get("env", {}).items() if key in self._allowed_env}
+        if capabilities is not None:
+            # These are explicitly declared API capabilities, not a trial token
+            # budget. Never inherit response limits from an unrelated host profile.
+            context = capabilities["context_window"]
+            response = capabilities["response_window"]
+            env.update(CLAUDE_CODE_MAX_CONTEXT_TOKENS=str(context),
+                       CLAUDE_CODE_MAX_OUTPUT_TOKENS=str(response),
+                       CLAUDE_CODE_AUTO_COMPACT_WINDOW=str(context - response))
         for key in ("ANTHROPIC_MODEL", "ANTHROPIC_REASONING_MODEL",
                     "ANTHROPIC_DEFAULT_OPUS_MODEL", "ANTHROPIC_DEFAULT_SONNET_MODEL",
                     "ANTHROPIC_DEFAULT_HAIKU_MODEL", "ANTHROPIC_DEFAULT_FABLE_MODEL"):
@@ -381,22 +438,29 @@ class ClaudeAdapter(Adapter):
         if not self.agent.tools.multi_agent:
             deny += ["Agent", "Task", "TeamCreate"]
         settings = private_home / "settings.json"
-        settings.write_text(json.dumps({
+        settings_data = {
             "env": env,
             "disableBundledSkills": not self.agent.skills.builtin,
             "permissions": {"deny": deny},
             "hasCompletedOnboarding": True,
             "skipDangerousModePermissionPrompt": True,
-        }, indent=2) + "\n")
+        }
+        if self.agent.reasoning_effort == "auto":
+            # The provider generates its own reasoning; do not request Anthropic's
+            # extended-thinking budget or send an unsupported effort setting.
+            settings_data["alwaysThinkingEnabled"] = False
+        settings.write_text(json.dumps(settings_data, indent=2) + "\n")
         settings.chmod(0o600)
         session = str(uuid.uuid4())
         binary_mount, binary_target = _runtime_mount(self.agent.binary)
         args = [binary_target, "-p", "$(< /workspace/PROMPT.md)",
-                "--model", self.agent.model, "--effort", self.agent.reasoning_effort,
+                "--model", self.agent.model,
                 "--session-id", session,
                 "--dangerously-skip-permissions", "--strict-mcp-config", "--mcp-config",
                 '{"mcpServers":{}}', "--setting-sources", "user",
                 "--output-format", "stream-json", "--verbose"]
+        if self.agent.reasoning_effort != "auto":
+            args += ["--effort", self.agent.reasoning_effort]
         if deny:
             args += ["--disallowedTools", ",".join(deny)]
         if self.agent.tools.allowed:
@@ -430,7 +494,7 @@ class ClaudeAdapter(Adapter):
             _copy_file(Path(credentials), private_dir / ".claude/.credentials.json")
 
     def audit(self, task_dir: Path, runtime: AdapterRuntime) -> AuditResult:
-        initialized = failed = binding = False
+        initialized = failed = binding = completed = False
         session_id = None
         messages: dict[str, int] = {}
         for row in _json_rows(task_dir / "session.jsonl"):
@@ -448,6 +512,8 @@ class ClaudeAdapter(Adapter):
                     binding = False
             if row.get("type") == "result" and row.get("is_error"):
                 failed = True
+            if row.get("type") == "result":
+                completed = (row.get("subtype") == "success" and row.get("is_error") is False)
             message = row.get("message")
             if row.get("type") == "assistant" and isinstance(message, dict):
                 usage = message.get("usage", {})
@@ -455,7 +521,8 @@ class ClaudeAdapter(Adapter):
                     int(usage.get(key) or 0) for key in
                     ("input_tokens", "cache_creation_input_tokens", "cache_read_input_tokens", "output_tokens"))
         return AuditResult(initialized, failed, session_id,
-                           sum(messages.values()) if messages else None, binding)
+                           sum(messages.values()) if messages else None, binding,
+                           completed and not failed)
 
 
 class ZcodeAdapter(Adapter):

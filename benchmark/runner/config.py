@@ -93,6 +93,7 @@ class AgentConfig:
 class GraderConfig:
     command: tuple[str, ...]
     lock: Path
+    cpu_weight: int | None = None
 
 
 @dataclass(frozen=True)
@@ -175,7 +176,10 @@ def load_config(path: Path) -> RunnerConfig:
         options=dict(options),
     )
     grader_raw = _mapping(data.get("grader"), "grader")
-    _only(grader_raw, {"command", "lock"}, "grader")
+    _only(grader_raw, {"command", "lock", "cpu_weight"}, "grader")
+    cpu_weight = grader_raw.get("cpu_weight")
+    if cpu_weight is not None and (type(cpu_weight) is not int or not 1 <= cpu_weight <= 10000):
+        raise ValueError("grader.cpu_weight must be an integer from 1 to 10000")
     command = grader_raw.get("command")
     if not isinstance(command, list) or not command or any(not isinstance(item, str) or not item for item in command):
         raise ValueError("grader.command must be a nonempty argv list")
@@ -234,7 +238,7 @@ def load_config(path: Path) -> RunnerConfig:
         tool_path=tool_path,
         readonly_mounts=tuple(mounts),
         agent=agent,
-        grader=GraderConfig(tuple(command), _path(grader_raw.get("lock"), base, "grader.lock")),
+        grader=GraderConfig(tuple(command), _path(grader_raw.get("lock"), base, "grader.lock"), cpu_weight),
         task_language=language,
         proxy_url=proxy,
     )
