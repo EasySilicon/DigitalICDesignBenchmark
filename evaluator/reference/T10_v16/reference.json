@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "task_id": "T10",
+  "reference_id": "T10_v16",
+  "status": "frozen_source_hybrid_ppa_reference",
+  "precision": "exact-dot-v1",
+  "source_sha256": "423e718efeec3f55f7f4857ee570df46f27584b090f0a133174e355c23e07670",
+  "files": {
+    "rtl/files.f": "8cc7cf7fa2648ea750229ff0dc2909c1b21086f71de9f4ec90d2a41505ef9eda",
+    "rtl/mm_csa.sv": "b44ff5e6c2925051061594f6bfd85010ed0fee2cbbab36e549d4c457871b3a24",
+    "rtl/mm_pe.sv": "a4e3ada3ecb2491291a1a4b8eb1b034c2d02d99bf4cdfbecd16871341877fa87",
+    "rtl/mm_tile.sv": "8cf8a115e972c3ef19e1f13aeedd36c9a5fca1b1c3c258ae820139b77f103c2f",
+    "rtl/npu_systolic_matmul_16x16.sv": "d1e651e257aa71cef884c753f87ff9c4c4120d86eca7bc49a1077322edf96fb6"
+  },
+  "ppa_policy": "t10-v16-whole-cost-pe-timing",
+  "qualification": "evaluator/t10_qualification.json",
+  "ppa_baseline": "benchmark/ppa-baselines.json#tasks.T10"
+}

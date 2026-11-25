@@ -129,7 +129,9 @@ def validate_records(records, source, task, *, complete=True):
 def attach(measurement, records):
     result = dict(measurement, physical_policy=policy_id(measurement['task_id']), physical_records=records)
     if any(r['status'] == 'timeout' for r in records):
-        result['measurement_status'] = 'physical_timeout_retained_results'
+        result['measurement_status'] = ('physical_timeout_retained_hybrid'
+            if measurement.get('policy_id') == 't10-v16-whole-cost-pe-timing'
+            else 'physical_timeout_retained_results')
     return result
 
 
@@ -151,6 +153,11 @@ def partial_provenance_valid(task, measurement, reference, records, source):
     timeouts = validate_records(records, source, task)
     if not timeouts or not ppa_provenance_valid(task, reference, reference):
         return False
+    if task == 'T10' and measurement.get('policy_id') == 't10-v16-whole-cost-pe-timing':
+        return (measurement.get('source_sha256') == source
+                and measurement.get('physical_records') == records
+                and measurement.get('measurement_status') == 'physical_timeout_retained_hybrid'
+                and ppa_provenance_valid(task, measurement, reference))
     if (measurement.get('physical_policy') != policy_id(task) or
             measurement.get('physical_records') != records or
             measurement.get('measurement_status') != 'physical_timeout_retained_results' or

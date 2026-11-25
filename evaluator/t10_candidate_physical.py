@@ -87,7 +87,8 @@ def active_records(directory):
     return directory/'inputs.json',directory/'baseline.json'
 
 
-def run_seed(item,seed,work,orfs,target,*,memory_gib=40,allow_swap=False,prepare_only=False):
+def run_seed(item,seed,work,orfs,target,*,memory_gib=40,allow_swap=False,prepare_only=False,threads=4):
+    if type(threads) is not int or threads not in (1,2,4):raise ValueError('unsupported physical thread count')
     model=item['model'];pe=item['pe'];directory=work/model/f'seed{seed}'
     directory.mkdir(parents=True,exist_ok=True)
     with (directory/'run.lock').open('a') as lock:
@@ -120,7 +121,7 @@ def run_seed(item,seed,work,orfs,target,*,memory_gib=40,allow_swap=False,prepare
             orfs_revision=subprocess.check_output(['git','-C',str(orfs),'rev-parse','HEAD'],text=True).strip(),
             openroad=subprocess.check_output(['openroad','-version'],text=True).strip(),
             yosys=subprocess.check_output(['yosys','-V'],text=True).strip(),variant=variant,
-            memory_max_bytes=memory_gib*1024**3,memory_swap_max_bytes=None if allow_swap else 0,threads=4)
+            memory_max_bytes=memory_gib*1024**3,memory_swap_max_bytes=None if allow_swap else 0,threads=threads)
         suffix='40' if memory_gib==40 else ''
         if memory_gib not in (32,40):raise ValueError('unsupported memory policy')
         input_path=directory/f'inputs{suffix}.json'
@@ -137,7 +138,7 @@ def run_seed(item,seed,work,orfs,target,*,memory_gib=40,allow_swap=False,prepare
             '-p',f'MemoryMax={memory_gib}G','-p','MemorySwapMax=infinity' if allow_swap else 'MemorySwapMax=0','-p','CPUQuota=400%',
             'make','-C',str(orfs/'flow'),f'DESIGN_CONFIG={config}',f'FLOW_VARIANT={variant}',
             f'PLATFORM_DIR={REPO/"vendor/asap7"}','LIB_MODEL=NLDM','ASAP7_USE_VT=RVT',
-            f'OPENROAD_EXE={shutil.which("openroad")}',f'YOSYS_EXE={shutil.which("yosys")}','NUM_CORES=4',
+            f'OPENROAD_EXE={shutil.which("openroad")}',f'YOSYS_EXE={shutil.which("yosys")}',f'NUM_CORES={threads}',
             *(['route','do-finish'] if target=='baseline' else [target])]
         if prepare_only:
             return dict(command=command,inputs=inputs,input_path=str(input_path),marker=str(marker))

@@ -1,87 +1,114 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="972" viewBox="0 0 1200 972" role="img" aria-labelledby="title desc">
-<title id="title">Digital IC Design Benchmark: model scores</title>
-<desc id="desc">Historical pilot weighted scores out of 105, sorted from highest to lowest. Each row shows model, reasoning effort and CLI version.</desc>
+<title id="title">Digital IC Design Benchmark: weighted model scores</title>
+<desc id="desc">Completed historical pilot results sorted by unrounded weighted score. Pending measurements are shown separately without a rank. T10 uses v16.</desc>
 <rect width="1200" height="972" rx="18" fill="#ffffff"/>
-<defs><linearGradient id="glm-blue" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#199AFF"/><stop offset="1" stop-color="#197EFF"/></linearGradient></defs>
 <g font-family="Inter, Arial, sans-serif">
 <text x="48" y="61" fill="#18212f" font-size="30" font-weight="700">Digital IC Design Benchmark</text>
-<text x="48" y="93" fill="#526174" font-size="16">Historical pilot · weighted score / 105 · T01–T10</text>
+<text x="48" y="93" fill="#526174" font-size="16">Historical pilot · weighted score / 105 · T01–T10 · T10 v16</text>
+<g data-model="claude-fable-5.2" data-status="complete" data-score="88.9948609580207">
 <text x="50" y="154" fill="#586779" font-size="16">01</text>
-<text x="92" y="147" fill="#18212f" font-size="19" font-weight="600">GPT-6.2-Astra</text>
-<text x="92" y="168" fill="#586779" font-size="14">Codex CLI 0.169.1 · effort: high</text>
+<text x="92" y="147" fill="#18212f" font-size="19" font-weight="600">Claude Fable 5.2</text>
+<text x="92" y="168" fill="#586779" font-size="14">Claude Code 2.1.322 · effort: high</text>
 <rect x="430" y="135" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="135" width="493.93" height="25" rx="6" fill="#10A37F"/>
-<text x="1090" y="154" fill="#18212f" font-size="19" font-weight="700">81.04</text>
-<text x="50" y="215" fill="#586779" font-size="16">02</text>
-<text x="92" y="208" fill="#18212f" font-size="19" font-weight="600">Sonnet 5.5</text>
-<text x="92" y="229" fill="#586779" font-size="14">Claude Code 2.1.317 · effort: high</text>
-<rect x="430" y="196" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="196" width="491.41" height="25" rx="6" fill="#D97757"/>
-<text x="1090" y="215" fill="#18212f" font-size="19" font-weight="700">80.62</text>
-<text x="50" y="276" fill="#586779" font-size="16">03</text>
-<text x="92" y="269" fill="#18212f" font-size="19" font-weight="600">Fable 5.2</text>
-<text x="92" y="290" fill="#586779" font-size="14">Claude Code 2.1.322 · effort: high</text>
-<rect x="430" y="257" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="257" width="487.11" height="25" rx="6" fill="#D97757"/>
-<text x="1090" y="276" fill="#18212f" font-size="19" font-weight="700">79.92</text>
-<text x="50" y="337" fill="#586779" font-size="16">04</text>
-<text x="92" y="330" fill="#18212f" font-size="19" font-weight="600">Opus 5.5</text>
-<text x="92" y="351" fill="#586779" font-size="14">Claude Code 2.1.317 · effort: high</text>
-<rect x="430" y="318" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="318" width="478.77" height="25" rx="6" fill="#D97757"/>
-<text x="1090" y="337" fill="#18212f" font-size="19" font-weight="700">78.55</text>
-<text x="50" y="398" fill="#586779" font-size="16">05</text>
-<text x="92" y="391" fill="#18212f" font-size="19" font-weight="600">GPT-6-Astra</text>
-<text x="92" y="412" fill="#586779" font-size="14">Codex CLI 0.160.0 · effort: high</text>
-<rect x="430" y="379" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="379" width="463.38" height="25" rx="6" fill="#10A37F"/>
-<text x="1090" y="398" fill="#18212f" font-size="19" font-weight="700">76.02</text>
-<text x="50" y="459" fill="#586779" font-size="16">06</text>
-<text x="92" y="452" fill="#18212f" font-size="19" font-weight="600">GPT-6.1-Sol</text>
-<text x="92" y="473" fill="#586779" font-size="14">Codex CLI 0.160.0 · effort: high</text>
-<rect x="430" y="440" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="440" width="455.72" height="25" rx="6" fill="#10A37F"/>
-<text x="1090" y="459" fill="#18212f" font-size="19" font-weight="700">74.77</text>
-<text x="50" y="520" fill="#586779" font-size="16">07</text>
-<text x="92" y="513" fill="#18212f" font-size="19" font-weight="600">Kimi K3.1 Pro</text>
-<text x="92" y="534" fill="#586779" font-size="14">Kimi CLI 2.3.1 · effort: max</text>
-<rect x="430" y="501" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="501" width="454.56" height="25" rx="6" fill="#000000"/>
-<text x="1090" y="520" fill="#18212f" font-size="19" font-weight="700">74.58</text>
-<text x="50" y="581" fill="#586779" font-size="16">08</text>
-<text x="92" y="574" fill="#18212f" font-size="19" font-weight="600">GPT-6-Sol</text>
-<text x="92" y="595" fill="#586779" font-size="14">Codex CLI 0.160.0 · effort: high</text>
-<rect x="430" y="562" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="562" width="445.21" height="25" rx="6" fill="#10A37F"/>
-<text x="1090" y="581" fill="#18212f" font-size="19" font-weight="700">73.04</text>
-<text x="50" y="642" fill="#586779" font-size="16">09</text>
-<text x="92" y="635" fill="#18212f" font-size="19" font-weight="600">GPT-5.6-Sol</text>
-<text x="92" y="656" fill="#586779" font-size="14">Codex CLI 0.162.1 · effort: high</text>
-<rect x="430" y="623" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="623" width="442.10" height="25" rx="6" fill="#10A37F"/>
-<text x="1090" y="642" fill="#18212f" font-size="19" font-weight="700">72.53</text>
-<text x="50" y="703" fill="#586779" font-size="16">10</text>
-<text x="92" y="696" fill="#18212f" font-size="19" font-weight="600">GLM-5.3</text>
-<text x="92" y="717" fill="#586779" font-size="14">ZCode CLI 0.17.0 · effort: max</text>
-<rect x="430" y="684" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="684" width="406.63" height="25" rx="6" fill="url(#glm-blue)"/>
-<text x="1090" y="703" fill="#18212f" font-size="19" font-weight="700">66.71</text>
-<text x="50" y="764" fill="#586779" font-size="16">11</text>
-<text x="92" y="757" fill="#18212f" font-size="19" font-weight="600">Kimi K3</text>
-<text x="92" y="778" fill="#586779" font-size="14">Kimi CLI 2.1.1 · effort: max</text>
-<rect x="430" y="745" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="745" width="339.01" height="25" rx="6" fill="#000000"/>
-<text x="1090" y="764" fill="#18212f" font-size="19" font-weight="700">55.62</text>
-<text x="50" y="825" fill="#586779" font-size="16">12</text>
-<text x="92" y="818" fill="#18212f" font-size="19" font-weight="600">DeepSeek V4.1 Flash</text>
-<text x="92" y="839" fill="#586779" font-size="14">Claude Code 2.1.183 · effort: high</text>
-<rect x="430" y="806" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="806" width="319.69" height="25" rx="6" fill="#4D6BFE"/>
-<text x="1090" y="825" fill="#18212f" font-size="19" font-weight="700">52.45</text>
-<text x="50" y="886" fill="#586779" font-size="16">13</text>
-<text x="92" y="879" fill="#18212f" font-size="19" font-weight="600">GLM-5.3-Flash</text>
-<text x="92" y="900" fill="#586779" font-size="14">ZCode CLI 0.17.0 · effort: max</text>
-<rect x="430" y="867" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="867" width="277.67" height="25" rx="6" fill="url(#glm-blue)"/>
-<text x="1090" y="886" fill="#18212f" font-size="19" font-weight="700">45.55</text>
+<rect x="430" y="135" width="542.44" height="25" rx="6" fill="#d78565"/>
+<text x="1090" y="154" fill="#18212f" font-size="19" font-weight="700">88.99</text>
+</g>
+<g data-model="gpt-6.2-astra" data-status="complete" data-score="88.808383044568">
+<text x="50" y="213" fill="#586779" font-size="16">02</text>
+<text x="92" y="206" fill="#18212f" font-size="19" font-weight="600">GPT-6.2-Astra</text>
+<text x="92" y="227" fill="#586779" font-size="14">Codex CLI 0.169.1 · effort: high</text>
+<rect x="430" y="194" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="194" width="541.31" height="25" rx="6" fill="#10A37F"/>
+<text x="1090" y="213" fill="#18212f" font-size="19" font-weight="700">88.81</text>
+</g>
+<g data-model="claude-sonnet-5.5" data-status="complete" data-score="80.6225948216981">
+<text x="50" y="272" fill="#586779" font-size="16">03</text>
+<text x="92" y="265" fill="#18212f" font-size="19" font-weight="600">Claude Sonnet 5.5</text>
+<text x="92" y="286" fill="#586779" font-size="14">Claude Code 2.1.317 · effort: high</text>
+<rect x="430" y="253" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="253" width="491.41" height="25" rx="6" fill="#d78565"/>
+<text x="1090" y="272" fill="#18212f" font-size="19" font-weight="700">80.62</text>
+</g>
+<g data-model="claude-opus-5.5" data-status="complete" data-score="78.5478375619786">
+<text x="50" y="331" fill="#586779" font-size="16">04</text>
+<text x="92" y="324" fill="#18212f" font-size="19" font-weight="600">Claude Opus 5.5</text>
+<text x="92" y="345" fill="#586779" font-size="14">Claude Code 2.1.317 · effort: high</text>
+<rect x="430" y="312" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="312" width="478.77" height="25" rx="6" fill="#d78565"/>
+<text x="1090" y="331" fill="#18212f" font-size="19" font-weight="700">78.55</text>
+</g>
+<g data-model="gpt-6-astra" data-status="complete" data-score="75.9660695345913">
+<text x="50" y="390" fill="#586779" font-size="16">05</text>
+<text x="92" y="383" fill="#18212f" font-size="19" font-weight="600">GPT-6-Astra</text>
+<text x="92" y="404" fill="#586779" font-size="14">Codex CLI 0.160.0 · effort: high</text>
+<rect x="430" y="371" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="371" width="463.03" height="25" rx="6" fill="#10A37F"/>
+<text x="1090" y="390" fill="#18212f" font-size="19" font-weight="700">75.97</text>
+</g>
+<g data-model="gpt-6.1-sol" data-status="complete" data-score="74.7232258783298">
+<text x="50" y="449" fill="#586779" font-size="16">06</text>
+<text x="92" y="442" fill="#18212f" font-size="19" font-weight="600">GPT-6.1-Sol</text>
+<text x="92" y="463" fill="#586779" font-size="14">Codex CLI 0.160.0 · effort: high</text>
+<rect x="430" y="430" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="430" width="455.46" height="25" rx="6" fill="#10A37F"/>
+<text x="1090" y="449" fill="#18212f" font-size="19" font-weight="700">74.72</text>
+</g>
+<g data-model="gpt-6-sol" data-status="complete" data-score="73.041966385773">
+<text x="50" y="508" fill="#586779" font-size="16">07</text>
+<text x="92" y="501" fill="#18212f" font-size="19" font-weight="600">GPT-6-Sol</text>
+<text x="92" y="522" fill="#586779" font-size="14">Codex CLI 0.160.0 · effort: high</text>
+<rect x="430" y="489" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="489" width="445.21" height="25" rx="6" fill="#10A37F"/>
+<text x="1090" y="508" fill="#18212f" font-size="19" font-weight="700">73.04</text>
+</g>
+<g data-model="gpt-5.6-sol" data-status="complete" data-score="72.5314561217266">
+<text x="50" y="567" fill="#586779" font-size="16">08</text>
+<text x="92" y="560" fill="#18212f" font-size="19" font-weight="600">GPT-5.6-Sol</text>
+<text x="92" y="581" fill="#586779" font-size="14">Codex CLI 0.162.1 · effort: high</text>
+<rect x="430" y="548" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="548" width="442.10" height="25" rx="6" fill="#10A37F"/>
+<text x="1090" y="567" fill="#18212f" font-size="19" font-weight="700">72.53</text>
+</g>
+<g data-model="glm-5.3" data-status="complete" data-score="66.7121087238878">
+<text x="50" y="626" fill="#586779" font-size="16">09</text>
+<text x="92" y="619" fill="#18212f" font-size="19" font-weight="600">GLM-5.3</text>
+<text x="92" y="640" fill="#586779" font-size="14">ZCode CLI 0.17.0 · effort: max</text>
+<rect x="430" y="607" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="607" width="406.63" height="25" rx="6" fill="#2386ee"/>
+<text x="1090" y="626" fill="#18212f" font-size="19" font-weight="700">66.71</text>
+</g>
+<g data-model="kimi-k3" data-status="complete" data-score="55.6185027263406">
+<text x="50" y="685" fill="#586779" font-size="16">10</text>
+<text x="92" y="678" fill="#18212f" font-size="19" font-weight="600">Kimi K3</text>
+<text x="92" y="699" fill="#586779" font-size="14">Kimi CLI 2.1.1 · effort: max</text>
+<rect x="430" y="666" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="666" width="339.01" height="25" rx="6" fill="#7460bf"/>
+<text x="1090" y="685" fill="#18212f" font-size="19" font-weight="700">55.62</text>
+</g>
+<g data-model="deepseek-flash" data-status="complete" data-score="52.4497601698073">
+<text x="50" y="744" fill="#586779" font-size="16">11</text>
+<text x="92" y="737" fill="#18212f" font-size="19" font-weight="600">DeepSeek V4.1 Flash</text>
+<text x="92" y="758" fill="#586779" font-size="14">Claude Code 2.1.183 · effort: high</text>
+<rect x="430" y="725" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="725" width="319.69" height="25" rx="6" fill="#7460bf"/>
+<text x="1090" y="744" fill="#18212f" font-size="19" font-weight="700">52.45</text>
+</g>
+<g data-model="glm-5.3-flash" data-status="complete" data-score="45.5544398131816">
+<text x="50" y="803" fill="#586779" font-size="16">12</text>
+<text x="92" y="796" fill="#18212f" font-size="19" font-weight="600">GLM-5.3-Flash</text>
+<text x="92" y="817" fill="#586779" font-size="14">ZCode CLI 0.17.0 · effort: max</text>
+<rect x="430" y="784" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="784" width="277.67" height="25" rx="6" fill="#2386ee"/>
+<text x="1090" y="803" fill="#18212f" font-size="19" font-weight="700">45.55</text>
+</g>
+<g data-model="kimi-k3.1-pro" data-status="pending" data-score="74.5766799319793">
+<text x="50" y="862" fill="#586779" font-size="16">—</text>
+<text x="92" y="855" fill="#18212f" font-size="19" font-weight="600">Kimi K3.1 Pro</text>
+<text x="92" y="876" fill="#586779" font-size="14">Kimi CLI 2.3.1 · effort: max · T10 pending</text>
+<rect x="430" y="843" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="843" width="454.56" height="25" rx="6" fill="#9ba5b2"/>
+<text x="1090" y="862" fill="#18212f" font-size="19" font-weight="700">≥74.58</text>
+</g>
+<text x="48" y="923" fill="#586779" font-size="14">Strict exact-dot-v1 · T10: whole-design area/energy, PE-internal timing.</text>
+<text x="48" y="947" fill="#586779" font-size="14">Pending model: known-component subtotal only; no final rank.</text>
 </g></svg>

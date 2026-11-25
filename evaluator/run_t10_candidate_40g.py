@@ -321,7 +321,12 @@ def main():
     parser.add_argument('--trial',action='append',required=True,metavar='LABEL=TRIAL_DIR')
     parser.add_argument('--work',type=Path,required=True)
     parser.add_argument('--orfs',type=Path,required=True)
-    args=parser.parse_args();trials=trial_paths(args.trial);work=args.work.resolve()
+    args=parser.parse_args()
+    baseline=json.loads((REPO/'benchmark/ppa-baselines.json').read_text())['tasks']['T10']
+    if baseline.get('measurement_scope') != 'single_pe':
+        parser.error('This historical single-PE driver does not implement the current T10 v16 scope; '
+                     'use t10_hybrid_measure.py --campaign CONFIG (see T10_EVALUATION.md).')
+    trials=trial_paths(args.trial);work=args.work.resolve()
     work.mkdir(parents=True,exist_ok=True)
     with (work/'serial40.lock').open('a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX)

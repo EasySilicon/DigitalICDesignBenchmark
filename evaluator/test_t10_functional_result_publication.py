@@ -27,7 +27,7 @@ class T10FunctionalPublicationTest(unittest.TestCase):
             weighted = weighted_suite_score({r['task_id']:r['display_score'] for r in summary['tasks']})
             self.assertAlmostEqual(summary['weighted_display_score'], weighted['weighted_display_score'], places=12)
             for component in ['functional_total','ppa_score','time_score','display_score']:
-                self.assertAlmostEqual(summary[component+'_sum'], math.fsum(r[component] for r in summary['tasks']), places=12)
+                self.assertAlmostEqual(summary[component+'_sum'], math.fsum(r[component] for r in summary['tasks'] if r[component] is not None), places=12)
 
     def test_schema_rejects_bookkeeping_in_summary_and_task_rows(self):
         schema = json.loads((RESULTS / 'result.schema.json').read_text())

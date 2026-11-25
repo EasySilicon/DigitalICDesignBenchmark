@@ -33,8 +33,12 @@ def normalize_blackbox_parameters(shell, pe, original_module):
     source = re.sub(r'/\*.*?\*/|//[^\n]*', '', original_module, flags=re.S)
     if re.search(r'\bparameter\b', source):
         raise ValueError('PE has public parameters; cannot discard blackbox overrides')
-    if len(matches) != 256 or len({m['name'] for m in matches}) != 256:
-        raise ValueError('blackbox normalization requires exactly 256 distinct PEs')
+    # A repeated local name in another tile is a different physical instance.
+    # Require complete metadata coverage, then count elaborated paths after
+    # removing only the non-overridable arguments, without changing any ports.
+    plain = re.compile(r'(?m)^\s*' + re.escape(pe) + r'\s+(\\\S+|\w+)\s*\(')
+    if plain.search(shell):
+        raise ValueError('blackbox metadata must cover every PE declaration')
     constant = re.compile(r'\.([A-Za-z_][A-Za-z0-9_$]*)\s*\(\s*'
                           r'([-+]?[0-9_]+(?:\x27[sS]?[bBoOdDhH][0-9a-fA-F_xXzZ?]+)?)\s*\)')
     parameter_sets = []
@@ -47,7 +51,15 @@ def normalize_blackbox_parameters(shell, pe, original_module):
     if len(set(parameter_sets)) != 1:
         raise ValueError('PE blackbox metadata varies between instances')
     converted = pattern.sub(lambda m: m[1] + ' ' + m['name'] + ' (', shell)
-    return converted, dict(pe_module=pe,instances=256,
+    if re.search(r'\bmodule\s+npu_systolic_matmul_16x16\b', converted):
+        if __package__:
+            from .t10_candidate_power import validate_paths
+        else:
+            from t10_candidate_power import validate_paths
+        validate_paths(converted, pe)
+    elif len(matches) != 256 or len({m['name'] for m in matches}) != 256:
+        raise ValueError('blackbox normalization requires exactly 256 distinct PEs')
+    return converted, dict(pe_module=pe,instances=256,declarations=len(matches),
         discarded_non_overridable_metadata=dict(parameter_sets[0]),
         original_module_sha256=hashlib.sha256(original_module.encode()).hexdigest(),
         mapped_shell_before_sha256=hashlib.sha256(shell.encode()).hexdigest(),

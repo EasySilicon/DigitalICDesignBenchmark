@@ -7,7 +7,7 @@ import argparse
 import json
 from pathlib import Path
 
-from score_run import load_rules, ppa_score
+from score_run import load_rules, ppa_score, ppa_provenance_valid
 from power_compile_budget import POLICY_ID, TIMEOUT_STATUS, apply_to_scored_record
 
 
@@ -72,12 +72,15 @@ def main() -> int:
                 rows.append(row)
                 continue
             retained=measurement.get('measurement_status')=='physical_timeout_retained_results'
+            hybrid=(task=='T10' and measurement.get('policy_id')=='t10-v16-whole-cost-pe-timing')
+            if hybrid and not ppa_provenance_valid(task,measurement,baselines['tasks'][task]):
+                raise ValueError('invalid v16 T10 measurement scope or accounting')
             if retained:
                 from physical_budget import partial_provenance_valid
                 if not partial_provenance_valid(task,measurement,baselines['tasks'][task],
                         measurement.get('physical_records',[]),measurement.get('source_sha256')):
                     raise ValueError('invalid retained physical measurement')
-            if measurement.get("measurement_status") != "three_seed" and not retained:
+            if measurement.get("measurement_status") != "three_seed" and not retained and not hybrid:
                 row.update({"status": "invalid_measurement", "ppa_score": None})
             else:
                 score = ppa_score(

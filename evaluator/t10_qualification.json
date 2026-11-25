@@ -12,9 +12,7 @@
   "killed_mutants": 14,
   "ppa_baseline_status": "qualified_1ghz",
   "ppa_contract_path": "../benchmark/tasks/T10/ppa.md",
-  "ppa_contract_sha256": "857b6ed1ac997da9b01a7554a579ce0f9f5e7c674ce2d9a35ad63e28a1e62bf8",
-  "ppa_evidence_schema_path": "../benchmark/tasks/T10/ppa-evidence.schema.json",
-  "ppa_evidence_schema_sha256": "ae2698d6d1b7c6ba82caf5e37ad27eda9a397a2f2c4f14da77eb3c3fd119af85",
+  "ppa_contract_sha256": "d56d8d21d763e380720e7a08f47c4276d67fea3ff6a8c729b9edcf08137e405d",
   "pe_reference_probe_path": "t10_pe_manual_closure.json",
   "pe_reference_probe_sha256": "9184e9b87e9d3b88597ef4639022df138f197855a9554edd17f8427cc58eb352",
   "pe_reference_probe": {
@@ -48,18 +46,40 @@
   "power_workload_matrix_blocks": 200,
   "minimum_activity_annotation": 0.95,
   "baseline_blocker": null,
-  "physical_qualification_date": "2026-10-20",
-  "pe_reference_status": "v15_three_seed_single_pe_qualified",
+  "physical_qualification_date": "2026-11-25",
+  "pe_reference_status": "v16_three_seed_whole_cost_pe_timing_qualified",
   "historical_pe_reference_probe_path": "t10_pe_reference_probe.json",
   "historical_pe_reference_probe_sha256": "56ff5f2eea224362e28aacd4699103dff6d86ef4afdba78dcc2a52ed208e14fb",
-  "measurement_scope": "single_pe",
+  "measurement_scope": "whole_design_cost_pe_internal_timing",
   "physical_levels": [
     "pe"
   ],
   "three_seed_reference": {
-    "qualification_date": "2026-10-20",
+    "qualification_date": "2026-11-25",
     "scoring_baseline": "../benchmark/ppa-baselines.json#tasks.T10",
-    "evidence_record_sha256": "2cb6f27d91ff0f46e1f27b3d8b82055683366c495cd09bca4b8e31c53fde154f",
+    "evidence_record_sha256": "d4bd431671da5ec7088c66ffe60bd5984a9c42136001c618cb335b524ab1a4b0",
     "evidence_storage": "external"
-  }
+  },
+  "functional_reference_version": "T10_v15",
+  "historical_single_pe_reference": {
+    "qualification_date": "2026-10-20",
+    "evidence_record_sha256": "2cb6f27d91ff0f46e1f27b3d8b82055683366c495cd09bca4b8e31c53fde154f",
+    "evidence_storage": "external",
+    "reference_id": "T10_v15"
+  },
+  "ppa_reference_id": "T10_v16",
+  "ppa_reference_source_sha256": "423e718efeec3f55f7f4857ee570df46f27584b090f0a133174e355c23e07670",
+  "timing_scope": "pe_internal_register_to_register",
+  "full_design_routed": false,
+  "ppa_reference_functional_qualification": {
+    "profile": "exact-dot-v1",
+    "cases_passed": 2898,
+    "cases_total": 2898,
+    "output_points_checked": 741888,
+    "reset_probe_passed": true,
+    "structure_passed": true,
+    "functional_report_sha256": "fb13d12b3e5d184ca8113c2200d56b0b266d903ae4e2e7035e2e621477340f46"
+  },
+  "historical_single_pe_ppa_evidence_schema_path": "../benchmark/tasks/T10/ppa-evidence.schema.json",
+  "historical_single_pe_ppa_evidence_schema_sha256": "ae2698d6d1b7c6ba82caf5e37ad27eda9a397a2f2c4f14da77eb3c3fd119af85"
 }

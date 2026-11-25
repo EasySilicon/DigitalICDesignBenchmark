@@ -70,8 +70,19 @@ class PowerBudgetIntegrationTest(unittest.TestCase):
 
     def test_t10_current_grader_refuses_legacy_proof_by_default(self):
         with tempfile.TemporaryDirectory() as temp,patch.object(t10,'seed_record',return_value={}):
-            with self.assertRaisesRegex(ValueError,'three power compile budget records'):
+            root=Path(temp)
+            (root/'benchmark').mkdir()
+            (root/'benchmark/ppa-baselines.json').write_text(json.dumps(
+                dict(tasks={'T10':dict(measurement_scope='single_pe')})))
+            with patch.object(t10,'REPO',root):
+                with self.assertRaisesRegex(ValueError,'three power compile budget records'):
+                    t10.grade('model',root,root,root)
+
+    def test_historical_grader_rejects_current_scope_before_any_measurement(self):
+        with tempfile.TemporaryDirectory() as temp,patch.object(t10,'seed_record') as measure:
+            with self.assertRaisesRegex(ValueError,'current T10 v16'):
                 t10.grade('model',Path(temp),Path(temp),Path(temp))
+            measure.assert_not_called()
 
 
     def test_t09_current_entry_uses_budget_score_and_restores_frozen_scorer(self):

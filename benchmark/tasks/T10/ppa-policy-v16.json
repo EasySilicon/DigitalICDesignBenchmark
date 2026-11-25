@@ -1,0 +1,18 @@
+{
+  "policy_id": "t10-v16-whole-cost-pe-timing",
+  "reference_id": "T10_v16",
+  "baseline": "benchmark/ppa-baselines.json#tasks.T10",
+  "scorer": "evaluator/score_with_power_budget.py",
+  "precision": "exact-dot-v1",
+  "area_scope": "whole_design_leaf_cells",
+  "energy_scope": "whole_design",
+  "timing_scope": "pe_internal_register_to_register",
+  "layout_seeds": [11, 29, 47],
+  "period_ps": 1000,
+  "power_workload": "T10-power-v1",
+  "matrix_blocks": 200,
+  "peripheral_wire_um_per_sink": 0,
+  "peripheral_power_model": "mapped_cells_with_gate_activity_and_pin_capacitance",
+  "top_clock_model": "ideal_with_input_pin_charging",
+  "full_design_routed": false
+}

@@ -84,7 +84,7 @@ Confirmed candidate functional failures affect their groups and disable PPA/time
 
 ## PPA
 
-Use locked Yosys, ASAP7 and OpenROAD at 1000 ps / 1 GHz. T01–T09 measure the full DUT; v1 T10 measures one PE while retaining full-DUT acceptance. T08 includes the specified SRAM model and T10 has PE-specific physical parameters. References and candidates use the same task-specific scope and settings; see the [T08 contract](tasks/T08/task.md), [T10 PE contract](tasks/T10/ppa.md), [source lock](sources.lock.yaml) and [baselines](ppa-baselines.json).
+Use locked Yosys, ASAP7 and OpenROAD at 1000 ps / 1 GHz. T01–T09 measure the full DUT; T10 v16 measures whole-design area and energy with extracted PE-internal timing. Full-DUT acceptance remains mandatory; peripheral power uses a zero-wire prelayout model. T08 includes the specified SRAM model and T10 has PE-specific physical parameters. References and candidates use the same task-specific scope and settings; see the [T08 contract](tasks/T08/task.md), [T10 PPA contract](tasks/T10/ppa.md), [source lock](sources.lock.yaml) and [baselines](ppa-baselines.json).
 
 ### Measurement settings and scope
 
@@ -153,14 +153,14 @@ The task set tests a range of digital IC design capabilities, with each capabili
 | 7 | T07 write-back cache / 120 min | Memory hierarchy | Tags/indexing, dirty eviction, write allocation and byte enables | AC-38–43; independent byte-addressed memory |
 | 8 | T08 MAC repair / 120 min | Ethernet MAC and brownfield RTL | Long specifications, coupled bug repair, VLAN policy, CDC and metadata | 37 scenarios × 3 seeds; 270 stress runs |
 | 9 | T09 five-stage RV32I CPU / 120 min | Processor microarchitecture and ISA | Fetch-to-retirement latency, forwarding, stalls, flushes, precise traps and ordered commit | CPU-ACT/DIR/DIFF/PIPE; observable latency and at least 100,000 randomized retirement comparisons |
-| 10 | T10 16×16 streaming array / 240 min | NPU/DSP arithmetic, formats and spatial dataflow | Neighbor PE forwarding, 4/8/16-cycle block intervals, four tagged row slots, FP8/FP4/MX semantics, backpressure credits, rounding and physical cost | MM-INT/F16/F8/F4/MX8/MX4/PROTO/SYSTOLIC/CORNER; the frozen reference passed the 2,752-block qualification stream and 14 compilable mutants were detected; three-seed PE physical/activity qualification is complete |
+| 10 | T10 16×16 streaming array / 240 min | NPU/DSP arithmetic, formats and spatial dataflow | Neighbor PE forwarding, 4/8/16-cycle block intervals, four tagged row slots, FP8/FP4/MX semantics, backpressure credits, rounding and physical cost | MM-INT/F16/F8/F4/MX8/MX4/PROTO/SYSTOLIC/CORNER; v16 reference qualified on 2,898 strict streaming blocks and three-seed PPA; 14 compilable defect mutants detected |
 
 ### What this coverage supports
 
 - **Several distinct domains** have dedicated tasks: sequential control, serial-link PCS, streaming buffers/arbitration, buses/peripherals, CDC, memory hierarchy, processors and matrix arithmetic. T10 adds multiply arrays, low-precision floating formats and block scaling.
 - **State and timing scales vary:** small control state and bit buffers, multiple interacting states, asynchronous domains, pipelines and a two-dimensional wavefront. These are not ten copies of one RTL template.
 - **Interfaces vary:** serial slices, ready/valid, APB4, AXI4-Lite, cache-line backends and CPU instruction/data buses. Multiple tasks deliberately stress backpressure, independently arriving channels and variable external waits.
-- **Cross-cutting skills** include parameterization, reset/event priority, independent scoreboards, debugging and routed PPA. The matrix task also has a qualified single-PE activity baseline.
+- **Cross-cutting skills** include parameterization, reset/event priority, independent scoreboards, debugging and routed PPA. T10 v16 also has a qualified whole-design area/energy baseline with extracted PE-internal timing.
 - **Difficulty structure:** tasks 1–3, 4–6 and 7–9 form three intended difficulty bands, followed by the T10 challenge. Individual budgets range from 30 minutes to four hours, totaling 18 hours 30 minutes.
 
 ### Possible future extensions

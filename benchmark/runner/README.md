@@ -57,6 +57,10 @@ API 认证 profile 应独立于 OAuth profile；协议转换服务使用独立�
 
 `grader.command` 是主机评分适配层，必须写出 `{task_id}`，并在 `{grading}/report.json` 生成符合仓库报告格式的结果。可用占位符为：`{task_id}`、`{trial_root}`、`{task_root}`、`{submission}`、`{grading}`、`{repo_root}`、`{frozen_repo}` 和 `{elapsed_seconds}`。认证、模型调用与评分命令互不共享目录。
 
+T10 的分组评分可通过 `score_run.py score_input.json --t10-functional-report functional.json`
+或 `build_t10_score_input()` 绑定独立验收证据。该入口分别判断持续流安全门槛和其他组的数值通过情况，
+保留通过的 MM-SYSTOLIC 分数；完整数值验收仍是 PPA 与时间分的前提。
+
 共享主机可显式设置 `grader.cpu_weight`（1–10000），由评分启动器在独立的 systemd 用户 scope
 中执行评分，并记录实际 cgroup、CPU 时间、节流和压力信息到外部评分目录的 `resource_usage.json`。
 权重只影响调度优先级，不增加线程、模型资源或评估时限，也不代表独占 CPU。配置后若不能应用该权重，

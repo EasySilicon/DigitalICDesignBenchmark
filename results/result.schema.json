@@ -595,6 +595,20 @@
             }
           },
           "additionalProperties": false
+        },
+        "ppa_reference_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "ppa_policy_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
         }
       },
       "additionalProperties": false

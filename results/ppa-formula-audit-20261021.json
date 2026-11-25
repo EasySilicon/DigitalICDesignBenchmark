@@ -2272,5 +2272,35 @@
       }
     }
   ],
-  "correction_applied": true
+  "correction_applied": true,
+  "historical_reference_inputs": {
+    "T10": {
+      "task_id": "T10",
+      "source_sha256": "d7e7be0df51a42b1eff3796ad7fd4e85d9e225a211951e3c8ab66b53272fcc97",
+      "measurement_scope": "single_pe",
+      "measurement_status": "three_seed_single_pe",
+      "parameter_set": {
+        "platform": "ASAP7_7p5t_RVT_NLDM",
+        "period_ps": 1000,
+        "corner": "WC",
+        "utilization": 24,
+        "density": 0.24,
+        "seeds": [
+          11,
+          29,
+          47
+        ],
+        "signal_routing_layers": "M2-M7",
+        "clock_routing_layers": "M6-M7"
+      },
+      "routed": true,
+      "area_um2": 60298.3,
+      "delay_ns": 0.9448536679999999,
+      "energy_per_op_pj": 837.4419295521919,
+      "setup_worst_slack_ns": 0.022243984,
+      "hold_worst_slack_ns": 0.010891954,
+      "drc_violations": 0,
+      "annotation_fraction": 0.9830287802649612
+    }
+  }
 }

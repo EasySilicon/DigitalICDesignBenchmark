@@ -13,13 +13,36 @@ import re
 
 def build(command, sources, bench, out, run, cwd):
     from merge_pe_saif import instances
+    inputs = [(source, source.read_text()) for source in sources]
+    input_records = [dict(path=str(path),sha256=hashlib.sha256(text.encode()).hexdigest())
+                     for path,text in inputs]
+    names = {match.group(1) for _, text in inputs for match in re.finditer(
+        r"\bmodule\s+([^\s(;]+)", text)}
+    aliases = {name: "t10_staged_" + hashlib.sha256(name.encode()).hexdigest()[:16]
+               for name in names if not re.fullmatch(r"\w+", name)}
+    if set(aliases.values()) & names or len(set(aliases.values())) != len(aliases):
+        raise ValueError("staged module type alias collision")
+    if aliases:
+        choices = "(?:" + "|".join(map(re.escape, sorted(aliases))) + ")"
+        declarations = re.compile(r"(?m)^(\s*module\s+)(" + choices + r")(?=[\s;(])")
+        masters = re.compile(r"(?m)^(\s*)(" + choices + r")(?=\s)")
+        # Canonicalize only module declarations and instance master tokens.
+        # Preserve instance paths, ports, signal names and all hardware logic;
+        # even a net with the same escaped spelling must remain untouched.
+        def rename(match):
+            return match[1] + aliases[match[2]]
+
+        texts = [masters.sub(rename, declarations.sub(rename, text)) for _, text in inputs]
+    else:
+        texts = [text for _, text in inputs]
     modules = {}
-    for source in sources:
-        for match in re.finditer(r"\bmodule\s+([^\s(;]+)(.*?\bendmodule\b)", source.read_text(), re.S):
+    for text in texts:
+        for match in re.finditer(r"\bmodule\s+([^\s(;]+)(.*?\bendmodule\b)", text, re.S):
             name = match.group(1)
             if name in modules:
                 raise ValueError(f"duplicate mapped module {name}")
             modules[name] = match.group(0)
+    del inputs, texts
     actual, planning = out / "actual_modules", out / "planning_only"
     actual.mkdir(exist_ok=True)
     planning.mkdir(exist_ok=True)
@@ -85,4 +108,6 @@ def build(command, sources, bench, out, run, cwd):
         out / "compile.log", cwd)
     (out/"staged_build_manifest.json").write_text(json.dumps(dict(
         status="actual_gate_blocks_built", dependency_order=order, modules=records,
+        module_type_aliases=aliases,
+        input_sources=input_records,
         planning_sources_used_for_simulation=False),indent=2)+"\n")

@@ -33,6 +33,7 @@ def validate_local() -> tuple[dict, dict]:
                 'T10': {
                     'physical_runtime_policy': 'physical-wall-7200s-retain-results-v1',
                     'physical_seed_limit_seconds': 7200,
+                    'ppa_policy': 'tasks/T10/ppa-policy-v16.json',
                 }
             } or
             physical.get('physical_timeout_scoring') != 'retain_valid_completed_seeds_or_zero'):
@@ -162,10 +163,10 @@ def validate_local() -> tuple[dict, dict]:
         if task_id == "T10":
             from score_run import expected_ppa_parameters, ppa_provenance_valid
             parameters = expected_ppa_parameters("T10")
-            measurement_status = "three_seed_single_pe"
+            measurement_status = "three_seed_hybrid"
             seed_hash_keys = ("physical_record_sha256", "power_record_sha256")
             if not ppa_provenance_valid("T10", row, row):
-                fail("T10 requires the qualified single-PE scope and parameters")
+                fail("T10 requires the qualified v16 whole-cost / PE-internal-timing baseline")
         seeds = row.get("per_seed")
         hashes = (row.get("source_sha256", ""), row.get("workload_sha256", ""))
         if row.get("task_id") != task_id or \

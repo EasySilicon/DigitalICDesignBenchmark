@@ -36,6 +36,11 @@ class PhysicalBudgetTest(unittest.TestCase):
             m=copy.deepcopy(baseline)
             m.update(source_sha256=source,routed=True)
             m['per_seed']=[r for r in m['per_seed'] if r['layout_seed'] in completed]
+            if task == 'T10':
+                from t10_hybrid_ppa import aggregate
+                for row in m['per_seed']:
+                    row['source_sha256'] = source
+                m = aggregate(source, m['per_seed'], physical)
             import statistics
             for k in ('area_um2','delay_ns','energy_per_op_pj'):
                 m[k]=statistics.median(r[k] for r in m['per_seed'])

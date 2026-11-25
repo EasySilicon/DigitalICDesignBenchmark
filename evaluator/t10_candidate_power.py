@@ -62,6 +62,16 @@ def run_unoptimized_periphery(command,log,cwd,*,execute=None):
     return (execute or run)(command,log,cwd)
 
 
+def gate_compile_runner(execute, *, large_shell, parent_optimization):
+    if parent_optimization not in ('auto', 'default'):
+        raise ValueError('unknown parent compiler optimization policy')
+    if not large_shell or parent_optimization == 'default':
+        return execute
+    def compile_run(command, log, cwd):
+        return run_unoptimized_periphery(command, log, cwd, execute=execute)
+    return compile_run
+
+
 def validate_paths(shell,pe):
     # Tile wrappers may remain hierarchical; count elaborated instances, not
     # occurrences in a module definition (16 tiles x 16 PEs is still 256).
@@ -124,7 +134,7 @@ def check_connectivity(odb,output,log):
          str(odb),str(output)],log,REPO)
 
 
-def measure(model_dir,seed,orfs):
+def measure(model_dir,seed,orfs,*,trace_periphery=False,mapped_shell=None,parent_optimization='auto'):
     directory=model_dir/f'seed{seed}'
     input_path,physical_path=active_records(directory)
     physical=json.loads(physical_path.read_text())
@@ -152,13 +162,18 @@ def measure(model_dir,seed,orfs):
         SDC_FILE=str(BACKEND/'power_gate.sdc'),CORE_UTILIZATION=24,PLACE_DENSITY=.24,
         SYNTH_USE_SYN=0,SYNTH_HIERARCHICAL=0,CORNER='WC',SYNTH_BLACKBOXES=pe,ABC_AREA=1)
     write_new_or_same(config,''.join(f'export {k} = {v}\n' for k,v in fields.items()))
-    shell=qualified_shell(model_dir,seed,inputs)
+    shell=Path(mapped_shell) if mapped_shell is not None else qualified_shell(model_dir,seed,inputs)
+    if mapped_shell is not None:
+        # The caller owns source/cache provenance; this layer independently
+        # checks the complete PE topology before compiling the real gate DUT.
+        if not shell.is_file():raise ValueError('mapped peripheral shell is missing')
+        validate_paths(shell.read_text(),pe)
     if shell is None:
         run(['make','-C',str(orfs/'flow'),f'DESIGN_CONFIG={config}',f'FLOW_VARIANT={variant}',
              f'PLATFORM_DIR={REPO/"vendor/asap7"}','LIB_MODEL=NLDM','ASAP7_USE_VT=RVT',
              f'YOSYS_EXE={shutil.which("yosys")}',f'OPENROAD_EXE={shutil.which("openroad")}','NUM_CORES=4',shell_target(variant)],out/'shell_synth.log',REPO)
         shell=orfs/'flow'/shell_target(variant)
-    else:
+    elif mapped_shell is None:
         write_new_or_same(out/'shell_reuse.json',json.dumps(dict(shell=artifact(shell),
             full_gate_qualification=artifact(model_dir/'activity_seed11/power.json'),
             same_candidate_source_sha256=inputs['source_sha256'],
@@ -173,7 +188,7 @@ def measure(model_dir,seed,orfs):
     sources=[]
     for label,path in [('shell',shell),('pe',original_pe)]:
         source=path.read_text()
-        if label=='shell':source=shell_trace_off(source)
+        if label=='shell' and not trace_periphery:source=shell_trace_off(source)
         target=out/(label+'.v');target.write_text(hierblock(source));sources.append(target)
     vectors=model_dir/'workload'
     if not (vectors/'manifest.json').exists():create(vectors)
@@ -188,10 +203,8 @@ def measure(model_dir,seed,orfs):
         str(out/'tb_power.sv'),*map(str,sources),*map(str,libraries)]
     resource.setrlimit(resource.RLIMIT_AS,(resource.RLIM_INFINITY,resource.RLIM_INFINITY))
     with CompileBudget(out,inputs['source_sha256'],seed) as budget:
-        def compile_run(command,log,cwd):
-            if large_shell_frontend:
-                return run_unoptimized_periphery(command,log,cwd,execute=budget.run)
-            return budget.run(command,log,cwd)
+        compile_run=gate_compile_runner(budget.run,large_shell=large_shell_frontend,
+                                        parent_optimization=parent_optimization)
         staged_build(command,sources,out/'tb_power.sv',out,compile_run,REPO)
         executable,writer=window_build(out,top,budget.run,REPO)
     run([str(executable),f'+POWER_VCD={out/"activity.saif"}',f'+VECTORS={vectors}','+CASE_COUNT=200'],out/'simulation.log',REPO)
@@ -228,8 +241,9 @@ def measure(model_dir,seed,orfs):
         activity_annotation_fraction=fraction,sequential_activity_annotation_fraction=seq,saif_writer=writer,
         physical_inputs=physical['artifacts'],netlists=[artifact(shell),artifact(original_pe)],
         shell_mapping_policy='ASAP7 area mapping of unmeasured periphery; same-seed routed PE unchanged',
+        peripheral_activity_traced=trace_periphery,
         peripheral_frontend_policy='Verilator -O0 for the >=128 MiB mapped parent only; default measured-PE optimization'
-            if large_shell_frontend else 'default Verilator model optimization',
+            if large_shell_frontend and parent_optimization=='auto' else 'default Verilator model optimization',
         connectivity=artifact(connectivity),merge_audit=artifact(out/'merge_audit.json'),
         staged_build_manifest=artifact(out/'staged_build_manifest.json'),simulation_log=artifact(out/'simulation.log'),
         power_compile_record=artifact(out/'power_compile.json'),

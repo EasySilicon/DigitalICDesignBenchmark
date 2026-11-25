@@ -201,6 +201,14 @@ def expected_ppa_parameters(task: str) -> dict:
 
 
 def ppa_provenance_valid(task: str, measurement: dict, reference: dict) -> bool:
+    if task == 'T10' and any(record.get('policy_id') == 't10-v16-whole-cost-pe-timing'
+                            or record.get('measurement_scope') == 'whole_design_cost_pe_internal_timing'
+                            for record in (measurement, reference)):
+        if __package__:
+            from .t10_hybrid_ppa import provenance_valid
+        else:
+            from t10_hybrid_ppa import provenance_valid
+        return provenance_valid(measurement, reference)
     expected = expected_ppa_parameters(task)
     status = "three_seed_single_pe" if task == "T10" else "three_seed"
     for record in (measurement, reference):
@@ -325,13 +333,34 @@ def score_run(payload: dict, rules: dict | None = None) -> dict:
             "rank_key": [functional, bucket, -duration if ppa_valid else 0]}
 
 
+def build_t10_score_input(payload: dict, functional_report: dict) -> dict:
+    """Bind the systolic gate to runner evidence, independently of other groups."""
+    if not isinstance(payload, dict) or not isinstance(functional_report, dict):
+        raise ValueError("T10 score input and functional evidence must be objects")
+    if payload.get("task_id") != "T10" or functional_report.get("task_id") != "T10":
+        raise ValueError("T10 functional evidence requires task T10")
+    if payload.get("groups") != functional_report.get("groups"):
+        raise ValueError("T10 functional evidence does not match score groups")
+    if __package__:
+        from .t10_score_evidence import systolic_passed
+    else:
+        from t10_score_evidence import systolic_passed
+    return dict(payload, sustained_throughput_passed=systolic_passed(functional_report))
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("results", type=Path,
                         help="evaluator-owned group outcomes and PPA/time measurements")
+    parser.add_argument("--t10-functional-report", type=Path,
+                        help="derive the T10 systolic diagnostic gate from evaluator evidence")
     args = parser.parse_args()
     try:
-        print(json.dumps(score_run(json.loads(args.results.read_text())),
+        payload = json.loads(args.results.read_text())
+        if args.t10_functional_report is not None:
+            payload = build_t10_score_input(
+                payload, json.loads(args.t10_functional_report.read_text()))
+        print(json.dumps(score_run(payload),
                          ensure_ascii=False, indent=2))
     except (OSError, KeyError, ValueError, TypeError) as exc:
         parser.error(str(exc))

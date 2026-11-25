@@ -141,6 +141,9 @@ def seed_record(model_dir,seed,orfs,reference,*,cached_only=False):
 def grade(model,work,trials,orfs,*,cached_only=False,legacy_replay=False):
     model_dir=work/model
     reference=json.loads((REPO/'benchmark/ppa-baselines.json').read_text())['tasks']['T10']
+    if reference.get('measurement_scope') != 'single_pe':
+        raise ValueError('This historical grader requires a matching single-PE baseline; '
+                         'current T10 v16 grading uses t10_hybrid_measure.py.')
     physical_records=[json.loads(p.read_text()) for p in sorted(model_dir.glob('seed*/physical_budget.json'))]
     source=source_hash(model_dir/'submission') if physical_records else None
     timeouts=physical_budget.validate_records(physical_records,source,'T10') if physical_records else set()

@@ -2,19 +2,18 @@
 
 This directory contains thirteen models' T01–T10 historical pilot records. Benchmark v1 retains strict `exact-dot-v1` precision. The MMA-inspired relaxed envelope is diagnostic only; relaxed official precision is reserved for benchmark v2.
 
-The [current T10 acceptance inventory](t10-strict-functional-retest-20261106.json) describes the strict 2,898-case stream plus a reset probe. Scores use the strict numerical profile. Raw grading evidence stays outside this directory.
+The [current T10 acceptance inventory](t10-strict-functional-retest-20261106.json) describes the strict 2,898-case stream plus a reset probe. Scores use the strict numerical profile. T10 uses the qualified v16 reference: whole-design area/energy and PE-internal timing, with mapped zero-wire peripheral power. Kimi K3.1 Pro T10 PPA/time remain pending; null is not zero, and its known subtotal is not ranked. Raw grading evidence stays outside this directory.
 
 Scoring: functionality /50, PPA /50, time /5. Weights: T01/T02 3% each; T03–T05 6% each; T06/T07 10% each; T08 11%; T09 20%; T10 25%.
 
 | Model | Current summary | Weighted display score /105 |
 |---|---|---:|
-| gpt-6.2-astra | [summary.json](gpt-6.2-astra/summary.json) | 81.035614 |
+| claude-fable-5.2 | [summary.json](claude-fable-5.2/summary.json) | 88.994861 |
+| gpt-6.2-astra | [summary.json](gpt-6.2-astra/summary.json) | 88.808383 |
 | claude-sonnet-5.5 | [summary.json](claude-sonnet-5.5/summary.json) | 80.622595 |
-| claude-fable-5.2 | [summary.json](claude-fable-5.2/summary.json) | 79.915755 |
 | claude-opus-5.5 | [summary.json](claude-opus-5.5/summary.json) | 78.547838 |
-| gpt-6-astra | [summary.json](gpt-6-astra/summary.json) | 76.023886 |
-| gpt-6.1-sol | [summary.json](gpt-6.1-sol/summary.json) | 74.765969 |
-| kimi-k3.1-pro | [summary.json](kimi-k3.1-pro/summary.json) | 74.576680 |
+| gpt-6-astra | [summary.json](gpt-6-astra/summary.json) | 75.966070 |
+| gpt-6.1-sol | [summary.json](gpt-6.1-sol/summary.json) | 74.723226 |
 | gpt-6-sol | [summary.json](gpt-6-sol/summary.json) | 73.041966 |
 | gpt-5.6-sol | [summary.json](gpt-5.6-sol/summary.json) | 72.531456 |
 | glm-5.3 | [summary.json](glm-5.3/summary.json) | 66.712109 |
@@ -22,7 +21,13 @@ Scoring: functionality /50, PPA /50, time /5. Weights: T01/T02 3% each; T03–T0
 | deepseek-flash | [summary.json](deepseek-flash/summary.json) | 52.449760 |
 | glm-5.3-flash | [summary.json](glm-5.3-flash/summary.json) | 45.554440 |
 
-Each model directory publishes exactly one `summary.json`, validated by [result.schema.json](result.schema.json). It contains ten task results, optional final group counts and physical metrics, score totals, weights and experiment settings. Missing historical details are represented by `null`. There are no separate `Txx.json` copies.
+Pending measurements (known-component subtotal; excluded from final ordering):
+
+| Model | Current summary | Known subtotal /105 |
+|---|---|---:|
+| kimi-k3.1-pro | [summary.json](kimi-k3.1-pro/summary.json) | ≥74.576680 |
+
+Each model directory publishes exactly one `summary.json`, validated by [result.schema.json](result.schema.json). It contains ten task results, optional final group counts and physical metrics, score totals, weights, experiment settings and the T10 scoring policy/reference IDs. Missing historical details are represented by `null`. There are no separate `Txx.json` copies.
 
 Final summaries exclude replay history, evaluator repair notes, old scores, original report paths/hashes and archive pointers. Raw grading reports, per-case diagnostics, snapshots and measurement evidence stay outside version control. The explicit allowlist in `.gitignore` controls publication.
 
@@ -46,4 +51,4 @@ Fable 5.2 durations include active work across quota resumes and exclude quota w
 
 Totals are calculated from the unrounded per-task seconds, then rounded to the nearest second. Historical budgets and settings differ across trials, so these durations are descriptive rather than a controlled speed comparison.
 
-All scores are historical pilot results, not a production signoff or official suite ranking. Earlier timing limits and scoring decisions are not retroactively relabeled.
+These historical pilot results are not production signoff or an official suite ranking. The published T10 PPA contract is v16 with strict V1 precision; incomplete measurements remain explicitly pending.

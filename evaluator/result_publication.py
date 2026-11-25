@@ -22,6 +22,7 @@ TASK_KEYS = ('task_id', 'functional_total', 'full_functional_pass', 'ppa_eligibl
              'ppa_score', 'ppa_rank_bucket', 'time_score', 'candidate_delivery_penalty',
              'display_score', 'delivery_qualified', 'elapsed_seconds', 'time_limit_seconds',
              'score_status', 'functional_groups', 'score_items', 'ppa_metrics')
+POLICY_KEYS = ('ppa_policy_id', 'ppa_reference_id')
 
 
 def task_record(summary: dict, task: str) -> dict:
@@ -38,6 +39,11 @@ def load_task(repo: Path, model: str, task: str) -> dict:
 def final_task(row: dict) -> dict:
     """Select final facts only; never copy arbitrary diagnostic dictionaries."""
     result = {key: copy.deepcopy(row.get(key)) for key in TASK_KEYS}
+    for key in POLICY_KEYS:
+        if key in row:
+            if row[key] is not None and (not isinstance(row[key], str) or not row[key]):
+                raise ValueError('invalid scoring condition: ' + key)
+            result[key] = row[key]
     if 'full_functional_pass' not in row and result['functional_total'] is not None:
         result['full_functional_pass'] = result['functional_total'] == 50
     if result['task_id'] not in TASK_IDS:

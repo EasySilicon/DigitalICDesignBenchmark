@@ -71,6 +71,8 @@ After routing, a setup miss is represented by the measured critical-path delay a
 
 `ppa_aggregate.py` is the public three-seed PPA-record aggregator. It verifies that route and power records describe the same routed result, fixed flow parameters, activity annotation, workload identity and hash, and layout seeds `{11,29,47}`. It preserves setup, hold, and DRC measurements for continuous scoring by `score_run.py`. [`benchmark/ppa-baselines.json`](../benchmark/ppa-baselines.json) is the repository's sole authoritative reference baseline; evaluator scripts must not keep duplicate baseline copies.
 
+T10 uses the qualified [v16 reference](reference/T10_v16/README.md): whole-design area and energy, with extracted PE-internal register-to-register timing. Its current entry point is `t10_hybrid_measure.py`; the common scorer validates v16 scopes and per-seed cost accounting. Peripheral power uses actual gate activity and pin capacitance with zero wire length and an ideal top clock. The reference is recorded in `tasks.T10` of the authoritative baseline and scores 35/50 against itself. Historical single-PE measurements retain their original evaluation scope.
+
 For new candidates, power-simulation compilation has one cumulative wall-clock
 budget per layout seed: 1,200 seconds for T01–T09 and 2,400 seconds for T10. Code generation, all module
 builds, linking, and SAIF runtime builds share that budget. Expiry kills the

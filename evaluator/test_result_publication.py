@@ -12,6 +12,14 @@ def sample_summary():
 
 
 class ResultPublicationTest(unittest.TestCase):
+    def test_versioned_scoring_conditions_are_final_facts(self):
+        old = final_summary(sample_summary())
+        changed = final_summary(old, {'T10': dict(ppa_policy_id='t10-v16-whole-cost-pe-timing',
+                                                ppa_reference_id='T10_v16')})
+        self.assertEqual(changed['tasks'][:9], old['tasks'][:9])
+        self.assertEqual(changed['tasks'][-1]['ppa_reference_id'], 'T10_v16')
+        self.assertEqual(final_summary(changed), changed)
+
     def test_projection_is_pure_idempotent_and_excludes_source_and_replay_state(self):
         source=sample_summary()
         source['source_trial']='/private/trial'

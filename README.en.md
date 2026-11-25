@@ -45,7 +45,7 @@ The suite follows these principles:
 
 4. **Make quality gates executable and traceable.** Requirements map to acceptance groups, and failures trace to seeds, inputs, expected values, and observations. Correct-reference regressions and known defect mutants calibrate evaluators; frozen scripts determine scores. Specification, evaluator, and tool faults receive separate attribution, followed by consistent regrading of affected frozen submissions after correction.
 
-5. **Use consistent PPA scope and conditions.** References and candidates use the same process data, constraints, activity workloads, and measurement flows. T01–T09 measure the complete DUT. For V1.0, T10 measures one PE's area, routed delay, and energy, while the complete 256-PE DUT must still pass functional, structural, and throughput checks. Single-PE results do not represent the complete NPU's cost. Each task's PPA contract defines its scope and release requirements.
+5. **Use consistent PPA scope and conditions.** References and candidates use the same process data, constraints, activity workloads, and measurement flows. T01–T09 measure the complete DUT. T10 v16 measures whole-design area and energy with extracted PE-internal timing; the full 256-PE DUT must still pass functional, structural, and throughput checks. Peripheral power is a pre-layout estimate, not whole-array routed power. Each task's PPA contract defines its scope and release requirements.
 
 6. **Evaluate external harnesses through controlled comparisons.** Skills, orchestration strategies, and immediate quality gates are explicit experimental variables. All roles in a multi-agent system share time, monetary, and compute budgets; token usage is recorded without a cap, including reasoning, verification, and PPA iterations. The same-model control track studies harness effects; the product track measures practical model and system performance. Independent repetitions, pass rates, time, and cost provide evidence, with model settings and budget differences recorded alongside results.
 
@@ -59,14 +59,14 @@ The intended outcome is evidence of **model capability boundaries, reliable deli
 
 ## Current status
 
-The main suite, `ic-delivery-rtl-v0.3`, contains **ten tasks, T01–T10**. T01–T09 have frozen task specifications, acceptance collateral, and three-seed 1 GHz PPA baselines. T10's V1.0 single-PE reference has also completed physical closure and activity-based power measurement for seeds 11/29/47. All ten reference baselines are available; the unified tool image, fairness checks across equivalent RTL implementations, and suite-wide release checks remain pending. The full suite therefore remains in the pre-release `design_only` stage.
+The main suite, `ic-delivery-rtl-v0.3`, contains **ten tasks, T01–T10**. T01–T09 have frozen task specifications, acceptance collateral, and three-seed 1 GHz PPA baselines. T10 v16 updates the reference implementation to reflect recent frontier AI capabilities and improve PPA evaluation accuracy. It is qualified across seeds 11/29/47 for PE-internal timing, whole-design area, and activity-based power. All ten reference baselines are available; the unified tool image, fairness checks across equivalent RTL implementations, and suite-wide release checks remain pending. The full suite therefore remains in the pre-release `design_only` stage.
 
 | Scope | Available | Status |
 | --- | --- | --- |
 | T01–T09 | Frozen task specifications and acceptance collateral, public smoke tests, reference RTL, defect mutants, and frozen three-seed 1 GHz PPA baselines | Complete |
-| T10 | Continuous-stream matrix evaluation, exact numerical oracle, reset/backpressure/throughput tests, PE mesh checks, and the single-PE three-seed 1 GHz PPA baseline with activity-based power | Complete |
+| T10 | Continuous-stream matrix evaluation, exact numerical oracle, reset/backpressure/throughput tests, PE mesh checks, and the v16 three-seed reference for PE-internal timing and whole-design area/energy | Complete |
 
-The frozen T10 functional reference passed **2,752 matrix blocks, a separate reset probe, 256-PE structural checks, and all 14 input phases without bubbles**. See [T10 qualification record](evaluator/t10_qualification.json). See the [three-seed implementation and measurement notes](evaluator/t10_backend/v1/README.md) for timing, complete DRC/connectivity checks, and activity-based power. Each full gate-level DUT passed 200 blocks, 51,200 output checks, and protocol checks. The single-PE median reference is **60,298.3 µm², 0.944853668 ns, and 837.441929552 pJ/block**, not the cost of the full NPU.
+The T10 v16 reference passed **2,898 matrix blocks, a separate reset probe, and 256-PE structural checks**, retaining strict V1 numerical precision. Its three-seed median reference is **1.63702228 mm², 0.945415 ns, and 34.842441 nJ/matrix block**, scoring 35/50 against itself. Area and energy cover the whole design; timing covers PE-internal paths only. See the [authoritative baseline](benchmark/ppa-baselines.json) and [T10 PPA contract](benchmark/tasks/T10/ppa.md). Published T10 scores use v16; unfinished measurements are explicitly pending.
 
 ## Tasks and capability coverage
 
@@ -95,7 +95,7 @@ See the [full coverage mapping and scope limits](benchmark/README.md#领域与�
 
 ![Model weighted score leaderboard](results/model-score-leaderboard.svg)
 
-The following values come from the [per-task evaluation results](results/model-score-comparison.md). All **130 model/task results across thirteen models are resolved**, with no `null` functional, PPA, or time components. Column headers identify the coding framework and version used during the actual trials; model settings and Skill policy are defined by each run's original record.
+The table uses the [per-task results](results/model-score-comparison.md). Of 130 model/task records across thirteen models, 129 are complete; Kimi K3.1 Pro T10 PPA/time remain pending. Headers identify the actual coding framework and version; model settings and Skill policy follow each run's record.
 
 Each cell is the task's display score **out of 105, including delivery deductions**, rounded to two decimal places. Weighted totals use unrounded task scores and fixed weights, not a simple average.
 
@@ -112,13 +112,15 @@ Parentheses after model names indicate reasoning effort; `default` means no expl
 | T07 | 10% | 93.49 | 93.12 | 88.44 | 83.35 | 88.89 | 81.88 | 92.50 | 88.69 | 88.39 | 83.89 | 71.27 | 81.49 | 80.84 |
 | T08 | 11% | 87.89 | 87.14 | 84.21 | 85.83 | 85.03 | 84.30 | 46.83 | 85.87 | 45.00 | 84.44 | 87.27 | 85.98 | 85.24 |
 | T09 | 20% | 60.51 | 59.20 | 56.25 | 87.43 | 75.31 | 40.00 | 44.93 | 13.67 | 59.03 | 96.35 | 90.97 | 92.03 | 100.03 |
-| T10 | 25% | 53.83 | 53.73 | 50.00 | 32.39 | 50.00 | 31.53 | 0.00 | 0.00 | 49.34 | 48.44 | 49.24 | 50.00 | 50.00 |
-| **Weighted total /105** | **100%** | **76.02** | **74.77** | **73.04** | **72.53** | **74.58** | **55.62** | **52.45** | **45.55** | **66.71** | **80.62** | **78.55** | **79.92** | **81.04** |
+| T10 | 25% | 53.60 | 53.56 | 50.00 | 32.39 | ≥50.00† | 31.53 | 0.00 | 0.00 | 49.34 | 48.44 | 49.24 | 86.32 | 81.09 |
+| **Weighted total /105** | **100%** | **75.97** | **74.72** | **73.04** | **72.53** | **≥74.58**† | **55.62** | **52.45** | **45.55** | **66.71** | **80.62** | **78.55** | **88.99** | **88.81** |
 | **Fully functional tasks** | — | **10/10** | **10/10** | **10/10** | **9/10** | **10/10** | **7/10** | **7/10** | **7/10** | **8/10** | **9/10** | **9/10** | **10/10** | **10/10** |
 
-Tasks below full functionality receive zero PPA and time points. GPT-6-Sol T10 retains 50 functional points and zero PPA/time points under its historical power-compilation termination adjudication. Kimi K3.1 Pro(max) T10 passed all functional checks, but no seed completed physical implementation and formal power measurement within its adjudicated runtime limit, so its PPA and time scores are also zero. See the [model results](results/model-score-comparison.md) for component scores and zero-score categories.
+T10 uses the v16 reference: whole-design area/energy and PE-internal timing, with strict V1 precision. † Kimi K3.1 Pro T10 PPA/time remain pending; `≥` denotes a known-component subtotal, excluded from final ordering.
 
-Run conditions: Kimi T08 used a cumulative historical development budget of 150 minutes. T10 reference and candidate implementations differ in internal macros and physical flow; a same-flow comparison is not available.
+Tasks below full functionality receive zero PPA/time points. GPT-6-Sol T10 exhausted the 40-minute power-compilation budget and receives zero PPA/time. Kimi K3.1 Pro T10 is awaiting physical/power completion. See the [model results](results/model-score-comparison.md) for component scores and failure categories.
+
+Run conditions: Kimi T08 used a cumulative historical development budget of 150 minutes. All published T10 components follow the v16 whole-cost/PE-internal-timing contract; this does not imply a routed full array.
 
 Details: [per-task score-loss analysis](results/model-score-comparison.md#各模型逐题失分原因), [PPA formula audit](results/ppa-formula-audit-20261021.json), [archive policy](results/README.md), and [result schema](results/result.schema.json).
 
@@ -294,13 +296,13 @@ For a typical scoring item, compute the pass rate of each acceptance group and t
 
 - T08 awards each item's points in proportion to passing scenarios, rather than using the half-point tier. A scenario counts as passing only if it passes all three functional seeds.
 - T09 assigns 10 functional points to its separate 22-case cycle group: 22 passes earn 10 points, 11–21 earn 5, and 0–10 earn zero. All other items together contribute 40 points.
-- T10 additionally requires the complete 256-PE design to pass structural and sustained-throughput acceptance. Failure zeros the corresponding systolic-array item. Single-PE PPA measurement does not relax full-design functional requirements.
+- T10 additionally requires the complete 256-PE design to pass structural and sustained-throughput acceptance. Failure zeros the corresponding systolic-array item. The v16 whole-cost/PE-internal-timing scope does not relax full-design functional requirements.
 
 **Only 50/50 counts as full functionality. Otherwise, PPA and time points are zero, while earned functional points are retained.**
 
 #### PPA: three-seed measurements, reference normalization, and physical penalties
 
-Common targets are **ASAP7, 1 GHz (1,000 ps)**, layout seeds `{11,29,47}`, and at least 95% valid activity annotation in every seed. T01–T09 measure the complete DUT; T10 V1.0 measures one PE, not the complete NPU's cost. Power workloads must still pass self-checks; T10 must also cover full-DUT activity and account for internal PE macros.
+Common targets are **ASAP7, 1 GHz (1,000 ps)**, layout seeds `{11,29,47}`, and at least 95% valid activity annotation in every seed. T01–T09 measure the complete DUT; T10 v16 measures whole-design area and energy with extracted PE-internal timing. Peripheral power uses a zero-wire pre-layout model; see the [T10 contract](benchmark/tasks/T10/ppa.md). Power workloads must still pass self-checks; T10 must also cover full-DUT activity and account for internal PE macros.
 
 Take separate medians across the three seeds for area `A`, routed critical-path delay `D`, and energy per useful operation `E`. Use the worst setup and hold slacks `S` and `H`, and the largest DRC count. Do not select the best run. The reference tuple is `A_ref`, `D_ref`, `E_ref`; a task uses the same measurement scope, constraints, and workload for reference and candidate. The following matches the [current scorer](evaluator/score_run.py); all time quantities are in ns:
 

@@ -11,6 +11,79 @@ from t10_candidate_power import annotation, validate_paths, run, run_unoptimized
 
 
 class CandidatePowerTest(unittest.TestCase):
+    def test_default_optimized_compiler_does_not_receive_legacy_parent_o0(self):
+        from t10_candidate_power import gate_compile_runner
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);build=root/'build';build.mkdir()
+            arguments=build/'Vnpu_systolic_matmul_16x16__hierMkArgs.f'
+            original='--cc\n--top-module-encoded npu_systolic_matmul_16x16\n--assert\n--trace-saif\nactual.v\n'
+            arguments.write_text(original)
+            observed=[]
+            def execute(command,log,cwd):
+                observed.append(arguments.read_text())
+            command=['verilator','-f',str(arguments)]
+            runner=gate_compile_runner(execute,large_shell=True,parent_optimization='default')
+            runner(command,root/'actual_npu_systolic_matmul_16x16.log',root)
+            self.assertEqual(observed,[original])
+            self.assertEqual(arguments.read_text(),original)
+            runner=gate_compile_runner(execute,large_shell=True,parent_optimization='auto')
+            runner(command,root/'actual_npu_systolic_matmul_16x16.log',root)
+            self.assertIn('-O0',observed[-1].split())
+
+    @unittest.skipUnless(shutil.which('verilator'), 'Verilator is required')
+    def test_staging_preserves_escaped_wrapper_instances_and_state(self):
+        import json
+        from run_gate_activity import hierblock
+        from staged_gate_build import build as staged_build
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);shell=root/'shell.v';pe=root/'pe.v';bench=root/'bench.sv'
+            wrapper=r'\tile$parameter.0'
+            shell.write_text(hierblock(f'''module npu_systolic_matmul_16x16(clk,d,q);
+ input clk,d;
+ output q;
+ {wrapper} u (.clk(clk),.d(d),.q(q));
+endmodule
+module {wrapper} (clk,d,q);
+ input clk,d;
+ output q;
+ wire {wrapper} ;
+ assign {wrapper} = d;
+ candidate_pe p (.clk(clk),.d({wrapper} ),.q(q));
+endmodule
+'''))
+            pe.write_text(hierblock('''module candidate_pe(clk,d,q);
+ input clk,d;
+ output reg q;
+ always @(posedge clk) q <= d;
+endmodule
+'''))
+            bench.write_text('''module tb_hidden_T10_stream;
+ bit clk=0,d=0; wire q;
+ npu_systolic_matmul_16x16 dut(clk,d,q);
+ always #1 clk=~clk;
+ initial begin
+   @(negedge clk); d=1;
+   @(negedge clk); if(q!==1) $fatal(1,"missing registered one"); d=0;
+   @(negedge clk); if(q!==0) $fatal(1,"missing registered zero");
+   $display("ESCAPED_WRAPPER_PASS"); $finish;
+ end
+endmodule
+''')
+            command=['verilator','--binary','--hierarchical','--timing','--trace-saif',
+                     '-Wno-fatal','-j','2','--top-module','tb_hidden_T10_stream',
+                     '--Mdir',str(root/'build'),str(bench),str(shell),str(pe)]
+            staged_build(command,[shell,pe],bench,root,run,root)
+            manifest=json.loads((root/'staged_build_manifest.json').read_text())
+            alias=manifest['module_type_aliases'][wrapper]
+            actual=(root/'actual_modules'/f'{alias}.v').read_text()
+            self.assertIn(f'wire {wrapper} ;',actual)
+            self.assertIn('candidate_pe p ',actual)
+            self.assertNotIn('module '+wrapper,actual)
+            self.assertFalse(manifest['planning_sources_used_for_simulation'])
+            completed=subprocess.run([str(root/'build/Vtb_hidden_T10_stream')],
+                                     capture_output=True,text=True,check=True,timeout=30)
+            self.assertIn('ESCAPED_WRAPPER_PASS',completed.stdout)
+
     @unittest.skipUnless(shutil.which('verilator'), 'Verilator is required')
     def test_staging_keeps_shell_trace_disabled_and_measured_pe_trace_enabled(self):
         from run_gate_activity import hierblock, shell_trace_off

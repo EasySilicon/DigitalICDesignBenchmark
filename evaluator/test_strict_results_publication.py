@@ -3,6 +3,8 @@ from collections import Counter
 from pathlib import Path
 import json
 import unittest
+import re
+import xml.etree.ElementTree as ET
 
 import jsonschema
 from score_run import load_rules, score_functional
@@ -14,6 +16,31 @@ read = lambda p: json.loads(p.read_text())
 
 
 class StrictPublicationTest(unittest.TestCase):
+    def test_published_views_match_summaries_and_separate_pending_models(self):
+        summaries = {p.parent.name: read(p) for p in RESULTS.glob('*/summary.json')}
+        groups = [node for node in ET.parse(RESULTS / 'model-score-leaderboard.svg').iter()
+                  if 'data-model' in node.attrib]
+        self.assertEqual({node.attrib['data-model'] for node in groups}, set(summaries))
+        completed = [node for node in groups if node.attrib['data-status'] == 'complete']
+        expected = sorted((m for m, s in summaries.items() if s['completed_tasks'] == 10),
+                          key=lambda m: -summaries[m]['weighted_display_score'])
+        self.assertEqual([node.attrib['data-model'] for node in completed], expected)
+        for node in groups:
+            summary = summaries[node.attrib['data-model']]
+            self.assertNotIn('None', ''.join(node.itertext()))
+            self.assertAlmostEqual(float(node.attrib['data-score']), summary['weighted_display_score'], places=10)
+            self.assertEqual(node.attrib['data-status'] == 'pending', summary['completed_tasks'] != 10)
+        documents = [(ROOT / rel).read_text() for rel in
+                     ['README.md', 'README.en.md', 'results/model-score-comparison.md']]
+        main_rows = []
+        for text in documents:
+            main_rows.append(next(line for line in text.splitlines()
+                                  if line.startswith('| T10 |') and len(line.split('|')) > 10))
+        self.assertEqual(len(set(main_rows)), 1)
+        overview = (RESULTS / 'README.md').read_text()
+        for target in re.findall(r'\]\(([^)]+/summary\.json)\)', overview):
+            self.assertTrue((RESULTS / target).is_file(), target)
+
     def test_strict_scores_recompute_from_final_counts_inside_summary(self):
         rules = load_rules()
         checked = []

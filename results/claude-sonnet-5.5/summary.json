@@ -810,7 +810,9 @@
           "safety_violation": false
         }
       ],
-      "ppa_metrics": null
+      "ppa_metrics": null,
+      "ppa_policy_id": "t10-v16-whole-cost-pe-timing",
+      "ppa_reference_id": "T10_v16"
     }
   ],
   "functional_total_sum": 498.4355657925821,

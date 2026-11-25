@@ -41,6 +41,11 @@ python3 -m unittest evaluator.test_t08_mutation_check benchmark.test_t08_spec be
 
 本文档属于 **Digital IC Design Benchmark for Agents**。
 
+T10 的 [v16 参考源码](reference/T10_v16/README.md) 根据最新 AI 前沿能力更新，
+用于全设计成本与 PE 内部时序的 [v16 PPA 评测](T10_EVALUATION.md)。
+权威基线 `benchmark/ppa-baselines.json` 的 `tasks.T10` 已切换到 v16，
+通用评分器核对其测量范围和逐种子账目；历史单 PE 成绩保留原评测口径。
+
 `public_check.py` 只读取参赛提交的 `rtl/files.f` 和 RTL 源码，使用**评测方自己的** T01–T10 的测试平台编译并检查固定 DUT 端口。它不会调用提交内的 `run.sh`、`verif/` 或 `results.json`。例如：
 
 ```bash

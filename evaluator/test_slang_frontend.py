@@ -152,6 +152,31 @@ endmodule
         with self.assertRaisesRegex(ValueError,'256 distinct'):
             current_power.normalize_blackbox_parameters(shell.replace(' p255 ',' p254 '),'pe',source)
 
+    def test_blackbox_metadata_uses_hierarchical_paths_for_wrapped_pes(self):
+        source='module pe(input a,output q); localparam W=44; assign q=a; endmodule'
+        parameters=" #(.W(32'd44), .j(32'd7))"
+        for shared_tile in (False, True):
+            with self.subTest(shared_tile=shared_tile):
+                tile_names=['tile' if shared_tile else f'tile{i}' for i in range(16)]
+                shell='module npu_systolic_matmul_16x16;\n'+''.join(
+                    f'  {name} t{i} (.clk(clk));\n' for i,name in enumerate(tile_names))+'endmodule\n'
+                for name in dict.fromkeys(tile_names):
+                    shell+=f'module {name};\n'+''.join(
+                        f'  pe{parameters} p{j} (.a(a{j}), .q(q{j}));\n'
+                        for j in range(16))+'endmodule\n'
+                converted,audit=current_power.normalize_blackbox_parameters(shell,'pe',source)
+                self.assertEqual(converted,shell.replace(parameters,''))
+                self.assertEqual(audit['instances'],256)
+                self.assertEqual(audit['declarations'],16 if shared_tile else 256)
+                # Shared names are legal across scopes; missing or duplicated
+                # instances inside one scope must still be rejected.
+                for broken in [shell.replace(' t15 ',' t14 '),
+                               shell.replace(' p15 ',' p14 '),
+                               shell.replace(f'  pe{parameters} p15 (.a(a15), .q(q15));\n','',1),
+                               shell.replace(parameters,'',1)]:
+                    with self.assertRaises(ValueError):
+                        current_power.normalize_blackbox_parameters(broken,'pe',source)
+
     def test_power_shell_frontend_retains_mapping_policy_and_restores_hooks(self):
         import t10_candidate_power as power
         original_write, original_which = power.write_new_or_same, shutil.which
