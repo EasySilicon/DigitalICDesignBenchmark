@@ -66,7 +66,7 @@ The main suite, `ic-delivery-rtl-v0.3`, contains **ten tasks, T01–T10**. T01�
 | T01–T09 | Frozen task specifications and acceptance collateral, public smoke tests, reference RTL, defect mutants, and frozen three-seed 1 GHz PPA baselines | Complete |
 | T10 | Continuous-stream matrix evaluation, exact numerical oracle, reset/backpressure/throughput tests, PE mesh checks, and the v16 three-seed reference for PE-internal timing and whole-design area/energy | Complete |
 
-The T10 v16 reference passed **2,898 matrix blocks, a separate reset probe, and 256-PE structural checks**, retaining strict V1 numerical precision. Its three-seed median reference is **1.63702228 mm², 0.945415 ns, and 34.842441 nJ/matrix block**, scoring 35/50 against itself. Area and energy cover the whole design; timing covers PE-internal paths only. See the [authoritative baseline](benchmark/ppa-baselines.json) and [T10 PPA contract](benchmark/tasks/T10/ppa.md). Published T10 scores use v16; unfinished measurements are explicitly pending.
+The T10 v16 reference passed **2,898 matrix blocks, a separate reset probe, and 256-PE structural checks**, retaining strict V1 numerical precision. Its three-seed median reference is **1.63702228 mm², 0.945415 ns, and 34.842441 nJ/matrix block**, scoring 35/50 against itself. Area and energy cover the whole design; timing covers PE-internal paths only. See the [authoritative baseline](benchmark/ppa-baselines.json) and [T10 PPA contract](benchmark/tasks/T10/ppa.md). T10 v16 scores use this measurement contract.
 
 ## Tasks and capability coverage
 
@@ -95,32 +95,32 @@ See the [full coverage mapping and scope limits](benchmark/README.md#领域与�
 
 ![Model weighted score leaderboard](results/model-score-leaderboard.svg)
 
-The table uses the [per-task results](results/model-score-comparison.md). Of 130 model/task records across thirteen models, 129 are complete; Kimi K3.1 Pro T10 PPA/time remain pending. Headers identify the actual coding framework and version; model settings and Skill policy follow each run's record.
+The table uses the [per-task results](results/model-score-comparison.md). It contains 140 task results across fourteen models. Headers identify the actual coding framework and version; model settings and Skill policy follow each run's record.
 
 Each cell is the task's display score **out of 105, including delivery deductions**, rounded to two decimal places. Weighted totals use unrounded task scores and fixed weights, not a simple average.
 
 Parentheses after model names indicate reasoning effort; `default` means no explicit setting was supplied. Effort levels across frameworks do not imply equal reasoning budgets.
 
-| Task | Weight | GPT-6-Astra(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6.1-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-5.6-Sol(high)<br><sub>Codex CLI 0.162.1</sub> | Kimi K3.1 Pro(max)<br><sub>Kimi CLI 2.3.1</sub> | Kimi K3(max)<br><sub>Kimi CLI 2.1.1</sub> | DeepSeek V4.1 Flash(high)<br><sub>Claude Code 2.1.183</sub> | GLM-5.3-Flash(max)<br><sub>ZCode CLI 0.17.0</sub> | GLM-5.3(max)<br><sub>ZCode CLI 0.17.0</sub> | Sonnet 5.5(high)<br><sub>Claude Code 2.1.317</sub> | Opus 5.5(high)<br><sub>Claude Code 2.1.317</sub> | Fable 5.2(high)<br><sub>Claude Code 2.1.322</sub> | GPT-6.2-Astra(high)<br><sub>Codex CLI 0.169.1</sub> |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| T01 | 3% | 88.24 | 86.33 | 86.98 | 87.20 | 52.48 | 75.49 | 82.86 | 63.93 | 64.96 | 90.28 | 89.01 | 93.41 | 83.49 |
-| T02 | 3% | 87.88 | 87.20 | 89.70 | 88.65 | 87.02 | 89.17 | 89.07 | 87.10 | 89.28 | 89.06 | 88.63 | 87.44 | 87.76 |
-| T03 | 6% | 91.08 | 91.18 | 89.80 | 89.62 | 90.01 | 89.96 | 90.88 | 87.87 | 89.28 | 89.61 | 89.40 | 91.27 | 89.34 |
-| T04 | 6% | 97.27 | 86.90 | 91.12 | 67.05 | 75.57 | 68.13 | 62.63 | 69.14 | 66.46 | 92.76 | 91.95 | 93.43 | 93.55 |
-| T05 | 6% | 89.72 | 88.93 | 90.12 | 90.35 | 89.22 | 89.18 | 90.00 | 39.00 | 89.15 | 90.29 | 90.01 | 90.24 | 89.12 |
-| T06 | 10% | 94.78 | 93.70 | 96.22 | 90.76 | 93.00 | 25.00 | 92.93 | 82.15 | 94.61 | 98.26 | 97.06 | 94.81 | 96.11 |
-| T07 | 10% | 93.49 | 93.12 | 88.44 | 83.35 | 88.89 | 81.88 | 92.50 | 88.69 | 88.39 | 83.89 | 71.27 | 81.49 | 80.84 |
-| T08 | 11% | 87.89 | 87.14 | 84.21 | 85.83 | 85.03 | 84.30 | 46.83 | 85.87 | 45.00 | 84.44 | 87.27 | 85.98 | 85.24 |
-| T09 | 20% | 60.51 | 59.20 | 56.25 | 87.43 | 75.31 | 40.00 | 44.93 | 13.67 | 59.03 | 96.35 | 90.97 | 92.03 | 100.03 |
-| T10 | 25% | 53.60 | 53.56 | 50.00 | 32.39 | ≥50.00† | 31.53 | 0.00 | 0.00 | 49.34 | 48.44 | 49.24 | 86.32 | 81.09 |
-| **Weighted total /105** | **100%** | **75.97** | **74.72** | **73.04** | **72.53** | **≥74.58**† | **55.62** | **52.45** | **45.55** | **66.71** | **80.62** | **78.55** | **88.99** | **88.81** |
-| **Fully functional tasks** | — | **10/10** | **10/10** | **10/10** | **9/10** | **10/10** | **7/10** | **7/10** | **7/10** | **8/10** | **9/10** | **9/10** | **10/10** | **10/10** |
+| Task | Weight | GPT-6-Astra(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6.1-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-6-Sol(high)<br><sub>Codex CLI 0.160.0</sub> | GPT-5.6-Sol(high)<br><sub>Codex CLI 0.162.1</sub> | Kimi K3.1 Pro(max)<br><sub>Kimi CLI 2.3.1</sub> | Kimi K3(max)<br><sub>Kimi CLI 2.1.1</sub> | DeepSeek V4.1 Flash(high)<br><sub>Claude Code 2.1.183</sub> | GLM-5.3-Flash(max)<br><sub>ZCode CLI 0.17.0</sub> | GLM-5.3(max)<br><sub>ZCode CLI 0.17.0</sub> | Sonnet 5.5(high)<br><sub>Claude Code 2.1.317</sub> | Opus 5.5(high)<br><sub>Claude Code 2.1.317</sub> | Fable 5.2(high)<br><sub>Claude Code 2.1.322</sub> | GPT-6.2-Astra(high)<br><sub>Codex CLI 0.169.1</sub> | GPT-6.2-Sol(high)<br><sub>Codex CLI 0.169.1</sub> |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| T01 | 3% | 88.24 | 86.33 | 86.98 | 87.20 | 52.48 | 75.49 | 82.86 | 63.93 | 64.96 | 90.28 | 89.01 | 93.41 | 83.49 | 96.61 |
+| T02 | 3% | 87.88 | 87.20 | 89.70 | 88.65 | 87.02 | 89.17 | 89.07 | 87.10 | 89.28 | 89.06 | 88.63 | 87.44 | 87.76 | 85.66 |
+| T03 | 6% | 91.08 | 91.18 | 89.80 | 89.62 | 90.01 | 89.96 | 90.88 | 87.87 | 89.28 | 89.61 | 89.40 | 91.27 | 89.34 | 89.30 |
+| T04 | 6% | 97.27 | 86.90 | 91.12 | 67.05 | 75.57 | 68.13 | 62.63 | 69.14 | 66.46 | 92.76 | 91.95 | 93.43 | 93.55 | 87.52 |
+| T05 | 6% | 89.72 | 88.93 | 90.12 | 90.35 | 89.22 | 89.18 | 90.00 | 39.00 | 89.15 | 90.29 | 90.01 | 90.24 | 89.12 | 89.60 |
+| T06 | 10% | 94.78 | 93.70 | 96.22 | 90.76 | 93.00 | 25.00 | 92.93 | 82.15 | 94.61 | 98.26 | 97.06 | 94.81 | 96.11 | 97.58 |
+| T07 | 10% | 93.49 | 93.12 | 88.44 | 83.35 | 88.89 | 81.88 | 92.50 | 88.69 | 88.39 | 83.89 | 71.27 | 81.49 | 80.84 | 79.76 |
+| T08 | 11% | 87.89 | 87.14 | 84.21 | 85.83 | 85.03 | 84.30 | 46.83 | 85.87 | 45.00 | 84.44 | 87.27 | 85.98 | 85.24 | 84.83 |
+| T09 | 20% | 60.51 | 59.20 | 56.25 | 87.43 | 75.31 | 40.00 | 44.93 | 13.67 | 59.03 | 96.35 | 90.97 | 92.03 | 100.03 | 93.24 |
+| T10 | 25% | 53.60 | 53.56 | 50.00 | 32.39 | 50.00 | 31.53 | 0.00 | 0.00 | 49.34 | 48.44 | 49.24 | 86.32 | 81.09 | 81.83 |
+| **Weighted total /105** | **100%** | **75.97** | **74.72** | **73.04** | **72.53** | **74.58** | **55.62** | **52.45** | **45.55** | **66.71** | **80.62** | **78.55** | **88.99** | **88.81** | **87.62** |
+| **Fully functional tasks** | — | **10/10** | **10/10** | **10/10** | **9/10** | **10/10** | **7/10** | **7/10** | **7/10** | **8/10** | **9/10** | **9/10** | **10/10** | **10/10** | **10/10** |
 
-T10 uses the v16 reference: whole-design area/energy and PE-internal timing, with strict V1 precision. † Kimi K3.1 Pro T10 PPA/time remain pending; `≥` denotes a known-component subtotal, excluded from final ordering.
+T10 v16 measures whole-design area and energy and PE-internal timing. Functional acceptance uses strict V1 precision.
 
-Tasks below full functionality receive zero PPA/time points. GPT-6-Sol T10 exhausted the 40-minute power-compilation budget and receives zero PPA/time. Kimi K3.1 Pro T10 is awaiting physical/power completion. See the [model results](results/model-score-comparison.md) for component scores and failure categories.
+Tasks below full functionality receive zero PPA/time points. GPT-6-Sol T10 exhausted the 40-minute power-compilation budget and receives zero PPA/time. See the [model results](results/model-score-comparison.md) for component scores and failure categories.
 
-Run conditions: Kimi T08 used a cumulative historical development budget of 150 minutes. All published T10 components follow the v16 whole-cost/PE-internal-timing contract; this does not imply a routed full array.
+Kimi K3 used a cumulative development budget of 150 minutes for T08.
 
 Details: [per-task score-loss analysis](results/model-score-comparison.md#各模型逐题失分原因), [PPA formula audit](results/ppa-formula-audit-20261021.json), [archive policy](results/README.md), and [result schema](results/result.schema.json).
 

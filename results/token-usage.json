@@ -195,6 +195,54 @@
           "tokens": 69483827
         }
       ]
+    },
+    {
+      "model": "gpt-6.2-sol",
+      "reasoning_effort": "high",
+      "total_tokens": 175345648,
+      "accounting": "Native CLI input_tokens + output_tokens; cached input is already included in input_tokens and reasoning is already included in output_tokens.",
+      "tasks": [
+        {
+          "task_id": "T01",
+          "tokens": 3004677
+        },
+        {
+          "task_id": "T02",
+          "tokens": 2492360
+        },
+        {
+          "task_id": "T03",
+          "tokens": 6377351
+        },
+        {
+          "task_id": "T04",
+          "tokens": 4736495
+        },
+        {
+          "task_id": "T05",
+          "tokens": 3979374
+        },
+        {
+          "task_id": "T06",
+          "tokens": 2596129
+        },
+        {
+          "task_id": "T07",
+          "tokens": 5967312
+        },
+        {
+          "task_id": "T08",
+          "tokens": 36133156
+        },
+        {
+          "task_id": "T09",
+          "tokens": 24805811
+        },
+        {
+          "task_id": "T10",
+          "tokens": 85252983
+        }
+      ]
     }
   ]
 }

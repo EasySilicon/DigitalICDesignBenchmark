@@ -28,6 +28,8 @@ benchmark/npu-quality-gates.md
 !/results/claude-fable-5.2/summary.json
 !/results/gpt-6.2-astra/
 !/results/gpt-6.2-astra/summary.json
+!/results/gpt-6.2-sol/
+!/results/gpt-6.2-sol/summary.json
 !/results/claude-opus-5.5/
 !/results/claude-opus-5.5/summary.json
 !/results/claude-sonnet-5.5/
