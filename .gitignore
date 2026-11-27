@@ -30,6 +30,10 @@ benchmark/npu-quality-gates.md
 !/results/gpt-6.2-astra/summary.json
 !/results/gpt-6.2-sol/
 !/results/gpt-6.2-sol/summary.json
+!/results/gemini-4-carbon/
+!/results/gemini-4-carbon/summary.json
+!/results/gemini-4-neon/
+!/results/gemini-4-neon/summary.json
 !/results/claude-opus-5.5/
 !/results/claude-opus-5.5/summary.json
 !/results/claude-sonnet-5.5/

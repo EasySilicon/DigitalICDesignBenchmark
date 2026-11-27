@@ -1,6 +1,6 @@
 # Published model results
 
-This directory contains fourteen models' T01–T10 historical pilot records. Benchmark v1 retains strict `exact-dot-v1` precision. The MMA-inspired relaxed envelope is diagnostic only; relaxed official precision is reserved for benchmark v2.
+This directory contains sixteen models' T01–T10 historical pilot records. Benchmark v1 retains strict `exact-dot-v1` precision. The MMA-inspired relaxed envelope is diagnostic only; relaxed official precision is reserved for benchmark v2.
 
 The [current T10 acceptance inventory](t10-strict-functional-retest-20261106.json) describes the strict 2,898-case stream plus a reset probe. Scores use the strict numerical profile. The T10 v16 reference measures whole-design area and energy and PE-internal timing, with mapped zero-wire peripheral power. Raw grading evidence stays outside this directory.
 
@@ -11,6 +11,8 @@ Scoring: functionality /50, PPA /50, time /5. Weights: T01/T02 3% each; T03–T0
 | claude-fable-5.2 | [summary.json](claude-fable-5.2/summary.json) | 88.994861 |
 | gpt-6.2-astra | [summary.json](gpt-6.2-astra/summary.json) | 88.808383 |
 | gpt-6.2-sol | [summary.json](gpt-6.2-sol/summary.json) | 87.624441 |
+| gemini-4-neon | [summary.json](gemini-4-neon/summary.json) | 87.213682 |
+| gemini-4-carbon | [summary.json](gemini-4-carbon/summary.json) | 82.459929 |
 | claude-sonnet-5.5 | [summary.json](claude-sonnet-5.5/summary.json) | 80.622595 |
 | claude-opus-5.5 | [summary.json](claude-opus-5.5/summary.json) | 78.547838 |
 | gpt-6-astra | [summary.json](gpt-6-astra/summary.json) | 75.966070 |
@@ -35,6 +37,8 @@ Each task's development duration is recorded in `tasks[].elapsed_seconds` in its
 
 | Model | T01–T10 total | T10 |
 |---|---:|---:|
+| gemini-4-neon | 9 h 13 min 55 s | 3 h 41 min 33 s |
+| gemini-4-carbon | 12 h 4 min 55 s | 3 h 33 min 32 s |
 | gpt-6.2-astra | 13 h 44 min 29 s | 3 h 59 min 55 s |
 | gpt-6.2-sol | 11 h 13 min 10 s | 3 h 23 min 22 s |
 | claude-fable-5.2 | 10 h 55 min 3 s | 2 h 56 min 49 s |

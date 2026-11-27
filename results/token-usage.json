@@ -243,6 +243,100 @@
           "tokens": 85252983
         }
       ]
+    },
+    {
+      "model": "gemini-4-carbon",
+      "reasoning_effort": "high",
+      "total_tokens": 7972789,
+      "tasks": [
+        {
+          "task_id": "T01",
+          "tokens": 221715
+        },
+        {
+          "task_id": "T02",
+          "tokens": 603821
+        },
+        {
+          "task_id": "T03",
+          "tokens": 782328
+        },
+        {
+          "task_id": "T04",
+          "tokens": 424163
+        },
+        {
+          "task_id": "T05",
+          "tokens": 537009
+        },
+        {
+          "task_id": "T06",
+          "tokens": 676254
+        },
+        {
+          "task_id": "T07",
+          "tokens": 748164
+        },
+        {
+          "task_id": "T08",
+          "tokens": 775621
+        },
+        {
+          "task_id": "T09",
+          "tokens": 1180670
+        },
+        {
+          "task_id": "T10",
+          "tokens": 2023044
+        }
+      ]
+    },
+    {
+      "model": "gemini-4-neon",
+      "reasoning_effort": "high",
+      "total_tokens": 6369978,
+      "tasks": [
+        {
+          "task_id": "T01",
+          "tokens": 354725
+        },
+        {
+          "task_id": "T02",
+          "tokens": 296461
+        },
+        {
+          "task_id": "T03",
+          "tokens": 358961
+        },
+        {
+          "task_id": "T04",
+          "tokens": 359571
+        },
+        {
+          "task_id": "T05",
+          "tokens": 381496
+        },
+        {
+          "task_id": "T06",
+          "tokens": 327016
+        },
+        {
+          "task_id": "T07",
+          "tokens": 409984
+        },
+        {
+          "task_id": "T08",
+          "tokens": 908649
+        },
+        {
+          "task_id": "T09",
+          "tokens": 528279
+        },
+        {
+          "task_id": "T10",
+          "tokens": 2444836
+        }
+      ]
     }
   ]
 }

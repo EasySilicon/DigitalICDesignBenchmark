@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1007" viewBox="0 0 1200 1007" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1125" viewBox="0 0 1200 1125" role="img" aria-labelledby="title desc">
 <title id="title">Digital IC Design Benchmark: weighted model scores</title>
 <desc id="desc">Finalized historical pilot results sorted by unrounded weighted score.</desc>
-<rect width="1200" height="1007" rx="18" fill="#ffffff"/>
+<rect width="1200" height="1125" rx="18" fill="#ffffff"/>
 <g font-family="Inter, Arial, sans-serif">
 <text x="48" y="61" fill="#18212f" font-size="30" font-weight="700">Digital IC Design Benchmark</text>
 <text x="48" y="93" fill="#526174" font-size="16">Historical pilot · weighted score / 105 · T01–T10 · T10 v16</text>
@@ -29,93 +29,109 @@
 <rect x="430" y="253" width="534.09" height="25" rx="6" fill="#10A37F"/>
 <text x="1090" y="272" fill="#18212f" font-size="19" font-weight="700">87.62</text>
 </g>
-<g data-model="claude-sonnet-5.5" data-status="complete" data-score="80.6225948216981">
+<g data-model="gemini-4-neon" data-status="complete" data-score="87.2136821068692">
 <text x="50" y="331" fill="#586779" font-size="16">04</text>
-<text x="92" y="324" fill="#18212f" font-size="19" font-weight="600">Claude Sonnet 5.5</text>
-<text x="92" y="345" fill="#586779" font-size="14">Claude Code 2.1.317 · effort: high</text>
+<text x="92" y="324" fill="#18212f" font-size="19" font-weight="600">Gemini 4 Neon</text>
+<text x="92" y="345" fill="#586779" font-size="14">Antigravity CLI 1.5.17 · effort: high</text>
 <rect x="430" y="312" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="312" width="491.41" height="25" rx="6" fill="#d78565"/>
-<text x="1090" y="331" fill="#18212f" font-size="19" font-weight="700">80.62</text>
+<rect x="430" y="312" width="531.59" height="25" rx="6" fill="#4285f4"/>
+<text x="1090" y="331" fill="#18212f" font-size="19" font-weight="700">87.21</text>
+</g>
+<g data-model="gemini-4-carbon" data-status="complete" data-score="82.45992889820678">
+<text x="50" y="390" fill="#586779" font-size="16">05</text>
+<text x="92" y="383" fill="#18212f" font-size="19" font-weight="600">Gemini 4 Carbon</text>
+<text x="92" y="404" fill="#586779" font-size="14">Antigravity CLI 1.5.17 · effort: high</text>
+<rect x="430" y="371" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="371" width="502.61" height="25" rx="6" fill="#4285f4"/>
+<text x="1090" y="390" fill="#18212f" font-size="19" font-weight="700">82.46</text>
+</g>
+<g data-model="claude-sonnet-5.5" data-status="complete" data-score="80.6225948216981">
+<text x="50" y="449" fill="#586779" font-size="16">06</text>
+<text x="92" y="442" fill="#18212f" font-size="19" font-weight="600">Claude Sonnet 5.5</text>
+<text x="92" y="463" fill="#586779" font-size="14">Claude Code 2.1.317 · effort: high</text>
+<rect x="430" y="430" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="430" width="491.41" height="25" rx="6" fill="#d78565"/>
+<text x="1090" y="449" fill="#18212f" font-size="19" font-weight="700">80.62</text>
 </g>
 <g data-model="claude-opus-5.5" data-status="complete" data-score="78.5478375619786">
-<text x="50" y="390" fill="#586779" font-size="16">05</text>
-<text x="92" y="383" fill="#18212f" font-size="19" font-weight="600">Claude Opus 5.5</text>
-<text x="92" y="404" fill="#586779" font-size="14">Claude Code 2.1.317 · effort: high</text>
-<rect x="430" y="371" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="371" width="478.77" height="25" rx="6" fill="#d78565"/>
-<text x="1090" y="390" fill="#18212f" font-size="19" font-weight="700">78.55</text>
+<text x="50" y="508" fill="#586779" font-size="16">07</text>
+<text x="92" y="501" fill="#18212f" font-size="19" font-weight="600">Claude Opus 5.5</text>
+<text x="92" y="522" fill="#586779" font-size="14">Claude Code 2.1.317 · effort: high</text>
+<rect x="430" y="489" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="489" width="478.77" height="25" rx="6" fill="#d78565"/>
+<text x="1090" y="508" fill="#18212f" font-size="19" font-weight="700">78.55</text>
 </g>
 <g data-model="gpt-6-astra" data-status="complete" data-score="75.9660695345913">
-<text x="50" y="449" fill="#586779" font-size="16">06</text>
-<text x="92" y="442" fill="#18212f" font-size="19" font-weight="600">GPT-6-Astra</text>
-<text x="92" y="463" fill="#586779" font-size="14">Codex CLI 0.160.0 · effort: high</text>
-<rect x="430" y="430" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="430" width="463.03" height="25" rx="6" fill="#10A37F"/>
-<text x="1090" y="449" fill="#18212f" font-size="19" font-weight="700">75.97</text>
+<text x="50" y="567" fill="#586779" font-size="16">08</text>
+<text x="92" y="560" fill="#18212f" font-size="19" font-weight="600">GPT-6-Astra</text>
+<text x="92" y="581" fill="#586779" font-size="14">Codex CLI 0.160.0 · effort: high</text>
+<rect x="430" y="548" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="548" width="463.03" height="25" rx="6" fill="#10A37F"/>
+<text x="1090" y="567" fill="#18212f" font-size="19" font-weight="700">75.97</text>
 </g>
 <g data-model="gpt-6.1-sol" data-status="complete" data-score="74.7232258783298">
-<text x="50" y="508" fill="#586779" font-size="16">07</text>
-<text x="92" y="501" fill="#18212f" font-size="19" font-weight="600">GPT-6.1-Sol</text>
-<text x="92" y="522" fill="#586779" font-size="14">Codex CLI 0.160.0 · effort: high</text>
-<rect x="430" y="489" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="489" width="455.46" height="25" rx="6" fill="#10A37F"/>
-<text x="1090" y="508" fill="#18212f" font-size="19" font-weight="700">74.72</text>
-</g>
-<g data-model="kimi-k3.1-pro" data-status="complete" data-score="74.5766799319793">
-<text x="50" y="567" fill="#586779" font-size="16">08</text>
-<text x="92" y="560" fill="#18212f" font-size="19" font-weight="600">Kimi K3.1 Pro</text>
-<text x="92" y="581" fill="#586779" font-size="14">Kimi CLI 2.3.1 · effort: max</text>
-<rect x="430" y="548" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="548" width="454.56" height="25" rx="6" fill="#7460bf"/>
-<text x="1090" y="567" fill="#18212f" font-size="19" font-weight="700">74.58</text>
-</g>
-<g data-model="gpt-6-sol" data-status="complete" data-score="73.041966385773">
 <text x="50" y="626" fill="#586779" font-size="16">09</text>
-<text x="92" y="619" fill="#18212f" font-size="19" font-weight="600">GPT-6-Sol</text>
+<text x="92" y="619" fill="#18212f" font-size="19" font-weight="600">GPT-6.1-Sol</text>
 <text x="92" y="640" fill="#586779" font-size="14">Codex CLI 0.160.0 · effort: high</text>
 <rect x="430" y="607" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="607" width="445.21" height="25" rx="6" fill="#10A37F"/>
-<text x="1090" y="626" fill="#18212f" font-size="19" font-weight="700">73.04</text>
+<rect x="430" y="607" width="455.46" height="25" rx="6" fill="#10A37F"/>
+<text x="1090" y="626" fill="#18212f" font-size="19" font-weight="700">74.72</text>
+</g>
+<g data-model="kimi-k3.1-pro" data-status="complete" data-score="74.5766799319793">
+<text x="50" y="685" fill="#586779" font-size="16">10</text>
+<text x="92" y="678" fill="#18212f" font-size="19" font-weight="600">Kimi K3.1 Pro</text>
+<text x="92" y="699" fill="#586779" font-size="14">Kimi CLI 2.3.1 · effort: max</text>
+<rect x="430" y="666" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="666" width="454.56" height="25" rx="6" fill="#7460bf"/>
+<text x="1090" y="685" fill="#18212f" font-size="19" font-weight="700">74.58</text>
+</g>
+<g data-model="gpt-6-sol" data-status="complete" data-score="73.041966385773">
+<text x="50" y="744" fill="#586779" font-size="16">11</text>
+<text x="92" y="737" fill="#18212f" font-size="19" font-weight="600">GPT-6-Sol</text>
+<text x="92" y="758" fill="#586779" font-size="14">Codex CLI 0.160.0 · effort: high</text>
+<rect x="430" y="725" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="725" width="445.21" height="25" rx="6" fill="#10A37F"/>
+<text x="1090" y="744" fill="#18212f" font-size="19" font-weight="700">73.04</text>
 </g>
 <g data-model="gpt-5.6-sol" data-status="complete" data-score="72.5314561217266">
-<text x="50" y="685" fill="#586779" font-size="16">10</text>
-<text x="92" y="678" fill="#18212f" font-size="19" font-weight="600">GPT-5.6-Sol</text>
-<text x="92" y="699" fill="#586779" font-size="14">Codex CLI 0.162.1 · effort: high</text>
-<rect x="430" y="666" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="666" width="442.10" height="25" rx="6" fill="#10A37F"/>
-<text x="1090" y="685" fill="#18212f" font-size="19" font-weight="700">72.53</text>
+<text x="50" y="803" fill="#586779" font-size="16">12</text>
+<text x="92" y="796" fill="#18212f" font-size="19" font-weight="600">GPT-5.6-Sol</text>
+<text x="92" y="817" fill="#586779" font-size="14">Codex CLI 0.162.1 · effort: high</text>
+<rect x="430" y="784" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="784" width="442.10" height="25" rx="6" fill="#10A37F"/>
+<text x="1090" y="803" fill="#18212f" font-size="19" font-weight="700">72.53</text>
 </g>
 <g data-model="glm-5.3" data-status="complete" data-score="66.7121087238878">
-<text x="50" y="744" fill="#586779" font-size="16">11</text>
-<text x="92" y="737" fill="#18212f" font-size="19" font-weight="600">GLM-5.3</text>
-<text x="92" y="758" fill="#586779" font-size="14">ZCode CLI 0.17.0 · effort: max</text>
-<rect x="430" y="725" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="725" width="406.63" height="25" rx="6" fill="#2386ee"/>
-<text x="1090" y="744" fill="#18212f" font-size="19" font-weight="700">66.71</text>
+<text x="50" y="862" fill="#586779" font-size="16">13</text>
+<text x="92" y="855" fill="#18212f" font-size="19" font-weight="600">GLM-5.3</text>
+<text x="92" y="876" fill="#586779" font-size="14">ZCode CLI 0.17.0 · effort: max</text>
+<rect x="430" y="843" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="843" width="406.63" height="25" rx="6" fill="#2386ee"/>
+<text x="1090" y="862" fill="#18212f" font-size="19" font-weight="700">66.71</text>
 </g>
 <g data-model="kimi-k3" data-status="complete" data-score="55.6185027263406">
-<text x="50" y="803" fill="#586779" font-size="16">12</text>
-<text x="92" y="796" fill="#18212f" font-size="19" font-weight="600">Kimi K3</text>
-<text x="92" y="817" fill="#586779" font-size="14">Kimi CLI 2.1.1 · effort: max</text>
-<rect x="430" y="784" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="784" width="339.01" height="25" rx="6" fill="#7460bf"/>
-<text x="1090" y="803" fill="#18212f" font-size="19" font-weight="700">55.62</text>
+<text x="50" y="921" fill="#586779" font-size="16">14</text>
+<text x="92" y="914" fill="#18212f" font-size="19" font-weight="600">Kimi K3</text>
+<text x="92" y="935" fill="#586779" font-size="14">Kimi CLI 2.1.1 · effort: max</text>
+<rect x="430" y="902" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="902" width="339.01" height="25" rx="6" fill="#7460bf"/>
+<text x="1090" y="921" fill="#18212f" font-size="19" font-weight="700">55.62</text>
 </g>
 <g data-model="deepseek-flash" data-status="complete" data-score="52.4497601698073">
-<text x="50" y="862" fill="#586779" font-size="16">13</text>
-<text x="92" y="855" fill="#18212f" font-size="19" font-weight="600">DeepSeek V4.1 Flash</text>
-<text x="92" y="876" fill="#586779" font-size="14">Claude Code 2.1.183 · effort: high</text>
-<rect x="430" y="843" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="843" width="319.69" height="25" rx="6" fill="#7460bf"/>
-<text x="1090" y="862" fill="#18212f" font-size="19" font-weight="700">52.45</text>
+<text x="50" y="980" fill="#586779" font-size="16">15</text>
+<text x="92" y="973" fill="#18212f" font-size="19" font-weight="600">DeepSeek V4.1 Flash</text>
+<text x="92" y="994" fill="#586779" font-size="14">Claude Code 2.1.183 · effort: high</text>
+<rect x="430" y="961" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="961" width="319.69" height="25" rx="6" fill="#7460bf"/>
+<text x="1090" y="980" fill="#18212f" font-size="19" font-weight="700">52.45</text>
 </g>
 <g data-model="glm-5.3-flash" data-status="complete" data-score="45.5544398131816">
-<text x="50" y="921" fill="#586779" font-size="16">14</text>
-<text x="92" y="914" fill="#18212f" font-size="19" font-weight="600">GLM-5.3-Flash</text>
-<text x="92" y="935" fill="#586779" font-size="14">ZCode CLI 0.17.0 · effort: max</text>
-<rect x="430" y="902" width="640" height="25" rx="6" fill="#edf1f5"/>
-<rect x="430" y="902" width="277.67" height="25" rx="6" fill="#2386ee"/>
-<text x="1090" y="921" fill="#18212f" font-size="19" font-weight="700">45.55</text>
+<text x="50" y="1039" fill="#586779" font-size="16">16</text>
+<text x="92" y="1032" fill="#18212f" font-size="19" font-weight="600">GLM-5.3-Flash</text>
+<text x="92" y="1053" fill="#586779" font-size="14">ZCode CLI 0.17.0 · effort: max</text>
+<rect x="430" y="1020" width="640" height="25" rx="6" fill="#edf1f5"/>
+<rect x="430" y="1020" width="277.67" height="25" rx="6" fill="#2386ee"/>
+<text x="1090" y="1039" fill="#18212f" font-size="19" font-weight="700">45.55</text>
 </g>
-<text x="48" y="982" fill="#586779" font-size="14">Strict exact-dot-v1 · T10 v16: whole-design area/energy, PE-internal timing.</text>
+<text x="48" y="1100" fill="#586779" font-size="14">Strict exact-dot-v1 · T10 v16: whole-design area/energy, PE-internal timing.</text>
 </g></svg>
