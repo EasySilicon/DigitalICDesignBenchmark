@@ -15,7 +15,7 @@ from urllib.parse import urlsplit
 import yaml
 
 
-ADAPTERS = {"kimi", "codex", "claude", "zcode", "fake"}
+ADAPTERS = {"kimi", "codex", "claude", "zcode", "antigravity", "fake"}
 _FORBIDDEN_LIMIT_KEYS = {
     "token_limit", "token_cap", "max_tokens", "max_output_tokens",
     "turn_limit", "max_turns", "cost_limit", "max_budget_usd",

@@ -58,6 +58,19 @@ class RunnerContainerTest(unittest.TestCase):
             self.assertNotIn("MAX_OUTPUT_TOKENS", joined)
             self.assertNotIn("--max-budget-usd", joined)
 
+    def test_antigravity_nested_sandbox_keeps_outer_container_unprivileged(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            config = self.config(root)
+            config = replace(config, agent=replace(config.agent, adapter="antigravity"))
+            command = docker_command(config, self.task(root), AdapterRuntime("true"),
+                                     "candidate", cpus=16, memory_gib=40)
+            self.assertIn("apparmor=linux-sandbox", command)
+            self.assertEqual(command[command.index("--cap-drop") + 1], "ALL")
+            self.assertIn("no-new-privileges", command)
+            self.assertIn("--read-only", command)
+            self.assertNotIn("--privileged", command)
+
     def test_rejects_hidden_candidate_limits_and_judge_mounts(self):
         for token in ("--max-budget-usd 1", "--max-turns 4", "TOKEN_LIMIT=10"):
             with self.subTest(token=token), self.assertRaises(ValueError):

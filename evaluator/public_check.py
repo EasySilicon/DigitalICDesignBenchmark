@@ -104,13 +104,16 @@ def main() -> int:
                         help="submission root containing rtl/files.f")
     parser.add_argument("--seed", type=int, default=20260925)
     parser.add_argument("--width", type=int, choices=[8, 32], default=8)
-    parser.add_argument("--depth", type=int, choices=[3, 8, 16], default=3)
+    parser.add_argument("--depth", type=int, choices=[3, 8, 16],
+                        help="FIFO depth (default: 3 for T02, 8 for T05). T05 accepts 8 or 16.")
     parser.add_argument("--n-inputs", type=int, choices=[4, 8], default=4)
     args = parser.parse_args()
-    if args.task == "T05" and args.depth == 3:
-        parser.error("T05 requires --depth 8 or 16")
+    default_depth = 8 if args.task == "T05" else 3
+    depth = default_depth if args.depth is None else args.depth
+    if args.task == "T05" and depth == 3:
+        parser.error("T05 depth must be 8 or 16")
     try:
-        result = run(args.task, args.submission, args.seed, args.width, args.depth, args.n_inputs)
+        result = run(args.task, args.submission, args.seed, args.width, depth, args.n_inputs)
     except (OSError, ValueError, subprocess.TimeoutExpired) as exc:
         result = {"task": args.task, "passed": False, "phase": "infrastructure",
                   "error": str(exc)}

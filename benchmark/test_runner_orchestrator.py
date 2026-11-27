@@ -92,6 +92,48 @@ class RunnerOrchestratorTest(unittest.TestCase):
                                            AdapterRuntime(""), dict(OOMKilled=True, ExitCode=code), 42)
                 self.assertFalse((directory / "agent_result.json").exists())
 
+    def test_only_kill_at_configured_timeout_is_preserved(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            config_path = root / "runner.yaml"
+            config_path.write_text(yaml.safe_dump(valid_config(root)))
+            runner = SuiteRunner(load_config(config_path))
+            directory = runner.root / "tasks/T02"
+            (directory / "workspace").mkdir(parents=True)
+            (directory / "workspace/delivery.txt").write_text("original delivery")
+            (directory / "workspace/results.json").write_text('{"passed": true}')
+            (directory / "workspace/build").mkdir()
+            (directory / "workspace/build/simulator").touch()
+            (directory / "workspace/rtl/build").mkdir(parents=True)
+            (directory / "workspace/rtl/build/fifo.sv").touch()
+            runner.adapter = Mock()
+            runner.adapter.audit.return_value = AuditResult(True, True, "session", 123, True)
+            runner.event = Mock()
+            runner._summary = Mock()
+            task = {"id": "T02", "time_limit_minutes": 60}
+            runtime = AdapterRuntime("exec timeout --signal=INT --kill-after=15s 3600s agent")
+            state = {"ExitCode": 137, "OOMKilled": False}
+
+            for elapsed, command in ((3599, runtime), (3650, runtime), (3615, AdapterRuntime("agent"))):
+                with self.subTest(elapsed=elapsed, command=command):
+                    with self.assertRaises(RuntimeError):
+                        runner._finalize_agent(task, directory, command, state, elapsed)
+            with self.assertRaisesRegex(RuntimeError, "RAM limit"):
+                runner._finalize_agent(task, directory, runtime, dict(state, OOMKilled=True), 3615)
+            self.assertFalse((directory / "submission").exists())
+
+            runner._finalize_agent(task, directory, runtime, state, 3615.18, recovered=True)
+            record = json.loads((directory / "agent_result.json").read_text())
+            self.assertEqual(record["exit_code"], 137)
+            self.assertEqual(record["elapsed_seconds"], 3600)
+            self.assertEqual(record["stop_reason"], "development_time_limit")
+            self.assertTrue(record["recovered_completed_attempt"])
+            self.assertEqual((directory / "submission/delivery.txt").read_text(), "original delivery")
+            self.assertTrue((directory / "submission/results.json").is_file())
+            self.assertFalse((directory / "submission/build").exists())
+            self.assertTrue((directory / "workspace/build/simulator").is_file())
+            self.assertTrue((directory / "submission/rtl/build/fifo.sv").is_file())
+
     def test_codex_completed_turn_after_child_oom_is_preserved(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

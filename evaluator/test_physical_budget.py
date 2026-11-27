@@ -16,6 +16,23 @@ from power_compile_budget import POLICY_ID as POWER_POLICY, LIMIT_SECONDS as POW
 
 
 class PhysicalBudgetTest(unittest.TestCase):
+    def test_scope_kill_error_can_precede_confirmed_retirement(self):
+        replies = [subprocess.CompletedProcess([], 1),
+                   subprocess.CompletedProcess([], 0, stdout='active\n'),
+                   subprocess.CompletedProcess([], 0, stdout='inactive\n')]
+        with patch.object(policy.subprocess, 'run', side_effect=replies) as run, \
+                patch.object(policy.time, 'sleep'):
+            policy.stop_scope('test.scope')
+        self.assertEqual(run.call_count, 3)
+
+    def test_scope_kill_error_must_observe_terminal_state(self):
+        replies = [subprocess.CompletedProcess([], 1),
+                   subprocess.CompletedProcess([], 0, stdout='deactivating\n')]
+        with patch.object(policy.subprocess, 'run', side_effect=replies), \
+                patch.object(policy.time, 'monotonic', side_effect=[0, 6]):
+            with self.assertRaisesRegex(RuntimeError, 'failed to terminate physical scope'):
+                policy.stop_scope('test.scope')
+
     def payload(self, task='T01', completed=(11,29)):
         rules=load_rules()
         baseline=json.loads((Path(__file__).resolve().parents[1]/'benchmark/ppa-baselines.json').read_text())['tasks'][task]

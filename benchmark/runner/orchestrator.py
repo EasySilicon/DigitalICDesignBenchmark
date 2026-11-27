@@ -11,6 +11,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import tempfile
 import threading
 import time
 import uuid
@@ -18,7 +19,7 @@ from typing import Any
 
 import yaml
 
-from .adapters import AdapterRuntime, AuditResult, make_adapter
+from .adapters import TASK_TIMEOUT_GRACE_SECONDS, AdapterRuntime, AuditResult, make_adapter
 from .config import RunnerConfig
 from .container import docker_command
 from .pipeline import DevelopmentGradingPipeline
@@ -258,7 +259,15 @@ class SuiteRunner:
             raise RuntimeError(f"{task_id} did not prove the requested model/effort binding")
         seconds = int(task["time_limit_minutes"]) * 60
         exit_code = int(state.get("ExitCode", -1))
-        deadline = exit_code == 124 and elapsed >= seconds - 2
+        # GNU timeout can itself receive SIGKILL when escalating to the whole
+        # process group. Only accept 137 at the configured escalation time.
+        forced_deadline = (
+            exit_code == 137
+            and abs(elapsed - seconds - TASK_TIMEOUT_GRACE_SECONDS) <= 2
+            and (f"exec timeout --signal=INT --kill-after={TASK_TIMEOUT_GRACE_SECONDS}s "
+                 f"{seconds}s ") in runtime.shell
+        )
+        deadline = (exit_code == 124 and elapsed >= seconds - 2) or forced_deadline
         # Docker's OOM flag is sticky even when only a child was killed and
         # the CLI subsequently recovered and delivered successfully. Preserve
         # that evidence without discarding an otherwise completed task.
@@ -273,8 +282,22 @@ class SuiteRunner:
         self.adapter.finalize(directory, private_dir, runtime)
         submission = directory / "submission"
         if not submission.exists():
-            shutil.copytree(directory / "workspace", submission, symlinks=True,
-                            ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+            from evaluator.delivery_check import GENERATED_ROOT_ENTRIES
+
+            workspace = directory / "workspace"
+            generated = GENERATED_ROOT_ENTRIES - {"results.json"}
+            ignore_cache = shutil.ignore_patterns("__pycache__", "*.pyc")
+
+            def ignore(path: str, names: list[str]) -> set[str]:
+                ignored = ignore_cache(path, names)
+                if Path(path) == workspace:
+                    ignored.update(generated.intersection(names))
+                return ignored
+
+            with tempfile.TemporaryDirectory(prefix=".submission-", dir=directory) as stage:
+                snapshot = Path(stage) / submission.name
+                shutil.copytree(workspace, snapshot, symlinks=True, ignore=ignore)
+                snapshot.rename(submission)
         record = {
             "task_id": task_id, "model": self.config.agent.model,
             "reasoning_effort": self.config.agent.reasoning_effort,
@@ -401,10 +424,12 @@ class SuiteRunner:
                         heartbeat = now
                     time.sleep(1)
                 process.wait(timeout=30)
-                elapsed = time.time() - started
             state = self._container_state(container)
             if state is None:
                 raise RuntimeError(f"{task_id} container evidence disappeared")
+            # Polling logs and sampling disk usage can finish well after Docker.
+            finished = dt.datetime.fromisoformat(state["FinishedAt"].replace("Z", "+00:00")).timestamp()
+            elapsed = max(0.0, finished - started)
             return self._finalize_agent(task, directory, runtime, state, elapsed)
         finally:
             subprocess.run(["docker", "stop", "--time", "2", container], capture_output=True)

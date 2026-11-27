@@ -50,10 +50,17 @@ def stop_scope(unit):
     result = subprocess.run(['systemctl', '--user', 'kill', '--kill-whom=all',
                     '--signal=SIGKILL', unit], capture_output=True, check=False)
     if result.returncode:
-        state=subprocess.run(['systemctl','--user','show',unit,'-p','ActiveState','--value'],
-                             capture_output=True,text=True,check=False).stdout.strip()
-        if state in ('active','activating'):
-            raise RuntimeError('failed to terminate physical scope '+unit)
+        # systemd can signal the entire scope and still report an error while
+        # reaping auxiliary processes. Confirm retirement before failing.
+        deadline = time.monotonic() + 5
+        while True:
+            state = subprocess.run(['systemctl', '--user', 'show', unit, '-p', 'ActiveState', '--value'],
+                                   capture_output=True, text=True, check=False)
+            if state.stdout.strip() in ('inactive', 'failed'):
+                return
+            if time.monotonic() >= deadline:
+                raise RuntimeError('failed to terminate physical scope ' + unit)
+            time.sleep(.2)
 
 
 def run(command, *, task, source, seed, record_path, seconds=None, **options):

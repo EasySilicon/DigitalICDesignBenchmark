@@ -63,6 +63,11 @@ def docker_command(config: RunnerConfig, task_dir: Path, runtime: AdapterRuntime
         "--memory", f"{memory_gib}g", "--memory-swap", "-1",
         "--security-opt", "no-new-privileges", "--read-only",
     ]
+    if config.agent.adapter == "antigravity":
+        # On the Ubuntu host the CLI creates nested user, mount, PID and
+        # network namespaces. The outer container still drops all capabilities.
+        command += ["--cap-drop", "ALL", "--security-opt", "apparmor=linux-sandbox",
+                    "--security-opt", "seccomp=unconfined", "--security-opt", "systempaths=unconfined"]
     for key in PROXY_KEYS:
         value = key
         if config.proxy_url is not None:

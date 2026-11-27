@@ -13,6 +13,8 @@ from typing import Any
 
 from .config import AgentConfig, RunnerConfig
 
+TASK_TIMEOUT_GRACE_SECONDS = 15
+
 
 @dataclass(frozen=True)
 class Mount:
@@ -119,7 +121,7 @@ class Adapter:
         if self.agent.skills.user or self.agent.skills.external:
             raise ValueError("user/external Skills require a separately reviewed adapter; "
                              "the official runner does not silently mount host Skills")
-        if self.name in {"codex", "fake"} and self.agent.skills.builtin:
+        if self.name in {"codex", "fake", "antigravity"} and self.agent.skills.builtin:
             raise ValueError(f"{self.name} adapter cannot prove a built-in Skill policy")
         if self.agent.tools.allowed and self.name not in {"kimi", "claude"}:
             raise ValueError(f"{self.name} adapter does not support a reviewed tool allowlist")
@@ -144,7 +146,8 @@ class Adapter:
 
     def _wrapped(self, invocation: str, seconds: int) -> str:
         return ("while [ ! -f /tmp/start_trial ]; do sleep 0.1; done; "
-                f"exec timeout --signal=INT --kill-after=15s {seconds}s {invocation}")
+                f"exec timeout --signal=INT --kill-after={TASK_TIMEOUT_GRACE_SECONDS}s "
+                f"{seconds}s {invocation}")
 
 
 class KimiAdapter(Adapter):
@@ -648,6 +651,89 @@ class ZcodeAdapter(Adapter):
         return AuditResult(initialized, failed, session_id, tokens, binding is True)
 
 
+class AntigravityAdapter(Adapter):
+    name = "antigravity"
+    agent_name = "benchmark-local"
+    token_name = "antigravity-oauth-token"
+    tools = ("view_file", "list_dir", "find_by_name", "grep_search", "write_to_file",
+             "replace_file_content", "multi_replace_file_content", "run_command",
+             "command_status", "send_command_input")
+
+    def preflight(self) -> None:
+        super().preflight()
+        if self.agent.tools.web or self.agent.tools.multi_agent:
+            raise ValueError("Antigravity requires offline tools and no delegation")
+        if self.agent.reasoning_effort not in {"low", "medium", "high", "xhigh", "max"} or \
+                not self.agent.model.endswith("-" + self.agent.reasoning_effort):
+            raise ValueError("pin an Antigravity model ID that includes its reasoning effort")
+        profile = self.agent.profile
+        if profile is None or not profile.is_file() or profile.stat().st_mode & 0o077:
+            raise ValueError("Antigravity requires a private OAuth token file")
+        if profile.is_relative_to(self.config.trial_root) or profile.is_relative_to(self.config.repo_root):
+            raise ValueError("Antigravity OAuth token must be outside trial and repository")
+
+    def prepare(self, task_dir: Path, private_dir: Path, seconds: int) -> AdapterRuntime:
+        gemini = private_dir / "gemini"
+        cli = gemini / "antigravity-cli"
+        agents = gemini / "config/agents"
+        cli.mkdir(parents=True, mode=0o700)
+        agents.mkdir(parents=True, mode=0o700)
+        agent = {"name": self.agent_name, "description": "Local workspace editing and offline terminal tools.",
+                 "mainAgent": True, "subagent": False, "model": "inherit",
+                 "commandExecutionPolicy": "sandbox", "tools": list(self.tools)}
+        # JSON is valid YAML frontmatter and avoids escaping path or tool strings.
+        (agents / (self.agent_name + ".md")).write_text("---\n" + json.dumps(agent) + "\n---\n")
+        tool_roots = [m.target for m in self.config.readonly_mounts
+                      if m.target.startswith(("/home/", "/data/", "/opt/"))]
+        tool_roots += ["/opt/benchmark_eda", "/opt/t08_eda", "/usr/share/yosys"]
+        settings = {
+            "agentMode": "accept-edits", "enableTerminalSandbox": True,
+            "toolPermission": "proceed-in-sandbox", "allowNonWorkspaceAccess": False,
+            "artifactReviewPolicy": "always-proceed",
+            "permissions": {
+                "deny": ["read_url(*)", "execute_url(*)", "download_url(*)", "mcp(*)",
+                         "read_file(/home/benchmark/.gemini)", "write_file(/home/benchmark/.gemini)"],
+                "allow": [f"read_file({path})" for path in tool_roots],
+            },
+        }
+        (cli / "settings.json").write_text(json.dumps(settings) + "\n")
+        invocation = shlex.join(["/opt/agent/agy", "--model", self.agent.model,
+                                 "--agent", self.agent_name, "--mode", "accept-edits", "--sandbox",
+                                 "--disable-slash-commands", "--output-format", "stream-json", "--print"])
+        invocation += ' "$(cat /workspace/PROMPT.md)"'
+        return AdapterRuntime(
+            self._wrapped(invocation, seconds),
+            (Mount(self.agent.binary, "/opt/agent/agy"), Mount(gemini, "/home/benchmark/.gemini", False)),
+            ("AGY_CLI_DISABLE_AUTO_UPDATE=1",), cli,
+        )
+
+    def before_start(self, task_dir: Path, private_dir: Path, runtime: AdapterRuntime) -> None:
+        _copy_file(self.agent.profile, runtime.audit_home / self.token_name)
+
+    def finalize(self, task_dir: Path, private_dir: Path, runtime: AdapterRuntime) -> None:
+        token = runtime.audit_home / self.token_name
+        if token.is_file() and token.read_bytes() != self.agent.profile.read_bytes():
+            updated = self.agent.profile.with_suffix(".new")
+            _copy_file(token, updated)
+            updated.replace(self.agent.profile)
+
+    def audit(self, task_dir: Path, runtime: AdapterRuntime) -> AuditResult:
+        rows = _json_rows(task_dir / "session.jsonl")
+        init_row = next((row for row in rows if row.get("event") == "init"), {})
+        initial = init_row.get("init", {})
+        result = next((row["result"] for row in reversed(rows)
+                       if row.get("event") == "result" and isinstance(row.get("result"), dict)), {})
+        usage = result.get("usage", {}).get("total_tokens")
+        binding = (initial.get("model") == self.agent.model
+                   and initial.get("agent") == self.agent_name
+                   and initial.get("permission_mode") == "proceed-in-sandbox"
+                   and initial.get("cwd") == "/workspace")
+        return AuditResult(bool(initial), bool(result and result.get("status") != "SUCCESS"),
+                           result.get("conversation_id") or init_row.get("conversation_id"),
+                           usage if type(usage) is int and usage > 0 else None,
+                           binding, result.get("status") == "SUCCESS")
+
+
 class FakeAdapter(Adapter):
     """Test adapter; its executable receives model, effort and prompt path."""
     name = "fake"
@@ -675,6 +761,7 @@ ADAPTER_TYPES = {
     "codex": CodexAdapter,
     "claude": ClaudeAdapter,
     "zcode": ZcodeAdapter,
+    "antigravity": AntigravityAdapter,
     "fake": FakeAdapter,
 }
 

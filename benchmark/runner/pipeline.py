@@ -42,8 +42,9 @@ class DevelopmentGradingPipeline:
         except BaseException as error:
             self.errors.put(("development", error))
             self.event("DEVELOPMENT_ERROR", error=str(error), error_type=type(error).__name__)
-        finally:
+        else:
             self.event("DEVELOPMENT_STOPPED" if self.stopped() else "DEVELOPMENT_COMPLETE")
+        finally:
             self.pending.put(None)
 
     def _grading(self) -> None:

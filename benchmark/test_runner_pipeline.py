@@ -2,10 +2,24 @@ import threading
 import time
 import unittest
 
-from benchmark.runner.pipeline import DevelopmentGradingPipeline
+from benchmark.runner.pipeline import DevelopmentGradingPipeline, PipelineError
 
 
 class RunnerPipelineTest(unittest.TestCase):
+    def test_development_error_is_not_reported_as_completion(self):
+        events = []
+
+        def develop(task):
+            raise RuntimeError("candidate failed")
+
+        def event(kind, **fields):
+            events.append(kind)
+
+        pipeline = DevelopmentGradingPipeline(("T01",), develop, lambda *_: None, event=event)
+        with self.assertRaisesRegex(PipelineError, "candidate failed"):
+            pipeline.run()
+        self.assertEqual(events, ["DEVELOPMENT_ERROR"])
+
     def test_slow_grading_never_blocks_next_candidate_task(self):
         grade_started = threading.Event()
         release_grade = threading.Event()

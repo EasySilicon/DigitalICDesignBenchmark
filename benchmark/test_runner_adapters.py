@@ -5,12 +5,54 @@ from pathlib import Path
 
 import yaml
 
-from benchmark.runner.adapters import ClaudeAdapter, CodexAdapter, KimiAdapter, ZcodeAdapter
+from benchmark.runner.adapters import AntigravityAdapter, ClaudeAdapter, CodexAdapter, KimiAdapter, ZcodeAdapter
 from benchmark.runner.config import load_config
 from benchmark.test_runner_config import valid_config
 
 
 class RunnerAdapterTest(unittest.TestCase):
+    def test_antigravity_keeps_credentials_private_and_admits_local_yosys(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            token = root / "oauth-token"
+            token.write_text("test-credential")
+            token.chmod(0o600)
+            config = self.configuration(root, {
+                "adapter": "antigravity", "profile": str(token), "model": "test-model-high",
+            })
+            adapter = AntigravityAdapter(config)
+            adapter.preflight()
+            task = root / "task"
+            task.mkdir()
+            runtime = adapter.prepare(task, root / "private-task", 60)
+            adapter.before_start(task, root / "private-task", runtime)
+            settings = json.loads((runtime.audit_home / "settings.json").read_text())
+            self.assertIn("read_file(/usr/share/yosys)", settings["permissions"]["allow"])
+            self.assertIn("read_url(*)", settings["permissions"]["deny"])
+            self.assertTrue(settings["enableTerminalSandbox"])
+            self.assertIn("--disable-slash-commands", runtime.shell)
+            self.assertNotIn("test-credential", runtime.shell)
+            self.assertEqual(list(task.iterdir()), [])
+            copied_token = runtime.audit_home / adapter.token_name
+            self.assertEqual(copied_token.stat().st_mode & 0o777, 0o600)
+            self.assertEqual(copied_token.read_text(), token.read_text())
+
+            rows = [
+                {"event": "init", "init": {"model": config.agent.model, "agent": adapter.agent_name,
+                                          "permission_mode": "proceed-in-sandbox", "cwd": "/workspace"}},
+                {"event": "result", "result": {"status": "SUCCESS", "usage": {"total_tokens": 42}}},
+            ]
+            log = task / "session.jsonl"
+            log.write_text("\n".join(map(json.dumps, rows)) + "\n")
+            audit = adapter.audit(task, runtime)
+            self.assertTrue(audit.binding_verified)
+            self.assertTrue(audit.completed)
+            self.assertEqual(audit.tokens, 42)
+
+            rows[0]["init"]["model"] = "test-model-low"
+            log.write_text("\n".join(map(json.dumps, rows)) + "\n")
+            self.assertFalse(adapter.audit(task, runtime).binding_verified)
+
     def test_codex_terminal_completion_is_not_inferred_from_partial_messages(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

@@ -3,10 +3,30 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from public_check import compile_smoke
+from public_check import compile_smoke, main
 
 
 class PublicCompileTest(unittest.TestCase):
+    def test_fifo_public_cli_defaults_and_explicit_depth(self):
+        cases = [("T02", [], 3), ("T05", [], 8),
+                 ("T05", ["--depth", "16"], 16)]
+        for task, options, depth in cases:
+            with self.subTest(task=task, options=options), \
+                    patch('sys.argv', ['public_check.py', task, 'submission', *options]), \
+                    patch('public_check.run', return_value={'passed': True}) as run, \
+                    patch('builtins.print'):
+                self.assertEqual(main(), 0)
+                run.assert_called_once_with(task, Path('submission'), 20260925, 8, depth, 4)
+
+    def test_t05_public_cli_rejects_depth_three(self):
+        with patch('sys.argv', ['public_check.py', 'T05', 'submission', '--depth', '3']), \
+                patch('public_check.run') as run, \
+                patch('sys.stderr'):
+            with self.assertRaises(SystemExit) as error:
+                main()
+        self.assertEqual(error.exception.code, 2)
+        run.assert_not_called()
+
     def test_known_vm_trace_failure_uses_remaining_shared_deadline(self):
         command=['verilator','--binary','--hierarchical','--timing','--assert',
                  '--Mdir','/tmp/build','candidate.sv','oracle.sv']

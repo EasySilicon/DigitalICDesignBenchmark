@@ -13,7 +13,7 @@
 - 配置、冻结输入或模型绑定发生变化时拒绝续跑，不自动“修补”证据。
 - 认证值不写入 trial。Kimi 只把同一个可轮换 OAuth 目录直接挂入各题，避免多个凭证副本形成相互失效的刷新链。
 
-当前适配器包括 Kimi CLI、Codex CLI、Claude Code 和 ZCode CLI。CLI 专属的用户目录、启动参数、事件解析、模型/思考强度校验和认证处理都留在 `adapters.py`；任务编排、容器、计时、归档和评分队列不依赖具体模型。
+CLI 专属的用户目录、启动参数、事件解析、模型/思考强度校验和认证处理都留在 `adapters.py`；任务编排、容器、计时、归档和评分队列不依赖具体模型。
 
 Codex 每题启动新的 `exec` 进程，并在该题独立的私有 CLI home 中保留原生会话记录，以便核对中断任务的用量。下一题使用新的 home，不继承上一题记录；这些记录留在仓库外。
 
@@ -29,11 +29,14 @@ Codex 每题启动新的 `exec` 进程，并在该题独立的私有 CLI home �
 | `codex` | Codex 可执行文件 | `profile` 指向 `.codex` |
 | `claude` | Claude Code 可执行文件 | `profile` 指向宿主 `settings.json` |
 | `zcode` | `zcode.cjs` | `options.provider_config` 指向用户管理的 provider JSON |
+| `antigravity` | 固定版本的 `agy` | `profile` 指向仓库和 trial 之外的私有 OAuth 文件 |
 
 `task_language: en` 使用各题完整的 `README.en.md` 生成英文题面和验收入口；默认保留原始题面。
 Codex 可设置 `agent.options.network_access: false`，同时设置 `agent.tools.web: false`，
 通过 CLI 的命令沙箱禁止工具进程创建网络连接；CLI 本身仍可连接模型服务。
 该模式使用支持权限 profile 的 Codex CLI，文件访问继续由外层 Docker 挂载隔离。
+Antigravity 的 `model` 使用包含思考强度后缀的完整 CLI 模型 ID。答题命令由 Antigravity 的终端沙箱执行，
+宿主需支持其嵌套命名空间及 `linux-sandbox` AppArmor 配置。
 `proxy_url: http://127.0.0.1:7897` 显式覆盖容器中大小写的 HTTP/HTTPS/ALL_PROXY，
 避免继承宿主上另一套代理。容器使用 host 网络，因此该地址指向宿主的代理监听口。
 Claude 的 `options.oauth_credentials` 可指向仓库和 trial 之外的专用 OAuth 凭证文件；
